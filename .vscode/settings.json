@@ -1,0 +1,11 @@
+{
+    "conventionalCommits.scopes": [
+        "courses",
+        "courses-sections",
+        "auth",
+        "courses-reviews",
+        "error-handeling",
+        "course-section-comments",
+        "users"
+    ]
+}

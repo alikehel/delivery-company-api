@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_POSTGRESQL_PROD")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  USER
+}
+
+enum Permission {
+  CREATE_USER
+  UPDATE_USER
+  DELETE_USER
+  READ_USER
+  CREATE_ROLE
+  UPDATE_ROLE
+  DELETE_ROLE
+  READ_ROLE
+  CREATE_PERMISSION
+  UPDATE_PERMISSION
+  DELETE_PERMISSION
+  READ_PERMISSION
+  ALL_PERMISSIOS
+}
+
+model User {
+  id          String       @id @default(uuid())
+  username    String       @unique
+  name        String?
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  // isSuperAdmin Boolean      @default(false)
+  // roles        Role[]
+  phoneNumber String?
+  salary      Int?
+  roles       Role[]
+  permissions Permission[]
+
+  // @@map("users")
+}
+
+model Branch {
+  id String @id @default(uuid())
+}
+
+model Repository {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  id String @id @default(uuid())
+}
+
+model Store {
+  id String @id @default(uuid())
+}
+
+model Region {
+  id String @id @default(uuid())
+}
+
+model Product {
+  id String @id @default(uuid())
+}
+
+model Notification {
+  id String @id @default(uuid())
+}
+
+model government {
+  id String @id @default(uuid())
+}
+
+model Client {
+  id String @id @default(uuid())
+}
+
+model Category {
+  id String @id @default(uuid())
+}
+
+model Order {
+  id String @id @default(uuid())
+}
