@@ -31,6 +31,10 @@ router.route("/repositories").post(
                             name: {
                                 type: "string",
                                 example: "Repository Name",
+                            },
+                            branch_id: {
+                                type: "string",
+                                example: "53rf34f345",
                             }
                         },
                     },
@@ -45,7 +49,8 @@ router.route("/repositories").post(
                 status: "success",
                 data: {
                     id: "1",
-                    name: "Repository Name"
+                    name: "Repository Name",
+                    branch: "Branch data object",
                 }
             }
         }
@@ -91,10 +96,7 @@ router.route("/repositories").get(
                     {
                         id: "1",
                         name: "Repository Name",
-                    },
-                    {
-                        id: "1",
-                        name: "Repository Name",
+                        branch: "Branch data object",
                     }
                 ]
             }
@@ -126,6 +128,7 @@ router.route("/repositories/:repositoryID").get(
                 data: {
                     id: "1",
                     name: "Repository Name",
+                    branch: "Branch data object",
                 }
             }
         }
@@ -152,6 +155,10 @@ router.route("/repositories/:repositoryID").patch(
                             name: {
                                 type: "string",
                                 example: "Repository Name",
+                            },
+                            branch_id: {
+                                type: "string",
+                                example: "53rf34f345",
                             }
                         }
                     }
@@ -165,7 +172,8 @@ router.route("/repositories/:repositoryID").patch(
                 status: "success",
                 data: {
                     id: "1",
-                    name: "Repository Name"
+                    name: "Repository Name",
+                    branch: "Branch data object",
                 }
             }
         }

@@ -7,11 +7,17 @@ export class RepositoryModel {
     async createRepository(data: RepositoryCreateType) {
         const createdRepository = await prisma.repository.create({
             data: {
-                name: data.name
+                name: data.name,
+                branch: {
+                    connect: {
+                        id: data.branchId
+                    }
+                }
             },
             select: {
                 id: true,
-                name: true
+                name: true,
+                branch: true
             }
         });
         return createdRepository;
@@ -31,7 +37,8 @@ export class RepositoryModel {
             },
             select: {
                 id: true,
-                name: true
+                name: true,
+                branch: true
             }
         });
         return repositories;
@@ -44,7 +51,8 @@ export class RepositoryModel {
             },
             select: {
                 id: true,
-                name: true
+                name: true,
+                branch: true
             }
         });
         return repository;
@@ -63,20 +71,22 @@ export class RepositoryModel {
             },
             select: {
                 id: true,
-                name: true
+                name: true,
+                branch: true
             }
         });
         return repository;
     }
 
-    async deleteRepository(data: { repositortID: string }) {
+    async deleteRepository(data: { repositoryID: string }) {
         const deletedRepository = await prisma.repository.delete({
             where: {
-                id: data.repositortID
+                id: data.repositoryID
             },
             select: {
                 id: true,
-                name: true
+                name: true,
+                branch: true
             }
         });
         return deletedRepository;

@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const RepositoryCreateSchema = z.object({
-    name: z.string()
+    name: z.string(),
+    branchId: z.string()
+    // tenantId: z.string(),
 });
 
 export type RepositoryCreateType = z.infer<typeof RepositoryCreateSchema>;

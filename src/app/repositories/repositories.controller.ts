@@ -24,6 +24,16 @@ export const getAllRepositories = catchAsync(async (req, res) => {
     const repositoriesCount = await repositoryModel.getRepositoriesCount();
     const pagesCount = Math.ceil(repositoriesCount / 10);
 
+    if (pagesCount === 0) {
+        res.status(200).json({
+            status: "success",
+            page: 1,
+            pagesCount: 1,
+            data: []
+        });
+        return;
+    }
+
     let page = 1;
     if (
         req.query.page &&
@@ -84,7 +94,7 @@ export const deleteRepository = catchAsync(async (req, res) => {
     const repositoryID = req.params["repositoryID"];
 
     await repositoryModel.deleteRepository({
-        repositortID: repositoryID
+        repositoryID: repositoryID
     });
 
     res.status(200).json({
