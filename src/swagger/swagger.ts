@@ -31,7 +31,7 @@ const doc = {
                 type: "object",
                 additionalProperties: false,
                 properties: {
-                    email: {
+                    username: {
                         type: "string",
                         format: "username",
                         description: "Username",
