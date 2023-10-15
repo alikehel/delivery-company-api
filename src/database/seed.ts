@@ -12,14 +12,14 @@ async function main() {
         update: {
             name: "Super Admin",
             username: "superadmin",
-            password: bcrypt.hashSync("SuperAdmin*" + (SECRET as string), 12),
+            password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
             // isSuperAdmin: true,
             roles: [Role.SUPER_ADMIN]
         },
         create: {
             name: "Super Admin",
             username: "superadmin",
-            password: bcrypt.hashSync("SuperAdmin*" + (SECRET as string), 12),
+            password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
             // isSuperAdmin: true,
             roles: [Role.SUPER_ADMIN],
             phone: "01000000000"

@@ -14,7 +14,7 @@ export class ClientModel {
                 password: data.password,
                 branch: {
                     connect: {
-                        id: data.branch_id
+                        id: data.branchID
                     }
                 },
                 createdBy: {

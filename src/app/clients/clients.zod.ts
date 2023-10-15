@@ -6,7 +6,7 @@ export const ClientCreateSchema = z.object({
     account_type: z.string(),
     token: z.string().optional(),
     password: z.string(),
-    branch_id: z.string()
+    branchID: z.string()
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;

@@ -48,7 +48,7 @@ router.route("/clients").post(
                                 type: "string",
                                 example: "34565tge4rr",
                             },
-                            branch_id: {
+                            branchID: {
                                 type: "string",
                                 example: "53rf34f345",
                             }
@@ -197,7 +197,7 @@ router.route("/clients/:clientID").patch(
                                 type: "string",
                                 example: "34565tge4rr",
                             },
-                            branch_id: {
+                            branchID: {
                                 type: "string",
                                 example: "53rf34f345",
                             }

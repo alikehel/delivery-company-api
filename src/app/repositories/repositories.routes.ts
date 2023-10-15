@@ -32,7 +32,7 @@ router.route("/repositories").post(
                                 type: "string",
                                 example: "Repository Name",
                             },
-                            branch_id: {
+                            branchID: {
                                 type: "string",
                                 example: "53rf34f345",
                             }
@@ -156,7 +156,7 @@ router.route("/repositories/:repositoryID").patch(
                                 type: "string",
                                 example: "Repository Name",
                             },
-                            branch_id: {
+                            branchID: {
                                 type: "string",
                                 example: "53rf34f345",
                             }

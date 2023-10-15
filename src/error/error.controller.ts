@@ -29,7 +29,7 @@ const handleJWTError = (err: Error) => {
 };
 
 const handleZODError = (err: ZodError) => {
-    const message = err.issues[0].message;
+    const message = `${err.issues[0].path[0]}: ${err.issues[0].message}`;
     return new AppError(message, 400);
 };
 

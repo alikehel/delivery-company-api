@@ -10,7 +10,7 @@ export class RepositoryModel {
                 name: data.name,
                 branch: {
                     connect: {
-                        id: data.branchId
+                        id: data.branchID
                     }
                 }
             },
