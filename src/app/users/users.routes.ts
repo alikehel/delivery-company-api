@@ -21,11 +21,27 @@ router.route("/users").get(
     /*
         #swagger.tags = ['Users Routes']
 
-        #swagger.description = 'Must be a teacher or admin'
+        #swagger.description = 'Must be a super admin'
 
         #swagger.security = [{
             "bearerAuth": []
         }]
+
+        #swagger.responses[200-1] = {
+            description: 'Got all users',
+            schema: {
+                status: "success",
+                data: [
+                    {
+                        id: "1",
+                        name: "name",
+                        username: 'username',
+                        phone: 'phone',
+                        roles: ['SUPER_ADMIN']
+                    }
+                ]
+            }
+        }
     */
 );
 
@@ -36,7 +52,7 @@ router.route("/users").get(
 //     /*
 //         #swagger.tags = ['Users Routes']
 
-//         #swagger.description = 'Must be a teacher or admin, or student'
+//         #swagger.description = 'Must be a super admin'
 
 //         #swagger.security = [{
 //             "bearerAuth": []
@@ -51,7 +67,7 @@ router.route("/users").get(
 //     /*
 //         #swagger.tags = ['Users Routes']
 
-//         #swagger.description = 'Must be a teacher or admin or student'
+//         #swagger.description = 'Must be a super admin'
 
 //         #swagger.security = [{
 //             "bearerAuth": []
@@ -66,7 +82,7 @@ router.route("/users").get(
 //     /*
 //         #swagger.tags = ['Users Routes']
 
-//         #swagger.description = 'Must be an admin'
+//         #swagger.description = 'Must be a super admin'
 
 //         #swagger.security = [{
 //             "bearerAuth": []
@@ -82,7 +98,7 @@ router.route("/users").get(
 // //     /*
 // //         #swagger.tags = ['Users Routes']
 
-// //         #swagger.description = 'Must be a teacher or admin or student'
+// //         #swagger.description = 'Must be a super admin'
 
 // //         #swagger.security = [{
 // //             "bearerAuth": []
