@@ -13,6 +13,7 @@
         "watch": "tsc-watch --esModuleInterop src/index.ts --outDir ./build && 'node ./build/index.js'",
         "swagger-autogen": "ts-node ./src/swagger/swagger.ts",
         "migrate:reset": "set NODE_ENV=dev& npx prisma db push && npx prisma generate && npx prisma migrate dev && npx prisma migrate reset",
+        "prisma:migrate:dev": "set NODE_ENV=dev& npx prisma migrate dev --no-name",
         "seed": "set NODE_ENV=dev&  npx prisma generate && npx prisma db push && npx prisma db seed",
         "prisma:studio": "npx prisma studio"
     },
