@@ -265,7 +265,7 @@
                   "properties": {
                     "status": {
                       "type": "string",
-                      "example": "invalid"
+                      "example": "invalid token"
                     }
                   },
                   "xml": {
@@ -279,7 +279,7 @@
                   "properties": {
                     "status": {
                       "type": "string",
-                      "example": "invalid"
+                      "example": "invalid token"
                     }
                   },
                   "xml": {
@@ -1825,6 +1825,31 @@
     }
   },
   "components": {
+    "examples": {},
+    "schemas": {
+      "UserSigninSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "username",
+            "description": "Username",
+            "example": "admin",
+            "pattern": "",
+            "maxLength": 32
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "minLength": 6,
+            "maxLength": 12,
+            "example": "password",
+            "pattern": "^[\\w\\W]+$"
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
