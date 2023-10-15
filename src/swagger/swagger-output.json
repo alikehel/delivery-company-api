@@ -415,6 +415,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -442,6 +446,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -545,6 +553,10 @@
                   "name": {
                     "type": "string",
                     "example": "Repository Name"
+                  },
+                  "branch_id": {
+                    "type": "string",
+                    "example": "53rf34f345"
                   }
                 }
               },
@@ -603,6 +615,10 @@
                           "name": {
                             "type": "string",
                             "example": "Repository Name"
+                          },
+                          "branch": {
+                            "type": "string",
+                            "example": "Branch data object"
                           }
                         }
                       }
@@ -633,6 +649,10 @@
                           "name": {
                             "type": "string",
                             "example": "Repository Name"
+                          },
+                          "branch": {
+                            "type": "string",
+                            "example": "Branch data object"
                           }
                         }
                       }
@@ -710,15 +730,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "courseCode",
-            "in": "path",
-            "description": "Course Code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -746,6 +757,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -773,6 +788,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -833,6 +852,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -860,6 +883,10 @@
                         "name": {
                           "type": "string",
                           "example": "Repository Name"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "Branch data object"
                         }
                       }
                     }
@@ -883,6 +910,10 @@
                   "name": {
                     "type": "string",
                     "example": "Repository Name"
+                  },
+                  "branch_id": {
+                    "type": "string",
+                    "example": "53rf34f345"
                   }
                 }
               }
@@ -992,6 +1023,794 @@
                     "message": {
                       "type": "string",
                       "example": "Cant delete the repository"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients": {
+      "post": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Client created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400-1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant create the client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the client"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the client"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Client Name"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "564363"
+                  },
+                  "account_type": {
+                    "type": "string",
+                    "example": "Client or Client Assistant"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "token"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "34565tge4rr"
+                  },
+                  "branch_id": {
+                    "type": "string",
+                    "example": "53rf34f345"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all clients",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "account_type": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "branch": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdBy": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "account_type": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "branch": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdBy": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the clients data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the clients data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the clients data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clients/{clientID}": {
+      "get": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the client data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Client updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "account_type": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "branch": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Client Name"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "564363"
+                  },
+                  "account_type": {
+                    "type": "string",
+                    "example": "Client or Client Assistant"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "token"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "34565tge4rr"
+                  },
+                  "branch_id": {
+                    "type": "string",
+                    "example": "53rf34f345"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Client deleted Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Client deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Client deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the client"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the client"
                     }
                   },
                   "xml": {
