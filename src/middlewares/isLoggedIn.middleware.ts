@@ -36,7 +36,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         return next();
     } catch (err) {
         res.status(401).json({
-            status: "invalid"
+            status: "invalid token"
         });
     }
 };

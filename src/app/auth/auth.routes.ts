@@ -119,7 +119,7 @@ router.route("/auth/validate-token").post(
 
         #swagger.responses[401-1] = {
             schema: {
-                status: "invalid"
+                status: "invalid token"
             },
             description: 'Token is invalid'
         }

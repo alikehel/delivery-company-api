@@ -68,7 +68,7 @@ export class UserModel {
                 id: true,
                 name: true,
                 username: true,
-                phoneNumber: true,
+                phone: true,
                 roles: true
             }
         });
