@@ -99,7 +99,14 @@ export class ClientModel {
             where: {
                 id: data.clientID
             },
-            data: { ...data.clientData },
+            data: {
+                ...data.clientData,
+                branch: {
+                    connect: {
+                        id: data.clientData.branchID
+                    }
+                }
+            },
             select: {
                 id: true,
                 name: true,
