@@ -5,7 +5,7 @@ CREATE TYPE "Role" AS ENUM ('SUPER_ADMIN', 'ADMIN', 'CLIENT', 'CLIENT_ASSISTANT'
 CREATE TYPE "Permission" AS ENUM ('CREATE_USER', 'UPDATE_USER', 'DELETE_USER', 'READ_USER', 'CREATE_ROLE', 'UPDATE_ROLE', 'DELETE_ROLE', 'READ_ROLE', 'CREATE_PERMISSION', 'UPDATE_PERMISSION', 'DELETE_PERMISSION', 'READ_PERMISSION', 'ALL_PERMISSIOS');
 
 -- CreateEnum
-CREATE TYPE "Governorate" AS ENUM ('AlAnbar', 'Babil', 'Baghdad', 'Basra', 'DhiQar', 'AlQadisiyyah', 'Diyala', 'Duhok', 'Erbil', 'Karbala', 'Kirkuk', 'Maysan', 'Muthanna', 'Najaf', 'Ninawa', 'SalahAlDin', 'Sulaymaniyah', 'Wasit');
+CREATE TYPE "Governorate" AS ENUM ('AL_ANBAR', 'BABIL', 'BAGHDAD', 'BASRA', 'DHI_QAR', 'AL_QADISIYYAH', 'DIYALA', 'DUHOK', 'ERBIL', 'KARBALA', 'KIRKUK', 'MAYSAN', 'MUTHANNA', 'NAJAF', 'NINAWA', 'SALAH_AL_DIN', 'SULAYMANIYAH', 'WASIT');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -18,8 +18,8 @@ CREATE TABLE "User" (
     "isSuperAdmin" BOOLEAN NOT NULL DEFAULT false,
     "phone" TEXT,
     "salary" DECIMAL(65,30) DEFAULT 0,
-    "repositoryId" TEXT NOT NULL,
-    "branchId" TEXT NOT NULL,
+    "repositoryId" TEXT,
+    "branchId" TEXT,
     "roles" "Role"[],
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -49,6 +49,7 @@ CREATE TABLE "Branch" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT,
     "phone" TEXT,
+    "governorate" "Governorate",
 
     CONSTRAINT "Branch_pkey" PRIMARY KEY ("id")
 );
@@ -68,8 +69,8 @@ CREATE TABLE "Repository" (
 CREATE TABLE "Location" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "branchId" TEXT,
     "governorate" "Governorate",
+    "branchId" TEXT NOT NULL,
 
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
@@ -102,10 +103,10 @@ CREATE UNIQUE INDEX "_LocationToUser_AB_unique" ON "_LocationToUser"("A", "B");
 CREATE INDEX "_LocationToUser_B_index" ON "_LocationToUser"("B");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_repositoryId_fkey" FOREIGN KEY ("repositoryId") REFERENCES "Repository"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_repositoryId_fkey" FOREIGN KEY ("repositoryId") REFERENCES "Repository"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Client" ADD CONSTRAINT "Client_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -117,7 +118,7 @@ ALTER TABLE "Client" ADD CONSTRAINT "Client_userId_fkey" FOREIGN KEY ("userId") 
 ALTER TABLE "Repository" ADD CONSTRAINT "Repository_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Location" ADD CONSTRAINT "Location_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Location" ADD CONSTRAINT "Location_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branch"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_LocationToUser" ADD CONSTRAINT "_LocationToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Location"("id") ON DELETE CASCADE ON UPDATE CASCADE;

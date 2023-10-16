@@ -40,9 +40,9 @@ router.route("/branches").post(
                                 type: "string",
                                 example: "Branch phone number",
                             },
-                            locationID: {
+                            governorate: {
                                 type: "string",
-                                example: "53rf34f345",
+                                example: "AlBasra",
                             }
                         },
                     },
@@ -60,7 +60,7 @@ router.route("/branches").post(
                     name: "Branch Name",
                     email: "Branch email",
                     phone: "Branch phone number",
-                    location: "Location data object",
+                    governorate: "AlBasra",
                 }
             }
         }
@@ -108,7 +108,7 @@ router.route("/branches").get(
                         name: "Branch Name",
                         email: "Branch email",
                         phone: "Branch phone number",
-                        location: "Location data object",
+                        governorate: "AlBasra",
                     }
                 ]
             }
@@ -142,7 +142,7 @@ router.route("/branches/:branchID").get(
                     name: "Branch Name",
                     email: "Branch email",
                     phone: "Branch phone number",
-                    location: "Location data object",
+                    governorate: "AlBasra",
                 }
             }
         }
@@ -178,9 +178,9 @@ router.route("/branches/:branchID").patch(
                                 type: "string",
                                 example: "Branch phone number",
                             },
-                            locationID: {
+                            governorate: {
                                 type: "string",
-                                example: "53rf34f345",
+                                example: "AlBasra",
                             }
                         }
                     }
@@ -197,7 +197,7 @@ router.route("/branches/:branchID").patch(
                     name: "Branch Name",
                     email: "Branch email",
                     phone: "Branch phone number",
-                    location: "Location data object",
+                    governorate: "AlBasra",
                 }
             }
         }

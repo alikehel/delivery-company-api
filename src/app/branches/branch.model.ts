@@ -10,18 +10,14 @@ export class BranchModel {
                 name: data.name,
                 email: data.email,
                 phone: data.phone,
-                Location: {
-                    connect: {
-                        id: data.locationID
-                    }
-                }
+                governorate: data.governorate
             },
             select: {
                 id: true,
                 name: true,
                 email: true,
                 phone: true,
-                Location: true
+                governorate: true
             }
         });
         return createdBranch;
@@ -44,7 +40,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                Location: true
+                governorate: true
             }
         });
         return branches;
@@ -60,7 +56,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                Location: true
+                governorate: true
             }
         });
         return branch;
@@ -78,18 +74,14 @@ export class BranchModel {
                 name: data.branchData.name,
                 email: data.branchData.email,
                 phone: data.branchData.phone,
-                Location: {
-                    connect: {
-                        id: data.branchData.locationID
-                    }
-                }
+                governorate: data.branchData.governorate
             },
             select: {
                 id: true,
                 name: true,
                 email: true,
                 phone: true,
-                Location: true
+                governorate: true
             }
         });
         return branch;
