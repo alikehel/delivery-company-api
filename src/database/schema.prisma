@@ -32,7 +32,28 @@ enum Permission {
   ALL_PERMISSIOS
 }
 
-// const values = [
+enum Governorate {
+  AlAnbar
+  Babil
+  Baghdad
+  Basra
+  DhiQar
+  AlQadisiyyah
+  Diyala
+  Duhok
+  Erbil
+  Karbala
+  Kirkuk
+  Maysan
+  Muthanna
+  Najaf
+  Ninawa
+  SalahAlDin
+  Sulaymaniyah
+  Wasit
+}
+
+// const jobs = [
 //   "مدير الشركه",
 //   "مدير الحسابات",
 //   "محاسب",
@@ -42,6 +63,26 @@ enum Permission {
 //   "موظف طوارئ",
 //   "مدخل بيانات",
 //   "موظف مخزن",
+//    "موظف استعلامات"
+// ];
+
+// const permissions = [
+// "احالة الطلبات الي المندوب",
+// "اضافة صفحة",
+// "اضافة طلبات",
+// "اضافة عميل",
+// "تعديل اسم عميل",
+// "تعديل المبلغ الكلي للعملية",
+// "تغيير الحالة",
+// "تغيير حالة الطلبية المغلقة",
+// "قفل حالة الطلبية",
+// "مسح الاسعار",
+// "مسح الطلبيات",
+// "مسح الكشوفات",
+// "مسح كشوفات الشركات",
+// "مسح كشوفات المخازن",
+// "مسح كشوفات المحافظات",
+// "مسح كشوفات المندوبين",
 // ];
 
 model User {
@@ -61,127 +102,19 @@ model User {
 
   // userId String
   // tenantId     String
-  // repositoryId String
-  // branchId     String
+  repositoryId String?
+  branchId     String?
 
   // permissions Permission[]
-  // repository  Repository   @relation(fields: [repositoryId], references: [id])
-  // branch      Branch       @relation(fields: [branchId], references: [id])
+  repository Repository? @relation(fields: [repositoryId], references: [id])
+  branch     Branch?     @relation(fields: [branchId], references: [id])
   // tenant      Tenant       @relation(fields: [tenantId], references: [id])
-  roles  Role[]
-  Client Client[]
+  roles      Role[]
+  Client     Client[]
   // Location      Location[]
   // Product     Product[]
-}
-
-model Branch {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  email      String?
-  phone      String?
-
-  locationId String
-  // governmentId String
-  // tenantId     String
-
-  // tenant     Tenant       @relation(fields: [tenantId], references: [id])
-  // government Government   @relation(fields: [governmentId], references: [id])
-  // User       User[]
-  Repository Repository[]
-  Client     Client[]
-  location   Location     @relation(fields: [locationId], references: [id])
-}
-
-model Repository {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  branchId String
-  // tenantId  String
-
-  // User   User[]
-  branch Branch @relation(fields: [branchId], references: [id])
-  // tenant    Tenant   @relation(fields: [tenantId], references: [id])
-}
-
-model Tenant {
-  id                          String   @id @default(uuid())
-  name                        String   @unique
-  phone                       String?
-  website                     String?
-  logo                        String?
-  registration                String?
-  baghdad_price               Decimal  @default(0)
-  governments_price           Decimal  @default(0)
-  delivery_price              Decimal  @default(0)
-  additional_price            Decimal  @default(0)
-  additional_price_for_weight Decimal  @default(0)
-  additional_price_for_unused Decimal  @default(0)
-  auto_update                 Boolean  @default(false)
-  main_company                Boolean  @default(false)
-  createdAt                   DateTime @default(now())
-  updatedAt                   DateTime @updatedAt
-
-  government Government[]
-  // Branch     Branch[]
-  // User       User[]
-  // Repository                  Repository[]
-  // Location   Location[]
-}
-
-// model Store {
-//   id String @id @default(uuid())
-// }
-
-model Location {
-  id   String @id @default(uuid())
-  name String @unique
-
-  // governmentId String
-  // tenantId     String
-
-  // tenant     Tenant     @relation(fields: [tenantId], references: [id])
-  // government Government @relation(fields: [governmentId], references: [id])
-  // users      User[]
-  Branch     Branch[]
-}
-
-model Product {
-  id        String   @id @default(uuid())
-  title     String
-  price     Decimal
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  image     String?
-  available Boolean  @default(true)
-  quantity  Int      @default(0)
-
-  categoryId String
-  userId     String
-
-  category Category @relation(fields: [categoryId], references: [id])
-  // user     User     @relation(fields: [userId], references: [id])
-}
-
-model Notification {
-  id String @id @default(uuid())
-}
-
-model Government {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  tenantId String
-  tenant   Tenant @relation(fields: [tenantId], references: [id])
-
-  // Branch Branch[]
-  // Location Location[]
+  Location   Location[]
+  // SubLocation SubLocation[]
 }
 
 model Client {
@@ -201,12 +134,129 @@ model Client {
   createdBy User    @relation(fields: [userId], references: [id])
 }
 
-model Category {
-  id String @id @default(uuid())
+model Branch {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String?
+  phone     String?
 
-  Product Product[]
+  // governmentId String
+  // tenantId     String
+  // locationId String? @unique
+
+  // tenant     Tenant       @relation(fields: [tenantId], references: [id])
+  // government Government   @relation(fields: [governmentId], references: [id])
+  // User       User[]
+  Repository Repository[]
+  Client     Client[]
+  // location   Location
+  User       User[]
+  Location   Location[]
 }
 
-model Order {
-  id String @id @default(uuid())
+model Repository {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  branchId String
+  // tenantId  String
+
+  // User   User[]
+  branch Branch @relation(fields: [branchId], references: [id])
+  // tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  User   User[]
 }
+
+model Location {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // governmentId String
+  // tenantId     String
+
+  // tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  // government Government @relation(fields: [governmentId], references: [id])
+  // users      User[]
+  drivers     User[]
+  branch      Branch?      @relation(fields: [branchId], references: [id])
+  // SubLocation SubLocation[]
+  branchId    String?
+  governorate Governorate?
+}
+
+// model Tenant {
+//   id                          String   @id @default(uuid())
+//   name                        String   @unique
+//   phone                       String?
+//   website                     String?
+//   logo                        String?
+//   registration                String?
+//   baghdad_price               Decimal  @default(0)
+//   governments_price           Decimal  @default(0)
+//   delivery_price              Decimal  @default(0)
+//   additional_price            Decimal  @default(0)
+//   additional_price_for_weight Decimal  @default(0)
+//   additional_price_for_unused Decimal  @default(0)
+//   auto_update                 Boolean  @default(false)
+//   main_company                Boolean  @default(false)
+//   createdAt                   DateTime @default(now())
+//   updatedAt                   DateTime @updatedAt
+
+//   government Government[]
+//   // Branch     Branch[]
+//   // User       User[]
+//   // Repository                  Repository[]
+//   // Location   Location[]
+// }
+
+// model Store {
+//   id String @id @default(uuid())
+// }
+
+// model Product {
+//   id        String   @id @default(uuid())
+//   title     String
+//   price     Decimal
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   image     String?
+//   available Boolean  @default(true)
+//   quantity  Int      @default(0)
+
+//   categoryId String
+//   userId     String
+
+//   category Category @relation(fields: [categoryId], references: [id])
+//   // user     User     @relation(fields: [userId], references: [id])
+// }
+
+// model Notification {
+//   id String @id @default(uuid())
+// }
+
+// model Government {
+//   id        String   @id @default(uuid())
+//   name      String   @unique
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   // tenantId String
+
+//   // tenant   Tenant @relation(fields: [tenantId], references: [id])
+//   // Branch Branch[]
+//   // Location Location[]
+// }
+
+// model Category {
+//   id String @id @default(uuid())
+
+//   Product Product[]
+// }
+
+// model Order {
+//   id String @id @default(uuid())
+// }

@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
-// import morgan from "morgan";
+import morgan from "morgan";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
@@ -89,9 +89,7 @@ app.use(
 
 // MORGAN
 
-// // if (NODE_ENV === "dev") {
-// //     app.use(morgan("short"));
-// // }
+app.use(morgan("short"));
 
 // // Define a custom logging format that includes errors
 // const logFormat =

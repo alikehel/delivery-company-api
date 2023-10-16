@@ -10,7 +10,7 @@ export class BranchModel {
                 name: data.name,
                 email: data.email,
                 phone: data.phone,
-                location: {
+                Location: {
                     connect: {
                         id: data.locationID
                     }
@@ -21,7 +21,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                location: true
+                Location: true
             }
         });
         return createdBranch;
@@ -44,7 +44,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                location: true
+                Location: true
             }
         });
         return branches;
@@ -60,7 +60,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                location: true
+                Location: true
             }
         });
         return branch;
@@ -78,7 +78,7 @@ export class BranchModel {
                 name: data.branchData.name,
                 email: data.branchData.email,
                 phone: data.branchData.phone,
-                location: {
+                Location: {
                     connect: {
                         id: data.branchData.locationID
                     }
@@ -89,7 +89,7 @@ export class BranchModel {
                 name: true,
                 email: true,
                 phone: true,
-                location: true
+                Location: true
             }
         });
         return branch;
