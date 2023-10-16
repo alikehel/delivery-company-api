@@ -100,7 +100,11 @@ export class ClientModel {
                 id: data.clientID
             },
             data: {
-                ...data.clientData,
+                name: data.clientData.name,
+                phone: data.clientData.phone,
+                accountType: data.clientData.accountType,
+                token: data.clientData.token,
+                password: data.clientData.password,
                 branch: {
                     connect: {
                         id: data.clientData.branchID
