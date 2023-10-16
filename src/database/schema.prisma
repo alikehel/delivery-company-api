@@ -70,27 +70,28 @@ model User {
   // tenant      Tenant       @relation(fields: [tenantId], references: [id])
   roles  Role[]
   Client Client[]
-  // Region      Region[]
+  // Location      Location[]
   // Product     Product[]
 }
 
 model Branch {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String?
-  phone     String?
+  id         String   @id @default(uuid())
+  name       String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email      String?
+  phone      String?
 
-  governmentId String
-  tenantId     String
+  locationId String
+  // governmentId String
+  // tenantId     String
 
-  tenant     Tenant       @relation(fields: [tenantId], references: [id])
-  government Government   @relation(fields: [governmentId], references: [id])
+  // tenant     Tenant       @relation(fields: [tenantId], references: [id])
+  // government Government   @relation(fields: [governmentId], references: [id])
   // User       User[]
   Repository Repository[]
   Client     Client[]
-  Region     Region[]
+  location   Location     @relation(fields: [locationId], references: [id])
 }
 
 model Repository {
@@ -126,28 +127,27 @@ model Tenant {
   updatedAt                   DateTime @updatedAt
 
   government Government[]
-  Branch     Branch[]
+  // Branch     Branch[]
   // User       User[]
   // Repository                  Repository[]
-  Region     Region[]
+  // Location   Location[]
 }
 
 // model Store {
 //   id String @id @default(uuid())
 // }
 
-model Region {
+model Location {
   id   String @id @default(uuid())
   name String @unique
 
-  governmentId String
-  tenantId     String
-  branchId     String
+  // governmentId String
+  // tenantId     String
 
-  tenant     Tenant     @relation(fields: [tenantId], references: [id])
-  branch     Branch     @relation(fields: [branchId], references: [id])
-  government Government @relation(fields: [governmentId], references: [id])
+  // tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  // government Government @relation(fields: [governmentId], references: [id])
   // users      User[]
+  Branch     Branch[]
 }
 
 model Product {
@@ -180,8 +180,8 @@ model Government {
   tenantId String
   tenant   Tenant @relation(fields: [tenantId], references: [id])
 
-  Branch Branch[]
-  Region Region[]
+  // Branch Branch[]
+  // Location Location[]
 }
 
 model Client {
