@@ -36,7 +36,7 @@ router.route("/clients").post(
                                 type: "string",
                                 example: "564363",
                             },
-                            account_type: {
+                            accountType: {
                                 type: "string",
                                 example: "Client or Client Assistant",
                             },
@@ -67,7 +67,7 @@ router.route("/clients").post(
                     id: 'true',
                     name: 'true',
                     phone: 'true',
-                    account_type: 'true',
+                    accountType: 'true',
                     branch: 'true',
                     createdBy: 'true'
                 }
@@ -116,7 +116,7 @@ router.route("/clients").get(
                         id: 'true',
                         name: 'true',
                         phone: 'true',
-                        account_type: 'true',
+                        accountType: 'true',
                         branch: 'true',
                         createdBy: 'true'
                     }
@@ -151,7 +151,7 @@ router.route("/clients/:clientID").get(
                     id: 'true',
                     name: 'true',
                     phone: 'true',
-                    account_type: 'true',
+                    accountType: 'true',
                     branch: 'true',
                     createdBy: 'true'
                 }
@@ -185,7 +185,7 @@ router.route("/clients/:clientID").patch(
                                 type: "string",
                                 example: "564363",
                             },
-                            account_type: {
+                            accountType: {
                                 type: "string",
                                 example: "Client or Client Assistant",
                             },
@@ -215,7 +215,7 @@ router.route("/clients/:clientID").patch(
                     id: 'true',
                     name: 'true',
                     phone: 'true',
-                    account_type: 'true',
+                    accountType: 'true',
                     branch: 'true',
                     createdBy: 'true'
                 }

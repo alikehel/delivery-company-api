@@ -9,7 +9,7 @@ export class ClientModel {
             data: {
                 name: data.name,
                 phone: data.phone,
-                account_type: data.account_type,
+                accountType: data.accountType,
                 token: data.token,
                 password: data.password,
                 branch: {
@@ -27,7 +27,7 @@ export class ClientModel {
                 id: true,
                 name: true,
                 phone: true,
-                account_type: true,
+                accountType: true,
                 branch: true,
                 createdBy: true
             }
@@ -51,7 +51,7 @@ export class ClientModel {
                 id: true,
                 name: true,
                 phone: true,
-                account_type: true,
+                accountType: true,
                 branch: true,
                 createdBy: true
             }
@@ -68,7 +68,7 @@ export class ClientModel {
                 id: true,
                 name: true,
                 phone: true,
-                account_type: true,
+                accountType: true,
                 branch: true,
                 createdBy: true
             }
@@ -89,7 +89,7 @@ export class ClientModel {
                 id: true,
                 name: true,
                 phone: true,
-                account_type: true,
+                accountType: true,
                 branch: true,
                 createdBy: true
             }
@@ -106,7 +106,7 @@ export class ClientModel {
                 id: true,
                 name: true,
                 phone: true,
-                account_type: true,
+                accountType: true,
                 branch: true,
                 createdBy: true
             }

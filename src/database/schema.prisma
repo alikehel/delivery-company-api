@@ -53,6 +53,11 @@ enum Governorate {
   WASIT
 }
 
+enum AccountType {
+  CLIENT
+  CLIENT_ASSISTANT
+}
+
 // const jobs = [
 //   "مدير الشركه",
 //   "مدير الحسابات",
@@ -118,14 +123,14 @@ model User {
 }
 
 model Client {
-  id           String   @id @default(uuid())
-  name         String   @unique
-  phone        String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  account_type String?
-  token        String?
-  password     String?
+  id          String      @id @default(uuid())
+  name        String      @unique
+  phone       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  accountType AccountType
+  token       String?
+  password    String?
 
   branchId String
   userId   String

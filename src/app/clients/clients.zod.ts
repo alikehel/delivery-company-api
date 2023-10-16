@@ -1,9 +1,10 @@
+import { AccountType } from "@prisma/client";
 import { z } from "zod";
 
 export const ClientCreateSchema = z.object({
     name: z.string(),
     phone: z.string(),
-    account_type: z.string(),
+    accountType: z.nativeEnum(AccountType),
     token: z.string().optional(),
     password: z.string(),
     branchID: z.string()
