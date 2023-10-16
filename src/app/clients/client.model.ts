@@ -29,7 +29,12 @@ export class ClientModel {
                 phone: true,
                 accountType: true,
                 branch: true,
-                createdBy: true
+                createdBy: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return createdClient;
@@ -53,7 +58,12 @@ export class ClientModel {
                 phone: true,
                 accountType: true,
                 branch: true,
-                createdBy: true
+                createdBy: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return clients;
@@ -70,7 +80,12 @@ export class ClientModel {
                 phone: true,
                 accountType: true,
                 branch: true,
-                createdBy: true
+                createdBy: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return client;
@@ -91,7 +106,12 @@ export class ClientModel {
                 phone: true,
                 accountType: true,
                 branch: true,
-                createdBy: true
+                createdBy: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return client;
@@ -108,7 +128,12 @@ export class ClientModel {
                 phone: true,
                 accountType: true,
                 branch: true,
-                createdBy: true
+                createdBy: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return deletedClient;
