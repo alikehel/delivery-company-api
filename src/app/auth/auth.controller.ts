@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 import { JWT_EXPIRES_IN, JWT_SECRET, SECRET } from "../../config/config";
-import { UserModel } from "../users/user.model";
+import { AuthModel } from "./auth.model";
 // import { User } from "../types/User";
 import bcrypt from "bcrypt";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
-import { UserSigninSchema } from "../users/users.zod";
+import { UserSigninSchema } from "./auth.zod";
 
-const userModel = new UserModel();
+const authModel = new AuthModel();
 
 // export const signup = catchAsync(async (req, res, next) => {
 //     const user = UserSignUpSchema.parse(req.body);
@@ -70,7 +70,7 @@ export const signin = catchAsync(async (req, res) => {
     const user = UserSigninSchema.parse(req.body);
     // const subdomain = req.params.organization;
 
-    const returnedUser = await userModel.signin(user);
+    const returnedUser = await authModel.signin(user);
 
     if (!returnedUser) {
         throw new AppError("User not found", 400);
@@ -90,7 +90,7 @@ export const signin = catchAsync(async (req, res) => {
             id: returnedUser?.id,
             name: returnedUser.name,
             username: user.username,
-            roles: returnedUser.roles
+            role: returnedUser.role
         },
         JWT_SECRET as string,
         { expiresIn: JWT_EXPIRES_IN }

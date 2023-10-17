@@ -1,61 +1,51 @@
 import { PrismaClient } from "@prisma/client";
-// import organizations from "../database/seed/data/organizations";
-// import AppError from "../utils/AppError.util";
-import { UserSigninType } from "./users.zod";
+import { UserCreateType, UserUpdateType } from "./users.zod";
 
 const prisma = new PrismaClient();
 
 export class UserModel {
-    // async signup(
-    //     user: UserSignUpType,
-    //     subdomain: string
-    // ): Promise<{
-    //     id: string;
-    //     email: string;
-    //     role: string;
-    //     organizationSubdomain: string;
-    // } | null> {
-    //     const createdUser = await prisma.user.create({
-    //         data: {
-    //             ...user
-    //         },
-    //         select: {
-    //             id: true,
-    //             role: true,
-    //             organizationSubdomain: true
-    //         }
-    //     });
-    //     return createdUser;
-    // }
-
-    async signin(user: UserSigninType) {
-        const returnedUser = await prisma.user.findUnique({
-            where: {
-                username: user.username
+    async createUser(data: UserCreateType) {
+        const createdUser = await prisma.user.create({
+            data: {
+                name: data.name,
+                username: data.username,
+                password: data.password,
+                phone: data.phone,
+                salary: data.salary,
+                role: data.role,
+                permissions: {
+                    set: data.permissions
+                },
+                branch: {
+                    connect: {
+                        id: data.branchID
+                    }
+                },
+                repository: {
+                    connect: {
+                        id: data.repositoryID
+                    }
+                }
             },
             select: {
                 id: true,
-                roles: true,
-                password: true,
+                name: true,
                 username: true,
-                name: true
+                phone: true,
+                salary: true,
+                role: true,
+                permissions: true,
+                branch: true,
+                repository: true
             }
         });
-        return returnedUser;
+        return createdUser;
     }
 
-    // async getUserID(email: string, subdomain: string): Promise<string | null> {
-    //     const data = (await prisma.user.findUnique({
-    //         where: {
-    //             emailSubdomain: {
-    //                 email: email,
-    //                 organizationSubdomain: subdomain
-    //             }
-    //         },
-    //         select: { id: true }
-    //     })) as unknown as { id: string };
-    //     return data.id;
-    // }
+    async getUsersCount() {
+        const usersCount = await prisma.user.count();
+        return usersCount;
+    }
 
     async getAllUsers(skip: number, take: number) {
         const users = await prisma.user.findMany({
@@ -69,120 +59,83 @@ export class UserModel {
                 name: true,
                 username: true,
                 phone: true,
-                roles: true
+                salary: true,
+                role: true,
+                permissions: true,
+                branch: true,
+                repository: true
             }
         });
         return users;
     }
 
-    async getUsersCount() {
-        const count = await prisma.user.count({});
-        return count;
+    async getUser(data: { userID: string }) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: data.userID
+            },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                phone: true,
+                salary: true,
+                role: true,
+                permissions: true,
+                branch: true,
+                repository: true
+            }
+        });
+        return user;
     }
 
-    // async getUser(subdomain: string, userID: string) {
-    //     const user = await prisma.user.findUnique({
-    //         where: {
-    //             id: userID
-    //         },
-    //         select: {
-    //             id: true,
-    //             firstName: true,
-    //             lastName: true,
-    //             email: true,
-    //             phoneNumber: true,
-    //             role: true,
-    //             profilePicture: true,
-    //             courses: {
-    //                 select: {
-    //                     name: true,
-    //                     code: true
-    //                 }
-    //             }
-    //         }
-    //     });
-    //     return user;
-    // }
+    async updateUser(data: { userID: string; userData?: UserUpdateType }) {
+        const user = await prisma.user.update({
+            where: {
+                id: data.userID
+            },
+            data: {
+                name: data.userData?.name,
+                username: data.userData?.username,
+                password: data.userData?.password,
+                phone: data.userData?.phone,
+                salary: data.userData?.salary,
+                role: data.userData?.role,
+                permissions: {
+                    set: data.userData?.permissions
+                },
+                branch: {
+                    connect: {
+                        id: data.userData?.branchID
+                    }
+                },
+                repository: {
+                    connect: {
+                        id: data.userData?.repositoryID
+                    }
+                }
+            },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                phone: true,
+                salary: true,
+                role: true,
+                permissions: true,
+                branch: true,
+                repository: true
+            }
+        });
+        return user;
+    }
 
-    // async updateUser(
-    //     subdomain: string,
-    //     userID: string,
-    //     userData: UserUpdateType
-    // ) {
-    //     const user = await prisma.user.update({
-    //         where: {
-    //             id: userID
-    //         },
-    //         data: {
-    //             courses: {
-    //                 set: [],
-    //                 connect: userData.courses?.map((courseCode) => ({
-    //                     codeSubdomain: {
-    //                         code: courseCode,
-    //                         organizationSubdomain: subdomain
-    //                     }
-    //                 }))
-    //             },
-    //             firstName: userData.firstName,
-    //             lastName: userData.lastName,
-    //             phoneNumber: userData.phoneNumber,
-    //             role: userData.role
-    //         },
-    //         select: {
-    //             id: true,
-    //             firstName: true,
-    //             lastName: true,
-    //             email: true,
-    //             phoneNumber: true,
-    //             role: true,
-    //             courses: {
-    //                 select: {
-    //                     name: true,
-    //                     code: true
-    //                 }
-    //             }
-    //         }
-    //     });
-    //     return user;
-    // }
-
-    // async deleteUser(subdomain: string, userID: string) {
-    //     const user = await prisma.user.delete({
-    //         where: {
-    //             id: userID
-    //         }
-    //     });
-    //     return user;
-    // }
-
-    // async updateProfilePicture(subdomain: string, userID: string, url: string) {
-    //     const user = await prisma.user.update({
-    //         where: {
-    //             id: userID
-    //         },
-    //         data: {
-    //             profilePicture: url
-    //         },
-    //         select: {
-    //             profilePicture: true
-    //         }
-    //     });
-    //     return user;
-    // }
-
-    // async getEnrolledCourses(subdomain: string, userID: string) {
-    //     const courses = await prisma.user
-    //         .findUnique({
-    //             where: {
-    //                 id: userID
-    //             }
-    //         })
-    //         .courses({
-    //             select: {
-    //                 name: true,
-    //                 code: true
-    //             }
-    //         });
-    //     return courses;
-    // }
+    async deleteUser(data: { userID: string }) {
+        const deletedUser = await prisma.user.delete({
+            where: {
+                id: data.userID
+            }
+        });
+        return deletedUser;
+    }
 }

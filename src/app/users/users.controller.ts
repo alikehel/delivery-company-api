@@ -1,13 +1,44 @@
+import * as bcrypt from "bcrypt";
+import { SECRET } from "../../config/config";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { UserModel } from "./user.model";
-// import { UserUpdateSchema } from "../validation";
+import { UserCreateSchema, UserUpdateSchema } from "./users.zod";
 
 const userModel = new UserModel();
+
+export const createUser = catchAsync(async (req, res) => {
+    const userData = UserCreateSchema.parse(req.body);
+
+    const hashedPassword = bcrypt.hashSync(
+        userData.password + (SECRET as string),
+        12
+    );
+
+    const createdUser = await userModel.createUser({
+        ...userData,
+        password: hashedPassword
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: createdUser
+    });
+});
 
 export const getAllUsers = catchAsync(async (req, res) => {
     const usersCount = await userModel.getUsersCount();
     const pagesCount = Math.ceil(usersCount / 10);
+
+    if (pagesCount === 0) {
+        res.status(200).json({
+            status: "success",
+            page: 1,
+            pagesCount: 1,
+            data: []
+        });
+        return;
+    }
 
     let page = 1;
     if (
@@ -36,89 +67,43 @@ export const getAllUsers = catchAsync(async (req, res) => {
     });
 });
 
-// export const getUser = catchAsync(async (req, res) => {
-//     const subdomain = req.params.organization;
-//     const userID = req.params["userID"];
+export const getUser = catchAsync(async (req, res) => {
+    const userID = req.params["userID"];
 
-//     const user = await userModel.getUser(subdomain, userID);
+    const user = await userModel.getUser({
+        userID: userID
+    });
 
-//     res.status(200).json({
-//         status: "success",
-//         data: user
-//     });
-// });
+    res.status(200).json({
+        status: "success",
+        data: user
+    });
+});
 
-// export const updateUser = catchAsync(async (req, res) => {
-//     console.log("userData");
-//     const subdomain = req.params.organization;
-//     const userID = req.params["userID"];
+export const updateUser = catchAsync(async (req, res) => {
+    const userID = req.params["userID"];
 
-//     const loggedInUserID = res.locals.user.id;
-//     const userType = res.locals.user.role;
+    const userData = UserUpdateSchema.parse(req.body);
 
-//     let userData = UserUpdateSchema.parse(req.body);
+    const user = await userModel.updateUser({
+        userID: userID,
+        userData: userData
+    });
 
-//     if (userType === "STUDENT") {
-//         if (loggedInUserID !== userID) {
-//             throw new AppError("You are not the owner of this user!", 401);
-//         }
-//         if (userData.role) {
-//             userData = { ...userData, role: undefined };
-//             // throw new AppError("You cannot change your role!", 400);
-//         }
-//         if (userData.courses) {
-//             userData = { ...userData, courses: undefined };
-//             // throw new AppError("You cannot enroll in courses!", 400);
-//         }
-//     } else if (userType === "TEACHER") {
-//         if (userData.role) {
-//             userData = { ...userData, role: undefined };
-//             // throw new AppError("You cannot change the role!", 400);
-//         }
-//     }
+    res.status(200).json({
+        status: "success",
+        data: user
+    });
+});
 
-//     if (userData.courses) {
-//         const enrolledCourses = await userModel.getEnrolledCourses(
-//             subdomain,
-//             userID
-//         );
-//         if (enrolledCourses) {
-//             for (const course of userData.courses) {
-//                 const coursePrerequisites =
-//                     await courseModel.getCoursePrerequisites(subdomain, course);
+export const deleteUser = catchAsync(async (req, res) => {
+    const userID = req.params["userID"];
 
-//                 if (coursePrerequisites && coursePrerequisites.prerequisites) {
-//                     for (const prerequisite of coursePrerequisites.prerequisites) {
-//                         if (
-//                             !enrolledCourses.includes(prerequisite) &&
-//                             !userData.courses.includes(prerequisite.code)
-//                         ) {
-//                             throw new AppError(
-//                                 "The student does not have the prerequisites for this course!",
-//                                 400
-//                             );
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
+    await userModel.deleteUser({
+        userID: userID
+    });
 
-//     const user = await userModel.updateUser(subdomain, userID, userData);
-
-//     res.status(200).json({
-//         status: "success",
-//         data: user
-//     });
-// });
-
-// export const deleteUser = catchAsync(async (req, res) => {
-//     const subdomain = req.params.organization;
-//     const userID = req.params["userID"];
-
-//     await userModel.deleteUser(subdomain, userID);
-
-//     res.status(200).json({
-//         status: "success"
-//     });
-// });
+    res.status(200).json({
+        status: "success"
+    });
+});

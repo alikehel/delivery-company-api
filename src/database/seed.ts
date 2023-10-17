@@ -13,16 +13,17 @@ async function main() {
             name: "Super Admin",
             username: "superadmin",
             password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
-            // isSuperAdmin: true,
-            roles: [Role.SUPER_ADMIN]
+            phone: "01000000000",
+            salary: 0,
+            role: Role.SUPER_ADMIN
         },
         create: {
             name: "Super Admin",
             username: "superadmin",
             password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
-            // isSuperAdmin: true,
-            roles: [Role.SUPER_ADMIN],
-            phone: "01000000000"
+            phone: "01000000000",
+            salary: 0,
+            role: Role.SUPER_ADMIN
         }
     });
 
