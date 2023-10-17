@@ -18,6 +18,6 @@ export const UserCreateSchema = z.object({
 
 export type UserCreateType = z.infer<typeof UserCreateSchema>;
 
-export const UserUpdateSchema = UserCreateSchema.optional();
+export const UserUpdateSchema = UserCreateSchema.partial();
 
 export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
