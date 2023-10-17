@@ -20,17 +20,17 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         }
 
         // IS TOKEN VALID
-        const { id, name, username, roles } = jwt.verify(
+        const { id, name, username, role } = jwt.verify(
             token,
             JWT_SECRET as string
-        ) as { id: string; name: string; username: string; roles: Role[] };
+        ) as { id: string; name: string; username: string; role: Role[] };
 
         // TODO: Check if user still exists
 
         // TODO: Check if user changed password after the token was issued
 
         // req.user = { id, email, subdomain, role };
-        res.locals.user = { id, name, username, roles };
+        res.locals.user = { id, name, username, role };
 
         //GRANT ACCESS
         return next();
