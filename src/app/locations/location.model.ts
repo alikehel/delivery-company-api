@@ -14,8 +14,8 @@ export class LocationModel {
                         id: data.branchID
                     }
                 },
-                drivers: {
-                    connect: data.driversIDs.map((id) => {
+                deliveryAgents: {
+                    connect: data.deliveryAgentsIDs.map((id) => {
                         return {
                             id: id
                         };
@@ -27,7 +27,7 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                drivers: true
+                deliveryAgents: true
             }
         });
         return createdLocation;
@@ -50,7 +50,7 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                drivers: true
+                deliveryAgents: true
             }
         });
         return locations;
@@ -66,7 +66,7 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                drivers: true
+                deliveryAgents: true
             }
         });
         return location;
@@ -88,8 +88,8 @@ export class LocationModel {
                         id: data.locationData.branchID
                     }
                 },
-                drivers: {
-                    connect: data.locationData.driversIDs?.map((id) => {
+                deliveryAgents: {
+                    connect: data.locationData.deliveryAgentsIDs?.map((id) => {
                         return {
                             id: id
                         };
@@ -101,7 +101,7 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                drivers: true
+                deliveryAgents: true
             }
         });
         return location;

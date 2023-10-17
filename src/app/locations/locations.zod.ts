@@ -5,7 +5,7 @@ export const LocationCreateSchema = z.object({
     name: z.string(),
     governorate: z.nativeEnum(Governorate),
     branchID: z.string(),
-    driversIDs: z.array(z.string())
+    deliveryAgentsIDs: z.array(z.string())
 });
 
 export type LocationCreateType = z.infer<typeof LocationCreateSchema>;

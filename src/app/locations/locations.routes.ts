@@ -40,9 +40,9 @@ router.route("/locations").post(
                                 type: "string",
                                 example: "534t345rt",
                             },
-                            driversIDs: {
+                            deliveryAgentsIDs: {
                                 type: "array",
-                                example: "53rf34f345",
+                                example: ["53rf34f345"],
                             }
                         },
                     },
@@ -60,7 +60,7 @@ router.route("/locations").post(
                     name: "name",
                     governorate: "governorate",
                     branch: "branch object",
-                    drivers: "drivers object",
+                    deliveryAgents: "deliveryAgents object",
                 }
             }
         }
@@ -108,7 +108,7 @@ router.route("/locations").get(
                         name: "name",
                         governorate: "governorate",
                         branch: "branch object",
-                        drivers: "drivers object",
+                        deliveryAgents: "deliveryAgents object",
                     }
                 ]
             }
@@ -142,7 +142,7 @@ router.route("/locations/:locationID").get(
                     name: "name",
                     governorate: "governorate",
                     branch: "branch object",
-                    drivers: "drivers object",
+                    deliveryAgents: "deliveryAgents object",
                 }
             }
         }
@@ -178,9 +178,9 @@ router.route("/locations/:locationID").patch(
                                 type: "string",
                                 example: "534t345rt",
                             },
-                            driversIDs: {
+                            deliveryAgentsIDs: {
                                 type: "array",
-                                example: "53rf34f345",
+                                example: ["53rf34f345"],
                             }
                         }
                     }
@@ -197,7 +197,7 @@ router.route("/locations/:locationID").patch(
                     name: "name",
                     governorate: "governorate",
                     branch: "branch object",
-                    drivers: "drivers object",
+                    deliveryAgents: "deliveryAgents object",
                 }
             }
         }
