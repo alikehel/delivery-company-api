@@ -89,31 +89,33 @@ export class UserModel {
         return user;
     }
 
-    async updateUser(data: { userID: string; userData?: UserUpdateType }) {
+    async updateUser(data: { userID: string; userData: UserUpdateType }) {
         const user = await prisma.user.update({
             where: {
                 id: data.userID
             },
             data: {
-                name: data.userData?.name,
-                username: data.userData?.username,
-                password: data.userData?.password,
-                phone: data.userData?.phone,
-                salary: data.userData?.salary,
-                role: data.userData?.role,
-                permissions: {
-                    set: data.userData?.permissions
-                },
-                branch: {
-                    connect: {
-                        id: data.userData?.branchID
-                    }
-                },
-                repository: {
-                    connect: {
-                        id: data.userData?.repositoryID
-                    }
-                }
+                name: data.userData.name,
+                username: data.userData.username,
+                password: data.userData.password,
+                phone: data.userData.phone,
+                salary: data.userData.salary,
+                role: data.userData.role,
+                permissions: data.userData.permissions,
+                branch: data.userData.branchID
+                    ? {
+                          connect: {
+                              id: data.userData.branchID
+                          }
+                      }
+                    : undefined,
+                repository: data.userData.repositoryID
+                    ? {
+                          connect: {
+                              id: data.userData.repositoryID
+                          }
+                      }
+                    : undefined
             },
             select: {
                 id: true,

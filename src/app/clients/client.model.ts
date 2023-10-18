@@ -105,11 +105,13 @@ export class ClientModel {
                 accountType: data.clientData.accountType,
                 token: data.clientData.token,
                 password: data.clientData.password,
-                branch: {
-                    connect: {
-                        id: data.clientData.branchID
-                    }
-                }
+                branch: data.clientData.branchID
+                    ? {
+                          connect: {
+                              id: data.clientData.branchID
+                          }
+                      }
+                    : undefined
             },
             select: {
                 id: true,

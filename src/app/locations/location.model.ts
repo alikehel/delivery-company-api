@@ -83,18 +83,24 @@ export class LocationModel {
             data: {
                 name: data.locationData.name,
                 governorate: data.locationData.governorate,
-                branch: {
-                    connect: {
-                        id: data.locationData.branchID
-                    }
-                },
-                deliveryAgents: {
-                    connect: data.locationData.deliveryAgentsIDs?.map((id) => {
-                        return {
-                            id: id
-                        };
-                    })
-                }
+                branch: data.locationData.branchID
+                    ? {
+                          connect: {
+                              id: data.locationData.branchID
+                          }
+                      }
+                    : undefined,
+                deliveryAgents: data.locationData.deliveryAgentsIDs
+                    ? {
+                          connect: data.locationData.deliveryAgentsIDs?.map(
+                              (id) => {
+                                  return {
+                                      id: id
+                                  };
+                              }
+                          )
+                      }
+                    : undefined
             },
             select: {
                 id: true,
