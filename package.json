@@ -6,7 +6,7 @@
     "scripts": {
         "start:dev": "nodemon ./src/index.ts",
         "start": "yarn run swagger-autogen && prisma migrate deploy && yarn run build && node build/index.js",
-        "build": "yarn run clean && npx tsc",
+        "build": "yarn run clean && tsc",
         "clean": "rimraf build/",
         "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
         "lint": "eslint . --ext .ts",
