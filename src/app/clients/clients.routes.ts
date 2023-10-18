@@ -26,35 +26,10 @@ router.route("/clients").post(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Client Name",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "564363",
-                            },
-                            accountType: {
-                                type: "string",
-                                example: "Client or Client Assistant",
-                            },
-                            token: {
-                                type: "string",
-                                example: "token",
-                            },
-                            password: {
-                                type: "string",
-                                example: "34565tge4rr",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            }
-                        },
-                    },
-                    "additionalProperties": false
+                    schema: { $ref: "#/components/schemas/ClientCreateSchema" },
+                    examples: {
+                        ClientCreateExample: { $ref: "#/components/examples/ClientCreateExample" }
+                    }
                 }
             }
         }
@@ -173,35 +148,9 @@ router.route("/clients/:clientID").patch(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Client Name",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "564363",
-                            },
-                            accountType: {
-                                type: "string",
-                                example: "Client or Client Assistant",
-                            },
-                            token: {
-                                type: "string",
-                                example: "token",
-                            },
-                            password: {
-                                type: "string",
-                                example: "34565tge4rr",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            }
-                        }
+                    schema: { $ref: "#/components/schemas/ClientUpdateSchema" },
+                    examples: {
+                        ClientUpdateExample: { $ref: "#/components/examples/ClientUpdateExample" }
                     }
                 }
             }

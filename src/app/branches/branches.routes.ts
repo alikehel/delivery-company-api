@@ -26,27 +26,10 @@ router.route("/branches").post(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Branch Name",
-                            },
-                            email: {
-                                type: "string",
-                                example: "Branch email",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "Branch phone number",
-                            },
-                            governorate: {
-                                type: "string",
-                                example: "AlBasra",
-                            }
-                        },
-                    },
-                    "additionalProperties": false
+                    schema: { $ref: "#/components/schemas/BranchCreateSchema" },
+                    examples: {
+                        BranchCreateExample: { $ref: "#/components/examples/BranchCreateExample" }
+                    }
                 }
             }
         }
@@ -162,27 +145,9 @@ router.route("/branches/:branchID").patch(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Branch Name",
-                            },
-                            email: {
-                                type: "string",
-                                example: "Branch email",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "Branch phone number",
-                            },
-                            governorate: {
-                                type: "string",
-                                example: "AlBasra",
-                            }
-                        }
+                    schema: { $ref: "#/components/schemas/BranchUpdateSchema" },
+                    examples: {
+                        BranchUpdateExample: { $ref: "#/components/examples/BranchUpdateExample" }
                     }
                 }
             }

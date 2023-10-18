@@ -1,3 +1,5 @@
+import { generateMock } from "@anatine/zod-mock";
+import { generateSchema } from "@anatine/zod-openapi";
 import { Governorate } from "@prisma/client";
 import { z } from "zod";
 
@@ -10,6 +12,14 @@ export const LocationCreateSchema = z.object({
 
 export type LocationCreateType = z.infer<typeof LocationCreateSchema>;
 
+export const LocationCreateOpenAPISchema = generateSchema(LocationCreateSchema);
+
+export const LocationCreateMock = generateMock(LocationCreateSchema);
+
 export const LocationUpdateSchema = LocationCreateSchema.partial();
 
 export type LocationUpdateType = z.infer<typeof LocationUpdateSchema>;
+
+export const LocationUpdateOpenAPISchema = generateSchema(LocationUpdateSchema);
+
+export const LocationUpdateMock = generateMock(LocationUpdateSchema);

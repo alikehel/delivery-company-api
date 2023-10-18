@@ -195,6 +195,11 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UserSigninSchema"
+              },
+              "examples": {
+                "UserSigninExample": {
+                  "$ref": "#/components/examples/UserSigninExample"
+                }
               }
             }
           }
@@ -570,49 +575,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "username"
-                  },
-                  "name": {
-                    "type": "string",
-                    "example": "User Name"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "password"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "0123456789"
-                  },
-                  "salary": {
-                    "type": "number",
-                    "example": 1000
-                  },
-                  "repositoryID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  },
-                  "role": {
-                    "type": "string",
-                    "example": "SUPER_ADMIN"
-                  },
-                  "permissions": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "example": "CREATE_USER"
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/UserCreateSchema"
               },
-              "additionalProperties": false
+              "examples": {
+                "UserCreateExample": {
+                  "$ref": "#/components/examples/UserCreateExample"
+                }
+              }
             }
           }
         }
@@ -1130,48 +1099,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "username"
-                  },
-                  "name": {
-                    "type": "string",
-                    "example": "User Name"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "password"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "0123456789"
-                  },
-                  "salary": {
-                    "type": "number",
-                    "example": 1000
-                  },
-                  "repositoryID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  },
-                  "role": {
-                    "type": "string",
-                    "example": "SUPER_ADMIN"
-                  },
-                  "permissions": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "example": "CREATE_USER"
-                    }
-                  }
+                "$ref": "#/components/schemas/UserUpdateSchema"
+              },
+              "examples": {
+                "UserUpdateExample": {
+                  "$ref": "#/components/examples/UserUpdateExample"
                 }
               }
             }
@@ -1466,18 +1398,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Repository Name"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  }
-                }
+                "$ref": "#/components/schemas/RepositoryCreateSchema"
               },
-              "additionalProperties": false
+              "examples": {
+                "RepositoryCreateExample": {
+                  "$ref": "#/components/examples/RepositoryCreateExample"
+                }
+              }
             }
           }
         }
@@ -1821,17 +1748,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Repository Name"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  }
+                "$ref": "#/components/schemas/RepositoryUpdateSchema"
+              },
+              "examples": {
+                "RepositoryUpdateExample": {
+                  "$ref": "#/components/examples/RepositoryUpdateExample"
                 }
               }
             }
@@ -2150,34 +2071,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Client Name"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "564363"
-                  },
-                  "accountType": {
-                    "type": "string",
-                    "example": "Client or Client Assistant"
-                  },
-                  "token": {
-                    "type": "string",
-                    "example": "token"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "34565tge4rr"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  }
-                }
+                "$ref": "#/components/schemas/ClientCreateSchema"
               },
-              "additionalProperties": false
+              "examples": {
+                "ClientCreateExample": {
+                  "$ref": "#/components/examples/ClientCreateExample"
+                }
+              }
             }
           }
         }
@@ -2593,33 +2493,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Client Name"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "564363"
-                  },
-                  "accountType": {
-                    "type": "string",
-                    "example": "Client or Client Assistant"
-                  },
-                  "token": {
-                    "type": "string",
-                    "example": "token"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "34565tge4rr"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "53rf34f345"
-                  }
+                "$ref": "#/components/schemas/ClientUpdateSchema"
+              },
+              "examples": {
+                "ClientUpdateExample": {
+                  "$ref": "#/components/examples/ClientUpdateExample"
                 }
               }
             }
@@ -2930,26 +2808,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Branch Name"
-                  },
-                  "email": {
-                    "type": "string",
-                    "example": "Branch email"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "Branch phone number"
-                  },
-                  "governorate": {
-                    "type": "string",
-                    "example": "AlBasra"
-                  }
-                }
+                "$ref": "#/components/schemas/BranchCreateSchema"
               },
-              "additionalProperties": false
+              "examples": {
+                "BranchCreateExample": {
+                  "$ref": "#/components/examples/BranchCreateExample"
+                }
+              }
             }
           }
         }
@@ -3341,25 +3206,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Branch Name"
-                  },
-                  "email": {
-                    "type": "string",
-                    "example": "Branch email"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "Branch phone number"
-                  },
-                  "governorate": {
-                    "type": "string",
-                    "example": "AlBasra"
-                  }
+                "$ref": "#/components/schemas/BranchUpdateSchema"
+              },
+              "examples": {
+                "BranchUpdateExample": {
+                  "$ref": "#/components/examples/BranchUpdateExample"
                 }
               }
             }
@@ -3670,28 +3521,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Name"
-                  },
-                  "governorate": {
-                    "type": "string",
-                    "example": "governorate"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "534t345rt"
-                  },
-                  "deliveryAgentsIDs": {
-                    "type": "array",
-                    "example": [
-                      "53rf34f345"
-                    ]
-                  }
-                }
+                "$ref": "#/components/schemas/LocationCreateSchema"
               },
-              "additionalProperties": false
+              "examples": {
+                "LocationCreateExample": {
+                  "$ref": "#/components/examples/LocationCreateExample"
+                }
+              }
             }
           }
         }
@@ -4083,27 +3919,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "Name"
-                  },
-                  "governorate": {
-                    "type": "string",
-                    "example": "governorate"
-                  },
-                  "branchID": {
-                    "type": "string",
-                    "example": "534t345rt"
-                  },
-                  "deliveryAgentsIDs": {
-                    "type": "array",
-                    "example": [
-                      "53rf34f345"
-                    ]
-                  }
+                "$ref": "#/components/schemas/LocationUpdateSchema"
+              },
+              "examples": {
+                "LocationUpdateExample": {
+                  "$ref": "#/components/examples/LocationUpdateExample"
                 }
               }
             }
@@ -4226,27 +4046,536 @@
     }
   },
   "components": {
-    "examples": {},
+    "examples": {
+      "UserCreateExample": {
+        "value": {
+          "username": "aut",
+          "name": "Irving Smitham",
+          "password": "YUOensGVb9hT",
+          "phone": "tum",
+          "salary": 6561149514416128,
+          "repositoryID": "volaticus",
+          "branchID": "cohors",
+          "role": "EMERGENCY_EMPLOYEE",
+          "permissions": [
+            "DELETE_DRIVER_REPORTS",
+            "ADD_ORDER"
+          ]
+        }
+      },
+      "UserSigninExample": {
+        "value": {
+          "username": "tergo",
+          "password": "bxtVqiWdOeP2"
+        }
+      },
+      "RepositoryCreateExample": {
+        "value": {
+          "name": "Vivian Gutkowski IV",
+          "branchID": "depromo"
+        }
+      },
+      "UserUpdateExample": {
+        "value": {
+          "username": "nesciunt",
+          "name": "Lorena Sawayn",
+          "password": "dXHGDmGgjBTn",
+          "phone": "eum",
+          "salary": 6832298496360448,
+          "repositoryID": "solus",
+          "branchID": "venia",
+          "role": "INQUIRY_EMPLOYEE",
+          "permissions": [
+            "CHANGE_CLOSED_ORDER_STATUS",
+            "ADD_CLIENT",
+            "DELETE_REPORTS",
+            "ADD_PAGE",
+            "DELETE_COMPANY_REPORTS"
+          ]
+        }
+      },
+      "RepositoryUpdateExample": {
+        "value": {
+          "name": "Krystal Corwin III",
+          "branchID": "bardus"
+        }
+      },
+      "LocationCreateExample": {
+        "value": {
+          "name": "Joy Cole",
+          "governorate": "SALAH_AL_DIN",
+          "branchID": "ascit",
+          "deliveryAgentsIDs": [
+            "atqui",
+            "trans"
+          ]
+        }
+      },
+      "LocationUpdateExample": {
+        "value": {
+          "name": "Gina Stanton",
+          "governorate": "SALAH_AL_DIN",
+          "branchID": "rerum",
+          "deliveryAgentsIDs": [
+            "delicate",
+            "nihil",
+            "alter",
+            "suus"
+          ]
+        }
+      },
+      "ClientCreateExample": {
+        "value": {
+          "name": "Dominic Koch",
+          "phone": "ambitus",
+          "accountType": "CLIENT",
+          "token": "temporibus",
+          "password": "pJe0uFqtUQu0Yvy",
+          "branchID": "vester"
+        }
+      },
+      "ClientUpdateExample": {
+        "value": {
+          "name": "Oliver Walsh",
+          "phone": "aiunt",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "deprimo",
+          "password": "IOR6npvqOL7Bgyu",
+          "branchID": "arbustum"
+        }
+      },
+      "BranchCreateExample": {
+        "value": {
+          "name": "Eddie Rau MD",
+          "email": "Silas.Borer92@example.net",
+          "phone": "degusto",
+          "governorate": "SULAYMANIYAH"
+        }
+      },
+      "BranchUpdateExample": {
+        "value": {
+          "name": "Doreen Daugherty",
+          "email": "Davin_Rogahn79@example.org",
+          "phone": "pecco",
+          "governorate": "BASRA"
+        }
+      }
+    },
     "schemas": {
-      "UserSigninSchema": {
+      "UserCreateSchema": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "username": {
-            "type": "string",
-            "format": "username",
-            "description": "Username",
-            "example": "admin",
-            "pattern": "",
-            "maxLength": 32
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
           },
           "password": {
             "type": "string",
-            "description": "User password",
+            "minLength": 8,
+            "maxLength": 12
+          },
+          "phone": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "number"
+          },
+          "repositoryID": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "SUPER_ADMIN",
+              "COMPANY_MANAGER",
+              "ACCOUNT_MANAGER",
+              "ACCOUNTANT",
+              "DELIVERY_AGENT",
+              "RECEIVING_AGENT",
+              "BRANCH_MANAGER",
+              "EMERGENCY_EMPLOYEE",
+              "DATA_ENTRY",
+              "REPOSITORIY_EMPLOYEE",
+              "INQUIRY_EMPLOYEE"
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ADD_ORDER_TO_DRIVER",
+                "ADD_PAGE",
+                "ADD_ORDER",
+                "ADD_CLIENT",
+                "EDIT_CLIENT_NAME",
+                "EDIT_ORDER_TOTAL_AMOUNT",
+                "CHANGE_ORDER_STATUS",
+                "CHANGE_CLOSED_ORDER_STATUS",
+                "LOCK_ORDER_STATUS",
+                "DELETE_PRICES",
+                "DELETE_ORDERS",
+                "DELETE_REPORTS",
+                "DELETE_COMPANY_REPORTS",
+                "DELETE_REPOSITORIES_REPORTS",
+                "DELETE_GOVERNMENT_REPORTS",
+                "DELETE_DRIVER_REPORTS"
+              ]
+            }
+          }
+        },
+        "required": [
+          "username",
+          "name",
+          "password",
+          "phone",
+          "salary",
+          "repositoryID",
+          "branchID",
+          "role",
+          "permissions"
+        ]
+      },
+      "UserSigninSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
             "minLength": 6,
-            "maxLength": 12,
-            "example": "password",
-            "pattern": "^[\\w\\W]+$"
+            "maxLength": 12
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "RepositoryCreateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "branchID"
+        ]
+      },
+      "UserUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 12
+          },
+          "phone": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "number"
+          },
+          "repositoryID": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "SUPER_ADMIN",
+              "COMPANY_MANAGER",
+              "ACCOUNT_MANAGER",
+              "ACCOUNTANT",
+              "DELIVERY_AGENT",
+              "RECEIVING_AGENT",
+              "BRANCH_MANAGER",
+              "EMERGENCY_EMPLOYEE",
+              "DATA_ENTRY",
+              "REPOSITORIY_EMPLOYEE",
+              "INQUIRY_EMPLOYEE"
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ADD_ORDER_TO_DRIVER",
+                "ADD_PAGE",
+                "ADD_ORDER",
+                "ADD_CLIENT",
+                "EDIT_CLIENT_NAME",
+                "EDIT_ORDER_TOTAL_AMOUNT",
+                "CHANGE_ORDER_STATUS",
+                "CHANGE_CLOSED_ORDER_STATUS",
+                "LOCK_ORDER_STATUS",
+                "DELETE_PRICES",
+                "DELETE_ORDERS",
+                "DELETE_REPORTS",
+                "DELETE_COMPANY_REPORTS",
+                "DELETE_REPOSITORIES_REPORTS",
+                "DELETE_GOVERNMENT_REPORTS",
+                "DELETE_DRIVER_REPORTS"
+              ]
+            }
+          }
+        }
+      },
+      "RepositoryUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          }
+        }
+      },
+      "LocationCreateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
+          },
+          "branchID": {
+            "type": "string"
+          },
+          "deliveryAgentsIDs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "governorate",
+          "branchID",
+          "deliveryAgentsIDs"
+        ]
+      },
+      "LocationUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
+          },
+          "branchID": {
+            "type": "string"
+          },
+          "deliveryAgentsIDs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ClientCreateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "accountType": {
+            "type": "string",
+            "enum": [
+              "CLIENT",
+              "CLIENT_ASSISTANT"
+            ]
+          },
+          "token": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "accountType",
+          "password",
+          "branchID"
+        ]
+      },
+      "ClientUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "accountType": {
+            "type": "string",
+            "enum": [
+              "CLIENT",
+              "CLIENT_ASSISTANT"
+            ]
+          },
+          "token": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "branchID": {
+            "type": "string"
+          }
+        }
+      },
+      "BranchCreateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "phone",
+          "governorate"
+        ]
+      },
+      "BranchUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
           }
         }
       }

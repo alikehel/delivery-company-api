@@ -26,19 +26,10 @@ router.route("/repositories").post(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Repository Name",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            }
-                        },
-                    },
-                    "additionalProperties": false
+                    "schema": { $ref: "#/components/schemas/RepositoryCreateSchema" },
+                    "examples": {
+                        "RepositoryCreateExample": { $ref: "#/components/examples/RepositoryCreateExample" }
+                    }
                 }
             }
         }
@@ -148,19 +139,9 @@ router.route("/repositories/:repositoryID").patch(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Repository Name",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            }
-                        }
+                    "schema": { $ref: "#/components/schemas/RepositoryUpdateSchema" },
+                    "examples": {
+                        "RepositoryUpdateExample": { $ref: "#/components/examples/RepositoryUpdateExample" }
                     }
                 }
             }

@@ -26,27 +26,10 @@ router.route("/locations").post(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Name",
-                            },
-                            governorate: {
-                                type: "string",
-                                example: "governorate",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "534t345rt",
-                            },
-                            deliveryAgentsIDs: {
-                                type: "array",
-                                example: ["53rf34f345"],
-                            }
-                        },
-                    },
-                    "additionalProperties": false
+                    schema: { $ref: "#/components/schemas/LocationCreateSchema" },
+                    examples: {
+                        LocationCreateExample: { $ref: "#/components/examples/LocationCreateExample" }
+                    }
                 }
             }
         }
@@ -162,27 +145,9 @@ router.route("/locations/:locationID").patch(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                            name: {
-                                type: "string",
-                                example: "Name",
-                            },
-                            governorate: {
-                                type: "string",
-                                example: "governorate",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "534t345rt",
-                            },
-                            deliveryAgentsIDs: {
-                                type: "array",
-                                example: ["53rf34f345"],
-                            }
-                        }
+                    schema: { $ref: "#/components/schemas/LocationUpdateSchema" },
+                    examples: {
+                        LocationUpdateExample: { $ref: "#/components/examples/LocationUpdateExample" }
                     }
                 }
             }

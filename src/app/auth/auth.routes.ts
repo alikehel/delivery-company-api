@@ -11,6 +11,18 @@ router.route("/auth/signin").post(
     /*
         #swagger.tags = ['Auth Routes']
 
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/UserSigninSchema" },
+                    examples: {
+                        UserSigninExample: { $ref: "#/components/examples/UserSigninExample" }
+                    }
+                }
+            }
+        }
+
         #swagger.responses[201-1] = {
             description: 'User Signined Successfully',
             schema: {
@@ -42,57 +54,8 @@ router.route("/auth/signin").post(
                 message: 'Cant signin the user'
             }
         }
-
-        #swagger.requestBody = {
-            required: true,
-            content: {
-                "application/json": {
-                    schema: { $ref: "#/components/schemas/UserSigninSchema" },
-                }
-            }
-        }
     */
 );
-
-// router.route("/auth/signup").post(
-//     signup
-//     /*
-//         #swagger.tags = ['Auth Routes']
-
-//         #swagger.responses[201-1] = {
-//             description: 'User Registered Successfully',
-//             schema: {
-//                 status: "success",
-//                 token: 'token'
-//             }
-//         }
-
-//         #swagger.responses[400-1] = {
-//             schema: {
-//                 status: "fail",
-//                 message: 'You need to register using the organization email'
-//             },
-//             description: 'You need to register using the organization email'
-//         }
-
-//         #swagger.responses[500-1] = {
-//             description: 'Cant signup the user',
-//             schema: {
-//                 status: "error",
-//                 message: 'Cant signup the user'
-//             }
-//         }
-
-//         #swagger.requestBody = {
-//             required: true,
-//             content: {
-//                 "application/json": {
-//                     schema: { $ref: "#/components/schemas/UserSignUpSchema" },
-//                 }
-//             }
-//         }
-//     */
-// );
 
 router.route("/auth/validate-token").post(
     isLoggedIn,

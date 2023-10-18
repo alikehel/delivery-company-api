@@ -51,50 +51,10 @@ router.route("/users").post(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "properties": {
-                            username: {
-                                type: "string",
-                                example: "username",
-                            },
-                            name: {
-                                type: "string",
-                                example: "User Name",
-                            },
-                            password: {
-                                type: "string",
-                                example: "password",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "0123456789",
-                            },
-                            salary: {
-                                type: "number",
-                                example: 1000,
-                            },
-                            repositoryID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            },
-                            role: {
-                                type: "string",
-                                example: "SUPER_ADMIN",
-                            },
-                            permissions: {
-                                type: "array",
-                                items: {
-                                    type: "string",
-                                    example: "CREATE_USER",
-                                },
-                            },
-                        },
-                    },
-                    "additionalProperties": false
+                    schema: { $ref: "#/components/schemas/UserCreateSchema" },
+                    examples: {
+                        UserCreateExample: { $ref: "#/components/examples/UserCreateExample" }
+                    }
                 }
             }
         }
@@ -222,50 +182,9 @@ router.route("/users/:userID").patch(
             required: true,
             content: {
                 "application/json": {
-                    "schema": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                            username: {
-                                type: "string",
-                                example: "username",
-                            },
-                            name: {
-                                type: "string",
-                                example: "User Name",
-                            },
-                            password: {
-                                type: "string",
-                                example: "password",
-                            },
-                            phone: {
-                                type: "string",
-                                example: "0123456789",
-                            },
-                            salary: {
-                                type: "number",
-                                example: 1000,
-                            },
-                            repositoryID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            },
-                            branchID: {
-                                type: "string",
-                                example: "53rf34f345",
-                            },
-                            role: {
-                                type: "string",
-                                example: "SUPER_ADMIN",
-                            },
-                            permissions: {
-                                type: "array",
-                                items: {
-                                    type: "string",
-                                    example: "CREATE_USER",
-                                },
-                            },
-                        }
+                    schema: { $ref: "#/components/schemas/UserUpdateSchema" },
+                    examples: {
+                        UserUpdateExample: { $ref: "#/components/examples/UserUpdateExample" }
                     }
                 }
             }
