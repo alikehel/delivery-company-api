@@ -1,6 +1,7 @@
 import { PrismaClient, Role } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../config/config";
+// import Logger from "../lib/logger";
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -36,6 +37,7 @@ async function main() {
     // });
 
     console.log({ superAdmin });
+    // Logger.info({ superAdmin });
 }
 
 // execute the main function

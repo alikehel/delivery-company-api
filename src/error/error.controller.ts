@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
+import Logger from "../lib/logger";
 import AppError from "../utils/AppError.util";
 
 const handlePrismaConstraintError = (
@@ -53,7 +54,7 @@ const sendErrorProd = (err: AppError, res: Response) => {
         // Programming or other unknown error: don't leak error details
     } else {
         // 1) Log error
-        console.error("ERROR 💥", err);
+        // console.error("ERROR 💥", err);
 
         // 2) Send generic message
         res.status(500).json({
@@ -71,7 +72,7 @@ export default (
     _next: NextFunction
 ) => {
     // console.log(err.stack);
-    console.log(err);
+    // console.log(err);
 
     err.statusCode = err.statusCode || 500;
     err.status = err.status || "error";
@@ -80,7 +81,7 @@ export default (
         sendErrorDev(err, res);
     } else if (process.env.NODE_ENV === "prod") {
         let error = { ...err };
-        console.log(error);
+        // console.log(error);
 
         if (error.name === "JsonWebTokenError") {
             error = handleJWTError(error);
@@ -99,7 +100,7 @@ export default (
                 error as unknown as Prisma.PrismaClientKnownRequestError
             );
         } else if (error.code && error.code.startsWith("P")) {
-            console.log(error);
+            // console.log(error);
             error = new AppError(
                 `Something probably went wrong with the database [code: ${error.code}]`,
                 500
@@ -108,4 +109,6 @@ export default (
 
         sendErrorProd(error, res);
     }
+
+    Logger.error(err);
 };

@@ -3,12 +3,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
-import morgan from "morgan";
+// import morgan from "morgan";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
 // import { NODE_ENV } from "./config/config";
 import globalErrorcontroller from "./error/error.controller";
+// import Logger from "./lib/logger";
+import morganMiddleware from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
 import AppError from "./utils/AppError.util";
@@ -87,35 +89,7 @@ app.use(
 //     }
 // );
 
-// MORGAN
-
-app.use(morgan("short"));
-
-// // Define a custom logging format that includes errors
-// const logFormat =
-//     ":method :url :status :res[content-length] - :response-time ms";
-// const errorLogFormat =
-//     ":method :url :status :res[content-length] - :response-time ms :error-message";
-
-// // Log all requests with the custom format
-// app.use(morgan(logFormat));
-
-// // // Error handling middleware to log errors
-// // app.use((err, req, res, next) => {
-// //     // Add the error message to the request object
-// //     req["error-message"] = err.message;
-// //     next(err);
-// // });
-
-// // Log errors with the custom error format
-// app.use(
-//     morgan(errorLogFormat, {
-//         skip: (req, res) => res.statusCode < 400 // Skip logging if status code < 400 (non-error responses)
-//     })
-// );
-
-// End MORGAN
-
+app.use(morganMiddleware);
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
@@ -134,7 +108,8 @@ app.route("/health").get((_req, res) => {
 });
 
 app.all("*", (req, _res, next) => {
-    console.log("err");
+    // #swagger.ignore = true
+    // Logger.error(`Can't find ${req.originalUrl} on this server!`);
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
