@@ -10,7 +10,10 @@ import swaggerUi from "swagger-ui-express";
 // import { NODE_ENV } from "./config/config";
 import globalErrorcontroller from "./error/error.controller";
 // import Logger from "./lib/logger";
-import morganMiddleware from "./middlewares/morgan.middleware";
+import {
+    morganMiddleware,
+    morganMiddlewareImmediate
+} from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
 import AppError from "./utils/AppError.util";
@@ -89,6 +92,7 @@ app.use(
 //     }
 // );
 
+app.use(morganMiddlewareImmediate);
 app.use(morganMiddleware);
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
