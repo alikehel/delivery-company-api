@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "start:dev": "nodemon ./src/index.ts",
-        "start": "npm run swagger-autogen && npx prisma migrate deploy && npm run build && node build/index.js",
-        "build": "npm run clean && npx tsc",
+        "start": "yarn run swagger-autogen && npx prisma migrate deploy && yarn run build && node build/index.js",
+        "build": "yarn run clean && npx tsc",
         "clean": "rimraf build/",
         "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
         "lint": "eslint . --ext .ts",
