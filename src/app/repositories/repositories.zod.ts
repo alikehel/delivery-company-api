@@ -3,8 +3,8 @@ import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
 export const RepositoryCreateSchema = z.object({
-    name: z.string(),
-    branchID: z.string()
+    name: z.string().min(3),
+    branchID: z.string().uuid()
     // tenantID: z.string(),
 });
 

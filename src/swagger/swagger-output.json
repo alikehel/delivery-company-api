@@ -4049,115 +4049,110 @@
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "aut",
-          "name": "Irving Smitham",
-          "password": "YUOensGVb9hT",
-          "phone": "tum",
-          "salary": 6561149514416128,
-          "repositoryID": "volaticus",
-          "branchID": "cohors",
-          "role": "EMERGENCY_EMPLOYEE",
+          "username": "congregatio",
+          "name": "Sheldon Simonis",
+          "password": "Cwe1hxN1fzOhOm_",
+          "phone": "07878209055",
+          "salary": 8474977548369920,
+          "repositoryID": "f6303ea5-10b1-494a-843c-7e3140f28903",
+          "branchID": "223b87f4-1e25-45e2-abf3-ff55b83cfea8",
+          "role": "DELIVERY_AGENT",
           "permissions": [
-            "DELETE_DRIVER_REPORTS",
-            "ADD_ORDER"
+            "EDIT_ORDER_TOTAL_AMOUNT"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "tergo",
-          "password": "bxtVqiWdOeP2"
+          "username": "quidem",
+          "password": "TVvFcFglndyEdjQ"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Vivian Gutkowski IV",
-          "branchID": "depromo"
+          "name": "Kelvin McKenzie-Kuhic I",
+          "branchID": "0b8263be-39f7-4c22-bc35-607236b05cc2"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "nesciunt",
-          "name": "Lorena Sawayn",
-          "password": "dXHGDmGgjBTn",
-          "phone": "eum",
-          "salary": 6832298496360448,
-          "repositoryID": "solus",
-          "branchID": "venia",
+          "username": "clarus",
+          "name": "Mrs. Sherry Bahringer",
+          "password": "vxCHS_TLVooOLyw",
+          "phone": "07346054402",
+          "salary": 1915235006939136,
+          "repositoryID": "24d9314f-04eb-4d30-abb0-e183766fb899",
+          "branchID": "bb80dd20-1741-46c3-b5b4-44ba9eb2661c",
           "role": "INQUIRY_EMPLOYEE",
           "permissions": [
-            "CHANGE_CLOSED_ORDER_STATUS",
-            "ADD_CLIENT",
-            "DELETE_REPORTS",
-            "ADD_PAGE",
-            "DELETE_COMPANY_REPORTS"
+            "DELETE_DRIVER_REPORTS",
+            "DELETE_REPORTS"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Krystal Corwin III",
-          "branchID": "bardus"
+          "name": "Connie Lowe MD",
+          "branchID": "dbcb7dad-433e-4900-bed9-8f84aaf7470e"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Joy Cole",
-          "governorate": "SALAH_AL_DIN",
-          "branchID": "ascit",
+          "name": "Walter Mayert",
+          "governorate": "MAYSAN",
+          "branchID": "5b85d87f-e654-4120-8949-983b41b7e146",
           "deliveryAgentsIDs": [
-            "atqui",
-            "trans"
+            "de951981-f7d7-4358-829f-3ad9a7a9296c",
+            "bbccc1e2-f5c0-4eba-b4f2-08ec4ef879a7"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Gina Stanton",
-          "governorate": "SALAH_AL_DIN",
-          "branchID": "rerum",
+          "name": "Miss Juana Smith I",
+          "governorate": "BASRA",
+          "branchID": "2fadb220-546c-4d9a-8429-a6b25b27c014",
           "deliveryAgentsIDs": [
-            "delicate",
-            "nihil",
-            "alter",
-            "suus"
+            "c3301874-6193-474c-a62b-559d6a475bac",
+            "b87bde99-a619-4491-a6aa-408a01c84b75",
+            "b67016c2-71e3-4dcd-a50b-350f605e8d81"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Dominic Koch",
-          "phone": "ambitus",
-          "accountType": "CLIENT",
-          "token": "temporibus",
-          "password": "pJe0uFqtUQu0Yvy",
-          "branchID": "vester"
+          "name": "Stacy Jacobs",
+          "phone": "07852395505",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "spoliatio",
+          "password": "0ZhSc246YgYPIHK",
+          "branchID": "2d3f102f-e490-478a-bef9-891e086994f0"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Oliver Walsh",
-          "phone": "aiunt",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "deprimo",
-          "password": "IOR6npvqOL7Bgyu",
-          "branchID": "arbustum"
+          "name": "Ms. Arlene Ryan",
+          "phone": "07865258996",
+          "accountType": "CLIENT",
+          "token": "termes",
+          "password": "oFzPaskEqmYODIP",
+          "branchID": "7d17d9fb-c6fb-45a8-89ac-d8d7937a6696"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Eddie Rau MD",
-          "email": "Silas.Borer92@example.net",
-          "phone": "degusto",
-          "governorate": "SULAYMANIYAH"
+          "name": "Alejandro Dach Jr.",
+          "email": "Anjali78@example.org",
+          "phone": "07429545281",
+          "governorate": "NAJAF"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Doreen Daugherty",
-          "email": "Davin_Rogahn79@example.org",
-          "phone": "pecco",
-          "governorate": "BASRA"
+          "name": "Florence Baumbach",
+          "email": "Barney_Beier52@example.net",
+          "phone": "07927051586",
+          "governorate": "DHI_QAR"
         }
       }
     },
@@ -4166,27 +4161,32 @@
         "type": "object",
         "properties": {
           "username": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "password": {
             "type": "string",
-            "minLength": 8,
-            "maxLength": 12
+            "minLength": 6
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "salary": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "repositoryID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "role": {
             "type": "string",
@@ -4248,9 +4248,7 @@
             "type": "string"
           },
           "password": {
-            "type": "string",
-            "minLength": 6,
-            "maxLength": 12
+            "type": "string"
           }
         },
         "required": [
@@ -4262,10 +4260,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           }
         },
         "required": [
@@ -4277,27 +4277,32 @@
         "type": "object",
         "properties": {
           "username": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "password": {
             "type": "string",
-            "minLength": 8,
-            "maxLength": 12
+            "minLength": 6
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "salary": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "repositoryID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "role": {
             "type": "string",
@@ -4345,10 +4350,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -4356,7 +4363,8 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "governorate": {
             "type": "string",
@@ -4382,12 +4390,14 @@
             ]
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "deliveryAgentsIDs": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         },
@@ -4402,7 +4412,8 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "governorate": {
             "type": "string",
@@ -4428,12 +4439,14 @@
             ]
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "deliveryAgentsIDs": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         }
@@ -4442,10 +4455,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "accountType": {
             "type": "string",
@@ -4458,10 +4473,12 @@
             "type": "string"
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "minLength": 6
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           }
         },
         "required": [
@@ -4476,10 +4493,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "accountType": {
             "type": "string",
@@ -4492,10 +4511,12 @@
             "type": "string"
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "minLength": 6
           },
           "branchID": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -4503,13 +4524,16 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "format": "email"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "governorate": {
             "type": "string",
@@ -4546,13 +4570,16 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 3
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "format": "email"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "governorate": {
             "type": "string",

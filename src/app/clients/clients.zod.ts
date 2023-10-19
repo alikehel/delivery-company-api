@@ -4,12 +4,12 @@ import { AccountType } from "@prisma/client";
 import { z } from "zod";
 
 export const ClientCreateSchema = z.object({
-    name: z.string(),
-    phone: z.string(),
+    name: z.string().min(3),
+    phone: z.string().regex(/^07[3-9][0-9]{8}$/),
     accountType: z.nativeEnum(AccountType),
     token: z.string().optional(),
-    password: z.string(),
-    branchID: z.string()
+    password: z.string().min(6),
+    branchID: z.string().uuid()
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;

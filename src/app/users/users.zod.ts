@@ -4,16 +4,13 @@ import { Permission, Role } from "@prisma/client";
 import { z } from "zod";
 
 export const UserCreateSchema = z.object({
-    username: z.string({ required_error: "Username is required" }),
-    name: z.string({ required_error: "Name is required" }),
-    password: z
-        .string({ required_error: "Password is required" })
-        .min(8, { message: "Password length is less than 6 characters" })
-        .max(12, { message: "Password length is more than 12 characters" }),
-    phone: z.string({ required_error: "Phone is required" }),
-    salary: z.number({ required_error: "Salary is required" }),
-    repositoryID: z.string({ required_error: "Repository is required" }),
-    branchID: z.string({ required_error: "Branch is required" }),
+    username: z.string().min(3),
+    name: z.string().min(3),
+    password: z.string().min(6),
+    phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+    salary: z.number().min(0),
+    repositoryID: z.string().uuid(),
+    branchID: z.string().uuid(),
     role: z.nativeEnum(Role),
     permissions: z.array(z.nativeEnum(Permission))
 });

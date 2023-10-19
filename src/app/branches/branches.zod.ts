@@ -4,9 +4,9 @@ import { Governorate } from "@prisma/client";
 import { z } from "zod";
 
 export const BranchCreateSchema = z.object({
-    name: z.string(),
-    email: z.string(),
-    phone: z.string(),
+    name: z.string().min(3),
+    email: z.string().email(),
+    phone: z.string().regex(/^07[3-9][0-9]{8}$/),
     governorate: z.nativeEnum(Governorate)
 });
 
