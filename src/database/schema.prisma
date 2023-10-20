@@ -100,6 +100,43 @@ enum AccountType {
   CLIENT_ASSISTANT
 }
 
+// const orderStatus = [
+//   "تم تسجيل الطلب",
+//   "جاهز للارسال",
+//   "بالطريق مع المندوب",
+//   "تم تسليم الطلب",
+//   "استبدال الطلب",
+//   "راجع جزئى",
+//   "راجع كلي",
+//   "مؤجل",
+//   "تغيير العنوان",
+//   "اعاده الارسال",
+//   "عند مندوب الاستلام",
+//   "قيد المعالجه",
+// ];
+
+enum OrderStatus {
+  REGISTERED
+  READY_TO_SEND
+  WITH_DELIVERY_AGENT
+  DELIVERED
+  REPLACED
+  PARTIALLY_RETURNED
+  RETURNED
+  POSTPONED
+  CHANGE_ADDRESS
+  RESEND
+  WITH_RECEIVING_AGENT
+  PROCESSING
+}
+
+// const deliveryTypes = ["توصيل عادي", "استبدال"];
+
+enum DeliveryType {
+  NORMAL
+  REPLACEMENT
+}
+
 model User {
   id           String   @id @default(uuid())
   username     String   @unique
@@ -120,6 +157,7 @@ model User {
   permissions Permission[]
   Client      Client[]
   Location    Location[]
+  Order       Order[]
 }
 
 model Client {
@@ -137,6 +175,7 @@ model Client {
 
   branch    Branch? @relation(fields: [branchId], references: [id])
   createdBy User    @relation(fields: [userId], references: [id])
+  Order     Order[]
 }
 
 model Branch {
@@ -196,9 +235,31 @@ model Tenant {
   updatedAt                               DateTime @updatedAt
 }
 
-// model Order {
-//   id String @id @default(uuid())
-// }
+model Order {
+  id               String       @id @default(uuid())
+  totalCost        Decimal      @default(0)
+  paidAmount       Decimal      @default(0)
+  totalCostInUSD   Decimal      @default(0)
+  paidAmountInUSD  Decimal      @default(0)
+  discount         Decimal      @default(0)
+  receiptNumber    Int          @default(0)
+  quantity         Int          @default(0)
+  weight           Float        @default(0)
+  recipientName    String
+  recipientPhone   String
+  recipientAddress String
+  details          String
+  notes            String
+  status           OrderStatus
+  deliveryType     DeliveryType
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  client           Client       @relation(fields: [clientId], references: [id])
+  deliveryAgent    User?        @relation(fields: [userId], references: [id])
+  deliveryDate     DateTime?
+  clientId         String
+  userId           String?
+}
 
 // model Product {
 //   id        String   @id @default(uuid())
@@ -225,21 +286,5 @@ model Tenant {
 //   id String @id @default(uuid())
 // }
 
-// model Government {
-//   id        String   @id @default(uuid())
-//   name      String   @unique
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   // tenantId String
-
-//   // tenant   Tenant @relation(fields: [tenantId], references: [id])
-//   // Branch Branch[]
-//   // Location Location[]
-// }
-
 // model Category {
 //   id String @id @default(uuid())
-
-//   Product Product[]
-// }

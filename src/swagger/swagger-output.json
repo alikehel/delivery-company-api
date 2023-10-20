@@ -1,20 +1,33 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
     "version": "1.0.0",
     "title": "Al Barq API",
     "description": ""
   },
-  "servers": [
-    {
-      "url": "http://localhost:3000/api/"
-    }
-  ],
+  "host": "localhost:3000",
+  "basePath": "/API/",
   "tags": [
     {
       "name": "Auth Routes",
       "description": "Signin & Signup Routes"
     }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/api/auth/signin": {
@@ -26,165 +39,77 @@
         "responses": {
           "201-1": {
             "description": "User Signined Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "token": {
-                      "type": "string",
-                      "example": "token"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "token"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "token": {
-                      "type": "string",
-                      "example": "token"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "Password is not correct",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Password is not correct"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Password is not correct"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Password is not correct"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": "Password is not correct"
           },
           "400-2": {
-            "description": "User not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User not found"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User not found"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User not found"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": "User not found"
           },
           "500-1": {
             "description": "Cant signin the user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant signin the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant signin the user"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant signin the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -216,9 +141,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -230,110 +153,52 @@
           },
           "200-1": {
             "description": "Token is valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "valid"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "valid"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "valid"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "401-1": {
-            "description": "Token is invalid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "invalid token"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "invalid token"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "invalid token"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": "Token is invalid"
           },
           "401-2": {
-            "description": "Please Log In!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Please Log In!"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Please Log In!"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Please Log In!"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": "Please Log In!"
           }
         },
         "security": [
@@ -353,9 +218,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -364,208 +227,100 @@
           },
           "201-1": {
             "description": "User created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "username"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "0123456789"
+                    },
+                    "salary": {
+                      "type": "number",
+                      "example": 1000
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "SUPER_ADMIN"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "example": [
+                        "CREATE_USER"
+                      ],
+                      "items": {
+                        "type": "string"
                       }
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "example": "Repository data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": ""
           },
           "500-1": {
             "description": "Cant create the user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the user"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -595,18 +350,14 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "page",
             "in": "query",
             "description": "Page Number",
             "required": false,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -615,173 +366,84 @@
           },
           "200-1": {
             "description": "Got all users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "User Name"
-                          },
-                          "username": {
-                            "type": "string",
-                            "example": "username"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "0123456789"
-                          },
-                          "salary": {
-                            "type": "number",
-                            "example": 1000
-                          },
-                          "role": {
-                            "type": "string",
-                            "example": "SUPER_ADMIN"
-                          },
-                          "permissions": {
-                            "type": "array",
-                            "example": [
-                              "CREATE_USER"
-                            ],
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "Branch data object"
-                          },
-                          "repository": {
-                            "type": "string",
-                            "example": "Repository data object"
-                          }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "User Name"
+                      },
+                      "username": {
+                        "type": "string",
+                        "example": "username"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "0123456789"
+                      },
+                      "salary": {
+                        "type": "number",
+                        "example": 1000
+                      },
+                      "role": {
+                        "type": "string",
+                        "example": "SUPER_ADMIN"
+                      },
+                      "permissions": {
+                        "type": "array",
+                        "example": [
+                          "CREATE_USER"
+                        ],
+                        "items": {
+                          "type": "string"
                         }
+                      },
+                      "branch": {
+                        "type": "string",
+                        "example": "Branch data object"
+                      },
+                      "repository": {
+                        "type": "string",
+                        "example": "Repository data object"
                       }
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "User Name"
-                          },
-                          "username": {
-                            "type": "string",
-                            "example": "username"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "0123456789"
-                          },
-                          "salary": {
-                            "type": "number",
-                            "example": 1000
-                          },
-                          "role": {
-                            "type": "string",
-                            "example": "SUPER_ADMIN"
-                          },
-                          "permissions": {
-                            "type": "array",
-                            "example": [
-                              "CREATE_USER"
-                            ],
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "Branch data object"
-                          },
-                          "repository": {
-                            "type": "string",
-                            "example": "Repository data object"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant get the users data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the users data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the users data"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the users data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -799,16 +461,12 @@
             "name": "userID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -817,126 +475,62 @@
           },
           "200-1": {
             "description": "Got the user data",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "username"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "0123456789"
+                    },
+                    "salary": {
+                      "type": "number",
+                      "example": 1000
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "SUPER_ADMIN"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "example": [
+                        "CREATE_USER"
+                      ],
+                      "items": {
+                        "type": "string"
                       }
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "example": "Repository data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -952,16 +546,12 @@
             "name": "userID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -970,126 +560,62 @@
           },
           "201-1": {
             "description": "User updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "username"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "0123456789"
+                    },
+                    "salary": {
+                      "type": "number",
+                      "example": 1000
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "SUPER_ADMIN"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "example": [
+                        "CREATE_USER"
+                      ],
+                      "items": {
+                        "type": "string"
                       }
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "example": "Repository data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "username": {
-                          "type": "string",
-                          "example": "username"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "0123456789"
-                        },
-                        "salary": {
-                          "type": "number",
-                          "example": 1000
-                        },
-                        "role": {
-                          "type": "string",
-                          "example": "SUPER_ADMIN"
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "example": [
-                            "CREATE_USER"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        },
-                        "repository": {
-                          "type": "string",
-                          "example": "Repository data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1120,16 +646,12 @@
             "name": "userID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1141,83 +663,39 @@
           },
           "200-1": {
             "description": "User deleted Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User deleted successfully"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant delete the user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the user"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the user"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1234,9 +712,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1245,150 +721,71 @@
           },
           "201-1": {
             "description": "Repository created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Repository Name"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": ""
           },
           "500-1": {
             "description": "Cant create the repository",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the repository"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the repository"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the repository"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1418,18 +815,14 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "page",
             "in": "query",
             "description": "Page Number",
             "required": false,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1438,115 +831,55 @@
           },
           "200-1": {
             "description": "Got all repositories",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Repository Name"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "Branch data object"
-                          }
-                        }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Repository Name"
+                      },
+                      "branch": {
+                        "type": "string",
+                        "example": "Branch data object"
                       }
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Repository Name"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "Branch data object"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant get the repositories data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the repositories data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the repositories data"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the repositories data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1564,16 +897,12 @@
             "name": "repositoryID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1582,68 +911,33 @@
           },
           "200-1": {
             "description": "Got the repository data",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Repository Name"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1659,16 +953,12 @@
             "name": "repositoryID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1677,68 +967,33 @@
           },
           "201-1": {
             "description": "Repository updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Repository Name"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "Branch data object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Repository Name"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "Branch data object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1769,16 +1024,12 @@
             "name": "repositoryID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1790,83 +1041,39 @@
           },
           "200-1": {
             "description": "Repository deleted Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Repository deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Repository deleted successfully"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Repository deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant delete the repository",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the repository"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the repository"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the repository"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -1883,9 +1090,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -1894,174 +1099,83 @@
           },
           "201-1": {
             "description": "Client created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "true"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "true"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": ""
           },
           "500-1": {
             "description": "Cant create the client",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the client"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the client"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the client"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2091,18 +1205,14 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "page",
             "in": "query",
             "description": "Page Number",
             "required": false,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2111,139 +1221,67 @@
           },
           "200-1": {
             "description": "Got all clients",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "accountType": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "createdBy": {
-                            "type": "string",
-                            "example": "true"
-                          }
-                        }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "accountType": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "branch": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "example": "true"
                       }
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "accountType": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "true"
-                          },
-                          "createdBy": {
-                            "type": "string",
-                            "example": "true"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant get the clients data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the clients data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the clients data"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the clients data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2261,16 +1299,12 @@
             "name": "clientID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2279,92 +1313,45 @@
           },
           "200-1": {
             "description": "Got the client data",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "true"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "true"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2380,16 +1367,12 @@
             "name": "clientID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2398,92 +1381,45 @@
           },
           "201-1": {
             "description": "Client updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "true"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "true"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "accountType": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "true"
-                        },
-                        "createdBy": {
-                          "type": "string",
-                          "example": "true"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2514,16 +1450,12 @@
             "name": "clientID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2535,83 +1467,39 @@
           },
           "200-1": {
             "description": "Client deleted Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Client deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Client deleted successfully"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Client deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant delete the client",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the client"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the client"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the client"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2628,9 +1516,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2639,166 +1525,79 @@
           },
           "201-1": {
             "description": "Branch created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Branch Name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "Branch email"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "Branch phone number"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "AlBasra"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": ""
           },
           "500-1": {
             "description": "Cant create the branch",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the branch"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the branch"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the branch"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2828,18 +1627,14 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "page",
             "in": "query",
             "description": "Page Number",
             "required": false,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -2848,131 +1643,63 @@
           },
           "200-1": {
             "description": "Got all branches",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Branch Name"
-                          },
-                          "email": {
-                            "type": "string",
-                            "example": "Branch email"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "Branch phone number"
-                          },
-                          "governorate": {
-                            "type": "string",
-                            "example": "AlBasra"
-                          }
-                        }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Branch Name"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "Branch email"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "Branch phone number"
+                      },
+                      "governorate": {
+                        "type": "string",
+                        "example": "AlBasra"
                       }
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Branch Name"
-                          },
-                          "email": {
-                            "type": "string",
-                            "example": "Branch email"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "Branch phone number"
-                          },
-                          "governorate": {
-                            "type": "string",
-                            "example": "AlBasra"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant get the branches data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the branches data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the branches data"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the branches data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -2990,16 +1717,12 @@
             "name": "branchID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3008,84 +1731,41 @@
           },
           "200-1": {
             "description": "Got the branch data",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Branch Name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "Branch email"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "Branch phone number"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "AlBasra"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3101,16 +1781,12 @@
             "name": "branchID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3119,84 +1795,41 @@
           },
           "201-1": {
             "description": "Branch updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "Branch Name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "Branch email"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "Branch phone number"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "AlBasra"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Branch Name"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "Branch email"
-                        },
-                        "phone": {
-                          "type": "string",
-                          "example": "Branch phone number"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "AlBasra"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3227,16 +1860,12 @@
             "name": "branchID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3248,83 +1877,39 @@
           },
           "200-1": {
             "description": "Branch deleted Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Branch deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Branch deleted successfully"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Branch deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant delete the branch",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the branch"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the branch"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the branch"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3341,9 +1926,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3352,166 +1935,79 @@
           },
           "201-1": {
             "description": "Location created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "name"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "governorate"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "branch object"
+                    },
+                    "deliveryAgents": {
+                      "type": "string",
+                      "example": "deliveryAgents object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "400-1": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "fail"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": ""
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
-            }
+            },
+            "description": ""
           },
           "500-1": {
             "description": "Cant create the location",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the location"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the location"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant create the location"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3541,18 +2037,14 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "page",
             "in": "query",
             "description": "Page Number",
             "required": false,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3561,131 +2053,63 @@
           },
           "200-1": {
             "description": "Got all locations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "name"
-                          },
-                          "governorate": {
-                            "type": "string",
-                            "example": "governorate"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "branch object"
-                          },
-                          "deliveryAgents": {
-                            "type": "string",
-                            "example": "deliveryAgents object"
-                          }
-                        }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "name"
+                      },
+                      "governorate": {
+                        "type": "string",
+                        "example": "governorate"
+                      },
+                      "branch": {
+                        "type": "string",
+                        "example": "branch object"
+                      },
+                      "deliveryAgents": {
+                        "type": "string",
+                        "example": "deliveryAgents object"
                       }
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "name"
-                          },
-                          "governorate": {
-                            "type": "string",
-                            "example": "governorate"
-                          },
-                          "branch": {
-                            "type": "string",
-                            "example": "branch object"
-                          },
-                          "deliveryAgents": {
-                            "type": "string",
-                            "example": "deliveryAgents object"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant get the locations data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the locations data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the locations data"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant get the locations data"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3703,16 +2127,12 @@
             "name": "locationID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3721,84 +2141,41 @@
           },
           "200-1": {
             "description": "Got the location data",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "name"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "governorate"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "branch object"
+                    },
+                    "deliveryAgents": {
+                      "type": "string",
+                      "example": "deliveryAgents object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3814,16 +2191,12 @@
             "name": "locationID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3832,84 +2205,41 @@
           },
           "201-1": {
             "description": "Location updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
                   "type": "object",
                   "properties": {
-                    "status": {
+                    "id": {
                       "type": "string",
-                      "example": "success"
+                      "example": "1"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "name"
+                    },
+                    "governorate": {
+                      "type": "string",
+                      "example": "governorate"
+                    },
+                    "branch": {
+                      "type": "string",
+                      "example": "branch object"
+                    },
+                    "deliveryAgents": {
+                      "type": "string",
+                      "example": "deliveryAgents object"
                     }
-                  },
-                  "xml": {
-                    "name": "main"
                   }
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "example": "1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "governorate": {
-                          "type": "string",
-                          "example": "governorate"
-                        },
-                        "branch": {
-                          "type": "string",
-                          "example": "branch object"
-                        },
-                        "deliveryAgents": {
-                          "type": "string",
-                          "example": "deliveryAgents object"
-                        }
-                      }
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -3940,16 +2270,12 @@
             "name": "locationID",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -3961,83 +2287,39 @@
           },
           "200-1": {
             "description": "Location deleted Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Location deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Location deleted successfully"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Location deleted successfully"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           },
           "500-1": {
             "description": "Cant delete the location",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the location"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the location"
                 }
               },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Cant delete the location"
-                    }
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
-                }
+              "xml": {
+                "name": "main"
               }
             }
           }
@@ -4049,114 +2331,191 @@
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "congregatio",
-          "name": "Sheldon Simonis",
-          "password": "Cwe1hxN1fzOhOm_",
-          "phone": "07878209055",
-          "salary": 8474977548369920,
-          "repositoryID": "f6303ea5-10b1-494a-843c-7e3140f28903",
-          "branchID": "223b87f4-1e25-45e2-abf3-ff55b83cfea8",
-          "role": "DELIVERY_AGENT",
+          "username": "unde",
+          "name": "Clint Mertz",
+          "password": "H308W3ULMeCMpLg",
+          "phone": "07933737676",
+          "salary": 3741324446531584,
+          "repositoryID": "f358b32a-d5bb-4c2c-917c-87aba068084e",
+          "branchID": "8ca84ba7-ff89-47da-a52b-712b26488322",
+          "role": "RECEIVING_AGENT",
           "permissions": [
-            "EDIT_ORDER_TOTAL_AMOUNT"
+            "ADD_PAGE",
+            "ADD_ORDER_TO_DELIVERY_AGENT"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "quidem",
-          "password": "TVvFcFglndyEdjQ"
+          "username": "vesper",
+          "password": "9sJFVMhIdNolGtN"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Kelvin McKenzie-Kuhic I",
-          "branchID": "0b8263be-39f7-4c22-bc35-607236b05cc2"
+          "name": "Naomi Buckridge",
+          "branchID": "b41df29d-1f50-4957-afd2-4d810dfb38e4"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "clarus",
-          "name": "Mrs. Sherry Bahringer",
-          "password": "vxCHS_TLVooOLyw",
-          "phone": "07346054402",
-          "salary": 1915235006939136,
-          "repositoryID": "24d9314f-04eb-4d30-abb0-e183766fb899",
-          "branchID": "bb80dd20-1741-46c3-b5b4-44ba9eb2661c",
-          "role": "INQUIRY_EMPLOYEE",
+          "username": "calcar",
+          "name": "Woodrow Balistreri-Cormier PhD",
+          "password": "3yOg1NRwa8wpl7D",
+          "phone": "07461624626",
+          "salary": 7073442830483456,
+          "repositoryID": "e5b5872f-1575-40d0-999d-47733f978430",
+          "branchID": "71316e90-fd29-444f-a933-2627f76430b2",
+          "role": "RECEIVING_AGENT",
           "permissions": [
-            "DELETE_DRIVER_REPORTS",
-            "DELETE_REPORTS"
+            "DELETE_ORDERS"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Connie Lowe MD",
-          "branchID": "dbcb7dad-433e-4900-bed9-8f84aaf7470e"
+          "name": "Frank Kuhic",
+          "branchID": "70a5cd0e-5883-48e0-b76b-d68aa8d6a910"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Walter Mayert",
-          "governorate": "MAYSAN",
-          "branchID": "5b85d87f-e654-4120-8949-983b41b7e146",
+          "name": "Mark Dibbert",
+          "governorate": "NINAWA",
+          "branchID": "aea4a8d5-e8c8-463e-bc77-b99217f6743a",
           "deliveryAgentsIDs": [
-            "de951981-f7d7-4358-829f-3ad9a7a9296c",
-            "bbccc1e2-f5c0-4eba-b4f2-08ec4ef879a7"
+            "63359b5f-70fd-45b2-9bda-31aafdb612da",
+            "90098b84-aa6d-4fc5-9266-cf86a36cbb7e",
+            "6ca8cd78-db1f-4c18-af7a-c5d109c96610",
+            "31b8ab9f-8b17-4e74-97ae-4ff49111c30d"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Miss Juana Smith I",
-          "governorate": "BASRA",
-          "branchID": "2fadb220-546c-4d9a-8429-a6b25b27c014",
+          "name": "Darrin Fisher",
+          "governorate": "KIRKUK",
+          "branchID": "53007da7-40c7-4bbb-a71a-87c4aeda39ad",
           "deliveryAgentsIDs": [
-            "c3301874-6193-474c-a62b-559d6a475bac",
-            "b87bde99-a619-4491-a6aa-408a01c84b75",
-            "b67016c2-71e3-4dcd-a50b-350f605e8d81"
+            "0a2781b3-3ad8-4778-a344-6953f709fce6",
+            "45d43804-83e8-4d15-8cb9-b6ba2184a328"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Stacy Jacobs",
-          "phone": "07852395505",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "spoliatio",
-          "password": "0ZhSc246YgYPIHK",
-          "branchID": "2d3f102f-e490-478a-bef9-891e086994f0"
+          "name": "Kelli Kub",
+          "phone": "07304500115",
+          "accountType": "CLIENT",
+          "token": "fuga",
+          "password": "Cm1dqYzp0hfEEq8",
+          "branchID": "fd521a1a-965f-4230-a3e3-ab8ca4ed099d"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Ms. Arlene Ryan",
-          "phone": "07865258996",
+          "name": "Leticia Waters",
+          "phone": "07460687755",
           "accountType": "CLIENT",
-          "token": "termes",
-          "password": "oFzPaskEqmYODIP",
-          "branchID": "7d17d9fb-c6fb-45a8-89ac-d8d7937a6696"
+          "token": "spero",
+          "password": "Z0gM4YuaKJb9zD9",
+          "branchID": "8177fb3d-b4a4-411e-9bbe-ea9596a0f264"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Alejandro Dach Jr.",
-          "email": "Anjali78@example.org",
-          "phone": "07429545281",
-          "governorate": "NAJAF"
+          "name": "Tyrone Halvorson Jr.",
+          "email": "Peggie.Parker77@example.com",
+          "phone": "07652080568",
+          "governorate": "AL_ANBAR"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Florence Baumbach",
-          "email": "Barney_Beier52@example.net",
-          "phone": "07927051586",
-          "governorate": "DHI_QAR"
+          "name": "Lindsey Huel",
+          "email": "Pauline_Kozey@example.org",
+          "phone": "07629966838",
+          "governorate": "DIYALA"
+        }
+      },
+      "TenantCreateExample": {
+        "value": {
+          "name": "Chester Frami DDS",
+          "phone": "07764022803",
+          "website": "https://unique-disclosure.net",
+          "logo": "https://taut-recall.biz",
+          "registrationText": "ater",
+          "governoratePrice": 653306256949248,
+          "deliveryAgentFee": 4873824459816960,
+          "baghdadPrice": 319802035929088,
+          "additionalPriceForEvery500000IraqiDinar": 5277569725235200,
+          "additionalPriceForEveryKilogram": 5828690963333120,
+          "additionalPriceForRemoteAreas": 4192896651624448,
+          "orderStatusAutomaticUpdate": true
+        }
+      },
+      "TenantUpdateExample": {
+        "value": {
+          "name": "Miss Grace Rowe",
+          "phone": "07781957132",
+          "website": "https://busy-departure.name/",
+          "logo": "https://soulful-custody.name/",
+          "registrationText": "tenuis",
+          "governoratePrice": 830159347253248,
+          "deliveryAgentFee": 844422640041984,
+          "baghdadPrice": 6824084386086912,
+          "additionalPriceForEvery500000IraqiDinar": 3029993990914048,
+          "additionalPriceForEveryKilogram": 5774657288404992,
+          "additionalPriceForRemoteAreas": 7327667600752640,
+          "orderStatusAutomaticUpdate": true
+        }
+      },
+      "OrderCreateExample": {
+        "value": {
+          "totalCost": 4586108354560000,
+          "paidAmount": 6169354712383488,
+          "totalCostInUSD": 5357523534086144,
+          "paidAmountInUSD": 4613446375047168,
+          "discount": 3720405881716736,
+          "receiptNumber": 981915465154560,
+          "quantity": 4330559757090816,
+          "weight": 4049842655461376,
+          "recipientName": "sollers",
+          "recipientPhone": "inventore",
+          "recipientAddress": "aiunt",
+          "details": "decumbo",
+          "notes": "distinctio",
+          "status": "READY_TO_SEND",
+          "deliveryType": "REPLACEMENT",
+          "clientID": "2c78e8de-d82d-4aa7-a744-a67cc6cd8edf",
+          "deliveryAgentID": "cf13162e-e367-45cc-92fa-f5201843d19b",
+          "deliveryDate": "2023-10-20T10:09:12.740Z"
+        }
+      },
+      "OrderUpdateExample": {
+        "value": {
+          "totalCost": 4553287646838784,
+          "paidAmount": 8819205629542400,
+          "totalCostInUSD": 277175083204608,
+          "paidAmountInUSD": 2135327036669952,
+          "discount": 3575183778512896,
+          "receiptNumber": 5634407968800768,
+          "quantity": 5478638696792064,
+          "weight": 5694436025565184,
+          "recipientName": "conculco",
+          "recipientPhone": "surculus",
+          "recipientAddress": "vomica",
+          "details": "administratio",
+          "notes": "praesentium",
+          "status": "REPLACED",
+          "deliveryType": "NORMAL",
+          "clientID": "6514f391-1a14-44ea-9fe6-ba2837c0a1c0",
+          "deliveryAgentID": "5d427c8e-74b0-4a3d-9220-88a3755a2989",
+          "deliveryDate": "2023-10-20T23:00:22.199Z"
         }
       }
     },
-    "schemas": {
+    "@schemas": {
       "UserCreateSchema": {
         "type": "object",
         "properties": {
@@ -4209,7 +2568,7 @@
             "items": {
               "type": "string",
               "enum": [
-                "ADD_ORDER_TO_DRIVER",
+                "ADD_ORDER_TO_DELIVERY_AGENT",
                 "ADD_PAGE",
                 "ADD_ORDER",
                 "ADD_CLIENT",
@@ -4224,7 +2583,7 @@
                 "DELETE_COMPANY_REPORTS",
                 "DELETE_REPOSITORIES_REPORTS",
                 "DELETE_GOVERNMENT_REPORTS",
-                "DELETE_DRIVER_REPORTS"
+                "DELETE_DELIVERY_AGENT_REPORTS"
               ]
             }
           }
@@ -4325,7 +2684,7 @@
             "items": {
               "type": "string",
               "enum": [
-                "ADD_ORDER_TO_DRIVER",
+                "ADD_ORDER_TO_DELIVERY_AGENT",
                 "ADD_PAGE",
                 "ADD_ORDER",
                 "ADD_CLIENT",
@@ -4340,7 +2699,7 @@
                 "DELETE_COMPANY_REPORTS",
                 "DELETE_REPOSITORIES_REPORTS",
                 "DELETE_GOVERNMENT_REPORTS",
-                "DELETE_DRIVER_REPORTS"
+                "DELETE_DELIVERY_AGENT_REPORTS"
               ]
             }
           }
@@ -4605,13 +2964,297 @@
             ]
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "TenantCreateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
+          },
+          "website": {
+            "type": "string",
+            "format": "uri"
+          },
+          "logo": {
+            "type": "string",
+            "format": "uri"
+          },
+          "registrationText": {
+            "type": "string"
+          },
+          "governoratePrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "deliveryAgentFee": {
+            "type": "number",
+            "minimum": 0
+          },
+          "baghdadPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForEvery500000IraqiDinar": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForEveryKilogram": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForRemoteAreas": {
+            "type": "number",
+            "minimum": 0
+          },
+          "orderStatusAutomaticUpdate": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "governoratePrice",
+          "deliveryAgentFee",
+          "baghdadPrice",
+          "additionalPriceForEvery500000IraqiDinar",
+          "additionalPriceForEveryKilogram",
+          "additionalPriceForRemoteAreas"
+        ]
+      },
+      "TenantUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
+          },
+          "website": {
+            "type": "string",
+            "format": "uri"
+          },
+          "logo": {
+            "type": "string",
+            "format": "uri"
+          },
+          "registrationText": {
+            "type": "string"
+          },
+          "governoratePrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "deliveryAgentFee": {
+            "type": "number",
+            "minimum": 0
+          },
+          "baghdadPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForEvery500000IraqiDinar": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForEveryKilogram": {
+            "type": "number",
+            "minimum": 0
+          },
+          "additionalPriceForRemoteAreas": {
+            "type": "number",
+            "minimum": 0
+          },
+          "orderStatusAutomaticUpdate": {
+            "type": "boolean"
+          }
+        }
+      },
+      "OrderCreateSchema": {
+        "type": "object",
+        "properties": {
+          "totalCost": {
+            "type": "number"
+          },
+          "paidAmount": {
+            "type": "number"
+          },
+          "totalCostInUSD": {
+            "type": "number"
+          },
+          "paidAmountInUSD": {
+            "type": "number"
+          },
+          "discount": {
+            "type": "number"
+          },
+          "receiptNumber": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "recipientName": {
+            "type": "string"
+          },
+          "recipientPhone": {
+            "type": "string"
+          },
+          "recipientAddress": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "READY_TO_SEND",
+              "WITH_DELIVERY_AGENT",
+              "DELIVERED",
+              "REPLACED",
+              "PARTIALLY_RETURNED",
+              "RETURNED",
+              "POSTPONED",
+              "CHANGE_ADDRESS",
+              "RESEND",
+              "WITH_RECEIVING_AGENT",
+              "PROCESSING"
+            ]
+          },
+          "deliveryType": {
+            "type": "string",
+            "enum": [
+              "NORMAL",
+              "REPLACEMENT"
+            ]
+          },
+          "clientID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "deliveryAgentID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "totalCost",
+          "paidAmount",
+          "totalCostInUSD",
+          "paidAmountInUSD",
+          "discount",
+          "receiptNumber",
+          "quantity",
+          "weight",
+          "recipientName",
+          "recipientPhone",
+          "recipientAddress",
+          "details",
+          "notes",
+          "status",
+          "deliveryType",
+          "clientID",
+          "deliveryAgentID"
+        ]
+      },
+      "OrderUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "totalCost": {
+            "type": "number"
+          },
+          "paidAmount": {
+            "type": "number"
+          },
+          "totalCostInUSD": {
+            "type": "number"
+          },
+          "paidAmountInUSD": {
+            "type": "number"
+          },
+          "discount": {
+            "type": "number"
+          },
+          "receiptNumber": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "recipientName": {
+            "type": "string"
+          },
+          "recipientPhone": {
+            "type": "string"
+          },
+          "recipientAddress": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "READY_TO_SEND",
+              "WITH_DELIVERY_AGENT",
+              "DELIVERED",
+              "REPLACED",
+              "PARTIALLY_RETURNED",
+              "RETURNED",
+              "POSTPONED",
+              "CHANGE_ADDRESS",
+              "RESEND",
+              "WITH_RECEIVING_AGENT",
+              "PROCESSING"
+            ]
+          },
+          "deliveryType": {
+            "type": "string",
+            "enum": [
+              "NORMAL",
+              "REPLACEMENT"
+            ]
+          },
+          "clientID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "deliveryAgentID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       }
     }
   }

@@ -1,21 +1,21 @@
 import swaggerAutogen from "swagger-autogen";
 import {
     UserCreateMock,
-    UserCreateOpenApiSchema,
+    UserCreateOpenAPISchema,
     UserUpdateMock,
-    UserUpdateOpenApiSchema
+    UserUpdateOpenAPISchema
 } from "./../app/users/users.zod";
 
 import {
     UserSigninMock,
-    UserSigninOpenApiSchema
+    UserSigninOpenAPISchema
 } from "./../app/auth/auth.zod";
 
 import {
     RepositoryCreateMock,
-    RepositoryCreateOpenApiSchema,
+    RepositoryCreateOpenAPISchema,
     RepositoryUpdateMock,
-    RepositoryUpdateOpenApiSchema
+    RepositoryUpdateOpenAPISchema
 } from "./../app/repositories/repositories.zod";
 
 import {
@@ -46,6 +46,13 @@ import {
     TenantUpdateOpenAPISchema
 } from "./../app/tenants/tenants.zod";
 
+import {
+    OrderCreateMock,
+    OrderCreateOpenAPISchema,
+    OrderUpdateMock,
+    OrderUpdateOpenAPISchema
+} from "./../app/orders/orders.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -53,7 +60,7 @@ const doc = {
         description: "" // by default: ''
     },
     host: "localhost:3000",
-    basePath: "/api/",
+    basePath: "/API/",
     schemes: ["http"],
     consumes: ["application/json"],
     produces: ["application/json"],
@@ -84,14 +91,16 @@ const doc = {
             BranchCreateExample: { value: BranchCreateMock },
             BranchUpdateExample: { value: BranchUpdateMock },
             TenantCreateExample: { value: TenantCreateMock },
-            TenantUpdateExample: { value: TenantUpdateMock }
+            TenantUpdateExample: { value: TenantUpdateMock },
+            OrderCreateExample: { value: OrderCreateMock },
+            OrderUpdateExample: { value: OrderUpdateMock }
         },
         "@schemas": {
-            UserCreateSchema: UserCreateOpenApiSchema,
-            UserSigninSchema: UserSigninOpenApiSchema,
-            RepositoryCreateSchema: RepositoryCreateOpenApiSchema,
-            UserUpdateSchema: UserUpdateOpenApiSchema,
-            RepositoryUpdateSchema: RepositoryUpdateOpenApiSchema,
+            UserCreateSchema: UserCreateOpenAPISchema,
+            UserSigninSchema: UserSigninOpenAPISchema,
+            RepositoryCreateSchema: RepositoryCreateOpenAPISchema,
+            UserUpdateSchema: UserUpdateOpenAPISchema,
+            RepositoryUpdateSchema: RepositoryUpdateOpenAPISchema,
             LocationCreateSchema: LocationCreateOpenAPISchema,
             LocationUpdateSchema: LocationUpdateOpenAPISchema,
             ClientCreateSchema: ClientCreateOpenAPISchema,
@@ -99,7 +108,9 @@ const doc = {
             BranchCreateSchema: BranchCreateOpenAPISchema,
             BranchUpdateSchema: BranchUpdateOpenAPISchema,
             TenantCreateSchema: TenantCreateOpenAPISchema,
-            TenantUpdateSchema: TenantUpdateOpenAPISchema
+            TenantUpdateSchema: TenantUpdateOpenAPISchema,
+            OrderCreateSchema: OrderCreateOpenAPISchema,
+            OrderUpdateSchema: OrderUpdateOpenAPISchema
         }
     }
 };
@@ -107,4 +118,4 @@ const doc = {
 const outputFile = "./src/swagger/swagger-output.json";
 const endpointsFiles = ["./src/app.ts"];
 
-swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);
+swaggerAutogen({ openAPI: "3.0.0" })(outputFile, endpointsFiles, doc);
