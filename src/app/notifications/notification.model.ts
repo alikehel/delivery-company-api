@@ -37,7 +37,12 @@ export class NotificationModel {
         return notificationsCount;
     }
 
-    async getAllNotifications(skip: number, take: number, seen: boolean) {
+    async getAllNotifications(
+        userID: string,
+        skip: number,
+        take: number,
+        seen: boolean
+    ) {
         const notifications = await prisma.notification.findMany({
             // if seen true gett all notifications seen and unseen
             // if seen false get only unseen notifications
@@ -46,7 +51,10 @@ export class NotificationModel {
                     ? undefined
                     : {
                           equals: false
-                      }
+                      },
+                user: {
+                    id: userID
+                }
             },
             skip: skip,
             take: take,

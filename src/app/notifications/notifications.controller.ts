@@ -8,6 +8,7 @@ const notificationModel = new NotificationModel();
 export const getAllNotifications = catchAsync(async (req, res) => {
     const notificationsCount = await notificationModel.getNotificationsCount();
     const pagesCount = Math.ceil(notificationsCount / 10);
+    const userID = res.locals.user.id;
 
     let seen = false;
     if (req.query.seen && req.query.seen === "true") {
@@ -42,6 +43,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     // }
 
     const notifications = await notificationModel.getAllNotifications(
+        userID,
         skip,
         take,
         seen
