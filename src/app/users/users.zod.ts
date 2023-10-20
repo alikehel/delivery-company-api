@@ -17,7 +17,7 @@ export const UserCreateSchema = z.object({
 
 export type UserCreateType = z.infer<typeof UserCreateSchema>;
 
-export const UserCreateOpenApiSchema = generateSchema(UserCreateSchema);
+export const UserCreateOpenAPISchema = generateSchema(UserCreateSchema);
 
 export const UserCreateMock = generateMock(UserCreateSchema);
 
@@ -25,6 +25,6 @@ export const UserUpdateSchema = UserCreateSchema.partial();
 
 export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
 
-export const UserUpdateOpenApiSchema = generateSchema(UserUpdateSchema);
+export const UserUpdateOpenAPISchema = generateSchema(UserUpdateSchema);
 
 export const UserUpdateMock = generateMock(UserUpdateSchema);

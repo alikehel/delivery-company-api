@@ -9,6 +9,6 @@ export const UserSigninSchema = z.object({
 
 export type UserSigninType = z.infer<typeof UserSigninSchema>;
 
-export const UserSigninOpenApiSchema = generateSchema(UserSigninSchema);
+export const UserSigninOpenAPISchema = generateSchema(UserSigninSchema);
 
 export const UserSigninMock = generateMock(UserSigninSchema);

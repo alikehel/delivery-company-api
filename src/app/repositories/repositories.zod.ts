@@ -10,7 +10,7 @@ export const RepositoryCreateSchema = z.object({
 
 export type RepositoryCreateType = z.infer<typeof RepositoryCreateSchema>;
 
-export const RepositoryCreateOpenApiSchema = generateSchema(
+export const RepositoryCreateOpenAPISchema = generateSchema(
     RepositoryCreateSchema
 );
 
@@ -20,7 +20,7 @@ export const RepositoryUpdateSchema = RepositoryCreateSchema.partial();
 
 export type RepositoryUpdateType = z.infer<typeof RepositoryUpdateSchema>;
 
-export const RepositoryUpdateOpenApiSchema = generateSchema(
+export const RepositoryUpdateOpenAPISchema = generateSchema(
     RepositoryUpdateSchema
 );
 
