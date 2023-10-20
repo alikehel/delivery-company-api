@@ -60,6 +60,11 @@ import {
     ProductUpdateOpenAPISchema
 } from "./../app/products/products.zod";
 
+import {
+    NotificationUpdateMock,
+    NotificationUpdateOpenAPISchema
+} from "./../app/notifications/notifications.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -97,7 +102,8 @@ const doc = {
             OrderCreateExample: { value: OrderCreateMock },
             OrderUpdateExample: { value: OrderUpdateMock },
             ProductCreateExample: { value: ProductCreateMock },
-            ProductUpdateExample: { value: ProductUpdateMock }
+            ProductUpdateExample: { value: ProductUpdateMock },
+            NotificationUpdateExample: { value: NotificationUpdateMock }
         },
         "@schemas": {
             UserCreateSchema: UserCreateOpenAPISchema,
@@ -116,7 +122,8 @@ const doc = {
             OrderCreateSchema: OrderCreateOpenAPISchema,
             OrderUpdateSchema: OrderUpdateOpenAPISchema,
             ProductCreateSchema: ProductCreateOpenAPISchema,
-            ProductUpdateSchema: ProductUpdateOpenAPISchema
+            ProductUpdateSchema: ProductUpdateOpenAPISchema,
+            NotificationUpdateSchema: NotificationUpdateOpenAPISchema
         }
     }
 };

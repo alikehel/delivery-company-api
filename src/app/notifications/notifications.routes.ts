@@ -58,12 +58,12 @@ router.route("/notifications").get(
 
 router.route("/notifications/:notificationID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     updateNotification
     /*
         #swagger.tags = ['Notifications Routes']
 
-        #swagger.description = 'Must be a super admin'
+        #swagger.description = 'Mark a notification as seen'
 
         #swagger.requestBody = {
             required: true,
