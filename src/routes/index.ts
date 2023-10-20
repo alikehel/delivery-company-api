@@ -7,6 +7,7 @@ import branchesRoutes from "../app/branches/branches.routes";
 import clientsRoutes from "../app/clients/clients.routes";
 import locationsRoutes from "../app/locations/locations.routes";
 import ordersRoutes from "../app/orders/orders.routes";
+import productsRoutes from "../app/products/products.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
 import tenantsRoutes from "../app/tenants/tenants.routes";
 import usersRoutes from "../app/users/users.routes";
@@ -21,6 +22,7 @@ router.use("/", branchesRoutes);
 router.use("/", locationsRoutes);
 router.use("/", tenantsRoutes);
 router.use("/", ordersRoutes);
+router.use("/", productsRoutes);
 
 /*******************************************************************************
  * TEST ROUTES
