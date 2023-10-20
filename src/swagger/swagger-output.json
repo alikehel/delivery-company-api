@@ -2325,193 +2325,1366 @@
           }
         }
       }
+    },
+    "/api/tenants": {
+      "post": {
+        "tags": [
+          "Tenants Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Tenant created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "website": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "registrationText": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "governoratePrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgentFee": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "baghdadPrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEvery500000IraqiDinar": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEveryKilogram": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForRemoteAreas": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "orderStatusAutomaticUpdate": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400-1": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": ""
+          },
+          "500-1": {
+            "description": "Cant create the tenant",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the tenant"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantCreateSchema"
+              },
+              "examples": {
+                "TenantCreateExample": {
+                  "$ref": "#/components/examples/TenantCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Tenants Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all tenants",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "website": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "logo": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "registrationText": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "governoratePrice": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "deliveryAgentFee": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "baghdadPrice": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "additionalPriceForEvery500000IraqiDinar": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "additionalPriceForEveryKilogram": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "additionalPriceForRemoteAreas": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "orderStatusAutomaticUpdate": {
+                        "type": "string",
+                        "example": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the tenants data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the tenants data"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tenants/{tenantID}": {
+      "get": {
+        "tags": [
+          "Tenants Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "tenantID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the tenant data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "website": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "registrationText": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "governoratePrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgentFee": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "baghdadPrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEvery500000IraqiDinar": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEveryKilogram": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForRemoteAreas": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "orderStatusAutomaticUpdate": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Tenants Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "tenantID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Tenant updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "website": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "logo": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "registrationText": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "governoratePrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgentFee": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "baghdadPrice": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEvery500000IraqiDinar": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForEveryKilogram": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "additionalPriceForRemoteAreas": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "orderStatusAutomaticUpdate": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantUpdateSchema"
+              },
+              "examples": {
+                "TenantUpdateExample": {
+                  "$ref": "#/components/examples/TenantUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tenants Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "tenantID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Tenant deleted Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Tenant deleted successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the tenant",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the tenant"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "post": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Order created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCost": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCostInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmountInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "discount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "receiptNumber": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "quantity": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "weight": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientName": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientPhone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientAddress": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "details": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryDate": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "client": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgent": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400-1": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": ""
+          },
+          "500-1": {
+            "description": "Cant create the order",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant create the order"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCreateSchema"
+              },
+              "examples": {
+                "OrderCreateExample": {
+                  "$ref": "#/components/examples/OrderCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all orders",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "totalCost": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "paidAmount": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "totalCostInUSD": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "paidAmountInUSD": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "discount": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "receiptNumber": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "quantity": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "weight": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "recipientName": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "recipientPhone": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "recipientAddress": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "details": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "deliveryType": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "deliveryDate": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "client": {
+                        "type": "string",
+                        "example": "true"
+                      },
+                      "deliveryAgent": {
+                        "type": "string",
+                        "example": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the orders data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant get the orders data"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders/{orderID}": {
+      "get": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the order data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCost": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCostInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmountInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "discount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "receiptNumber": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "quantity": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "weight": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientName": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientPhone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientAddress": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "details": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryDate": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "client": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgent": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Order updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCost": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "totalCostInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "paidAmountInUSD": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "discount": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "receiptNumber": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "quantity": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "weight": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientName": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientPhone": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "recipientAddress": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "details": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryType": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryDate": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "client": {
+                      "type": "string",
+                      "example": "true"
+                    },
+                    "deliveryAgent": {
+                      "type": "string",
+                      "example": "true"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderUpdateSchema"
+              },
+              "examples": {
+                "OrderUpdateExample": {
+                  "$ref": "#/components/examples/OrderUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Order deleted Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Order deleted successfully"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the order",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Cant delete the order"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "unde",
-          "name": "Clint Mertz",
-          "password": "H308W3ULMeCMpLg",
-          "phone": "07933737676",
-          "salary": 3741324446531584,
-          "repositoryID": "f358b32a-d5bb-4c2c-917c-87aba068084e",
-          "branchID": "8ca84ba7-ff89-47da-a52b-712b26488322",
-          "role": "RECEIVING_AGENT",
+          "username": "volaticus",
+          "name": "Douglas Towne",
+          "password": "7UgBkADzieVVg_V",
+          "phone": "07731225384",
+          "salary": 7820019117326336,
+          "repositoryID": "74f4dc62-a159-4785-b04c-eec34cfcdf9a",
+          "branchID": "47b6d254-74f9-48f8-a3a9-4c9dc91e9021",
+          "role": "ACCOUNTANT",
           "permissions": [
-            "ADD_PAGE",
-            "ADD_ORDER_TO_DELIVERY_AGENT"
+            "EDIT_ORDER_TOTAL_AMOUNT"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "vesper",
-          "password": "9sJFVMhIdNolGtN"
+          "username": "ab",
+          "password": "K2jjUUilPt4BZf0"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Naomi Buckridge",
-          "branchID": "b41df29d-1f50-4957-afd2-4d810dfb38e4"
+          "name": "Simon Schaefer IV",
+          "branchID": "9b311d2c-12b7-46a1-8c02-16c9542417d5"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "calcar",
-          "name": "Woodrow Balistreri-Cormier PhD",
-          "password": "3yOg1NRwa8wpl7D",
-          "phone": "07461624626",
-          "salary": 7073442830483456,
-          "repositoryID": "e5b5872f-1575-40d0-999d-47733f978430",
-          "branchID": "71316e90-fd29-444f-a933-2627f76430b2",
+          "username": "denego",
+          "name": "Salvador Homenick Sr.",
+          "password": "PRRdBF1_oPWMmw7",
+          "phone": "07469621662",
+          "salary": 8471151776890880,
+          "repositoryID": "5f3ee3ed-5a0d-400d-8912-3c86c77be4e0",
+          "branchID": "8651813e-368f-4438-acc9-db527d30e714",
           "role": "RECEIVING_AGENT",
           "permissions": [
-            "DELETE_ORDERS"
+            "CHANGE_CLOSED_ORDER_STATUS",
+            "LOCK_ORDER_STATUS",
+            "ADD_PAGE"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Frank Kuhic",
-          "branchID": "70a5cd0e-5883-48e0-b76b-d68aa8d6a910"
+          "name": "Bradford Kassulke",
+          "branchID": "0cbcb8ff-e8bd-4b24-8336-7a7d9ee57900"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Mark Dibbert",
-          "governorate": "NINAWA",
-          "branchID": "aea4a8d5-e8c8-463e-bc77-b99217f6743a",
+          "name": "Oliver Turcotte",
+          "governorate": "BAGHDAD",
+          "branchID": "67e3b4bb-95e1-4fcf-a436-00da62aaa2e6",
           "deliveryAgentsIDs": [
-            "63359b5f-70fd-45b2-9bda-31aafdb612da",
-            "90098b84-aa6d-4fc5-9266-cf86a36cbb7e",
-            "6ca8cd78-db1f-4c18-af7a-c5d109c96610",
-            "31b8ab9f-8b17-4e74-97ae-4ff49111c30d"
+            "8dfca1d8-d9b7-4b2a-b526-ce1d20156a69",
+            "74c814d2-08c7-4b27-94e8-71e5338c547a",
+            "0c010fe5-16c5-4350-9017-0ff695d317d9",
+            "c69c3054-2016-44aa-b656-56e29e40b777",
+            "4c2826da-e596-4bb1-b3c0-f9dc20172212"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Darrin Fisher",
-          "governorate": "KIRKUK",
-          "branchID": "53007da7-40c7-4bbb-a71a-87c4aeda39ad",
+          "name": "Mrs. Kristy Adams",
+          "governorate": "MUTHANNA",
+          "branchID": "69d44719-639d-4407-9a06-893643967f8b",
           "deliveryAgentsIDs": [
-            "0a2781b3-3ad8-4778-a344-6953f709fce6",
-            "45d43804-83e8-4d15-8cb9-b6ba2184a328"
+            "121dbac8-f90b-4cf6-9776-1059488c1217"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Kelli Kub",
-          "phone": "07304500115",
-          "accountType": "CLIENT",
-          "token": "fuga",
-          "password": "Cm1dqYzp0hfEEq8",
-          "branchID": "fd521a1a-965f-4230-a3e3-ab8ca4ed099d"
+          "name": "Caroline Price",
+          "phone": "07431762738",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "fugit",
+          "password": "NHtuoI4jYBmQHbr",
+          "branchID": "a3598844-30f6-4fed-bcbb-228871865b56"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Leticia Waters",
-          "phone": "07460687755",
-          "accountType": "CLIENT",
-          "token": "spero",
-          "password": "Z0gM4YuaKJb9zD9",
-          "branchID": "8177fb3d-b4a4-411e-9bbe-ea9596a0f264"
+          "name": "Brandy Emard",
+          "phone": "07542343139",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "repellendus",
+          "password": "yidV_VhQOJ_3MDE",
+          "branchID": "5bb33fba-2a51-4ecf-863d-02f2dfe3e644"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Tyrone Halvorson Jr.",
-          "email": "Peggie.Parker77@example.com",
-          "phone": "07652080568",
-          "governorate": "AL_ANBAR"
+          "name": "Kelley Ratke",
+          "email": "Elnora_Dooley@example.org",
+          "phone": "07691579890",
+          "governorate": "DHI_QAR"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Lindsey Huel",
-          "email": "Pauline_Kozey@example.org",
-          "phone": "07629966838",
+          "name": "Dianne Kulas",
+          "email": "Camille56@example.net",
+          "phone": "07387085691",
           "governorate": "DIYALA"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Chester Frami DDS",
-          "phone": "07764022803",
-          "website": "https://unique-disclosure.net",
-          "logo": "https://taut-recall.biz",
-          "registrationText": "ater",
-          "governoratePrice": 653306256949248,
-          "deliveryAgentFee": 4873824459816960,
-          "baghdadPrice": 319802035929088,
-          "additionalPriceForEvery500000IraqiDinar": 5277569725235200,
-          "additionalPriceForEveryKilogram": 5828690963333120,
-          "additionalPriceForRemoteAreas": 4192896651624448,
-          "orderStatusAutomaticUpdate": true
+          "name": "Dr. Felipe Ziemann DVM",
+          "phone": "07762373680",
+          "website": "https://far-flung-input.org/",
+          "logo": "https://soft-dwelling.com",
+          "registrationText": "adnuo",
+          "governoratePrice": 8308808835137536,
+          "deliveryAgentFee": 7765127845642240,
+          "baghdadPrice": 6532940443942912,
+          "additionalPriceForEvery500000IraqiDinar": 8084289702854656,
+          "additionalPriceForEveryKilogram": 7168032296140800,
+          "additionalPriceForRemoteAreas": 5195641804292096,
+          "orderStatusAutomaticUpdate": false
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Miss Grace Rowe",
-          "phone": "07781957132",
-          "website": "https://busy-departure.name/",
-          "logo": "https://soulful-custody.name/",
-          "registrationText": "tenuis",
-          "governoratePrice": 830159347253248,
-          "deliveryAgentFee": 844422640041984,
-          "baghdadPrice": 6824084386086912,
-          "additionalPriceForEvery500000IraqiDinar": 3029993990914048,
-          "additionalPriceForEveryKilogram": 5774657288404992,
-          "additionalPriceForRemoteAreas": 7327667600752640,
-          "orderStatusAutomaticUpdate": true
+          "name": "Gordon Erdman",
+          "phone": "07344040696",
+          "website": "https://private-score.biz/",
+          "logo": "https://woeful-island.com",
+          "registrationText": "vitiosus",
+          "governoratePrice": 7604538242498560,
+          "deliveryAgentFee": 2639556853628928,
+          "baghdadPrice": 4424966323830784,
+          "additionalPriceForEvery500000IraqiDinar": 7253597026779136,
+          "additionalPriceForEveryKilogram": 3039247179186176,
+          "additionalPriceForRemoteAreas": 5932462901297152,
+          "orderStatusAutomaticUpdate": false
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 4586108354560000,
-          "paidAmount": 6169354712383488,
-          "totalCostInUSD": 5357523534086144,
-          "paidAmountInUSD": 4613446375047168,
-          "discount": 3720405881716736,
-          "receiptNumber": 981915465154560,
-          "quantity": 4330559757090816,
-          "weight": 4049842655461376,
-          "recipientName": "sollers",
-          "recipientPhone": "inventore",
-          "recipientAddress": "aiunt",
-          "details": "decumbo",
-          "notes": "distinctio",
-          "status": "READY_TO_SEND",
-          "deliveryType": "REPLACEMENT",
-          "clientID": "2c78e8de-d82d-4aa7-a744-a67cc6cd8edf",
-          "deliveryAgentID": "cf13162e-e367-45cc-92fa-f5201843d19b",
-          "deliveryDate": "2023-10-20T10:09:12.740Z"
+          "totalCost": 3050321494409216,
+          "paidAmount": 1619800201625600,
+          "totalCostInUSD": 2036250296975360,
+          "paidAmountInUSD": 7518923396218880,
+          "discount": 1108972662685696,
+          "receiptNumber": 1453884822257664,
+          "quantity": 5802134679322624,
+          "weight": 6759556824694784,
+          "recipientName": "adipisci",
+          "recipientPhone": "cunae",
+          "recipientAddress": "contabesco",
+          "details": "aggredior",
+          "notes": "dolores",
+          "status": "DELIVERED",
+          "deliveryType": "NORMAL",
+          "clientID": "2f81e2aa-995c-4ba6-8405-fc99bd41f655",
+          "deliveryAgentID": "05d1221d-5f9b-4160-bae0-0eb3492a63f7",
+          "deliveryDate": "2023-10-20T14:08:54.480Z"
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 4553287646838784,
-          "paidAmount": 8819205629542400,
-          "totalCostInUSD": 277175083204608,
-          "paidAmountInUSD": 2135327036669952,
-          "discount": 3575183778512896,
-          "receiptNumber": 5634407968800768,
-          "quantity": 5478638696792064,
-          "weight": 5694436025565184,
-          "recipientName": "conculco",
-          "recipientPhone": "surculus",
-          "recipientAddress": "vomica",
-          "details": "administratio",
-          "notes": "praesentium",
-          "status": "REPLACED",
+          "totalCost": 1393158220939264,
+          "paidAmount": 3175535221932032,
+          "totalCostInUSD": 4763967882788864,
+          "paidAmountInUSD": 2663845143248896,
+          "discount": 8099440896245760,
+          "receiptNumber": 2191790075543552,
+          "quantity": 8862421290582016,
+          "weight": 851949419233280,
+          "recipientName": "vitae",
+          "recipientPhone": "succedo",
+          "recipientAddress": "thalassinus",
+          "details": "angulus",
+          "notes": "caveo",
+          "status": "REGISTERED",
           "deliveryType": "NORMAL",
-          "clientID": "6514f391-1a14-44ea-9fe6-ba2837c0a1c0",
-          "deliveryAgentID": "5d427c8e-74b0-4a3d-9220-88a3755a2989",
-          "deliveryDate": "2023-10-20T23:00:22.199Z"
+          "clientID": "4629d058-ae92-46db-92bc-0d7c0e52105a",
+          "deliveryAgentID": "6580bb75-7286-4656-b0a7-4bb4f6ef8705",
+          "deliveryDate": "2023-10-20T08:02:52.212Z"
         }
       }
     },
