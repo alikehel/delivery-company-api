@@ -17,14 +17,11 @@ const prisma = new PrismaClient();
 // }
 
 export class NotificationModel {
-    async createNotification(data: {
-        userID: string;
-        notificationData: NotificationCreateType;
-    }) {
+    async createNotification(data: NotificationCreateType) {
         const createdNotification = await prisma.notification.create({
             data: {
-                title: data.notificationData.title,
-                content: data.notificationData.content,
+                title: data.title,
+                content: data.content,
                 user: {
                     connect: {
                         id: data.userID

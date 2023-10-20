@@ -5,7 +5,7 @@ import { z } from "zod";
 export const NotificationCreateSchema = z.object({
     title: z.string(),
     content: z.string(),
-    seen: z.boolean().default(false),
+    seen: z.boolean().default(false).optional(),
     userID: z.string().uuid()
 });
 
