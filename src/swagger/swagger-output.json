@@ -6167,210 +6167,1153 @@
           }
         }
       }
+    },
+    "/api/products": {
+      "post": {
+        "tags": [
+          "Products Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Product created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400-1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant create the product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the product"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the product"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateSchema"
+              },
+              "examples": {
+                "ProductCreateExample": {
+                  "$ref": "#/components/examples/ProductCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Products Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "price": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "price": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the products data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the products data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the products data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/products/{productID}": {
+      "get": {
+        "tags": [
+          "Products Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "productID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the product data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Products Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "productID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Product updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "price": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductUpdateSchema"
+              },
+              "examples": {
+                "ProductUpdateExample": {
+                  "$ref": "#/components/examples/ProductUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "productID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Product deleted Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the product"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the product"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": [
+          "Notifications Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "seen",
+            "in": "query",
+            "description": "Get seen notifications or not ( boolean )",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all notifications",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "seen": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "seen": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the notifications data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the notifications data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the notifications data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{notificationID}": {
+      "patch": {
+        "tags": [
+          "Notifications Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "notificationID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Notification updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "seen": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "seen": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationUpdateSchema"
+              },
+              "examples": {
+                "NotificationUpdateExample": {
+                  "$ref": "#/components/examples/NotificationUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "carcer",
-          "name": "Archie Towne",
-          "password": "hhpStVy0G6KjkRa",
-          "phone": "07792551670",
-          "salary": 5287797499887616,
-          "repositoryID": "c5574bfe-d99a-4580-8405-15fefc8edbb9",
-          "branchID": "bc72e0ad-c322-4993-a6e8-b459ead1269f",
-          "role": "SUPER_ADMIN",
+          "username": "sodalitas",
+          "name": "Gabriel Beahan",
+          "password": "VXH_XeFoj04Fvnx",
+          "phone": "07753099367",
+          "salary": 1016763619737600,
+          "repositoryID": "2d05c14f-00ae-42a4-a796-4e7d20ad25f5",
+          "branchID": "d019d3ed-15a2-46d3-b83b-6e254f799862",
+          "role": "EMERGENCY_EMPLOYEE",
           "permissions": [
-            "ADD_ORDER_TO_DELIVERY_AGENT",
-            "DELETE_PRICES",
-            "CHANGE_ORDER_STATUS",
-            "ADD_CLIENT"
+            "ADD_PAGE"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "incidunt",
-          "password": "9UxCVhEfJ4UMafY"
+          "username": "vorago",
+          "password": "pKd6Ret_F8DPL5K"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Garrett Bradtke",
-          "branchID": "15a19921-a0d8-4971-88e0-eede02fb6f60"
+          "name": "Lillie Kunde",
+          "branchID": "3741bc91-f1e2-44db-b831-7ac94722c7ca"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "bestia",
-          "name": "Mr. Ronald Little",
-          "password": "dZIf0CJqF60P941",
-          "phone": "07407395780",
-          "salary": 5314362128465920,
-          "repositoryID": "f907c641-be4e-474f-a2c5-8371628452d1",
-          "branchID": "4b2cf836-07f8-4f26-a613-ade316512479",
-          "role": "BRANCH_MANAGER",
+          "username": "ceno",
+          "name": "Noel Grady",
+          "password": "JgQqr26p_dhtKUc",
+          "phone": "07348380004",
+          "salary": 5988096764018688,
+          "repositoryID": "2887621a-c68d-4bc7-967c-c3245f4a663c",
+          "branchID": "f2e35125-6b6e-47a9-a25a-36055b626f03",
+          "role": "REPOSITORIY_EMPLOYEE",
           "permissions": [
-            "CHANGE_ORDER_STATUS",
-            "DELETE_REPOSITORIES_REPORTS"
+            "EDIT_ORDER_TOTAL_AMOUNT"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Jay Schaden",
-          "branchID": "3e8e2907-103b-409d-b62d-e5197457099c"
+          "name": "Melissa Vandervort",
+          "branchID": "f47b314b-b757-4864-8e17-49b83a469224"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Sidney Farrell V",
+          "name": "Nicholas Schmitt V",
           "governorate": "BAGHDAD",
-          "branchID": "06f5cc16-de24-43ed-80aa-19dd40351919",
+          "branchID": "8c9c04b2-739a-4a32-bf2d-15cc8249275c",
           "deliveryAgentsIDs": [
-            "2fab9761-5d34-4001-b89c-b7e9111aac21"
+            "7a31c0ee-b166-4aa2-afc6-225479bc19bc",
+            "ccbca83f-878d-46a0-bd82-b16be0eb5e29",
+            "d46a91e4-6b0a-4237-b42f-51e58de30007",
+            "2c71fb89-171e-45b9-b628-bec9d62af114",
+            "0ecc9234-b47c-44aa-ae13-c75ea87e0cd4"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Lester Abbott-Schoen",
-          "governorate": "BABIL",
-          "branchID": "08c7c483-c1c3-42ca-b73b-2f8e69429723",
+          "name": "Louise Marquardt",
+          "governorate": "DHI_QAR",
+          "branchID": "cd49f13b-412e-49bd-8fce-34dfdeec253d",
           "deliveryAgentsIDs": [
-            "763a3245-e3a6-4171-8b5f-670436782d2f",
-            "de4ceb7c-58be-4bf6-a526-167635e4e9e9",
-            "80e63306-3518-4134-a33d-94b6ccc4475f"
+            "c3913d75-cdfc-4cbb-94b0-4038a28abfc3",
+            "48f6ba8f-059c-4968-8cb3-b32c50a8d426",
+            "28c6ab00-0ad8-4f55-b5fd-0bf5093ca56b",
+            "dfba385b-be6b-465b-8db5-f35d73ccd032"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Lola Ondricka",
-          "phone": "07812532546",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "omnis",
-          "password": "LJ5r9QqZGhxhsKq",
-          "branchID": "cf2fedcb-1ff5-4588-a11e-bd632d7c9595"
+          "name": "Dr. Douglas Heaney",
+          "phone": "07978089649",
+          "accountType": "CLIENT",
+          "token": "tamdiu",
+          "password": "bq7C2iiKjcWb6XT",
+          "branchID": "55b9d8e0-cedc-4bf6-ac67-5bd72c3624ae"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Christina Hodkiewicz",
-          "phone": "07855245840",
+          "name": "Julius Baumbach I",
+          "phone": "07473636468",
           "accountType": "CLIENT",
-          "token": "tergeo",
-          "password": "dWUF3xkyeck7TEE",
-          "branchID": "ee6a35f6-2a6a-4604-a8d4-15b3a3a4bb89"
+          "token": "sonitus",
+          "password": "PSn_rEsDSFUWnG_",
+          "branchID": "9831e588-6f25-45e0-b426-e6230cc72dd7"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Roberta Quigley",
-          "email": "Arne.Hoppe68@example.org",
-          "phone": "07867369537",
-          "governorate": "SULAYMANIYAH"
+          "name": "Dr. Chris Smith",
+          "email": "Hassie.Halvorson-Hyatt41@example.com",
+          "phone": "07809358258",
+          "governorate": "BASRA"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Gustavo Schroeder",
-          "email": "Marcella_Russel@example.org",
-          "phone": "07418816442",
-          "governorate": "DIYALA"
+          "name": "Gladys Rempel-Wolff II",
+          "email": "Ed_Beatty14@example.org",
+          "phone": "07812964232",
+          "governorate": "ERBIL"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Nathaniel Hahn",
-          "phone": "07695688323",
-          "website": "https://amusing-proof-reader.net/",
-          "logo": "https://naughty-strength.com",
-          "registrationText": "adopto",
-          "governoratePrice": 4392226536816640,
-          "deliveryAgentFee": 2542406811516928,
-          "baghdadPrice": 5475797085192192,
-          "additionalPriceForEvery500000IraqiDinar": 8226504712388608,
-          "additionalPriceForEveryKilogram": 3629423433613312,
-          "additionalPriceForRemoteAreas": 389065929129984,
+          "name": "Lynn McCullough",
+          "phone": "07367389060",
+          "website": "https://mealy-leveret.org",
+          "logo": "https://wretched-cashew.biz/",
+          "registrationText": "tamdiu",
+          "governoratePrice": 2661457032380416,
+          "deliveryAgentFee": 8050163857752064,
+          "baghdadPrice": 4853849430949888,
+          "additionalPriceForEvery500000IraqiDinar": 5130635341463552,
+          "additionalPriceForEveryKilogram": 5287697872584704,
+          "additionalPriceForRemoteAreas": 1387161412698112,
           "orderStatusAutomaticUpdate": false
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Eduardo Mante",
-          "phone": "07928043111",
-          "website": "https://scary-keeper.org",
-          "logo": "https://hidden-fennel.com/",
-          "registrationText": "basium",
-          "governoratePrice": 7720439528816640,
-          "deliveryAgentFee": 2715202206302208,
-          "baghdadPrice": 4261146326466560,
-          "additionalPriceForEvery500000IraqiDinar": 1744528337797120,
-          "additionalPriceForEveryKilogram": 418469958909952,
-          "additionalPriceForRemoteAreas": 3940493549371392,
+          "name": "Hope Franecki",
+          "phone": "07370524409",
+          "website": "https://dirty-yak.info",
+          "logo": "https://fumbling-tenor.biz",
+          "registrationText": "hic",
+          "governoratePrice": 497110877208576,
+          "deliveryAgentFee": 5364058219872256,
+          "baghdadPrice": 8831988429488128,
+          "additionalPriceForEvery500000IraqiDinar": 8523789602127872,
+          "additionalPriceForEveryKilogram": 8475496289402880,
+          "additionalPriceForRemoteAreas": 4539191786471424,
           "orderStatusAutomaticUpdate": true
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 6115070167744512,
-          "paidAmount": 8577058447818752,
-          "totalCostInUSD": 3752092512550912,
-          "paidAmountInUSD": 8617258666426368,
-          "discount": 5768233747480576,
-          "receiptNumber": 679737273876480,
-          "quantity": 6713038669348864,
-          "weight": 6897589779693568,
-          "recipientName": "deinde",
-          "recipientPhone": "cunctatio",
-          "recipientAddress": "conspergo",
-          "details": "pectus",
-          "notes": "nesciunt",
-          "status": "REPLACED",
+          "totalCost": 6833531697233920,
+          "paidAmount": 3456723796885504,
+          "totalCostInUSD": 6261679304212480,
+          "paidAmountInUSD": 1741591414833152,
+          "discount": 2045774621835264,
+          "receiptNumber": 398125674004480,
+          "quantity": 172703338201088,
+          "weight": 7241642450878464,
+          "recipientName": "cavus",
+          "recipientPhone": "cum",
+          "recipientAddress": "trucido",
+          "details": "ascisco",
+          "notes": "ipsum",
+          "status": "RESEND",
           "deliveryType": "REPLACEMENT",
-          "clientID": "03a6717a-9ca6-4d85-9e8c-b35bc355d0b0",
-          "deliveryAgentID": "7230fcc7-c130-469d-bb86-cdf457745c86",
-          "deliveryDate": "2023-10-20T17:18:23.804Z"
+          "clientID": "be907cb6-a6b1-429a-aa1d-479fee1ed6e0",
+          "deliveryAgentID": "6a1fe851-8039-4d98-9004-3435fdf1a5e1",
+          "deliveryDate": "2023-10-20T08:16:11.933Z"
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 5005025212366848,
-          "paidAmount": 6558923066703872,
-          "totalCostInUSD": 7501510598459392,
-          "paidAmountInUSD": 6236871453573120,
-          "discount": 8684867571154944,
-          "receiptNumber": 4687783432028160,
-          "quantity": 2350990487453696,
-          "weight": 606246887489536,
-          "recipientName": "baiulus",
-          "recipientPhone": "appello",
-          "recipientAddress": "crapula",
-          "details": "tricesimus",
-          "notes": "asperiores",
-          "status": "READY_TO_SEND",
+          "totalCost": 8969140150730752,
+          "paidAmount": 6651143138574336,
+          "totalCostInUSD": 2539161890324480,
+          "paidAmountInUSD": 1407218956107776,
+          "discount": 6558600602320896,
+          "receiptNumber": 4808302089207808,
+          "quantity": 2507896153702400,
+          "weight": 236823739629568,
+          "recipientName": "assumenda",
+          "recipientPhone": "vis",
+          "recipientAddress": "speculum",
+          "details": "spero",
+          "notes": "tempora",
+          "status": "CHANGE_ADDRESS",
           "deliveryType": "REPLACEMENT",
-          "clientID": "0961a828-a448-4d6f-b59a-31adf0b3fd7e",
-          "deliveryAgentID": "df2c48c3-302e-45ed-a11a-bcbd17956701",
-          "deliveryDate": "2023-10-21T00:29:20.829Z"
+          "clientID": "51a0ff92-e605-4933-9be1-a48881a73b0a",
+          "deliveryAgentID": "bdb90315-9d77-4085-a5e2-b1ada23b06df",
+          "deliveryDate": "2023-10-20T11:15:22.582Z"
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "veritatis",
-          "price": 4049950082072576,
-          "image": "https://picsum.photos/seed/5GNfxa/640/480",
-          "stock": 0
+          "title": "ubi",
+          "price": 8797785472106496,
+          "image": "https://loremflickr.com/640/480?lock=3780502947364864",
+          "stock": 8313457092853760
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "terminatio",
-          "price": 8056391067500544,
-          "image": "https://picsum.photos/seed/fINGu/640/480",
-          "stock": 0
+          "title": "tabesco",
+          "price": 8126641368727552,
+          "image": "https://loremflickr.com/640/480?lock=317360586096640",
+          "stock": 7804940720275456
         }
       }
     },

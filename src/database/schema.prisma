@@ -151,13 +151,14 @@ model User {
   repositoryId String?
   branchId     String?
 
-  repository  Repository?  @relation(fields: [repositoryId], references: [id])
-  branch      Branch?      @relation(fields: [branchId], references: [id])
-  role        Role
-  permissions Permission[]
-  Client      Client[]
-  Location    Location[]
-  Order       Order[]
+  repository   Repository?    @relation(fields: [repositoryId], references: [id])
+  branch       Branch?        @relation(fields: [branchId], references: [id])
+  role         Role
+  permissions  Permission[]
+  Client       Client[]
+  Location     Location[]
+  Order        Order[]
+  Notification Notification[]
 }
 
 model Client {
@@ -236,15 +237,15 @@ model Tenant {
 }
 
 model Order {
-  id               String           @id @default(uuid())
-  totalCost        Decimal          @default(0)
-  paidAmount       Decimal          @default(0)
-  totalCostInUSD   Decimal          @default(0)
-  paidAmountInUSD  Decimal          @default(0)
-  discount         Decimal          @default(0)
-  receiptNumber    Int              @default(0)
-  quantity         Int              @default(0)
-  weight           Float            @default(0)
+  id               String       @id @default(uuid())
+  totalCost        Decimal      @default(0)
+  paidAmount       Decimal      @default(0)
+  totalCostInUSD   Decimal      @default(0)
+  paidAmountInUSD  Decimal      @default(0)
+  discount         Decimal      @default(0)
+  receiptNumber    Int          @default(0)
+  quantity         Int          @default(0)
+  weight           Float        @default(0)
   recipientName    String
   recipientPhone   String
   recipientAddress String
@@ -252,10 +253,10 @@ model Order {
   notes            String
   status           OrderStatus
   deliveryType     DeliveryType
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  client           Client           @relation(fields: [clientId], references: [id])
-  deliveryAgent    User?            @relation(fields: [userId], references: [id])
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  client           Client       @relation(fields: [clientId], references: [id])
+  deliveryAgent    User?        @relation(fields: [userId], references: [id])
   deliveryDate     DateTime?
   clientId         String
   userId           String?
@@ -263,13 +264,13 @@ model Order {
 }
 
 model Product {
-  id             String           @id @default(uuid())
-  title          String
-  price          Decimal
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  image          String?
-  stock          Int              @default(0)
+  id        String   @id @default(uuid())
+  title     String
+  price     Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image     String?
+  stock     Int      @default(0)
   // ProductOnOrder ProductOnOrder[]
 }
 
@@ -283,13 +284,13 @@ model Product {
 //   @@id([productId, orderId])
 // }
 
-// model Store {
-//   id String @id @default(uuid())
-// }
-
-// model Notification {
-//   id String @id @default(uuid())
-// }
-
-// model Category {
-//   id String @id @default(uuid())
+model Notification {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  title     String
+  content   String
+  // type    String // success, error, warning, info
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  seen      Boolean  @default(false)
+}
