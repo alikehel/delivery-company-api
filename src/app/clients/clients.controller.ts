@@ -83,18 +83,25 @@ export const getClient = catchAsync(async (req, res) => {
 });
 
 export const updateClient = catchAsync(async (req, res) => {
+    const clientData = ClientUpdateSchema.parse(req.body);
     const clientID = req.params["clientID"];
 
-    const clientData = ClientUpdateSchema.parse(req.body);
+    const { password, ...rest } = clientData;
 
-    const client = await clientModel.updateClient({
+    // hash the password
+    const hashedPassword = bcrypt.hashSync(password + (SECRET as string), 12);
+
+    const updatedClient = await clientModel.updateClient({
         clientID: clientID,
-        clientData: clientData
+        clientData: {
+            ...rest,
+            password: hashedPassword
+        }
     });
 
     res.status(200).json({
         status: "success",
-        data: client
+        data: updatedClient
     });
 });
 

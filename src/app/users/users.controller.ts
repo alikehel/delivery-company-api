@@ -81,18 +81,25 @@ export const getUser = catchAsync(async (req, res) => {
 });
 
 export const updateUser = catchAsync(async (req, res) => {
+    const userData = UserUpdateSchema.parse(req.body);
     const userID = req.params["userID"];
 
-    const userData = UserUpdateSchema.parse(req.body);
+    if (userData.password) {
+        const hashedPassword = bcrypt.hashSync(
+            userData.password + (SECRET as string),
+            12
+        );
+        userData.password = hashedPassword;
+    }
 
-    const user = await userModel.updateUser({
+    const updatedUser = await userModel.updateUser({
         userID: userID,
-        userData: userData
+        userData
     });
 
     res.status(200).json({
         status: "success",
-        data: user
+        data: updatedUser
     });
 });
 
