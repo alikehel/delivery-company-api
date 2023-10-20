@@ -39,6 +39,13 @@ import {
     BranchUpdateOpenAPISchema
 } from "./../app/branches/branches.zod";
 
+import {
+    TenantCreateMock,
+    TenantCreateOpenAPISchema,
+    TenantUpdateMock,
+    TenantUpdateOpenAPISchema
+} from "./../app/tenants/tenants.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -75,7 +82,9 @@ const doc = {
             ClientCreateExample: { value: ClientCreateMock },
             ClientUpdateExample: { value: ClientUpdateMock },
             BranchCreateExample: { value: BranchCreateMock },
-            BranchUpdateExample: { value: BranchUpdateMock }
+            BranchUpdateExample: { value: BranchUpdateMock },
+            TenantCreateExample: { value: TenantCreateMock },
+            TenantUpdateExample: { value: TenantUpdateMock }
         },
         "@schemas": {
             UserCreateSchema: UserCreateOpenApiSchema,
@@ -88,7 +97,9 @@ const doc = {
             ClientCreateSchema: ClientCreateOpenAPISchema,
             ClientUpdateSchema: ClientUpdateOpenAPISchema,
             BranchCreateSchema: BranchCreateOpenAPISchema,
-            BranchUpdateSchema: BranchUpdateOpenAPISchema
+            BranchUpdateSchema: BranchUpdateOpenAPISchema,
+            TenantCreateSchema: TenantCreateOpenAPISchema,
+            TenantUpdateSchema: TenantUpdateOpenAPISchema
         }
     }
 };

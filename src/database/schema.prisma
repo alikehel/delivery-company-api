@@ -110,27 +110,16 @@ model User {
   isSuperAdmin Boolean  @default(false)
   phone        String?
   salary       Decimal? @default(0)
-  // roless       String[]
-  // image        String?
-  // fcm          String?
-  // token        String?
 
-  // userId String
-  // tenantId     String
   repositoryId String?
   branchId     String?
 
-  // permissions Permission[]
   repository  Repository?  @relation(fields: [repositoryId], references: [id])
   branch      Branch?      @relation(fields: [branchId], references: [id])
-  // tenant      Tenant       @relation(fields: [tenantId], references: [id])
   role        Role
   permissions Permission[]
   Client      Client[]
-  // Location      Location[]
-  // Product     Product[]
   Location    Location[]
-  // SubLocation SubLocation[]
 }
 
 model Client {
@@ -158,16 +147,8 @@ model Branch {
   email     String?
   phone     String?
 
-  // governmentId String
-  // tenantId     String
-  // locationId String? @unique
-
-  // tenant     Tenant       @relation(fields: [tenantId], references: [id])
-  // government Government   @relation(fields: [governmentId], references: [id])
-  // User       User[]
   Repository  Repository[]
   Client      Client[]
-  // location   Location
   User        User[]
   governorate Governorate?
   Location    Location[]
@@ -180,11 +161,8 @@ model Repository {
   updatedAt DateTime @updatedAt
 
   branchId String
-  // tenantId  String
 
-  // User   User[]
   branch Branch @relation(fields: [branchId], references: [id])
-  // tenant    Tenant   @relation(fields: [tenantId], references: [id])
   User   User[]
 }
 
@@ -192,45 +170,33 @@ model Location {
   id   String @id @default(uuid())
   name String @unique
 
-  // governmentId String
-  // tenantId     String
-
-  // tenant     Tenant     @relation(fields: [tenantId], references: [id])
-  // government Government @relation(fields: [governmentId], references: [id])
-  // users      User[]
   deliveryAgents User[]
-  // SubLocation SubLocation[]
   governorate    Governorate?
   branch         Branch       @relation(fields: [branchId], references: [id])
   branchId       String
 }
 
-// model Tenant {
-//   id                          String   @id @default(uuid())
-//   name                        String   @unique
-//   phone                       String?
-//   website                     String?
-//   logo                        String?
-//   registration                String?
-//   baghdad_price               Decimal  @default(0)
-//   governments_price           Decimal  @default(0)
-//   delivery_price              Decimal  @default(0)
-//   additional_price            Decimal  @default(0)
-//   additional_price_for_weight Decimal  @default(0)
-//   additional_price_for_unused Decimal  @default(0)
-//   auto_update                 Boolean  @default(false)
-//   main_company                Boolean  @default(false)
-//   createdAt                   DateTime @default(now())
-//   updatedAt                   DateTime @updatedAt
+model Tenant {
+  id                                      String   @id @default(uuid())
+  name                                    String   @unique
+  phone                                   String?
+  website                                 String?
+  logo                                    String?
+  registrationText                        String?
+  governoratePrice                        Decimal  @default(0)
+  deliveryAgentFee                        Decimal  @default(0)
+  // deliveryPrice              Decimal  @default(0)
+  baghdadPrice                            Decimal  @default(0)
+  additionalPriceForEvery500000IraqiDinar Decimal  @default(0)
+  additionalPriceForEveryKilogram         Decimal  @default(0)
+  additionalPriceForRemoteAreas           Decimal  @default(0)
+  orderStatusAutomaticUpdate              Boolean  @default(false)
+  // mainCompany                Boolean  @default(false)
+  createdAt                               DateTime @default(now())
+  updatedAt                               DateTime @updatedAt
+}
 
-//   government Government[]
-//   // Branch     Branch[]
-//   // User       User[]
-//   // Repository                  Repository[]
-//   // Location   Location[]
-// }
-
-// model Store {
+// model Order {
 //   id String @id @default(uuid())
 // }
 
@@ -249,6 +215,10 @@ model Location {
 
 //   category Category @relation(fields: [categoryId], references: [id])
 //   // user     User     @relation(fields: [userId], references: [id])
+// }
+
+// model Store {
+//   id String @id @default(uuid())
 // }
 
 // model Notification {
@@ -272,8 +242,4 @@ model Location {
 //   id String @id @default(uuid())
 
 //   Product Product[]
-// }
-
-// model Order {
-//   id String @id @default(uuid())
 // }

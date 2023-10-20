@@ -32,7 +32,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         // req.user = { id, email, subdomain, role };
         res.locals.user = { id, name, username, role };
 
-        //GRANT ACCESS
+        // GRANT ACCESS
         return next();
     } catch (err) {
         res.status(401).json({
