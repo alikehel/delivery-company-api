@@ -1,0 +1,110 @@
+import { PrismaClient } from "@prisma/client";
+import { ProductCreateType, ProductUpdateType } from "./products.zod";
+
+const prisma = new PrismaClient();
+
+// model Product {
+//   id             String           @id @default(uuid())
+//   title          String
+//   price          Decimal
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
+//   image          String?
+//   stock          Int              @default(0)
+// }
+
+export class ProductModel {
+    async createProduct(data: ProductCreateType) {
+        const createdProduct = await prisma.product.create({
+            data: {
+                title: data.title,
+                price: data.price,
+                image: data.image,
+                stock: data.stock
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                image: true
+            }
+        });
+        return createdProduct;
+    }
+
+    async getProductsCount() {
+        const productsCount = await prisma.product.count();
+        return productsCount;
+    }
+
+    async getAllProducts(skip: number, take: number) {
+        const products = await prisma.product.findMany({
+            skip: skip,
+            take: take,
+            orderBy: {
+                title: "desc"
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                image: true
+            }
+        });
+        return products;
+    }
+
+    async getProduct(data: { productID: string }) {
+        const product = await prisma.product.findUnique({
+            where: {
+                id: data.productID
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                image: true
+            }
+        });
+        return product;
+    }
+
+    async updateProduct(data: {
+        productID: string;
+        productData: ProductUpdateType;
+    }) {
+        const product = await prisma.product.update({
+            where: {
+                id: data.productID
+            },
+            data: {
+                title: data.productData.title,
+                price: data.productData.price,
+                image: data.productData.image,
+                stock: data.productData.stock
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                image: true
+            }
+        });
+        return product;
+    }
+
+    async deleteProduct(data: { productID: string }) {
+        const deletedProduct = await prisma.product.delete({
+            where: {
+                id: data.productID
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                image: true
+            }
+        });
+        return deletedProduct;
+    }
+}

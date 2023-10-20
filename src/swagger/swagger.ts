@@ -53,6 +53,13 @@ import {
     OrderUpdateOpenAPISchema
 } from "./../app/orders/orders.zod";
 
+import {
+    ProductCreateMock,
+    ProductCreateOpenAPISchema,
+    ProductUpdateMock,
+    ProductUpdateOpenAPISchema
+} from "./../app/products/products.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -88,7 +95,9 @@ const doc = {
             TenantCreateExample: { value: TenantCreateMock },
             TenantUpdateExample: { value: TenantUpdateMock },
             OrderCreateExample: { value: OrderCreateMock },
-            OrderUpdateExample: { value: OrderUpdateMock }
+            OrderUpdateExample: { value: OrderUpdateMock },
+            ProductCreateExample: { value: ProductCreateMock },
+            ProductUpdateExample: { value: ProductUpdateMock }
         },
         "@schemas": {
             UserCreateSchema: UserCreateOpenAPISchema,
@@ -105,7 +114,9 @@ const doc = {
             TenantCreateSchema: TenantCreateOpenAPISchema,
             TenantUpdateSchema: TenantUpdateOpenAPISchema,
             OrderCreateSchema: OrderCreateOpenAPISchema,
-            OrderUpdateSchema: OrderUpdateOpenAPISchema
+            OrderUpdateSchema: OrderUpdateOpenAPISchema,
+            ProductCreateSchema: ProductCreateOpenAPISchema,
+            ProductUpdateSchema: ProductUpdateOpenAPISchema
         }
     }
 };

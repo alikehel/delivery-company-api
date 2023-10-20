@@ -6173,189 +6173,204 @@
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "trado",
-          "name": "Hannah Fay MD",
-          "password": "4Vcs7XomVtNTDqW",
-          "phone": "07915911625",
-          "salary": 7570776030969856,
-          "repositoryID": "b0d9a9ab-83c7-42fd-ad97-4b485ba439e2",
-          "branchID": "28f7283b-6113-4240-850e-b7d05ae5f1c9",
-          "role": "BRANCH_MANAGER",
+          "username": "carcer",
+          "name": "Archie Towne",
+          "password": "hhpStVy0G6KjkRa",
+          "phone": "07792551670",
+          "salary": 5287797499887616,
+          "repositoryID": "c5574bfe-d99a-4580-8405-15fefc8edbb9",
+          "branchID": "bc72e0ad-c322-4993-a6e8-b459ead1269f",
+          "role": "SUPER_ADMIN",
           "permissions": [
-            "DELETE_COMPANY_REPORTS"
+            "ADD_ORDER_TO_DELIVERY_AGENT",
+            "DELETE_PRICES",
+            "CHANGE_ORDER_STATUS",
+            "ADD_CLIENT"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "terga",
-          "password": "JzWlnQpwI_T5VWf"
+          "username": "incidunt",
+          "password": "9UxCVhEfJ4UMafY"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Latoya Reilly",
-          "branchID": "c0f3945b-5882-4ab0-891c-eda082112d9e"
+          "name": "Garrett Bradtke",
+          "branchID": "15a19921-a0d8-4971-88e0-eede02fb6f60"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "tactus",
-          "name": "Melissa Lind",
-          "password": "aiODsJVihQoJQd0",
-          "phone": "07768004342",
-          "salary": 4568929879982080,
-          "repositoryID": "940fef2f-a218-49d9-b9eb-bcf118939c33",
-          "branchID": "7c3ae6b6-c58e-4b8b-92e4-b21748f859e1",
-          "role": "RECEIVING_AGENT",
+          "username": "bestia",
+          "name": "Mr. Ronald Little",
+          "password": "dZIf0CJqF60P941",
+          "phone": "07407395780",
+          "salary": 5314362128465920,
+          "repositoryID": "f907c641-be4e-474f-a2c5-8371628452d1",
+          "branchID": "4b2cf836-07f8-4f26-a613-ade316512479",
+          "role": "BRANCH_MANAGER",
           "permissions": [
-            "DELETE_REPORTS",
-            "ADD_CLIENT",
-            "DELETE_ORDERS",
-            "DELETE_GOVERNMENT_REPORTS",
-            "CHANGE_CLOSED_ORDER_STATUS"
+            "CHANGE_ORDER_STATUS",
+            "DELETE_REPOSITORIES_REPORTS"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Brandy Lowe",
-          "branchID": "3a1abd6b-b467-4798-ab0d-91ca4a8c4dc1"
+          "name": "Jay Schaden",
+          "branchID": "3e8e2907-103b-409d-b62d-e5197457099c"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Nicole Abbott",
-          "governorate": "AL_ANBAR",
-          "branchID": "49be807d-f6d7-4561-a2e6-a1212b735c7b",
+          "name": "Sidney Farrell V",
+          "governorate": "BAGHDAD",
+          "branchID": "06f5cc16-de24-43ed-80aa-19dd40351919",
           "deliveryAgentsIDs": [
-            "aac48035-5127-468f-af31-1af245a19646",
-            "a9987d30-5543-41e4-a11e-adbee94f2c2d",
-            "096d6c97-3051-4dc9-a20d-672727d2b04a",
-            "fb7dcb70-e42f-4ce4-81a1-5c6fcebc49a7"
+            "2fab9761-5d34-4001-b89c-b7e9111aac21"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Molly O'Kon III",
-          "governorate": "NINAWA",
-          "branchID": "f055603f-a291-435a-b6d6-6c849675019e",
+          "name": "Lester Abbott-Schoen",
+          "governorate": "BABIL",
+          "branchID": "08c7c483-c1c3-42ca-b73b-2f8e69429723",
           "deliveryAgentsIDs": [
-            "5b2e3a7e-bd40-4e77-9422-a1bb4407ad24"
+            "763a3245-e3a6-4171-8b5f-670436782d2f",
+            "de4ceb7c-58be-4bf6-a526-167635e4e9e9",
+            "80e63306-3518-4134-a33d-94b6ccc4475f"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Rhonda Heidenreich",
-          "phone": "07777035694",
-          "accountType": "CLIENT",
-          "token": "amoveo",
-          "password": "PTDGyh10xAp7lOY",
-          "branchID": "3e570d1b-914d-48f9-b354-c4b156881950"
+          "name": "Lola Ondricka",
+          "phone": "07812532546",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "omnis",
+          "password": "LJ5r9QqZGhxhsKq",
+          "branchID": "cf2fedcb-1ff5-4588-a11e-bd632d7c9595"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Jon Purdy",
-          "phone": "07584038070",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "tollo",
-          "password": "uwahgZipMlOC8fU",
-          "branchID": "e887631e-7e9f-419d-ba7d-c02ae72e64f7"
+          "name": "Christina Hodkiewicz",
+          "phone": "07855245840",
+          "accountType": "CLIENT",
+          "token": "tergeo",
+          "password": "dWUF3xkyeck7TEE",
+          "branchID": "ee6a35f6-2a6a-4604-a8d4-15b3a3a4bb89"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Julie Lemke",
-          "email": "Maudie_Gottlieb@example.net",
-          "phone": "07754993571",
-          "governorate": "ERBIL"
+          "name": "Roberta Quigley",
+          "email": "Arne.Hoppe68@example.org",
+          "phone": "07867369537",
+          "governorate": "SULAYMANIYAH"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Miss Laverne Hoppe",
-          "email": "Jacey_Macejkovic30@example.org",
-          "phone": "07375504035",
-          "governorate": "NAJAF"
+          "name": "Gustavo Schroeder",
+          "email": "Marcella_Russel@example.org",
+          "phone": "07418816442",
+          "governorate": "DIYALA"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Austin Kihn",
-          "phone": "07686274673",
-          "website": "https://jovial-motorcycle.com/",
-          "logo": "https://male-insurance.org/",
-          "registrationText": "ancilla",
-          "governoratePrice": 2546540176474112,
-          "deliveryAgentFee": 638985902751744,
-          "baghdadPrice": 423223223123968,
-          "additionalPriceForEvery500000IraqiDinar": 8956116205568,
-          "additionalPriceForEveryKilogram": 7704003049684992,
-          "additionalPriceForRemoteAreas": 2533701122523136,
+          "name": "Nathaniel Hahn",
+          "phone": "07695688323",
+          "website": "https://amusing-proof-reader.net/",
+          "logo": "https://naughty-strength.com",
+          "registrationText": "adopto",
+          "governoratePrice": 4392226536816640,
+          "deliveryAgentFee": 2542406811516928,
+          "baghdadPrice": 5475797085192192,
+          "additionalPriceForEvery500000IraqiDinar": 8226504712388608,
+          "additionalPriceForEveryKilogram": 3629423433613312,
+          "additionalPriceForRemoteAreas": 389065929129984,
           "orderStatusAutomaticUpdate": false
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Gustavo Mosciski",
-          "phone": "07841055665",
-          "website": "https://miniature-zucchini.biz",
-          "logo": "https://occasional-grain.com/",
-          "registrationText": "comptus",
-          "governoratePrice": 4396600977784832,
-          "deliveryAgentFee": 3839932783132672,
-          "baghdadPrice": 8012784721723392,
-          "additionalPriceForEvery500000IraqiDinar": 6964405390540800,
-          "additionalPriceForEveryKilogram": 1060119278256128,
-          "additionalPriceForRemoteAreas": 7123432284094464,
+          "name": "Eduardo Mante",
+          "phone": "07928043111",
+          "website": "https://scary-keeper.org",
+          "logo": "https://hidden-fennel.com/",
+          "registrationText": "basium",
+          "governoratePrice": 7720439528816640,
+          "deliveryAgentFee": 2715202206302208,
+          "baghdadPrice": 4261146326466560,
+          "additionalPriceForEvery500000IraqiDinar": 1744528337797120,
+          "additionalPriceForEveryKilogram": 418469958909952,
+          "additionalPriceForRemoteAreas": 3940493549371392,
           "orderStatusAutomaticUpdate": true
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 8186810528169984,
-          "paidAmount": 2694087343865856,
-          "totalCostInUSD": 8943314988433408,
-          "paidAmountInUSD": 781948895100928,
-          "discount": 8324843896307712,
-          "receiptNumber": 2499167890964480,
-          "quantity": 2021899695554560,
-          "weight": 6785961337815040,
-          "recipientName": "debilito",
-          "recipientPhone": "suscipit",
-          "recipientAddress": "ultio",
-          "details": "voluptatem",
-          "notes": "tergo",
+          "totalCost": 6115070167744512,
+          "paidAmount": 8577058447818752,
+          "totalCostInUSD": 3752092512550912,
+          "paidAmountInUSD": 8617258666426368,
+          "discount": 5768233747480576,
+          "receiptNumber": 679737273876480,
+          "quantity": 6713038669348864,
+          "weight": 6897589779693568,
+          "recipientName": "deinde",
+          "recipientPhone": "cunctatio",
+          "recipientAddress": "conspergo",
+          "details": "pectus",
+          "notes": "nesciunt",
           "status": "REPLACED",
           "deliveryType": "REPLACEMENT",
-          "clientID": "241a6a4f-fd5a-429a-a7d8-bfe0ce9380a7",
-          "deliveryAgentID": "f25658ee-636b-49ee-8c29-c1ff73bd8cbe",
-          "deliveryDate": "2023-10-20T13:28:52.374Z"
+          "clientID": "03a6717a-9ca6-4d85-9e8c-b35bc355d0b0",
+          "deliveryAgentID": "7230fcc7-c130-469d-bb86-cdf457745c86",
+          "deliveryDate": "2023-10-20T17:18:23.804Z"
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 933683598983168,
-          "paidAmount": 8111309946093568,
-          "totalCostInUSD": 7667144068169728,
-          "paidAmountInUSD": 6183291101118464,
-          "discount": 8513211311587328,
-          "receiptNumber": 3311497266593792,
-          "quantity": 4897731220865024,
-          "weight": 6698212918296576,
-          "recipientName": "admoveo",
-          "recipientPhone": "crebro",
-          "recipientAddress": "demum",
-          "details": "triduana",
-          "notes": "adduco",
-          "status": "RESEND",
+          "totalCost": 5005025212366848,
+          "paidAmount": 6558923066703872,
+          "totalCostInUSD": 7501510598459392,
+          "paidAmountInUSD": 6236871453573120,
+          "discount": 8684867571154944,
+          "receiptNumber": 4687783432028160,
+          "quantity": 2350990487453696,
+          "weight": 606246887489536,
+          "recipientName": "baiulus",
+          "recipientPhone": "appello",
+          "recipientAddress": "crapula",
+          "details": "tricesimus",
+          "notes": "asperiores",
+          "status": "READY_TO_SEND",
           "deliveryType": "REPLACEMENT",
-          "clientID": "c2ae9d15-e730-4c01-b8bf-6585886dc019",
-          "deliveryAgentID": "e4532e2d-7155-4a1a-8408-2b61c6ddc1b9",
-          "deliveryDate": "2023-10-20T20:40:07.765Z"
+          "clientID": "0961a828-a448-4d6f-b59a-31adf0b3fd7e",
+          "deliveryAgentID": "df2c48c3-302e-45ed-a11a-bcbd17956701",
+          "deliveryDate": "2023-10-21T00:29:20.829Z"
+        }
+      },
+      "ProductCreateExample": {
+        "value": {
+          "title": "veritatis",
+          "price": 4049950082072576,
+          "image": "https://picsum.photos/seed/5GNfxa/640/480",
+          "stock": 0
+        }
+      },
+      "ProductUpdateExample": {
+        "value": {
+          "title": "terminatio",
+          "price": 8056391067500544,
+          "image": "https://picsum.photos/seed/fINGu/640/480",
+          "stock": 0
         }
       }
     },
@@ -7097,6 +7112,46 @@
           "deliveryDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "ProductCreateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "image": {
+            "type": "string"
+          },
+          "stock": {
+            "default": 0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "title",
+          "price"
+        ]
+      },
+      "ProductUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "image": {
+            "type": "string"
+          },
+          "stock": {
+            "default": 0,
+            "type": "number"
           }
         }
       }
