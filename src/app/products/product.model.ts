@@ -20,7 +20,17 @@ export class ProductModel {
                 title: data.title,
                 price: data.price,
                 image: data.image,
-                stock: data.stock
+                stock: data.stock,
+                Category: {
+                    connectOrCreate: {
+                        where: {
+                            title: data.category
+                        },
+                        create: {
+                            title: data.category || "أخري"
+                        }
+                    }
+                }
             },
             select: {
                 id: true,
