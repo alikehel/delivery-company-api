@@ -6849,6 +6849,687 @@
         }
       }
     },
+    "/api/categories": {
+      "post": {
+        "tags": [
+          "Categories Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Category created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400-1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant create the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the category"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the category"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryCreateSchema"
+              },
+              "examples": {
+                "CategoryCreateExample": {
+                  "$ref": "#/components/examples/CategoryCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Categories Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the categories data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the categories data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the categories data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{categoryID}": {
+      "get": {
+        "tags": [
+          "Categories Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "categoryID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the category data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Categories Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "categoryID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Category updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryUpdateSchema"
+              },
+              "examples": {
+                "CategoryUpdateExample": {
+                  "$ref": "#/components/examples/CategoryUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "categoryID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Category deleted Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the category"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the category"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/notifications": {
       "get": {
         "tags": [
@@ -7109,217 +7790,1660 @@
           }
         }
       }
+    },
+    "/api/colors": {
+      "post": {
+        "tags": [
+          "Colors Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Color created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400-1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant create the color",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the color"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the color"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ColorCreateSchema"
+              },
+              "examples": {
+                "ColorCreateExample": {
+                  "$ref": "#/components/examples/ColorCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Colors Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all colors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the colors data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the colors data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the colors data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/colors/{colorID}": {
+      "get": {
+        "tags": [
+          "Colors Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "colorID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the color data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Colors Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "colorID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Color updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ColorUpdateSchema"
+              },
+              "examples": {
+                "ColorUpdateExample": {
+                  "$ref": "#/components/examples/ColorUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Colors Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "colorID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Color deleted Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Color deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Color deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the color",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the color"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the color"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sizes": {
+      "post": {
+        "tags": [
+          "Sizes Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Size created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400-1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "fail"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant create the size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the size"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant create the size"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SizeCreateSchema"
+              },
+              "examples": {
+                "SizeCreateExample": {
+                  "$ref": "#/components/examples/SizeCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Sizes Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got all sizes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "true"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "true"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant get the sizes data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the sizes data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant get the sizes data"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sizes/{sizeID}": {
+      "get": {
+        "tags": [
+          "Sizes Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "sizeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Got the size data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sizes Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "sizeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201-1": {
+            "description": "Size updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "true"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "true"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SizeUpdateSchema"
+              },
+              "examples": {
+                "SizeUpdateExample": {
+                  "$ref": "#/components/examples/SizeUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sizes Routes"
+        ],
+        "description": "Must be a super admin",
+        "parameters": [
+          {
+            "name": "sizeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200-1": {
+            "description": "Size deleted Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Size deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Size deleted successfully"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "500-1": {
+            "description": "Cant delete the size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the size"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cant delete the size"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "ambulo",
-          "name": "Delbert Bins DVM",
-          "password": "8fCOL0nriSdYRXM",
-          "phone": "07928040596",
-          "salary": 6102199155294208,
-          "repositoryID": "51f16ce2-f246-4d12-ac80-f970ff115e56",
-          "branchID": "7831a706-4bab-44eb-9965-a3a4993cdd3f",
-          "role": "DATA_ENTRY",
+          "username": "stipes",
+          "name": "Dr. Aaron Batz",
+          "password": "5MyPwi4zV8kp0Hj",
+          "phone": "07721085639",
+          "salary": 8110717190275072,
+          "repositoryID": "5b0d2b75-59a8-4159-9e7f-12407030dd9d",
+          "branchID": "7556667f-cd76-4474-98e9-f3fe71e47dc0",
+          "role": "BRANCH_MANAGER",
           "permissions": [
-            "EDIT_ORDER_TOTAL_AMOUNT",
-            "DELETE_ORDERS",
-            "DELETE_REPORTS"
+            "ADD_ORDER"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "convoco",
-          "password": "SHPPHwr6fxgEPH3"
+          "username": "causa",
+          "password": "mcdfeuKd0Ifscid"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Carole Mann",
-          "branchID": "20104dfc-5bfb-4c16-9b7e-bf4fedc02829"
+          "name": "Alan Blick Sr.",
+          "branchID": "704c6245-1856-434b-b508-11642f935289"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "vomer",
-          "name": "Lydia Marvin",
-          "password": "KghIA9rOcdCopX2",
-          "phone": "07640378150",
-          "salary": 7597789447979008,
-          "repositoryID": "9107ac10-08d3-42da-9552-6ee28fd80e3f",
-          "branchID": "76bf3328-2667-4f26-9a76-ed478999f074",
-          "role": "INQUIRY_EMPLOYEE",
+          "username": "quisquam",
+          "name": "Janice Kohler",
+          "password": "6ybXDt6ICiocVhC",
+          "phone": "07550932102",
+          "salary": 2722891586076672,
+          "repositoryID": "e25a38d5-42a7-4260-a093-f7e54bf0b1e6",
+          "branchID": "88b7019d-b0b9-4b09-b981-fec847611159",
+          "role": "ACCOUNTANT",
           "permissions": [
-            "DELETE_REPOSITORIES_REPORTS",
-            "EDIT_CLIENT_NAME",
-            "DELETE_PRICES",
-            "ADD_CLIENT"
+            "CHANGE_ORDER_STATUS",
+            "DELETE_GOVERNMENT_REPORTS",
+            "DELETE_GOVERNMENT_REPORTS"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Matt Lebsack-Thiel",
-          "branchID": "62360817-0656-40f8-892e-4ff30e1cbc4c"
+          "name": "Moses Luettgen",
+          "branchID": "952eb92f-6046-4069-9db4-dcfaefb349e6"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Delores Jacobi",
-          "governorate": "NAJAF",
-          "branchID": "524f6173-5988-4a76-b036-e0d993bd5f7b",
+          "name": "Veronica Effertz V",
+          "governorate": "SULAYMANIYAH",
+          "branchID": "53c48cf9-2ae1-4e1c-bc3f-65f4c02797ab",
           "deliveryAgentsIDs": [
-            "b6d4b0ce-e644-4047-9396-8233c4ad54a9",
-            "a2e6b393-d594-48b6-8154-940ca003aa5f",
-            "155261c2-59b8-4886-a731-adcf711a4f9f",
-            "025a0ab2-c13c-4124-8c2d-f011e80b3850",
-            "cb2b4706-7bbc-4f48-a237-dcedbcdbdabe"
+            "99bb2689-838d-4c46-b08a-ec23837825a8",
+            "6c8b8869-58bd-4585-905b-7be6a317ffa1"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Emma Lueilwitz",
-          "governorate": "NINAWA",
-          "branchID": "b02810b6-f5fb-4f5c-9353-1531d796cf0e",
+          "name": "Boyd Muller",
+          "governorate": "KIRKUK",
+          "branchID": "c3ea330a-17d3-418c-9e5c-e51396b7ff25",
           "deliveryAgentsIDs": [
-            "dad2ce06-df3b-404e-b3fa-76aa36006d8c",
-            "5a4a0ed0-9db7-4e7a-96f4-d99c6bd367f9",
-            "01a242af-636c-45d5-a242-5d83e5eeff74"
+            "b8f1d0d7-8052-41c7-9122-29f3557a8459",
+            "5e959ba5-5d95-41ba-9e97-ed39fc9cfffa"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Camille McClure DVM",
-          "phone": "07537863464",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "theca",
-          "password": "C3P9c0byvG52Q68",
-          "branchID": "299f47c3-e944-4507-851a-f05d350f6047"
+          "name": "Jacob Lesch",
+          "phone": "07309231184",
+          "accountType": "CLIENT",
+          "token": "adeptio",
+          "password": "LqOV0Vs60EudId9",
+          "branchID": "0d149249-c661-47e1-bf27-73dc582c8845"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Vivian Dietrich",
-          "phone": "07708815907",
+          "name": "Mr. Mack Lakin-Prosacco",
+          "phone": "07745620584",
           "accountType": "CLIENT",
-          "token": "tripudio",
-          "password": "qQdzmb4o5HNWsJs",
-          "branchID": "4090ff3b-2e04-4f51-b9b6-ef74a7cf1dd0"
+          "token": "sto",
+          "password": "Wumj7gR1Y8aengD",
+          "branchID": "737605fc-54b0-4bcb-88aa-d76d3876eaf6"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Dean Yundt",
-          "email": "Brook.Paucek64@example.com",
-          "phone": "07695930045",
-          "governorate": "WASIT"
+          "name": "Randal Rempel",
+          "email": "Mariela38@example.org",
+          "phone": "07619575289",
+          "governorate": "DHI_QAR"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Patty King-Larson",
-          "email": "Earlene75@example.org",
-          "phone": "07515151227",
-          "governorate": "WASIT"
+          "name": "Steven Lynch",
+          "email": "Rod23@example.net",
+          "phone": "07303240109",
+          "governorate": "KIRKUK"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Ms. Jamie Rosenbaum Jr.",
-          "phone": "07321600818",
-          "website": "https://weird-fact.com",
-          "logo": "https://crazy-icecream.info/",
-          "registrationText": "patruus",
-          "governoratePrice": 8435955704791040,
-          "deliveryAgentFee": 3977705833889792,
-          "baghdadPrice": 7264717770850304,
-          "additionalPriceForEvery500000IraqiDinar": 6550746656931840,
-          "additionalPriceForEveryKilogram": 8633791694241792,
-          "additionalPriceForRemoteAreas": 7740560586571776,
+          "name": "Nicolas Deckow-Harris MD",
+          "phone": "07923616982",
+          "website": "https://pessimistic-fondue.org/",
+          "logo": "https://wise-wafer.name",
+          "registrationText": "pecto",
+          "governoratePrice": 2814334726045696,
+          "deliveryAgentFee": 59146047062016,
+          "baghdadPrice": 2875325480435712,
+          "additionalPriceForEvery500000IraqiDinar": 5133465037045760,
+          "additionalPriceForEveryKilogram": 241236254392320,
+          "additionalPriceForRemoteAreas": 2873774928035840,
           "orderStatusAutomaticUpdate": false
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Gwen Johnson",
-          "phone": "07518096927",
-          "website": "https://tense-football.com/",
-          "logo": "https://good-thumb.name",
-          "registrationText": "spes",
-          "governoratePrice": 887885651771392,
-          "deliveryAgentFee": 2542288844619776,
-          "baghdadPrice": 2801200319692800,
-          "additionalPriceForEvery500000IraqiDinar": 7504819264684032,
-          "additionalPriceForEveryKilogram": 1527471163834368,
-          "additionalPriceForRemoteAreas": 649815455170560,
+          "name": "Tanya Johnson",
+          "phone": "07448029297",
+          "website": "https://comfortable-wastebasket.info/",
+          "logo": "https://wiry-midnight.biz",
+          "registrationText": "patria",
+          "governoratePrice": 1993072455974912,
+          "deliveryAgentFee": 8368845494419456,
+          "baghdadPrice": 3516299913199616,
+          "additionalPriceForEvery500000IraqiDinar": 1337745450467328,
+          "additionalPriceForEveryKilogram": 2188846747877376,
+          "additionalPriceForRemoteAreas": 3316520484601856,
           "orderStatusAutomaticUpdate": true
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 3967106418737152,
-          "paidAmount": 478459256111104,
-          "totalCostInUSD": 7123757787250688,
-          "paidAmountInUSD": 3089192999452672,
-          "discount": 3396130972893184,
-          "receiptNumber": 2766200891244544,
-          "quantity": 4097608796602368,
-          "weight": 1418239087214592,
-          "recipientName": "carpo",
-          "recipientPhone": "acervus",
-          "recipientAddress": "soleo",
-          "details": "theatrum",
-          "notes": "acceptus",
-          "status": "REGISTERED",
-          "deliveryType": "NORMAL",
-          "clientID": "1e5311f2-13ce-4539-b9c4-41eba659ed12",
-          "deliveryAgentID": "b57165e2-ccda-42c3-8436-df849ad24c0c",
-          "deliveryDate": "2023-10-22T15:42:26.370Z"
+          "totalCost": 7038170331873280,
+          "paidAmount": 206530509012992,
+          "totalCostInUSD": 8375989753085952,
+          "paidAmountInUSD": 5252453230444544,
+          "discount": 4148420939874304,
+          "receiptNumber": 7185375988547584,
+          "quantity": 2953462557966336,
+          "weight": 1677118616371200,
+          "recipientName": "argumentum",
+          "recipientPhone": "coniecto",
+          "recipientAddress": "vomito",
+          "details": "talio",
+          "notes": "abeo",
+          "status": "WITH_DELIVERY_AGENT",
+          "deliveryType": "REPLACEMENT",
+          "clientID": "078be800-e7fa-4379-bc28-dd961d6a17ea",
+          "deliveryAgentID": "662406af-2640-41e2-8666-b137b6a7bd1d",
+          "deliveryDate": "2023-10-22T13:15:14.380Z",
+          "products": [
+            {
+              "productID": "91343ce2-c783-4eb5-8cf5-7f91ea263554",
+              "quantity": 3066878471700480
+            },
+            {
+              "productID": "9c50875d-d25d-415e-8c83-bf801de8c3f2",
+              "quantity": 7979896292769792
+            },
+            {
+              "productID": "3ba3fe96-e64b-474a-9d75-9f40406775d5",
+              "quantity": 2258128265543680
+            },
+            {
+              "productID": "0946cb84-5983-47b2-a825-efab5d0ce3e8",
+              "quantity": 2205569280638976
+            }
+          ]
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 3747570228658176,
-          "paidAmount": 5472293895536640,
-          "totalCostInUSD": 1568394486743040,
-          "paidAmountInUSD": 5892825057067008,
-          "discount": 3156360726315008,
-          "receiptNumber": 8755082990452736,
-          "quantity": 6003444584284160,
-          "weight": 6702011063992320,
-          "recipientName": "beatus",
-          "recipientPhone": "cribro",
-          "recipientAddress": "tolero",
-          "details": "teres",
-          "notes": "tribuo",
-          "status": "WITH_DELIVERY_AGENT",
-          "deliveryType": "NORMAL",
-          "clientID": "15b548bf-7799-41f9-9a25-279e090d8c73",
-          "deliveryAgentID": "032f00f0-67ba-46a0-9028-17dc3c511d6e",
-          "deliveryDate": "2023-10-22T17:27:07.365Z"
+          "totalCost": 6623944387854336,
+          "paidAmount": 3743480314593280,
+          "totalCostInUSD": 282302116528128,
+          "paidAmountInUSD": 43882807033856,
+          "discount": 4312105079537664,
+          "receiptNumber": 1105854793252864,
+          "quantity": 2483042278965248,
+          "weight": 5521862782091264,
+          "recipientName": "defero",
+          "recipientPhone": "tunc",
+          "recipientAddress": "patrocinor",
+          "details": "veniam",
+          "notes": "compono",
+          "status": "REGISTERED",
+          "deliveryType": "REPLACEMENT",
+          "clientID": "a35e05ea-c14a-4e59-9e9e-d946af801ca5",
+          "deliveryAgentID": "4b3a37e4-e5b5-42f9-84a2-4c4d91afe509",
+          "deliveryDate": "2023-10-22T21:21:14.561Z",
+          "products": [
+            {
+              "productID": "ca9ed83e-e441-43c9-af57-625941e7023f",
+              "quantity": 4653027132702720
+            }
+          ]
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "uter",
-          "price": 7150650775306240,
-          "image": "https://picsum.photos/seed/ohtxMV/640/480",
+          "title": "volva",
+          "price": 2790725857050624,
+          "image": "https://picsum.photos/seed/bQ0jCc/640/480",
           "stock": 0,
-          "category": "sunt"
+          "category": "atqui",
+          "colors": [
+            {
+              "title": "vigilo",
+              "quantity": 6413390431911936
+            },
+            {
+              "title": "canis",
+              "quantity": 3120816688463872
+            },
+            {
+              "title": "decet",
+              "quantity": 3236523663163392
+            }
+          ],
+          "sizes": [
+            {
+              "title": "custodia",
+              "quantity": 4991448694915072
+            },
+            {
+              "title": "vesco",
+              "quantity": 7189470929485824
+            },
+            {
+              "title": "cervus",
+              "quantity": 7559436495224832
+            },
+            {
+              "title": "vulgo",
+              "quantity": 1805113245040640
+            }
+          ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "vomer",
-          "price": 6506637225361408,
-          "image": "https://picsum.photos/seed/o3Wx2tnO/640/480",
-          "stock": 147349034762240,
-          "category": "audacia"
+          "title": "ago",
+          "price": 8572572578873344,
+          "image": "https://loremflickr.com/640/480?lock=6600021961080832",
+          "stock": 8649830228295680,
+          "category": "venustas",
+          "colors": [
+            {
+              "title": "qui",
+              "quantity": 4047013169594368
+            },
+            {
+              "title": "vetus",
+              "quantity": 8896041386508288
+            },
+            {
+              "title": "pecto",
+              "quantity": 5968965591367680
+            },
+            {
+              "title": "studio",
+              "quantity": 8869924319526912
+            },
+            {
+              "title": "deripio",
+              "quantity": 4320076291375104
+            }
+          ],
+          "sizes": [
+            {
+              "title": "auditor",
+              "quantity": 788735375441920
+            },
+            {
+              "title": "circumvenio",
+              "quantity": 3902901783101440
+            }
+          ]
         }
       },
       "NotificationUpdateExample": {
@@ -7329,12 +9453,32 @@
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "capio"
+          "title": "tepesco"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "audio"
+          "title": "tardus"
+        }
+      },
+      "ColorCreateExample": {
+        "value": {
+          "title": "venia"
+        }
+      },
+      "ColorUpdateExample": {
+        "value": {
+          "title": "vomito"
+        }
+      },
+      "SizeCreateExample": {
+        "value": {
+          "title": "inflammatio"
+        }
+      },
+      "SizeUpdateExample": {
+        "value": {
+          "title": "summisse"
         }
       }
     },
@@ -7977,6 +10121,25 @@
           "deliveryDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "productID",
+                "quantity"
+              ]
+            }
           }
         },
         "required": [
@@ -7996,7 +10159,8 @@
           "status",
           "deliveryType",
           "clientID",
-          "deliveryAgentID"
+          "deliveryAgentID",
+          "products"
         ]
       },
       "OrderUpdateSchema": {
@@ -8076,6 +10240,25 @@
           "deliveryDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "productID",
+                "quantity"
+              ]
+            }
           }
         }
       },
@@ -8097,6 +10280,42 @@
           },
           "category": {
             "type": "string"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "title",
+                "quantity"
+              ]
+            }
+          },
+          "sizes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "title",
+                "quantity"
+              ]
+            }
           }
         },
         "required": [
@@ -8122,6 +10341,42 @@
           },
           "category": {
             "type": "string"
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "title",
+                "quantity"
+              ]
+            }
+          },
+          "sizes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "title",
+                "quantity"
+              ]
+            }
           }
         }
       },
@@ -8152,6 +10407,44 @@
         "required": [
           "title"
         ]
+      },
+      "ColorCreateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "ColorUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "SizeCreateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "SizeUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {

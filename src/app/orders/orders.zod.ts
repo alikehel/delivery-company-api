@@ -21,7 +21,13 @@ export const OrderCreateSchema = z.object({
     deliveryType: z.nativeEnum(DeliveryType),
     clientID: z.string().uuid(),
     deliveryAgentID: z.string().uuid(),
-    deliveryDate: z.date().optional()
+    deliveryDate: z.date().optional(),
+    products: z.array(
+        z.object({
+            productID: z.string().uuid(),
+            quantity: z.number()
+        })
+    )
 });
 
 export type OrderCreateType = z.infer<typeof OrderCreateSchema>;

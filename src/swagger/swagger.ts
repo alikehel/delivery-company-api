@@ -72,6 +72,20 @@ import {
     CategoryUpdateOpenAPISchema
 } from "./../app/categories/categories.zod";
 
+import {
+    ColorCreateMock,
+    ColorCreateOpenAPISchema,
+    ColorUpdateMock,
+    ColorUpdateOpenAPISchema
+} from "./../app/colors/colors.zod";
+
+import {
+    SizeCreateMock,
+    SizeCreateOpenAPISchema,
+    SizeUpdateMock,
+    SizeUpdateOpenAPISchema
+} from "./../app/sizes/sizes.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -112,7 +126,11 @@ const doc = {
             ProductUpdateExample: { value: ProductUpdateMock },
             NotificationUpdateExample: { value: NotificationUpdateMock },
             CategoryUpdateExample: { value: CategoryUpdateMock },
-            CategoryCreateExample: { value: CategoryCreateMock }
+            CategoryCreateExample: { value: CategoryCreateMock },
+            ColorCreateExample: { value: ColorCreateMock },
+            ColorUpdateExample: { value: ColorUpdateMock },
+            SizeCreateExample: { value: SizeCreateMock },
+            SizeUpdateExample: { value: SizeUpdateMock }
         },
         "@schemas": {
             UserCreateSchema: UserCreateOpenAPISchema,
@@ -134,7 +152,11 @@ const doc = {
             ProductUpdateSchema: ProductUpdateOpenAPISchema,
             NotificationUpdateSchema: NotificationUpdateOpenAPISchema,
             CategoryUpdateSchema: CategoryUpdateOpenAPISchema,
-            CategoryCreateSchema: CategoryCreateOpenAPISchema
+            CategoryCreateSchema: CategoryCreateOpenAPISchema,
+            ColorCreateSchema: ColorCreateOpenAPISchema,
+            ColorUpdateSchema: ColorUpdateOpenAPISchema,
+            SizeCreateSchema: SizeCreateOpenAPISchema,
+            SizeUpdateSchema: SizeUpdateOpenAPISchema
         }
     }
 };

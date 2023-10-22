@@ -7,7 +7,23 @@ export const ProductCreateSchema = z.object({
     price: z.number(),
     image: z.string().optional(),
     stock: z.number().default(0),
-    category: z.string().optional()
+    category: z.string().optional(),
+    colors: z
+        .array(
+            z.object({
+                title: z.string(),
+                quantity: z.number()
+            })
+        )
+        .optional(),
+    sizes: z
+        .array(
+            z.object({
+                title: z.string(),
+                quantity: z.number()
+            })
+        )
+        .optional()
 });
 
 export type ProductCreateType = z.infer<typeof ProductCreateSchema>;

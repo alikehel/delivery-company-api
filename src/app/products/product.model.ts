@@ -24,19 +24,79 @@ export class ProductModel {
                 Category: {
                     connectOrCreate: {
                         where: {
-                            title: data.category
+                            title: data.category || "أخري"
                         },
                         create: {
                             title: data.category || "أخري"
                         }
                     }
+                },
+                ProductColors: {
+                    create: data.colors?.map((color) => {
+                        return {
+                            quantity: color.quantity,
+                            color: {
+                                connectOrCreate: {
+                                    where: {
+                                        title: color.title || "أخري"
+                                    },
+                                    create: {
+                                        title: color.title || "أخري"
+                                    }
+                                }
+                            }
+                        };
+                    })
+                },
+                ProductSizes: {
+                    create: data.sizes?.map((size) => {
+                        return {
+                            quantity: size.quantity,
+                            size: {
+                                connectOrCreate: {
+                                    where: {
+                                        title: size.title || "أخري"
+                                    },
+                                    create: {
+                                        title: size.title || "أخري"
+                                    }
+                                }
+                            }
+                        };
+                    })
                 }
             },
             select: {
                 id: true,
                 title: true,
                 price: true,
-                image: true
+                image: true,
+                stock: true,
+                Category: {
+                    select: {
+                        title: true
+                    }
+                },
+                ProductColors: {
+                    select: {
+                        quantity: true,
+                        color: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                },
+                ProductSizes: {
+                    select: {
+                        quantity: true,
+                        size: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                }
             }
         });
         return createdProduct;

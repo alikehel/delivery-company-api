@@ -32,6 +32,18 @@ export class OrderModel {
                     connect: {
                         id: data.deliveryAgentID
                     }
+                },
+                OrderProducts: {
+                    create: data.products.map((product) => {
+                        return {
+                            quantity: product.quantity,
+                            product: {
+                                connect: {
+                                    id: product.productID
+                                }
+                            }
+                        };
+                    })
                 }
             },
             select: {
@@ -52,8 +64,26 @@ export class OrderModel {
                 status: true,
                 deliveryType: true,
                 deliveryDate: true,
-                client: true,
-                deliveryAgent: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                OrderProducts: {
+                    select: {
+                        quantity: true,
+                        product: true
+                    }
+                }
             }
         });
         return createdOrder;
@@ -89,8 +119,26 @@ export class OrderModel {
                 status: true,
                 deliveryType: true,
                 deliveryDate: true,
-                client: true,
-                deliveryAgent: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                OrderProducts: {
+                    select: {
+                        quantity: true,
+                        product: true
+                    }
+                }
             }
         });
         return orders;
@@ -119,8 +167,26 @@ export class OrderModel {
                 status: true,
                 deliveryType: true,
                 deliveryDate: true,
-                client: true,
-                deliveryAgent: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                OrderProducts: {
+                    select: {
+                        quantity: true,
+                        product: true
+                    }
+                }
             }
         });
         return order;
@@ -161,6 +227,20 @@ export class OrderModel {
                               id: data.orderData.deliveryAgentID
                           }
                       }
+                    : undefined,
+                OrderProducts: data.orderData.products
+                    ? {
+                          create: data.orderData.products.map((product) => {
+                              return {
+                                  quantity: product.quantity,
+                                  product: {
+                                      connect: {
+                                          id: product.productID
+                                      }
+                                  }
+                              };
+                          })
+                      }
                     : undefined
             },
             select: {
@@ -181,8 +261,26 @@ export class OrderModel {
                 status: true,
                 deliveryType: true,
                 deliveryDate: true,
-                client: true,
-                deliveryAgent: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                OrderProducts: {
+                    select: {
+                        quantity: true,
+                        product: true
+                    }
+                }
             }
         });
         return order;
@@ -211,8 +309,20 @@ export class OrderModel {
                 status: true,
                 deliveryType: true,
                 deliveryDate: true,
-                client: true,
-                deliveryAgent: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true
+                    }
+                }
             }
         });
         return deletedOrder;
