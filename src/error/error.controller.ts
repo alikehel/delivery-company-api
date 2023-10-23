@@ -59,7 +59,7 @@ const sendErrorProd = (err: AppError, res: Response) => {
         // 2) Send generic message
         res.status(500).json({
             status: "error",
-            message: "Something went very wrong!"
+            message: "حدث خطأ ما!"
         });
     }
 };
@@ -101,8 +101,12 @@ export default (
             );
         } else if (error.code && error.code.startsWith("P")) {
             // console.log(error);
+            // error = new AppError(
+            //     `حدث خطأ ما في قاعدة البيانات [رمز الخطأ: ${error.code}]`,
+            //     500
+            // );
             error = new AppError(
-                `Something probably went wrong with the database [code: ${error.code}]`,
+                `حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${error.code}]`,
                 500
             );
         }
