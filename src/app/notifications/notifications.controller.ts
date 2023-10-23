@@ -7,7 +7,8 @@ const notificationModel = new NotificationModel();
 
 export const getAllNotifications = catchAsync(async (req, res) => {
     const notificationsCount = await notificationModel.getNotificationsCount();
-    const pagesCount = Math.ceil(notificationsCount / 10);
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(notificationsCount / size);
     const userID = res.locals.user.id;
 
     let seen = false;
@@ -36,8 +37,8 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     if (page > pagesCount) {
         throw new AppError("Page number out of range", 400);
     }
-    const take = page * 10;
-    const skip = (page - 1) * 10;
+    const take = page * size;
+    const skip = (page - 1) * size;
     // if (Number.isNaN(offset)) {
     //     skip = 0;
     // }

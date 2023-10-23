@@ -19,7 +19,12 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
-                client: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return createdStore;
@@ -41,7 +46,12 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
-                client: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return stores;
@@ -56,7 +66,12 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
-                client: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return store;
@@ -82,7 +97,12 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
-                client: true
+                client: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return store;

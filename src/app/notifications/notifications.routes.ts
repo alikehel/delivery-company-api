@@ -23,6 +23,12 @@ router.route("/notifications").get(
             required: false
         }
 
+        #swagger.parameters['size'] = {
+            in: 'query',
+            description: 'Page Size (Number of Items per Page) (Default: 10)',
+            required: false
+        }
+
         #swagger.parameters['seen'] = {
             in: 'query',
             description: 'Get seen notifications or not ( boolean )',

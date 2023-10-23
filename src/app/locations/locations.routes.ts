@@ -46,6 +46,12 @@ router.route("/locations").get(
             description: 'Page Number',
             required: false
         }
+
+        #swagger.parameters['size'] = {
+            in: 'query',
+            description: 'Page Size (Number of Items per Page) (Default: 10)',
+            required: false
+        }
     */
 );
 

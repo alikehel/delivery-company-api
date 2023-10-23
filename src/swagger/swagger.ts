@@ -145,15 +145,42 @@ const doc = {
             SuccessResponseSchema: {
                 type: "object",
                 properties: {
-                    status: { type: "string" },
-                    data: { type: "object" }
+                    status: {
+                        type: "string",
+                        enum: ["success"]
+                    },
+                    data: {
+                        type: "object"
+                    }
                 }
             },
+            // SigninSuccessResponseSchema: {
+            //     type: "object",
+            //     properties: {
+            //         status: {
+            //             type: "string",
+            //             enum: ["success"]
+            //         },
+            //         data: {
+            //             type: "object",
+            //             properties: {
+            //                 token: {
+            //                     type: "string"
+            //                 }
+            //             }
+            //         }
+            //     }
+            // },
             ErrorResponseSchema: {
                 type: "object",
                 properties: {
-                    status: { type: "string" },
-                    message: { type: "string" }
+                    status: {
+                        type: "string",
+                        enum: ["error"]
+                    },
+                    message: {
+                        type: "string"
+                    }
                 }
             },
             UserCreateSchema: UserCreateOpenAPISchema,

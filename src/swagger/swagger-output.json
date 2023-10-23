@@ -5201,359 +5201,367 @@
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "utilis",
-          "name": "Preston Kiehn",
-          "password": "EIQZeGTcOFFM7tg",
-          "phone": "07324572883",
-          "salary": 274567629111296,
-          "repositoryID": "9c8be3ed-c9a7-4a92-b1df-0244372824f9",
-          "branchID": "7c0bbc38-13e2-40c6-904c-6444824d6f85",
-          "role": "BRANCH_MANAGER",
+          "username": "vorax",
+          "name": "Pablo Deckow",
+          "password": "j63HqG7IlHCScDV",
+          "phone": "07628452605",
+          "salary": 943968846086144,
+          "repositoryID": "758478f6-01e2-46d8-86cf-e0681386e3f7",
+          "branchID": "db7b9f46-60e0-48b9-b4ea-f18b28c4f7fd",
+          "role": "INQUIRY_EMPLOYEE",
           "permissions": [
-            "EDIT_ORDER_TOTAL_AMOUNT"
+            "DELETE_PRICES",
+            "CHANGE_ORDER_STATUS"
           ]
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "suggero",
-          "password": "u40MuGdk3Lxgba9"
+          "username": "volubilis",
+          "password": "_C3zSSBs0IxIv__"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Dr. Randolph Romaguera",
-          "branchID": "c291e1df-df52-4e78-a990-8916bdbe6b77"
+          "name": "Jackie Runolfsdottir",
+          "branchID": "2fd71b9e-14a4-4d39-bae5-0321940ae9b3"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "vallum",
-          "name": "Roy Dach",
-          "password": "0D7ktvZYYYj0ayg",
-          "phone": "07432616675",
-          "salary": 398728470986752,
-          "repositoryID": "d15ad317-c94a-4334-a875-c03e407db186",
-          "branchID": "96c044a9-8a8b-4aae-9474-1d9082334829",
-          "role": "EMERGENCY_EMPLOYEE",
+          "username": "theatrum",
+          "name": "Norma Mertz",
+          "password": "4KOweuGjoS5dukF",
+          "phone": "07513601716",
+          "salary": 6090538121953280,
+          "repositoryID": "efec0d65-c976-4eb7-8acf-8eeb128775ad",
+          "branchID": "44c6a12e-43d4-49df-a689-7e97b93e7160",
+          "role": "BRANCH_MANAGER",
           "permissions": [
-            "EDIT_CLIENT_NAME",
-            "ADD_CLIENT",
-            "EDIT_CLIENT_NAME"
+            "LOCK_ORDER_STATUS",
+            "DELETE_REPORTS",
+            "DELETE_REPOSITORIES_REPORTS",
+            "DELETE_REPORTS",
+            "LOCK_ORDER_STATUS"
           ]
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Mr. Jonathan Wisoky",
-          "branchID": "0655c6a1-454a-41b2-9d90-fd91b7c5fb7b"
+          "name": "Shari Harvey",
+          "branchID": "b4f46f84-2f12-4622-a1a2-e8553bdfd2bd"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Mr. Alex Weissnat",
-          "governorate": "BABIL",
-          "branchID": "37d6ddd5-fc78-48d3-aab6-5e2ee8edbfa0",
+          "name": "Jody Sawayn",
+          "governorate": "SULAYMANIYAH",
+          "branchID": "e1c96ee6-d9b9-47a2-9893-d8c9560ea051",
           "deliveryAgentsIDs": [
-            "17d7c9c4-c5bc-4b4a-948d-609b691fbd1f"
+            "0184842f-a980-4fab-aa1c-a747dcf516fc",
+            "5bf6c0f2-d352-48cc-b4df-aafcdaacdf19",
+            "c422ecec-6d35-4bd5-8b32-db759f09ee22",
+            "2737ba39-3f8f-4592-8801-f9deeb02b4d9"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Lindsey Schaefer",
-          "governorate": "WASIT",
-          "branchID": "7a7d6300-e7cd-4b35-b7af-342c7a75f1a5",
+          "name": "Kristine Muller Sr.",
+          "governorate": "AL_ANBAR",
+          "branchID": "51e5cd68-ff97-4081-a28d-a9f6b7ce8670",
           "deliveryAgentsIDs": [
-            "ae859e67-0f0a-4415-9071-09b91257d1e3",
-            "ef4f38f9-77c6-4df6-bb5c-7620d2e5d82d",
-            "8b917bd1-b314-45e1-b753-4df3ac312b1e"
+            "c3c802cd-4066-4dad-bbd6-d17e5a089260"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Carl Bergnaum-Abbott II",
-          "phone": "07995355422",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "summisse",
-          "password": "WqWArSDzHyhW05u",
-          "branchID": "57116c2b-76e4-480e-8d98-581b3e514f31"
+          "name": "Samantha Bergstrom",
+          "phone": "07485043562",
+          "accountType": "CLIENT",
+          "token": "arca",
+          "password": "1lz1sqQpuxEj5yZ",
+          "branchID": "6317245f-b0be-41fa-84bb-2b5f9d33276c"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Juanita Graham",
-          "phone": "07449087850",
-          "accountType": "CLIENT",
-          "token": "cura",
-          "password": "ZEbS8RAZsOj6J0L",
-          "branchID": "f96179ba-93de-47c9-b77e-9a88d5a56096"
+          "name": "Carl Hammes",
+          "phone": "07793958959",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "thymum",
+          "password": "TNSvN7X5TO2ujT3",
+          "branchID": "9614764a-8155-4f48-894e-e137848e304c"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Dianna Ritchie",
-          "email": "Rosalinda91@example.org",
-          "phone": "07845541618",
-          "governorate": "KIRKUK"
+          "name": "Mr. Boyd Kuhn",
+          "email": "Oswaldo47@example.com",
+          "phone": "07467193714",
+          "governorate": "KARBALA"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Dale Herman II",
-          "email": "Ivy.Douglas94@example.org",
-          "phone": "07998805356",
-          "governorate": "MUTHANNA"
+          "name": "Charlie Sanford-Emard",
+          "email": "Jesus.Romaguera72@example.org",
+          "phone": "07995763119",
+          "governorate": "DIYALA"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Mario Batz",
-          "phone": "07868081171",
-          "website": "https://tepid-roundabout.com",
-          "logo": "https://soft-mask.biz/",
-          "registrationText": "videlicet",
-          "governoratePrice": 2854456995610624,
-          "deliveryAgentFee": 2174935264919552,
-          "baghdadPrice": 3150633821536256,
-          "additionalPriceForEvery500000IraqiDinar": 1596535018094592,
-          "additionalPriceForEveryKilogram": 8973325474725888,
-          "additionalPriceForRemoteAreas": 8066753468825600,
+          "name": "Dr. Rickey Weissnat",
+          "phone": "07752806615",
+          "website": "https://scared-broccoli.org/",
+          "logo": "https://knobby-anticipation.org/",
+          "registrationText": "vere",
+          "governoratePrice": 5231550534778880,
+          "deliveryAgentFee": 8921011070173184,
+          "baghdadPrice": 890562546761728,
+          "additionalPriceForEvery500000IraqiDinar": 8008497752965120,
+          "additionalPriceForEveryKilogram": 8706656831537152,
+          "additionalPriceForRemoteAreas": 7257397762457600,
           "orderStatusAutomaticUpdate": true
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Josefina Beier",
-          "phone": "07545559403",
-          "website": "https://next-sewer.com",
-          "logo": "https://well-worn-movie.name",
-          "registrationText": "depraedor",
-          "governoratePrice": 6605857768865792,
-          "deliveryAgentFee": 2546823178747904,
-          "baghdadPrice": 6740807168032768,
-          "additionalPriceForEvery500000IraqiDinar": 6378132569325568,
-          "additionalPriceForEveryKilogram": 2109245050847232,
-          "additionalPriceForRemoteAreas": 4651256175919104,
+          "name": "Lois Ryan",
+          "phone": "07372652246",
+          "website": "https://insistent-horn.net",
+          "logo": "https://luminous-chateau.com/",
+          "registrationText": "infit",
+          "governoratePrice": 4930637479804928,
+          "deliveryAgentFee": 3839584846741504,
+          "baghdadPrice": 7799305920315392,
+          "additionalPriceForEvery500000IraqiDinar": 3449067170430976,
+          "additionalPriceForEveryKilogram": 8234251239555072,
+          "additionalPriceForRemoteAreas": 5531160717295616,
           "orderStatusAutomaticUpdate": false
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 1735252374454272,
-          "paidAmount": 1917272509644800,
-          "totalCostInUSD": 5738231771430912,
-          "paidAmountInUSD": 7985934180024320,
-          "discount": 5371497973547008,
-          "receiptNumber": 2836803469967360,
-          "quantity": 531541761458176,
-          "weight": 4822266883866624,
-          "recipientName": "amaritudo",
-          "recipientPhone": "concedo",
-          "recipientAddress": "deduco",
-          "details": "beneficium",
-          "notes": "crinis",
-          "status": "READY_TO_SEND",
-          "deliveryType": "NORMAL",
-          "clientID": "9ea493d9-0f05-45ff-9404-78e3477811ab",
-          "deliveryAgentID": "0ac4f4e6-2a84-4deb-bace-403cd78b7835",
-          "deliveryDate": "2023-10-23T13:26:00.512Z",
+          "totalCost": 7206534985547776,
+          "paidAmount": 3218232850776064,
+          "totalCostInUSD": 3938856386691072,
+          "paidAmountInUSD": 8515063467999232,
+          "discount": 5622822118359040,
+          "receiptNumber": 1210663707869184,
+          "quantity": 7954612726267904,
+          "weight": 4964834160410624,
+          "recipientName": "attollo",
+          "recipientPhone": "error",
+          "recipientAddress": "verbum",
+          "details": "tracto",
+          "notes": "atrocitas",
+          "status": "CHANGE_ADDRESS",
+          "deliveryType": "REPLACEMENT",
+          "clientID": "c0cf4c94-9699-42b2-bee6-2e082065323e",
+          "deliveryAgentID": "14927b17-88c7-4ec5-a945-bf3f8f34187d",
+          "deliveryDate": "2023-10-24T07:42:30.989Z",
           "products": [
             {
-              "productID": "d0cb9a10-b58a-47ee-aade-e08f7416a203",
-              "quantity": 3247484996419584,
-              "color": "#7f7427",
-              "size": "nesciunt"
+              "productID": "46d4c07a-fb15-439e-ba13-5222a1efa2c1",
+              "quantity": 8522560371163136,
+              "color": "#1a4a22",
+              "size": "defleo"
             },
             {
-              "productID": "61354912-301b-45df-ba80-e0447b31fd30",
-              "quantity": 4970448462807040,
-              "color": "#3e1a25",
-              "size": "tonsor"
+              "productID": "f0440f2f-c595-46da-b61f-6f4d0128863a",
+              "quantity": 1233390109982720,
+              "color": "#034824",
+              "size": "xiphias"
+            },
+            {
+              "productID": "38e5ca55-ce1e-4f91-bb29-3c25be9f3915",
+              "quantity": 5332777614442496,
+              "color": "#7d1905",
+              "size": "repudiandae"
+            },
+            {
+              "productID": "01a9a085-413e-4efa-85c1-ab3785b678ab",
+              "quantity": 240080300015616,
+              "color": "#212658",
+              "size": "mollitia"
+            },
+            {
+              "productID": "7a491ccc-049b-48d2-b93c-f3f7104948a7",
+              "quantity": 5236238061666304,
+              "color": "#1c1d6a",
+              "size": "excepturi"
             }
           ]
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 1930885819531264,
-          "paidAmount": 862076801122304,
-          "totalCostInUSD": 5200080594272256,
-          "paidAmountInUSD": 7915657433710592,
-          "discount": 5366299649638400,
-          "receiptNumber": 4969609442623488,
-          "quantity": 4325643191844864,
-          "weight": 8689505903050752,
-          "recipientName": "paens",
-          "recipientPhone": "celebrer",
-          "recipientAddress": "viridis",
-          "details": "amet",
-          "notes": "argentum",
-          "status": "REPLACED",
-          "deliveryType": "NORMAL",
-          "clientID": "506487c5-6c3f-46c4-b608-d6b90fb0a8c7",
-          "deliveryAgentID": "842f4ef1-bd19-40b4-b23c-8fc9c85814d9",
-          "deliveryDate": "2023-10-23T17:32:55.439Z",
+          "totalCost": 5447199945129984,
+          "paidAmount": 4718497749794816,
+          "totalCostInUSD": 4411980882378752,
+          "paidAmountInUSD": 1818056762327040,
+          "discount": 807656658829312,
+          "receiptNumber": 2865146890289152,
+          "quantity": 4401052572975104,
+          "weight": 5322729976758272,
+          "recipientName": "caterva",
+          "recipientPhone": "admoveo",
+          "recipientAddress": "cinis",
+          "details": "conicio",
+          "notes": "advenio",
+          "status": "PROCESSING",
+          "deliveryType": "REPLACEMENT",
+          "clientID": "6a6af081-c340-4a91-bd72-9edca0c34aef",
+          "deliveryAgentID": "b09de59b-41c3-4a03-b2d0-f7b0a47d87fc",
+          "deliveryDate": "2023-10-23T12:18:23.338Z",
           "products": [
             {
-              "productID": "917613bf-e581-48a5-827d-d87170055e13",
-              "quantity": 2700382507630592,
-              "color": "#724633",
-              "size": "corporis"
+              "productID": "48e64be1-97d1-4c1d-8c6c-09a940eb2bbc",
+              "quantity": 8392518685163520,
+              "color": "#654200",
+              "size": "capillus"
             },
             {
-              "productID": "d7d2ad93-bddf-49d2-ab53-d4f540c67df7",
-              "quantity": 6347853966344192,
-              "color": "#044549",
-              "size": "sapiente"
+              "productID": "de27da48-a13c-4e59-8bbe-c40cb02d2d2f",
+              "quantity": 5172612814602240,
+              "color": "#477768",
+              "size": "virtus"
             },
             {
-              "productID": "ae98e3a1-2115-49c3-9846-dc7cbbf6639a",
-              "quantity": 6260639745966080,
-              "color": "#5d065f",
-              "size": "adaugeo"
+              "productID": "fe94602a-2812-4c84-89a5-c85b814a41c3",
+              "quantity": 210529689796608,
+              "color": "#1a2c61",
+              "size": "trado"
             },
             {
-              "productID": "2679227f-0c27-4587-afb8-337d289e0e2c",
-              "quantity": 8428122701561856,
-              "color": "#4c2e72",
-              "size": "assentator"
-            },
-            {
-              "productID": "d0d2f7fd-8338-4e3f-9397-809669bcbf62",
-              "quantity": 8214116757929984,
-              "color": "#112e7d",
-              "size": "uter"
+              "productID": "7c576663-4381-4e2e-9cdd-67bff2181924",
+              "quantity": 8837109334933504,
+              "color": "#240126",
+              "size": "confugo"
             }
           ]
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "advenio",
-          "price": 5880054053601280,
-          "image": "https://picsum.photos/seed/iXiDdKYmt/640/480",
-          "stock": 7563787729108992,
-          "category": "ara",
+          "title": "aequus",
+          "price": 5655892018069504,
+          "image": "https://picsum.photos/seed/StV3EB/640/480",
+          "stock": 8534058357227520,
+          "category": "celer",
           "colors": [
             {
-              "title": "degusto",
-              "quantity": 6923961252184064
-            },
-            {
-              "title": "calcar",
-              "quantity": 1473023959891968
-            },
-            {
-              "title": "copia",
-              "quantity": 7870694773751808
-            },
-            {
-              "title": "tibi",
-              "quantity": 4072969345171456
+              "title": "tabgo",
+              "quantity": 6545782081585152
             }
           ],
           "sizes": [
             {
-              "title": "armarium",
-              "quantity": 6605107791659008
+              "title": "eius",
+              "quantity": 2314401304543232
             },
             {
-              "title": "cupressus",
-              "quantity": 3970377336225792
+              "title": "cresco",
+              "quantity": 3104974613512192
             },
             {
-              "title": "utor",
-              "quantity": 270203787149312
+              "title": "saepe",
+              "quantity": 8153374159536128
             },
             {
-              "title": "id",
-              "quantity": 4114795603165184
-            },
-            {
-              "title": "conscendo",
-              "quantity": 1039916844711936
+              "title": "sufficio",
+              "quantity": 2125743991554048
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "stips",
-          "price": 3090228589887488,
-          "image": "https://picsum.photos/seed/vF4vk/640/480",
-          "stock": 372981756854272,
-          "category": "vehemens",
+          "title": "ratione",
+          "price": 2787813510610944,
+          "image": "https://loremflickr.com/640/480?lock=6796827959492608",
+          "stock": 0,
+          "category": "vaco",
           "colors": [
             {
-              "title": "aureus",
-              "quantity": 5774214000803840
+              "title": "ascisco",
+              "quantity": 5217523752501248
             },
             {
-              "title": "possimus",
-              "quantity": 4328033253064704
+              "title": "sperno",
+              "quantity": 2900340823293952
+            },
+            {
+              "title": "derideo",
+              "quantity": 6636619230609408
+            },
+            {
+              "title": "amita",
+              "quantity": 8575742168268800
             }
           ],
           "sizes": [
             {
-              "title": "deleniti",
-              "quantity": 8232394859479040
+              "title": "tenetur",
+              "quantity": 7065939407273984
             },
             {
-              "title": "cultellus",
-              "quantity": 236781310050304
+              "title": "comedo",
+              "quantity": 766345205514240
             }
           ]
         }
       },
       "NotificationUpdateExample": {
         "value": {
-          "seen": true
+          "seen": false
         }
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "appono"
+          "title": "laborum"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "defendo"
+          "title": "sint"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "coerceo"
+          "title": "occaecati"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "derelinquo"
+          "title": "viscus"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "vinco"
+          "title": "reiciendis"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "cubitum"
+          "title": "astrum"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Paula Kirlin",
-          "clientID": "ca93e13a-eeff-42ce-84b4-be06ab0e45c3",
-          "notes": "vigor"
+          "name": "Allan Kutch",
+          "clientID": "bf9f4bf4-60b8-42b2-aad5-550bd3e868cd",
+          "notes": "tabgo"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Lowell Schuppe",
-          "clientID": "b8a0c43e-6d57-4dae-97b4-032446533b9d",
-          "notes": "defluo"
+          "name": "Billie Pfannerstill Jr.",
+          "clientID": "fc82ca9d-f6a2-4508-b754-2b63269e88a8",
+          "notes": "aliqua"
         }
       }
     },
@@ -5562,7 +5570,10 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "success"
+            ]
           },
           "data": {
             "type": "object"
@@ -5573,7 +5584,10 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "error"
+            ]
           },
           "message": {
             "type": "string"

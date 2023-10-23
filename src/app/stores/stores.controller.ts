@@ -18,7 +18,8 @@ export const createStore = catchAsync(async (req, res) => {
 
 export const getAllStores = catchAsync(async (req, res) => {
     const storesCount = await storeModel.getStoresCount();
-    const pagesCount = Math.ceil(storesCount / 10);
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(storesCount / size);
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -41,8 +42,8 @@ export const getAllStores = catchAsync(async (req, res) => {
     if (page > pagesCount) {
         throw new AppError("Page number out of range", 400);
     }
-    const take = page * 10;
-    const skip = (page - 1) * 10;
+    const take = page * size;
+    const skip = (page - 1) * size;
     // if (Number.isNaN(offset)) {
     //     skip = 0;
     // }

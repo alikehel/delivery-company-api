@@ -18,7 +18,8 @@ export const createColor = catchAsync(async (req, res) => {
 
 export const getAllColors = catchAsync(async (req, res) => {
     const colorsCount = await colorModel.getColorsCount();
-    const pagesCount = Math.ceil(colorsCount / 10);
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(colorsCount / size);
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -41,8 +42,8 @@ export const getAllColors = catchAsync(async (req, res) => {
     if (page > pagesCount) {
         throw new AppError("Page number out of range", 400);
     }
-    const take = page * 10;
-    const skip = (page - 1) * 10;
+    const take = page * size;
+    const skip = (page - 1) * size;
     // if (Number.isNaN(offset)) {
     //     skip = 0;
     // }

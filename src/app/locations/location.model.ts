@@ -27,7 +27,12 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                deliveryAgents: true
+                deliveryAgents: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return createdLocation;
@@ -50,7 +55,12 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                deliveryAgents: true
+                deliveryAgents: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return locations;
@@ -66,7 +76,12 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                deliveryAgents: true
+                deliveryAgents: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return location;
@@ -107,7 +122,12 @@ export class LocationModel {
                 name: true,
                 governorate: true,
                 branch: true,
-                deliveryAgents: true
+                deliveryAgents: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             }
         });
         return location;
