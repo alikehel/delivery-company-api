@@ -86,6 +86,13 @@ import {
     SizeUpdateOpenAPISchema
 } from "./../app/sizes/sizes.zod";
 
+import {
+    StoreCreateMock,
+    StoreCreateOpenAPISchema,
+    StoreUpdateMock,
+    StoreUpdateOpenAPISchema
+} from "./../app/stores/stores.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -130,7 +137,9 @@ const doc = {
             ColorCreateExample: { value: ColorCreateMock },
             ColorUpdateExample: { value: ColorUpdateMock },
             SizeCreateExample: { value: SizeCreateMock },
-            SizeUpdateExample: { value: SizeUpdateMock }
+            SizeUpdateExample: { value: SizeUpdateMock },
+            StoreCreateExample: { value: StoreCreateMock },
+            StoreUpdateExample: { value: StoreUpdateMock }
         },
         "@schemas": {
             UserCreateSchema: UserCreateOpenAPISchema,
@@ -156,7 +165,9 @@ const doc = {
             ColorCreateSchema: ColorCreateOpenAPISchema,
             ColorUpdateSchema: ColorUpdateOpenAPISchema,
             SizeCreateSchema: SizeCreateOpenAPISchema,
-            SizeUpdateSchema: SizeUpdateOpenAPISchema
+            SizeUpdateSchema: SizeUpdateOpenAPISchema,
+            StoreCreateSchema: StoreCreateOpenAPISchema,
+            StoreUpdateSchema: StoreUpdateOpenAPISchema
         }
     }
 };

@@ -13,6 +13,7 @@ import ordersRoutes from "../app/orders/orders.routes";
 import productsRoutes from "../app/products/products.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
 import sizesRoutes from "../app/sizes/sizes.routes";
+import storesRoutes from "../app/stores/stores.routes";
 import tenantsRoutes from "../app/tenants/tenants.routes";
 import usersRoutes from "../app/users/users.routes";
 
@@ -31,6 +32,7 @@ router.use("/", categoriesRoutes);
 router.use("/", notificationsRoutes);
 router.use("/", colorsRoutes);
 router.use("/", sizesRoutes);
+router.use("/", storesRoutes);
 
 /*******************************************************************************
  * TEST ROUTES
