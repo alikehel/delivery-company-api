@@ -118,7 +118,33 @@ export class ProductModel {
                 id: true,
                 title: true,
                 price: true,
-                image: true
+                image: true,
+                stock: true,
+                Category: {
+                    select: {
+                        title: true
+                    }
+                },
+                ProductColors: {
+                    select: {
+                        quantity: true,
+                        color: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                },
+                ProductSizes: {
+                    select: {
+                        quantity: true,
+                        size: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                }
             }
         });
         return products;
@@ -133,7 +159,33 @@ export class ProductModel {
                 id: true,
                 title: true,
                 price: true,
-                image: true
+                image: true,
+                stock: true,
+                Category: {
+                    select: {
+                        title: true
+                    }
+                },
+                ProductColors: {
+                    select: {
+                        quantity: true,
+                        color: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                },
+                ProductSizes: {
+                    select: {
+                        quantity: true,
+                        size: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                }
             }
         });
         return product;
@@ -151,13 +203,88 @@ export class ProductModel {
                 title: data.productData.title,
                 price: data.productData.price,
                 image: data.productData.image,
-                stock: data.productData.stock
+                stock: data.productData.stock,
+                Category: {
+                    connectOrCreate: {
+                        where: {
+                            title: data.productData.category || "أخري"
+                        },
+                        create: {
+                            title: data.productData.category || "أخري"
+                        }
+                    }
+                }
+                // ProductColors: {
+                //     update: {
+                //         where: {
+                //             productId: data.productID
+                //         },
+                //         data: data.productData.colors?.map((color) => {
+                //             return {
+                //                 quantity: color.quantity,
+                //                 color: {
+                //                     connectOrCreate: {
+                //                         where: {
+                //                             title: color.title || "أخري"
+                //                         },
+                //                         create: {
+                //                             title: color.title || "أخري"
+                //                         }
+                //                     }
+                //                 }
+                //             };
+                //         })
+                //     }
+                // },
+                // ProductSizes: {
+                //     create: data.productData.sizes?.map((size) => {
+                //         return {
+                //             quantity: size.quantity,
+                //             size: {
+                //                 connectOrCreate: {
+                //                     where: {
+                //                         title: size.title || "أخري"
+                //                     },
+                //                     create: {
+                //                         title: size.title || "أخري"
+                //                     }
+                //                 }
+                //             }
+                //         };
+                //     })
+                // }
             },
             select: {
                 id: true,
                 title: true,
                 price: true,
-                image: true
+                image: true,
+                stock: true,
+                Category: {
+                    select: {
+                        title: true
+                    }
+                },
+                ProductColors: {
+                    select: {
+                        quantity: true,
+                        color: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                },
+                ProductSizes: {
+                    select: {
+                        quantity: true,
+                        size: {
+                            select: {
+                                title: true
+                            }
+                        }
+                    }
+                }
             }
         });
         return product;
@@ -167,12 +294,6 @@ export class ProductModel {
         const deletedProduct = await prisma.product.delete({
             where: {
                 id: data.productID
-            },
-            select: {
-                id: true,
-                title: true,
-                price: true,
-                image: true
             }
         });
         return deletedProduct;

@@ -25,7 +25,9 @@ export const OrderCreateSchema = z.object({
     products: z.array(
         z.object({
             productID: z.string().uuid(),
-            quantity: z.number()
+            quantity: z.number(),
+            color: z.string().optional(),
+            size: z.string().optional()
         })
     )
 });

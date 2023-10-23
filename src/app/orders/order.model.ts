@@ -37,6 +37,16 @@ export class OrderModel {
                     create: data.products.map((product) => {
                         return {
                             quantity: product.quantity,
+                            size: {
+                                connect: {
+                                    title: product.size
+                                }
+                            },
+                            color: {
+                                connect: {
+                                    title: product.color
+                                }
+                            },
                             product: {
                                 connect: {
                                     id: product.productID
@@ -81,7 +91,9 @@ export class OrderModel {
                 OrderProducts: {
                     select: {
                         quantity: true,
-                        product: true
+                        product: true,
+                        color: true,
+                        size: true
                     }
                 }
             }
@@ -136,7 +148,9 @@ export class OrderModel {
                 OrderProducts: {
                     select: {
                         quantity: true,
-                        product: true
+                        product: true,
+                        color: true,
+                        size: true
                     }
                 }
             }
@@ -184,7 +198,9 @@ export class OrderModel {
                 OrderProducts: {
                     select: {
                         quantity: true,
-                        product: true
+                        product: true,
+                        color: true,
+                        size: true
                     }
                 }
             }
@@ -278,7 +294,9 @@ export class OrderModel {
                 OrderProducts: {
                     select: {
                         quantity: true,
-                        product: true
+                        product: true,
+                        color: true,
+                        size: true
                     }
                 }
             }
@@ -290,39 +308,6 @@ export class OrderModel {
         const deletedOrder = await prisma.order.delete({
             where: {
                 id: data.orderID
-            },
-            select: {
-                id: true,
-                totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true,
-                discount: true,
-                receiptNumber: true,
-                quantity: true,
-                weight: true,
-                recipientName: true,
-                recipientPhone: true,
-                recipientAddress: true,
-                details: true,
-                notes: true,
-                status: true,
-                deliveryType: true,
-                deliveryDate: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                deliveryAgent: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                }
             }
         });
         return deletedOrder;

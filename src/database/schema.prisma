@@ -294,16 +294,21 @@ model OrderProducts {
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
   quantity  Int
+  color     Color?  @relation(fields: [colorId], references: [id])
+  colorId   String?
+  size      Size?   @relation(fields: [sizeId], references: [id])
+  sizeId    String?
 
   @@id([productId, orderId])
 }
 
 model Size {
-  id           String         @id @default(uuid())
-  title        String         @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  ProductSizes ProductSizes[]
+  id            String          @id @default(uuid())
+  title         String          @unique
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  ProductSizes  ProductSizes[]
+  OrderProducts OrderProducts[]
 }
 
 model Color {
@@ -312,6 +317,7 @@ model Color {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   ProductColors ProductColors[]
+  OrderProducts OrderProducts[]
 }
 
 model ProductColors {
