@@ -30,30 +30,6 @@ router.route("/auth/signin").post(
                 token: 'token'
             }
         }
-
-        #swagger.responses[400-1] = {
-            schema: {
-                status: "fail",
-                message: 'Password is not correct'
-            },
-            description: 'Password is not correct'
-        }
-
-        #swagger.responses[400-2] = {
-            schema: {
-                status: "fail",
-                message: 'User not found'
-            },
-            description: 'User not found'
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant signin the user',
-            schema: {
-                status: "error",
-                message: 'Cant signin the user'
-            }
-        }
     */
 );
 

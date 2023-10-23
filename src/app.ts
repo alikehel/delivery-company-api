@@ -3,13 +3,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
-// import morgan from "morgan";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
-// import { NODE_ENV } from "./config/config";
 import globalErrorcontroller from "./error/error.controller";
-// import Logger from "./lib/logger";
 import {
     morganMiddleware,
     morganMiddlewareImmediate
@@ -20,26 +17,12 @@ import AppError from "./utils/AppError.util";
 
 const app = express();
 
+// Swagger
+
 const swaggerTheme = new SwaggerTheme("v3");
 const swaggerOptionsV1 = {
     explorer: true,
     customCss: swaggerTheme.getBuffer("dark")
-};
-const swaggerOptionsV2 = {
-    explorer: true,
-    customCss: swaggerTheme.getBuffer("outline")
-};
-const swaggerOptionsV3 = {
-    explorer: true,
-    customCss: swaggerTheme.getBuffer("classic")
-};
-const swaggerOptionsV4 = {
-    explorer: true,
-    customCss: swaggerTheme.getBuffer("newspaper")
-};
-const swaggerOptionsV5 = {
-    explorer: true,
-    customCss: swaggerTheme.getBuffer("muted")
 };
 
 app.use(
@@ -47,50 +30,8 @@ app.use(
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, swaggerOptionsV1)
 );
-app.use(
-    "/api-docs-outline-theme",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerOptionsV2)
-);
-app.use(
-    "/api-docs-classic-theme",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerOptionsV3)
-);
-app.use(
-    "/api-docs-newspaper-theme",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerOptionsV4)
-);
-app.use(
-    "/api-docs-muted-theme",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerOptionsV5)
-);
-// app.use(
-//     "/api-docs",
-//     (
-//         req: express.Request,
-//         res: express.Response,
-//         next: express.NextFunction
-//     ) => {
-//         const theme: SwaggerThemeName =
-//             (req.query.theme as SwaggerThemeName) || "classic";
-//         const swaggerOptions = {
-//             explorer: true,
-//             customCss: swaggerTheme.getBuffer(theme)
-//         };
-//         res.locals.swaggerOptions = swaggerOptions;
-//         next();
-//     },
-//     swaggerUi.serve,
-//     // swaggerUi.setup(swaggerDocument, swaggerOptionsV1)
-//     (req: express.Request, res: express.Response) => {
-//         return async () => {
-//             swaggerUi.setup(swaggerDocument, res.locals.swaggerOptions);
-//         };
-//     }
-// );
+
+// Middlewares
 
 app.use(morganMiddlewareImmediate);
 app.use(morganMiddleware);
@@ -99,7 +40,33 @@ app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(helmet()); // Set security HTTP headers
 
-app.use("/api", apiRouter);
+// Routes
+
+app.use(
+    "/api",
+    apiRouter
+    /*
+        #swagger.responses[200] = {
+            description: 'Success',
+            schema: { $ref: "#/components/schemas/SuccessResponseSchema" }
+        }
+
+        #swagger.responses[400] = {
+            description: 'Client Error',
+            schema: { $ref: "#/components/schemas/ErrorResponseSchema" }
+        }
+
+        #swagger.responses[401] = {
+            description: 'Client Error - Unauthorized',
+            schema: { $ref: "#/components/schemas/ErrorResponseSchema" }
+        }
+
+        #swagger.responses[500] = {
+            description: 'Server Error',
+            schema: { $ref: "#/components/schemas/ErrorResponseSchema" }
+        }
+    */
+);
 
 app.route("/").get((_req, res) => {
     // #swagger.ignore = true
@@ -117,6 +84,10 @@ app.all("*", (req, _res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
+// Global Error Handler
+
 app.use(globalErrorcontroller);
+
+// Export App
 
 export default app;

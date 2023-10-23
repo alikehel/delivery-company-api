@@ -106,11 +106,11 @@ const doc = {
     produces: ["application/json"],
     tags: [],
     securityDefinitions: {
-        bearerAuth: {
-            type: "http",
-            scheme: "bearer",
-            bearerFormat: "JWT"
-        }
+        // bearerAuth: {
+        //     type: "http",
+        //     scheme: "bearer",
+        //     bearerFormat: "JWT"
+        // }
     },
     components: {
         examples: {
@@ -142,6 +142,20 @@ const doc = {
             StoreUpdateExample: { value: StoreUpdateMock }
         },
         "@schemas": {
+            SuccessResponseSchema: {
+                type: "object",
+                properties: {
+                    status: { type: "string" },
+                    data: { type: "object" }
+                }
+            },
+            ErrorResponseSchema: {
+                type: "object",
+                properties: {
+                    status: { type: "string" },
+                    message: { type: "string" }
+                }
+            },
             UserCreateSchema: UserCreateOpenAPISchema,
             UserSigninSchema: UserSigninOpenAPISchema,
             RepositoryCreateSchema: RepositoryCreateOpenAPISchema,

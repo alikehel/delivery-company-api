@@ -20,8 +20,6 @@ router.route("/categories").post(
     /*
         #swagger.tags = ['Categories Routes']
 
-        #swagger.description = 'Must be a super admin'
-
         #swagger.requestBody = {
             required: true,
             content: {
@@ -31,35 +29,6 @@ router.route("/categories").post(
                         "CategoryCreateExample": { $ref: "#/components/examples/CategoryCreateExample" }
                     }
                 }
-            }
-        }
-
-        #swagger.responses[201-1] = {
-            description: 'Category created successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    createdAt: 'true',
-                    updatedAt: 'true'
-                }
-            }
-        }
-
-        #swagger.responses[400-1] = {
-            schema: {
-                status: "fail",
-                message: ''
-            },
-            description: ''
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant create the category',
-            schema: {
-                status: "error",
-                message: 'Cant create the category'
             }
         }
     */
@@ -72,35 +41,10 @@ router.route("/categories").get(
     /*
         #swagger.tags = ['Categories Routes']
 
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.parameters['page'] = {
+        #swagger.parameters['page'] = {
             in: 'query',
             description: 'Page Number',
             required: false
-        }
-
-        #swagger.responses[200-1] = {
-            description: 'Got all categories',
-            schema: {
-                status: "success",
-                data: [
-                    {
-                        id: 'true',
-                        title: 'true',
-                        createdAt: 'true',
-                        updatedAt: 'true'
-                    }
-                ]
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant get the categories data',
-            schema: {
-                status: "error",
-                message: 'Cant get the categories data'
-            }
         }
     */
 );
@@ -111,21 +55,6 @@ router.route("/categories/:categoryID").get(
     getCategory
     /*
         #swagger.tags = ['Categories Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-        #swagger.responses[200-1] = {
-            description: 'Got the category data',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    createdAt: 'true',
-                    updatedAt: 'true'
-                }
-            }
-        }
     */
 );
 
@@ -135,8 +64,6 @@ router.route("/categories/:categoryID").patch(
     updateCategory
     /*
         #swagger.tags = ['Categories Routes']
-
-        #swagger.description = 'Must be a super admin'
 
         #swagger.requestBody = {
             required: true,
@@ -149,19 +76,6 @@ router.route("/categories/:categoryID").patch(
                 }
             }
         }
-
-        #swagger.responses[201-1] = {
-            description: 'Category updated successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    createdAt: 'true',
-                    updatedAt: 'true'
-                }
-            }
-        }
     */
 );
 
@@ -171,24 +85,6 @@ router.route("/categories/:categoryID").delete(
     deleteCategory
     /*
         #swagger.tags = ['Categories Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.responses[200-1] = {
-            description: 'Category deleted Successfully',
-            schema: {
-                status: "success",
-                message: "Category deleted successfully"
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant delete the category',
-            schema: {
-                status: "error",
-                message: 'Cant delete the category'
-            }
-        }
     */
 );
 

@@ -17,8 +17,6 @@ router.route("/notifications").get(
     /*
         #swagger.tags = ['Notifications Routes']
 
-        #swagger.description = 'Must be a super admin'
-
         #swagger.parameters['page'] = {
             in: 'query',
             description: 'Page Number',
@@ -29,29 +27,6 @@ router.route("/notifications").get(
             in: 'query',
             description: 'Get seen notifications or not ( boolean )',
             required: false
-        }
-
-        #swagger.responses[200-1] = {
-            description: 'Got all notifications',
-            schema: {
-                status: "success",
-                data: [
-                    {
-                        id: 'true',
-                        title: 'true',
-                        content: 'true',
-                        seen: 'true'
-                    }
-                ]
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant get the notifications data',
-            schema: {
-                status: "error",
-                message: 'Cant get the notifications data'
-            }
         }
     */
 );
@@ -73,16 +48,6 @@ router.route("/notifications/:notificationID").patch(
                     "examples": {
                         "NotificationUpdateExample": { $ref: "#/components/examples/NotificationUpdateExample" }
                     }
-                }
-            }
-        }
-
-        #swagger.responses[201-1] = {
-            description: 'Notification updated successfully',
-            schema: {
-                status: "success",
-                data: {
-                    seen: 'true',
                 }
             }
         }

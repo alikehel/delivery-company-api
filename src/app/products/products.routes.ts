@@ -20,8 +20,6 @@ router.route("/products").post(
     /*
         #swagger.tags = ['Products Routes']
 
-        #swagger.description = 'Must be a super admin'
-
         #swagger.requestBody = {
             required: true,
             content: {
@@ -31,35 +29,6 @@ router.route("/products").post(
                         "ProductCreateExample": { $ref: "#/components/examples/ProductCreateExample" }
                     }
                 }
-            }
-        }
-
-        #swagger.responses[201-1] = {
-            description: 'Product created successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    price: 'true',
-                    image: 'true'
-                }
-            }
-        }
-
-        #swagger.responses[400-1] = {
-            schema: {
-                status: "fail",
-                message: ''
-            },
-            description: ''
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant create the product',
-            schema: {
-                status: "error",
-                message: 'Cant create the product'
             }
         }
     */
@@ -72,35 +41,10 @@ router.route("/products").get(
     /*
         #swagger.tags = ['Products Routes']
 
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.parameters['page'] = {
+        #swagger.parameters['page'] = {
             in: 'query',
             description: 'Page Number',
             required: false
-        }
-
-        #swagger.responses[200-1] = {
-            description: 'Got all products',
-            schema: {
-                status: "success",
-                data: [
-                    {
-                        id: 'true',
-                        title: 'true',
-                        price: 'true',
-                        image: 'true'
-                    }
-                ]
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant get the products data',
-            schema: {
-                status: "error",
-                message: 'Cant get the products data'
-            }
         }
     */
 );
@@ -111,21 +55,6 @@ router.route("/products/:productID").get(
     getProduct
     /*
         #swagger.tags = ['Products Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-        #swagger.responses[200-1] = {
-            description: 'Got the product data',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    price: 'true',
-                    image: 'true'
-                }
-            }
-        }
     */
 );
 
@@ -135,8 +64,6 @@ router.route("/products/:productID").patch(
     updateProduct
     /*
         #swagger.tags = ['Products Routes']
-
-        #swagger.description = 'Must be a super admin'
 
         #swagger.requestBody = {
             required: true,
@@ -149,19 +76,6 @@ router.route("/products/:productID").patch(
                 }
             }
         }
-
-        #swagger.responses[201-1] = {
-            description: 'Product updated successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: 'true',
-                    title: 'true',
-                    price: 'true',
-                    image: 'true'
-                }
-            }
-        }
     */
 );
 
@@ -171,24 +85,6 @@ router.route("/products/:productID").delete(
     deleteProduct
     /*
         #swagger.tags = ['Products Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.responses[200-1] = {
-            description: 'Product deleted Successfully',
-            schema: {
-                status: "success",
-                message: "Product deleted successfully"
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant delete the product',
-            schema: {
-                status: "error",
-                message: 'Cant delete the product'
-            }
-        }
     */
 );
 

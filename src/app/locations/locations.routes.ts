@@ -20,8 +20,6 @@ router.route("/locations").post(
     /*
         #swagger.tags = ['Locations Routes']
 
-        #swagger.description = 'Must be a super admin'
-
         #swagger.requestBody = {
             required: true,
             content: {
@@ -31,36 +29,6 @@ router.route("/locations").post(
                         LocationCreateExample: { $ref: "#/components/examples/LocationCreateExample" }
                     }
                 }
-            }
-        }
-
-        #swagger.responses[201-1] = {
-            description: 'Location created successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: "1",
-                    name: "name",
-                    governorate: "governorate",
-                    branch: "branch object",
-                    deliveryAgents: "deliveryAgents object",
-                }
-            }
-        }
-
-        #swagger.responses[400-1] = {
-            schema: {
-                status: "fail",
-                message: ''
-            },
-            description: ''
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant create the location',
-            schema: {
-                status: "error",
-                message: 'Cant create the location'
             }
         }
     */
@@ -73,36 +41,10 @@ router.route("/locations").get(
     /*
         #swagger.tags = ['Locations Routes']
 
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.parameters['page'] = {
+        #swagger.parameters['page'] = {
             in: 'query',
             description: 'Page Number',
             required: false
-        }
-
-        #swagger.responses[200-1] = {
-            description: 'Got all locations',
-            schema: {
-                status: "success",
-                data: [
-                    {
-                        id: "1",
-                        name: "name",
-                        governorate: "governorate",
-                        branch: "branch object",
-                        deliveryAgents: "deliveryAgents object",
-                    }
-                ]
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant get the locations data',
-            schema: {
-                status: "error",
-                message: 'Cant get the locations data'
-            }
         }
     */
 );
@@ -113,22 +55,6 @@ router.route("/locations/:locationID").get(
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-        #swagger.responses[200-1] = {
-            description: 'Got the location data',
-            schema: {
-                status: "success",
-                data: {
-                    id: "1",
-                    name: "name",
-                    governorate: "governorate",
-                    branch: "branch object",
-                    deliveryAgents: "deliveryAgents object",
-                }
-            }
-        }
     */
 );
 
@@ -138,8 +64,6 @@ router.route("/locations/:locationID").patch(
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
-
-        #swagger.description = 'Must be a super admin'
 
         #swagger.requestBody = {
             required: true,
@@ -152,20 +76,6 @@ router.route("/locations/:locationID").patch(
                 }
             }
         }
-
-        #swagger.responses[201-1] = {
-            description: 'Location updated successfully',
-            schema: {
-                status: "success",
-                data: {
-                    id: "1",
-                    name: "name",
-                    governorate: "governorate",
-                    branch: "branch object",
-                    deliveryAgents: "deliveryAgents object",
-                }
-            }
-        }
     */
 );
 
@@ -175,24 +85,6 @@ router.route("/locations/:locationID").delete(
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']
-
-        #swagger.description = 'Must be a super admin'
-
-         #swagger.responses[200-1] = {
-            description: 'Location deleted Successfully',
-            schema: {
-                status: "success",
-                message: "Location deleted successfully"
-            }
-        }
-
-        #swagger.responses[500-1] = {
-            description: 'Cant delete the location',
-            schema: {
-                status: "error",
-                message: 'Cant delete the location'
-            }
-        }
     */
 );
 
