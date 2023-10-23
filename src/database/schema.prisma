@@ -187,8 +187,9 @@ model Store {
   updatedAt DateTime @updatedAt
   notes     String?
 
-  client   Client @relation(fields: [clientId], references: [id])
+  client   Client  @relation(fields: [clientId], references: [id])
   clientId String
+  Order    Order[]
 }
 
 model Branch {
@@ -226,6 +227,7 @@ model Location {
   governorate    Governorate?
   branch         Branch       @relation(fields: [branchId], references: [id])
   branchId       String
+  Order          Order[]
 }
 
 model Tenant {
@@ -274,6 +276,11 @@ model Order {
   userId           String?
   // OrderProducts   OrderProducts[]
   OrderProducts    OrderProducts[]
+  governorate      Governorate?
+  location         Location?       @relation(fields: [locationId], references: [id])
+  store            Store?          @relation(fields: [storeId], references: [id])
+  locationId       String?
+  storeId          String?
 }
 
 model Product {

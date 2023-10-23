@@ -42,6 +42,19 @@ const orderSelect = {
             color: true,
             size: true
         }
+    },
+    governorate: true,
+    location: {
+        select: {
+            id: true,
+            title: true
+        }
+    },
+    store: {
+        select: {
+            id: true,
+            title: true
+        }
     }
 };
 
@@ -65,6 +78,21 @@ export class OrderModel {
                 status: data.status,
                 deliveryType: data.deliveryType,
                 deliveryDate: data.deliveryDate,
+                governorate: data.governorate,
+                location: data.locationID
+                    ? {
+                          connect: {
+                              id: data.locationID
+                          }
+                      }
+                    : undefined,
+                store: data.storeID
+                    ? {
+                          connect: {
+                              id: data.storeID
+                          }
+                      }
+                    : undefined,
                 client: {
                     connect: {
                         id: data.clientID

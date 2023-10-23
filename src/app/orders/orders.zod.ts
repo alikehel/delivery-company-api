@@ -1,6 +1,6 @@
 import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { DeliveryType, OrderStatus } from "@prisma/client";
+import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const OrderCreateSchema = z.object({
@@ -22,6 +22,9 @@ export const OrderCreateSchema = z.object({
     clientID: z.string().uuid(),
     deliveryAgentID: z.string().uuid(),
     deliveryDate: z.date().optional(),
+    governorate: z.nativeEnum(Governorate).optional(),
+    locationID: z.string().uuid().optional(),
+    storeID: z.string().uuid().optional(),
     products: z.array(
         z.object({
             productID: z.string().uuid(),
