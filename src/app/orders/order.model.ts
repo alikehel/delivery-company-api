@@ -3,6 +3,48 @@ import { OrderCreateType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
 
+const orderSelect = {
+    id: true,
+    totalCost: true,
+    paidAmount: true,
+    totalCostInUSD: true,
+    paidAmountInUSD: true,
+    discount: true,
+    receiptNumber: true,
+    quantity: true,
+    weight: true,
+    recipientName: true,
+    recipientPhone: true,
+    recipientAddress: true,
+    details: true,
+    notes: true,
+    status: true,
+    deliveryType: true,
+    deliveryDate: true,
+    client: {
+        select: {
+            id: true,
+            name: true,
+            phone: true
+        }
+    },
+    deliveryAgent: {
+        select: {
+            id: true,
+            name: true,
+            phone: true
+        }
+    },
+    OrderProducts: {
+        select: {
+            quantity: true,
+            product: true,
+            color: true,
+            size: true
+        }
+    }
+};
+
 export class OrderModel {
     async createOrder(data: OrderCreateType) {
         const createdOrder = await prisma.order.create({
@@ -37,16 +79,20 @@ export class OrderModel {
                     create: data.products.map((product) => {
                         return {
                             quantity: product.quantity,
-                            size: {
-                                connect: {
-                                    title: product.size
-                                }
-                            },
-                            color: {
-                                connect: {
-                                    title: product.color
-                                }
-                            },
+                            size: product.size
+                                ? {
+                                      connect: {
+                                          title: product.size
+                                      }
+                                  }
+                                : undefined,
+                            color: product.color
+                                ? {
+                                      connect: {
+                                          title: product.color
+                                      }
+                                  }
+                                : undefined,
                             product: {
                                 connect: {
                                     id: product.productID
@@ -56,47 +102,7 @@ export class OrderModel {
                     })
                 }
             },
-            select: {
-                id: true,
-                totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true,
-                discount: true,
-                receiptNumber: true,
-                quantity: true,
-                weight: true,
-                recipientName: true,
-                recipientPhone: true,
-                recipientAddress: true,
-                details: true,
-                notes: true,
-                status: true,
-                deliveryType: true,
-                deliveryDate: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                deliveryAgent: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                OrderProducts: {
-                    select: {
-                        quantity: true,
-                        product: true,
-                        color: true,
-                        size: true
-                    }
-                }
-            }
+            select: orderSelect
         });
         return createdOrder;
     }
@@ -113,47 +119,7 @@ export class OrderModel {
             orderBy: {
                 id: "desc"
             },
-            select: {
-                id: true,
-                totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true,
-                discount: true,
-                receiptNumber: true,
-                quantity: true,
-                weight: true,
-                recipientName: true,
-                recipientPhone: true,
-                recipientAddress: true,
-                details: true,
-                notes: true,
-                status: true,
-                deliveryType: true,
-                deliveryDate: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                deliveryAgent: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                OrderProducts: {
-                    select: {
-                        quantity: true,
-                        product: true,
-                        color: true,
-                        size: true
-                    }
-                }
-            }
+            select: orderSelect
         });
         return orders;
     }
@@ -163,47 +129,7 @@ export class OrderModel {
             where: {
                 id: data.orderID
             },
-            select: {
-                id: true,
-                totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true,
-                discount: true,
-                receiptNumber: true,
-                quantity: true,
-                weight: true,
-                recipientName: true,
-                recipientPhone: true,
-                recipientAddress: true,
-                details: true,
-                notes: true,
-                status: true,
-                deliveryType: true,
-                deliveryDate: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                deliveryAgent: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                OrderProducts: {
-                    select: {
-                        quantity: true,
-                        product: true,
-                        color: true,
-                        size: true
-                    }
-                }
-            }
+            select: orderSelect
         });
         return order;
     }
@@ -259,47 +185,7 @@ export class OrderModel {
                       }
                     : undefined
             },
-            select: {
-                id: true,
-                totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true,
-                discount: true,
-                receiptNumber: true,
-                quantity: true,
-                weight: true,
-                recipientName: true,
-                recipientPhone: true,
-                recipientAddress: true,
-                details: true,
-                notes: true,
-                status: true,
-                deliveryType: true,
-                deliveryDate: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                deliveryAgent: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true
-                    }
-                },
-                OrderProducts: {
-                    select: {
-                        quantity: true,
-                        product: true,
-                        color: true,
-                        size: true
-                    }
-                }
-            }
+            select: orderSelect
         });
         return order;
     }
