@@ -291,6 +291,16 @@ export class ProductModel {
     }
 
     async deleteProduct(data: { productID: string }) {
+        await prisma.productColors.deleteMany({
+            where: {
+                productId: data.productID
+            }
+        });
+        await prisma.productSizes.deleteMany({
+            where: {
+                productId: data.productID
+            }
+        });
         const deletedProduct = await prisma.product.delete({
             where: {
                 id: data.productID
