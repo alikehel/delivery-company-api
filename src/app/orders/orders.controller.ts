@@ -98,3 +98,38 @@ export const deleteOrder = catchAsync(async (req, res) => {
         status: "success"
     });
 });
+
+export const getAllOrdersStatuses = catchAsync(async (req, res) => {
+    const ordersStatuses = await orderModel.getAllOrdersStatuses();
+
+    /*
+    from this:
+    [
+        {
+            "_count": {
+                "status": 1
+            },
+            "status": "PARTIALLY_RETURNED"
+        }
+    ]
+    to this:
+    [
+        {
+            "status": "PARTIALLY_RETURNED",
+            "count": 1
+        }
+    ]
+    */
+
+    const ordersStatusesReformed = ordersStatuses.map((orderStatus) => {
+        return {
+            status: orderStatus.status,
+            count: orderStatus._count.status
+        };
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: ordersStatusesReformed
+    });
+});

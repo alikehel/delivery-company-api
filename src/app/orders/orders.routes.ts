@@ -7,6 +7,7 @@ import {
     createOrder,
     deleteOrder,
     getAllOrders,
+    getAllOrdersStatuses,
     getOrder,
     updateOrder
 } from "./orders.controller";
@@ -52,6 +53,15 @@ router.route("/orders").get(
             description: 'Page Size (Number of Items per Page) (Default: 10)',
             required: false
         }
+    */
+);
+
+router.route("/orders/statuses").get(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getAllOrdersStatuses
+    /*
+        #swagger.tags = ['Orders Routes']
     */
 );
 

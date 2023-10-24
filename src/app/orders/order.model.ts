@@ -47,13 +47,13 @@ const orderSelect = {
     location: {
         select: {
             id: true,
-            title: true
+            name: true
         }
     },
     store: {
         select: {
             id: true,
-            title: true
+            name: true
         }
     }
 };
@@ -225,5 +225,15 @@ export class OrderModel {
             }
         });
         return deletedOrder;
+    }
+
+    async getAllOrdersStatuses() {
+        const ordersStatuses = await prisma.order.groupBy({
+            by: ["status"],
+            _count: {
+                status: true
+            }
+        });
+        return ordersStatuses;
     }
 }
