@@ -11,6 +11,7 @@ export const ProductCreateSchema = z.object({
     colors: z
         .array(
             z.object({
+                colorID: z.string().uuid().optional(),
                 title: z.string(),
                 quantity: z.number()
             })
@@ -19,6 +20,7 @@ export const ProductCreateSchema = z.object({
     sizes: z
         .array(
             z.object({
+                sizeID: z.string().uuid().optional(),
                 title: z.string(),
                 quantity: z.number()
             })

@@ -3,15 +3,34 @@ import { ProductCreateType, ProductUpdateType } from "./products.zod";
 
 const prisma = new PrismaClient();
 
-// model Product {
-//   id             String           @id @default(uuid())
-//   title          String
-//   price          Decimal
-//   createdAt      DateTime         @default(now())
-//   updatedAt      DateTime         @updatedAt
-//   image          String?
-//   stock          Int              @default(0)
-// }
+const productSelect = {
+    id: true,
+    title: true,
+    price: true,
+    image: true,
+    stock: true,
+    Category: {
+        select: {
+            title: true
+        }
+    },
+    ProductColors: {
+        select: {
+            quantity: true,
+            color: {
+                select: { id: true, title: true }
+            }
+        }
+    },
+    ProductSizes: {
+        select: {
+            quantity: true,
+            size: {
+                select: { id: true, title: true }
+            }
+        }
+    }
+};
 
 export class ProductModel {
     async createProduct(data: ProductCreateType) {
@@ -24,7 +43,7 @@ export class ProductModel {
                 Category: {
                     connectOrCreate: {
                         where: {
-                            title: data.category || "أخري"
+                            title: data.category
                         },
                         create: {
                             title: data.category || "أخري"
@@ -38,7 +57,7 @@ export class ProductModel {
                             color: {
                                 connectOrCreate: {
                                     where: {
-                                        title: color.title || "أخري"
+                                        title: color.title
                                     },
                                     create: {
                                         title: color.title || "أخري"
@@ -55,7 +74,7 @@ export class ProductModel {
                             size: {
                                 connectOrCreate: {
                                     where: {
-                                        title: size.title || "أخري"
+                                        title: size.title
                                     },
                                     create: {
                                         title: size.title || "أخري"
@@ -66,38 +85,7 @@ export class ProductModel {
                     })
                 }
             },
-            select: {
-                id: true,
-                title: true,
-                price: true,
-                image: true,
-                stock: true,
-                Category: {
-                    select: {
-                        title: true
-                    }
-                },
-                ProductColors: {
-                    select: {
-                        quantity: true,
-                        color: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                },
-                ProductSizes: {
-                    select: {
-                        quantity: true,
-                        size: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                }
-            }
+            select: productSelect
         });
         return createdProduct;
     }
@@ -114,38 +102,7 @@ export class ProductModel {
             orderBy: {
                 title: "desc"
             },
-            select: {
-                id: true,
-                title: true,
-                price: true,
-                image: true,
-                stock: true,
-                Category: {
-                    select: {
-                        title: true
-                    }
-                },
-                ProductColors: {
-                    select: {
-                        quantity: true,
-                        color: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                },
-                ProductSizes: {
-                    select: {
-                        quantity: true,
-                        size: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                }
-            }
+            select: productSelect
         });
         return products;
     }
@@ -155,38 +112,7 @@ export class ProductModel {
             where: {
                 id: data.productID
             },
-            select: {
-                id: true,
-                title: true,
-                price: true,
-                image: true,
-                stock: true,
-                Category: {
-                    select: {
-                        title: true
-                    }
-                },
-                ProductColors: {
-                    select: {
-                        quantity: true,
-                        color: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                },
-                ProductSizes: {
-                    select: {
-                        quantity: true,
-                        size: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                }
-            }
+            select: productSelect
         });
         return product;
     }
@@ -207,85 +133,66 @@ export class ProductModel {
                 Category: {
                     connectOrCreate: {
                         where: {
-                            title: data.productData.category || "أخري"
+                            title: data.productData.category
                         },
                         create: {
                             title: data.productData.category || "أخري"
                         }
                     }
                 }
-                // ProductColors: {
-                //     update: {
-                //         where: {
-                //             productId: data.productID
-                //         },
-                //         data: data.productData.colors?.map((color) => {
-                //             return {
-                //                 quantity: color.quantity,
-                //                 color: {
-                //                     connectOrCreate: {
-                //                         where: {
-                //                             title: color.title || "أخري"
-                //                         },
-                //                         create: {
-                //                             title: color.title || "أخري"
-                //                         }
-                //                     }
-                //                 }
-                //             };
-                //         })
-                //     }
-                // },
-                // ProductSizes: {
-                //     create: data.productData.sizes?.map((size) => {
-                //         return {
-                //             quantity: size.quantity,
-                //             size: {
-                //                 connectOrCreate: {
-                //                     where: {
-                //                         title: size.title || "أخري"
-                //                     },
-                //                     create: {
-                //                         title: size.title || "أخري"
-                //                     }
-                //                 }
-                //             }
-                //         };
-                //     })
-                // }
             },
-            select: {
-                id: true,
-                title: true,
-                price: true,
-                image: true,
-                stock: true,
-                Category: {
-                    select: {
-                        title: true
-                    }
-                },
-                ProductColors: {
-                    select: {
-                        quantity: true,
-                        color: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                },
-                ProductSizes: {
-                    select: {
-                        quantity: true,
-                        size: {
-                            select: {
-                                title: true
-                            }
-                        }
-                    }
-                }
-            }
+            //     ProductColors: {
+            //         update: data.productData.colors?.map((color) => {
+            //             return {
+            //                 where: {
+            //                     productId_colorId: {
+            //                         productId: data.productID,
+            //                         colorId: color.colorID
+            //                     }
+            //                 },
+            //                 data: {
+            //                     quantity: color.quantity,
+            //                     color: {
+            //                         connectOrCreate: {
+            //                             where: {
+            //                                 id: color.colorID
+            //                             },
+            //                             create: {
+            //                                 title: color.title || "أخري"
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //             };
+            //         })
+            //     },
+            //     ProductSizes: {
+            //         update: data.productData.sizes?.map((size) => {
+            //             return {
+            //                 where: {
+            //                     productId_sizeId: {
+            //                         productId: data.productID,
+            //                         sizeId: size.sizeID
+            //                     }
+            //                 },
+            //                 data: {
+            //                     quantity: size.quantity,
+            //                     size: {
+            //                         connectOrCreate: {
+            //                             where: {
+            //                                 id: size.sizeID
+            //                             },
+            //                             create: {
+            //                                 title: size.title || "أخري"
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //             };
+            //         })
+            //     }
+            // },
+            select: productSelect
         });
         return product;
     }
