@@ -12,7 +12,8 @@ export const UserCreateSchema = z.object({
     repositoryID: z.string().uuid(),
     branchID: z.string().uuid(),
     role: z.nativeEnum(Role),
-    permissions: z.array(z.nativeEnum(Permission))
+    permissions: z.array(z.nativeEnum(Permission)),
+    fcm: z.string().optional()
 });
 
 export type UserCreateType = z.infer<typeof UserCreateSchema>;

@@ -147,6 +147,7 @@ model User {
   isSuperAdmin Boolean  @default(false)
   phone        String?
   salary       Decimal? @default(0)
+  fcm          String?
 
   repositoryId String?
   branchId     String?

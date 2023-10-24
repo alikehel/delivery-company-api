@@ -13,6 +13,7 @@ export class UserModel {
                 phone: data.phone,
                 salary: data.salary,
                 role: data.role,
+                fcm: data.fcm,
                 permissions: {
                     set: data.permissions
                 },
@@ -102,6 +103,7 @@ export class UserModel {
                 salary: data.userData.salary,
                 role: data.userData.role,
                 permissions: data.userData.permissions,
+                fcm: data.userData.fcm,
                 branch: data.userData.branchID
                     ? {
                           connect: {
