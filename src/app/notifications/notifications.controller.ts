@@ -73,3 +73,18 @@ export const updateNotification = catchAsync(async (req, res) => {
         data: notification
     });
 });
+
+export const updateNotifications = catchAsync(async (req, res) => {
+    const notificationData = NotificationUpdateSchema.parse(req.body);
+
+    const userID = res.locals.user.id;
+
+    await notificationModel.updateNotifications({
+        userID: userID,
+        notificationData: notificationData
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});

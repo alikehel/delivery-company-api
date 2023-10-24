@@ -65,7 +65,8 @@ export class NotificationModel {
                 id: true,
                 title: true,
                 content: true,
-                seen: true
+                seen: true,
+                createdAt: true
             }
         });
         return notifications;
@@ -87,6 +88,23 @@ export class NotificationModel {
                 title: true,
                 content: true,
                 seen: true
+            }
+        });
+        return notification;
+    }
+
+    async updateNotifications(data: {
+        userID: string;
+        notificationData: NotificationUpdateType;
+    }) {
+        const notification = await prisma.notification.updateMany({
+            where: {
+                user: {
+                    id: data.userID
+                }
+            },
+            data: {
+                seen: data.notificationData.seen
             }
         });
         return notification;

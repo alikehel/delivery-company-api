@@ -5,7 +5,8 @@ import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     getAllNotifications,
-    updateNotification
+    updateNotification,
+    updateNotifications
 } from "./notifications.controller";
 
 const router = Router();
@@ -45,6 +46,29 @@ router.route("/notifications/:notificationID").patch(
         #swagger.tags = ['Notifications Routes']
 
         #swagger.description = 'Mark a notification as seen'
+
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    "schema": { $ref: "#/components/schemas/NotificationUpdateSchema" },
+                    "examples": {
+                        "NotificationUpdateExample": { $ref: "#/components/examples/NotificationUpdateExample" }
+                    }
+                }
+            }
+        }
+    */
+);
+
+router.route("/notifications").patch(
+    isLoggedIn,
+    // isAutherized([Role.SUPER_ADMIN]),
+    updateNotifications
+    /*
+        #swagger.tags = ['Notifications Routes']
+
+        #swagger.description = 'Mark all notifications as seen'
 
         #swagger.requestBody = {
             required: true,
