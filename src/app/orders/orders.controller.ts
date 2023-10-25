@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { OrderModel } from "./order.model";
@@ -102,31 +103,25 @@ export const deleteOrder = catchAsync(async (req, res) => {
 export const getAllOrdersStatuses = catchAsync(async (req, res) => {
     const ordersStatuses = await orderModel.getAllOrdersStatuses();
 
-    /*
-    from this:
-    [
-        {
-            "_count": {
-                "status": 1
-            },
-            "status": "PARTIALLY_RETURNED"
-        }
-    ]
-    to this:
-    [
-        {
-            "status": "PARTIALLY_RETURNED",
-            "count": 1
-        }
-    ]
-    */
+    const ordersStatusesReformed = (
+        Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+    ).map((status) => {
+        const statusCount = ordersStatuses.find((orderStatus) => {
+            return orderStatus.status === status;
+        });
 
-    const ordersStatusesReformed = ordersStatuses.map((orderStatus) => {
         return {
-            status: orderStatus.status,
-            count: orderStatus._count.status
+            status: status,
+            count: statusCount?._count?.status || 0
         };
     });
+
+    // const ordersStatusesReformed = ordersStatuses.map((orderStatus) => {
+    //     return {
+    //         status: orderStatus.status,
+    //         count: orderStatus._count.status
+    //     };
+    // });
 
     res.status(200).json({
         status: "success",
