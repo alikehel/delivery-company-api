@@ -206,6 +206,7 @@ model Branch {
   User        User[]
   governorate Governorate?
   Location    Location[]
+  // Order       Order[]
 }
 
 model Repository {
@@ -218,6 +219,7 @@ model Repository {
 
   branch Branch @relation(fields: [branchId], references: [id])
   User   User[]
+  // Order  Order[]
 }
 
 model Location {
@@ -258,7 +260,7 @@ model Order {
   totalCostInUSD   Decimal         @default(0)
   paidAmountInUSD  Decimal         @default(0)
   discount         Decimal         @default(0)
-  receiptNumber    Int             @default(0)
+  receiptNumber    Int             @unique @default(0)
   quantity         Int             @default(0)
   weight           Float           @default(0)
   recipientName    String
@@ -282,6 +284,10 @@ model Order {
   store            Store?          @relation(fields: [storeId], references: [id])
   locationId       String?
   storeId          String?
+  // repository       Repository?     @relation(fields: [repositoryId], references: [id])
+  // branch           Branch?         @relation(fields: [branchId], references: [id])
+  // repositoryId     String?
+  // branchId         String?
 }
 
 model Product {

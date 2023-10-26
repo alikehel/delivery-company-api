@@ -1,4 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import {
+    DeliveryType,
+    Governorate,
+    OrderStatus,
+    PrismaClient
+} from "@prisma/client";
 import { OrderCreateType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
@@ -140,12 +145,186 @@ export class OrderModel {
         return ordersCount;
     }
 
-    async getAllOrders(skip: number, take: number) {
+    // search: search,
+    //     sort: sort,
+    //     startDate: startDate,
+    //     endDate: endDate,
+    //     deliveryDate: deliveryDate,
+    //     governorate: governorate,
+    //     status: status,
+    //     deliveryType: deliveryType,
+    //     deliveryAgentID: deliveryAgentID,
+    //     clientID: clientID,
+    //     storeID: storeID,
+    //     repositoryID: repositoryID,
+    //     productID: productID,
+    //     locationID: locationID,
+    //     receiptNumber: receiptNumber,
+    //     recipientName: recipientName,
+    //     recipientPhone: recipientPhone,
+    //     notes: notes
+
+    async getAllOrders(
+        skip: number,
+        take: number,
+        filters: {
+            search?: string;
+            sort: string;
+            startDate?: Date;
+            endDate?: Date;
+            deliveryDate?: Date;
+            governorate?: Governorate;
+            status?: OrderStatus;
+            deliveryType?: DeliveryType;
+            deliveryAgentID?: string;
+            clientID?: string;
+            storeID?: string;
+            // repositoryID?: string;
+            productID?: string;
+            locationID?: string;
+            receiptNumber?: number;
+            recipientName?: string;
+            recipientPhone?: string;
+            recipientAddress?: string;
+            notes?: string;
+        }
+    ) {
         const orders = await prisma.order.findMany({
             skip: skip,
             take: take,
+            where: {
+                AND: [
+                    // Search by receiptNumber, recipientName, recipientPhone, recipientAddress
+                    {
+                        OR: [
+                            {
+                                receiptNumber: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : +filters.search
+                                    : undefined
+                            },
+                            {
+                                recipientName: {
+                                    contains: filters.search,
+                                    mode: "insensitive"
+                                }
+                            },
+                            {
+                                recipientPhone: {
+                                    contains: filters.search,
+                                    mode: "insensitive"
+                                }
+                            },
+                            {
+                                recipientAddress: {
+                                    contains: filters.search,
+                                    mode: "insensitive"
+                                }
+                            }
+                        ]
+                    },
+                    // Filter by status
+                    {
+                        status: filters.status
+                    },
+                    // Filter by deliveryType
+                    {
+                        deliveryType: filters.deliveryType
+                    },
+                    // Filter by deliveryDate
+                    {
+                        deliveryDate: filters.deliveryDate
+                    },
+                    // Filter by governorate
+                    {
+                        governorate: filters.governorate
+                    },
+                    // Filter by deliveryAgentID
+                    {
+                        deliveryAgent: {
+                            id: filters.deliveryAgentID
+                        }
+                    },
+                    // Filter by clientID
+                    {
+                        client: {
+                            id: filters.clientID
+                        }
+                    },
+                    // Filter by storeID
+                    {
+                        store: {
+                            id: filters.storeID
+                        }
+                    },
+                    // // Filter by repositoryID
+                    // {
+                    //     OrderProducts: {
+                    //         some: {
+                    //             product: {
+                    //                 repository: {
+                    //                     id: filters.repositoryID
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // },
+                    // Filter by productID
+                    {
+                        OrderProducts: filters.productID
+                            ? {
+                                  some: {
+                                      product: {
+                                          id: filters.productID
+                                      }
+                                  }
+                              }
+                            : undefined
+                    },
+                    // Filter by locationID
+                    {
+                        location: {
+                            id: filters.locationID
+                        }
+                    },
+                    // Filter by receiptNumber
+                    {
+                        receiptNumber: filters.receiptNumber
+                    },
+                    // Filter by recipientName
+                    {
+                        recipientName: filters.recipientName
+                    },
+                    // Filter by recipientPhone
+                    {
+                        recipientPhone: filters.recipientPhone
+                    },
+                    // Filter by recipientAddress
+                    {
+                        recipientAddress: filters.recipientAddress
+                    },
+                    // Filter by notes
+                    {
+                        notes: filters.notes
+                    },
+                    // Filter by startDate
+                    {
+                        createdAt: {
+                            gte: filters.startDate
+                        }
+                    },
+                    // Filter by endDate
+                    {
+                        createdAt: {
+                            lte: filters.endDate
+                        }
+                    }
+                ]
+            },
             orderBy: {
-                id: "desc"
+                [filters.sort.split(":")[0]]:
+                    filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: orderSelect
         });

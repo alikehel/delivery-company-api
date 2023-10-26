@@ -1,4 +1,4 @@
-import { OrderStatus } from "@prisma/client";
+import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { OrderModel } from "./order.model";
@@ -18,9 +18,52 @@ export const createOrder = catchAsync(async (req, res) => {
 });
 
 export const getAllOrders = catchAsync(async (req, res) => {
+    // Pagination
     const ordersCount = await orderModel.getOrdersCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(ordersCount / size);
+
+    // Filters Query Params
+
+    const search = req.query.search as string;
+
+    const sort = (req.query.sort as string) || "id:asc";
+
+    const startDate = req.query.start_date
+        ? new Date(req.query.start_date as string)
+        : undefined;
+    const endDate = req.query.end_date
+        ? new Date(req.query.end_date as string)
+        : undefined;
+    const deliveryDate = req.query.delivery_date
+        ? new Date(req.query.delivery_date as string)
+        : undefined;
+
+    const governorate = req.query.governorate?.toString().toUpperCase() as
+        | Governorate
+        | undefined;
+    const status = req.query.status?.toString().toUpperCase() as
+        | OrderStatus
+        | undefined;
+    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
+        | DeliveryType
+        | undefined;
+
+    const deliveryAgentID = req.query.delivery_agent_id as string;
+    const clientID = req.query.client_id as string;
+    const storeID = req.query.store_id as string;
+    // const repositoryID = req.query.repository_id as string;
+    const productID = req.query.product_id as string;
+    const locationID = req.query.location_id as string;
+
+    const receiptNumber = req.query.receipt_number
+        ? +req.query.receipt_number
+        : undefined;
+    const recipientName = req.query.recipient_name as string;
+    const recipientPhone = req.query.recipient_phone as string;
+    const recipientAddress = req.query.recipient_address as string;
+
+    const notes = req.query.notes as string;
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -49,7 +92,27 @@ export const getAllOrders = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const orders = await orderModel.getAllOrders(skip, take);
+    const orders = await orderModel.getAllOrders(skip, take, {
+        search: search,
+        sort: sort,
+        startDate: startDate,
+        endDate: endDate,
+        deliveryDate: deliveryDate,
+        governorate: governorate,
+        status: status,
+        deliveryType: deliveryType,
+        deliveryAgentID: deliveryAgentID,
+        clientID: clientID,
+        storeID: storeID,
+        // repositoryID: repositoryID,
+        productID: productID,
+        locationID: locationID,
+        receiptNumber: receiptNumber,
+        recipientName: recipientName,
+        recipientPhone: recipientPhone,
+        recipientAddress: recipientAddress,
+        notes: notes
+    });
 
     res.status(200).json({
         status: "success",

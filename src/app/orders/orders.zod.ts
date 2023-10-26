@@ -25,6 +25,8 @@ export const OrderCreateSchema = z.object({
     governorate: z.nativeEnum(Governorate).optional(),
     locationID: z.string().uuid().optional(),
     storeID: z.string().uuid().optional(),
+    // repositoryID: z.string().uuid().optional(),
+    // branchID: z.string().uuid().optional(),
     products: z.array(
         z.object({
             productID: z.string().uuid(),

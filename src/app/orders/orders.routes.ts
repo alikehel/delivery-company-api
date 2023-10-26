@@ -53,6 +53,114 @@ router.route("/orders").get(
             description: 'Page Size (Number of Items per Page) (Default: 10)',
             required: false
         }
+
+        #swagger.parameters['search'] = {
+            in: 'query',
+            description: 'Search Query',
+            required: false
+        }
+
+        #swagger.parameters['sort'] = {
+            in: 'query',
+            description: 'Sort Query (Default: id:asc)',
+            required: false
+        }
+
+        #swagger.parameters['start_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['end_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['delivery_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['governorate'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['status'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['delivery_type'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['delivery_agent_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['client_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['store_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['product_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['location_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['receipt_number'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['recipient_name'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['recipient_phone'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['recipient_address'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['notes'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
     */
 );
 
