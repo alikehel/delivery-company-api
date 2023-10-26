@@ -93,6 +93,13 @@ import {
     StoreUpdateOpenAPISchema
 } from "./../app/stores/stores.zod";
 
+import {
+    BannerCreateMock,
+    BannerCreateOpenAPISchema,
+    BannerUpdateMock,
+    BannerUpdateOpenAPISchema
+} from "./../app/banners/banners.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -139,7 +146,9 @@ const doc = {
             SizeCreateExample: { value: SizeCreateMock },
             SizeUpdateExample: { value: SizeUpdateMock },
             StoreCreateExample: { value: StoreCreateMock },
-            StoreUpdateExample: { value: StoreUpdateMock }
+            StoreUpdateExample: { value: StoreUpdateMock },
+            BannerCreateExample: { value: BannerCreateMock },
+            BannerUpdateExample: { value: BannerUpdateMock }
         },
         "@schemas": {
             SuccessResponseSchema: {
@@ -208,7 +217,9 @@ const doc = {
             SizeCreateSchema: SizeCreateOpenAPISchema,
             SizeUpdateSchema: SizeUpdateOpenAPISchema,
             StoreCreateSchema: StoreCreateOpenAPISchema,
-            StoreUpdateSchema: StoreUpdateOpenAPISchema
+            StoreUpdateSchema: StoreUpdateOpenAPISchema,
+            BannerCreateSchema: BannerCreateOpenAPISchema,
+            BannerUpdateSchema: BannerUpdateOpenAPISchema
         }
     }
 };

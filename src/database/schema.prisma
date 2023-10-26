@@ -24,7 +24,7 @@ enum Role {
   SUPER_ADMIN
   COMPANY_MANAGER
   ACCOUNT_MANAGER
-  ACCOUNTANT           @map("محاسب")
+  ACCOUNTANT
   DELIVERY_AGENT
   RECEIVING_AGENT
   BRANCH_MANAGER
@@ -369,4 +369,14 @@ model Notification {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   seen      Boolean  @default(false)
+}
+
+model Banner {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  image     String?
+  url       String?
 }

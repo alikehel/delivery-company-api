@@ -3,6 +3,7 @@ import { Router } from "express";
 import catchAsync from "../utils/catchAsync.util";
 
 import authRoutes from "../app/auth/auth.routes";
+import bannersRoutes from "../app/banners/banners.routes";
 import branchesRoutes from "../app/branches/branches.routes";
 import categoriesRoutes from "../app/categories/categories.routes";
 import clientsRoutes from "../app/clients/clients.routes";
@@ -33,6 +34,7 @@ router.use("/", notificationsRoutes);
 router.use("/", colorsRoutes);
 router.use("/", sizesRoutes);
 router.use("/", storesRoutes);
+router.use("/", bannersRoutes);
 
 /*******************************************************************************
  * TEST ROUTES

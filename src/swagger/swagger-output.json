@@ -2888,6 +2888,73 @@
         }
       }
     },
+    "/api/orders/statuses": {
+      "get": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/orders/{orderID}": {
       "get": {
         "tags": [
@@ -4013,6 +4080,86 @@
               "application/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Notifications Routes"
+        ],
+        "description": "Mark all notifications as seen",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationUpdateSchema"
+              },
+              "examples": {
+                "NotificationUpdateExample": {
+                  "$ref": "#/components/examples/NotificationUpdateExample"
                 }
               }
             }
@@ -5312,306 +5459,749 @@
           }
         }
       }
+    },
+    "/api/banners": {
+      "post": {
+        "tags": [
+          "Banners Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BannerCreateSchema"
+              },
+              "examples": {
+                "BannerCreateExample": {
+                  "$ref": "#/components/examples/BannerCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Banners Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Page Size (Number of Items per Page) (Default: 10)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/banners/{bannerID}": {
+      "get": {
+        "tags": [
+          "Banners Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "bannerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Banners Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "bannerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BannerUpdateSchema"
+              },
+              "examples": {
+                "BannerUpdateExample": {
+                  "$ref": "#/components/examples/BannerUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Banners Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "bannerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
       "UserCreateExample": {
         "value": {
-          "username": "auctor",
-          "name": "Lionel West",
-          "password": "Q6FBU_9IilC29bs",
-          "phone": "07526503473",
-          "salary": 2796909427163136,
-          "repositoryID": "4dfe59aa-e606-4487-bad5-a8a33dfc6043",
-          "branchID": "1ead3dc6-c236-4577-a260-d8f7153e5010",
-          "role": "DELIVERY_AGENT",
+          "username": "deinde",
+          "name": "Blake Cummings",
+          "password": "9tgEfKCLrjAbJsu",
+          "phone": "07726311819",
+          "salary": 4667602284576768,
+          "repositoryID": "229e5d70-1043-4ccb-84c8-4279b8f96f78",
+          "branchID": "c2539b4e-9003-4927-a4e7-9ceb1cefbe62",
+          "role": "COMPANY_MANAGER",
           "permissions": [
-            "DELETE_PRICES",
-            "ADD_ORDER_TO_DELIVERY_AGENT",
-            "DELETE_REPORTS",
-            "DELETE_REPOSITORIES_REPORTS"
-          ]
+            "ADD_PAGE",
+            "CHANGE_CLOSED_ORDER_STATUS",
+            "DELETE_ORDERS",
+            "ADD_PAGE",
+            "DELETE_PRICES"
+          ],
+          "fcm": "consequatur"
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "deorsum",
-          "password": "7uEOMFQCR_lQTMG"
+          "username": "corona",
+          "password": "YJjVO1SHwVFztcX"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Julius Green",
-          "branchID": "66c91489-0d45-4520-9d97-91bafedc05cd"
+          "name": "Erika Hansen",
+          "branchID": "d183ca47-3be5-4f3e-bee4-d52a7b74fdb2"
         }
       },
       "UserUpdateExample": {
         "value": {
-          "username": "usque",
-          "name": "Hilda Legros",
-          "password": "iPdpTa4XYLxcfwq",
-          "phone": "07954090845",
-          "salary": 8388058590216192,
-          "repositoryID": "cb7bdd05-d824-4e08-9071-73c0521fc961",
-          "branchID": "ca28cdd3-3f35-4b20-b351-8af324eb2ff4",
-          "role": "DELIVERY_AGENT",
+          "username": "velit",
+          "name": "Cynthia Torp V",
+          "password": "OLC9Y90yx3fw5kz",
+          "phone": "07364917329",
+          "salary": 4614047718703104,
+          "repositoryID": "049d69b1-d90e-4e73-8eab-0df7ad46729a",
+          "branchID": "b1dceeec-1082-4f47-8b1f-b8cc925d0d05",
+          "role": "INQUIRY_EMPLOYEE",
           "permissions": [
+            "DELETE_GOVERNMENT_REPORTS",
             "DELETE_COMPANY_REPORTS",
-            "DELETE_REPOSITORIES_REPORTS"
-          ]
+            "DELETE_DELIVERY_AGENT_REPORTS"
+          ],
+          "fcm": "artificiose"
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Lila Beer",
-          "branchID": "f1f701f7-6724-47d2-9ea9-4dc89a90ed3a"
+          "name": "Phillip Treutel",
+          "branchID": "66d607ad-daff-4626-ae8b-06d4768358a4"
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Sonja Blanda PhD",
+          "name": "Shane McLaughlin",
           "governorate": "SALAH_AL_DIN",
-          "branchID": "df7faed2-51a1-4e7f-84a1-25cfd949ad08",
+          "branchID": "2cb2b6b1-7110-4e2f-9318-cee60c1a3e9b",
           "deliveryAgentsIDs": [
-            "92f64ced-9306-47ac-a5ba-26350cbf63cb"
+            "d0e7c0ff-3386-4296-b1d6-c1330ee920a8",
+            "7a83b268-e007-430b-96ab-fac24802727d",
+            "f4b3be77-fe53-4b9a-b037-a275088fa721",
+            "b68cedfb-338c-4201-8f43-7175c463e471",
+            "4d95e33e-119a-4854-8e3d-8e77e07f4ecf"
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Delores Schaefer",
-          "governorate": "DIYALA",
-          "branchID": "acd2933b-ef1e-4b3e-8e5b-d22d926f845e",
+          "name": "Lynn Torp",
+          "governorate": "MAYSAN",
+          "branchID": "fa637cd6-9679-447d-8af2-7109e4d45d54",
           "deliveryAgentsIDs": [
-            "76f49aa7-9591-4e28-924e-6234ba105670"
+            "3cc3f4aa-fc07-4261-9fc9-4c864fce862f",
+            "f7eb9453-a6cb-428b-94b8-787fac009522"
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Bernice Osinski MD",
-          "phone": "07617306808",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "tamen",
-          "password": "zj6YVFq587Dydsm",
-          "branchID": "f6e552a6-ebce-4386-af75-d230c259aaaf"
+          "name": "Genevieve Bartell",
+          "phone": "07626698965",
+          "accountType": "CLIENT",
+          "token": "teres",
+          "password": "Kwi_WUVY7tpgJuH",
+          "branchID": "f4effde3-1582-4b33-bec4-088a8c5e0147"
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Terry Strosin",
-          "phone": "07489711736",
-          "accountType": "CLIENT",
-          "token": "tamisium",
-          "password": "gknEBehOuHJkUS0",
-          "branchID": "2ff2a8f9-cc91-405d-b373-2057c1110e79"
+          "name": "Byron Bode",
+          "phone": "07349263987",
+          "accountType": "CLIENT_ASSISTANT",
+          "token": "sub",
+          "password": "V5ZXk9jb5g5yvi9",
+          "branchID": "25d3efe8-9bab-4e5a-bd61-97d701b2da41"
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Olivia Hodkiewicz Jr.",
-          "email": "Kenyon.Reichert36@example.org",
-          "phone": "07812603854",
-          "governorate": "NAJAF"
+          "name": "Sheryl Tremblay",
+          "email": "Mozelle.Quitzon-Hessel@example.com",
+          "phone": "07787716602",
+          "governorate": "SULAYMANIYAH"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Kristopher Prohaska DDS",
-          "email": "Clementina27@example.com",
-          "phone": "07720679619",
-          "governorate": "BABIL"
+          "name": "Sonja Rippin",
+          "email": "Kattie.Frami@example.org",
+          "phone": "07574928274",
+          "governorate": "SALAH_AL_DIN"
         }
       },
       "TenantCreateExample": {
         "value": {
-          "name": "Grace Thompson-Schmeler",
-          "phone": "07601903202",
-          "website": "https://negative-fusarium.net",
-          "logo": "https://proper-recliner.info",
-          "registrationText": "curiositas",
-          "governoratePrice": 1322911650545664,
-          "deliveryAgentFee": 7314392976719872,
-          "baghdadPrice": 7984254334009344,
-          "additionalPriceForEvery500000IraqiDinar": 938503858814976,
-          "additionalPriceForEveryKilogram": 1539884944719872,
-          "additionalPriceForRemoteAreas": 6402184287617024,
+          "name": "Aaron Schroeder",
+          "phone": "07794318430",
+          "website": "https://tattered-stucco.biz/",
+          "logo": "https://hollow-oval.info/",
+          "registrationText": "viridis",
+          "governoratePrice": 3283335675641856,
+          "deliveryAgentFee": 6108834454044672,
+          "baghdadPrice": 2773235907166208,
+          "additionalPriceForEvery500000IraqiDinar": 870952221016064,
+          "additionalPriceForEveryKilogram": 5675230685036544,
+          "additionalPriceForRemoteAreas": 5598395842428928,
           "orderStatusAutomaticUpdate": false
         }
       },
       "TenantUpdateExample": {
         "value": {
-          "name": "Ms. Bernadette Funk",
-          "phone": "07457082202",
-          "website": "https://scientific-dispatch.info/",
-          "logo": "https://gorgeous-behalf.com/",
-          "registrationText": "arcesso",
-          "governoratePrice": 917477917720576,
-          "deliveryAgentFee": 2557715668795392,
-          "baghdadPrice": 1535731023478784,
-          "additionalPriceForEvery500000IraqiDinar": 6100027034304512,
-          "additionalPriceForEveryKilogram": 8608664520753152,
-          "additionalPriceForRemoteAreas": 6602984836300800,
-          "orderStatusAutomaticUpdate": true
+          "name": "Lucy Fritsch",
+          "phone": "07851396943",
+          "website": "https://known-pride.org/",
+          "logo": "https://blank-parade.net/",
+          "registrationText": "sollers",
+          "governoratePrice": 6439467808194560,
+          "deliveryAgentFee": 8831606762504192,
+          "baghdadPrice": 32174745059328,
+          "additionalPriceForEvery500000IraqiDinar": 5089898866409472,
+          "additionalPriceForEveryKilogram": 5708457554477056,
+          "additionalPriceForRemoteAreas": 1283659271241728,
+          "orderStatusAutomaticUpdate": false
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 7331964843458560,
-          "paidAmount": 6568056673271808,
-          "totalCostInUSD": 1855543534682112,
-          "paidAmountInUSD": 369527846076416,
-          "discount": 1618808682840064,
-          "receiptNumber": 2162800117940224,
-          "quantity": 1854234702118912,
-          "weight": 8676997532221440,
-          "recipientName": "viduo",
-          "recipientPhone": "umerus",
-          "recipientAddress": "quibusdam",
-          "details": "summisse",
-          "notes": "sponte",
-          "status": "RETURNED",
+          "totalCost": 1543572021051392,
+          "paidAmount": 3542004132741120,
+          "totalCostInUSD": 5186442282139648,
+          "paidAmountInUSD": 536282742652928,
+          "discount": 4805161813803008,
+          "receiptNumber": 2373810646941696,
+          "quantity": 548890774339584,
+          "weight": 5455360460587008,
+          "recipientName": "perferendis",
+          "recipientPhone": "fugit",
+          "recipientAddress": "tum",
+          "details": "soluta",
+          "notes": "spectaculum",
+          "status": "WITH_DELIVERY_AGENT",
           "deliveryType": "REPLACEMENT",
-          "clientID": "0f0f0181-f588-43d3-8345-0260c40e24c2",
-          "deliveryAgentID": "392e34af-6ca0-41de-aafe-e013d4479946",
-          "deliveryDate": "2023-10-24T09:53:50.504Z",
+          "clientID": "d1241f75-091f-4efc-b437-385eb26ca09e",
+          "deliveryAgentID": "4a12676e-1a91-4908-a21a-f5b8c049c34c",
+          "deliveryDate": "2023-10-27T01:02:23.280Z",
           "governorate": "WASIT",
-          "locationID": "fbc433c7-ab60-43f1-93d4-b6fcd9321e27",
-          "storeID": "3c8b8b96-cd30-403c-9ccd-892f1f939d8e",
+          "locationID": "931804dd-580d-4313-9bfd-90633274c148",
+          "storeID": "118bc8ea-4e02-4551-8a49-daae15babb25",
           "products": [
             {
-              "productID": "c3d24f47-b0e3-4e82-90da-b0aedda507f4",
-              "quantity": 3863096871354368,
-              "color": "#463709",
-              "size": "solutio"
+              "productID": "a2777453-0658-4e96-81de-0430cd4f0c2f",
+              "quantity": 5589459728859136,
+              "color": "#0c744d",
+              "size": "coerceo"
             },
             {
-              "productID": "5f26c636-9877-4d3c-bd49-b45776e7f827",
-              "quantity": 8855447545053184,
-              "color": "#00383e",
-              "size": "ago"
-            },
-            {
-              "productID": "c9b4e074-9317-447f-8ab4-2cd3d4aa7a55",
-              "quantity": 4033900814794752,
-              "color": "#703761",
+              "productID": "ffcfb588-396a-48fb-81b3-c4f80ed40efe",
+              "quantity": 6650799018999808,
+              "color": "#184a07",
               "size": "ars"
+            },
+            {
+              "productID": "1f739738-9e7c-4f83-bbbb-06e23815ce54",
+              "quantity": 2826704181526528,
+              "color": "#004d58",
+              "size": "voluptatibus"
+            },
+            {
+              "productID": "560781dc-7537-4aa3-9a5c-c7d4dbdbaf96",
+              "quantity": 2393360889282560,
+              "color": "#54250b",
+              "size": "tardus"
             }
           ]
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 440164887298048,
-          "paidAmount": 6175767939514368,
-          "totalCostInUSD": 7818396072673280,
-          "paidAmountInUSD": 4259331421765632,
-          "discount": 5801315340910592,
-          "receiptNumber": 4251063999791104,
-          "quantity": 5839674530594816,
-          "weight": 5470617520308224,
-          "recipientName": "dolore",
-          "recipientPhone": "summopere",
-          "recipientAddress": "curriculum",
-          "details": "thorax",
-          "notes": "depereo",
-          "status": "CHANGE_ADDRESS",
-          "deliveryType": "REPLACEMENT",
-          "clientID": "d808f73e-400e-42e2-8296-ca9b8aacf8eb",
-          "deliveryAgentID": "d763ea4b-197a-488b-97f7-7a7bc64b3c55",
-          "deliveryDate": "2023-10-23T19:44:57.401Z",
-          "governorate": "SULAYMANIYAH",
-          "locationID": "748dbf61-dde2-4faa-bb0c-4f419aedb885",
-          "storeID": "6d5d0904-8850-43f0-b9a4-d2e99c372d4a",
+          "totalCost": 8436847669673984,
+          "paidAmount": 8884652582371328,
+          "totalCostInUSD": 2004089202278400,
+          "paidAmountInUSD": 2052459163811840,
+          "discount": 6061421271973888,
+          "receiptNumber": 1027448938430464,
+          "quantity": 4912371105529856,
+          "weight": 2686607071117312,
+          "recipientName": "suffoco",
+          "recipientPhone": "ventus",
+          "recipientAddress": "ustilo",
+          "details": "adipisci",
+          "notes": "degero",
+          "status": "DELIVERED",
+          "deliveryType": "NORMAL",
+          "clientID": "85e1c616-5c03-44b0-906b-9a8f96d22a52",
+          "deliveryAgentID": "79620b35-487a-4357-82a4-21447f21ea6c",
+          "deliveryDate": "2023-10-27T04:14:56.428Z",
+          "governorate": "DHI_QAR",
+          "locationID": "0868b00b-6708-4165-9425-3a748e4b7f04",
+          "storeID": "5c5a8cba-8dee-4479-bd46-0adb051436bd",
           "products": [
             {
-              "productID": "d5d29806-6df6-4db5-a4ee-cc14bf9ad6e4",
-              "quantity": 4389734350585856,
-              "color": "#744c62",
-              "size": "aeternus"
+              "productID": "6d512666-da01-4b83-80dc-3505d18fd19e",
+              "quantity": 4408809002893312,
+              "color": "#0f0941",
+              "size": "vehemens"
+            },
+            {
+              "productID": "9731679a-5057-4103-839f-7f2a858cef75",
+              "quantity": 3144980893794304,
+              "color": "#08044d",
+              "size": "corrumpo"
+            },
+            {
+              "productID": "0248628b-317e-4e75-b634-6b624656d052",
+              "quantity": 7846413606060032,
+              "color": "#275722",
+              "size": "vulticulus"
+            },
+            {
+              "productID": "2e81a6f8-82de-4ade-9739-2f3a90be36f6",
+              "quantity": 8571691445780480,
+              "color": "#0d1861",
+              "size": "vitiosus"
             }
           ]
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "crastinus",
-          "price": 6390972986425344,
-          "image": "https://picsum.photos/seed/0DUSD/640/480",
-          "stock": 486667725045760,
-          "category": "demoror",
+          "title": "tum",
+          "price": 7544975497625600,
+          "image": "https://loremflickr.com/640/480?lock=6396790672719872",
+          "stock": 0,
+          "category": "sequi",
           "colors": [
             {
-              "title": "tardus",
-              "quantity": 5985322011721728
+              "colorID": "92a8bda5-fd36-4a0b-b62b-0c99238cee86",
+              "title": "adficio",
+              "quantity": 4717249164214272
             },
             {
-              "title": "totus",
-              "quantity": 1674946025619456
+              "colorID": "ca5424c0-d588-4b87-ac5a-c4a776d01f6d",
+              "title": "spero",
+              "quantity": 6310182747373568
             },
             {
-              "title": "facilis",
-              "quantity": 1874631694745600
+              "colorID": "5873bbb4-cfbd-4eea-bc2a-37f8fbf92a65",
+              "title": "ascit",
+              "quantity": 6585505053409280
             },
             {
-              "title": "numquam",
-              "quantity": 837261960675328
+              "colorID": "3a359e01-ba23-4378-8609-1b6e266ac13f",
+              "title": "ubi",
+              "quantity": 7042425591693312
             }
           ],
           "sizes": [
             {
-              "title": "bellum",
-              "quantity": 7434223776432128
+              "sizeID": "eb29862d-1af8-4bf6-a382-fa8785b1bb1b",
+              "title": "arto",
+              "quantity": 5011240864710656
             },
             {
-              "title": "arca",
-              "quantity": 3677659357773824
+              "sizeID": "1248d445-10e3-470b-a600-98fe4fea11ea",
+              "title": "stips",
+              "quantity": 6120120598396928
             },
             {
-              "title": "mollitia",
-              "quantity": 7845296172171264
+              "sizeID": "9154c5b0-ec1b-4531-b32b-95cd84b5cd9c",
+              "title": "texo",
+              "quantity": 6972383678169088
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "subvenio",
-          "price": 6392121183436800,
-          "image": "https://picsum.photos/seed/XQdugu/640/480",
-          "stock": 0,
-          "category": "cruciamentum",
+          "title": "depulso",
+          "price": 819320095506432,
+          "image": "https://loremflickr.com/640/480?lock=1838719403294720",
+          "stock": 6265381555535872,
+          "category": "adnuo",
           "colors": [
             {
-              "title": "demens",
-              "quantity": 6393316037885952
+              "colorID": "68ce1017-1e3f-48e8-9bf3-7349b991468a",
+              "title": "suffragium",
+              "quantity": 1265830518063104
             },
             {
-              "title": "consequatur",
-              "quantity": 4030513874468864
-            },
-            {
-              "title": "dedico",
-              "quantity": 299413784231936
-            },
-            {
-              "title": "umbra",
-              "quantity": 1340463562883072
+              "colorID": "41f17e26-cf59-4175-b925-975ef0e53f88",
+              "title": "coaegresco",
+              "quantity": 8319994169393152
             }
           ],
           "sizes": [
             {
-              "title": "depulso",
-              "quantity": 809450677993472
+              "sizeID": "756d4d9a-5d2a-4bb9-8c7a-4c958ad7d968",
+              "title": "quae",
+              "quantity": 5100414437425152
             },
             {
-              "title": "thesaurus",
-              "quantity": 2305241049464832
+              "sizeID": "166956a6-6ff2-4e17-afb2-02d22dd31e99",
+              "title": "curso",
+              "quantity": 2033600564297728
             },
             {
-              "title": "aureus",
-              "quantity": 195489932771328
+              "sizeID": "9e4ba0c7-c9ed-4336-a640-335ecdfe061b",
+              "title": "debeo",
+              "quantity": 5073033620357120
+            },
+            {
+              "sizeID": "d0449f31-2887-4dd1-963c-f8afeaeb130d",
+              "title": "curatio",
+              "quantity": 4445316598202368
             }
           ]
         }
@@ -5623,46 +6213,62 @@
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "delinquo"
+          "title": "bibo"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "suppellex"
+          "title": "aestivus"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "arto"
+          "title": "vulgivagus"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "unde"
+          "title": "audentia"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "utroque"
+          "title": "vita"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "consequuntur"
+          "title": "eos"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Dr. Alonzo Leannon",
-          "clientID": "605a96c0-94a8-40d7-a229-f7dcd2e3ba5a",
-          "notes": "subseco"
+          "name": "Richard Waters",
+          "clientID": "a1f7b103-5d26-4d0b-8a93-c7fd3f6cc085",
+          "notes": "comptus"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Dr. Bernice Maggio-Doyle",
-          "clientID": "002b910e-aa74-4bb7-9a65-007efe8eeef8",
-          "notes": "solium"
+          "name": "Alvin Schmitt",
+          "clientID": "e55bba98-a6b1-4bd7-8eb5-af91b66482dd",
+          "notes": "cuius"
+        }
+      },
+      "BannerCreateExample": {
+        "value": {
+          "title": "virga",
+          "content": "bis",
+          "image": "https://loremflickr.com/640/480?lock=4176893207117824",
+          "url": "https://favorite-calendar.name/"
+        }
+      },
+      "BannerUpdateExample": {
+        "value": {
+          "title": "soluta",
+          "content": "porro",
+          "image": "https://picsum.photos/seed/5XjYZ/640/480",
+          "url": "https://delayed-polarization.biz/"
         }
       }
     },
@@ -5765,6 +6371,9 @@
                 "DELETE_DELIVERY_AGENT_REPORTS"
               ]
             }
+          },
+          "fcm": {
+            "type": "string"
           }
         },
         "required": [
@@ -5881,6 +6490,9 @@
                 "DELETE_DELIVERY_AGENT_REPORTS"
               ]
             }
+          },
+          "fcm": {
+            "type": "string"
           }
         }
       },
@@ -6572,6 +7184,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "colorID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "title": {
                   "type": "string"
                 },
@@ -6590,6 +7206,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "sizeID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "title": {
                   "type": "string"
                 },
@@ -6633,6 +7253,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "colorID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "title": {
                   "type": "string"
                 },
@@ -6651,6 +7275,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "sizeID": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "title": {
                   "type": "string"
                 },
@@ -6764,6 +7392,45 @@
             "format": "uuid"
           },
           "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "BannerCreateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3
+          },
+          "content": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "BannerUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3
+          },
+          "content": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "url": {
             "type": "string"
           }
         }
