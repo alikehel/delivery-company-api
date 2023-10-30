@@ -9,6 +9,7 @@ import {
     getAllOrders,
     getAllOrdersStatuses,
     getOrder,
+    getTodayOrdersCountAndEarnings,
     updateOrder
 } from "./orders.controller";
 
@@ -168,6 +169,15 @@ router.route("/orders/statuses").get(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
     getAllOrdersStatuses
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/today").get(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getTodayOrdersCountAndEarnings
     /*
         #swagger.tags = ['Orders Routes']
     */

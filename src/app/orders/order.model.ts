@@ -415,4 +415,24 @@ export class OrderModel {
         });
         return ordersStatuses;
     }
+
+    async getTodayOrdersCountAndEarnings() {
+        const todayOrdersCountAndEarnings = await prisma.order.aggregate({
+            _sum: {
+                totalCost: true,
+                paidAmount: true,
+                totalCostInUSD: true,
+                paidAmountInUSD: true
+            },
+            _count: {
+                id: true
+            },
+            where: {
+                createdAt: {
+                    gte: new Date(new Date().setHours(0, 0, 0, 0))
+                }
+            }
+        });
+        return todayOrdersCountAndEarnings;
+    }
 }

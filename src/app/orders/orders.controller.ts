@@ -191,3 +191,33 @@ export const getAllOrdersStatuses = catchAsync(async (req, res) => {
         data: ordersStatusesReformed
     });
 });
+
+export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
+    const todayOrdersCountAndEarnings =
+        await orderModel.getTodayOrdersCountAndEarnings();
+
+    // {
+    //     "_sum": {
+    //         "totalCost": "200",
+    //         "paidAmount": "200",
+    //         "totalCostInUSD": "20",
+    //         "paidAmountInUSD": "20"
+    //     },
+    //     "_count": {
+    //         "id": 2
+    //     }
+    // }
+
+    const todayOrdersCountAndEarningsReformed = {
+        count: todayOrdersCountAndEarnings._count.id,
+        totalCost: todayOrdersCountAndEarnings._sum.totalCost,
+        paidAmount: todayOrdersCountAndEarnings._sum.paidAmount,
+        totalCostInUSD: todayOrdersCountAndEarnings._sum.totalCostInUSD,
+        paidAmountInUSD: todayOrdersCountAndEarnings._sum.paidAmountInUSD
+    };
+
+    res.status(200).json({
+        status: "success",
+        data: todayOrdersCountAndEarningsReformed
+    });
+});
