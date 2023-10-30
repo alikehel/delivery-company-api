@@ -7,6 +7,7 @@ import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
 import globalErrorcontroller from "./error/error.controller";
+import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import {
     morganMiddleware,
     morganMiddlewareImmediate
@@ -40,6 +41,11 @@ app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(helmet()); // Set security HTTP headers
 
+// Function to serve all static files
+// inside public directory.
+// app.use(express.static("uploads/images"));
+app.use("/uploads", isLoggedIn, express.static("uploads"));
+
 // Routes
 
 app.use(
@@ -68,14 +74,14 @@ app.use(
     */
 );
 
-// Function to serve all static files
-// inside public directory.
-app.use(express.static("public"));
-app.use("/uploads", express.static("uploads"));
-
 app.route("/").get((_req, res) => {
     // #swagger.ignore = true
-    res.send("<h1>Hello, World! 🌍</h1>");
+    res.send("<h1>Hello, World! 🌍 [From Root]</h1>");
+});
+
+app.route("/api").get((_req, res) => {
+    // #swagger.ignore = true
+    res.send("<h1>Hello, World! 🌍 [From API]</h1>");
 });
 
 app.route("/health").get((_req, res) => {

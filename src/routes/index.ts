@@ -45,10 +45,14 @@ router.use("/", bannersRoutes);
 router.route("/test").post(
     upload.single("avatar"),
     catchAsync(async (req, res) => {
+        //  req.file?.destination + "/" + req.file?.filename;
+        const imagePath = "/" + req.file?.path.replace(/\\/g, "/");
         // #swagger.ignore = true
         res.status(200).json({
             status: "success",
-            data: "response"
+            data: {
+                imagePath
+            }
         });
     })
 );
