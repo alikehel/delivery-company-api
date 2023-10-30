@@ -9,6 +9,9 @@ const userModel = new UserModel();
 
 export const createUser = catchAsync(async (req, res) => {
     const userData = UserCreateSchema.parse(req.body);
+    const avatar = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     const hashedPassword = bcrypt.hashSync(
         userData.password + (SECRET as string),
@@ -17,7 +20,8 @@ export const createUser = catchAsync(async (req, res) => {
 
     const createdUser = await userModel.createUser({
         ...userData,
-        password: hashedPassword
+        password: hashedPassword,
+        avatar: avatar
     });
 
     res.status(200).json({
@@ -84,6 +88,9 @@ export const getUser = catchAsync(async (req, res) => {
 export const updateUser = catchAsync(async (req, res) => {
     const userData = UserUpdateSchema.parse(req.body);
     const userID = req.params["userID"];
+    const avatar = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     if (userData.password) {
         const hashedPassword = bcrypt.hashSync(
@@ -100,7 +107,7 @@ export const updateUser = catchAsync(async (req, res) => {
 
     res.status(200).json({
         status: "success",
-        data: updatedUser
+        data: { ...updatedUser, avatar: avatar }
     });
 });
 

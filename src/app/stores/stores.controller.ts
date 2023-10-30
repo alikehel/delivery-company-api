@@ -7,8 +7,9 @@ const storeModel = new StoreModel();
 
 export const createStore = catchAsync(async (req, res) => {
     const storeData = StoreCreateSchema.parse(req.body);
+    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
 
-    const createdStore = await storeModel.createStore(storeData);
+    const createdStore = await storeModel.createStore({ ...storeData, logo });
 
     res.status(200).json({
         status: "success",
@@ -73,12 +74,13 @@ export const getStore = catchAsync(async (req, res) => {
 
 export const updateStore = catchAsync(async (req, res) => {
     const storeID = req.params["storeID"];
+    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
 
     const storeData = StoreUpdateSchema.parse(req.body);
 
     const store = await storeModel.updateStore({
         storeID: storeID,
-        storeData: storeData
+        storeData: { ...storeData, logo }
     });
 
     res.status(200).json({

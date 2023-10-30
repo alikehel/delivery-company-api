@@ -6,7 +6,7 @@ export const TenantCreateSchema = z.object({
     name: z.string().min(3),
     phone: z.string().regex(/^07[3-9][0-9]{8}$/),
     website: z.string().url().optional(),
-    logo: z.string().url().optional(),
+    logo: z.string().optional(),
     registrationText: z.string().optional(),
     governoratePrice: z.number().min(0),
     deliveryAgentFee: z.number().min(0),

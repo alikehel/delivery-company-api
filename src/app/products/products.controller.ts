@@ -7,8 +7,14 @@ const productModel = new ProductModel();
 
 export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
+    const image = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
-    const createdProduct = await productModel.createProduct(productData);
+    const createdProduct = await productModel.createProduct({
+        ...productData,
+        image
+    });
 
     res.status(200).json({
         status: "success",
@@ -75,10 +81,13 @@ export const updateProduct = catchAsync(async (req, res) => {
     const productID = req.params["productID"];
 
     const productData = ProductUpdateSchema.parse(req.body);
+    const image = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     const product = await productModel.updateProduct({
         productID: productID,
-        productData: productData
+        productData: { ...productData, image }
     });
 
     res.status(200).json({

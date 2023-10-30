@@ -13,7 +13,8 @@ export const UserCreateSchema = z.object({
     branchID: z.string().uuid(),
     role: z.nativeEnum(Role),
     permissions: z.array(z.nativeEnum(Permission)),
-    fcm: z.string().optional()
+    fcm: z.string().optional(),
+    avatar: z.string().optional()
 });
 
 export type UserCreateType = z.infer<typeof UserCreateSchema>;

@@ -9,7 +9,8 @@ export const ClientCreateSchema = z.object({
     accountType: z.nativeEnum(AccountType),
     token: z.string().optional(),
     password: z.string().min(6),
-    branchID: z.string().uuid()
+    branchID: z.string().uuid(),
+    avatar: z.string().optional()
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;

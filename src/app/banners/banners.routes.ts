@@ -3,6 +3,7 @@ import { Router } from "express";
 import { Role } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createBanner,
     deleteBanner,
@@ -16,6 +17,7 @@ const router = Router();
 router.route("/banners").post(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("image"),
     createBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -67,6 +69,7 @@ router.route("/banners/:bannerID").get(
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("image"),
     updateBanner
     /*
         #swagger.tags = ['Banners Routes']

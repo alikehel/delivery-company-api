@@ -12,6 +12,7 @@ export class ClientModel {
                 accountType: data.accountType,
                 token: data.token,
                 password: data.password,
+                avatar: data.avatar,
                 branch: {
                     connect: {
                         id: data.branchID
@@ -25,6 +26,7 @@ export class ClientModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 phone: true,
                 accountType: true,
@@ -54,6 +56,7 @@ export class ClientModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 phone: true,
                 accountType: true,
@@ -76,6 +79,7 @@ export class ClientModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 phone: true,
                 accountType: true,
@@ -105,6 +109,7 @@ export class ClientModel {
                 accountType: data.clientData.accountType,
                 token: data.clientData.token,
                 password: data.clientData.password,
+                avatar: data.clientData.avatar,
                 branch: data.clientData.branchID
                     ? {
                           connect: {
@@ -115,6 +120,7 @@ export class ClientModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 phone: true,
                 accountType: true,
@@ -131,24 +137,11 @@ export class ClientModel {
     }
 
     async deleteClient(data: { clientID: string }) {
-        const deletedClient = await prisma.client.delete({
+        await prisma.client.delete({
             where: {
                 id: data.clientID
-            },
-            select: {
-                id: true,
-                name: true,
-                phone: true,
-                accountType: true,
-                branch: true,
-                createdBy: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
             }
         });
-        return deletedClient;
+        return true;
     }
 }

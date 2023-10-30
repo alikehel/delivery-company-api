@@ -10,6 +10,9 @@ const clientModel = new ClientModel();
 export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
     const { password, ...rest } = clientData;
+    const avatar = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     const currentUser = res.locals.user;
 
@@ -19,7 +22,8 @@ export const createClient = catchAsync(async (req, res) => {
     const createdClient = await clientModel.createClient({
         ...rest,
         password: hashedPassword,
-        userID: currentUser.id
+        userID: currentUser.id,
+        avatar
     });
 
     res.status(200).json({
@@ -86,6 +90,9 @@ export const getClient = catchAsync(async (req, res) => {
 export const updateClient = catchAsync(async (req, res) => {
     const clientData = ClientUpdateSchema.parse(req.body);
     const clientID = req.params["clientID"];
+    const avatar = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     const { password, ...rest } = clientData;
 
@@ -96,7 +103,8 @@ export const updateClient = catchAsync(async (req, res) => {
         clientID: clientID,
         clientData: {
             ...rest,
-            password: hashedPassword
+            password: hashedPassword,
+            avatar
         }
     });
 

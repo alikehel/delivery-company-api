@@ -14,10 +14,7 @@ const handlePrismaConstraintError = (
     //     `Unique constraint failed on the (${errTarget}) field (already exists)`,
     //     400
     // );
-    return new AppError(
-        `الرجاء التأكد من عدم تكرار القيمة في حقل (${errTarget})`,
-        400
-    );
+    return new AppError(`القيمة في حقل (${errTarget}) موجودة مسبقاً`, 400);
 };
 
 const handlePrismaDependencyError = (

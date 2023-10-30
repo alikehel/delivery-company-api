@@ -3,6 +3,7 @@ import { Router } from "express";
 import { Role } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createTenant,
     deleteTenant,
@@ -16,6 +17,7 @@ const router = Router();
 router.route("/tenants").post(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("logo"),
     createTenant
     /*
         #swagger.tags = ['Tenants Routes']
@@ -67,6 +69,7 @@ router.route("/tenants/:tenantID").get(
 router.route("/tenants/:tenantID").patch(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("logo"),
     updateTenant
     /*
         #swagger.tags = ['Tenants Routes']

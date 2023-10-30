@@ -7,8 +7,12 @@ const tenantModel = new TenantModel();
 
 export const createTenant = catchAsync(async (req, res) => {
     const tenantData = TenantCreateSchema.parse(req.body);
+    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
 
-    const createdTenant = await tenantModel.createTenant(tenantData);
+    const createdTenant = await tenantModel.createTenant({
+        ...tenantData,
+        logo
+    });
 
     res.status(200).json({
         status: "success",
@@ -73,12 +77,13 @@ export const getTenant = catchAsync(async (req, res) => {
 
 export const updateTenant = catchAsync(async (req, res) => {
     const tenantID = req.params["tenantID"];
+    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
 
     const tenantData = TenantUpdateSchema.parse(req.body);
 
     const tenant = await tenantModel.updateTenant({
         tenantID: tenantID,
-        tenantData: tenantData
+        tenantData: { ...tenantData, logo }
     });
 
     res.status(200).json({

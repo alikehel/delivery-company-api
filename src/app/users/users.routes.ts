@@ -10,12 +10,14 @@ import {
     getUser,
     updateUser
 } from "./users.controller";
+import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
 router.route("/users").post(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("avatar"),
     createUser
     /*
         #swagger.tags = ['Users Routes']
@@ -67,6 +69,7 @@ router.route("/users/:userID").get(
 router.route("/users/:userID").patch(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
+    upload.single("avatar"),
     updateUser
     /*
         #swagger.tags = ['Users Routes']

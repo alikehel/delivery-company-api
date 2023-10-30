@@ -14,6 +14,7 @@ export class UserModel {
                 salary: data.salary,
                 role: data.role,
                 fcm: data.fcm,
+                avatar: data.avatar,
                 permissions: {
                     set: data.permissions
                 },
@@ -30,6 +31,7 @@ export class UserModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 username: true,
                 phone: true,
@@ -57,6 +59,7 @@ export class UserModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 username: true,
                 phone: true,
@@ -77,6 +80,7 @@ export class UserModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 username: true,
                 phone: true,
@@ -104,6 +108,7 @@ export class UserModel {
                 role: data.userData.role,
                 permissions: data.userData.permissions,
                 fcm: data.userData.fcm,
+                avatar: data.userData.avatar,
                 branch: data.userData.branchID
                     ? {
                           connect: {
@@ -121,6 +126,7 @@ export class UserModel {
             },
             select: {
                 id: true,
+                avatar: true,
                 name: true,
                 username: true,
                 phone: true,

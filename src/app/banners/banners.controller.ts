@@ -7,8 +7,14 @@ const bannerModel = new BannerModel();
 
 export const createBanner = catchAsync(async (req, res) => {
     const bannerData = BannerCreateSchema.parse(req.body);
+    const image = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
-    const createdBanner = await bannerModel.createBanner(bannerData);
+    const createdBanner = await bannerModel.createBanner({
+        ...bannerData,
+        image
+    });
 
     res.status(200).json({
         status: "success",
@@ -75,10 +81,13 @@ export const updateBanner = catchAsync(async (req, res) => {
     const bannerID = req.params["bannerID"];
 
     const bannerData = BannerUpdateSchema.parse(req.body);
+    const image = req.file
+        ? "/" + req.file.path.replace(/\\/g, "/")
+        : undefined;
 
     const banner = await bannerModel.updateBanner({
         bannerID: bannerID,
-        bannerData: bannerData
+        bannerData: { ...bannerData, image }
     });
 
     res.status(200).json({

@@ -9,6 +9,7 @@ export class StoreModel {
             data: {
                 name: data.name,
                 notes: data.notes,
+                logo: data.logo,
                 client: {
                     connect: {
                         id: data.clientID
@@ -84,6 +85,7 @@ export class StoreModel {
             },
             data: {
                 name: data.storeData.name,
+                logo: data.storeData.logo,
                 notes: data.storeData.notes,
                 client: data.storeData.clientID
                     ? {

@@ -5,7 +5,8 @@ import { z } from "zod";
 export const StoreCreateSchema = z.object({
     name: z.string().min(3),
     clientID: z.string().uuid(),
-    notes: z.string().optional()
+    notes: z.string().optional(),
+    logo: z.string().optional()
 });
 
 export type StoreCreateType = z.infer<typeof StoreCreateSchema>;

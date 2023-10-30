@@ -148,6 +148,7 @@ model User {
   phone        String?
   salary       Decimal? @default(0)
   fcm          String?
+  avatar       String?
 
   repositoryId String?
   branchId     String?
@@ -171,6 +172,7 @@ model Client {
   accountType AccountType
   token       String?
   password    String?
+  avatar      String?
 
   branchId String
   userId   String
@@ -186,6 +188,7 @@ model Store {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  logo      String?
   notes     String?
 
   client   Client  @relation(fields: [clientId], references: [id])
