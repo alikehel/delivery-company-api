@@ -17,6 +17,7 @@ import sizesRoutes from "../app/sizes/sizes.routes";
 import storesRoutes from "../app/stores/stores.routes";
 import tenantsRoutes from "../app/tenants/tenants.routes";
 import usersRoutes from "../app/users/users.routes";
+import { upload } from "../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -42,6 +43,7 @@ router.use("/", bannersRoutes);
  *******************************************************************************/
 
 router.route("/test").post(
+    upload.single("avatar"),
     catchAsync(async (req, res) => {
         // #swagger.ignore = true
         res.status(200).json({
