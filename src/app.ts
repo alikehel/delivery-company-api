@@ -6,7 +6,9 @@ import helmet from "helmet";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
+import { Role } from "@prisma/client";
 import globalErrorcontroller from "./error/error.controller";
+import { isAutherized } from "./middlewares/isAutherized.middleware";
 import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import {
     morganMiddleware,
@@ -42,9 +44,14 @@ app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(helmet()); // Set security HTTP headers
 
 // Function to serve all static files
-// inside public directory.
 // app.use(express.static("uploads/images"));
 app.use("/uploads", isLoggedIn, express.static("uploads"));
+app.use(
+    "/logs",
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    express.static("logs")
+);
 
 // Routes
 
