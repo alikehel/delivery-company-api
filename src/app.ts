@@ -68,6 +68,11 @@ app.use(
     */
 );
 
+// Function to serve all static files
+// inside public directory.
+app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
+
 app.route("/").get((_req, res) => {
     // #swagger.ignore = true
     res.send("<h1>Hello, World! 🌍</h1>");
