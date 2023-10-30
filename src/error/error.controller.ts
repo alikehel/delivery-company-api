@@ -10,8 +10,12 @@ const handlePrismaConstraintError = (
     // The .code property can be accessed in a type-safe manner
     const errMeta = err.meta as unknown as { target: string };
     const errTarget = errMeta.target[0] as string;
+    // return new AppError(
+    //     `Unique constraint failed on the (${errTarget}) field (already exists)`,
+    //     400
+    // );
     return new AppError(
-        `Unique constraint failed on the (${errTarget}) field (already exists)`,
+        `الرجاء التأكد من عدم تكرار القيمة في حقل (${errTarget})`,
         400
     );
 };
@@ -21,17 +25,40 @@ const handlePrismaDependencyError = (
 ) => {
     const errMeta = err.meta as unknown as { cause: string };
     const errCause = errMeta.cause as string;
-    return new AppError(`${errCause}`, 400);
+    // Arabic
+    const message = `الرجاء التأكد من عدم وجود عناصر مرتبطة بهذا العنصر (${errCause})`;
+    return new AppError(message, 400);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handleJWTError = (err: Error) => {
-    const message = err.message;
+    // const message = err.message;
+    const message = `الرجاء تسجيل الدخول مرة أخرى`;
     return new AppError(message, 401);
 };
 
 const handleZODError = (err: ZodError) => {
-    const message = `${err.issues[0].path[0]}: ${err.issues[0].message}`;
+    // const message = `${err.issues[0].path[0]}: ${err.issues[0].message}`;
+    const message = `الرجاء التأكد من صحة البيانات المدخلة في حقل (${err.issues[0].path[0]})`;
     return new AppError(message, 400);
+};
+
+const handleMulterError = (err: Error) => {
+    if (err.message === "File too large") {
+        return new AppError("حجم الملف اكبر من 5 ميجابايت", 400);
+    } else if (err.message === "Unexpected field") {
+        return new AppError("حدث خطأ ما", 400);
+    } else if (err.message === "File too small") {
+        return new AppError("حجم الملف صغير جداً", 400);
+    } else if (err.message === "Too many files") {
+        return new AppError("عدد الملفات كبير جداً", 400);
+    } else if (err.message === "Unexpected file") {
+        return new AppError("حدث خطأ ما", 400);
+    } else if (err.message === "Wrong file type") {
+        return new AppError("نوع الملف غير مدعوم", 400);
+    }
+
+    return new AppError(err.message, 400);
 };
 
 const sendErrorDev = (err: AppError & Error, res: Response) => {
@@ -109,6 +136,8 @@ export default (
                 `حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${error.code}]`,
                 500
             );
+        } else if (error.name === "MulterError") {
+            error = handleMulterError(error);
         }
 
         sendErrorProd(error, res);
