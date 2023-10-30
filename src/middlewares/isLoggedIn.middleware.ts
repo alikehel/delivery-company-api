@@ -16,7 +16,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         } else if (req.cookies.jwt) {
             token = req.cookies.jwt;
         } else {
-            return next(new AppError("Please Log In!", 401));
+            return next(new AppError("الرجاء تسجيل الدخول", 401));
         }
 
         // IS TOKEN VALID
@@ -36,7 +36,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         return next();
     } catch (err) {
         res.status(401).json({
-            status: "invalid token"
+            status: "جلسة تسجيل الدخول منتهية"
         });
     }
 };

@@ -18,7 +18,7 @@ export const isAutherized = (allowedRoles: string[]) => {
                 return next(); // If user is authorized, call the next middleware function
             }
         } else {
-            return next(new AppError("You are not authorized to do this", 401));
+            return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 401));
         }
     };
 };
