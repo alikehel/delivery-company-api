@@ -8,12 +8,31 @@ export const TenantCreateSchema = z.object({
     website: z.string().url().optional(),
     logo: z.string().optional(),
     registrationText: z.string().optional(),
-    governoratePrice: z.number().min(0),
-    deliveryAgentFee: z.number().min(0),
-    baghdadPrice: z.number().min(0),
-    additionalPriceForEvery500000IraqiDinar: z.number().min(0),
-    additionalPriceForEveryKilogram: z.number().min(0),
-    additionalPriceForRemoteAreas: z.number().min(0),
+    // take string then convert to number
+    governoratePrice: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
+    deliveryAgentFee: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
+    baghdadPrice: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
+    additionalPriceForEvery500000IraqiDinar: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
+    additionalPriceForEveryKilogram: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
+    additionalPriceForRemoteAreas: z
+        .number()
+        .or(z.string().regex(/\d+/).transform(Number))
+        .refine((n) => n >= 0),
     orderStatusAutomaticUpdate: z.boolean().optional()
 });
 
