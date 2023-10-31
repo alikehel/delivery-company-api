@@ -4,26 +4,17 @@ import { z } from "zod";
 
 export const ProductCreateSchema = z.object({
     title: z.string(),
-    price: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
+    price: z.coerce.number().min(0),
     image: z.string().optional(),
     // stock: z.number().default(0),
-    stock: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
+    stock: z.coerce.number().min(0),
     category: z.string().optional(),
     colors: z
         .array(
             z.object({
                 colorID: z.string().uuid().optional(),
                 title: z.string(),
-                quantity: z
-                    .number()
-                    .or(z.string().regex(/\d+/).transform(Number))
-                    .refine((n) => n >= 0)
+                quantity: z.coerce.number().min(0)
             })
         )
         .optional(),
@@ -32,10 +23,7 @@ export const ProductCreateSchema = z.object({
             z.object({
                 sizeID: z.string().uuid().optional(),
                 title: z.string(),
-                quantity: z
-                    .number()
-                    .or(z.string().regex(/\d+/).transform(Number))
-                    .refine((n) => n >= 0)
+                quantity: z.coerce.number().min(0)
             })
         )
         .optional()

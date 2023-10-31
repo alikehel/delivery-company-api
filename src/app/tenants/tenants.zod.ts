@@ -9,30 +9,12 @@ export const TenantCreateSchema = z.object({
     logo: z.string().optional(),
     registrationText: z.string().optional(),
     // take string then convert to number
-    governoratePrice: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
-    deliveryAgentFee: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
-    baghdadPrice: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
-    additionalPriceForEvery500000IraqiDinar: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
-    additionalPriceForEveryKilogram: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
-    additionalPriceForRemoteAreas: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
+    governoratePrice: z.coerce.number().min(0),
+    deliveryAgentFee: z.coerce.number().min(0),
+    baghdadPrice: z.coerce.number().min(0),
+    additionalPriceForEvery500000IraqiDinar: z.coerce.number().min(0),
+    additionalPriceForEveryKilogram: z.coerce.number().min(0),
+    additionalPriceForRemoteAreas: z.coerce.number().min(0),
     orderStatusAutomaticUpdate: z.boolean().optional()
 });
 

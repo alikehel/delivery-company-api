@@ -8,10 +8,7 @@ export const UserCreateSchema = z.object({
     name: z.string().min(3),
     password: z.string().min(6),
     phone: z.string().regex(/^07[3-9][0-9]{8}$/),
-    salary: z
-        .number()
-        .or(z.string().regex(/\d+/).transform(Number))
-        .refine((n) => n >= 0),
+    salary: z.coerce.number().min(0),
     repositoryID: z.string().uuid(),
     branchID: z.string().uuid(),
     role: z.nativeEnum(Role),
