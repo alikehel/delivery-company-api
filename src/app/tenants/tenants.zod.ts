@@ -15,7 +15,7 @@ export const TenantCreateSchema = z.object({
     additionalPriceForEvery500000IraqiDinar: z.coerce.number().min(0),
     additionalPriceForEveryKilogram: z.coerce.number().min(0),
     additionalPriceForRemoteAreas: z.coerce.number().min(0),
-    orderStatusAutomaticUpdate: z.boolean().optional()
+    orderStatusAutomaticUpdate: z.coerce.boolean().optional()
 });
 
 export type TenantCreateType = z.infer<typeof TenantCreateSchema>;
