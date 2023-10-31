@@ -3,6 +3,7 @@ import { Router } from "express";
 import { Role } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createUser,
     deleteUser,
@@ -10,7 +11,6 @@ import {
     getUser,
     updateUser
 } from "./users.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -52,6 +52,12 @@ router.route("/users").get(
         #swagger.parameters['size'] = {
             in: 'query',
             description: 'Page Size (Number of Items per Page) (Default: 10)',
+            required: false
+        }
+
+        #swagger.parameters['roles'] = {
+            in: 'query',
+            description: 'User Roles (Comma Separated)',
             required: false
         }
     */

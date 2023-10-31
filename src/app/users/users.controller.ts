@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
 import AppError from "../../utils/AppError.util";
@@ -35,6 +36,13 @@ export const getAllUsers = catchAsync(async (req, res) => {
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(usersCount / size);
 
+    const roles = req.query.roles
+        ?.toString()
+        .toUpperCase()
+        .split(",") as Role[];
+
+    console.log(roles);
+
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -62,7 +70,9 @@ export const getAllUsers = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const users = await userModel.getAllUsers(skip, take);
+    const users = await userModel.getAllUsers(skip, take, {
+        roles: roles
+    });
 
     res.status(200).json({
         status: "success",

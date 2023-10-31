@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import { UserCreateType, UserUpdateType } from "./users.zod";
 
 const prisma = new PrismaClient();
@@ -50,10 +50,13 @@ export class UserModel {
         return usersCount;
     }
 
-    async getAllUsers(skip: number, take: number) {
+    async getAllUsers(skip: number, take: number, filters: { roles?: Role[] }) {
         const users = await prisma.user.findMany({
             skip: skip,
             take: take,
+            where: {
+                AND: [{ role: { in: filters.roles } }]
+            },
             orderBy: {
                 name: "desc"
             },
