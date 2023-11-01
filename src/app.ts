@@ -40,8 +40,8 @@ app.use(morganMiddlewareImmediate);
 app.use(morganMiddleware);
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
-app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(helmet()); // Set security HTTP headers
+app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 
 // Function to serve all static files
 // app.use(express.static("uploads/images"));
