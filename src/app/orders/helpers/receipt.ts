@@ -85,7 +85,7 @@ export const generateReceipt = async (
 
     pdf.create(html, {
         format: "A5",
-        phantomPath: "./node_modules/phantomjs/bin/phantomjs"
+        phantomPath: "./node_modules/phantomjs-prebuilt/bin/phantomjs"
     }).toFile(
         `storage/receipts/receipt-${order.receiptNumber.toString()}.pdf`,
         (err, res) => {
