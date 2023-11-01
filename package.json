@@ -57,6 +57,7 @@
         "pdf-puppeteer": "^1.1.11",
         "pdfjs-dist": "^3.11.174",
         "pdfmake": "^0.2.7",
+        "phantomjs-prebuilt": "^2.1.16",
         "prisma": "^5.4.2",
         "qrcode": "^1.5.3",
         "react": "^18.2.0",
