@@ -4,7 +4,7 @@ import fs from "fs";
 import handlebars from "handlebars";
 import pdf from "html-pdf";
 import jsbarcode from "jsbarcode";
-import path from "path";
+// import path from "path";
 import QRCode from "qrcode";
 
 // Function to generate the PDF receipt
@@ -35,7 +35,7 @@ export const generateReceipt = async (
         };
     }>
 ) => {
-    const templatePath = path.join(__dirname, "receipt.hbs");
+    const templatePath = "./templates/receipt.hbs";
     const template = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = handlebars.compile(
         template
