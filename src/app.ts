@@ -45,7 +45,8 @@ app.use(helmet()); // Set security HTTP headers
 
 // Function to serve all static files
 // app.use(express.static("uploads/images"));
-app.use("/uploads", isLoggedIn, express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
+app.use("/storage", express.static("storage"));
 app.use(
     "/logs",
     isLoggedIn,

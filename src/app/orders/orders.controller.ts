@@ -1,6 +1,13 @@
-import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
+import {
+    DeliveryType,
+    Governorate,
+    Order,
+    OrderStatus,
+    Prisma
+} from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
+import { generateReceipt } from "./helpers/receipt";
 import { OrderModel } from "./order.model";
 import { OrderCreateSchema, OrderUpdateSchema } from "./orders.zod";
 
@@ -148,6 +155,29 @@ export const updateOrder = catchAsync(async (req, res) => {
     res.status(200).json({
         status: "success",
         data: order
+    });
+});
+
+export const getOrderReceipt = catchAsync(async (req, res) => {
+    const orderID = req.params["orderID"];
+    const order = (await orderModel.getOrder({
+        orderID: orderID
+    })) as unknown as Order;
+
+    await generateReceipt(
+        order as Prisma.OrderGetPayload<{
+            include: {
+                client: boolean;
+                tenant: boolean;
+            };
+        }>
+    );
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
+        }
     });
 });
 

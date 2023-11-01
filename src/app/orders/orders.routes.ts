@@ -9,6 +9,7 @@ import {
     getAllOrders,
     getAllOrdersStatuses,
     getOrder,
+    getOrderReceipt,
     getTodayOrdersCountAndEarnings,
     updateOrder
 } from "./orders.controller";
@@ -187,6 +188,15 @@ router.route("/orders/:orderID").get(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
     getOrder
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/:orderID/receipt").get(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getOrderReceipt
     /*
         #swagger.tags = ['Orders Routes']
     */

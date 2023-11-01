@@ -4,3 +4,5 @@ build
 package-lock.json
 logs
 uploads
+storage
+yarn-error.log

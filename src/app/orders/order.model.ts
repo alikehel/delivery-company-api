@@ -26,6 +26,8 @@ const orderSelect = {
     status: true,
     deliveryType: true,
     deliveryDate: true,
+    createdAt: true,
+    updatedAt: true,
     client: {
         select: {
             id: true,
