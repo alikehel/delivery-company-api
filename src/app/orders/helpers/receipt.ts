@@ -2,8 +2,8 @@ import { Prisma } from "@prisma/client";
 import { createCanvas } from "canvas";
 import fs from "fs";
 import handlebars from "handlebars";
+import pdf from "html-pdf";
 import jsbarcode from "jsbarcode";
-import { jsPDF } from "jspdf";
 // import path from "path";
 import QRCode from "qrcode";
 
@@ -83,15 +83,14 @@ export const generateReceipt = async (
         barcode
     });
 
-    const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a5"
-    });
-
-    doc.html(html, {
-        callback: function (doc) {
-            doc.save(`receipt-${order.receiptNumber.toString()}.pdf`);
+    pdf.create(html, {
+        format: "A5"
+        // phantomPath: "/usr/local/bin/phantomjs"
+    }).toFile(
+        `storage/receipts/receipt-${order.receiptNumber.toString()}.pdf`,
+        (err, res) => {
+            if (err) return console.log(err);
+            return res.filename;
         }
-    });
+    );
 };
