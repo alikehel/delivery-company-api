@@ -252,10 +252,7 @@ export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
 
     const todayOrdersCountAndEarningsReformed = {
         count: todayOrdersCountAndEarnings._count.id,
-        totalCost: todayOrdersCountAndEarnings._sum.totalCost,
-        paidAmount: todayOrdersCountAndEarnings._sum.paidAmount,
-        totalCostInUSD: todayOrdersCountAndEarnings._sum.totalCostInUSD,
-        paidAmountInUSD: todayOrdersCountAndEarnings._sum.paidAmountInUSD
+        totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
     };
 
     res.status(200).json({
