@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import fs from "fs";
+// import fs from "fs";
 import PdfPrinter from "pdfmake";
 
 export const handleArabicCharacters = (message: string) => {
@@ -185,14 +185,16 @@ export const generateReceipt = async (
 
     const pdfDoc = printer.createPdfKitDocument(docDefinition, options);
 
-    if (!fs.existsSync("storage/receipts")) {
-        fs.mkdirSync("storage/receipts", { recursive: true });
-    }
+    // if (!fs.existsSync("storage/receipts")) {
+    //     fs.mkdirSync("storage/receipts", { recursive: true });
+    // }
 
-    pdfDoc.pipe(
-        fs.createWriteStream(
-            `storage/receipts/receipt-${order.receiptNumber.toString()}.pdf`
-        )
-    );
-    pdfDoc.end();
+    // pdfDoc.pipe(
+    //     fs.createWriteStream(
+    //         `storage/receipts/receipt-${order.receiptNumber.toString()}.pdf`
+    //     )
+    // );
+    // pdfDoc.end();
+
+    return pdfDoc;
 };

@@ -173,7 +173,7 @@ export const getOrderReceipt = catchAsync(async (req, res) => {
     // }>
     // );
 
-    await generateReceipt(
+    const pdf = await generateReceipt(
         order as Prisma.OrderGetPayload<{
             include: {
                 client: boolean;
@@ -182,12 +182,27 @@ export const getOrderReceipt = catchAsync(async (req, res) => {
         }>
     );
 
-    res.status(200).json({
-        status: "success",
-        data: {
-            receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
-        }
+    const chunks: Uint8Array[] = [];
+    let result;
+
+    pdf.on("data", function (chunk) {
+        chunks.push(chunk);
     });
+
+    pdf.on("end", function () {
+        result = Buffer.concat(chunks);
+        res.contentType("application/pdf");
+        res.send(result);
+    });
+
+    pdf.end();
+
+    // res.status(200).json({
+    //     status: "success",
+    //     data: {
+    //         receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
+    //     }
+    // });
 });
 
 export const deleteOrder = catchAsync(async (req, res) => {

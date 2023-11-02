@@ -193,7 +193,7 @@ router.route("/orders/:orderID").get(
     */
 );
 
-router.route("/orders/:orderID/receipt").post(
+router.route("/orders/:orderID/receipt").get(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
     getOrderReceipt
