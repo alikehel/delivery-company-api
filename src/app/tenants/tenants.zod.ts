@@ -8,7 +8,6 @@ export const TenantCreateSchema = z.object({
     website: z.string().url().optional(),
     logo: z.string().optional(),
     registrationText: z.string().optional(),
-    // take string then convert to number
     governoratePrice: z.coerce.number().min(0),
     deliveryAgentFee: z.coerce.number().min(0),
     baghdadPrice: z.coerce.number().min(0),

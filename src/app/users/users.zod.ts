@@ -12,7 +12,15 @@ export const UserCreateSchema = z.object({
     repositoryID: z.string().uuid(),
     branchID: z.string().uuid(),
     role: z.nativeEnum(Role),
-    permissions: z.array(z.nativeEnum(Permission)),
+    permissions: z.preprocess(
+        (data) => {
+            if (typeof data === "string") {
+                return JSON.parse(data);
+            }
+            return data;
+        },
+        z.array(z.nativeEnum(Permission))
+    ),
     fcm: z.string().optional(),
     avatar: z.string().optional()
 });

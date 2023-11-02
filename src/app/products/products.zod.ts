@@ -9,24 +9,40 @@ export const ProductCreateSchema = z.object({
     // stock: z.number().default(0),
     stock: z.coerce.number().min(0),
     category: z.string().optional(),
-    colors: z
-        .array(
-            z.object({
-                colorID: z.string().uuid().optional(),
-                title: z.string(),
-                quantity: z.coerce.number().min(0)
-            })
-        )
-        .optional(),
-    sizes: z
-        .array(
-            z.object({
-                sizeID: z.string().uuid().optional(),
-                title: z.string(),
-                quantity: z.coerce.number().min(0)
-            })
-        )
-        .optional()
+    colors: z.preprocess(
+        (data) => {
+            if (typeof data === "string") {
+                return JSON.parse(data);
+            }
+            return data;
+        },
+        z
+            .array(
+                z.object({
+                    colorID: z.string().uuid().optional(),
+                    title: z.string(),
+                    quantity: z.number().min(0)
+                })
+            )
+            .optional()
+    ),
+    sizes: z.preprocess(
+        (data) => {
+            if (typeof data === "string") {
+                return JSON.parse(data);
+            }
+            return data;
+        },
+        z
+            .array(
+                z.object({
+                    sizeID: z.string().uuid().optional(),
+                    title: z.string(),
+                    quantity: z.number().min(0)
+                })
+            )
+            .optional()
+    )
 });
 
 export type ProductCreateType = z.infer<typeof ProductCreateSchema>;
