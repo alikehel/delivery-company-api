@@ -20,6 +20,7 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
+                logo: true,
                 client: {
                     select: {
                         id: true,
@@ -47,6 +48,7 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
+                logo: true,
                 client: {
                     select: {
                         id: true,
@@ -67,6 +69,7 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
+                logo: true,
                 client: {
                     select: {
                         id: true,
@@ -99,6 +102,7 @@ export class StoreModel {
                 id: true,
                 name: true,
                 notes: true,
+                logo: true,
                 client: {
                     select: {
                         id: true,
