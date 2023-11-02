@@ -184,6 +184,11 @@ export const generateReceipt = async (
     const options = {};
 
     const pdfDoc = printer.createPdfKitDocument(docDefinition, options);
+
+    if (!fs.existsSync("storage/receipts")) {
+        fs.mkdirSync("storage/receipts", { recursive: true });
+    }
+
     pdfDoc.pipe(
         fs.createWriteStream(
             `storage/receipts/receipt-${order.receiptNumber.toString()}.pdf`
