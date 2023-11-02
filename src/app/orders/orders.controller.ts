@@ -7,7 +7,7 @@ import {
 } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
-import { generateReceipt } from "./helpers/receipt";
+import { generateReceipt } from "./helpers/generateReceipt";
 import { OrderModel } from "./order.model";
 import { OrderCreateSchema, OrderUpdateSchema } from "./orders.zod";
 
@@ -164,6 +164,15 @@ export const getOrderReceipt = catchAsync(async (req, res) => {
         orderID: orderID
     })) as unknown as Order;
 
+    // await generateReceipt3(
+    // order as Prisma.OrderGetPayload<{
+    //     include: {
+    //         client: boolean;
+    //         tenant: boolean;
+    //     };
+    // }>
+    // );
+
     await generateReceipt(
         order as Prisma.OrderGetPayload<{
             include: {
@@ -225,18 +234,6 @@ export const getAllOrdersStatuses = catchAsync(async (req, res) => {
 export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
     const todayOrdersCountAndEarnings =
         await orderModel.getTodayOrdersCountAndEarnings();
-
-    // {
-    //     "_sum": {
-    //         "totalCost": "200",
-    //         "paidAmount": "200",
-    //         "totalCostInUSD": "20",
-    //         "paidAmountInUSD": "20"
-    //     },
-    //     "_count": {
-    //         "id": 2
-    //     }
-    // }
 
     const todayOrdersCountAndEarningsReformed = {
         count: todayOrdersCountAndEarnings._count.id,
