@@ -62,7 +62,7 @@ export const generateReceipt = async (
                             handleArabicCharacters("رقم الهاتف"),
                             handleArabicCharacters("اسم العميل")
                         ],
-                        ["", order.client.phone || "", order.client.name]
+                        ["", "order.client.phone" || "", "order.client.name"]
                     ]
                 }
             },

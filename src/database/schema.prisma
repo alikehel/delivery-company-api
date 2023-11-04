@@ -140,13 +140,13 @@ enum DeliveryType {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  username     String   @unique
-  name         String
-  password     String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  
+  id        String   @id @default(uuid())
+  username  String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   isSuperAdmin Boolean  @default(false)
   phone        String?
   salary       Decimal? @default(0)
@@ -278,10 +278,10 @@ model Order {
   deliveryType     DeliveryType    @default(NORMAL)
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
-  client           Client          @relation(fields: [clientId], references: [id])
+  client           Client?         @relation(fields: [clientId], references: [id])
   deliveryAgent    User?           @relation(fields: [deliveryAgentId], references: [id])
   deliveryDate     DateTime?
-  clientId         String
+  clientId         String?
   deliveryAgentId  String?
   // OrderProducts   OrderProducts[]
   OrderProducts    OrderProducts[]
@@ -331,6 +331,7 @@ model OrderProducts {
   colorId   String?
   size      Size?   @relation(fields: [sizeId], references: [id])
   sizeId    String?
+  // @@unique([orderId, productId, colorId, sizeId])
 
   @@id([productId, orderId])
 }

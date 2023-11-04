@@ -70,8 +70,9 @@ export class OrderModel {
         let totalCost = 0;
         let quantity = 0;
         let weight = 0;
+
         if (data.withProducts == true) {
-            data.products.forEach(async (product) => {
+            for (const product of data.products) {
                 const productData = await prisma.product.findUnique({
                     where: {
                         id: product.productID
@@ -87,7 +88,7 @@ export class OrderModel {
                 totalCost += +productData.price * product.quantity;
                 quantity += product.quantity;
                 weight += productData.weight * product.quantity;
-            });
+            }
         }
 
         const createdOrder = await prisma.order.create({
@@ -119,7 +120,8 @@ export class OrderModel {
                     connect: {
                         // id: clientID
                         // TODO: Remove this hard-coded clientID
-                        id: "da3074e8-bb89-4c68-bb8b-cee34db87999"
+                        // id: "da3074e8-bb89-4c68-bb8b-cee34db87999"
+                        id: "b3ca03c2-3630-42a1-a433-f803242212b7"
                     }
                 },
                 OrderProducts:
