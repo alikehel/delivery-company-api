@@ -98,9 +98,10 @@ export const getUser = catchAsync(async (req, res) => {
 export const updateUser = catchAsync(async (req, res) => {
     const userData = UserUpdateSchema.parse(req.body);
     const userID = req.params["userID"];
-    const avatar = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+
+    if (req.file) {
+        userData.avatar = "/" + req.file.path.replace(/\\/g, "/");
+    }
 
     if (userData.password) {
         const hashedPassword = bcrypt.hashSync(
@@ -117,7 +118,7 @@ export const updateUser = catchAsync(async (req, res) => {
 
     res.status(200).json({
         status: "success",
-        data: { ...updatedUser, avatar: avatar }
+        data: { ...updatedUser }
     });
 });
 
