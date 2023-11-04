@@ -117,7 +117,9 @@ export class OrderModel {
                 },
                 client: {
                     connect: {
-                        id: clientID
+                        // id: clientID
+                        // TODO: Remove this hard-coded clientID
+                        id: "da3074e8-bb89-4c68-bb8b-cee34db87999"
                     }
                 },
                 OrderProducts:
