@@ -18,7 +18,7 @@ const router = Router();
 
 router.route("/orders").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.CLIENT]),
     createOrder
     /*
         #swagger.tags = ['Orders Routes']

@@ -15,8 +15,9 @@ const orderModel = new OrderModel();
 
 export const createOrder = catchAsync(async (req, res) => {
     const orderData = OrderCreateSchema.parse(req.body);
+    const clientID = res.locals.user.id as string;
 
-    const createdOrder = await orderModel.createOrder(orderData);
+    const createdOrder = await orderModel.createOrder(clientID, orderData);
 
     res.status(200).json({
         status: "success",

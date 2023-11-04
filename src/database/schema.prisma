@@ -32,6 +32,8 @@ enum Role {
   DATA_ENTRY
   REPOSITORIY_EMPLOYEE
   INQUIRY_EMPLOYEE
+  CLIENT_ASSISTANT
+  CLIENT
 }
 
 // const permissions = [
@@ -144,6 +146,7 @@ model User {
   password     String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  
   isSuperAdmin Boolean  @default(false)
   phone        String?
   salary       Decimal? @default(0)
@@ -259,34 +262,34 @@ model Tenant {
 model Order {
   id               String          @id @default(uuid())
   totalCost        Decimal         @default(0)
-  paidAmount       Decimal         @default(0)
-  totalCostInUSD   Decimal         @default(0)
-  paidAmountInUSD  Decimal         @default(0)
-  discount         Decimal         @default(0)
-  receiptNumber    Int             @unique @default(0)
+  paidAmount       Decimal?        @default(0)
+  totalCostInUSD   Decimal?        @default(0)
+  paidAmountInUSD  Decimal?        @default(0)
+  discount         Decimal?        @default(0)
+  receiptNumber    Int             @unique @default(autoincrement())
   quantity         Int             @default(0)
   weight           Float           @default(0)
   recipientName    String
   recipientPhone   String
   recipientAddress String
-  details          String
-  notes            String
-  status           OrderStatus
-  deliveryType     DeliveryType
+  // details          String
+  notes            String?
+  status           OrderStatus     @default(REGISTERED)
+  deliveryType     DeliveryType    @default(NORMAL)
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   client           Client          @relation(fields: [clientId], references: [id])
-  deliveryAgent    User?           @relation(fields: [userId], references: [id])
+  deliveryAgent    User?           @relation(fields: [deliveryAgentId], references: [id])
   deliveryDate     DateTime?
   clientId         String
-  userId           String?
+  deliveryAgentId  String?
   // OrderProducts   OrderProducts[]
   OrderProducts    OrderProducts[]
-  governorate      Governorate?
+  governorate      Governorate
   location         Location?       @relation(fields: [locationId], references: [id])
-  store            Store?          @relation(fields: [storeId], references: [id])
+  store            Store           @relation(fields: [storeId], references: [id])
   locationId       String?
-  storeId          String?
+  storeId          String
   // repository       Repository?     @relation(fields: [repositoryId], references: [id])
   // branch           Branch?         @relation(fields: [branchId], references: [id])
   // repositoryId     String?
@@ -301,6 +304,7 @@ model Product {
   updatedAt     DateTime        @updatedAt
   image         String?
   stock         Int             @default(0)
+  weight        Float           @default(0)
   // OrderProducts OrderProducts[]
   Category      Category        @relation(fields: [categoryId], references: [id])
   categoryId    String

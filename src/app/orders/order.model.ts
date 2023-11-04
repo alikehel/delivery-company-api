@@ -2,13 +2,14 @@ import {
     DeliveryType,
     Governorate,
     OrderStatus,
+    Prisma,
     PrismaClient
 } from "@prisma/client";
 import { OrderCreateType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
 
-const orderSelect = {
+const orderSelect: Prisma.OrderSelect = {
     id: true,
     totalCost: true,
     paidAmount: true,
@@ -21,7 +22,6 @@ const orderSelect = {
     recipientName: true,
     recipientPhone: true,
     recipientAddress: true,
-    details: true,
     notes: true,
     status: true,
     deliveryType: true,
@@ -66,25 +66,42 @@ const orderSelect = {
 };
 
 export class OrderModel {
-    async createOrder(data: OrderCreateType) {
+    async createOrder(clientID: string, data: OrderCreateType) {
+        let totalCost = 0;
+        let quantity = 0;
+        let weight = 0;
+        if (data.withProducts == true) {
+            data.products.forEach(async (product) => {
+                const productData = await prisma.product.findUnique({
+                    where: {
+                        id: product.productID
+                    },
+                    select: {
+                        price: true,
+                        weight: true
+                    }
+                });
+                if (!productData) {
+                    throw new Error("Product not found");
+                }
+                totalCost += +productData.price * product.quantity;
+                quantity += product.quantity;
+                weight += productData.weight * product.quantity;
+            });
+        }
+
         const createdOrder = await prisma.order.create({
             data: {
-                totalCost: data.totalCost,
-                paidAmount: data.paidAmount,
-                totalCostInUSD: data.totalCostInUSD,
-                paidAmountInUSD: data.paidAmountInUSD,
-                discount: data.discount,
-                receiptNumber: data.receiptNumber,
-                quantity: data.quantity,
-                weight: data.weight,
+                totalCost:
+                    data.withProducts === false ? data.totalCost : totalCost,
+                quantity:
+                    data.withProducts === false ? data.quantity : quantity,
+                weight: data.withProducts === false ? data.weight : weight,
                 recipientName: data.recipientName,
                 recipientPhone: data.recipientPhone,
                 recipientAddress: data.recipientAddress,
-                details: data.details,
                 notes: data.notes,
-                status: data.status,
                 deliveryType: data.deliveryType,
-                deliveryDate: data.deliveryDate,
                 governorate: data.governorate,
                 location: data.locationID
                     ? {
@@ -93,49 +110,45 @@ export class OrderModel {
                           }
                       }
                     : undefined,
-                store: data.storeID
-                    ? {
-                          connect: {
-                              id: data.storeID
-                          }
-                      }
-                    : undefined,
+                store: {
+                    connect: {
+                        id: data.storeID
+                    }
+                },
                 client: {
                     connect: {
-                        id: data.clientID
+                        id: clientID
                     }
                 },
-                deliveryAgent: {
-                    connect: {
-                        id: data.deliveryAgentID
-                    }
-                },
-                OrderProducts: {
-                    create: data.products.map((product) => {
-                        return {
-                            quantity: product.quantity,
-                            size: product.size
-                                ? {
-                                      connect: {
-                                          title: product.size
+                OrderProducts:
+                    data.withProducts === false
+                        ? undefined
+                        : {
+                              create: data.products.map((product) => {
+                                  return {
+                                      quantity: product.quantity,
+                                      size: product.size
+                                          ? {
+                                                connect: {
+                                                    title: product.size
+                                                }
+                                            }
+                                          : undefined,
+                                      color: product.color
+                                          ? {
+                                                connect: {
+                                                    title: product.color
+                                                }
+                                            }
+                                          : undefined,
+                                      product: {
+                                          connect: {
+                                              id: product.productID
+                                          }
                                       }
-                                  }
-                                : undefined,
-                            color: product.color
-                                ? {
-                                      connect: {
-                                          title: product.color
-                                      }
-                                  }
-                                : undefined,
-                            product: {
-                                connect: {
-                                    id: product.productID
-                                }
-                            }
-                        };
-                    })
-                }
+                                  };
+                              })
+                          }
             },
             select: orderSelect
         });
@@ -349,48 +362,19 @@ export class OrderModel {
                 id: data.orderID
             },
             data: {
-                totalCost: data.orderData.totalCost,
                 paidAmount: data.orderData.paidAmount,
-                totalCostInUSD: data.orderData.totalCostInUSD,
-                paidAmountInUSD: data.orderData.paidAmountInUSD,
                 discount: data.orderData.discount,
-                receiptNumber: data.orderData.receiptNumber,
-                quantity: data.orderData.quantity,
-                weight: data.orderData.weight,
                 recipientName: data.orderData.recipientName,
                 recipientPhone: data.orderData.recipientPhone,
                 recipientAddress: data.orderData.recipientAddress,
-                details: data.orderData.details,
                 notes: data.orderData.notes,
                 status: data.orderData.status,
-                deliveryType: data.orderData.deliveryType,
                 deliveryDate: data.orderData.deliveryDate,
-                client: data.orderData.clientID
-                    ? {
-                          connect: {
-                              id: data.orderData.clientID
-                          }
-                      }
-                    : undefined,
                 deliveryAgent: data.orderData.deliveryAgentID
                     ? {
                           connect: {
                               id: data.orderData.deliveryAgentID
                           }
-                      }
-                    : undefined,
-                OrderProducts: data.orderData.products
-                    ? {
-                          create: data.orderData.products.map((product) => {
-                              return {
-                                  quantity: product.quantity,
-                                  product: {
-                                      connect: {
-                                          id: product.productID
-                                      }
-                                  }
-                              };
-                          })
                       }
                     : undefined
             },

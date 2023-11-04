@@ -6,6 +6,7 @@ export const ProductCreateSchema = z.object({
     title: z.string(),
     price: z.coerce.number().min(0),
     image: z.string().optional(),
+    weight: z.coerce.number().min(0),
     // stock: z.number().default(0),
     stock: z.coerce.number().min(0),
     category: z.string().optional(),

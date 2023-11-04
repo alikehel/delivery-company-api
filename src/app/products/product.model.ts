@@ -1,14 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { ProductCreateType, ProductUpdateType } from "./products.zod";
 
 const prisma = new PrismaClient();
 
-const productSelect = {
+const productSelect: Prisma.ProductSelect = {
     id: true,
     title: true,
     price: true,
     image: true,
     stock: true,
+    weight: true,
     Category: {
         select: {
             title: true
