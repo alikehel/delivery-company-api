@@ -272,6 +272,7 @@ model Order {
   recipientName    String
   recipientPhone   String
   recipientAddress String
+  recorded         Boolean         @default(false)
   // details          String
   notes            String?
   status           OrderStatus     @default(REGISTERED)
@@ -283,7 +284,6 @@ model Order {
   deliveryDate     DateTime?
   clientId         String?
   deliveryAgentId  String?
-  // OrderProducts   OrderProducts[]
   OrderProducts    OrderProducts[]
   governorate      Governorate
   location         Location?       @relation(fields: [locationId], references: [id])

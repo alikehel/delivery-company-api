@@ -261,3 +261,38 @@ export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
         data: todayOrdersCountAndEarningsReformed
     });
 });
+
+export const getOrdersStatistics = catchAsync(async (req, res) => {
+    const storeID = req.query.store_id as string;
+
+    const tenantID = req.query.tenant_id as string;
+
+    const recorded = (
+        req.query.recorded === "true"
+            ? true
+            : req.query.recorded === "false"
+            ? false
+            : undefined
+    ) as boolean | undefined;
+
+    const status = req.query.status?.toString().toUpperCase() as
+        | OrderStatus
+        | undefined;
+
+    const statistics = await orderModel.getOrdersStatistics({
+        storeID: storeID,
+        tenantID: tenantID,
+        recorded: recorded,
+        status: status
+    });
+
+    const statisticsReformed = {
+        totalCost: statistics._sum.totalCost || 0,
+        count: statistics._count.id
+    };
+
+    res.status(200).json({
+        status: "success",
+        data: statisticsReformed
+    });
+});

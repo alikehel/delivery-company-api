@@ -425,4 +425,37 @@ export class OrderModel {
         });
         return todayOrdersCountAndEarnings;
     }
+
+    async getOrdersStatistics(filters: {
+        tenantID?: string;
+        storeID?: string;
+        recorded?: boolean;
+        status?: OrderStatus;
+    }) {
+        const ordersStatistics = await prisma.order.aggregate({
+            where: {
+                AND: [
+                    // {
+                    //     tenantID: filters.tenantID
+                    // },
+                    {
+                        storeId: filters.storeID
+                    },
+                    {
+                        recorded: filters.recorded
+                    }
+                ]
+            },
+            _sum: {
+                totalCost: true
+            },
+            _count: {
+                id: true
+            }
+        });
+
+        console.log("ordersStatistics");
+
+        return ordersStatistics;
+    }
 }

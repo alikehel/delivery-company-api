@@ -10,6 +10,7 @@ import {
     getAllOrdersStatuses,
     getOrder,
     getOrderReceipt,
+    getOrdersStatistics,
     getTodayOrdersCountAndEarnings,
     updateOrder
 } from "./orders.controller";
@@ -181,6 +182,39 @@ router.route("/orders/today").get(
     getTodayOrdersCountAndEarnings
     /*
         #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/statistics").get(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getOrdersStatistics
+    /*
+        #swagger.tags = ['Stores Routes']
+
+        #swagger.parameters['status'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['store_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['tenant_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['recorded'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
     */
 );
 
