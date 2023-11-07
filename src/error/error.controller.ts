@@ -140,5 +140,6 @@ export default (
         sendErrorProd(error, res);
     }
 
-    Logger.error(err);
+    Logger.error(err.message);
+    console.log(err);
 };

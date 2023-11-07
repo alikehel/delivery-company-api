@@ -273,7 +273,7 @@ model Order {
   recipientPhone   String
   recipientAddress String
   recorded         Boolean         @default(false)
-  // details          String
+  details          String?
   notes            String?
   status           OrderStatus     @default(REGISTERED)
   deliveryType     DeliveryType    @default(NORMAL)
