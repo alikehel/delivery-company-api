@@ -64,7 +64,7 @@ export const OrderUpdateSchema = z
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
         deliveryAgentID: z.string().uuid(),
-        deliveryDate: z.date().optional(),
+        deliveryDate: z.coerce.date().optional(),
         recipientName: z.string(),
         recipientPhone: z.string(),
         recipientAddress: z.string(),
