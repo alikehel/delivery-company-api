@@ -43,7 +43,7 @@ export const OrderCreateSchema = z
             withProducts: z.literal(false),
             totalCost: z.number(),
             quantity: z.number(),
-            weight: z.number()
+            weight: z.number().optional()
         })
     ])
     .and(OrderCreateBaseSchema);
