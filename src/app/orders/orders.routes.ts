@@ -10,6 +10,7 @@ import {
     getAllOrdersStatuses,
     getOrder,
     getOrderReceipt,
+    getOrdersRecord,
     getOrdersStatistics,
     getTodayOrdersCountAndEarnings,
     updateOrder
@@ -190,7 +191,7 @@ router.route("/orders/statistics").get(
     isAutherized([Role.SUPER_ADMIN]),
     getOrdersStatistics
     /*
-        #swagger.tags = ['Stores Routes']
+        #swagger.tags = ['Orders Routes']
 
         #swagger.parameters['status'] = {
             in: 'query',
@@ -211,6 +212,45 @@ router.route("/orders/statistics").get(
         }
 
         #swagger.parameters['recorded'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+    */
+);
+
+router.route("/orders/record").post(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getOrdersRecord
+    /*
+        #swagger.tags = ['Orders Routes']
+
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    "schema": { $ref: "#/components/schemas/OrdersRecordGetSchema" },
+                    "examples": {
+                        "OrderCreateExample": { $ref: "#/components/examples/OrdersRecordGetExample" }
+                    }
+                }
+            }
+        }
+
+        #swagger.parameters['start_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['end_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['status'] = {
             in: 'query',
             description: '',
             required: false

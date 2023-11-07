@@ -5,7 +5,11 @@ import {
     Prisma,
     PrismaClient
 } from "@prisma/client";
-import { OrderCreateType, OrderUpdateType } from "./orders.zod";
+import {
+    OrderCreateType,
+    OrderUpdateType,
+    OrdersRecordGetType
+} from "./orders.zod";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +27,7 @@ const orderSelect: Prisma.OrderSelect = {
     recipientPhone: true,
     recipientAddress: true,
     notes: true,
+    details: true,
     status: true,
     deliveryType: true,
     deliveryDate: true,
@@ -102,6 +107,7 @@ export class OrderModel {
                 recipientPhone: data.recipientPhone,
                 recipientAddress: data.recipientAddress,
                 notes: data.notes,
+                details: data.details,
                 deliveryType: data.deliveryType,
                 governorate: data.governorate,
                 location: data.locationID
@@ -350,6 +356,18 @@ export class OrderModel {
         return orders;
     }
 
+    async getOrdersByIDs(ordersIDs: OrdersRecordGetType) {
+        const orders = await prisma.order.findMany({
+            // where: {
+            //     id: {
+            //         in: ordersIDs.ordersIDs
+            //     }
+            // },
+            select: orderSelect
+        });
+        return orders;
+    }
+
     async getOrder(data: { orderID: string }) {
         const order = await prisma.order.findUnique({
             where: {
@@ -373,6 +391,7 @@ export class OrderModel {
                 recipientAddress: data.orderData.recipientAddress,
                 notes: data.orderData.notes,
                 status: data.orderData.status,
+                details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
                 deliveryAgent: data.orderData.deliveryAgentID
                     ? {

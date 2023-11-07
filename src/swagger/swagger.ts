@@ -50,7 +50,9 @@ import {
     OrderCreateMock,
     OrderCreateOpenAPISchema,
     OrderUpdateMock,
-    OrderUpdateOpenAPISchema
+    OrderUpdateOpenAPISchema,
+    OrdersRecordGetMock,
+    OrdersRecordGetOpenAPISchema
 } from "./../app/orders/orders.zod";
 
 import {
@@ -148,7 +150,8 @@ const doc = {
             StoreCreateExample: { value: StoreCreateMock },
             StoreUpdateExample: { value: StoreUpdateMock },
             BannerCreateExample: { value: BannerCreateMock },
-            BannerUpdateExample: { value: BannerUpdateMock }
+            BannerUpdateExample: { value: BannerUpdateMock },
+            OrdersRecordGetExample: { value: OrdersRecordGetMock }
         },
         "@schemas": {
             SuccessResponseSchema: {
@@ -219,7 +222,8 @@ const doc = {
             StoreCreateSchema: StoreCreateOpenAPISchema,
             StoreUpdateSchema: StoreUpdateOpenAPISchema,
             BannerCreateSchema: BannerCreateOpenAPISchema,
-            BannerUpdateSchema: BannerUpdateOpenAPISchema
+            BannerUpdateSchema: BannerUpdateOpenAPISchema,
+            OrdersRecordGetSchema: OrdersRecordGetOpenAPISchema
         }
     }
 };

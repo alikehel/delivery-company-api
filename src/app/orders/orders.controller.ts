@@ -8,8 +8,13 @@ import {
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { generateReceipt } from "./helpers/generateReceipt";
+import { generateRecord } from "./helpers/generateRecord";
 import { OrderModel } from "./order.model";
-import { OrderCreateSchema, OrderUpdateSchema } from "./orders.zod";
+import {
+    OrderCreateSchema,
+    OrderUpdateSchema,
+    OrdersRecordGetSchema
+} from "./orders.zod";
 
 const orderModel = new OrderModel();
 
@@ -159,6 +164,18 @@ export const updateOrder = catchAsync(async (req, res) => {
     });
 });
 
+export const deleteOrder = catchAsync(async (req, res) => {
+    const orderID = req.params["orderID"];
+
+    await orderModel.deleteOrder({
+        orderID: orderID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
 export const getOrderReceipt = catchAsync(async (req, res) => {
     const orderID = req.params["orderID"];
     const order = (await orderModel.getOrder({
@@ -206,16 +223,34 @@ export const getOrderReceipt = catchAsync(async (req, res) => {
     // });
 });
 
-export const deleteOrder = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
+export const getOrdersRecord = catchAsync(async (req, res) => {
+    const ordersIDs = OrdersRecordGetSchema.parse(req.body);
 
-    await orderModel.deleteOrder({
-        orderID: orderID
+    const orders = await orderModel.getOrdersByIDs(ordersIDs);
+
+    const pdf = await generateRecord(orders);
+
+    const chunks: Uint8Array[] = [];
+    let result;
+
+    pdf.on("data", function (chunk) {
+        chunks.push(chunk);
     });
 
-    res.status(200).json({
-        status: "success"
+    pdf.on("end", function () {
+        result = Buffer.concat(chunks);
+        res.contentType("application/pdf");
+        res.send(result);
     });
+
+    pdf.end();
+
+    // res.status(200).json({
+    //     status: "success",
+    //     data: {
+    //         receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
+    //     }
+    // });
 });
 
 export const getAllOrdersStatuses = catchAsync(async (req, res) => {

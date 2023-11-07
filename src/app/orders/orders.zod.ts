@@ -8,6 +8,7 @@ export const OrderCreateBaseSchema = z.object({
     recipientPhone: z.string(),
     recipientAddress: z.string(),
     notes: z.string().optional(),
+    details: z.string().optional(),
     deliveryType: z.nativeEnum(DeliveryType),
     governorate: z.nativeEnum(Governorate),
     locationID: z.string().uuid().optional(),
@@ -67,7 +68,8 @@ export const OrderUpdateSchema = z
         recipientName: z.string(),
         recipientPhone: z.string(),
         recipientAddress: z.string(),
-        notes: z.string().optional()
+        notes: z.string().optional(),
+        details: z.string().optional()
         // repositoryID: z.string().uuid().optional(),
         // branchID: z.string().uuid().optional(),
     })
@@ -78,3 +80,16 @@ export type OrderUpdateType = z.infer<typeof OrderUpdateSchema>;
 export const OrderUpdateOpenAPISchema = generateSchema(OrderUpdateSchema);
 
 export const OrderUpdateMock = generateMock(OrderUpdateSchema);
+
+// change error message
+export const OrdersRecordGetSchema = z.object({
+    ordersIDs: z.array(z.string().uuid()).min(1)
+});
+
+export type OrdersRecordGetType = z.infer<typeof OrdersRecordGetSchema>;
+
+export const OrdersRecordGetOpenAPISchema = generateSchema(
+    OrdersRecordGetSchema
+);
+
+export const OrdersRecordGetMock = generateMock(OrdersRecordGetSchema);
