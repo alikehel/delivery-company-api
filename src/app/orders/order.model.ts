@@ -259,7 +259,27 @@ export class OrderModel {
                     },
                     // Filter by deliveryDate
                     {
+                        // gte deliveryDate day start time (00:00:00) and lte deliveryDate day end time (23:59:59)
                         deliveryDate: filters.deliveryDate
+                            ? {
+                                  gte: new Date(
+                                      new Date(filters.deliveryDate).setHours(
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                      )
+                                  ),
+                                  lte: new Date(
+                                      new Date(filters.deliveryDate).setHours(
+                                          23,
+                                          59,
+                                          59,
+                                          999
+                                      )
+                                  )
+                              }
+                            : undefined
                     },
                     // Filter by governorate
                     {
