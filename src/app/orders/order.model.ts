@@ -116,14 +116,14 @@ export class OrderModel {
                         id: data.storeID
                     }
                 },
-                client: {
-                    connect: {
-                        // id: clientID
-                        // TODO: Remove this hard-coded clientID
-                        // id: "da3074e8-bb89-4c68-bb8b-cee34db87999"
-                        id: "b3ca03c2-3630-42a1-a433-f803242212b7"
-                    }
-                },
+                // client: {
+                //     connect: {
+                //         // id: clientID
+                //         // TODO: Remove this hard-coded clientID
+                //         // id: "da3074e8-bb89-4c68-bb8b-cee34db87999"
+                //         id: "b3ca03c2-3630-42a1-a433-f803242212b7"
+                //     }
+                // },
                 OrderProducts:
                     data.withProducts === false
                         ? undefined
