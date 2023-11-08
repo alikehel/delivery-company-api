@@ -226,6 +226,8 @@ export class OrderModel {
                                 receiptNumber: filters.search
                                     ? Number.isNaN(+filters.search)
                                         ? undefined
+                                        : filters.search.length > 9
+                                        ? undefined
                                         : +filters.search
                                     : undefined
                             },
