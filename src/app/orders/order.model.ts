@@ -137,17 +137,17 @@ export class OrderModel {
                               create: data.products.map((product) => {
                                   return {
                                       quantity: product.quantity,
-                                      size: product.size
+                                      size: product.sizeID
                                           ? {
                                                 connect: {
-                                                    title: product.size
+                                                    id: product.sizeID
                                                 }
                                             }
                                           : undefined,
-                                      color: product.color
+                                      color: product.colorID
                                           ? {
                                                 connect: {
-                                                    title: product.color
+                                                    id: product.colorID
                                                 }
                                             }
                                           : undefined,
