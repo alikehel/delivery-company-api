@@ -310,21 +310,65 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
             : undefined
     ) as boolean | undefined;
 
-    const status = req.query.status?.toString().toUpperCase() as
-        | OrderStatus
-        | undefined;
+    // const status = req.query.status?.toString().toUpperCase() as
+    //     | OrderStatus
+    //     | undefined;
+
+    const startDate = req.query.start_date
+        ? new Date(req.query.start_date as string)
+        : undefined;
+
+    const endDate = req.query.end_date
+        ? new Date(req.query.end_date as string)
+        : undefined;
 
     const statistics = await orderModel.getOrdersStatistics({
         storeID: storeID,
         tenantID: tenantID,
         recorded: recorded,
-        status: status
+        // status: status,
+        startDate: startDate,
+        endDate: endDate
     });
 
     const statisticsReformed = {
-        totalCost: statistics._sum.totalCost || 0,
-        count: statistics._count.id
+        ordersStatisticsByStatus: (
+            Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+        ).map((status) => {
+            const statusCount = statistics.ordersStatisticsByStatus.find(
+                (orderStatus) => {
+                    return orderStatus.status === status;
+                }
+            );
+            return {
+                status: status,
+                totalCost: statusCount?._sum.totalCost || 0,
+                count: statusCount?._count.id || 0
+            };
+        }),
+        ordersStatisticsByGovernorate: (
+            Object.keys(Governorate) as Array<keyof typeof Governorate>
+        ).map((governorate) => {
+            const governorateCount =
+                statistics.ordersStatisticsByGovernorate.find((orderStatus) => {
+                    return orderStatus.governorate === governorate;
+                });
+            return {
+                governorate: governorate,
+                totalCost: governorateCount?._sum.totalCost || 0,
+                count: governorateCount?._count.id || 0
+            };
+        }),
+        allOrdersStatistics: {
+            totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
+            count: statistics.allOrdersStatistics._count.id
+        }
     };
+
+    // const statisticsReformed = {
+    //     totalCost: statistics._sum.totalCost || 0,
+    //     count: statistics._count.id
+    // };
 
     res.status(200).json({
         status: "success",

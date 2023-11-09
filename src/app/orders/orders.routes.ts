@@ -216,6 +216,18 @@ router.route("/orders/statistics").get(
             description: '',
             required: false
         }
+
+        #swagger.parameters['start_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['end_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
     */
 );
 

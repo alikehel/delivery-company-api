@@ -471,32 +471,93 @@ export class OrderModel {
         tenantID?: string;
         storeID?: string;
         recorded?: boolean;
-        status?: OrderStatus;
+        // status?: OrderStatus;
+        startDate?: Date;
+        endDate?: Date;
     }) {
-        const ordersStatistics = await prisma.order.aggregate({
-            where: {
-                AND: [
-                    // {
-                    //     tenantID: filters.tenantID
-                    // },
-                    {
-                        storeId: filters.storeID
-                    },
-                    {
-                        recorded: filters.recorded
+        const filtersReformed = {
+            AND: [
+                // {
+                //     tenantID: filters.tenantID
+                // },
+                {
+                    storeId: filters.storeID
+                },
+                {
+                    recorded: filters.recorded
+                },
+                // {
+                //     status: filters.status
+                // },
+                {
+                    createdAt: {
+                        gte: filters.startDate
                     }
-                ]
-            },
+                },
+                {
+                    createdAt: {
+                        lte: filters.endDate
+                    }
+                }
+            ]
+        };
+
+        const ordersStatisticsByStatus = await prisma.order.groupBy({
+            by: ["status"],
             _sum: {
                 totalCost: true
             },
             _count: {
                 id: true
+            },
+            where: {
+                ...filtersReformed
             }
         });
 
-        console.log("ordersStatistics");
+        const ordersStatisticsByGovernorate = await prisma.order.groupBy({
+            by: ["governorate"],
+            _sum: {
+                totalCost: true
+            },
+            _count: {
+                id: true
+            },
+            where: {
+                ...filtersReformed
+            }
+        });
 
-        return ordersStatistics;
+        // const ordersStatisticsByCategory = await prisma.order.groupBy({
+        //     by: {
+        //     },
+        //     _sum: {
+        //         totalCost: true
+        //     },
+        //     _count: {
+        //         id: true
+        //     },
+        //     where: {
+        //         ...filtersReformed
+        //     }
+        // });
+
+        const allOrdersStatistics = await prisma.order.aggregate({
+            _sum: {
+                totalCost: true
+            },
+            _count: {
+                id: true
+            },
+            where: {
+                ...filtersReformed
+            }
+        });
+
+        return {
+            ordersStatisticsByStatus,
+            ordersStatisticsByGovernorate,
+            allOrdersStatistics
+        };
     }
 }
