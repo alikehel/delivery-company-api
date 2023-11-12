@@ -24,6 +24,12 @@ export const generateRecord = async (orders: Order[]) => {
             bold: "fonts/Cairo-VariableFont_slntwght.ttf",
             italics: "fonts/Cairo-VariableFont_slntwght.ttf",
             bolditalics: "fonts/Cairo-VariableFont_slntwght.ttf"
+        },
+        Amiri: {
+            normal: "fonts/Amiri-Regular.ttf",
+            bold: "fonts/Amiri-Bold.ttf",
+            italics: "fonts/Amiri-Italic.ttf",
+            bolditalics: "fonts/Amiri-BoldItalic.ttf"
         }
     };
 
@@ -33,6 +39,7 @@ export const generateRecord = async (orders: Order[]) => {
     const docDefinition = {
         pageSize: "A4" as const,
         pageOrientation: "landscape" as const,
+        pageMargins: [5, 15, 5, 15] as const,
         watermark: {
             text: handleArabicCharacters("شركة البرق"),
             color: "red",
@@ -41,7 +48,7 @@ export const generateRecord = async (orders: Order[]) => {
             italics: false
         },
         defaultStyle: {
-            font: "Cairo",
+            font: "Amiri",
             alignment: "center" as const,
             fontSize: 10
             // direction: "rtl" // Right-to-left text direction for Arabic
@@ -139,9 +146,10 @@ export const generateRecord = async (orders: Order[]) => {
                         ],
                         ...orders.map((order) => [
                             {
-                                text: handleArabicCharacters(
-                                    "مسجد جامعة بغداد"
-                                ),
+                                // text: handleArabicCharacters(
+                                //     "مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد"
+                                // ),
+                                text: handleArabicCharacters("Hello World"),
                                 style: "red",
                                 fillColor: "#5bc0de"
                             },
@@ -163,7 +171,9 @@ export const generateRecord = async (orders: Order[]) => {
                                 )
                             },
                             {
-                                text: handleArabicCharacters("مسجد جامعة بغداد")
+                                text: handleArabicCharacters(
+                                    "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
+                                )
                             },
                             {
                                 text: handleArabicCharacters(
