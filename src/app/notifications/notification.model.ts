@@ -27,6 +27,14 @@ export class NotificationModel {
                         id: data.userID
                     }
                 }
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        fcm: true
+                    }
+                }
             }
         });
         return createdNotification;
