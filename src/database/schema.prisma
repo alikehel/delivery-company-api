@@ -308,6 +308,7 @@ model Order {
   OrderProducts                   OrderProducts[]
   governorate                     Governorate
   location                        Location?            @relation(fields: [locationId], references: [id])
+  currentLocation                 String?
   store                           Store                @relation(fields: [storeId], references: [id])
   locationId                      String?
   storeId                         String
@@ -325,6 +326,7 @@ model Order {
   deliveryAgentReportReportNumber Int?
   GovernorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber])
   governorateReportReportNumber   Int?
+  timeline                        Json                 @default("[]")
 }
 
 model Report {

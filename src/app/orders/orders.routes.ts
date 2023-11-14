@@ -10,6 +10,7 @@ import {
     getAllOrders,
     getAllOrdersStatuses,
     getOrder,
+    getOrderTimeline,
     getOrdersStatistics,
     getTodayOrdersCountAndEarnings,
     updateOrder
@@ -234,6 +235,15 @@ router.route("/orders/:orderID").get(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
     getOrder
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/:orderID/timeline").get(
+    isLoggedIn,
+    isAutherized([Role.SUPER_ADMIN]),
+    getOrderTimeline
     /*
         #swagger.tags = ['Orders Routes']
     */

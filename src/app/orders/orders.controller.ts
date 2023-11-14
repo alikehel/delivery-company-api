@@ -146,15 +146,35 @@ export const updateOrder = catchAsync(async (req, res) => {
 
     const orderData = OrderUpdateSchema.parse(req.body);
 
-    const order = await orderModel.updateOrder({
+    const oldOrderData = await orderModel.getOrder({
+        orderID: orderID
+    });
+
+    const newOrder = await orderModel.updateOrder({
         orderID: orderID,
         orderData: orderData
     });
 
     res.status(200).json({
         status: "success",
-        data: order
+        data: newOrder
     });
+
+    if (oldOrderData?.status !== newOrder.status) {
+        const oldTimeline = oldOrderData?.timeline;
+        await orderModel.updateOrderTimeline({
+            orderID: orderID,
+            timeline: [
+                ...(oldTimeline as any),
+                {
+                    type: "STATUS_CHANGE",
+                    old: oldOrderData?.status,
+                    new: newOrder.status,
+                    date: newOrder.updatedAt
+                }
+            ]
+        });
+    }
 });
 
 export const deleteOrder = catchAsync(async (req, res) => {
@@ -312,5 +332,18 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
     res.status(200).json({
         status: "success",
         data: statisticsReformed
+    });
+});
+
+export const getOrderTimeline = catchAsync(async (req, res) => {
+    const orderID = req.params["orderID"];
+
+    const orderTimeline = await orderModel.getOrderTimeline({
+        orderID: orderID
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: orderTimeline?.timeline as string
     });
 });

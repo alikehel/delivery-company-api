@@ -29,6 +29,7 @@ const orderSelect: Prisma.OrderSelect = {
     deliveryDate: true,
     createdAt: true,
     updatedAt: true,
+    timeline: true,
     client: {
         select: {
             id: true,
@@ -562,5 +563,40 @@ export class OrderModel {
             ordersStatisticsByGovernorate,
             allOrdersStatistics
         };
+    }
+
+    async getOrderTimeline(data: { orderID: string }) {
+        const orderTimeline = await prisma.order.findUnique({
+            where: {
+                id: data.orderID
+            },
+            select: {
+                timeline: true
+            }
+        });
+        return orderTimeline;
+    }
+
+    async updateOrderTimeline(data: {
+        orderID: string;
+        timeline: {
+            type: string;
+            old: string;
+            new: string;
+            date: Date;
+        }[];
+    }) {
+        const updatedOrderTimeline = await prisma.order.update({
+            where: {
+                id: data.orderID
+            },
+            data: {
+                timeline: data.timeline
+            },
+            select: {
+                timeline: true
+            }
+        });
+        return updatedOrderTimeline;
     }
 }

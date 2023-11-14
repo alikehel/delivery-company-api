@@ -179,19 +179,19 @@ export class ReportService {
 
         // TODO: fix this
         const orders: Order[] = reportData?.RepositoryReport
-            ? // @ts-ignore: Unreachable code error
+            ? // @ts-expect-error: Unreachable code error
               reportData?.RepositoryReport.orders
             : reportData?.BranchReport
-            ? // @ts-ignore: Unreachable code error
+            ? // @ts-expect-error: Unreachable code error
               reportData?.BranchReport.orders
             : reportData?.ClientReport
-            ? // @ts-ignore: Unreachable code error
+            ? // @ts-expect-error: Unreachable code error
               reportData?.ClientReport.orders
             : reportData?.DeliveryAgentReport
-            ? // @ts-ignore: Unreachable code error
+            ? // @ts-expect-error: Unreachable code error
               reportData?.DeliveryAgentReport.orders
             : reportData?.GovernorateReport
-            ? // @ts-ignore: Unreachable code error
+            ? // @ts-expect-error: Unreachable code error
               reportData?.GovernorateReport.orders
             : [];
 
