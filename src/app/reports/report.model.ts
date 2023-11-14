@@ -20,10 +20,7 @@ const reportSelect: Prisma.ReportSelect = {
     },
     type: true,
     createdAt: true,
-    updatedAt: true
-};
-
-const reportInclude: Prisma.ReportInclude = {
+    updatedAt: true,
     ClientReport: {
         select: {
             reportNumber: true,
@@ -135,6 +132,8 @@ const reportInclude: Prisma.ReportInclude = {
     //     }
     // }
 };
+
+// const reportInclude: Prisma.ReportInclude = {};
 
 export class ReportModel {
     async createReport(userID: string, data: ReportCreateType) {
@@ -299,7 +298,7 @@ export class ReportModel {
                 [filters.sort.split(":")[0]]:
                     filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
-            include: reportInclude
+            select: reportSelect
         });
         return reports;
     }
@@ -309,7 +308,7 @@ export class ReportModel {
             where: {
                 id: data.reportID
             },
-            include: reportInclude
+            select: reportSelect
         });
         return report;
     }

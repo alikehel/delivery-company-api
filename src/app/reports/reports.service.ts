@@ -1,4 +1,4 @@
-import { ReportStatus, ReportType } from "@prisma/client";
+import { Order, ReportStatus, ReportType } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import { OrderModel } from "../orders/order.model";
 import { generateReport } from "./helpers/generateReportTemp";
@@ -24,51 +24,55 @@ export class ReportService {
                     );
                 }
                 // TODO
-                // if (order.clientId !== data.reportData.clientID) {
-                //     throw new AppError(
-                //         `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
-                //         400
-                //     );
-                // }
-            });
-        } else if (data.reportData.type === ReportType.REPOSITORY) {
-            // TODO
-            // orders.forEach((order) => {
-            //     if (order.repositoryReportReportNumber) {
-            //         throw new AppError(
-            //             `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
-            //             400
-            //         );
-            //     }
-            // });
-        } else if (data.reportData.type === ReportType.BRANCH) {
-            orders.forEach((order) => {
-                if (order.branchReportReportNumber) {
+                if (
+                    data.reportData.type === ReportType.CLIENT &&
+                    order.clientId !== data.reportData.clientID
+                ) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
-                        400
-                    );
-                }
-            });
-        } else if (data.reportData.type === ReportType.GOVERNORATE) {
-            orders.forEach((order) => {
-                if (order.governorateReportReportNumber) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
-                        400
-                    );
-                }
-            });
-        } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
-            orders.forEach((order) => {
-                if (order.deliveryAgentReportReportNumber) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
                         400
                     );
                 }
             });
         }
+        // } else if (data.reportData.type === ReportType.REPOSITORY) {
+        //     // TODO
+        //     // orders.forEach((order) => {
+        //     //     if (order.repositoryReportReportNumber) {
+        //     //         throw new AppError(
+        //     //             `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
+        //     //             400
+        //     //         );
+        //     //     }
+        //     // });
+        // } else if (data.reportData.type === ReportType.BRANCH) {
+        //     orders.forEach((order) => {
+        //         if (order.branchReportReportNumber) {
+        //             throw new AppError(
+        //                 `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
+        //                 400
+        //             );
+        //         }
+        //     });
+        // } else if (data.reportData.type === ReportType.GOVERNORATE) {
+        //     orders.forEach((order) => {
+        //         if (order.governorateReportReportNumber) {
+        //             throw new AppError(
+        //                 `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
+        //                 400
+        //             );
+        //         }
+        //     });
+        // } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+        //     orders.forEach((order) => {
+        //         if (order.deliveryAgentReportReportNumber) {
+        //             throw new AppError(
+        //                 `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
+        //                 400
+        //             );
+        //         }
+        //     });
+        // }
         // TODO
         // else if (data.reportData.type === ReportType.COMPANY) {
         //     orders.forEach((order) => {
@@ -84,12 +88,12 @@ export class ReportService {
         await reportModel.createReport(data.loggedInUserID, data.reportData);
 
         // TODO
-        // const pdf = await generateReport(orders);
-        const pdf = await generateReport(
-            await orderModel.getAllOrders(0, 100, {
-                sort: "receiptNumber:desc"
-            })
-        );
+        const pdf = await generateReport(orders);
+        // const pdf = await generateReport(
+        //     await orderModel.getAllOrders(0, 100, {
+        //         sort: "receiptNumber:desc"
+        //     })
+        // );
 
         return pdf;
     }
@@ -173,16 +177,22 @@ export class ReportService {
             reportID: data.reportID
         });
 
-        const orders = reportData?.RepositoryReport
-            ? reportData?.RepositoryReport.orders
+        // TODO: fix this
+        const orders: Order[] = reportData?.RepositoryReport
+            ? // @ts-ignore: Unreachable code error
+              reportData?.RepositoryReport.orders
             : reportData?.BranchReport
-            ? reportData?.BranchReport.orders
+            ? // @ts-ignore: Unreachable code error
+              reportData?.BranchReport.orders
             : reportData?.ClientReport
-            ? reportData?.ClientReport.orders
+            ? // @ts-ignore: Unreachable code error
+              reportData?.ClientReport.orders
             : reportData?.DeliveryAgentReport
-            ? reportData?.DeliveryAgentReport.orders
+            ? // @ts-ignore: Unreachable code error
+              reportData?.DeliveryAgentReport.orders
             : reportData?.GovernorateReport
-            ? reportData?.GovernorateReport.orders
+            ? // @ts-ignore: Unreachable code error
+              reportData?.GovernorateReport.orders
             : [];
 
         const ordersIDs = orders.map((order) => order.id);
