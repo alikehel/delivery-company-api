@@ -54,6 +54,8 @@ export const OrderCreateOpenAPISchema = generateSchema(OrderCreateSchema);
 
 export const OrderCreateMock = generateMock(OrderCreateSchema);
 
+/* --------------------------------------------------------------- */
+
 // export const OrderUpdateSchema = OrderCreateSchema.partial();
 
 export const OrderUpdateSchema = z
@@ -81,15 +83,22 @@ export const OrderUpdateOpenAPISchema = generateSchema(OrderUpdateSchema);
 
 export const OrderUpdateMock = generateMock(OrderUpdateSchema);
 
-// change error message
-export const OrdersRecordGetSchema = z.object({
+/* --------------------------------------------------------------- */
+
+export const OrdersReceiptsCreateSchema = z.object({
     ordersIDs: z.array(z.string().uuid()).min(1)
 });
 
-export type OrdersRecordGetType = z.infer<typeof OrdersRecordGetSchema>;
+export type OrdersReceiptsCreateType = z.infer<
+    typeof OrdersReceiptsCreateSchema
+>;
 
-export const OrdersRecordGetOpenAPISchema = generateSchema(
-    OrdersRecordGetSchema
+export const OrdersReceiptsCreateOpenAPISchema = generateSchema(
+    OrdersReceiptsCreateSchema
 );
 
-export const OrdersRecordGetMock = generateMock(OrdersRecordGetSchema);
+export const OrdersReceiptsCreateMock = generateMock(
+    OrdersReceiptsCreateSchema
+);
+
+/* --------------------------------------------------------------- */

@@ -5,12 +5,11 @@ import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createOrder,
+    createOrdersReceipts,
     deleteOrder,
     getAllOrders,
     getAllOrdersStatuses,
     getOrder,
-    getOrderReceipt,
-    getOrdersRecord,
     getOrdersStatistics,
     getTodayOrdersCountAndEarnings,
     updateOrder
@@ -231,45 +230,6 @@ router.route("/orders/statistics").get(
     */
 );
 
-router.route("/orders/record").post(
-    isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
-    getOrdersRecord
-    /*
-        #swagger.tags = ['Orders Routes']
-
-        #swagger.requestBody = {
-            required: true,
-            content: {
-                "application/json": {
-                    "schema": { $ref: "#/components/schemas/OrdersRecordGetSchema" },
-                    "examples": {
-                        "OrderCreateExample": { $ref: "#/components/examples/OrdersRecordGetExample" }
-                    }
-                }
-            }
-        }
-
-        #swagger.parameters['start_date'] = {
-            in: 'query',
-            description: '',
-            required: false
-        }
-
-        #swagger.parameters['end_date'] = {
-            in: 'query',
-            description: '',
-            required: false
-        }
-
-        #swagger.parameters['status'] = {
-            in: 'query',
-            description: '',
-            required: false
-        }
-    */
-);
-
 router.route("/orders/:orderID").get(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
@@ -279,12 +239,24 @@ router.route("/orders/:orderID").get(
     */
 );
 
-router.route("/orders/:orderID/receipt").get(
+router.route("/orders/receipts").post(
     isLoggedIn,
     isAutherized([Role.SUPER_ADMIN]),
-    getOrderReceipt
+    createOrdersReceipts
     /*
         #swagger.tags = ['Orders Routes']
+
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    "schema": { $ref: "#/components/schemas/OrdersReceiptsCreateSchema" },
+                    "examples": {
+                        "OrderCreateExample": { $ref: "#/components/examples/OrdersReceiptsCreateExample" }
+                    }
+                }
+            }
+        }
     */
 );
 

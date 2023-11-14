@@ -51,8 +51,8 @@ import {
     OrderCreateOpenAPISchema,
     OrderUpdateMock,
     OrderUpdateOpenAPISchema,
-    OrdersRecordGetMock,
-    OrdersRecordGetOpenAPISchema
+    OrdersReceiptsCreateMock,
+    OrdersReceiptsCreateOpenAPISchema
 } from "./../app/orders/orders.zod";
 
 import {
@@ -101,6 +101,13 @@ import {
     BannerUpdateMock,
     BannerUpdateOpenAPISchema
 } from "./../app/banners/banners.zod";
+
+import {
+    ReportCreateMock,
+    ReportCreateOpenAPISchema,
+    ReportUpdateMock,
+    ReportUpdateOpenAPISchema
+} from "./../app/reports/reports.zod";
 
 const doc = {
     info: {
@@ -151,7 +158,9 @@ const doc = {
             StoreUpdateExample: { value: StoreUpdateMock },
             BannerCreateExample: { value: BannerCreateMock },
             BannerUpdateExample: { value: BannerUpdateMock },
-            OrdersRecordGetExample: { value: OrdersRecordGetMock }
+            ReportCreateExample: { value: ReportCreateMock },
+            ReportUpdateExample: { value: ReportUpdateMock },
+            OrdersReceiptsCreateExample: { value: OrdersReceiptsCreateMock }
         },
         "@schemas": {
             SuccessResponseSchema: {
@@ -223,7 +232,9 @@ const doc = {
             StoreUpdateSchema: StoreUpdateOpenAPISchema,
             BannerCreateSchema: BannerCreateOpenAPISchema,
             BannerUpdateSchema: BannerUpdateOpenAPISchema,
-            OrdersRecordGetSchema: OrdersRecordGetOpenAPISchema
+            ReportCreateSchema: ReportCreateOpenAPISchema,
+            ReportUpdateSchema: ReportUpdateOpenAPISchema,
+            OrdersReceiptsCreateSchema: OrdersReceiptsCreateOpenAPISchema
         }
     }
 };

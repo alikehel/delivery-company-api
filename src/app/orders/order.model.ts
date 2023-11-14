@@ -5,11 +5,7 @@ import {
     Prisma,
     PrismaClient
 } from "@prisma/client";
-import {
-    OrderCreateType,
-    OrderUpdateType,
-    OrdersRecordGetType
-} from "./orders.zod";
+import { OrderCreateType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
 
@@ -67,7 +63,13 @@ const orderSelect: Prisma.OrderSelect = {
             id: true,
             name: true
         }
-    }
+    },
+    clientReportReportNumber: true,
+    repositoryReportReportNumber: true,
+    branchReportReportNumber: true,
+    // tenantReportReportNumber: true,
+    deliveryAgentReportReportNumber: true,
+    governorateReportReportNumber: true
 };
 
 export class OrderModel {
@@ -375,16 +377,17 @@ export class OrderModel {
             },
             select: orderSelect
         });
+
         return orders;
     }
-
-    async getOrdersByIDs(ordersIDs: OrdersRecordGetType) {
+    // eslint-disable-next-line no-unused-vars
+    async getOrdersByIDs(data: { ordersIDs: string[] }) {
         const orders = await prisma.order.findMany({
-            // where: {
-            //     id: {
-            //         in: ordersIDs.ordersIDs
-            //     }
-            // },
+            where: {
+                id: {
+                    in: data.ordersIDs
+                }
+            },
             select: orderSelect
         });
         return orders;

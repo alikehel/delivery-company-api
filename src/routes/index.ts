@@ -16,6 +16,7 @@ import repositoriesRoutes from "../app/repositories/repositories.routes";
 import sizesRoutes from "../app/sizes/sizes.routes";
 import storesRoutes from "../app/stores/stores.routes";
 import tenantsRoutes from "../app/tenants/tenants.routes";
+import reportsRoutes from "../app/reports/reports.routes";
 import usersRoutes from "../app/users/users.routes";
 import { upload } from "../middlewares/upload.middleware";
 
@@ -36,6 +37,7 @@ router.use("/", colorsRoutes);
 router.use("/", sizesRoutes);
 router.use("/", storesRoutes);
 router.use("/", bannersRoutes);
+router.use("/", reportsRoutes);
 
 /*******************************************************************************
  * TEST ROUTES

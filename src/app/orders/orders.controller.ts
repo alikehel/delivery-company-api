@@ -1,19 +1,12 @@
-import {
-    DeliveryType,
-    Governorate,
-    Order,
-    OrderStatus,
-    Prisma
-} from "@prisma/client";
+import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
-import { generateReceipt } from "./helpers/generateReceipt";
-import { generateRecord } from "./helpers/generateRecord";
+import { generateReceipts } from "./helpers/generateReceipts";
 import { OrderModel } from "./order.model";
 import {
     OrderCreateSchema,
     OrderUpdateSchema,
-    OrdersRecordGetSchema
+    OrdersReceiptsCreateSchema
 } from "./orders.zod";
 
 const orderModel = new OrderModel();
@@ -176,59 +169,12 @@ export const deleteOrder = catchAsync(async (req, res) => {
     });
 });
 
-export const getOrderReceipt = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
-    const order = (await orderModel.getOrder({
-        orderID: orderID
-    })) as unknown as Order;
-
-    // await generateReceipt3(
-    // order as Prisma.OrderGetPayload<{
-    //     include: {
-    //         client: boolean;
-    //         tenant: boolean;
-    //     };
-    // }>
-    // );
-
-    const pdf = await generateReceipt(
-        order as Prisma.OrderGetPayload<{
-            include: {
-                client: boolean;
-                tenant: boolean;
-            };
-        }>
-    );
-
-    const chunks: Uint8Array[] = [];
-    let result;
-
-    pdf.on("data", function (chunk) {
-        chunks.push(chunk);
-    });
-
-    pdf.on("end", function () {
-        result = Buffer.concat(chunks);
-        res.contentType("application/pdf");
-        res.send(result);
-    });
-
-    pdf.end();
-
-    // res.status(200).json({
-    //     status: "success",
-    //     data: {
-    //         receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
-    //     }
-    // });
-});
-
-export const getOrdersRecord = catchAsync(async (req, res) => {
-    const ordersIDs = OrdersRecordGetSchema.parse(req.body);
+export const createOrdersReceipts = catchAsync(async (req, res) => {
+    const ordersIDs = OrdersReceiptsCreateSchema.parse(req.body);
 
     const orders = await orderModel.getOrdersByIDs(ordersIDs);
 
-    const pdf = await generateRecord(orders);
+    const pdf = await generateReceipts(orders);
 
     const chunks: Uint8Array[] = [];
     let result;
@@ -244,13 +190,6 @@ export const getOrdersRecord = catchAsync(async (req, res) => {
     });
 
     pdf.end();
-
-    // res.status(200).json({
-    //     status: "success",
-    //     data: {
-    //         receipt: `/storage/receipts/receipt-${order.receiptNumber}.pdf`
-    //     }
-    // });
 });
 
 export const getAllOrdersStatuses = catchAsync(async (req, res) => {
