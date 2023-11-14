@@ -66,31 +66,31 @@ router.route("/reports").get(
             required: false
         }
 
-        #swagger.parameters['clientID'] = {
+        #swagger.parameters['client_id'] = {
             in: 'query',
             description: '',
             required: false
         }
 
-        #swagger.parameters['storeID'] = {
+        #swagger.parameters['store_id'] = {
             in: 'query',
             description: '',
             required: false
         }
 
-        #swagger.parameters['repositoryID'] = {
+        #swagger.parameters['repository_id'] = {
             in: 'query',
             description: '',
             required: false
         }
 
-        #swagger.parameters['branchID'] = {
+        #swagger.parameters['branch_id'] = {
             in: 'query',
             description: '',
             required: false
         }
 
-        #swagger.parameters['deliveryAgentID'] = {
+        #swagger.parameters['delivery_agent_id'] = {
             in: 'query',
             description: '',
             required: false
