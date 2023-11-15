@@ -316,15 +316,15 @@ model Order {
   // branch           Branch?         @relation(fields: [branchId], references: [id])
   // repositoryId     String?
   // branchId         String?
-  ClientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber])
+  ClientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber], onDelete: SetNull)
   clientReportReportNumber        Int?
-  RepositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber])
+  RepositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber], onDelete: SetNull)
   repositoryReportReportNumber    Int?
-  BranchReport                    BranchReport?        @relation(fields: [branchReportReportNumber], references: [reportNumber])
+  BranchReport                    BranchReport?        @relation(fields: [branchReportReportNumber], references: [reportNumber], onDelete: SetNull)
   branchReportReportNumber        Int?
-  DeliveryAgentReport             DeliveryAgentReport? @relation(fields: [deliveryAgentReportReportNumber], references: [reportNumber])
+  DeliveryAgentReport             DeliveryAgentReport? @relation(fields: [deliveryAgentReportReportNumber], references: [reportNumber], onDelete: SetNull)
   deliveryAgentReportReportNumber Int?
-  GovernorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber])
+  GovernorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber], onDelete: SetNull)
   governorateReportReportNumber   Int?
   timeline                        Json                 @default("[]")
 }
@@ -352,38 +352,38 @@ model Report {
 
 model ClientReport {
   reportNumber Int     @unique @default(autoincrement())
-  client       Client  @relation(fields: [clientId], references: [id])
+  client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId     String
-  Report       Report  @relation(fields: [reportId], references: [id])
+  Report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId     String  @unique
-  store        Store?  @relation(fields: [storeId], references: [id])
+  store        Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
   orders       Order[]
   storeId      String?
 }
 
 model RepositoryReport {
   reportNumber Int        @unique @default(autoincrement())
-  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
   repositoryId String
-  Report       Report     @relation(fields: [reportId], references: [id])
+  Report       Report     @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId     String     @unique
   orders       Order[]
 }
 
 model BranchReport {
   reportNumber Int     @unique @default(autoincrement())
-  branch       Branch  @relation(fields: [branchId], references: [id])
+  branch       Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
   branchId     String
-  Report       Report  @relation(fields: [reportId], references: [id])
+  Report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId     String  @unique
   orders       Order[]
 }
 
 model DeliveryAgentReport {
   reportNumber    Int     @unique @default(autoincrement())
-  deliveryAgent   User    @relation(fields: [deliveryAgentId], references: [id])
+  deliveryAgent   User    @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
   deliveryAgentId String
-  Report          Report  @relation(fields: [reportId], references: [id])
+  Report          Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId        String  @unique
   orders          Order[]
 }
@@ -391,7 +391,7 @@ model DeliveryAgentReport {
 model GovernorateReport {
   reportNumber Int         @unique @default(autoincrement())
   governorate  Governorate
-  Report       Report      @relation(fields: [reportId], references: [id])
+  Report       Report      @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId     String      @unique
   orders       Order[]
 }

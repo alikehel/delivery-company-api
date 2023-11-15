@@ -330,11 +330,14 @@ export class ReportModel {
     }
 
     async deleteReport(data: { reportID: string }) {
-        const deletedReport = await prisma.report.delete({
+        const deletedReport = prisma.report.delete({
             where: {
                 id: data.reportID
             }
         });
+
+        const 
+
         return deletedReport;
     }
 }
