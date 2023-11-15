@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+    db-dev:
+        image: postgres:latest
+        restart: always
+        env_file:
+            - .env
+        environment:
+            - POSTGRES_DB=${POSTGRESQL_DEV_DB}
+            - POSTGRES_USER=${POSTGRESQL_DEV_USER}
+            - POSTGRES_PASSWORD=${POSTGRESQL_DEV_PASSWORD}
+        ports:
+            - "5432:5432"
+        volumes:
+            - db:/var/lib/postgresql/data
+volumes:
+    db:
+        driver: local
