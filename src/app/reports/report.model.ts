@@ -336,8 +336,6 @@ export class ReportModel {
             }
         });
 
-        const 
-
         return deletedReport;
     }
 }
