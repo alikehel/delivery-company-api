@@ -253,18 +253,15 @@ export const generateReport = async (orders: Order[]) => {
                             orders[0].governorateReportReportNumber ||
                             orders[0].deliveryAgentReportReportNumber
                                 ? {
-                                      text: handleArabicCharacters(
-                                          order.paidAmount?.toString() || "0"
-                                      )
+                                      text: order.paidAmount?.toString() || "0"
                                   }
                                 : "",
                             orders[0].clientReportReportNumber ||
                             orders[0].repositoryReportReportNumber
                                 ? {
                                       // || orders[0].companyReportReportNumber)
-                                      text: handleArabicCharacters(
-                                          order.totalCost.toString() || "0"
-                                      )
+                                      text: order.totalCost.toString() || "0"
+
                                       // fillColor: "#5bc0de"
                                   }
                                 : "",
@@ -272,21 +269,16 @@ export const generateReport = async (orders: Order[]) => {
                             orders[0].repositoryReportReportNumber
                                 ? {
                                       // || orders[0].companyReportReportNumber)
-                                      text: handleArabicCharacters(
+                                      text:
                                           // order.deliveryCost.toString() ||
                                           "0"
-                                      )
                                   }
                                 : "",
                             {
-                                text: handleArabicCharacters(
-                                    order.paidAmount?.toString() || "0"
-                                )
+                                text: order.paidAmount?.toString() || "0"
                             },
                             {
-                                text: handleArabicCharacters(
-                                    order.totalCost.toString()
-                                )
+                                text: order.totalCost.toString()
                             },
                             {
                                 text: handleArabicCharacters(
@@ -295,19 +287,13 @@ export const generateReport = async (orders: Order[]) => {
                                 )
                             },
                             {
-                                text: handleArabicCharacters(
-                                    order.recipientPhone
-                                )
+                                text: order.recipientPhone
                             },
                             {
-                                text: handleArabicCharacters(
-                                    order.createdAt.toLocaleDateString()
-                                )
+                                text: order.createdAt.toLocaleDateString()
                             },
                             {
-                                text: handleArabicCharacters(
-                                    order.receiptNumber.toString()
-                                )
+                                text: order.receiptNumber.toString()
                             },
                             {
                                 text: ++counter
