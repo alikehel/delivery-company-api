@@ -34,45 +34,43 @@ export class ReportService {
                     );
                 }
             });
+        } else if (data.reportData.type === ReportType.REPOSITORY) {
+            orders.forEach((order) => {
+                if (order.repositoryReportReportNumber) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
+                        400
+                    );
+                }
+            });
+        } else if (data.reportData.type === ReportType.BRANCH) {
+            orders.forEach((order) => {
+                if (order.branchReportReportNumber) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
+                        400
+                    );
+                }
+            });
+        } else if (data.reportData.type === ReportType.GOVERNORATE) {
+            orders.forEach((order) => {
+                if (order.governorateReportReportNumber) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
+                        400
+                    );
+                }
+            });
+        } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+            orders.forEach((order) => {
+                if (order.deliveryAgentReportReportNumber) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
+                        400
+                    );
+                }
+            });
         }
-        // } else if (data.reportData.type === ReportType.REPOSITORY) {
-        //     // TODO
-        //     // orders.forEach((order) => {
-        //     //     if (order.repositoryReportReportNumber) {
-        //     //         throw new AppError(
-        //     //             `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
-        //     //             400
-        //     //         );
-        //     //     }
-        //     // });
-        // } else if (data.reportData.type === ReportType.BRANCH) {
-        //     orders.forEach((order) => {
-        //         if (order.branchReportReportNumber) {
-        //             throw new AppError(
-        //                 `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
-        //                 400
-        //             );
-        //         }
-        //     });
-        // } else if (data.reportData.type === ReportType.GOVERNORATE) {
-        //     orders.forEach((order) => {
-        //         if (order.governorateReportReportNumber) {
-        //             throw new AppError(
-        //                 `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
-        //                 400
-        //             );
-        //         }
-        //     });
-        // } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
-        //     orders.forEach((order) => {
-        //         if (order.deliveryAgentReportReportNumber) {
-        //             throw new AppError(
-        //                 `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
-        //                 400
-        //             );
-        //         }
-        //     });
-        // }
         // TODO
         // else if (data.reportData.type === ReportType.COMPANY) {
         //     orders.forEach((order) => {
