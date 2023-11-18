@@ -2,6 +2,7 @@ import { Order } from "@prisma/client";
 // import fs from "fs";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
+import { localizeOrderStatus } from "../../../utils/localize.util";
 
 export const generateReport = async (orders: Order[]) => {
     let counter = 0;
@@ -245,7 +246,7 @@ export const generateReport = async (orders: Order[]) => {
                             },
                             {
                                 text: handleArabicCharacters(
-                                    order.status?.toString() || "اخري"
+                                    localizeOrderStatus(order.status) || "اخري"
                                 )
                             },
                             orders[0].branchReportReportNumber ||

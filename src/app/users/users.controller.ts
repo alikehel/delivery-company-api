@@ -41,7 +41,7 @@ export const getAllUsers = catchAsync(async (req, res) => {
         .toUpperCase()
         .split(",") as Role[];
 
-    console.log(roles);
+    // console.log(roles);
 
     if (pagesCount === 0) {
         res.status(200).json({
