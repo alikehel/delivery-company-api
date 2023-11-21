@@ -6,7 +6,7 @@ import helmet from "helmet";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
-import { Role } from "@prisma/client";
+// import { Role } from "@prisma/client";
 import globalErrorcontroller from "./error/error.controller";
 import { isAutherized } from "./middlewares/isAutherized.middleware";
 import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
@@ -51,14 +51,14 @@ app.use("/storage", express.static("storage"));
 app.use(
     "/logs",
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     express.static("logs")
 );
 
 // Routes
 
 app.use(
-    "/api",
+    "/api/v1",
     apiRouter
     /*
         #swagger.responses[200] = {

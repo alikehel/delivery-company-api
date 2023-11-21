@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createOrder,
@@ -41,7 +41,7 @@ router.route("/orders").post(
 
 router.route("/orders").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllOrders
     /*
         #swagger.tags = ['Orders Routes']
@@ -170,7 +170,7 @@ router.route("/orders").get(
 
 router.route("/orders/statuses").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllOrdersStatuses
     /*
         #swagger.tags = ['Orders Routes']
@@ -179,7 +179,7 @@ router.route("/orders/statuses").get(
 
 router.route("/orders/today").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getTodayOrdersCountAndEarnings
     /*
         #swagger.tags = ['Orders Routes']
@@ -188,7 +188,7 @@ router.route("/orders/today").get(
 
 router.route("/orders/statistics").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getOrdersStatistics
     /*
         #swagger.tags = ['Orders Routes']
@@ -233,7 +233,7 @@ router.route("/orders/statistics").get(
 
 router.route("/orders/:orderID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -242,7 +242,7 @@ router.route("/orders/:orderID").get(
 
 router.route("/orders/:orderID/timeline").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getOrderTimeline
     /*
         #swagger.tags = ['Orders Routes']
@@ -251,7 +251,7 @@ router.route("/orders/:orderID/timeline").get(
 
 router.route("/orders/receipts").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     createOrdersReceipts
     /*
         #swagger.tags = ['Orders Routes']
@@ -272,7 +272,7 @@ router.route("/orders/receipts").post(
 
 router.route("/orders/:orderID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     updateOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -293,7 +293,7 @@ router.route("/orders/:orderID").patch(
 
 router.route("/orders/:orderID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteOrder
     /*
         #swagger.tags = ['Orders Routes']

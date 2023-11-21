@@ -7,11 +7,12 @@ const bannerModel = new BannerModel();
 
 export const createBanner = catchAsync(async (req, res) => {
     const bannerData = BannerCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
     const image = req.file
         ? "/" + req.file.path.replace(/\\/g, "/")
         : undefined;
 
-    const createdBanner = await bannerModel.createBanner({
+    const createdBanner = await bannerModel.createBanner(companyID, {
         ...bannerData,
         image
     });
@@ -65,7 +66,7 @@ export const getAllBanners = catchAsync(async (req, res) => {
 });
 
 export const getBanner = catchAsync(async (req, res) => {
-    const bannerID = req.params["bannerID"];
+    const bannerID = +req.params["bannerID"];
 
     const banner = await bannerModel.getBanner({
         bannerID: bannerID
@@ -78,7 +79,7 @@ export const getBanner = catchAsync(async (req, res) => {
 });
 
 export const updateBanner = catchAsync(async (req, res) => {
-    const bannerID = req.params["bannerID"];
+    const bannerID = +req.params["bannerID"];
 
     const bannerData = BannerUpdateSchema.parse(req.body);
     const image = req.file
@@ -97,7 +98,7 @@ export const updateBanner = catchAsync(async (req, res) => {
 });
 
 export const deleteBanner = catchAsync(async (req, res) => {
-    const bannerID = req.params["bannerID"];
+    const bannerID = +req.params["bannerID"];
 
     await bannerModel.deleteBanner({
         bannerID: bannerID

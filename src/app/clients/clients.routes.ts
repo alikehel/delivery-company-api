@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
@@ -16,7 +16,7 @@ const router = Router();
 
 router.route("/clients").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     upload.single("avatar"),
     createClient
     /*
@@ -38,7 +38,7 @@ router.route("/clients").post(
 
 router.route("/clients").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     getAllClients
     /*
         #swagger.tags = ['Clients Routes']
@@ -59,7 +59,7 @@ router.route("/clients").get(
 
 router.route("/clients/:clientID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     getClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -68,7 +68,7 @@ router.route("/clients/:clientID").get(
 
 router.route("/clients/:clientID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     upload.single("avatar"),
     updateClient
     /*
@@ -90,7 +90,7 @@ router.route("/clients/:clientID").patch(
 
 router.route("/clients/:clientID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     deleteClient
     /*
         #swagger.tags = ['Clients Routes']

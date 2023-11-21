@@ -1,10 +1,47 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { LocationCreateType, LocationUpdateType } from "./locations.zod";
 
 const prisma = new PrismaClient();
 
+const locationSelect: Prisma.LocationSelect = {
+    id: true,
+    name: true,
+    governorate: true,
+    branch: true,
+    dileveryAgentsLocations: {
+        select: {
+            deliveryAgent: {
+                select: {
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+const locationReform = (location: any) => {
+    return {
+        id: location.id,
+        name: location.name,
+        governorate: location.governorate,
+        branch: location.branch,
+        deliveryAgents: location.dileveryAgentsLocations.map(
+            (deliveryAgent: any) => {
+                return {
+                    id: deliveryAgent.deliveryAgent.id,
+                    name: deliveryAgent.deliveryAgent.user.name
+                };
+            }
+        )
+    };
+};
+
 export class LocationModel {
-    async createLocation(data: LocationCreateType) {
+    async createLocation(companyID: number, data: LocationCreateType) {
         const createdLocation = await prisma.location.create({
             data: {
                 name: data.name,
@@ -14,28 +51,25 @@ export class LocationModel {
                         id: data.branchID
                     }
                 },
-                deliveryAgents: {
-                    connect: data.deliveryAgentsIDs.map((id) => {
-                        return {
-                            id: id
-                        };
-                    })
-                }
-            },
-            select: {
-                id: true,
-                name: true,
-                governorate: true,
-                branch: true,
-                deliveryAgents: {
-                    select: {
-                        id: true,
-                        name: true
+                // dileveryAgentsLocations: {
+                //     connect: data.deliveryAgentsIDs.map((id) => {
+                //         return {
+                //             deliveryAgentId_locationId: {
+                //                 locationId: data.locationID,
+                //                 deliveryAgentId: id
+                //             }
+                //         };
+                //     })
+                // },
+                company: {
+                    connect: {
+                        id: companyID
                     }
                 }
-            }
+            },
+            select: locationSelect
         });
-        return createdLocation;
+        return locationReform(createdLocation);
     }
 
     async getLocationsCount() {
@@ -50,45 +84,23 @@ export class LocationModel {
             orderBy: {
                 name: "desc"
             },
-            select: {
-                id: true,
-                name: true,
-                governorate: true,
-                branch: true,
-                deliveryAgents: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: locationSelect
         });
-        return locations;
+        return locations.map(locationReform);
     }
 
-    async getLocation(data: { locationID: string }) {
+    async getLocation(data: { locationID: number }) {
         const location = await prisma.location.findUnique({
             where: {
                 id: data.locationID
             },
-            select: {
-                id: true,
-                name: true,
-                governorate: true,
-                branch: true,
-                deliveryAgents: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: locationSelect
         });
-        return location;
+        return locationReform(location);
     }
 
     async updateLocation(data: {
-        locationID: string;
+        locationID: number;
         locationData: LocationUpdateType;
     }) {
         const location = await prisma.location.update({
@@ -105,40 +117,32 @@ export class LocationModel {
                           }
                       }
                     : undefined,
-                deliveryAgents: data.locationData.deliveryAgentsIDs
+                dileveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
                           connect: data.locationData.deliveryAgentsIDs?.map(
                               (id) => {
                                   return {
-                                      id: id
+                                      deliveryAgentId_locationId: {
+                                          locationId: data.locationID,
+                                          deliveryAgentId: id
+                                      }
                                   };
                               }
                           )
                       }
                     : undefined
             },
-            select: {
-                id: true,
-                name: true,
-                governorate: true,
-                branch: true,
-                deliveryAgents: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: locationSelect
         });
-        return location;
+        return locationReform(location);
     }
 
-    async deleteLocation(data: { locationID: string }) {
-        const deletedLocation = await prisma.location.delete({
+    async deleteLocation(data: { locationID: number }) {
+        await prisma.location.delete({
             where: {
                 id: data.locationID
             }
         });
-        return deletedLocation;
+        return true;
     }
 }

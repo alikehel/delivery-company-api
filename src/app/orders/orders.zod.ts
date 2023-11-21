@@ -11,19 +11,19 @@ export const OrderCreateBaseSchema = z.object({
     details: z.string().optional(),
     deliveryType: z.nativeEnum(DeliveryType),
     governorate: z.nativeEnum(Governorate),
-    locationID: z.string().uuid().optional(),
-    storeID: z.string().uuid()
+    locationID: z.number().optional(),
+    storeID: z.number()
     // paidAmount: z.number(),
     // totalCostInUSD: z.number(),
     // paidAmountInUSD: z.number(),
     // discount: z.number(),
     // receiptNumber: z.number(),
     // status: z.nativeEnum(OrderStatus),
-    // clientID: z.string().uuid(),
-    // deliveryAgentID: z.string().uuid(),
+    // clientID: z.number(),
+    // deliveryAgentID: z.number(),
     // deliveryDate: z.date().optional(),
-    // // repositoryID: z.string().uuid().optional(),
-    // // branchID: z.string().uuid().optional(),
+    // // repositoryID: z.number().optional(),
+    // // branchID: z.number().optional(),
 });
 
 export const OrderCreateSchema = z
@@ -32,10 +32,10 @@ export const OrderCreateSchema = z
             withProducts: z.literal(true),
             products: z.array(
                 z.object({
-                    productID: z.string().uuid(),
+                    productID: z.number(),
                     quantity: z.number().min(1),
-                    colorID: z.string().uuid().optional(),
-                    sizeID: z.string().uuid().optional()
+                    colorID: z.number().optional(),
+                    sizeID: z.number().optional()
                 })
             )
         }),
@@ -65,15 +65,15 @@ export const OrderUpdateSchema = z
         // paidAmountInUSD: z.number(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
-        deliveryAgentID: z.string().uuid(),
+        deliveryAgentID: z.number(),
         deliveryDate: z.coerce.date().optional(),
         recipientName: z.string(),
         recipientPhone: z.string(),
         recipientAddress: z.string(),
         notes: z.string().optional(),
         details: z.string().optional()
-        // repositoryID: z.string().uuid().optional(),
-        // branchID: z.string().uuid().optional(),
+        // repositoryID: z.number().optional(),
+        // branchID: z.number().optional(),
     })
     .partial();
 
@@ -86,7 +86,7 @@ export const OrderUpdateMock = generateMock(OrderUpdateSchema);
 /* --------------------------------------------------------------- */
 
 export const OrdersReceiptsCreateSchema = z.object({
-    ordersIDs: z.array(z.string().uuid()).min(1)
+    ordersIDs: z.array(z.number()).min(1)
 });
 
 export type OrdersReceiptsCreateType = z.infer<

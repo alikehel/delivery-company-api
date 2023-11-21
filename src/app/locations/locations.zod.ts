@@ -6,8 +6,8 @@ import { z } from "zod";
 export const LocationCreateSchema = z.object({
     name: z.string().min(3),
     governorate: z.nativeEnum(Governorate),
-    branchID: z.string().uuid(),
-    deliveryAgentsIDs: z.array(z.string().uuid())
+    branchID: z.number(),
+    deliveryAgentsIDs: z.array(z.number())
 });
 
 export type LocationCreateType = z.infer<typeof LocationCreateSchema>;

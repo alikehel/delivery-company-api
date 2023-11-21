@@ -1,10 +1,26 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.zod";
 
 const prisma = new PrismaClient();
 
+const repositorySelect: Prisma.RepositorySelect = {
+    id: true,
+    name: true,
+    branch: true
+};
+
+// const repositorySelectReform = (
+//     repository: Prisma.RepositoryGetPayload<typeof repositorySelect>
+// ) => {
+//     return {
+//         id: repository.id,
+//         name: repository.name,
+//         branch: repository.branch
+//     };
+// };
+
 export class RepositoryModel {
-    async createRepository(data: RepositoryCreateType) {
+    async createRepository(companyID: number, data: RepositoryCreateType) {
         const createdRepository = await prisma.repository.create({
             data: {
                 name: data.name,
@@ -12,13 +28,14 @@ export class RepositoryModel {
                     connect: {
                         id: data.branchID
                     }
+                },
+                company: {
+                    connect: {
+                        id: companyID
+                    }
                 }
             },
-            select: {
-                id: true,
-                name: true,
-                branch: true
-            }
+            select: repositorySelect
         });
         return createdRepository;
     }
@@ -35,31 +52,23 @@ export class RepositoryModel {
             orderBy: {
                 name: "desc"
             },
-            select: {
-                id: true,
-                name: true,
-                branch: true
-            }
+            select: repositorySelect
         });
         return repositories;
     }
 
-    async getRepository(data: { repositoryID: string }) {
+    async getRepository(data: { repositoryID: number }) {
         const repository = await prisma.repository.findUnique({
             where: {
                 id: data.repositoryID
             },
-            select: {
-                id: true,
-                name: true,
-                branch: true
-            }
+            select: repositorySelect
         });
         return repository;
     }
 
     async updateRepository(data: {
-        repositoryID: string;
+        repositoryID: number;
         repositoryData: RepositoryUpdateType;
     }) {
         const repository = await prisma.repository.update({
@@ -69,26 +78,17 @@ export class RepositoryModel {
             data: {
                 name: data.repositoryData.name
             },
-            select: {
-                id: true,
-                name: true,
-                branch: true
-            }
+            select: repositorySelect
         });
         return repository;
     }
 
-    async deleteRepository(data: { repositoryID: string }) {
-        const deletedRepository = await prisma.repository.delete({
+    async deleteRepository(data: { repositoryID: number }) {
+        await prisma.repository.delete({
             where: {
                 id: data.repositoryID
-            },
-            select: {
-                id: true,
-                name: true,
-                branch: true
             }
         });
-        return deletedRepository;
+        return true;
     }
 }

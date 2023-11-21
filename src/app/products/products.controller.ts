@@ -7,11 +7,12 @@ const productModel = new ProductModel();
 
 export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
     const image = req.file
         ? "/" + req.file.path.replace(/\\/g, "/")
         : undefined;
 
-    const createdProduct = await productModel.createProduct({
+    const createdProduct = await productModel.createProduct(companyID, {
         ...productData,
         image
     });
@@ -65,7 +66,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
 });
 
 export const getProduct = catchAsync(async (req, res) => {
-    const productID = req.params["productID"];
+    const productID = +req.params["productID"];
 
     const product = await productModel.getProduct({
         productID: productID
@@ -78,7 +79,8 @@ export const getProduct = catchAsync(async (req, res) => {
 });
 
 export const updateProduct = catchAsync(async (req, res) => {
-    const productID = req.params["productID"];
+    const productID = +req.params["productID"];
+    const companyID = +res.locals.user.companyID;
 
     const productData = ProductUpdateSchema.parse(req.body);
     const image = req.file
@@ -87,6 +89,7 @@ export const updateProduct = catchAsync(async (req, res) => {
 
     const product = await productModel.updateProduct({
         productID: productID,
+        companyID,
         productData: { ...productData, image }
     });
 
@@ -97,7 +100,7 @@ export const updateProduct = catchAsync(async (req, res) => {
 });
 
 export const deleteProduct = catchAsync(async (req, res) => {
-    const productID = req.params["productID"];
+    const productID = +req.params["productID"];
 
     await productModel.deleteProduct({
         productID: productID

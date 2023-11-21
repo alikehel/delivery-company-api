@@ -1,4 +1,9 @@
-import { Role } from "@prisma/client";
+import {
+    AdminRole,
+    ClientRole,
+    EmployeeRole,
+    Permission
+} from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";
@@ -20,17 +25,24 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         }
 
         // IS TOKEN VALID
-        const { id, name, username, role } = jwt.verify(
+        const { id, name, username, role, permissions, companyID } = jwt.verify(
             token,
             JWT_SECRET as string
-        ) as { id: string; name: string; username: string; role: Role[] };
+        ) as {
+            id: string;
+            name: string;
+            username: string;
+            role: AdminRole[] | EmployeeRole[] | ClientRole[];
+            permissions: Permission[];
+            companyID: number;
+        };
 
         // TODO: Check if user still exists
 
         // TODO: Check if user changed password after the token was issued
 
         // req.user = { id, email, subdomain, role };
-        res.locals.user = { id, name, username, role };
+        res.locals.user = { id, name, username, role, permissions, companyID };
 
         // GRANT ACCESS
         return next();

@@ -20,8 +20,12 @@ datasource db {
 //    "موظف استعلامات"
 // ];
 
-enum Role {
+enum AdminRole {
   SUPER_ADMIN
+  ADMIN
+}
+
+enum EmployeeRole {
   COMPANY_MANAGER
   ACCOUNT_MANAGER
   ACCOUNTANT
@@ -32,8 +36,13 @@ enum Role {
   DATA_ENTRY
   REPOSITORIY_EMPLOYEE
   INQUIRY_EMPLOYEE
-  CLIENT_ASSISTANT
+}
+
+// const accountTypes = ["عميل", "مساعد عميل"];
+
+enum ClientRole {
   CLIENT
+  CLIENT_ASSISTANT
 }
 
 // const permissions = [
@@ -95,13 +104,6 @@ enum Governorate {
   WASIT
 }
 
-// const accountTypes = ["عميل", "مساعد عميل"];
-
-enum AccountType {
-  CLIENT
-  CLIENT_ASSISTANT
-}
-
 // const orderStatus = [
 //   "تم تسجيل الطلب",
 //   "جاهز للارسال",
@@ -154,133 +156,195 @@ enum ReportType {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   username  String   @unique
   name      String
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isSuperAdmin Boolean  @default(false)
-  phone        String?
+  phone  String?
+  fcm    String?
+  avatar String?
+
+  admin    Admin?
+  employee Employee?
+  client   Client?
+
+  notifications Notification[]
+}
+
+model Admin {
+  id     Int @id @default(autoincrement())
+  userId Int @unique
+
+  role AdminRole
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Employee {
+  id     Int @id @default(autoincrement())
+  userId Int @unique
+
   salary       Decimal? @default(0)
-  fcm          String?
-  avatar       String?
+  branchId     Int?
+  repositoryId Int?
 
-  repositoryId String?
-  branchId     String?
+  permissions Permission[]
+  role        EmployeeRole
 
-  repository          Repository?           @relation(fields: [repositoryId], references: [id])
-  branch              Branch?               @relation(fields: [branchId], references: [id])
-  role                Role
-  permissions         Permission[]
-  Client              Client[]
-  Location            Location[]
-  Order               Order[]
-  Notification        Notification[]
-  Report              Report[]
-  DeliveryAgentReport DeliveryAgentReport[]
+  // locations Location[]
+  orders  Order[]
+  clients Client[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  repository Repository? @relation(fields: [repositoryId], references: [id])
+  branch     Branch?     @relation(fields: [branchId], references: [id])
+
+  reports                 Report[]
+  deliveryAgentReports    DeliveryAgentReport[]
+  company                 Company                   @relation(fields: [companyId], references: [id])
+  companyId               Int
+  dileveryAgentsLocations DileveryAgentsLocations[]
 }
 
 model Client {
-  id          String      @id @default(uuid())
-  name        String      @unique
-  phone       String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  accountType AccountType
-  token       String?
-  password    String?
-  avatar      String?
+  id Int @id @default(autoincrement())
 
-  branchId String
-  userId   String
+  token        String?
+  employeeId   Int
+  repositoryId Int?
+  userId       Int     @unique
 
-  branch       Branch?        @relation(fields: [branchId], references: [id])
-  createdBy    User           @relation(fields: [userId], references: [id])
-  Order        Order[]
-  Store        Store[]
-  ClientReport ClientReport[]
+  role ClientRole
+
+  orders Order[]
+  stores Store[]
+
+  createdBy Employee @relation(fields: [employeeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  repository Repository? @relation(fields: [repositoryId], references: [id])
+
+  clientReports ClientReport[]
+  company       Company        @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model Store {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   logo      String?
   notes     String?
 
-  client       Client         @relation(fields: [clientId], references: [id])
-  clientId     String
-  Order        Order[]
-  ClientReport ClientReport[]
+  client        Client         @relation(fields: [clientId], references: [id])
+  clientId      Int
+  orders        Order[]
+  clientReports ClientReport[]
+  company       Company        @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model Branch {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String?
   phone     String?
 
-  Repository   Repository[]
-  Client       Client[]
-  User         User[]
-  governorate  Governorate?
-  Location     Location[]
+  repositories  Repository[]
+  employees     Employee[]
+  governorate   Governorate?
+  locations     Location[]
   // Order       Order[]
-  BranchReport BranchReport[]
+  branchReports BranchReport[]
+  company       Company        @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model Repository {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  branchId String
+  branchId Int
 
-  branch           Branch             @relation(fields: [branchId], references: [id])
-  User             User[]
+  branch            Branch             @relation(fields: [branchId], references: [id])
+  employees         Employee[]
+  clients           Client[]
   // Order  Order[]
-  RepositoryReport RepositoryReport[]
+  repositoryReports RepositoryReport[]
+  company           Company            @relation(fields: [companyId], references: [id])
+  companyId         Int
 }
 
 model Location {
-  id   String @id @default(uuid())
+  id   Int    @id @default(autoincrement())
   name String @unique
 
-  deliveryAgents User[]
-  governorate    Governorate?
-  branch         Branch       @relation(fields: [branchId], references: [id])
-  branchId       String
-  Order          Order[]
+  // deliveryAgents Employee[]
+  governorate             Governorate?
+  branch                  Branch                    @relation(fields: [branchId], references: [id])
+  branchId                Int
+  orders                  Order[]
+  company                 Company                   @relation(fields: [companyId], references: [id])
+  companyId               Int
+  dileveryAgentsLocations DileveryAgentsLocations[]
 }
 
-model Tenant {
-  id                                      String   @id @default(uuid())
-  name                                    String   @unique
+model DileveryAgentsLocations {
+  deliveryAgent Employee @relation(fields: [deliveryAgentId], references: [id])
+  location      Location @relation(fields: [locationId], references: [id])
+
+  deliveryAgentId Int
+  locationId      Int
+
+  @@id([deliveryAgentId, locationId])
+}
+
+model Company {
+  id                                      Int             @id @default(autoincrement())
+  name                                    String          @unique
   phone                                   String?
   website                                 String?
   logo                                    String?
   registrationText                        String?
-  governoratePrice                        Decimal  @default(0)
-  deliveryAgentFee                        Decimal  @default(0)
+  governoratePrice                        Decimal         @default(0)
+  deliveryAgentFee                        Decimal         @default(0)
   // deliveryPrice              Decimal  @default(0)
-  baghdadPrice                            Decimal  @default(0)
-  additionalPriceForEvery500000IraqiDinar Decimal  @default(0)
-  additionalPriceForEveryKilogram         Decimal  @default(0)
-  additionalPriceForRemoteAreas           Decimal  @default(0)
-  orderStatusAutomaticUpdate              Boolean  @default(false)
+  baghdadPrice                            Decimal         @default(0)
+  additionalPriceForEvery500000IraqiDinar Decimal         @default(0)
+  additionalPriceForEveryKilogram         Decimal         @default(0)
+  additionalPriceForRemoteAreas           Decimal         @default(0)
+  orderStatusAutomaticUpdate              Boolean         @default(false)
   // mainCompany                Boolean  @default(false)
-  createdAt                               DateTime @default(now())
-  updatedAt                               DateTime @updatedAt
+  createdAt                               DateTime        @default(now())
+  updatedAt                               DateTime        @updatedAt
+  employees                               Employee[]
+  clients                                 Client[]
+  stores                                  Store[]
+  branches                                Branch[]
+  repositories                            Repository[]
+  locations                               Location[]
+  orders                                  Order[]
+  reports                                 Report[]
+  products                                Product[]
+  categories                              Category[]
+  sizes                                   Size[]
+  colors                                  Color[]
+  // notifications                           Notification[]
+  banners                                 Banner[]
+  CompanyReport                           CompanyReport[]
 }
 
 model Order {
-  id                              String               @id @default(uuid())
+  id                              Int                  @id @default(autoincrement())
   totalCost                       Decimal              @default(0)
   paidAmount                      Decimal?             @default(0)
   totalCostInUSD                  Decimal?             @default(0)
@@ -301,103 +365,114 @@ model Order {
   createdAt                       DateTime             @default(now())
   updatedAt                       DateTime             @updatedAt
   client                          Client?              @relation(fields: [clientId], references: [id])
-  deliveryAgent                   User?                @relation(fields: [deliveryAgentId], references: [id])
+  deliveryAgent                   Employee?            @relation(fields: [deliveryAgentId], references: [id])
   deliveryDate                    DateTime?
-  clientId                        String?
-  deliveryAgentId                 String?
-  OrderProducts                   OrderProducts[]
+  clientId                        Int?
+  deliveryAgentId                 Int?
+  orderProducts                   OrderProducts[]
   governorate                     Governorate
   location                        Location?            @relation(fields: [locationId], references: [id])
   currentLocation                 String?
   store                           Store                @relation(fields: [storeId], references: [id])
-  locationId                      String?
-  storeId                         String
+  locationId                      Int?
+  storeId                         Int
   // repository       Repository?     @relation(fields: [repositoryId], references: [id])
   // branch           Branch?         @relation(fields: [branchId], references: [id])
   // repositoryId     String?
   // branchId         String?
-  ClientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  clientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber], onDelete: SetNull)
   clientReportReportNumber        Int?
-  RepositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  repositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber], onDelete: SetNull)
   repositoryReportReportNumber    Int?
-  BranchReport                    BranchReport?        @relation(fields: [branchReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  branchReport                    BranchReport?        @relation(fields: [branchReportReportNumber], references: [reportNumber], onDelete: SetNull)
   branchReportReportNumber        Int?
-  DeliveryAgentReport             DeliveryAgentReport? @relation(fields: [deliveryAgentReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  deliveryAgentReport             DeliveryAgentReport? @relation(fields: [deliveryAgentReportReportNumber], references: [reportNumber], onDelete: SetNull)
   deliveryAgentReportReportNumber Int?
-  GovernorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  governorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber], onDelete: SetNull)
   governorateReportReportNumber   Int?
+  companyReport                   CompanyReport?       @relation(fields: [companyReportReportNumber], references: [reportNumber], onDelete: SetNull)
+  companyReportReportNumber       Int?
   timeline                        Json                 @default("[]")
+  company                         Company              @relation(fields: [companyId], references: [id])
+  companyId                       Int
 }
 
 model Report {
-  id        String       @id @default(uuid())
+  id        Int          @id @default(autoincrement())
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   status    ReportStatus @default(UNPAID)
   type      ReportType
 
-  createdBy           User                 @relation(fields: [userId], references: [id])
-  userId              String
-  ClientReport        ClientReport?
-  RepositoryReport    RepositoryReport?
-  BranchReport        BranchReport?
-  DeliveryAgentReport DeliveryAgentReport?
-  GovernorateReport   GovernorateReport?
+  createdBy           Employee             @relation(fields: [employeeId], references: [id])
+  employeeId          Int
+  clientReport        ClientReport?
+  repositoryReport    RepositoryReport?
+  branchReport        BranchReport?
+  deliveryAgentReport DeliveryAgentReport?
+  governorateReport   GovernorateReport?
+  company             Company              @relation(fields: [companyId], references: [id])
+  companyId           Int
+  companyReport       CompanyReport?
 }
 
-// model CompanyReport {
-//   reportNumber Int          @unique @default(autoincrement())
-
-// }
+model CompanyReport {
+  reportNumber Int     @unique @default(autoincrement())
+  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId     Int     @unique
+  orders       Order[]
+  company      Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    Int
+}
 
 model ClientReport {
   reportNumber Int     @unique @default(autoincrement())
   client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId     String
-  Report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     String  @unique
+  clientId     Int
+  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId     Int     @unique
   store        Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
   orders       Order[]
-  storeId      String?
+  storeId      Int?
 }
 
 model RepositoryReport {
   reportNumber Int        @unique @default(autoincrement())
   repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
-  repositoryId String
-  Report       Report     @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     String     @unique
+  repositoryId Int
+  report       Report     @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId     Int        @unique
   orders       Order[]
 }
 
 model BranchReport {
   reportNumber Int     @unique @default(autoincrement())
   branch       Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  branchId     String
-  Report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     String  @unique
+  branchId     Int
+  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId     Int     @unique
   orders       Order[]
 }
 
 model DeliveryAgentReport {
-  reportNumber    Int     @unique @default(autoincrement())
-  deliveryAgent   User    @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
-  deliveryAgentId String
-  Report          Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId        String  @unique
+  reportNumber    Int      @unique @default(autoincrement())
+  deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
+  deliveryAgentId Int
+  report          Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId        Int      @unique
   orders          Order[]
 }
 
 model GovernorateReport {
   reportNumber Int         @unique @default(autoincrement())
   governorate  Governorate
-  Report       Report      @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     String      @unique
+  report       Report      @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId     Int         @unique
   orders       Order[]
 }
 
 model Product {
-  id            String          @id @default(uuid())
+  id            Int             @id @default(autoincrement())
   title         String
   price         Decimal
   createdAt     DateTime        @default(now())
@@ -406,59 +481,67 @@ model Product {
   stock         Int             @default(0)
   weight        Float           @default(0)
   // OrderProducts OrderProducts[]
-  Category      Category        @relation(fields: [categoryId], references: [id])
-  categoryId    String
-  OrderProducts OrderProducts[]
-  ProductColors ProductColors[]
-  ProductSizes  ProductSizes[]
+  category      Category        @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  orderProducts OrderProducts[]
+  productColors ProductColors[]
+  productSizes  ProductSizes[]
+  company       Company         @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model Category {
-  id        String    @id @default(uuid())
+  id        Int       @id @default(autoincrement())
   title     String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Product   Product[]
+  products  Product[]
+  company   Company   @relation(fields: [companyId], references: [id])
+  companyId Int
 }
 
 model OrderProducts {
   product   Product @relation(fields: [productId], references: [id])
-  productId String
+  productId Int
   order     Order   @relation(fields: [orderId], references: [id])
-  orderId   String
+  orderId   Int
   quantity  Int
   color     Color?  @relation(fields: [colorId], references: [id])
-  colorId   String?
+  colorId   Int?
   size      Size?   @relation(fields: [sizeId], references: [id])
-  sizeId    String?
+  sizeId    Int?
   // @@unique([orderId, productId, colorId, sizeId])
 
   @@id([productId, orderId])
 }
 
 model Size {
-  id            String          @id @default(uuid())
+  id            Int             @id @default(autoincrement())
   title         String          @unique
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  ProductSizes  ProductSizes[]
-  OrderProducts OrderProducts[]
+  productSizes  ProductSizes[]
+  orderProducts OrderProducts[]
+  company       Company         @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model Color {
-  id            String          @id @default(uuid())
+  id            Int             @id @default(autoincrement())
   title         String          @unique
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  ProductColors ProductColors[]
-  OrderProducts OrderProducts[]
+  productColors ProductColors[]
+  orderProducts OrderProducts[]
+  company       Company         @relation(fields: [companyId], references: [id])
+  companyId     Int
 }
 
 model ProductColors {
   product   Product @relation(fields: [productId], references: [id])
-  productId String
+  productId Int
   color     Color   @relation(fields: [colorId], references: [id])
-  colorId   String
+  colorId   Int
   quantity  Int
 
   @@id([productId, colorId])
@@ -466,31 +549,35 @@ model ProductColors {
 
 model ProductSizes {
   product   Product @relation(fields: [productId], references: [id])
-  productId String
+  productId Int
   size      Size    @relation(fields: [sizeId], references: [id])
-  sizeId    String
+  sizeId    Int
   quantity  Int
 
   @@id([productId, sizeId])
 }
 
 model Notification {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   title     String
   content   String
   // type    String // success, error, warning, info
   user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  userId    Int
   seen      Boolean  @default(false)
+  // company   Company  @relation(fields: [companyId], references: [id])
+  // companyId Int
 }
 
 model Banner {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
   content   String?
   image     String?
   url       String?
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId Int
 }

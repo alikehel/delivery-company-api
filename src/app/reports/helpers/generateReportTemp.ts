@@ -1,10 +1,10 @@
-import { Order } from "@prisma/client";
+// import { Order } from "@prisma/client";
 // import fs from "fs";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import { localizeOrderStatus } from "../../../utils/localize.util";
 
-export const generateReport = async (orders: Order[]) => {
+export const generateReport = async (orders: any[]) => {
     let counter = 0;
 
     const fonts = {

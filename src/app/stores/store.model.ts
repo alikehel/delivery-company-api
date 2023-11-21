@@ -1,35 +1,61 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { StoreCreateType, StoreUpdateType } from "./stores.zod";
 
 const prisma = new PrismaClient();
 
+const storeSelect: Prisma.StoreSelect = {
+    id: true,
+    name: true,
+    notes: true,
+    logo: true,
+    client: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    }
+};
+
+const storeSelectReform = (store: any) => {
+    return {
+        id: store.id,
+        name: store.name,
+        notes: store.notes,
+        logo: store.logo,
+        client: store.client.user
+            ? {
+                  id: store.client.user.id,
+                  name: store.client.user.name
+              }
+            : undefined
+    };
+};
+
 export class StoreModel {
-    async createStore(data: StoreCreateType) {
+    async createStore(companyID: number, data: StoreCreateType) {
         const createdStore = await prisma.store.create({
             data: {
                 name: data.name,
                 notes: data.notes,
                 logo: data.logo,
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                },
                 client: {
                     connect: {
                         id: data.clientID
                     }
                 }
             },
-            select: {
-                id: true,
-                name: true,
-                notes: true,
-                logo: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: storeSelect
         });
-        return createdStore;
+        return storeSelectReform(createdStore);
     }
 
     async getStoresCount() {
@@ -44,44 +70,22 @@ export class StoreModel {
             orderBy: {
                 name: "desc"
             },
-            select: {
-                id: true,
-                name: true,
-                notes: true,
-                logo: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: storeSelect
         });
-        return stores;
+        return stores.map(storeSelectReform);
     }
 
-    async getStore(data: { storeID: string }) {
+    async getStore(data: { storeID: number }) {
         const store = await prisma.store.findUnique({
             where: {
                 id: data.storeID
             },
-            select: {
-                id: true,
-                name: true,
-                notes: true,
-                logo: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: storeSelect
         });
-        return store;
+        return storeSelectReform(store);
     }
 
-    async updateStore(data: { storeID: string; storeData: StoreUpdateType }) {
+    async updateStore(data: { storeID: number; storeData: StoreUpdateType }) {
         const store = await prisma.store.update({
             where: {
                 id: data.storeID
@@ -98,28 +102,17 @@ export class StoreModel {
                       }
                     : undefined
             },
-            select: {
-                id: true,
-                name: true,
-                notes: true,
-                logo: true,
-                client: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            }
+            select: storeSelect
         });
-        return store;
+        return storeSelectReform(store);
     }
 
-    async deleteStore(data: { storeID: string }) {
-        const deletedStore = await prisma.store.delete({
+    async deleteStore(data: { storeID: number }) {
+        await prisma.store.delete({
             where: {
                 id: data.storeID
             }
         });
-        return deletedStore;
+        return true;
     }
 }

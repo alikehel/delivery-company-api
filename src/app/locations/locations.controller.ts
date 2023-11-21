@@ -7,8 +7,12 @@ const locationModel = new LocationModel();
 
 export const createLocation = catchAsync(async (req, res) => {
     const locationData = LocationCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
 
-    const createdLocation = await locationModel.createLocation(locationData);
+    const createdLocation = await locationModel.createLocation(
+        companyID,
+        locationData
+    );
 
     res.status(200).json({
         status: "success",
@@ -59,7 +63,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
 });
 
 export const getLocation = catchAsync(async (req, res) => {
-    const locationID = req.params["locationID"];
+    const locationID = +req.params["locationID"];
 
     const location = await locationModel.getLocation({
         locationID: locationID
@@ -72,7 +76,7 @@ export const getLocation = catchAsync(async (req, res) => {
 });
 
 export const updateLocation = catchAsync(async (req, res) => {
-    const locationID = req.params["locationID"];
+    const locationID = +req.params["locationID"];
 
     const locationData = LocationUpdateSchema.parse(req.body);
 
@@ -88,7 +92,7 @@ export const updateLocation = catchAsync(async (req, res) => {
 });
 
 export const deleteLocation = catchAsync(async (req, res) => {
-    const locationID = req.params["locationID"];
+    const locationID = +req.params["locationID"];
 
     await locationModel.deleteLocation({
         locationID: locationID

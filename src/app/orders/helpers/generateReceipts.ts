@@ -4,7 +4,7 @@ import { Order } from "@prisma/client";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 
-export const generateReceipts = async (orders: Order[]) => {
+export const generateReceipts = async (orders: any[]) => {
     const fonts = {
         Cairo: {
             normal: "fonts/Cairo-VariableFont_slntwght.ttf",

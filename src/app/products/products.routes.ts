@@ -1,8 +1,9 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createProduct,
     deleteProduct,
@@ -10,13 +11,12 @@ import {
     getProduct,
     updateProduct
 } from "./products.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
 router.route("/products").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     upload.single("image"),
     createProduct
     /*
@@ -38,7 +38,7 @@ router.route("/products").post(
 
 router.route("/products").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllProducts
     /*
         #swagger.tags = ['Products Routes']
@@ -59,7 +59,7 @@ router.route("/products").get(
 
 router.route("/products/:productID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -68,7 +68,7 @@ router.route("/products/:productID").get(
 
 router.route("/products/:productID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     upload.single("image"),
     updateProduct
     /*
@@ -90,7 +90,7 @@ router.route("/products/:productID").patch(
 
 router.route("/products/:productID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteProduct
     /*
         #swagger.tags = ['Products Routes']

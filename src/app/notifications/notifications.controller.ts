@@ -59,7 +59,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
 });
 
 export const updateNotification = catchAsync(async (req, res) => {
-    const notificationID = req.params["notificationID"];
+    const notificationID = +req.params["notificationID"];
 
     const notificationData = NotificationUpdateSchema.parse(req.body);
 

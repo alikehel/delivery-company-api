@@ -2,7 +2,7 @@ import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
-export const TenantCreateSchema = z.object({
+export const CompanyCreateSchema = z.object({
     name: z.string().min(3),
     phone: z.string().regex(/^07[3-9][0-9]{8}$/),
     website: z.string().url().optional(),
@@ -17,16 +17,16 @@ export const TenantCreateSchema = z.object({
     orderStatusAutomaticUpdate: z.coerce.boolean().optional()
 });
 
-export type TenantCreateType = z.infer<typeof TenantCreateSchema>;
+export type CompanyCreateType = z.infer<typeof CompanyCreateSchema>;
 
-export const TenantCreateOpenAPISchema = generateSchema(TenantCreateSchema);
+export const CompanyCreateOpenAPISchema = generateSchema(CompanyCreateSchema);
 
-export const TenantCreateMock = generateMock(TenantCreateSchema);
+export const CompanyCreateMock = generateMock(CompanyCreateSchema);
 
-export const TenantUpdateSchema = TenantCreateSchema.partial();
+export const CompanyUpdateSchema = CompanyCreateSchema.partial();
 
-export type TenantUpdateType = z.infer<typeof TenantUpdateSchema>;
+export type CompanyUpdateType = z.infer<typeof CompanyUpdateSchema>;
 
-export const TenantUpdateOpenAPISchema = generateSchema(TenantUpdateSchema);
+export const CompanyUpdateOpenAPISchema = generateSchema(CompanyUpdateSchema);
 
-export const TenantUpdateMock = generateMock(TenantUpdateSchema);
+export const CompanyUpdateMock = generateMock(CompanyUpdateSchema);

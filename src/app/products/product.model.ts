@@ -10,12 +10,12 @@ const productSelect: Prisma.ProductSelect = {
     image: true,
     stock: true,
     weight: true,
-    Category: {
+    category: {
         select: {
             title: true
         }
     },
-    ProductColors: {
+    productColors: {
         select: {
             quantity: true,
             color: {
@@ -23,7 +23,7 @@ const productSelect: Prisma.ProductSelect = {
             }
         }
     },
-    ProductSizes: {
+    productSizes: {
         select: {
             quantity: true,
             size: {
@@ -33,25 +33,56 @@ const productSelect: Prisma.ProductSelect = {
     }
 };
 
+// const productSelectReform = (product: Prisma.ProductGetPayload<typeof productSelect>) => {
+//     return {
+//         id: product.id,
+//         title: product.title,
+//         price: product.price,
+//         image: product.image,
+//         stock: product.stock,
+//         weight: product.weight,
+//         category: product.category.title,
+//         colors: product.productColors.map((color) => {
+//             return {
+//                 id: color.color.id,
+//                 title: color.color.title,
+//                 quantity: color.quantity
+//             };
+//         }),
+//         sizes: product.productSizes.map((size) => {
+//             return {
+//                 id: size.size.id,
+//                 title: size.size.title,
+//                 quantity: size.quantity
+//             };
+//         })
+//     };
+// };
+
 export class ProductModel {
-    async createProduct(data: ProductCreateType) {
+    async createProduct(companyID: number, data: ProductCreateType) {
         const createdProduct = await prisma.product.create({
             data: {
                 title: data.title,
                 price: data.price,
                 image: data.image,
                 stock: data.stock,
-                Category: {
+                category: {
                     connectOrCreate: {
                         where: {
                             title: data.category
                         },
                         create: {
+                            company: {
+                                connect: {
+                                    id: companyID
+                                }
+                            },
                             title: data.category || "أخري"
                         }
                     }
                 },
-                ProductColors: {
+                productColors: {
                     create: data.colors?.map((color) => {
                         return {
                             quantity: color.quantity,
@@ -61,6 +92,11 @@ export class ProductModel {
                                         title: color.title
                                     },
                                     create: {
+                                        company: {
+                                            connect: {
+                                                id: companyID
+                                            }
+                                        },
                                         title: color.title || "أخري"
                                     }
                                 }
@@ -68,7 +104,7 @@ export class ProductModel {
                         };
                     })
                 },
-                ProductSizes: {
+                productSizes: {
                     create: data.sizes?.map((size) => {
                         return {
                             quantity: size.quantity,
@@ -78,12 +114,22 @@ export class ProductModel {
                                         title: size.title
                                     },
                                     create: {
+                                        company: {
+                                            connect: {
+                                                id: companyID
+                                            }
+                                        },
                                         title: size.title || "أخري"
                                     }
                                 }
                             }
                         };
                     })
+                },
+                company: {
+                    connect: {
+                        id: companyID
+                    }
                 }
             },
             select: productSelect
@@ -108,7 +154,7 @@ export class ProductModel {
         return products;
     }
 
-    async getProduct(data: { productID: string }) {
+    async getProduct(data: { productID: number }) {
         const product = await prisma.product.findUnique({
             where: {
                 id: data.productID
@@ -119,7 +165,8 @@ export class ProductModel {
     }
 
     async updateProduct(data: {
-        productID: string;
+        productID: number;
+        companyID: number;
         productData: ProductUpdateType;
     }) {
         const product = await prisma.product.update({
@@ -131,12 +178,17 @@ export class ProductModel {
                 price: data.productData.price,
                 image: data.productData.image,
                 stock: data.productData.stock,
-                Category: {
+                category: {
                     connectOrCreate: {
                         where: {
                             title: data.productData.category
                         },
                         create: {
+                            company: {
+                                connect: {
+                                    id: data.companyID
+                                }
+                            },
                             title: data.productData.category || "أخري"
                         }
                     }
@@ -198,7 +250,7 @@ export class ProductModel {
         return product;
     }
 
-    async deleteProduct(data: { productID: string }) {
+    async deleteProduct(data: { productID: number }) {
         const deletedProductColors = prisma.productColors.deleteMany({
             where: {
                 productId: data.productID

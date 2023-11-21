@@ -13,9 +13,14 @@ const orderModel = new OrderModel();
 
 export const createOrder = catchAsync(async (req, res) => {
     const orderData = OrderCreateSchema.parse(req.body);
-    const clientID = res.locals.user.id as string;
+    const clientID = +res.locals.user.id;
+    const companyID = +res.locals.user.companyID;
 
-    const createdOrder = await orderModel.createOrder(clientID, orderData);
+    const createdOrder = await orderModel.createOrder(
+        companyID,
+        clientID,
+        orderData
+    );
 
     res.status(200).json({
         status: "success",
@@ -55,12 +60,16 @@ export const getAllOrders = catchAsync(async (req, res) => {
         | DeliveryType
         | undefined;
 
-    const deliveryAgentID = req.query.delivery_agent_id as string;
-    const clientID = req.query.client_id as string;
-    const storeID = req.query.store_id as string;
+    const deliveryAgentID = req.query.delivery_agent_id
+        ? +req.query.delivery_agent_id
+        : undefined;
+    const clientID = req.query.client_id ? +req.query.client_id : undefined;
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
     // const repositoryID = req.query.repository_id as string;
-    const productID = req.query.product_id as string;
-    const locationID = req.query.location_id as string;
+    const productID = req.query.product_id ? +req.query.product_id : undefined;
+    const locationID = req.query.location_id
+        ? +req.query.location_id
+        : undefined;
 
     const receiptNumber = req.query.receipt_number
         ? +req.query.receipt_number
@@ -129,7 +138,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
 });
 
 export const getOrder = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
+    const orderID = +req.params["orderID"];
 
     const order = await orderModel.getOrder({
         orderID: orderID
@@ -142,7 +151,7 @@ export const getOrder = catchAsync(async (req, res) => {
 });
 
 export const updateOrder = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
+    const orderID = +req.params["orderID"];
 
     const orderData = OrderUpdateSchema.parse(req.body);
 
@@ -160,7 +169,7 @@ export const updateOrder = catchAsync(async (req, res) => {
         data: newOrder
     });
 
-    if (oldOrderData?.status !== newOrder.status) {
+    if (oldOrderData?.status !== newOrder?.status) {
         const oldTimeline = oldOrderData?.timeline;
         await orderModel.updateOrderTimeline({
             orderID: orderID,
@@ -169,8 +178,8 @@ export const updateOrder = catchAsync(async (req, res) => {
                 {
                     type: "STATUS_CHANGE",
                     old: oldOrderData?.status,
-                    new: newOrder.status,
-                    date: newOrder.updatedAt
+                    new: newOrder?.status,
+                    date: newOrder?.updatedAt
                 }
             ]
         });
@@ -178,7 +187,7 @@ export const updateOrder = catchAsync(async (req, res) => {
 });
 
 export const deleteOrder = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
+    const orderID = +req.params["orderID"];
 
     await orderModel.deleteOrder({
         orderID: orderID
@@ -215,29 +224,9 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
 export const getAllOrdersStatuses = catchAsync(async (req, res) => {
     const ordersStatuses = await orderModel.getAllOrdersStatuses();
 
-    const ordersStatusesReformed = (
-        Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-    ).map((status) => {
-        const statusCount = ordersStatuses.find((orderStatus) => {
-            return orderStatus.status === status;
-        });
-
-        return {
-            status: status,
-            count: statusCount?._count?.status || 0
-        };
-    });
-
-    // const ordersStatusesReformed = ordersStatuses.map((orderStatus) => {
-    //     return {
-    //         status: orderStatus.status,
-    //         count: orderStatus._count.status
-    //     };
-    // });
-
     res.status(200).json({
         status: "success",
-        data: ordersStatusesReformed
+        data: ordersStatuses
     });
 });
 
@@ -245,22 +234,18 @@ export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
     const todayOrdersCountAndEarnings =
         await orderModel.getTodayOrdersCountAndEarnings();
 
-    const todayOrdersCountAndEarningsReformed = {
-        count: todayOrdersCountAndEarnings._count.id,
-        totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
-    };
-
     res.status(200).json({
         status: "success",
-        data: todayOrdersCountAndEarningsReformed
+        data: todayOrdersCountAndEarnings
     });
 });
 
 export const getOrdersStatistics = catchAsync(async (req, res) => {
-    const storeID = req.query.store_id as string;
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    const tenantID = req.query.tenant_id as string;
+    const tenantID = req.query.tenant_id ? +req.query.tenant_id : undefined;
 
+    // TODO: Fix this
     const recorded = (
         req.query.recorded === "true"
             ? true
@@ -290,53 +275,14 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
         endDate: endDate
     });
 
-    const statisticsReformed = {
-        ordersStatisticsByStatus: (
-            Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-        ).map((status) => {
-            const statusCount = statistics.ordersStatisticsByStatus.find(
-                (orderStatus) => {
-                    return orderStatus.status === status;
-                }
-            );
-            return {
-                status: status,
-                totalCost: statusCount?._sum.totalCost || 0,
-                count: statusCount?._count.id || 0
-            };
-        }),
-        ordersStatisticsByGovernorate: (
-            Object.keys(Governorate) as Array<keyof typeof Governorate>
-        ).map((governorate) => {
-            const governorateCount =
-                statistics.ordersStatisticsByGovernorate.find((orderStatus) => {
-                    return orderStatus.governorate === governorate;
-                });
-            return {
-                governorate: governorate,
-                totalCost: governorateCount?._sum.totalCost || 0,
-                count: governorateCount?._count.id || 0
-            };
-        }),
-        allOrdersStatistics: {
-            totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
-            count: statistics.allOrdersStatistics._count.id
-        }
-    };
-
-    // const statisticsReformed = {
-    //     totalCost: statistics._sum.totalCost || 0,
-    //     count: statistics._count.id
-    // };
-
     res.status(200).json({
         status: "success",
-        data: statisticsReformed
+        data: statistics
     });
 });
 
 export const getOrderTimeline = catchAsync(async (req, res) => {
-    const orderID = req.params["orderID"];
+    const orderID = +req.params["orderID"];
 
     const orderTimeline = await orderModel.getOrderTimeline({
         orderID: orderID

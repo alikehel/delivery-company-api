@@ -10,9 +10,12 @@ const repositoryModel = new RepositoryModel();
 
 export const createRepository = catchAsync(async (req, res) => {
     const repositoryData = RepositoryCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
 
-    const createdRepository =
-        await repositoryModel.createRepository(repositoryData);
+    const createdRepository = await repositoryModel.createRepository(
+        companyID,
+        repositoryData
+    );
 
     res.status(200).json({
         status: "success",
@@ -63,7 +66,7 @@ export const getAllRepositories = catchAsync(async (req, res) => {
 });
 
 export const getRepository = catchAsync(async (req, res) => {
-    const repositoryID = req.params["repositoryID"];
+    const repositoryID = +req.params["repositoryID"];
 
     const repository = await repositoryModel.getRepository({
         repositoryID: repositoryID
@@ -76,7 +79,7 @@ export const getRepository = catchAsync(async (req, res) => {
 });
 
 export const updateRepository = catchAsync(async (req, res) => {
-    const repositoryID = req.params["repositoryID"];
+    const repositoryID = +req.params["repositoryID"];
 
     const repositoryData = RepositoryUpdateSchema.parse(req.body);
 
@@ -92,7 +95,7 @@ export const updateRepository = catchAsync(async (req, res) => {
 });
 
 export const deleteRepository = catchAsync(async (req, res) => {
-    const repositoryID = req.params["repositoryID"];
+    const repositoryID = +req.params["repositoryID"];
 
     await repositoryModel.deleteRepository({
         repositoryID: repositoryID

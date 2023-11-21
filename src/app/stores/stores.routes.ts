@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
@@ -16,7 +16,7 @@ const router = Router();
 
 router.route("/stores").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     upload.single("logo"),
     createStore
     /*
@@ -38,7 +38,7 @@ router.route("/stores").post(
 
 router.route("/stores").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllStores
     /*
         #swagger.tags = ['Stores Routes']
@@ -59,7 +59,7 @@ router.route("/stores").get(
 
 router.route("/stores/:storeID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -68,7 +68,7 @@ router.route("/stores/:storeID").get(
 
 router.route("/stores/:storeID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     upload.single("logo"),
     updateStore
     /*
@@ -90,7 +90,7 @@ router.route("/stores/:storeID").patch(
 
 router.route("/stores/:storeID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteStore
     /*
         #swagger.tags = ['Stores Routes']

@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { AdminRole, PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../config/config";
 // import Logger from "../lib/logger";
@@ -147,24 +147,42 @@ const notifications = [
 ];
 
 async function main() {
-    // create two dummy articles
-    const superAdmin = await prisma.user.upsert({
-        where: { username: "superadmin" },
+    const superAdmin = await prisma.admin.upsert({
+        where: {
+            user: {
+                username: "superadmin",
+                id: 1
+            },
+            userId: 1
+        },
         update: {
-            name: "Super Admin",
-            username: "superadmin",
-            password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
-            phone: "01000000000",
-            salary: 0,
-            role: Role.SUPER_ADMIN
+            user: {
+                update: {
+                    name: "Super Admin",
+                    username: "superadmin",
+                    password: bcrypt.hashSync(
+                        "superadmin" + (SECRET as string),
+                        12
+                    ),
+                    phone: "01000000000"
+                }
+            },
+            role: AdminRole.SUPER_ADMIN
         },
         create: {
-            name: "Super Admin",
-            username: "superadmin",
-            password: bcrypt.hashSync("superadmin" + (SECRET as string), 12),
-            phone: "01000000000",
-            salary: 0,
-            role: Role.SUPER_ADMIN
+            user: {
+                create: {
+                    id: 1,
+                    name: "Super Admin",
+                    username: "superadmin",
+                    password: bcrypt.hashSync(
+                        "superadmin" + (SECRET as string),
+                        12
+                    ),
+                    phone: "01000000000"
+                }
+            },
+            role: AdminRole.SUPER_ADMIN
         }
     });
 
@@ -176,9 +194,9 @@ async function main() {
     //   },
     // });
 
-    await prisma.notification.createMany({
-        data: notifications
-    });
+    // await prisma.notification.createMany({
+    //     data: notifications
+    // });
 
     console.log({ superAdmin });
     // Logger.info({ superAdmin });

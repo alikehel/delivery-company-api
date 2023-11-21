@@ -9,34 +9,37 @@ const reportModel = new ReportModel();
 const orderModel = new OrderModel();
 
 export class ReportService {
-    async createReport(data: {
-        loggedInUserID: string;
-        reportData: ReportCreateType;
-    }) {
+    async createReport(
+        companyID: number,
+        data: {
+            loggedInUserID: number;
+            reportData: ReportCreateType;
+        }
+    ) {
         const orders = await orderModel.getOrdersByIDs(data.reportData);
 
         if (data.reportData.type === ReportType.CLIENT) {
             orders.forEach((order) => {
-                if (order.clientReportReportNumber) {
+                if (order?.clientReportReportNumber) {
                     throw new AppError(
                         `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReportReportNumber}`,
                         400
                     );
                 }
                 // TODO
-                if (
-                    data.reportData.type === ReportType.CLIENT &&
-                    order.clientId !== data.reportData.clientID
-                ) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
-                        400
-                    );
-                }
+                // if (
+                //     data.reportData.type === ReportType.CLIENT &&
+                //     order.clientId !== data.reportData.clientID
+                // ) {
+                //     throw new AppError(
+                //         `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
+                //         400
+                //     );
+                // }
             });
         } else if (data.reportData.type === ReportType.REPOSITORY) {
             orders.forEach((order) => {
-                if (order.repositoryReportReportNumber) {
+                if (order?.repositoryReportReportNumber) {
                     throw new AppError(
                         `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
                         400
@@ -45,7 +48,7 @@ export class ReportService {
             });
         } else if (data.reportData.type === ReportType.BRANCH) {
             orders.forEach((order) => {
-                if (order.branchReportReportNumber) {
+                if (order?.branchReportReportNumber) {
                     throw new AppError(
                         `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
                         400
@@ -54,7 +57,7 @@ export class ReportService {
             });
         } else if (data.reportData.type === ReportType.GOVERNORATE) {
             orders.forEach((order) => {
-                if (order.governorateReportReportNumber) {
+                if (order?.governorateReportReportNumber) {
                     throw new AppError(
                         `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
                         400
@@ -63,27 +66,29 @@ export class ReportService {
             });
         } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
             orders.forEach((order) => {
-                if (order.deliveryAgentReportReportNumber) {
+                if (order?.deliveryAgentReportReportNumber) {
                     throw new AppError(
                         `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
                         400
                     );
                 }
             });
+        } else if (data.reportData.type === ReportType.COMPANY) {
+            orders.forEach((order) => {
+                if (order?.companyReportReportNumber) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReportReportNumber}`,
+                        400
+                    );
+                }
+            });
         }
-        // TODO
-        // else if (data.reportData.type === ReportType.COMPANY) {
-        //     orders.forEach((order) => {
-        //         if (order.companyReportReportNumber) {
-        //             throw new AppError(
-        //                 `الطلب ${order.receiptNumber} يوجد في كشف اخر رقمه ${order.companyReportReportNumber}`,
-        //                 400
-        //             );
-        //         }
-        //     });
-        // }
 
-        await reportModel.createReport(data.loggedInUserID, data.reportData);
+        await reportModel.createReport(
+            companyID,
+            data.loggedInUserID,
+            data.reportData
+        );
 
         // TODO
         const pdf = await generateReport(orders);
@@ -127,11 +132,24 @@ export class ReportService {
             | ReportType
             | undefined;
 
-        const branchID = data.queryString.branch_id as string;
-        const clientID = data.queryString.client_id as string;
-        const storeID = data.queryString.store_id as string;
-        const repositoryID = data.queryString.repository_id as string;
-        const deliveryAgentID = data.queryString.delivery_agent_id as string;
+        const branchID = data.queryString.branch_id
+            ? +data.queryString.branch_id
+            : undefined;
+        const clientID = data.queryString.client_id
+            ? +data.queryString.client_id
+            : undefined;
+        const storeID = data.queryString.store_id
+            ? +data.queryString.store_id
+            : undefined;
+        const repositoryID = data.queryString.repository_id
+            ? +data.queryString.repository_id
+            : undefined;
+        const deliveryAgentID = data.queryString.delivery_agent_id
+            ? +data.queryString.delivery_agent_id
+            : undefined;
+        const companyID = data.queryString.company_id
+            ? +data.queryString.company_id
+            : undefined;
         const governorate = data.queryString.governorate
             ?.toString()
             .toUpperCase();
@@ -164,33 +182,37 @@ export class ReportService {
             storeID: storeID,
             repositoryID: repositoryID,
             deliveryAgentID: deliveryAgentID,
-            governorate: governorate
+            governorate: governorate,
+            companyID: companyID
         });
 
         return { page, pagesCount, reports };
     }
 
-    async getReportPDF(data: { reportID: string }) {
+    async getReportPDF(data: { reportID: number }) {
         const reportData = await reportModel.getReport({
             reportID: data.reportID
         });
 
         // TODO: fix this
-        const orders: Order[] = reportData?.RepositoryReport
-            ? // @ts-expect-error: Unreachable code error
-              reportData?.RepositoryReport.orders
-            : reportData?.BranchReport
-            ? // @ts-expect-error: Unreachable code error
-              reportData?.BranchReport.orders
-            : reportData?.ClientReport
-            ? // @ts-expect-error: Unreachable code error
-              reportData?.ClientReport.orders
-            : reportData?.DeliveryAgentReport
-            ? // @ts-expect-error: Unreachable code error
-              reportData?.DeliveryAgentReport.orders
-            : reportData?.GovernorateReport
-            ? // @ts-expect-error: Unreachable code error
-              reportData?.GovernorateReport.orders
+        const orders: Order[] = reportData?.repositoryReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.repositoryReport.orders
+            : reportData?.branchReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.branchReport.orders
+            : reportData?.clientReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.clientReport.orders
+            : reportData?.deliveryAgentReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.deliveryAgentReport.orders
+            : reportData?.governorateReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.governorateReport.orders
+            : reportData?.companyReport
+            ? // @tts-expect-error: Unreachable code error
+              reportData?.companyReport.orders
             : [];
 
         const ordersIDs = orders.map((order) => order.id);

@@ -6,7 +6,7 @@ export const NotificationCreateSchema = z.object({
     title: z.string(),
     content: z.string(),
     seen: z.boolean().default(false).optional(),
-    userID: z.string().uuid()
+    userID: z.number()
 });
 
 export type NotificationCreateType = z.infer<typeof NotificationCreateSchema>;

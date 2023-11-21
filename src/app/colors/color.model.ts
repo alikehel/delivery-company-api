@@ -1,20 +1,36 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { ColorCreateType, ColorUpdateType } from "./colors.zod";
 
 const prisma = new PrismaClient();
 
+const colorSelect: Prisma.ColorSelect = {
+    id: true,
+    title: true,
+    createdAt: true,
+    updatedAt: true
+};
+
+// const colorReform = (color: any) => {
+//     return {
+//         id: color.id,
+//         title: color.title,
+//         createdAt: color.createdAt,
+//         updatedAt: color.updatedAt
+//     };
+// };
+
 export class ColorModel {
-    async createColor(data: ColorCreateType) {
+    async createColor(companyID: number, data: ColorCreateType) {
         const createdColor = await prisma.color.create({
             data: {
-                title: data.title
+                title: data.title,
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                }
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: colorSelect
         });
         return createdColor;
     }
@@ -31,32 +47,22 @@ export class ColorModel {
             orderBy: {
                 title: "desc"
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: colorSelect
         });
         return colors;
     }
 
-    async getColor(data: { colorID: string }) {
+    async getColor(data: { colorID: number }) {
         const color = await prisma.color.findUnique({
             where: {
                 id: data.colorID
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: colorSelect
         });
         return color;
     }
 
-    async updateColor(data: { colorID: string; colorData: ColorUpdateType }) {
+    async updateColor(data: { colorID: number; colorData: ColorUpdateType }) {
         const color = await prisma.color.update({
             where: {
                 id: data.colorID
@@ -64,22 +70,17 @@ export class ColorModel {
             data: {
                 title: data.colorData.title
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: colorSelect
         });
         return color;
     }
 
-    async deleteColor(data: { colorID: string }) {
-        const deletedColor = await prisma.color.delete({
+    async deleteColor(data: { colorID: number }) {
+        await prisma.color.delete({
             where: {
                 id: data.colorID
             }
         });
-        return deletedColor;
+        return true;
     }
 }

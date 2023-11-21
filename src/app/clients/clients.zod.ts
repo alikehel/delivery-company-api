@@ -1,16 +1,19 @@
 import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { AccountType } from "@prisma/client";
+import { ClientRole } from "@prisma/client";
 import { z } from "zod";
 
 export const ClientCreateSchema = z.object({
     name: z.string().min(3),
+    username: z.string().min(3),
     phone: z.string().regex(/^07[3-9][0-9]{8}$/),
-    accountType: z.nativeEnum(AccountType),
+    role: z.nativeEnum(ClientRole),
     token: z.string().optional(),
     password: z.string().min(6),
-    branchID: z.string().uuid(),
-    avatar: z.string().optional()
+    fcm: z.string().optional(),
+    // branchID: z.coerce.number(),
+    avatar: z.string().optional(),
+    companyID: z.coerce.number().optional()
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;
@@ -20,7 +23,7 @@ export const ClientCreateOpenAPISchema = generateSchema(ClientCreateSchema);
 export const ClientCreateMock = generateMock(ClientCreateSchema);
 
 export const ClientCreateSchemaWithUserID = ClientCreateSchema.extend({
-    userID: z.string()
+    userID: z.number()
 });
 
 export type ClientCreateTypeWithUserID = z.infer<

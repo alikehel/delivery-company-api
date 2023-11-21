@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createLocation,
@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/locations").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     createLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -36,7 +36,7 @@ router.route("/locations").post(
 
 router.route("/locations").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -57,7 +57,7 @@ router.route("/locations").get(
 
 router.route("/locations/:locationID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -66,7 +66,7 @@ router.route("/locations/:locationID").get(
 
 router.route("/locations/:locationID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -87,7 +87,7 @@ router.route("/locations/:locationID").patch(
 
 router.route("/locations/:locationID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']

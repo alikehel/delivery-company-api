@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import {
     NotificationCreateType,
     NotificationUpdateType
@@ -6,15 +6,33 @@ import {
 
 const prisma = new PrismaClient();
 
-// model Notification {
-//   id             String           @id @default(uuid())
-//   title          String
-//   price          Decimal
-//   createdAt      DateTime         @default(now())
-//   updatedAt      DateTime         @updatedAt
-//   image          String?
-//   stock          Int              @default(0)
-// }
+const notificationSelect: Prisma.NotificationSelect = {
+    id: true,
+    title: true,
+    content: true,
+    seen: true,
+    createdAt: true,
+    user: {
+        select: {
+            id: true,
+            fcm: true
+        }
+    }
+};
+
+const notificationReform = (notification: any) => {
+    return {
+        id: notification.id,
+        title: notification.title,
+        content: notification.content,
+        seen: notification.seen,
+        createdAt: notification.createdAt,
+        user: {
+            id: notification.user.id,
+            fcm: notification.user.fcm
+        }
+    };
+};
 
 export class NotificationModel {
     async createNotification(data: NotificationCreateType) {
@@ -27,17 +45,15 @@ export class NotificationModel {
                         id: data.userID
                     }
                 }
+                // company: {
+                //     connect: {
+                //         id: companyID
+                //     }
+                // }
             },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        fcm: true
-                    }
-                }
-            }
+            select: notificationSelect
         });
-        return createdNotification;
+        return notificationReform(createdNotification);
     }
 
     async getNotificationsCount() {
@@ -46,7 +62,7 @@ export class NotificationModel {
     }
 
     async getAllNotifications(
-        userID: string,
+        userID: number,
         skip: number,
         take: number,
         seen: boolean
@@ -69,19 +85,13 @@ export class NotificationModel {
             orderBy: {
                 createdAt: "desc"
             },
-            select: {
-                id: true,
-                title: true,
-                content: true,
-                seen: true,
-                createdAt: true
-            }
+            select: notificationSelect
         });
-        return notifications;
+        return notifications.map(notificationReform);
     }
 
     async updateNotification(data: {
-        notificationID: string;
+        notificationID: number;
         notificationData: NotificationUpdateType;
     }) {
         const notification = await prisma.notification.update({
@@ -91,18 +101,13 @@ export class NotificationModel {
             data: {
                 seen: data.notificationData.seen
             },
-            select: {
-                id: true,
-                title: true,
-                content: true,
-                seen: true
-            }
+            select: notificationSelect
         });
-        return notification;
+        return notificationReform(notification);
     }
 
     async updateNotifications(data: {
-        userID: string;
+        userID: number;
         notificationData: NotificationUpdateType;
     }) {
         const notification = await prisma.notification.updateMany({

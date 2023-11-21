@@ -1,12 +1,15 @@
 import {
-    AccountType,
+    // Role,
+    AdminRole,
+    ClientRole,
+    // AccountType,
     DeliveryType,
+    EmployeeRole,
     Governorate,
     OrderStatus,
     Permission,
     ReportStatus,
-    ReportType,
-    Role
+    ReportType
 } from "@prisma/client";
 
 export const localizeOrderStatus = (text: OrderStatus): string => {
@@ -62,7 +65,9 @@ export const localizeReportStatus = (text: ReportStatus): string => {
     }
 };
 
-export const localizeRole = (text: Role): string => {
+export const localizeRole = (
+    text: AdminRole | EmployeeRole | ClientRole
+): string => {
     switch (text) {
         case "COMPANY_MANAGER":
             return "مدير الشركه";
@@ -88,6 +93,10 @@ export const localizeRole = (text: Role): string => {
             return "مساعد عميل";
         case "CLIENT":
             return "عميل";
+        case "SUPER_ADMIN":
+            return "سوبر ادمن";
+        case "ADMIN":
+            return "ادمن";
         default:
             return text;
     }
@@ -170,18 +179,6 @@ export const localizeGovernorate = (text: Governorate): string => {
             return "السليمانية";
         case "WASIT":
             return "واسط";
-        default:
-            return text;
-    }
-};
-
-// TODO
-export const localizeAccountType = (text: AccountType): string => {
-    switch (text) {
-        case "CLIENT":
-            return "عميل";
-        case "CLIENT_ASSISTANT":
-            return "مساعد عميل";
         default:
             return text;
     }

@@ -1,10 +1,10 @@
 import swaggerAutogen from "swagger-autogen";
 import {
-    UserCreateMock,
-    UserCreateOpenAPISchema,
-    UserUpdateMock,
-    UserUpdateOpenAPISchema
-} from "./../app/users/users.zod";
+    EmployeeCreateMock,
+    EmployeeCreateOpenAPISchema,
+    EmployeeUpdateMock,
+    EmployeeUpdateOpenAPISchema
+} from "../app/employees/employees.zod";
 
 import {
     UserSigninMock,
@@ -40,11 +40,11 @@ import {
 } from "./../app/branches/branches.zod";
 
 import {
-    TenantCreateMock,
-    TenantCreateOpenAPISchema,
-    TenantUpdateMock,
-    TenantUpdateOpenAPISchema
-} from "./../app/tenants/tenants.zod";
+    CompanyCreateMock,
+    CompanyCreateOpenAPISchema,
+    CompanyUpdateMock,
+    CompanyUpdateOpenAPISchema
+} from "../app/companies/companies.zod";
 
 import {
     OrderCreateMock,
@@ -130,10 +130,10 @@ const doc = {
     },
     components: {
         examples: {
-            UserCreateExample: { value: UserCreateMock },
+            EmployeeCreateExample: { value: EmployeeCreateMock },
             UserSigninExample: { value: UserSigninMock },
             RepositoryCreateExample: { value: RepositoryCreateMock },
-            UserUpdateExample: { value: UserUpdateMock },
+            EmployeeUpdateExample: { value: EmployeeUpdateMock },
             RepositoryUpdateExample: { value: RepositoryUpdateMock },
             LocationCreateExample: { value: LocationCreateMock },
             LocationUpdateExample: { value: LocationUpdateMock },
@@ -141,8 +141,8 @@ const doc = {
             ClientUpdateExample: { value: ClientUpdateMock },
             BranchCreateExample: { value: BranchCreateMock },
             BranchUpdateExample: { value: BranchUpdateMock },
-            TenantCreateExample: { value: TenantCreateMock },
-            TenantUpdateExample: { value: TenantUpdateMock },
+            CompanyCreateExample: { value: CompanyCreateMock },
+            CompanyUpdateExample: { value: CompanyUpdateMock },
             OrderCreateExample: { value: OrderCreateMock },
             OrderUpdateExample: { value: OrderUpdateMock },
             ProductCreateExample: { value: ProductCreateMock },
@@ -204,10 +204,10 @@ const doc = {
                     }
                 }
             },
-            UserCreateSchema: UserCreateOpenAPISchema,
+            EmployeeCreateSchema: EmployeeCreateOpenAPISchema,
             UserSigninSchema: UserSigninOpenAPISchema,
             RepositoryCreateSchema: RepositoryCreateOpenAPISchema,
-            UserUpdateSchema: UserUpdateOpenAPISchema,
+            EmployeeUpdateSchema: EmployeeUpdateOpenAPISchema,
             RepositoryUpdateSchema: RepositoryUpdateOpenAPISchema,
             LocationCreateSchema: LocationCreateOpenAPISchema,
             LocationUpdateSchema: LocationUpdateOpenAPISchema,
@@ -215,8 +215,8 @@ const doc = {
             ClientUpdateSchema: ClientUpdateOpenAPISchema,
             BranchCreateSchema: BranchCreateOpenAPISchema,
             BranchUpdateSchema: BranchUpdateOpenAPISchema,
-            TenantCreateSchema: TenantCreateOpenAPISchema,
-            TenantUpdateSchema: TenantUpdateOpenAPISchema,
+            CompanyCreateSchema: CompanyCreateOpenAPISchema,
+            CompanyUpdateSchema: CompanyUpdateOpenAPISchema,
             OrderCreateSchema: OrderCreateOpenAPISchema,
             OrderUpdateSchema: OrderUpdateOpenAPISchema,
             ProductCreateSchema: ProductCreateOpenAPISchema,

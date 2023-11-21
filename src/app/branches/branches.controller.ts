@@ -7,8 +7,9 @@ const branchModel = new BranchModel();
 
 export const createBranch = catchAsync(async (req, res) => {
     const branchData = BranchCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
 
-    const createdBranch = await branchModel.createBranch(branchData);
+    const createdBranch = await branchModel.createBranch(companyID, branchData);
 
     res.status(200).json({
         status: "success",
@@ -59,7 +60,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
 });
 
 export const getBranch = catchAsync(async (req, res) => {
-    const branchID = req.params["branchID"];
+    const branchID = +req.params["branchID"];
 
     const branch = await branchModel.getBranch({
         branchID: branchID
@@ -72,7 +73,7 @@ export const getBranch = catchAsync(async (req, res) => {
 });
 
 export const updateBranch = catchAsync(async (req, res) => {
-    const branchID = req.params["branchID"];
+    const branchID = +req.params["branchID"];
 
     const branchData = BranchUpdateSchema.parse(req.body);
 
@@ -88,7 +89,7 @@ export const updateBranch = catchAsync(async (req, res) => {
 });
 
 export const deleteBranch = catchAsync(async (req, res) => {
-    const branchID = req.params["branchID"];
+    const branchID = +req.params["branchID"];
 
     await branchModel.deleteBranch({
         branchID: branchID

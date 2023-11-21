@@ -4,18 +4,18 @@ import { Governorate, ReportStatus, ReportType } from "@prisma/client";
 import { z } from "zod";
 
 export const ReportCreateBaseSchema = z.object({
-    ordersIDs: z.array(z.string().uuid()).min(1)
+    ordersIDs: z.array(z.number()).min(1)
 });
 
 export const ReportCreateSchema = z
     .discriminatedUnion("type", [
         z.object({
             type: z.literal(ReportType.COMPANY),
-            companyID: z.string().uuid()
+            companyID: z.number()
         }),
         z.object({
             type: z.literal(ReportType.DELIVERY_AGENT),
-            deliveryAgentID: z.string().uuid()
+            deliveryAgentID: z.number()
         }),
         z.object({
             type: z.literal(ReportType.GOVERNORATE),
@@ -23,16 +23,16 @@ export const ReportCreateSchema = z
         }),
         z.object({
             type: z.literal(ReportType.BRANCH),
-            branchID: z.string().uuid()
+            branchID: z.number()
         }),
         z.object({
             type: z.literal(ReportType.CLIENT),
-            clientID: z.string().uuid(),
-            storeID: z.string().uuid()
+            clientID: z.number(),
+            storeID: z.number()
         }),
         z.object({
             type: z.literal(ReportType.REPOSITORY),
-            repositoryID: z.string().uuid()
+            repositoryID: z.number()
         })
     ])
     .and(ReportCreateBaseSchema);

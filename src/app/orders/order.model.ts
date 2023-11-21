@@ -32,19 +32,27 @@ const orderSelect: Prisma.OrderSelect = {
     timeline: true,
     client: {
         select: {
-            id: true,
-            name: true,
-            phone: true
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true
+                }
+            }
         }
     },
     deliveryAgent: {
         select: {
-            id: true,
-            name: true,
-            phone: true
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true
+                }
+            }
         }
     },
-    OrderProducts: {
+    orderProducts: {
         select: {
             quantity: true,
             product: true,
@@ -70,11 +78,189 @@ const orderSelect: Prisma.OrderSelect = {
     branchReportReportNumber: true,
     // tenantReportReportNumber: true,
     deliveryAgentReportReportNumber: true,
-    governorateReportReportNumber: true
+    governorateReportReportNumber: true,
+    companyReportReportNumber: true
+};
+
+const orderReform = (
+    order: any
+    //     Prisma.OrderGetPayload<{
+    //     include: Prisma.OrderInclude;
+    // }> | null
+) => {
+    if (!order) {
+        return null;
+    }
+    return {
+        id: order.id,
+        totalCost: order.totalCost,
+        paidAmount: order.paidAmount,
+        totalCostInUSD: order.totalCostInUSD,
+        paidAmountInUSD: order.paidAmountInUSD,
+        discount: order.discount,
+        receiptNumber: order.receiptNumber,
+        quantity: order.quantity,
+        weight: order.weight,
+        recipientName: order.recipientName,
+        recipientPhone: order.recipientPhone,
+        recipientAddress: order.recipientAddress,
+        notes: order.notes,
+        details: order.details,
+        status: order.status,
+        deliveryType: order.deliveryType,
+        deliveryDate: order.deliveryDate,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+        timeline: order.timeline,
+        // TODO
+        // client: {
+        //     id: order.client.user.id,
+        //     name: order.client.user.name,
+        //     phone: order.client.user.phone
+        // },
+        // client: order.client
+        //     ? {
+        //           id: order.client.user.id,
+        //           name: order.client.user.name,
+        //           phone: order.client.user.phone
+        //       }
+        //     : undefined,
+        deliveryAgent: order.deliveryAgent
+            ? {
+                  id: order.deliveryAgent.user.id,
+                  name: order.deliveryAgent.user.name,
+                  phone: order.deliveryAgent.user.phone
+              }
+            : undefined,
+        orderProducts: order.orderProducts.map((orderProduct: any) => {
+            return {
+                quantity: orderProduct.quantity,
+                product: {
+                    id: orderProduct.product.id,
+                    title: orderProduct.product.title,
+                    price: orderProduct.product.price,
+                    weight: orderProduct.product.weight,
+                    image: orderProduct.product.image,
+                    createdAt: orderProduct.product.createdAt,
+                    updatedAt: orderProduct.product.updatedAt
+                },
+                color: orderProduct.color
+                    ? {
+                          id: orderProduct.color.id,
+                          title: orderProduct.color.title,
+                          createdAt: orderProduct.color.createdAt,
+                          updatedAt: orderProduct.color.updatedAt
+                      }
+                    : undefined,
+                size: orderProduct.size
+                    ? {
+                          id: orderProduct.size.id,
+                          title: orderProduct.size.title,
+                          createdAt: orderProduct.size.createdAt,
+                          updatedAt: orderProduct.size.updatedAt
+                      }
+                    : undefined
+            };
+        }),
+        governorate: order.governorate,
+        location: order.location
+            ? {
+                  id: order.location.id,
+                  name: order.location.name
+              }
+            : undefined,
+        store: order.store
+            ? {
+                  id: order.store.id,
+                  name: order.store.name
+              }
+            : undefined,
+        clientReportReportNumber: order.clientReportReportNumber,
+        repositoryReportReportNumber: order.repositoryReportReportNumber,
+        branchReportReportNumber: order.branchReportReportNumber,
+        // tenantReportReportNumber: order.tenantReportReportNumber,
+        deliveryAgentReportReportNumber: order.deliveryAgentReportReportNumber,
+        governorateReportReportNumber: order.governorateReportReportNumber,
+        companyReportReportNumber: order.companyReportReportNumber
+    };
+};
+
+const ordersStatusesReformed = (ordersStatuses: any[]) => {
+    const ordersStatusesReformed = (
+        Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+    ).map((status) => {
+        const statusCount = ordersStatuses.find(
+            (orderStatus: { status: string }) => {
+                return orderStatus.status === status;
+            }
+        );
+
+        return {
+            status: status,
+            count: statusCount?._count?.status || 0
+        };
+    });
+
+    return ordersStatusesReformed;
+};
+
+const statisticsReformed = (statistics: any) => {
+    const statisticsReformed = {
+        ordersStatisticsByStatus: (
+            Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+        ).map((status) => {
+            const statusCount = statistics.ordersStatisticsByStatus.find(
+                (orderStatus: { status: string }) => {
+                    return orderStatus.status === status;
+                }
+            );
+            return {
+                status: status,
+                totalCost: statusCount?._sum.totalCost || 0,
+                count: statusCount?._count.id || 0
+            };
+        }),
+        ordersStatisticsByGovernorate: (
+            Object.keys(Governorate) as Array<keyof typeof Governorate>
+        ).map((governorate) => {
+            const governorateCount =
+                statistics.ordersStatisticsByGovernorate.find(
+                    (orderStatus: { governorate: string }) => {
+                        return orderStatus.governorate === governorate;
+                    }
+                );
+            return {
+                governorate: governorate,
+                totalCost: governorateCount?._sum.totalCost || 0,
+                count: governorateCount?._count.id || 0
+            };
+        }),
+        allOrdersStatistics: {
+            totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
+            count: statistics.allOrdersStatistics._count.id
+        }
+    };
+
+    return statisticsReformed;
+};
+
+const todayOrdersCountAndEarningsReformed = (
+    todayOrdersCountAndEarnings: any
+) => {
+    const todayOrdersCountAndEarningsReformed = {
+        count: todayOrdersCountAndEarnings._count.id,
+        totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
+    };
+
+    return todayOrdersCountAndEarningsReformed;
 };
 
 export class OrderModel {
-    async createOrder(clientID: string, data: OrderCreateType) {
+    async createOrder(
+        companyID: number,
+        clientID: number,
+        data: OrderCreateType
+    ) {
         let totalCost = 0;
         let quantity = 0;
         let weight = 0;
@@ -125,6 +311,11 @@ export class OrderModel {
                         id: data.storeID
                     }
                 },
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                },
                 // client: {
                 //     connect: {
                 //         // id: clientID
@@ -133,7 +324,7 @@ export class OrderModel {
                 //         id: "b3ca03c2-3630-42a1-a433-f803242212b7"
                 //     }
                 // },
-                OrderProducts:
+                orderProducts:
                     data.withProducts === false
                         ? undefined
                         : {
@@ -165,7 +356,7 @@ export class OrderModel {
             },
             select: orderSelect
         });
-        return createdOrder;
+        return orderReform(createdOrder);
     }
 
     async getOrdersCount() {
@@ -204,12 +395,12 @@ export class OrderModel {
             governorate?: Governorate;
             status?: OrderStatus;
             deliveryType?: DeliveryType;
-            deliveryAgentID?: string;
-            clientID?: string;
-            storeID?: string;
-            // repositoryID?: string;
-            productID?: string;
-            locationID?: string;
+            deliveryAgentID?: number;
+            clientID?: number;
+            storeID?: number;
+            // repositoryID?: number;
+            productID?: number;
+            locationID?: number;
             receiptNumber?: number;
             recipientName?: string;
             recipientPhone?: string;
@@ -322,7 +513,7 @@ export class OrderModel {
                     // },
                     // Filter by productID
                     {
-                        OrderProducts: filters.productID
+                        orderProducts: filters.productID
                             ? {
                                   some: {
                                       product: {
@@ -379,10 +570,10 @@ export class OrderModel {
             select: orderSelect
         });
 
-        return orders;
+        return orders.map(orderReform);
     }
     // eslint-disable-next-line no-unused-vars
-    async getOrdersByIDs(data: { ordersIDs: string[] }) {
+    async getOrdersByIDs(data: { ordersIDs: number[] }) {
         const orders = await prisma.order.findMany({
             where: {
                 id: {
@@ -391,20 +582,20 @@ export class OrderModel {
             },
             select: orderSelect
         });
-        return orders;
+        return orders.map(orderReform);
     }
 
-    async getOrder(data: { orderID: string }) {
+    async getOrder(data: { orderID: number }) {
         const order = await prisma.order.findUnique({
             where: {
                 id: data.orderID
             },
             select: orderSelect
         });
-        return order;
+        return orderReform(order);
     }
 
-    async updateOrder(data: { orderID: string; orderData: OrderUpdateType }) {
+    async updateOrder(data: { orderID: number; orderData: OrderUpdateType }) {
         const order = await prisma.order.update({
             where: {
                 id: data.orderID
@@ -429,16 +620,16 @@ export class OrderModel {
             },
             select: orderSelect
         });
-        return order;
+        return orderReform(order);
     }
 
-    async deleteOrder(data: { orderID: string }) {
-        const deletedOrder = await prisma.order.delete({
+    async deleteOrder(data: { orderID: number }) {
+        await prisma.order.delete({
             where: {
                 id: data.orderID
             }
         });
-        return deletedOrder;
+        return true;
     }
 
     async getAllOrdersStatuses() {
@@ -448,7 +639,7 @@ export class OrderModel {
                 status: true
             }
         });
-        return ordersStatuses;
+        return ordersStatusesReformed(ordersStatuses);
     }
 
     async getTodayOrdersCountAndEarnings() {
@@ -468,12 +659,12 @@ export class OrderModel {
                 }
             }
         });
-        return todayOrdersCountAndEarnings;
+        return todayOrdersCountAndEarningsReformed(todayOrdersCountAndEarnings);
     }
 
     async getOrdersStatistics(filters: {
-        tenantID?: string;
-        storeID?: string;
+        tenantID?: number;
+        storeID?: number;
         recorded?: boolean;
         // status?: OrderStatus;
         startDate?: Date;
@@ -558,14 +749,14 @@ export class OrderModel {
             }
         });
 
-        return {
+        return statisticsReformed({
             ordersStatisticsByStatus,
             ordersStatisticsByGovernorate,
             allOrdersStatistics
-        };
+        });
     }
 
-    async getOrderTimeline(data: { orderID: string }) {
+    async getOrderTimeline(data: { orderID: number }) {
         const orderTimeline = await prisma.order.findUnique({
             where: {
                 id: data.orderID
@@ -578,7 +769,7 @@ export class OrderModel {
     }
 
     async updateOrderTimeline(data: {
-        orderID: string;
+        orderID: number;
         timeline: {
             type: string;
             old: string;

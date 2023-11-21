@@ -1,20 +1,36 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { CategoryCreateType, CategoryUpdateType } from "./categories.zod";
 
 const prisma = new PrismaClient();
 
+const categorySelect: Prisma.CategorySelect = {
+    id: true,
+    title: true,
+    createdAt: true,
+    updatedAt: true
+};
+
+// const categoryReform = (category: any) => {
+//     return {
+//         id: category.id,
+//         title: category.title,
+//         createdAt: category.createdAt,
+//         updatedAt: category.updatedAt
+//     };
+// };
+
 export class CategoryModel {
-    async createCategory(data: CategoryCreateType) {
+    async createCategory(companyID: number, data: CategoryCreateType) {
         const createdCategory = await prisma.category.create({
             data: {
-                title: data.title
+                title: data.title,
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                }
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: categorySelect
         });
         return createdCategory;
     }
@@ -31,33 +47,23 @@ export class CategoryModel {
             orderBy: {
                 title: "desc"
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: categorySelect
         });
         return categories;
     }
 
-    async getCategory(data: { categoryID: string }) {
+    async getCategory(data: { categoryID: number }) {
         const category = await prisma.category.findUnique({
             where: {
                 id: data.categoryID
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: categorySelect
         });
         return category;
     }
 
     async updateCategory(data: {
-        categoryID: string;
+        categoryID: number;
         categoryData: CategoryUpdateType;
     }) {
         const category = await prisma.category.update({
@@ -67,22 +73,17 @@ export class CategoryModel {
             data: {
                 title: data.categoryData.title
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: categorySelect
         });
         return category;
     }
 
-    async deleteCategory(data: { categoryID: string }) {
-        const deletedCategory = await prisma.category.delete({
+    async deleteCategory(data: { categoryID: number }) {
+        await prisma.category.delete({
             where: {
                 id: data.categoryID
             }
         });
-        return deletedCategory;
+        return true;
     }
 }

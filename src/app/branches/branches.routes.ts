@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createBranch,
@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/branches").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     createBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -36,7 +36,7 @@ router.route("/branches").post(
 
 router.route("/branches").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllBranches
     /*
         #swagger.tags = ['Branches Routes']
@@ -57,7 +57,7 @@ router.route("/branches").get(
 
 router.route("/branches/:branchID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -66,7 +66,7 @@ router.route("/branches/:branchID").get(
 
 router.route("/branches/:branchID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     updateBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -87,7 +87,7 @@ router.route("/branches/:branchID").patch(
 
 router.route("/branches/:branchID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteBranch
     /*
         #swagger.tags = ['Branches Routes']

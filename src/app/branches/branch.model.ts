@@ -1,24 +1,31 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { BranchCreateType, BranchUpdateType } from "./branches.zod";
 
 const prisma = new PrismaClient();
 
+const branchSelect: Prisma.BranchSelect = {
+    id: true,
+    name: true,
+    email: true,
+    phone: true,
+    governorate: true
+};
+
 export class BranchModel {
-    async createBranch(data: BranchCreateType) {
+    async createBranch(companyID: number, data: BranchCreateType) {
         const createdBranch = await prisma.branch.create({
             data: {
                 name: data.name,
                 email: data.email,
                 phone: data.phone,
-                governorate: data.governorate
+                governorate: data.governorate,
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                }
             },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                phone: true,
-                governorate: true
-            }
+            select: branchSelect
         });
         return createdBranch;
     }
@@ -35,35 +42,23 @@ export class BranchModel {
             orderBy: {
                 name: "desc"
             },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                phone: true,
-                governorate: true
-            }
+            select: branchSelect
         });
         return branches;
     }
 
-    async getBranch(data: { branchID: string }) {
+    async getBranch(data: { branchID: number }) {
         const branch = await prisma.branch.findUnique({
             where: {
                 id: data.branchID
             },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                phone: true,
-                governorate: true
-            }
+            select: branchSelect
         });
         return branch;
     }
 
     async updateBranch(data: {
-        branchID: string;
+        branchID: number;
         branchData: BranchUpdateType;
     }) {
         const branch = await prisma.branch.update({
@@ -76,23 +71,17 @@ export class BranchModel {
                 phone: data.branchData.phone,
                 governorate: data.branchData.governorate
             },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                phone: true,
-                governorate: true
-            }
+            select: branchSelect
         });
         return branch;
     }
 
-    async deleteBranch(data: { branchID: string }) {
-        const deletedBranch = await prisma.branch.delete({
+    async deleteBranch(data: { branchID: number }) {
+        await prisma.branch.delete({
             where: {
                 id: data.branchID
             }
         });
-        return deletedBranch;
+        return true;
     }
 }

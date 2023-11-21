@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-import { Role } from "@prisma/client";
+import {
+    AdminRole,
+    ClientRole,
+    EmployeeRole,
+    Permission
+} from "@prisma/client";
 import AppError from "../utils/AppError.util";
 
 export const isAutherized = (allowedRoles: string[]) => {
@@ -10,7 +15,9 @@ export const isAutherized = (allowedRoles: string[]) => {
             id: string;
             name: string;
             username: string;
-            role: Role;
+            role: AdminRole | EmployeeRole | ClientRole;
+            permissions: Permission[];
+            companyID: number;
         };
 
         if (res.locals.user) {

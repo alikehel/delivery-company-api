@@ -1,82 +1,104 @@
-import { PrismaClient, Role } from "@prisma/client";
-import { UserCreateType, UserUpdateType } from "./users.zod";
+import { PrismaClient } from "@prisma/client";
+// import { UserCreateType, UserUpdateType } from "./users.zod";
 
 const prisma = new PrismaClient();
 
+const userSelect = {
+    id: true,
+    avatar: true,
+    name: true,
+    username: true,
+    phone: true
+};
+
+// const userSelectReform = (user: any) => {
+//     return {
+//         id: user.id,
+//         avatar: user.avatar,
+//         name: user.name,
+//         username: user.username,
+//         phone: user.phone
+//     };
+// };
+
 export class UserModel {
-    async createUser(data: UserCreateType) {
-        const createdUser = await prisma.user.create({
-            data: {
-                name: data.name,
-                username: data.username,
-                password: data.password,
-                phone: data.phone,
-                salary: data.salary,
-                role: data.role,
-                fcm: data.fcm,
-                avatar: data.avatar,
-                permissions: {
-                    set: data.permissions
-                },
-                branch: {
-                    connect: {
-                        id: data.branchID
-                    }
-                },
-                repository: {
-                    connect: {
-                        id: data.repositoryID
-                    }
-                }
-            },
-            select: {
-                id: true,
-                avatar: true,
-                name: true,
-                username: true,
-                phone: true,
-                salary: true,
-                role: true,
-                permissions: true,
-                branch: true,
-                repository: true
-            }
-        });
-        return createdUser;
-    }
+    // async createUser(data: UserCreateType) {
+    //     const createdUser = await prisma.user.create({
+    //         data: {
+    //             name: data.name,
+    //             username: data.username,
+    //             password: data.password,
+    //             phone: data.phone,
+    //             salary: data.salary,
+    //             role: data.role,
+    //             fcm: data.fcm,
+    //             avatar: data.avatar,
+    //             permissions: {
+    //                 set: data.permissions
+    //             },
+    //             branch: {
+    //                 connect: {
+    //                     id: data.branchID
+    //                 }
+    //             },
+    //             repository: {
+    //                 connect: {
+    //                     id: data.repositoryID
+    //                 }
+    //             }
+    //         },
+    //         select: {
+    //             id: true,
+    //             avatar: true,
+    //             name: true,
+    //             username: true,
+    //             phone: true,
+    //             salary: true,
+    //             role: true,
+    //             permissions: true,
+    //             branch: true,
+    //             repository: true
+    //         }
+    //     });
+    //     return createdUser;
+    // }
 
-    async getUsersCount() {
-        const usersCount = await prisma.user.count();
-        return usersCount;
-    }
+    // async getUsersCount() {
+    //     const usersCount = await prisma.user.count();
+    //     return usersCount;
+    // }
 
-    async getAllUsers(skip: number, take: number, filters: { roles?: Role[] }) {
-        const users = await prisma.user.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                AND: [{ role: { in: filters.roles } }]
-            },
-            orderBy: {
-                name: "desc"
-            },
-            select: {
-                id: true,
-                avatar: true,
-                name: true,
-                username: true,
-                phone: true,
-                salary: true,
-                role: true,
-                permissions: true,
-                branch: true,
-                repository: true
-            }
-        });
-        return users;
-    }
+    // async getAllUsers(
+    //     skip: number,
+    //     take: number,
+    //     filters: { roles?: UserRole[] }
+    // ) {
+    //     const users = await prisma.user.findMany({
+    //         skip: skip,
+    //         take: take,
+    //         where: {
+    //             AND: [{ role: { in: filters.roles } }]
+    //         },
+    //         orderBy: {
+    //             name: "desc"
+    //         },
+    //         select: {
+    //             id: true,
+    //             avatar: true,
+    //             name: true,
+    //             username: true,
+    //             phone: true,
+    //             salary: true,
+    //             role: true,
+    //             permissions: true,
+    //             branch: true,
+    //             repository: true
+    //         }
+    //     });
+    //     return users;
+    // }
 
-    async getUser(data: { userID: string }) {
+    async getUser(data: { userID: number }) {
         const user = await prisma.user.findUnique({
             where: {
                 id: data.userID
@@ -86,69 +108,31 @@ export class UserModel {
                 avatar: true,
                 name: true,
                 username: true,
-                phone: true,
-                salary: true,
-                role: true,
-                permissions: true,
-                branch: true,
-                repository: true
+                phone: true
             }
         });
         return user;
     }
 
-    async updateUser(data: { userID: string; userData: UserUpdateType }) {
+    async updateUser(data: { userID: number; userData: { fcm: string } }) {
         const user = await prisma.user.update({
             where: {
                 id: data.userID
             },
             data: {
-                name: data.userData.name,
-                username: data.userData.username,
-                password: data.userData.password,
-                phone: data.userData.phone,
-                salary: data.userData.salary,
-                role: data.userData.role,
-                permissions: data.userData.permissions,
-                fcm: data.userData.fcm,
-                avatar: data.userData.avatar,
-                branch: data.userData.branchID
-                    ? {
-                          connect: {
-                              id: data.userData.branchID
-                          }
-                      }
-                    : undefined,
-                repository: data.userData.repositoryID
-                    ? {
-                          connect: {
-                              id: data.userData.repositoryID
-                          }
-                      }
-                    : undefined
+                fcm: data.userData.fcm
             },
-            select: {
-                id: true,
-                avatar: true,
-                name: true,
-                username: true,
-                phone: true,
-                salary: true,
-                role: true,
-                permissions: true,
-                branch: true,
-                repository: true
-            }
+            select: userSelect
         });
         return user;
     }
 
-    async deleteUser(data: { userID: string }) {
-        const deletedUser = await prisma.user.delete({
-            where: {
-                id: data.userID
-            }
-        });
-        return deletedUser;
-    }
+    // async deleteUser(data: { userID: number }) {
+    //     const deletedUser = await prisma.user.delete({
+    //         where: {
+    //             id: data.userID
+    //         }
+    //     });
+    //     return deletedUser;
+    // }
 }

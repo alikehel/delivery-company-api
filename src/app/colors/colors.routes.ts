@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createColor,
@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/colors").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     createColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -36,7 +36,7 @@ router.route("/colors").post(
 
 router.route("/colors").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getAllColors
     /*
         #swagger.tags = ['Colors Routes']
@@ -57,7 +57,7 @@ router.route("/colors").get(
 
 router.route("/colors/:colorID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     getColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -66,7 +66,7 @@ router.route("/colors/:colorID").get(
 
 router.route("/colors/:colorID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     updateColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -87,7 +87,7 @@ router.route("/colors/:colorID").patch(
 
 router.route("/colors/:colorID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.SUPER_ADMIN]),
     deleteColor
     /*
         #swagger.tags = ['Colors Routes']

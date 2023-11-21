@@ -1,34 +1,34 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
+import { AdminRole } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
-    createTenant,
-    deleteTenant,
-    getAllTenants,
-    getTenant,
-    updateTenant
-} from "./tenants.controller";
+    createCompany,
+    deleteCompany,
+    getAllCompanies,
+    getCompany,
+    updateCompany
+} from "./companies.controller";
 
 const router = Router();
 
-router.route("/tenants").post(
+router.route("/companies").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    isAutherized([AdminRole.SUPER_ADMIN]),
     upload.single("logo"),
-    createTenant
+    createCompany
     /*
-        #swagger.tags = ['Tenants Routes']
+        #swagger.tags = ['Companies Routes']
 
         #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
-                    schema: { $ref: "#/components/schemas/TenantCreateSchema" },
+                    schema: { $ref: "#/components/schemas/CompanyCreateSchema" },
                     examples: {
-                        TenantCreateExample: { $ref: "#/components/examples/TenantCreateExample" }
+                        CompanyCreateExample: { $ref: "#/components/examples/CompanyCreateExample" }
                     }
                 }
             }
@@ -36,12 +36,12 @@ router.route("/tenants").post(
     */
 );
 
-router.route("/tenants").get(
+router.route("/companies").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
-    getAllTenants
+    isAutherized([AdminRole.SUPER_ADMIN]),
+    getAllCompanies
     /*
-        #swagger.tags = ['Tenants Routes']
+        #swagger.tags = ['Companies Routes']
 
         #swagger.parameters['page'] = {
             in: 'query',
@@ -57,30 +57,30 @@ router.route("/tenants").get(
     */
 );
 
-router.route("/tenants/:tenantID").get(
+router.route("/companies/:companyID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
-    getTenant
+    isAutherized([AdminRole.SUPER_ADMIN]),
+    getCompany
     /*
-        #swagger.tags = ['Tenants Routes']
+        #swagger.tags = ['Companies Routes']
     */
 );
 
-router.route("/tenants/:tenantID").patch(
+router.route("/companies/:companyID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    isAutherized([AdminRole.SUPER_ADMIN]),
     upload.single("logo"),
-    updateTenant
+    updateCompany
     /*
-        #swagger.tags = ['Tenants Routes']
+        #swagger.tags = ['Companies Routes']
 
         #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
-                    schema: { $ref: "#/components/schemas/TenantUpdateSchema" },
+                    schema: { $ref: "#/components/schemas/CompanyUpdateSchema" },
                     examples: {
-                        TenantUpdateExample: { $ref: "#/components/examples/TenantUpdateExample" }
+                        CompanyUpdateExample: { $ref: "#/components/examples/CompanyUpdateExample" }
                     }
                 }
             }
@@ -88,12 +88,12 @@ router.route("/tenants/:tenantID").patch(
     */
 );
 
-router.route("/tenants/:tenantID").delete(
+router.route("/companies/:companyID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
-    deleteTenant
+    isAutherized([AdminRole.SUPER_ADMIN]),
+    deleteCompany
     /*
-        #swagger.tags = ['Tenants Routes']
+        #swagger.tags = ['Companies Routes']
     */
 );
 

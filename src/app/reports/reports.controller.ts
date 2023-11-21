@@ -10,9 +10,10 @@ const reportService = new ReportService();
 export class ReportController {
     createReport = catchAsync(async (req, res) => {
         const reportData = ReportCreateSchema.parse(req.body);
-        const loggedInUserID = res.locals.user.id as string;
+        const companyID = +res.locals.user.companyID;
+        const loggedInUserID = res.locals.user.id ?? +res.locals.user.id;
 
-        const pdf = await reportService.createReport({
+        const pdf = await reportService.createReport(companyID, {
             loggedInUserID,
             reportData
         });
@@ -66,7 +67,7 @@ export class ReportController {
     });
 
     getReport = catchAsync(async (req, res) => {
-        const reportID = req.params["reportID"];
+        const reportID = +req.params["reportID"];
 
         const report = await reportModel.getReport({
             reportID: reportID
@@ -79,7 +80,7 @@ export class ReportController {
     });
 
     getReportPDF = catchAsync(async (req, res) => {
-        const reportID = req.params["reportID"];
+        const reportID = +req.params["reportID"];
 
         const pdf = await reportService.getReportPDF({
             reportID: reportID
@@ -102,7 +103,7 @@ export class ReportController {
     });
 
     updateReport = catchAsync(async (req, res) => {
-        const reportID = req.params["reportID"];
+        const reportID = +req.params["reportID"];
 
         const reportData = ReportUpdateSchema.parse(req.body);
 
@@ -118,7 +119,7 @@ export class ReportController {
     });
 
     deleteReport = catchAsync(async (req, res) => {
-        const reportID = req.params["reportID"];
+        const reportID = +req.params["reportID"];
 
         await reportModel.deleteReport({
             reportID: reportID

@@ -7,8 +7,9 @@ const colorModel = new ColorModel();
 
 export const createColor = catchAsync(async (req, res) => {
     const colorData = ColorCreateSchema.parse(req.body);
+    const companyID = +res.locals.user.companyID;
 
-    const createdColor = await colorModel.createColor(colorData);
+    const createdColor = await colorModel.createColor(companyID, colorData);
 
     res.status(200).json({
         status: "success",
@@ -59,7 +60,7 @@ export const getAllColors = catchAsync(async (req, res) => {
 });
 
 export const getColor = catchAsync(async (req, res) => {
-    const colorID = req.params["colorID"];
+    const colorID = +req.params["colorID"];
 
     const color = await colorModel.getColor({
         colorID: colorID
@@ -72,7 +73,7 @@ export const getColor = catchAsync(async (req, res) => {
 });
 
 export const updateColor = catchAsync(async (req, res) => {
-    const colorID = req.params["colorID"];
+    const colorID = +req.params["colorID"];
 
     const colorData = ColorUpdateSchema.parse(req.body);
 
@@ -88,7 +89,7 @@ export const updateColor = catchAsync(async (req, res) => {
 });
 
 export const deleteColor = catchAsync(async (req, res) => {
-    const colorID = req.params["colorID"];
+    const colorID = +req.params["colorID"];
 
     await colorModel.deleteColor({
         colorID: colorID

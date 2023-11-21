@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { Role } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
@@ -16,7 +16,7 @@ const router = Router();
 
 router.route("/banners").post(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     upload.single("image"),
     createBanner
     /*
@@ -38,7 +38,7 @@ router.route("/banners").post(
 
 router.route("/banners").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     getAllBanners
     /*
         #swagger.tags = ['Banners Routes']
@@ -59,7 +59,7 @@ router.route("/banners").get(
 
 router.route("/banners/:bannerID").get(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     getBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -68,7 +68,7 @@ router.route("/banners/:bannerID").get(
 
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     upload.single("image"),
     updateBanner
     /*
@@ -90,7 +90,7 @@ router.route("/banners/:bannerID").patch(
 
 router.route("/banners/:bannerID").delete(
     isLoggedIn,
-    isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.SUPER_ADMIN]),
     deleteBanner
     /*
         #swagger.tags = ['Banners Routes']

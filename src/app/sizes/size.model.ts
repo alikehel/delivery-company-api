@@ -1,20 +1,36 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { SizeCreateType, SizeUpdateType } from "./sizes.zod";
 
 const prisma = new PrismaClient();
 
+const sizeSelect: Prisma.SizeSelect = {
+    id: true,
+    title: true,
+    createdAt: true,
+    updatedAt: true
+};
+
+// const sizeSelectReform = (size: Prisma.SizeGetPayload<typeof sizeSelect>) => {
+//     return {
+//         id: size.id,
+//         title: size.title,
+//         createdAt: size.createdAt,
+//         updatedAt: size.updatedAt
+//     };
+// };
+
 export class SizeModel {
-    async createSize(data: SizeCreateType) {
+    async createSize(companyID: number, data: SizeCreateType) {
         const createdSize = await prisma.size.create({
             data: {
-                title: data.title
+                title: data.title,
+                company: {
+                    connect: {
+                        id: companyID
+                    }
+                }
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: sizeSelect
         });
         return createdSize;
     }
@@ -31,32 +47,22 @@ export class SizeModel {
             orderBy: {
                 title: "desc"
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: sizeSelect
         });
         return sizes;
     }
 
-    async getSize(data: { sizeID: string }) {
+    async getSize(data: { sizeID: number }) {
         const size = await prisma.size.findUnique({
             where: {
                 id: data.sizeID
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: sizeSelect
         });
         return size;
     }
 
-    async updateSize(data: { sizeID: string; sizeData: SizeUpdateType }) {
+    async updateSize(data: { sizeID: number; sizeData: SizeUpdateType }) {
         const size = await prisma.size.update({
             where: {
                 id: data.sizeID
@@ -64,22 +70,17 @@ export class SizeModel {
             data: {
                 title: data.sizeData.title
             },
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                updatedAt: true
-            }
+            select: sizeSelect
         });
         return size;
     }
 
-    async deleteSize(data: { sizeID: string }) {
-        const deletedSize = await prisma.size.delete({
+    async deleteSize(data: { sizeID: number }) {
+        await prisma.size.delete({
             where: {
                 id: data.sizeID
             }
         });
-        return deletedSize;
+        return true;
     }
 }

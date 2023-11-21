@@ -34,7 +34,21 @@ export const signin = catchAsync(async (req, res) => {
             id: returnedUser?.id,
             name: returnedUser.name,
             username: user.username,
-            role: returnedUser.role
+            role: returnedUser.admin
+                ? returnedUser.admin.role
+                : returnedUser.employee
+                ? returnedUser.employee.role
+                : returnedUser.client
+                ? returnedUser.client.role
+                : null,
+            permissions: returnedUser.employee
+                ? returnedUser.employee.permissions
+                : null,
+            companyID: returnedUser.employee
+                ? returnedUser.employee.companyId
+                : returnedUser.client
+                ? returnedUser.client.companyId
+                : null
         },
         JWT_SECRET as string,
         { expiresIn: JWT_EXPIRES_IN }
@@ -61,7 +75,7 @@ export const signin = catchAsync(async (req, res) => {
 
     await sendNotification({
         userID: returnedUser.id,
-        title: "Welcome",
-        content: "Welcome to our website"
+        title: "تم تسجيل الدخول",
+        content: ""
     });
 });
