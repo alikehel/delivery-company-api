@@ -296,6 +296,12 @@ export class ReportModel {
                             id: data.clientID
                         }
                     },
+                    // TODO
+                    // store: {
+                    //     connect: {
+                    //         id: data.storeID
+                    //     }
+                    // },
                     orders: orders,
                     report: report
                 }
