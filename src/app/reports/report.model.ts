@@ -142,6 +142,12 @@ const reportSelect: Prisma.ReportSelect = {
                 }
             }
         }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
@@ -246,7 +252,8 @@ const reportselectReform = (
         companyReport: report.companyReport && {
             ...report.companyReport,
             company: report.companyReport.company
-        }
+        },
+        company: report.company
     };
     return reportData;
 };

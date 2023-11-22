@@ -7,7 +7,13 @@ const sizeSelect: Prisma.SizeSelect = {
     id: true,
     title: true,
     createdAt: true,
-    updatedAt: true
+    updatedAt: true,
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
 };
 
 // const sizeSelectReform = (size: Prisma.SizeGetPayload<typeof sizeSelect>) => {

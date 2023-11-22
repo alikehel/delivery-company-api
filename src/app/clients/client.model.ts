@@ -45,6 +45,11 @@ const clientReform = (client: any) => {
         role: client.role,
         company: client.company,
         createdBy: client.createdBy
+            ? {
+                  id: client.createdBy.id,
+                  name: client.createdBy.user.name
+              }
+            : null
     };
 };
 

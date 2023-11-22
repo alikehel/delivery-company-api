@@ -20,6 +20,12 @@ const locationSelect: Prisma.LocationSelect = {
                 }
             }
         }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
@@ -36,7 +42,8 @@ const locationReform = (location: any) => {
                     name: deliveryAgent.deliveryAgent.user.name
                 };
             }
-        )
+        ),
+        company: location.company
     };
 };
 

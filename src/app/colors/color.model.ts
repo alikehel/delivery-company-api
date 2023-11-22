@@ -7,7 +7,13 @@ const colorSelect: Prisma.ColorSelect = {
     id: true,
     title: true,
     createdAt: true,
-    updatedAt: true
+    updatedAt: true,
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
 };
 
 // const colorReform = (color: any) => {

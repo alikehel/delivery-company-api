@@ -7,7 +7,13 @@ const categorySelect: Prisma.CategorySelect = {
     id: true,
     title: true,
     createdAt: true,
-    updatedAt: true
+    updatedAt: true,
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
 };
 
 // const categoryReform = (category: any) => {

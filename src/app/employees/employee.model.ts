@@ -18,6 +18,12 @@ const employeeSelect: Prisma.EmployeeSelect = {
             phone: true,
             avatar: true
         }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
@@ -33,7 +39,8 @@ const employeeReform = (employee: any) => {
         role: employee.role,
         permissions: employee.permissions,
         branch: employee.branch,
-        repository: employee.repository
+        repository: employee.repository,
+        company: employee.company
     };
 };
 

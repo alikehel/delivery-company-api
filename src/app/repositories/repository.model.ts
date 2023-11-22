@@ -6,7 +6,13 @@ const prisma = new PrismaClient();
 const repositorySelect: Prisma.RepositorySelect = {
     id: true,
     name: true,
-    branch: true
+    branch: true,
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
 };
 
 // const repositorySelectReform = (

@@ -17,6 +17,12 @@ const storeSelect: Prisma.StoreSelect = {
                 }
             }
         }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
@@ -31,7 +37,8 @@ const storeSelectReform = (store: any) => {
                   id: store.client.user.id,
                   name: store.client.user.name
               }
-            : undefined
+            : undefined,
+        company: store.company
     };
 };
 

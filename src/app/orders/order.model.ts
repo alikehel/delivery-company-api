@@ -79,7 +79,13 @@ const orderSelect: Prisma.OrderSelect = {
     // tenantReportReportNumber: true,
     deliveryAgentReportReportNumber: true,
     governorateReportReportNumber: true,
-    companyReportReportNumber: true
+    companyReportReportNumber: true,
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
 };
 
 const orderReform = (
@@ -112,6 +118,7 @@ const orderReform = (
         createdAt: order.createdAt,
         updatedAt: order.updatedAt,
         timeline: order.timeline,
+        company: order.company,
         // TODO
         // client: {
         //     id: order.client.user.id,

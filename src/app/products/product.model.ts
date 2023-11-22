@@ -30,6 +30,12 @@ const productSelect: Prisma.ProductSelect = {
                 select: { id: true, title: true }
             }
         }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
