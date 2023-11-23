@@ -9,7 +9,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     const notificationsCount = await notificationModel.getNotificationsCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(notificationsCount / size);
-    const userID = res.locals.user.id;
+    const userID = (res.locals.user.id = +res.locals.user.id as number);
 
     let seen = false;
     if (req.query.seen && req.query.seen === "true") {
@@ -77,7 +77,7 @@ export const updateNotification = catchAsync(async (req, res) => {
 export const updateNotifications = catchAsync(async (req, res) => {
     const notificationData = NotificationUpdateSchema.parse(req.body);
 
-    const userID = res.locals.user.id;
+    const userID = +res.locals.user.id as number;
 
     await notificationModel.updateNotifications({
         userID: userID,
