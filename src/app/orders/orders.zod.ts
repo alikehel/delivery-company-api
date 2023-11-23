@@ -86,7 +86,7 @@ export const OrderUpdateMock = generateMock(OrderUpdateSchema);
 /* --------------------------------------------------------------- */
 
 export const OrdersReceiptsCreateSchema = z.object({
-    ordersIDs: z.array(z.number()).min(1)
+    ordersIDs: z.array(z.coerce.number()).min(1)
 });
 
 export type OrdersReceiptsCreateType = z.infer<
