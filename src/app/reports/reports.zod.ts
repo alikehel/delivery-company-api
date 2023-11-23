@@ -11,11 +11,11 @@ export const ReportCreateSchema = z
     .discriminatedUnion("type", [
         z.object({
             type: z.literal(ReportType.COMPANY),
-            companyID: z.number()
+            companyID: z.coerce.number()
         }),
         z.object({
             type: z.literal(ReportType.DELIVERY_AGENT),
-            deliveryAgentID: z.number()
+            deliveryAgentID: z.coerce.number()
         }),
         z.object({
             type: z.literal(ReportType.GOVERNORATE),
@@ -23,16 +23,16 @@ export const ReportCreateSchema = z
         }),
         z.object({
             type: z.literal(ReportType.BRANCH),
-            branchID: z.number()
+            branchID: z.coerce.number()
         }),
         z.object({
             type: z.literal(ReportType.CLIENT),
-            clientID: z.number(),
-            storeID: z.number()
+            clientID: z.coerce.number(),
+            storeID: z.coerce.number()
         }),
         z.object({
             type: z.literal(ReportType.REPOSITORY),
-            repositoryID: z.number()
+            repositoryID: z.coerce.number()
         })
     ])
     .and(ReportCreateBaseSchema);

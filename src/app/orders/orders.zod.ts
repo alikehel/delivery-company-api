@@ -11,19 +11,19 @@ export const OrderCreateBaseSchema = z.object({
     details: z.string().optional(),
     deliveryType: z.nativeEnum(DeliveryType),
     governorate: z.nativeEnum(Governorate),
-    locationID: z.number().optional(),
-    storeID: z.number()
+    locationID: z.coerce.number().optional(),
+    storeID: z.coerce.number()
     // paidAmount: z.number(),
     // totalCostInUSD: z.number(),
     // paidAmountInUSD: z.number(),
     // discount: z.number(),
     // receiptNumber: z.number(),
     // status: z.nativeEnum(OrderStatus),
-    // clientID: z.number(),
-    // deliveryAgentID: z.number(),
+    // clientID: z.coerce.number(),
+    // deliveryAgentID: z.coerce.number(),
     // deliveryDate: z.date().optional(),
-    // // repositoryID: z.number().optional(),
-    // // branchID: z.number().optional(),
+    // // repositoryID: z.coerce.number().optional(),
+    // // branchID: z.coerce.number().optional(),
 });
 
 export const OrderCreateSchema = z
@@ -32,10 +32,10 @@ export const OrderCreateSchema = z
             withProducts: z.literal(true),
             products: z.array(
                 z.object({
-                    productID: z.number(),
+                    productID: z.coerce.number(),
                     quantity: z.number().min(1),
-                    colorID: z.number().optional(),
-                    sizeID: z.number().optional()
+                    colorID: z.coerce.number().optional(),
+                    sizeID: z.coerce.number().optional()
                 })
             )
         }),
@@ -65,15 +65,15 @@ export const OrderUpdateSchema = z
         // paidAmountInUSD: z.number(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
-        deliveryAgentID: z.number(),
+        deliveryAgentID: z.coerce.number(),
         deliveryDate: z.coerce.date().optional(),
         recipientName: z.string(),
         recipientPhone: z.string(),
         recipientAddress: z.string(),
         notes: z.string().optional(),
         details: z.string().optional()
-        // repositoryID: z.number().optional(),
-        // branchID: z.number().optional(),
+        // repositoryID: z.coerce.number().optional(),
+        // branchID: z.coerce.number().optional(),
     })
     .partial();
 

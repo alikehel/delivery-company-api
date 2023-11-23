@@ -23,7 +23,7 @@ export const ClientCreateOpenAPISchema = generateSchema(ClientCreateSchema);
 export const ClientCreateMock = generateMock(ClientCreateSchema);
 
 export const ClientCreateSchemaWithUserID = ClientCreateSchema.extend({
-    userID: z.number()
+    userID: z.coerce.number()
 });
 
 export type ClientCreateTypeWithUserID = z.infer<

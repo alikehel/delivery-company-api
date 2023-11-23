@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const RepositoryCreateSchema = z.object({
     name: z.string().min(3),
-    branchID: z.number()
+    branchID: z.coerce.number()
     // tenantID: z.string(),
 });
 
