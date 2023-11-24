@@ -9,7 +9,12 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     const notificationsCount = await notificationModel.getNotificationsCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(notificationsCount / size);
-    const userID = (res.locals.user.id = +res.locals.user.id as number);
+    let userID;
+    if (res.locals.user.id) {
+        userID = +res.locals.user.id as number;
+    } else {
+        throw new AppError("User not found", 404);
+    }
 
     let seen = false;
     if (req.query.seen && req.query.seen === "true") {

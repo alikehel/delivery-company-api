@@ -72,7 +72,9 @@ export class NotificationModel {
             // if seen false get only unseen notifications
             where: {
                 seen: seen
-                    ? undefined
+                    ? {
+                          equals: true
+                      }
                     : {
                           equals: false
                       },

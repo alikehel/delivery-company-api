@@ -12,7 +12,7 @@
   ],
   "securityDefinitions": {},
   "paths": {
-    "/api/auth/signin": {
+    "/api/v1/auth/signin": {
       "post": {
         "tags": [
           "Auth Routes"
@@ -147,7 +147,7 @@
         }
       }
     },
-    "/api/auth/validate-token": {
+    "/api/v1/auth/validate-token": {
       "post": {
         "tags": [
           "Auth Routes"
@@ -338,10 +338,10 @@
         ]
       }
     },
-    "/api/users": {
+    "/api/v1/employees": {
       "post": {
         "tags": [
-          "Users Routes"
+          "Employees Routes"
         ],
         "description": "",
         "parameters": [
@@ -420,11 +420,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserCreateSchema"
+                "$ref": "#/components/schemas/EmployeeCreateSchema"
               },
               "examples": {
-                "UserCreateExample": {
-                  "$ref": "#/components/examples/UserCreateExample"
+                "EmployeeCreateExample": {
+                  "$ref": "#/components/examples/EmployeeCreateExample"
                 }
               }
             }
@@ -433,7 +433,7 @@
       },
       "get": {
         "tags": [
-          "Users Routes"
+          "Employees Routes"
         ],
         "description": "",
         "parameters": [
@@ -465,7 +465,7 @@
           {
             "name": "roles",
             "in": "query",
-            "description": "User Roles (Comma Separated)",
+            "description": "Employee EmployeeRoles (Comma Separated)",
             "required": false,
             "schema": {
               "type": "string"
@@ -536,15 +536,15 @@
         }
       }
     },
-    "/api/users/{userID}": {
+    "/api/v1/employees/{employeeID}": {
       "get": {
         "tags": [
-          "Users Routes"
+          "Employees Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "userID",
+            "name": "employeeID",
             "in": "path",
             "required": true,
             "schema": {
@@ -624,12 +624,12 @@
       },
       "patch": {
         "tags": [
-          "Users Routes"
+          "Employees Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "userID",
+            "name": "employeeID",
             "in": "path",
             "required": true,
             "schema": {
@@ -711,11 +711,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserUpdateSchema"
+                "$ref": "#/components/schemas/EmployeeUpdateSchema"
               },
               "examples": {
-                "UserUpdateExample": {
-                  "$ref": "#/components/examples/UserUpdateExample"
+                "EmployeeUpdateExample": {
+                  "$ref": "#/components/examples/EmployeeUpdateExample"
                 }
               }
             }
@@ -724,12 +724,12 @@
       },
       "delete": {
         "tags": [
-          "Users Routes"
+          "Employees Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "userID",
+            "name": "employeeID",
             "in": "path",
             "required": true,
             "schema": {
@@ -808,7 +808,7 @@
         }
       }
     },
-    "/api/repositories": {
+    "/api/v1/repositories": {
       "post": {
         "tags": [
           "Repositories Routes"
@@ -997,7 +997,7 @@
         }
       }
     },
-    "/api/repositories/{repositoryID}": {
+    "/api/v1/repositories/{repositoryID}": {
       "get": {
         "tags": [
           "Repositories Routes"
@@ -1269,7 +1269,7 @@
         }
       }
     },
-    "/api/clients": {
+    "/api/v1/clients": {
       "post": {
         "tags": [
           "Clients Routes"
@@ -1458,7 +1458,7 @@
         }
       }
     },
-    "/api/clients/{clientID}": {
+    "/api/v1/clients/{clientID}": {
       "get": {
         "tags": [
           "Clients Routes"
@@ -1730,7 +1730,7 @@
         }
       }
     },
-    "/api/branches": {
+    "/api/v1/branches": {
       "post": {
         "tags": [
           "Branches Routes"
@@ -1919,7 +1919,7 @@
         }
       }
     },
-    "/api/branches/{branchID}": {
+    "/api/v1/branches/{branchID}": {
       "get": {
         "tags": [
           "Branches Routes"
@@ -2191,7 +2191,7 @@
         }
       }
     },
-    "/api/locations": {
+    "/api/v1/locations": {
       "post": {
         "tags": [
           "Locations Routes"
@@ -2380,7 +2380,7 @@
         }
       }
     },
-    "/api/locations/{locationID}": {
+    "/api/v1/locations/{locationID}": {
       "get": {
         "tags": [
           "Locations Routes"
@@ -2652,10 +2652,10 @@
         }
       }
     },
-    "/api/tenants": {
+    "/api/v1/companies": {
       "post": {
         "tags": [
-          "Tenants Routes"
+          "Companies Routes"
         ],
         "description": "",
         "parameters": [
@@ -2734,11 +2734,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantCreateSchema"
+                "$ref": "#/components/schemas/CompanyCreateSchema"
               },
               "examples": {
-                "TenantCreateExample": {
-                  "$ref": "#/components/examples/TenantCreateExample"
+                "CompanyCreateExample": {
+                  "$ref": "#/components/examples/CompanyCreateExample"
                 }
               }
             }
@@ -2747,7 +2747,7 @@
       },
       "get": {
         "tags": [
-          "Tenants Routes"
+          "Companies Routes"
         ],
         "description": "",
         "parameters": [
@@ -2841,15 +2841,15 @@
         }
       }
     },
-    "/api/tenants/{tenantID}": {
+    "/api/v1/companies/{companyID}": {
       "get": {
         "tags": [
-          "Tenants Routes"
+          "Companies Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "tenantID",
+            "name": "companyID",
             "in": "path",
             "required": true,
             "schema": {
@@ -2929,12 +2929,12 @@
       },
       "patch": {
         "tags": [
-          "Tenants Routes"
+          "Companies Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "tenantID",
+            "name": "companyID",
             "in": "path",
             "required": true,
             "schema": {
@@ -3016,11 +3016,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantUpdateSchema"
+                "$ref": "#/components/schemas/CompanyUpdateSchema"
               },
               "examples": {
-                "TenantUpdateExample": {
-                  "$ref": "#/components/examples/TenantUpdateExample"
+                "CompanyUpdateExample": {
+                  "$ref": "#/components/examples/CompanyUpdateExample"
                 }
               }
             }
@@ -3029,12 +3029,12 @@
       },
       "delete": {
         "tags": [
-          "Tenants Routes"
+          "Companies Routes"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "tenantID",
+            "name": "companyID",
             "in": "path",
             "required": true,
             "schema": {
@@ -3113,7 +3113,7 @@
         }
       }
     },
-    "/api/orders": {
+    "/api/v1/orders": {
       "post": {
         "tags": [
           "Orders Routes"
@@ -3464,7 +3464,7 @@
         }
       }
     },
-    "/api/orders/statuses": {
+    "/api/v1/orders/statuses": {
       "get": {
         "tags": [
           "Orders Routes"
@@ -3543,7 +3543,7 @@
         }
       }
     },
-    "/api/orders/today": {
+    "/api/v1/orders/today": {
       "get": {
         "tags": [
           "Orders Routes"
@@ -3622,7 +3622,140 @@
         }
       }
     },
-    "/api/orders/{orderID}": {
+    "/api/v1/orders/statistics": {
+      "get": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "store_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tenant_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recorded",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{orderID}": {
       "get": {
         "tags": [
           "Orders Routes"
@@ -3894,7 +4027,7 @@
         }
       }
     },
-    "/api/orders/{orderID}/receipt": {
+    "/api/v1/orders/{orderID}/timeline": {
       "get": {
         "tags": [
           "Orders Routes"
@@ -3981,7 +4114,101 @@
         }
       }
     },
-    "/api/products": {
+    "/api/v1/orders/receipts": {
+      "post": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdersReceiptsCreateSchema"
+              },
+              "examples": {
+                "OrderCreateExample": {
+                  "$ref": "#/components/examples/OrdersReceiptsCreateExample"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products": {
       "post": {
         "tags": [
           "Products Routes"
@@ -4170,7 +4397,7 @@
         }
       }
     },
-    "/api/products/{productID}": {
+    "/api/v1/products/{productID}": {
       "get": {
         "tags": [
           "Products Routes"
@@ -4442,7 +4669,7 @@
         }
       }
     },
-    "/api/categories": {
+    "/api/v1/categories": {
       "post": {
         "tags": [
           "Categories Routes"
@@ -4631,7 +4858,7 @@
         }
       }
     },
-    "/api/categories/{categoryID}": {
+    "/api/v1/categories/{categoryID}": {
       "get": {
         "tags": [
           "Categories Routes"
@@ -4903,7 +5130,7 @@
         }
       }
     },
-    "/api/notifications": {
+    "/api/v1/notifications": {
       "get": {
         "tags": [
           "Notifications Routes"
@@ -5101,7 +5328,7 @@
         }
       }
     },
-    "/api/notifications/{notificationID}": {
+    "/api/v1/notifications/{notificationID}": {
       "patch": {
         "tags": [
           "Notifications Routes"
@@ -5203,7 +5430,7 @@
         }
       }
     },
-    "/api/colors": {
+    "/api/v1/colors": {
       "post": {
         "tags": [
           "Colors Routes"
@@ -5392,7 +5619,7 @@
         }
       }
     },
-    "/api/colors/{colorID}": {
+    "/api/v1/colors/{colorID}": {
       "get": {
         "tags": [
           "Colors Routes"
@@ -5664,7 +5891,7 @@
         }
       }
     },
-    "/api/sizes": {
+    "/api/v1/sizes": {
       "post": {
         "tags": [
           "Sizes Routes"
@@ -5853,7 +6080,7 @@
         }
       }
     },
-    "/api/sizes/{sizeID}": {
+    "/api/v1/sizes/{sizeID}": {
       "get": {
         "tags": [
           "Sizes Routes"
@@ -6125,7 +6352,7 @@
         }
       }
     },
-    "/api/stores": {
+    "/api/v1/stores": {
       "post": {
         "tags": [
           "Stores Routes"
@@ -6314,7 +6541,7 @@
         }
       }
     },
-    "/api/stores/{storeID}": {
+    "/api/v1/stores/{storeID}": {
       "get": {
         "tags": [
           "Stores Routes"
@@ -6586,7 +6813,7 @@
         }
       }
     },
-    "/api/banners": {
+    "/api/v1/banners": {
       "post": {
         "tags": [
           "Banners Routes"
@@ -6775,7 +7002,7 @@
         }
       }
     },
-    "/api/banners/{bannerID}": {
+    "/api/v1/banners/{bannerID}": {
       "get": {
         "tags": [
           "Banners Routes"
@@ -7046,396 +7273,1020 @@
           }
         }
       }
+    },
+    "/api/v1/reports": {
+      "post": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportCreateSchema"
+              },
+              "examples": {
+                "ReportCreateExample": {
+                  "$ref": "#/components/examples/ReportCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Page Size (Number of Items per Page) (Default: 10)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort Query (Default: id:asc)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "store_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "repository_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "delivery_agent_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "governorate",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{reportID}": {
+      "get": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportUpdateSchema"
+              },
+              "examples": {
+                "ReportUpdateExample": {
+                  "$ref": "#/components/examples/ReportUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{reportID}/pdf": {
+      "get": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
-      "UserCreateExample": {
+      "EmployeeCreateExample": {
         "value": {
-          "username": "suscipio",
-          "name": "Preston Gerlach-Prohaska",
-          "password": "T7mCGb1FJGqZ007",
-          "phone": "07483075410",
-          "salary": 8366598343622656,
-          "repositoryID": "78800bef-76d9-4d5e-8662-9eeaa36e3f1d",
-          "branchID": "599582b1-c969-4b03-9004-d367955a2345",
-          "role": "EMERGENCY_EMPLOYEE",
+          "username": "campana",
+          "name": "Gilbert Ernser",
+          "password": "3zMCRmIQsRqrtL9",
+          "phone": "07662961059",
+          "salary": 3769634712977408,
+          "repositoryID": 1208047712075776,
+          "branchID": 2129395592462336,
+          "role": "ACCOUNTANT",
           "permissions": [
             "CHANGE_ORDER_STATUS",
-            "CHANGE_CLOSED_ORDER_STATUS",
-            "CHANGE_CLOSED_ORDER_STATUS",
-            "ADD_CLIENT"
+            "ADD_ORDER",
+            "DELETE_ORDERS",
+            "DELETE_COMPANY_REPORTS",
+            "DELETE_PRICES"
           ],
-          "fcm": "uxor",
-          "avatar": "https://avatars.githubusercontent.com/u/1916415"
+          "fcm": "taedium",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/233.jpg",
+          "companyID": 3906365001039872
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "debilito",
-          "password": "LYCHAfxiutzIa8S"
+          "username": "tibi",
+          "password": "wRBnsxXCD6TRhwx",
+          "fcm": "stipes"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Saul Batz",
-          "branchID": "332fa975-58e9-43fb-a5b6-e6e2303167c8"
+          "name": "Claudia Conn",
+          "branchID": 837896890220544
         }
       },
-      "UserUpdateExample": {
+      "EmployeeUpdateExample": {
         "value": {
-          "username": "comprehendo",
-          "name": "Elizabeth Considine-Johnson",
-          "password": "SUSGjB6Z9xvKJUY",
-          "phone": "07948694971",
-          "salary": 1283079547125760,
-          "repositoryID": "1e179e45-0788-4eb6-b287-018560e5689f",
-          "branchID": "737bdc48-30b4-43f3-802a-f3fcba415ee0",
-          "role": "REPOSITORIY_EMPLOYEE",
+          "username": "reiciendis",
+          "name": "Kellie Herzog",
+          "password": "bkNbYZL3ozeRBaE",
+          "phone": "07782377449",
+          "salary": 3964234769629184,
+          "repositoryID": 7779286557655040,
+          "branchID": 6407029587443712,
+          "role": "ACCOUNTANT",
           "permissions": [
             "EDIT_ORDER_TOTAL_AMOUNT",
             "DELETE_REPOSITORIES_REPORTS",
-            "DELETE_DELIVERY_AGENT_REPORTS",
-            "CHANGE_ORDER_STATUS",
-            "ADD_ORDER_TO_DELIVERY_AGENT"
+            "DELETE_REPOSITORIES_REPORTS"
           ],
-          "fcm": "adfero",
-          "avatar": "https://avatars.githubusercontent.com/u/63156708"
+          "fcm": "tepidus",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1014.jpg",
+          "companyID": 875241091891200
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Angela Walker IV",
-          "branchID": "6781c593-0156-4fa2-8f9f-090ed3d92b87"
+          "name": "Jenny Turner-Kihn",
+          "branchID": 4845383983300608
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Grace Bergstrom",
-          "governorate": "BABIL",
-          "branchID": "74c1f517-0a8a-488f-ab49-e680318458d5",
+          "name": "Alma Franecki",
+          "governorate": "BAGHDAD",
+          "branchID": 4873279223365632,
           "deliveryAgentsIDs": [
-            "de68e2a5-44d1-4eb1-86e0-58b278987477",
-            "fabc3d51-506d-4443-a016-6ff668b0ee15",
-            "d626cf9d-0d60-4152-a9d6-8a09a85a88e8"
+            8501074337988608,
+            1214220622364672,
+            270350759755776,
+            2218300423536640,
+            4685454907539456
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Kari King",
-          "governorate": "DIYALA",
-          "branchID": "c351f175-7c7a-43cf-a5e9-d68f87625e37",
+          "name": "Marvin Hilpert Sr.",
+          "governorate": "WASIT",
+          "branchID": 1033787324497920,
           "deliveryAgentsIDs": [
-            "ca0e2b01-b3cc-4651-bf73-278e6d1a99d8"
+            4657529965510656,
+            5478797136625664
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Yvette Wilderman",
-          "phone": "07459269457",
-          "accountType": "CLIENT",
-          "token": "deinde",
-          "password": "GjbZ9e2zrctqy0o",
-          "branchID": "fd8d2af3-e3e5-4c05-9102-63803357193f",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1205.jpg"
+          "name": "Evelyn Grimes",
+          "username": "communis",
+          "phone": "07326064580",
+          "role": "CLIENT",
+          "token": "cito",
+          "password": "UsF43Ml8EWfyy90",
+          "fcm": "comparo",
+          "avatar": "https://avatars.githubusercontent.com/u/90679993",
+          "companyID": 713090987458560
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Charlene Fadel",
-          "phone": "07316575056",
-          "accountType": "CLIENT_ASSISTANT",
-          "token": "attonbitus",
-          "password": "M1qVYgU4QRB_YHz",
-          "branchID": "a8f61d8b-9bce-4a21-aba0-47f817a19df8",
-          "avatar": "https://avatars.githubusercontent.com/u/90666716"
+          "name": "Roberta Parker",
+          "username": "turbo",
+          "phone": "07888097963",
+          "role": "CLIENT",
+          "token": "uberrime",
+          "password": "NkfnCBFhgNFVA3t",
+          "fcm": "solitudo",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/583.jpg",
+          "companyID": 3286831189721088
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Mr. Pat Carroll",
-          "email": "Otilia_Thompson55@example.org",
-          "phone": "07422130055",
-          "governorate": "AL_ANBAR"
+          "name": "Wade Parisian",
+          "email": "Alfonso.Trantow@example.org",
+          "phone": "07892525067",
+          "governorate": "WASIT"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Cristina Weimann",
-          "email": "Alvena_Nitzsche71@example.org",
-          "phone": "07934959051",
+          "name": "Rufus Bergnaum",
+          "email": "Austin76@example.com",
+          "phone": "07311749199",
           "governorate": "ERBIL"
         }
       },
-      "TenantCreateExample": {
+      "CompanyCreateExample": {
         "value": {
-          "name": "Eva Wyman",
-          "phone": "07853270980",
-          "website": "https://unused-wholesale.name",
-          "logo": "turpis",
-          "registrationText": "dolor",
-          "governoratePrice": 423249127145472,
-          "deliveryAgentFee": 2249381107466240,
-          "baghdadPrice": 5163213379338240,
-          "additionalPriceForEvery500000IraqiDinar": 3025911408492544,
-          "additionalPriceForEveryKilogram": 3452837189124096,
-          "additionalPriceForRemoteAreas": 2694280195866624,
-          "orderStatusAutomaticUpdate": false
+          "name": "Kelli Gusikowski",
+          "phone": "07603257302",
+          "website": "https://lazy-private.name",
+          "logo": "ubi",
+          "registrationText": "deorsum",
+          "governoratePrice": 7557983728828416,
+          "deliveryAgentFee": 537207251140608,
+          "baghdadPrice": 6397984589742080,
+          "additionalPriceForEvery500000IraqiDinar": 3384492160974848,
+          "additionalPriceForEveryKilogram": 2030832631939072,
+          "additionalPriceForRemoteAreas": 508249109430272,
+          "orderStatusAutomaticUpdate": true
         }
       },
-      "TenantUpdateExample": {
+      "CompanyUpdateExample": {
         "value": {
-          "name": "Andy Schinner",
-          "phone": "07636038255",
-          "website": "https://flashy-zoologist.org/",
-          "logo": "dolorem",
-          "registrationText": "aliquid",
-          "governoratePrice": 8309642299965440,
-          "deliveryAgentFee": 4381238934634496,
-          "baghdadPrice": 7756475659190272,
-          "additionalPriceForEvery500000IraqiDinar": 502254111031296,
-          "additionalPriceForEveryKilogram": 3848849672110080,
-          "additionalPriceForRemoteAreas": 1335778267365376,
-          "orderStatusAutomaticUpdate": true
+          "name": "Mrs. Delores Orn",
+          "phone": "07614713988",
+          "website": "https://scholarly-fry.name/",
+          "logo": "degusto",
+          "registrationText": "coniecto",
+          "governoratePrice": 6923813069520896,
+          "deliveryAgentFee": 8285018919010304,
+          "baghdadPrice": 1214296109350912,
+          "additionalPriceForEvery500000IraqiDinar": 7990252887080960,
+          "additionalPriceForEveryKilogram": 1975329616822272,
+          "additionalPriceForRemoteAreas": 6814219380981760,
+          "orderStatusAutomaticUpdate": false
         }
       },
       "OrderCreateExample": {
         "value": {
-          "totalCost": 3650124272107520,
-          "paidAmount": 8527675612200960,
-          "totalCostInUSD": 225710429962240,
-          "paidAmountInUSD": 3088309685321728,
-          "discount": 8482304538181632,
-          "receiptNumber": 7202811813036032,
-          "quantity": 5626717605462016,
-          "weight": 1870521341837312,
-          "recipientName": "comparo",
-          "recipientPhone": "vigilo",
-          "recipientAddress": "coerceo",
-          "details": "exercitationem",
-          "notes": "solitudo",
-          "status": "CHANGE_ADDRESS",
-          "deliveryType": "REPLACEMENT",
-          "clientID": "d31943c3-b489-4040-b5fc-89eafd07f0db",
-          "deliveryAgentID": "6352363c-ec09-4c63-961c-c67b17a489ca",
-          "deliveryDate": "2023-11-02T15:53:17.276Z",
-          "governorate": "BABIL",
-          "locationID": "02a3a765-81f1-40f7-b6f5-478ea6b57c26",
-          "storeID": "84daf128-cb4a-481a-b470-631a85dfe19d",
-          "products": [
-            {
-              "productID": "b45a9616-c38f-4708-97e5-7a1f0ca6c6f9",
-              "quantity": 5797233890951168,
-              "color": "#171464",
-              "size": "vomito"
-            },
-            {
-              "productID": "23a5a45d-8a04-48ad-8fae-cdcbe7ab165a",
-              "quantity": 7803450377109504,
-              "color": "#3b4c27",
-              "size": "ver"
-            },
-            {
-              "productID": "4d2860ac-f028-4bc4-bc06-ef6509fd807a",
-              "quantity": 7329782536601600,
-              "color": "#307577",
-              "size": "vinitor"
-            }
-          ]
+          "withProducts": false,
+          "totalCost": 7630829930938368,
+          "quantity": 6410509083475968,
+          "weight": 4221078559784960,
+          "recipientName": "certus",
+          "recipientPhone": "charisma",
+          "recipientAddress": "titulus",
+          "notes": "clibanus",
+          "details": "patria",
+          "deliveryType": "NORMAL",
+          "governorate": "WASIT",
+          "locationID": 435267687153664,
+          "storeID": 2603209864511488
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "totalCost": 8353823676432384,
-          "paidAmount": 373153297596416,
-          "totalCostInUSD": 1983284856750080,
-          "paidAmountInUSD": 4205633718976512,
-          "discount": 1786996972322816,
-          "receiptNumber": 7832950836035584,
-          "quantity": 8258726528024576,
-          "weight": 1320800114180096,
-          "recipientName": "earum",
-          "recipientPhone": "aequitas",
-          "recipientAddress": "appono",
-          "details": "trado",
-          "notes": "amet",
-          "status": "RESEND",
-          "deliveryType": "REPLACEMENT",
-          "clientID": "40ef4d81-0382-450a-afe0-7102bf381122",
-          "deliveryAgentID": "69d48322-93b9-45d0-b7bf-49f68d5c774b",
-          "deliveryDate": "2023-11-02T15:42:56.458Z",
-          "governorate": "DIYALA",
-          "locationID": "bdf690e6-8c0d-4613-8d17-4c3ca6e013d0",
-          "storeID": "9edfcae7-6161-4853-a9b5-8a15811be9a2",
-          "products": [
-            {
-              "productID": "c2ce9acd-c88b-48ae-b0af-4733f80a61b1",
-              "quantity": 8196447178588160,
-              "color": "#284114",
-              "size": "a"
-            },
-            {
-              "productID": "358f5b90-9af6-4f9d-a469-1f40ca6dd5e3",
-              "quantity": 7118215442333696,
-              "color": "#580605",
-              "size": "audax"
-            }
-          ]
+          "paidAmount": 672475897659392,
+          "discount": 8545796085514240,
+          "status": "WITH_DELIVERY_AGENT",
+          "deliveryAgentID": 4051673290899456,
+          "deliveryDate": "2023-11-24T21:55:29.803Z",
+          "recipientName": "aufero",
+          "recipientPhone": "sortitus",
+          "recipientAddress": "aedificium",
+          "notes": "defero",
+          "details": "beatus"
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "itaque",
-          "price": 4871813955846144,
-          "image": "https://picsum.photos/seed/sbGKonI/640/480",
-          "stock": 1500324057579520,
-          "category": "ex",
+          "title": "dolorum",
+          "price": 8404565028241408,
+          "image": "https://picsum.photos/seed/pg3yZNBTG/640/480",
+          "weight": 479183461416960,
+          "stock": 5061359072968704,
+          "category": "cribro",
           "colors": [
             {
-              "colorID": "02cb9786-b9ba-4504-b15c-14ed35aa28b0",
-              "title": "quod",
-              "quantity": 8110420898349056
+              "colorID": 4532387209805824,
+              "title": "delectus",
+              "quantity": 4421061825265664
             },
             {
-              "colorID": "f62278a0-14de-46de-ad6f-3b4fce2f153f",
-              "title": "voluptas",
-              "quantity": 7423669141766144
+              "colorID": 1720754353733632,
+              "title": "sequi",
+              "quantity": 8585657882509312
             }
           ],
           "sizes": [
             {
-              "sizeID": "6f8b9e55-7c08-4f7b-9826-fe09b515dfd3",
-              "title": "caritas",
-              "quantity": 4453761751711744
+              "sizeID": 7741651919306752,
+              "title": "comminor",
+              "quantity": 7194125373800448
             },
             {
-              "sizeID": "bf9e6b6a-d1db-4458-be98-2fad92edc13a",
-              "title": "decipio",
-              "quantity": 8220865594392576
+              "sizeID": 7219453144072192,
+              "title": "appono",
+              "quantity": 1405087152865280
             },
             {
-              "sizeID": "7a547abc-dfe9-4765-91d6-b33d3677e009",
-              "title": "ait",
-              "quantity": 376307525353472
+              "sizeID": 5323319817535488,
+              "title": "ab",
+              "quantity": 1932321720631296
             },
             {
-              "sizeID": "c8bee4f9-2195-4bc1-8880-d98507ded1a4",
-              "title": "aer",
-              "quantity": 4450778846593024
-            },
-            {
-              "sizeID": "b9057079-3ef5-45d3-951a-95c232c8f668",
-              "title": "desipio",
-              "quantity": 6577845394472960
+              "sizeID": 4368074232823808,
+              "title": "advoco",
+              "quantity": 4045772154732544
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "defleo",
-          "price": 6680352900775936,
-          "image": "https://loremflickr.com/640/480?lock=4211461410783232",
-          "stock": 7736473059065856,
-          "category": "aro",
+          "title": "sufficio",
+          "price": 8694637805961216,
+          "image": "https://picsum.photos/seed/ig2i9UrlwD/640/480",
+          "weight": 221839557132288,
+          "stock": 8387242154262528,
+          "category": "acceptus",
           "colors": [
             {
-              "colorID": "b8cec61b-756c-4f90-8d55-bea3dbfa9a0c",
-              "title": "distinctio",
-              "quantity": 4350143987974144
+              "colorID": 4013117535158272,
+              "title": "ventus",
+              "quantity": 7628045850509312
             },
             {
-              "colorID": "0ee22e6e-9153-48ca-8f71-f12b77beef72",
-              "title": "coniuratio",
-              "quantity": 7724669390028800
+              "colorID": 2189906312953856,
+              "title": "truculenter",
+              "quantity": 4310766922498048
             },
             {
-              "colorID": "eb417819-9111-44b3-a004-5389000951d6",
-              "title": "textor",
-              "quantity": 8342162433376256
+              "colorID": 2088078111932416,
+              "title": "aggero",
+              "quantity": 1902198451601408
             }
           ],
           "sizes": [
             {
-              "sizeID": "6a6fd40e-f4fb-4e10-b60c-83d61696f22f",
-              "title": "delicate",
-              "quantity": 6186087479246848
-            },
-            {
-              "sizeID": "45b154f3-aef2-4f3e-9cc5-9e36d362d4c3",
-              "title": "distinctio",
-              "quantity": 3985917870080000
+              "sizeID": 5319508870823936,
+              "title": "ocer",
+              "quantity": 8880222021615616
             }
           ]
         }
       },
       "NotificationUpdateExample": {
         "value": {
-          "seen": true
+          "seen": false
         }
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "veritatis"
+          "title": "arguo"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "odit"
+          "title": "denuo"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "culpa"
+          "title": "vomica"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "ater"
+          "title": "circumvenio"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "caelum"
+          "title": "desino"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "dedico"
+          "title": "constans"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Gerardo Barton",
-          "clientID": "de23c378-f6a6-4496-84d5-4c593dc0467d",
-          "notes": "quae",
-          "logo": "thorax"
+          "name": "Alma Johnston",
+          "clientID": 3664882387910656,
+          "notes": "cerno",
+          "logo": "soleo"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Emilio Emmerich",
-          "clientID": "feb45e61-6dfa-4a0e-81d7-91e3aae81497",
-          "notes": "virtus",
-          "logo": "adflicto"
+          "name": "Nichole O'Hara",
+          "clientID": 6970036988149760,
+          "notes": "coma",
+          "logo": "condico"
         }
       },
       "BannerCreateExample": {
         "value": {
-          "title": "tego",
-          "content": "vestigium",
-          "image": "https://loremflickr.com/640/480?lock=3130070122102784",
-          "url": "https://bowed-politics.name"
+          "title": "aperiam",
+          "content": "vigilo",
+          "image": "https://loremflickr.com/640/480?lock=789266770690048",
+          "url": "https://timely-prompt.org/"
         }
       },
       "BannerUpdateExample": {
         "value": {
-          "title": "angulus",
-          "content": "vivo",
-          "image": "https://picsum.photos/seed/e9EuD/640/480",
-          "url": "https://horrible-workshop.biz"
+          "title": "arcesso",
+          "content": "voluptas",
+          "image": "https://loremflickr.com/640/480?lock=2505192733933568",
+          "url": "https://elderly-sportsman.biz/"
+        }
+      },
+      "ReportCreateExample": {
+        "value": {
+          "type": "CLIENT",
+          "clientID": 6794841788776448,
+          "storeID": 3200311577542656,
+          "ordersIDs": [
+            8782579962478592,
+            3025294287962112,
+            4160375635312640,
+            3428873997910016,
+            7734021838602240
+          ]
+        }
+      },
+      "ReportUpdateExample": {
+        "value": {
+          "status": "PAID"
+        }
+      },
+      "OrdersReceiptsCreateExample": {
+        "value": {
+          "ordersIDs": [
+            606409332883456,
+            8700932380426240,
+            819100710338560,
+            5714620497002496
+          ]
         }
       }
     },
@@ -7468,7 +8319,7 @@
           }
         }
       },
-      "UserCreateSchema": {
+      "EmployeeCreateSchema": {
         "type": "object",
         "properties": {
           "username": {
@@ -7493,17 +8344,16 @@
             "nullable": true
           },
           "repositoryID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "role": {
             "type": "string",
             "enum": [
-              "SUPER_ADMIN",
               "COMPANY_MANAGER",
               "ACCOUNT_MANAGER",
               "ACCOUNTANT",
@@ -7545,6 +8395,10 @@
           },
           "avatar": {
             "type": "string"
+          },
+          "companyID": {
+            "type": "number",
+            "nullable": true
           }
         },
         "required": [
@@ -7553,10 +8407,7 @@
           "password",
           "phone",
           "salary",
-          "repositoryID",
-          "branchID",
-          "role",
-          "permissions"
+          "role"
         ]
       },
       "UserSigninSchema": {
@@ -7566,6 +8417,9 @@
             "type": "string"
           },
           "password": {
+            "type": "string"
+          },
+          "fcm": {
             "type": "string"
           }
         },
@@ -7582,8 +8436,8 @@
             "minLength": 3
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           }
         },
         "required": [
@@ -7591,7 +8445,7 @@
           "branchID"
         ]
       },
-      "UserUpdateSchema": {
+      "EmployeeUpdateSchema": {
         "type": "object",
         "properties": {
           "username": {
@@ -7616,17 +8470,16 @@
             "nullable": true
           },
           "repositoryID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "role": {
             "type": "string",
             "enum": [
-              "SUPER_ADMIN",
               "COMPANY_MANAGER",
               "ACCOUNT_MANAGER",
               "ACCOUNTANT",
@@ -7668,6 +8521,10 @@
           },
           "avatar": {
             "type": "string"
+          },
+          "companyID": {
+            "type": "number",
+            "nullable": true
           }
         }
       },
@@ -7679,8 +8536,8 @@
             "minLength": 3
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           }
         }
       },
@@ -7715,14 +8572,13 @@
             ]
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "deliveryAgentsIDs": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
+              "type": "number"
             }
           }
         },
@@ -7764,14 +8620,13 @@
             ]
           },
           "branchID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "deliveryAgentsIDs": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
+              "type": "number"
             }
           }
         }
@@ -7783,11 +8638,15 @@
             "type": "string",
             "minLength": 3
           },
+          "username": {
+            "type": "string",
+            "minLength": 3
+          },
           "phone": {
             "type": "string",
             "pattern": "^07[3-9][0-9]{8}$"
           },
-          "accountType": {
+          "role": {
             "type": "string",
             "enum": [
               "CLIENT",
@@ -7801,20 +8660,23 @@
             "type": "string",
             "minLength": 6
           },
-          "branchID": {
-            "type": "string",
-            "format": "uuid"
+          "fcm": {
+            "type": "string"
           },
           "avatar": {
             "type": "string"
+          },
+          "companyID": {
+            "type": "number",
+            "nullable": true
           }
         },
         "required": [
           "name",
+          "username",
           "phone",
-          "accountType",
-          "password",
-          "branchID"
+          "role",
+          "password"
         ]
       },
       "ClientUpdateSchema": {
@@ -7824,11 +8686,15 @@
             "type": "string",
             "minLength": 3
           },
+          "username": {
+            "type": "string",
+            "minLength": 3
+          },
           "phone": {
             "type": "string",
             "pattern": "^07[3-9][0-9]{8}$"
           },
-          "accountType": {
+          "role": {
             "type": "string",
             "enum": [
               "CLIENT",
@@ -7842,12 +8708,15 @@
             "type": "string",
             "minLength": 6
           },
-          "branchID": {
-            "type": "string",
-            "format": "uuid"
+          "fcm": {
+            "type": "string"
           },
           "avatar": {
             "type": "string"
+          },
+          "companyID": {
+            "type": "number",
+            "nullable": true
           }
         }
       },
@@ -7937,7 +8806,7 @@
           }
         }
       },
-      "TenantCreateSchema": {
+      "CompanyCreateSchema": {
         "type": "object",
         "properties": {
           "name": {
@@ -8004,7 +8873,7 @@
           "additionalPriceForRemoteAreas"
         ]
       },
-      "TenantUpdateSchema": {
+      "CompanyUpdateSchema": {
         "type": "object",
         "properties": {
           "name": {
@@ -8062,202 +8931,158 @@
         }
       },
       "OrderCreateSchema": {
-        "type": "object",
-        "properties": {
-          "totalCost": {
-            "type": "number"
-          },
-          "paidAmount": {
-            "type": "number"
-          },
-          "totalCostInUSD": {
-            "type": "number"
-          },
-          "paidAmountInUSD": {
-            "type": "number"
-          },
-          "discount": {
-            "type": "number"
-          },
-          "receiptNumber": {
-            "type": "number"
-          },
-          "quantity": {
-            "type": "number"
-          },
-          "weight": {
-            "type": "number"
-          },
-          "recipientName": {
-            "type": "string"
-          },
-          "recipientPhone": {
-            "type": "string"
-          },
-          "recipientAddress": {
-            "type": "string"
-          },
-          "details": {
-            "type": "string"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "REGISTERED",
-              "READY_TO_SEND",
-              "WITH_DELIVERY_AGENT",
-              "DELIVERED",
-              "REPLACED",
-              "PARTIALLY_RETURNED",
-              "RETURNED",
-              "POSTPONED",
-              "CHANGE_ADDRESS",
-              "RESEND",
-              "WITH_RECEIVING_AGENT",
-              "PROCESSING"
-            ]
-          },
-          "deliveryType": {
-            "type": "string",
-            "enum": [
-              "NORMAL",
-              "REPLACEMENT"
-            ]
-          },
-          "clientID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "deliveryAgentID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "deliveryDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "governorate": {
-            "type": "string",
-            "enum": [
-              "AL_ANBAR",
-              "BABIL",
-              "BAGHDAD",
-              "BASRA",
-              "DHI_QAR",
-              "AL_QADISIYYAH",
-              "DIYALA",
-              "DUHOK",
-              "ERBIL",
-              "KARBALA",
-              "KIRKUK",
-              "MAYSAN",
-              "MUTHANNA",
-              "NAJAF",
-              "NINAWA",
-              "SALAH_AL_DIN",
-              "SULAYMANIYAH",
-              "WASIT"
-            ]
-          },
-          "locationID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "storeID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "productID": {
-                  "type": "string",
-                  "format": "uuid"
+        "allOf": [
+          {
+            "discriminator": {
+              "propertyName": "withProducts"
+            },
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "withProducts": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productID": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "colorID": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "sizeID": {
+                          "type": "number",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "productID",
+                        "quantity"
+                      ]
+                    }
+                  }
                 },
-                "quantity": {
-                  "type": "number"
-                },
-                "color": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "string"
-                }
+                "required": [
+                  "withProducts",
+                  "products"
+                ]
               },
-              "required": [
-                "productID",
-                "quantity"
-              ]
-            }
+              {
+                "type": "object",
+                "properties": {
+                  "withProducts": {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  "totalCost": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "withProducts",
+                  "totalCost",
+                  "quantity"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "recipientName": {
+                "type": "string"
+              },
+              "recipientPhone": {
+                "type": "string"
+              },
+              "recipientAddress": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "details": {
+                "type": "string"
+              },
+              "deliveryType": {
+                "type": "string",
+                "enum": [
+                  "NORMAL",
+                  "REPLACEMENT"
+                ]
+              },
+              "governorate": {
+                "type": "string",
+                "enum": [
+                  "AL_ANBAR",
+                  "BABIL",
+                  "BAGHDAD",
+                  "BASRA",
+                  "DHI_QAR",
+                  "AL_QADISIYYAH",
+                  "DIYALA",
+                  "DUHOK",
+                  "ERBIL",
+                  "KARBALA",
+                  "KIRKUK",
+                  "MAYSAN",
+                  "MUTHANNA",
+                  "NAJAF",
+                  "NINAWA",
+                  "SALAH_AL_DIN",
+                  "SULAYMANIYAH",
+                  "WASIT"
+                ]
+              },
+              "locationID": {
+                "type": "number",
+                "nullable": true
+              },
+              "storeID": {
+                "type": "number",
+                "nullable": true
+              }
+            },
+            "required": [
+              "recipientName",
+              "recipientPhone",
+              "recipientAddress",
+              "deliveryType",
+              "governorate",
+              "storeID"
+            ]
           }
-        },
-        "required": [
-          "totalCost",
-          "paidAmount",
-          "totalCostInUSD",
-          "paidAmountInUSD",
-          "discount",
-          "receiptNumber",
-          "quantity",
-          "weight",
-          "recipientName",
-          "recipientPhone",
-          "recipientAddress",
-          "details",
-          "notes",
-          "status",
-          "deliveryType",
-          "clientID",
-          "deliveryAgentID",
-          "products"
         ]
       },
       "OrderUpdateSchema": {
         "type": "object",
         "properties": {
-          "totalCost": {
-            "type": "number"
-          },
           "paidAmount": {
-            "type": "number"
-          },
-          "totalCostInUSD": {
-            "type": "number"
-          },
-          "paidAmountInUSD": {
             "type": "number"
           },
           "discount": {
             "type": "number"
-          },
-          "receiptNumber": {
-            "type": "number"
-          },
-          "quantity": {
-            "type": "number"
-          },
-          "weight": {
-            "type": "number"
-          },
-          "recipientName": {
-            "type": "string"
-          },
-          "recipientPhone": {
-            "type": "string"
-          },
-          "recipientAddress": {
-            "type": "string"
-          },
-          "details": {
-            "type": "string"
-          },
-          "notes": {
-            "type": "string"
           },
           "status": {
             "type": "string",
@@ -8276,80 +9101,29 @@
               "PROCESSING"
             ]
           },
-          "deliveryType": {
-            "type": "string",
-            "enum": [
-              "NORMAL",
-              "REPLACEMENT"
-            ]
-          },
-          "clientID": {
-            "type": "string",
-            "format": "uuid"
-          },
           "deliveryAgentID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "deliveryDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
-          "governorate": {
-            "type": "string",
-            "enum": [
-              "AL_ANBAR",
-              "BABIL",
-              "BAGHDAD",
-              "BASRA",
-              "DHI_QAR",
-              "AL_QADISIYYAH",
-              "DIYALA",
-              "DUHOK",
-              "ERBIL",
-              "KARBALA",
-              "KIRKUK",
-              "MAYSAN",
-              "MUTHANNA",
-              "NAJAF",
-              "NINAWA",
-              "SALAH_AL_DIN",
-              "SULAYMANIYAH",
-              "WASIT"
-            ]
+          "recipientName": {
+            "type": "string"
           },
-          "locationID": {
-            "type": "string",
-            "format": "uuid"
+          "recipientPhone": {
+            "type": "string"
           },
-          "storeID": {
-            "type": "string",
-            "format": "uuid"
+          "recipientAddress": {
+            "type": "string"
           },
-          "products": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "productID": {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                "quantity": {
-                  "type": "number"
-                },
-                "color": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "productID",
-                "quantity"
-              ]
-            }
+          "notes": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
           }
         }
       },
@@ -8367,6 +9141,11 @@
           "image": {
             "type": "string"
           },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "nullable": true
+          },
           "stock": {
             "type": "number",
             "minimum": 0,
@@ -8381,16 +9160,15 @@
               "type": "object",
               "properties": {
                 "colorID": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "number",
+                  "nullable": true
                 },
                 "title": {
                   "type": "string"
                 },
                 "quantity": {
                   "type": "number",
-                  "minimum": 0,
-                  "nullable": true
+                  "minimum": 0
                 }
               },
               "required": [
@@ -8405,16 +9183,15 @@
               "type": "object",
               "properties": {
                 "sizeID": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "number",
+                  "nullable": true
                 },
                 "title": {
                   "type": "string"
                 },
                 "quantity": {
                   "type": "number",
-                  "minimum": 0,
-                  "nullable": true
+                  "minimum": 0
                 }
               },
               "required": [
@@ -8444,6 +9221,11 @@
           "image": {
             "type": "string"
           },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "nullable": true
+          },
           "stock": {
             "type": "number",
             "minimum": 0,
@@ -8458,16 +9240,15 @@
               "type": "object",
               "properties": {
                 "colorID": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "number",
+                  "nullable": true
                 },
                 "title": {
                   "type": "string"
                 },
                 "quantity": {
                   "type": "number",
-                  "minimum": 0,
-                  "nullable": true
+                  "minimum": 0
                 }
               },
               "required": [
@@ -8482,16 +9263,15 @@
               "type": "object",
               "properties": {
                 "sizeID": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "number",
+                  "nullable": true
                 },
                 "title": {
                   "type": "string"
                 },
                 "quantity": {
                   "type": "number",
-                  "minimum": 0,
-                  "nullable": true
+                  "minimum": 0
                 }
               },
               "required": [
@@ -8576,8 +9356,8 @@
             "minLength": 3
           },
           "clientID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "notes": {
             "type": "string"
@@ -8599,8 +9379,8 @@
             "minLength": 3
           },
           "clientID": {
-            "type": "string",
-            "format": "uuid"
+            "type": "number",
+            "nullable": true
           },
           "notes": {
             "type": "string"
@@ -8648,6 +9428,202 @@
             "type": "string"
           }
         }
+      },
+      "ReportCreateSchema": {
+        "allOf": [
+          {
+            "discriminator": {
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "COMPANY"
+                    ]
+                  },
+                  "companyID": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "type",
+                  "companyID"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "DELIVERY_AGENT"
+                    ]
+                  },
+                  "deliveryAgentID": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "type",
+                  "deliveryAgentID"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "GOVERNORATE"
+                    ]
+                  },
+                  "governorate": {
+                    "type": "string",
+                    "enum": [
+                      "AL_ANBAR",
+                      "BABIL",
+                      "BAGHDAD",
+                      "BASRA",
+                      "DHI_QAR",
+                      "AL_QADISIYYAH",
+                      "DIYALA",
+                      "DUHOK",
+                      "ERBIL",
+                      "KARBALA",
+                      "KIRKUK",
+                      "MAYSAN",
+                      "MUTHANNA",
+                      "NAJAF",
+                      "NINAWA",
+                      "SALAH_AL_DIN",
+                      "SULAYMANIYAH",
+                      "WASIT"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "governorate"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "BRANCH"
+                    ]
+                  },
+                  "branchID": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "type",
+                  "branchID"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "CLIENT"
+                    ]
+                  },
+                  "clientID": {
+                    "type": "number",
+                    "nullable": true
+                  },
+                  "storeID": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "type",
+                  "clientID",
+                  "storeID"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "REPOSITORY"
+                    ]
+                  },
+                  "repositoryID": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "type",
+                  "repositoryID"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ordersIDs": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "ordersIDs"
+            ]
+          }
+        ]
+      },
+      "ReportUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "UNPAID",
+              "PAID"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "OrdersReceiptsCreateSchema": {
+        "type": "object",
+        "properties": {
+          "ordersIDs": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "nullable": true
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "ordersIDs"
+        ]
       }
     }
   }
