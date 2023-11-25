@@ -5,6 +5,7 @@ import {
     Prisma,
     PrismaClient
 } from "@prisma/client";
+import AppError from "../../utils/AppError.util";
 import { OrderCreateType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
@@ -98,33 +99,13 @@ const orderReform = (
         return null;
     }
     return {
-        id: order.id,
-        totalCost: order.totalCost,
-        paidAmount: order.paidAmount,
-        totalCostInUSD: order.totalCostInUSD,
-        paidAmountInUSD: order.paidAmountInUSD,
-        discount: order.discount,
-        receiptNumber: order.receiptNumber,
-        quantity: order.quantity,
-        weight: order.weight,
-        recipientName: order.recipientName,
-        recipientPhone: order.recipientPhone,
-        recipientAddress: order.recipientAddress,
-        notes: order.notes,
-        details: order.details,
-        status: order.status,
-        deliveryType: order.deliveryType,
-        deliveryDate: order.deliveryDate,
-        createdAt: order.createdAt,
-        updatedAt: order.updatedAt,
-        timeline: order.timeline,
-        company: order.company,
+        ...order,
         // TODO
-        // client: {
-        //     id: order.client.user.id,
-        //     name: order.client.user.name,
-        //     phone: order.client.user.phone
-        // },
+        client: {
+            id: order.client.user.id,
+            name: order.client.user.name,
+            phone: order.client.user.phone
+        },
         // client: order.client
         //     ? {
         //           id: order.client.user.id,
@@ -138,57 +119,56 @@ const orderReform = (
                   name: order.deliveryAgent.user.name,
                   phone: order.deliveryAgent.user.phone
               }
-            : undefined,
-        orderProducts: order.orderProducts.map((orderProduct: any) => {
-            return {
-                quantity: orderProduct.quantity,
-                product: {
-                    id: orderProduct.product.id,
-                    title: orderProduct.product.title,
-                    price: orderProduct.product.price,
-                    weight: orderProduct.product.weight,
-                    image: orderProduct.product.image,
-                    createdAt: orderProduct.product.createdAt,
-                    updatedAt: orderProduct.product.updatedAt
-                },
-                color: orderProduct.color
-                    ? {
-                          id: orderProduct.color.id,
-                          title: orderProduct.color.title,
-                          createdAt: orderProduct.color.createdAt,
-                          updatedAt: orderProduct.color.updatedAt
-                      }
-                    : undefined,
-                size: orderProduct.size
-                    ? {
-                          id: orderProduct.size.id,
-                          title: orderProduct.size.title,
-                          createdAt: orderProduct.size.createdAt,
-                          updatedAt: orderProduct.size.updatedAt
-                      }
-                    : undefined
-            };
-        }),
-        governorate: order.governorate,
-        location: order.location
-            ? {
-                  id: order.location.id,
-                  name: order.location.name
-              }
-            : undefined,
-        store: order.store
-            ? {
-                  id: order.store.id,
-                  name: order.store.name
-              }
-            : undefined,
-        clientReportReportNumber: order.clientReportReportNumber,
-        repositoryReportReportNumber: order.repositoryReportReportNumber,
-        branchReportReportNumber: order.branchReportReportNumber,
-        // tenantReportReportNumber: order.tenantReportReportNumber,
-        deliveryAgentReportReportNumber: order.deliveryAgentReportReportNumber,
-        governorateReportReportNumber: order.governorateReportReportNumber,
-        companyReportReportNumber: order.companyReportReportNumber
+            : undefined
+        // orderProducts: order.orderProducts.map((orderProduct: any) => {
+        //     return {
+        //         quantity: orderProduct.quantity,
+        //         product: {
+        //             id: orderProduct.product.id,
+        //             title: orderProduct.product.title,
+        //             price: orderProduct.product.price,
+        //             weight: orderProduct.product.weight,
+        //             image: orderProduct.product.image,
+        //             createdAt: orderProduct.product.createdAt,
+        //             updatedAt: orderProduct.product.updatedAt
+        //         },
+        //         color: orderProduct.color
+        //             ? {
+        //                   id: orderProduct.color.id,
+        //                   title: orderProduct.color.title,
+        //                   createdAt: orderProduct.color.createdAt,
+        //                   updatedAt: orderProduct.color.updatedAt
+        //               }
+        //             : undefined,
+        //         size: orderProduct.size
+        //             ? {
+        //                   id: orderProduct.size.id,
+        //                   title: orderProduct.size.title,
+        //                   createdAt: orderProduct.size.createdAt,
+        //                   updatedAt: orderProduct.size.updatedAt
+        //               }
+        //             : undefined
+        //     };
+        // }),
+        // location: order.location
+        //     ? {
+        //           id: order.location.id,
+        //           name: order.location.name
+        //       }
+        //     : undefined,
+        // store: order.store
+        //     ? {
+        //           id: order.store.id,
+        //           name: order.store.name
+        //       }
+        //     : undefined,
+        // clientReportReportNumber: order.clientReportReportNumber,
+        // repositoryReportReportNumber: order.repositoryReportReportNumber,
+        // branchReportReportNumber: order.branchReportReportNumber,
+        // // tenantReportReportNumber: order.tenantReportReportNumber,
+        // deliveryAgentReportReportNumber: order.deliveryAgentReportReportNumber,
+        // governorateReportReportNumber: order.governorateReportReportNumber,
+        // companyReportReportNumber: order.companyReportReportNumber
     };
 };
 
@@ -292,6 +272,77 @@ export class OrderModel {
             }
         }
 
+        // Check if products are available for the specific color and size
+        if (data.withProducts == true) {
+            for (const product of data.products) {
+                if (product.colorID) {
+                    const productColor = await prisma.productColors.findUnique({
+                        where: {
+                            productId_colorId: {
+                                productId: product.productID,
+                                colorId: product.colorID
+                            }
+                        },
+                        select: {
+                            quantity: true,
+                            color: {
+                                select: {
+                                    title: true
+                                }
+                            }
+                        }
+                    });
+
+                    if (!productColor) {
+                        throw new AppError(
+                            `المنتج ${product.productID} غير متوفر بهذا اللون`,
+                            400
+                        );
+                    }
+
+                    if (productColor.quantity < product.quantity) {
+                        throw new AppError(
+                            `الكمية المتاحة من المنتج ${product.productID} باللون ${productColor.color.title} هي ${productColor.quantity}`,
+                            400
+                        );
+                    }
+                }
+
+                if (product.sizeID) {
+                    const productSize = await prisma.productSizes.findUnique({
+                        where: {
+                            productId_sizeId: {
+                                productId: product.productID,
+                                sizeId: product.sizeID
+                            }
+                        },
+                        select: {
+                            quantity: true,
+                            size: {
+                                select: {
+                                    title: true
+                                }
+                            }
+                        }
+                    });
+
+                    if (!productSize) {
+                        throw new AppError(
+                            `المنتج ${product.productID} غير متوفر بهذا المقاس`,
+                            400
+                        );
+                    }
+
+                    if (productSize.quantity < product.quantity) {
+                        throw new AppError(
+                            `الكمية المتاحة من المنتج ${product.productID} بالمقاس ${productSize.size.title} هي ${productSize.quantity}`,
+                            400
+                        );
+                    }
+                }
+            }
+        }
+
         const createdOrder = await prisma.order.create({
             data: {
                 totalCost:
@@ -325,8 +376,7 @@ export class OrderModel {
                 },
                 client: {
                     connect: {
-                        // TODO: Remove this hard-coded clientID
-                        id: clientID
+                        userId: clientID
                     }
                 },
                 orderProducts:
@@ -361,6 +411,44 @@ export class OrderModel {
             },
             select: orderSelect
         });
+
+        // TODO: Reduce products quantity and color and size quantity
+        if (data.withProducts == true) {
+            for (const product of data.products) {
+                if (product.colorID) {
+                    await prisma.productColors.update({
+                        where: {
+                            productId_colorId: {
+                                productId: product.productID,
+                                colorId: product.colorID
+                            }
+                        },
+                        data: {
+                            quantity: {
+                                decrement: product.quantity
+                            }
+                        }
+                    });
+                }
+
+                if (product.sizeID) {
+                    await prisma.productSizes.update({
+                        where: {
+                            productId_sizeId: {
+                                productId: product.productID,
+                                sizeId: product.sizeID
+                            }
+                        },
+                        data: {
+                            quantity: {
+                                decrement: product.quantity
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
         return orderReform(createdOrder);
     }
 
