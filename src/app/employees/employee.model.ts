@@ -22,7 +22,8 @@ const employeeSelect: Prisma.EmployeeSelect = {
     company: {
         select: {
             id: true,
-            name: true
+            name: true,
+            logo: true
         }
     }
 };
