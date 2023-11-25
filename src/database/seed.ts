@@ -1,190 +1,642 @@
-import { AdminRole, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../config/config";
 // import Logger from "../lib/logger";
 
-// initialize Prisma Client
+import companies from "./data/companies";
+import users from "./data/users";
+
 const prisma = new PrismaClient();
 
-const notifications = [
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تأكيد التسجيل",
-        content: "شكرًا لتسجيلك معنا. نرحب بك في مجتمعنا!"
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديث معلومات الحساب",
-        content: "يرجى تحديث معلومات حسابك لتجربة استخدام محسنة."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "رسالة ترحيب",
-        content: "مرحبًا بك! نأمل أن تستمتع بتجربتك معنا."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "إعادة تعيين كلمة المرور",
-        content: "انقر هنا لإعادة تعيين كلمة المرور الخاصة بك."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تأكيد الطلب",
-        content: "شكرًا لطلبك. سنبدأ في معالجته على الفور."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديث الشروط والأحكام",
-        content: "يرجى مراجعة والموافقة على تحديثات الشروط والأحكام."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تنشيط الحساب",
-        content: "انقر هنا لتنشيط حسابك والبدء في الاستفادة من خدماتنا."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تغييرات في الخصوصية",
-        content: "أخبار هامة! تعرّف على التغييرات الجديدة في سياسة الخصوصية."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تقييم الخدمة",
-        content: "شاركنا تجربتك معنا وقيم خدماتنا لتحسينها."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تنبيه الاشتراك",
-        content:
-            "نود تذكيرك بأن اشتراكك سينتهي قريبًا. قم بتجديد الاشتراك الخاص بك الآن."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديثات المنتج",
-        content: "اكتشف آخر تحديثات منتجاتنا الجديدة والمحسّنة."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "استلام الدفعة",
-        content: "تم استلام الدفعة الخاصة بك. شكرًا لثقتك بنا!"
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تغييرات في الجدول الزمني",
-        content: "يرجى ملاحظة التغييرات الجديدة في الجدول الزمني للفعاليات."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تنبيه الأمان",
-        content: "تم اكتشاف نشاط غير معتاد. يرجى التحقق من حسابك."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "اكتشاف مشكلة",
-        content: "نعتذر عن أي ازعاج. نحن نعمل على حل هذه المشكلة."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديثات الخدمة",
-        content: "تعرّف على آخر تحديثات الخدمة لدينا والميزات الجديدة."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تذكير بالمهمة",
-        content: "لا تنس إكمال المهمة الهامة قبل الموعد النهائي."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديث المنصة",
-        content: "لقد قمنا بتحديث المنصة لتحسين تجربتك معنا."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "الرد على الاستفسار",
-        content: "نحن هنا للإجابة على جميع استفساراتك واحتياجاتك."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديثات الخدمة المجانية",
-        content: "تمتع بتحديثات الخدمة المجانية التي تقدمها لك شركتنا."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "الاشتراك في النشرة الإخبارية",
-        content:
-            "اشترك في نشرتنا الإخبارية للحصول على آخر التحديثات والعروض الخاصة."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "إعادة توجيه الصفحة",
-        content: "تم تحويلك إلى الصفحة المطلوبة. نأمل أن تستمتع بتجربتك."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تحديثات الصيانة",
-        content: "سيتم إجراء الصيانة الدورية قريبًا. نعتذر عن أي ازعاج."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تنبيه الوظيفة",
-        content: "تم نشر وظيفة جديدة تناسب ملفك الشخصي. قدّم طلبك الآن!"
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "التحقق من الحساب",
-        content: "يرجى التحقق من حسابك لضمان الأمان والحماية."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "اشتراك العضوية",
-        content: "سجل اليوم واستفد من مزايا العضوية الحصرية."
-    },
-    {
-        userId: "398f98ae-95cb-49f2-90e9-f4f5543a08dc",
-        title: "تقديم خدمة مخصصة",
-        content: "نحن هنا لتلبية احتياجاتك وتقديم الخدمات المخصصة لك."
-    }
-];
-
 async function main() {
-    const superAdmin = await prisma.admin.upsert({
+    /*****************************************************************/
+    /*************************** COMPANIES ***************************/
+    /*****************************************************************/
+
+    const albarq1 = await prisma.company.upsert({
         where: {
-            user: {
-                username: "superadmin",
-                id: 1
-            },
-            userId: 1
+            name: companies.albarq1.name
+        },
+        update: companies.albarq1,
+        create: companies.albarq1
+    });
+
+    const albarq2 = await prisma.company.upsert({
+        where: {
+            name: companies.albarq2.name
+        },
+        update: companies.albarq2,
+        create: companies.albarq2
+    });
+
+    /*****************************************************************/
+    /***************************** USERS *****************************/
+    /*****************************************************************/
+
+    const superadmin = await prisma.user.upsert({
+        where: {
+            username: users.superAdmin.username
         },
         update: {
-            user: {
+            name: users.superAdmin.name,
+            phone: users.superAdmin.phone,
+            password: bcrypt.hashSync(
+                users.superAdmin.password + (SECRET as string),
+                12
+            ),
+            admin: {
                 update: {
-                    name: "Super Admin",
-                    username: "superadmin",
-                    password: bcrypt.hashSync(
-                        "superadmin" + (SECRET as string),
-                        12
-                    ),
-                    phone: "01000000000"
+                    role: users.superAdmin.role
                 }
-            },
-            role: AdminRole.SUPER_ADMIN
+            }
         },
         create: {
-            user: {
+            name: users.superAdmin.name,
+            username: users.superAdmin.username,
+            phone: users.superAdmin.phone,
+            password: bcrypt.hashSync(
+                users.superAdmin.password + (SECRET as string),
+                12
+            ),
+            admin: {
                 create: {
-                    id: 1,
-                    name: "Super Admin",
-                    username: "superadmin",
-                    password: bcrypt.hashSync(
-                        "superadmin" + (SECRET as string),
-                        12
-                    ),
-                    phone: "01000000000"
+                    role: users.superAdmin.role
                 }
-            },
-            role: AdminRole.SUPER_ADMIN
+            }
         }
     });
+
+    const admin = await prisma.user.upsert({
+        where: {
+            username: users.admin.username
+        },
+        update: {
+            name: users.admin.name,
+            password: bcrypt.hashSync(
+                users.admin.password + (SECRET as string),
+                12
+            ),
+            phone: users.admin.phone,
+            admin: {
+                update: {
+                    role: users.admin.role
+                }
+            }
+        },
+        create: {
+            name: users.admin.name,
+            username: users.admin.username,
+            phone: users.admin.phone,
+            password: bcrypt.hashSync(
+                users.admin.password + (SECRET as string),
+                12
+            ),
+            admin: {
+                create: {
+                    role: users.admin.role
+                }
+            }
+        }
+    });
+
+    const albarq1CompanyManager = await prisma.user.upsert({
+        where: {
+            username: users.albarq1CompanyManager.username
+        },
+        update: {
+            name: users.albarq1CompanyManager.name,
+            password: bcrypt.hashSync(
+                users.albarq1CompanyManager.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1CompanyManager.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1CompanyManager.salary,
+                    role: users.albarq1CompanyManager.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1CompanyManager.name,
+            username: users.albarq1CompanyManager.username,
+            phone: users.albarq1CompanyManager.phone,
+            password: bcrypt.hashSync(
+                users.albarq1CompanyManager.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1CompanyManager.salary,
+                    role: users.albarq1CompanyManager.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1AccountManager = await prisma.user.upsert({
+        where: {
+            username: users.albarq1AccountManager.username
+        },
+        update: {
+            name: users.albarq1AccountManager.name,
+            password: bcrypt.hashSync(
+                users.albarq1AccountManager.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1AccountManager.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1AccountManager.salary,
+                    role: users.albarq1AccountManager.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1AccountManager.name,
+            username: users.albarq1AccountManager.username,
+            phone: users.albarq1AccountManager.phone,
+            password: bcrypt.hashSync(
+                users.albarq1AccountManager.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1AccountManager.salary,
+                    role: users.albarq1AccountManager.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1Accountant = await prisma.user.upsert({
+        where: {
+            username: users.albarq1Accountant.username
+        },
+        update: {
+            name: users.albarq1Accountant.name,
+            password: bcrypt.hashSync(
+                users.albarq1Accountant.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1Accountant.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1Accountant.salary,
+                    role: users.albarq1Accountant.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1Accountant.name,
+            username: users.albarq1Accountant.username,
+            phone: users.albarq1Accountant.phone,
+            password: bcrypt.hashSync(
+                users.albarq1Accountant.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1Accountant.salary,
+                    role: users.albarq1Accountant.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1DeliveryAgent = await prisma.user.upsert({
+        where: {
+            username: users.albarq1DeliveryAgent.username
+        },
+        update: {
+            name: users.albarq1DeliveryAgent.name,
+            password: bcrypt.hashSync(
+                users.albarq1DeliveryAgent.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1DeliveryAgent.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1DeliveryAgent.salary,
+                    role: users.albarq1DeliveryAgent.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1DeliveryAgent.name,
+            username: users.albarq1DeliveryAgent.username,
+            phone: users.albarq1DeliveryAgent.phone,
+            password: bcrypt.hashSync(
+                users.albarq1DeliveryAgent.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1DeliveryAgent.salary,
+                    role: users.albarq1DeliveryAgent.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1ReceivingAgent = await prisma.user.upsert({
+        where: {
+            username: users.albarq1ReceivingAgent.username
+        },
+        update: {
+            name: users.albarq1ReceivingAgent.name,
+            password: bcrypt.hashSync(
+                users.albarq1ReceivingAgent.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1ReceivingAgent.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1ReceivingAgent.salary,
+                    role: users.albarq1ReceivingAgent.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1ReceivingAgent.name,
+            username: users.albarq1ReceivingAgent.username,
+            phone: users.albarq1ReceivingAgent.phone,
+            password: bcrypt.hashSync(
+                users.albarq1ReceivingAgent.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1ReceivingAgent.salary,
+                    role: users.albarq1ReceivingAgent.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1BranchManager = await prisma.user.upsert({
+        where: {
+            username: users.albarq1BranchManager.username
+        },
+        update: {
+            name: users.albarq1BranchManager.name,
+            password: bcrypt.hashSync(
+                users.albarq1BranchManager.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1BranchManager.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1BranchManager.salary,
+                    role: users.albarq1BranchManager.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1BranchManager.name,
+            username: users.albarq1BranchManager.username,
+            phone: users.albarq1BranchManager.phone,
+            password: bcrypt.hashSync(
+                users.albarq1BranchManager.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1BranchManager.salary,
+                    role: users.albarq1BranchManager.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1EmergencyEmployee = await prisma.user.upsert({
+        where: {
+            username: users.albarq1EmergencyEmployee.username
+        },
+        update: {
+            name: users.albarq1EmergencyEmployee.name,
+            password: bcrypt.hashSync(
+                users.albarq1EmergencyEmployee.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1EmergencyEmployee.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1EmergencyEmployee.salary,
+                    role: users.albarq1EmergencyEmployee.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1EmergencyEmployee.name,
+            username: users.albarq1EmergencyEmployee.username,
+            phone: users.albarq1EmergencyEmployee.phone,
+            password: bcrypt.hashSync(
+                users.albarq1EmergencyEmployee.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1EmergencyEmployee.salary,
+                    role: users.albarq1EmergencyEmployee.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1DataEntry = await prisma.user.upsert({
+        where: {
+            username: users.albarq1DataEntry.username
+        },
+        update: {
+            name: users.albarq1DataEntry.name,
+            password: bcrypt.hashSync(
+                users.albarq1DataEntry.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1DataEntry.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1DataEntry.salary,
+                    role: users.albarq1DataEntry.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1DataEntry.name,
+            username: users.albarq1DataEntry.username,
+            phone: users.albarq1DataEntry.phone,
+            password: bcrypt.hashSync(
+                users.albarq1DataEntry.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1DataEntry.salary,
+                    role: users.albarq1DataEntry.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1RepositoryEmployee = await prisma.user.upsert({
+        where: {
+            username: users.albarq1RepositoryEmployee.username
+        },
+        update: {
+            name: users.albarq1RepositoryEmployee.name,
+            password: bcrypt.hashSync(
+                users.albarq1RepositoryEmployee.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1RepositoryEmployee.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1RepositoryEmployee.salary,
+                    role: users.albarq1RepositoryEmployee.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1RepositoryEmployee.name,
+            username: users.albarq1RepositoryEmployee.username,
+            phone: users.albarq1RepositoryEmployee.phone,
+            password: bcrypt.hashSync(
+                users.albarq1RepositoryEmployee.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1RepositoryEmployee.salary,
+                    role: users.albarq1RepositoryEmployee.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1InquiryEmployee = await prisma.user.upsert({
+        where: {
+            username: users.albarq1InquiryEmployee.username
+        },
+        update: {
+            name: users.albarq1InquiryEmployee.name,
+            password: bcrypt.hashSync(
+                users.albarq1InquiryEmployee.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1InquiryEmployee.phone,
+            employee: {
+                update: {
+                    salary: users.albarq1InquiryEmployee.salary,
+                    role: users.albarq1InquiryEmployee.role
+                }
+            }
+        },
+        create: {
+            name: users.albarq1InquiryEmployee.name,
+            username: users.albarq1InquiryEmployee.username,
+            phone: users.albarq1InquiryEmployee.phone,
+            password: bcrypt.hashSync(
+                users.albarq1InquiryEmployee.password + (SECRET as string),
+                12
+            ),
+            employee: {
+                create: {
+                    salary: users.albarq1InquiryEmployee.salary,
+                    role: users.albarq1InquiryEmployee.role,
+                    company: {
+                        connect: {
+                            id: albarq1.id
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const albarq1Client = await prisma.user.upsert({
+        where: {
+            username: users.albarq1Client.username
+        },
+        update: {
+            name: users.albarq1Client.name,
+            password: bcrypt.hashSync(
+                users.albarq1Client.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1Client.phone
+        },
+        create: {
+            name: users.albarq1Client.name,
+            username: users.albarq1Client.username,
+            phone: users.albarq1Client.phone,
+            password: bcrypt.hashSync(
+                users.albarq1Client.password + (SECRET as string),
+                12
+            )
+        }
+    });
+
+    const albarq1ClientClient = await prisma.client.upsert({
+        where: {
+            userId: albarq1Client.id
+        },
+        update: {
+            role: users.albarq1Client.role
+        },
+        create: {
+            role: users.albarq1Client.role,
+            user: {
+                connect: {
+                    id: albarq1Client.id
+                }
+            },
+            company: {
+                connect: {
+                    id: albarq1.id
+                }
+            },
+            createdBy: {
+                connect: {
+                    id: superadmin.id
+                }
+            }
+        }
+    });
+
+    const albarq1ClientAssistant = await prisma.user.upsert({
+        where: {
+            username: users.albarq1ClientAssistant.username
+        },
+        update: {
+            name: users.albarq1ClientAssistant.name,
+            password: bcrypt.hashSync(
+                users.albarq1ClientAssistant.password + (SECRET as string),
+                12
+            ),
+            phone: users.albarq1ClientAssistant.phone
+        },
+        create: {
+            name: users.albarq1ClientAssistant.name,
+            username: users.albarq1ClientAssistant.username,
+            phone: users.albarq1ClientAssistant.phone,
+            password: bcrypt.hashSync(
+                users.albarq1ClientAssistant.password + (SECRET as string),
+                12
+            )
+        }
+    });
+
+    const albarq1ClientAssistantClient = await prisma.client.upsert({
+        where: {
+            userId: albarq1ClientAssistant.id
+        },
+        update: {
+            role: users.albarq1ClientAssistant.role
+        },
+        create: {
+            role: users.albarq1ClientAssistant.role,
+            user: {
+                connect: {
+                    id: albarq1ClientAssistant.id
+                }
+            },
+            company: {
+                connect: {
+                    id: albarq1.id
+                }
+            },
+            createdBy: {
+                connect: {
+                    id: superadmin.id
+                }
+            }
+        }
+    });
+
+    /*****************************************************************/
+    /*************************** NOTIFICATIONS ***********************/
+    /*****************************************************************/
+
+    // const superAdmin = await prisma.admin.upsert({
+    //     where: {
+    //         userId: 1
+    //     },
+    //     update: {
+    //         user: {
+    //             update: {
+    //                 name: "Super Admin",
+    //                 username: "superadmin",
+    //                 password: bcrypt.hashSync(
+    //                     "superadmin" + (SECRET as string),
+    //                     12
+    //                 ),
+    //                 phone: "01000000000"
+    //             }
+    //         },
+    //         role: AdminRole.SUPER_ADMIN
+    //     },
+    //     create: {
+    //         user: {
+    //             create: {
+    //                 id: 1,
+    //                 name: "Super Admin",
+    //                 username: "superadmin",
+    //                 password: bcrypt.hashSync(
+    //                     "superadmin" + (SECRET as string),
+    //                     12
+    //                 ),
+    //                 phone: "01000000000"
+    //             }
+    //         },
+    //         role: AdminRole.SUPER_ADMIN
+    //     }
+    // });
 
     // const user2 = await prisma.user.create({
     //   data: {
@@ -198,8 +650,29 @@ async function main() {
     //     data: notifications
     // });
 
-    console.log({ superAdmin });
+    // console.log({ superAdmin });
     // Logger.info({ superAdmin });
+
+    console.log({
+        albarq1,
+        albarq2,
+        superadmin,
+        admin,
+        albarq1CompanyManager,
+        albarq1AccountManager,
+        albarq1Accountant,
+        albarq1DeliveryAgent,
+        albarq1ReceivingAgent,
+        albarq1BranchManager,
+        albarq1EmergencyEmployee,
+        albarq1DataEntry,
+        albarq1RepositoryEmployee,
+        albarq1InquiryEmployee,
+        albarq1Client,
+        albarq1ClientClient,
+        albarq1ClientAssistant,
+        albarq1ClientAssistantClient
+    });
 }
 
 // execute the main function

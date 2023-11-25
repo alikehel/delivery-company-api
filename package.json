@@ -13,7 +13,7 @@
         "prisma:migrate:reset": "npx prisma db push && npx prisma generate && npx prisma migrate dev && npx prisma migrate reset",
         "prisma:migrate:dev": "npx prisma migrate dev --no-name",
         "prisma:studio": "npx prisma studio",
-        "prisma:seed": "npx prisma generate && npx prisma db push && npx prisma db seed",
+        "prisma:seed": "npx prisma generate && npx prisma db seed",
         "swagger:autogen": "ts-node ./src/swagger/swagger.ts",
         "watch": "tsc-watch --esModuleInterop src/index.ts --outDir ./build && 'node ./build/index.js'",
         "clean": "rimraf build/",
