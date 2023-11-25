@@ -55,16 +55,26 @@ const clientReform = (client: any) => {
 
 export class ClientModel {
     async createClient(companyID: number, data: ClientCreateTypeWithUserID) {
+        const createdUser = await prisma.user.create({
+            data: {
+                name: data.name,
+                username: data.username,
+                password: data.password,
+                phone: data.phone,
+                fcm: data.fcm,
+                avatar: data.avatar
+            },
+            select: {
+                id: true
+            }
+        });
+
         const createdClient = await prisma.client.create({
             data: {
+                // id: createdUser.id,
                 user: {
-                    create: {
-                        name: data.name,
-                        username: data.username,
-                        password: data.password,
-                        phone: data.phone,
-                        fcm: data.fcm,
-                        avatar: data.avatar
+                    connect: {
+                        id: createdUser.id
                     }
                 },
                 company: {

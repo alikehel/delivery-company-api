@@ -23,6 +23,8 @@ export const isAutherized = (allowedRoles: string[]) => {
         if (res.locals.user) {
             if (allowedRoles.includes(role)) {
                 return next(); // If user is authorized, call the next middleware function
+            } else {
+                return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 401));
             }
         } else {
             return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 401));

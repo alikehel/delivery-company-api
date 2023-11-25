@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { AdminRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { AdminRole } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
@@ -16,7 +16,7 @@ const router = Router();
 
 router.route("/companies").post(
     isLoggedIn,
-    isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.SUPER_ADMIN]),
     upload.single("logo"),
     createCompany
     /*
@@ -38,7 +38,7 @@ router.route("/companies").post(
 
 router.route("/companies").get(
     isLoggedIn,
-    isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.SUPER_ADMIN]),
     getAllCompanies
     /*
         #swagger.tags = ['Companies Routes']
@@ -59,7 +59,7 @@ router.route("/companies").get(
 
 router.route("/companies/:companyID").get(
     isLoggedIn,
-    isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.SUPER_ADMIN]),
     getCompany
     /*
         #swagger.tags = ['Companies Routes']
@@ -68,7 +68,7 @@ router.route("/companies/:companyID").get(
 
 router.route("/companies/:companyID").patch(
     isLoggedIn,
-    isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.SUPER_ADMIN]),
     upload.single("logo"),
     updateCompany
     /*
@@ -90,7 +90,7 @@ router.route("/companies/:companyID").patch(
 
 router.route("/companies/:companyID").delete(
     isLoggedIn,
-    isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.SUPER_ADMIN]),
     deleteCompany
     /*
         #swagger.tags = ['Companies Routes']
