@@ -86,6 +86,18 @@ const orderSelect: Prisma.OrderSelect = {
             id: true,
             name: true
         }
+    },
+    branch: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
+    repository: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 };
 
