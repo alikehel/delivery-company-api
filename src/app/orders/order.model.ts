@@ -709,6 +709,20 @@ export class OrderModel {
                               id: data.orderData.deliveryAgentID
                           }
                       }
+                    : undefined,
+                repository: data.orderData.repositoryID
+                    ? {
+                          connect: {
+                              id: data.orderData.repositoryID
+                          }
+                      }
+                    : undefined,
+                branch: data.orderData.branchID
+                    ? {
+                          connect: {
+                              id: data.orderData.branchID
+                          }
+                      }
                     : undefined
             },
             select: orderSelect

@@ -71,9 +71,9 @@ export const OrderUpdateSchema = z
         recipientPhone: z.string(),
         recipientAddress: z.string(),
         notes: z.string().optional(),
-        details: z.string().optional()
-        // repositoryID: z.coerce.number().optional(),
-        // branchID: z.coerce.number().optional(),
+        details: z.string().optional(),
+        repositoryID: z.coerce.number().optional(),
+        branchID: z.coerce.number().optional()
     })
     .partial();
 

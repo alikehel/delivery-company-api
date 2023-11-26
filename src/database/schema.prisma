@@ -265,6 +265,7 @@ model Branch {
   branchReports BranchReport[]
   company       Company        @relation(fields: [companyId], references: [id])
   companyId     Int
+  Order         Order[]
 }
 
 model Repository {
@@ -282,6 +283,7 @@ model Repository {
   repositoryReports RepositoryReport[]
   company           Company            @relation(fields: [companyId], references: [id])
   companyId         Int
+  Order             Order[]
 }
 
 model Location {
@@ -376,10 +378,8 @@ model Order {
   store                           Store                @relation(fields: [storeId], references: [id])
   locationId                      Int?
   storeId                         Int
-  // repository       Repository?     @relation(fields: [repositoryId], references: [id])
-  // branch           Branch?         @relation(fields: [branchId], references: [id])
-  // repositoryId     String?
-  // branchId         String?
+  repository                      Repository?          @relation(fields: [repositoryId], references: [id])
+  branch                          Branch?              @relation(fields: [branchId], references: [id])
   clientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber], onDelete: SetNull)
   clientReportReportNumber        Int?
   repositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber], onDelete: SetNull)
@@ -395,6 +395,8 @@ model Order {
   timeline                        Json                 @default("[]")
   company                         Company              @relation(fields: [companyId], references: [id])
   companyId                       Int
+  repositoryId                    Int?
+  branchId                        Int?
 }
 
 model Report {
