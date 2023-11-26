@@ -9,20 +9,73 @@ const userSelect: Prisma.UserSelect = {
     username: true,
     name: true,
     admin: true,
-    employee: true,
-    client: true
+    employee: {
+        select: {
+            role: true,
+            permissions: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true
+                }
+            }
+        }
+    },
+    client: {
+        select: {
+            role: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true
+                }
+            }
+        }
+    }
 };
 
-// const userReform = (user: any) => {
-//     return {
-//         id: user.id,
-//         username: user.username,
-//         name: user.name,
-//         admin: user.admin,
-//         employee: user.employee,
-//         client: user.client
-//     };
-// };
+const userReform = (user: any) => {
+    return {
+        id: user.id,
+        username: user.username,
+        password: user.password,
+        name: user.name,
+        companyName: user.employee
+            ? user.employee.company.name
+            : user.client
+            ? user.client.company.name
+            : null,
+        admin: user.admin
+            ? {
+                  role: user.admin.role,
+                  permissions: user.admin.permissions
+              }
+            : null,
+        employee: user.employee
+            ? {
+                  role: user.employee.role,
+                  permissions: user.employee.permissions,
+                  company: {
+                      id: user.employee.company.id,
+                      name: user.employee.company.name,
+                      logo: user.employee.company.logo
+                  }
+              }
+            : null,
+        client: user.client
+            ? {
+                  role: user.client.role,
+                  company: {
+                      id: user.client.company.id,
+                      name: user.client.company.name,
+                      logo: user.client.company.logo
+                  }
+              }
+            : null
+    };
+};
 
 export class AuthModel {
     async signin(user: UserSigninType) {
@@ -32,6 +85,6 @@ export class AuthModel {
             },
             select: userSelect
         });
-        return returnedUser;
+        return userReform(returnedUser);
     }
 }

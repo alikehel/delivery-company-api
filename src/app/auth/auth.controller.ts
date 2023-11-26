@@ -45,9 +45,14 @@ export const signin = catchAsync(async (req, res) => {
                 ? returnedUser.employee.permissions
                 : null,
             companyID: returnedUser.employee
-                ? returnedUser.employee.companyId
+                ? returnedUser.employee.company.id
                 : returnedUser.client
-                ? returnedUser.client.companyId
+                ? returnedUser.client.company.id
+                : null,
+            companyName: returnedUser.employee
+                ? returnedUser.employee.company.name
+                : returnedUser.client
+                ? returnedUser.client.company.name
                 : null
         },
         JWT_SECRET as string,

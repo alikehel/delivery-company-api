@@ -25,16 +25,22 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         }
 
         // IS TOKEN VALID
-        const { id, name, username, role, permissions, companyID } = jwt.verify(
-            token,
-            JWT_SECRET as string
-        ) as {
+        const {
+            id,
+            name,
+            username,
+            role,
+            permissions,
+            companyID,
+            companyName
+        } = jwt.verify(token, JWT_SECRET as string) as {
             id: string;
             name: string;
             username: string;
             role: AdminRole[] | EmployeeRole[] | ClientRole[];
             permissions: Permission[];
             companyID: number;
+            companyName: string;
         };
 
         // TODO: Check if user still exists
@@ -42,7 +48,15 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         // TODO: Check if user changed password after the token was issued
 
         // req.user = { id, email, subdomain, role };
-        res.locals.user = { id, name, username, role, permissions, companyID };
+        res.locals.user = {
+            id,
+            name,
+            username,
+            role,
+            permissions,
+            companyID,
+            companyName
+        };
 
         // GRANT ACCESS
         return next();
