@@ -9,7 +9,7 @@ export const ProductCreateSchema = z.object({
     weight: z.coerce.number().min(0).optional(),
     // stock: z.number().default(0),
     stock: z.coerce.number().min(0),
-    category: z.string().optional(),
+    categoryID: z.coerce.number(),
     colors: z.preprocess(
         (data) => {
             if (typeof data === "string") {
@@ -21,7 +21,7 @@ export const ProductCreateSchema = z.object({
             .array(
                 z.object({
                     colorID: z.coerce.number().optional(),
-                    title: z.string(),
+                    // title: z.string(),
                     quantity: z.number().min(0)
                 })
             )
@@ -38,7 +38,7 @@ export const ProductCreateSchema = z.object({
             .array(
                 z.object({
                     sizeID: z.coerce.number().optional(),
-                    title: z.string(),
+                    // title: z.string(),
                     quantity: z.number().min(0)
                 })
             )

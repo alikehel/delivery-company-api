@@ -74,18 +74,16 @@ export class ProductModel {
                 image: data.image,
                 stock: data.stock,
                 category: {
-                    connectOrCreate: {
-                        where: {
-                            title: data.category
-                        },
-                        create: {
-                            company: {
-                                connect: {
-                                    id: companyID
-                                }
-                            },
-                            title: data.category || "أخري"
-                        }
+                    connect: {
+                        id: data.categoryID
+                        // create: {
+                        //     company: {
+                        //         connect: {
+                        //             id: companyID
+                        //         }
+                        //     },
+                        //     title: data.category || "أخري"
+                        // }
                     }
                 },
                 productColors: {
@@ -93,18 +91,16 @@ export class ProductModel {
                         return {
                             quantity: color.quantity,
                             color: {
-                                connectOrCreate: {
-                                    where: {
-                                        title: color.title
-                                    },
-                                    create: {
-                                        company: {
-                                            connect: {
-                                                id: companyID
-                                            }
-                                        },
-                                        title: color.title || "أخري"
-                                    }
+                                connect: {
+                                    id: color.colorID
+                                    // create: {
+                                    //     company: {
+                                    //         connect: {
+                                    //             id: companyID
+                                    //         }
+                                    //     },
+                                    //     title: color.title || "أخري"
+                                    // }
                                 }
                             }
                         };
@@ -115,19 +111,18 @@ export class ProductModel {
                         return {
                             quantity: size.quantity,
                             size: {
-                                connectOrCreate: {
-                                    where: {
-                                        title: size.title
-                                    },
-                                    create: {
-                                        company: {
-                                            connect: {
-                                                id: companyID
-                                            }
-                                        },
-                                        title: size.title || "أخري"
-                                    }
+                                connect: {
+                                    id: size.sizeID
                                 }
+                                //     create: {
+                                //         company: {
+                                //             connect: {
+                                //                 id: companyID
+                                //             }
+                                //         },
+                                //         title: size.title || "أخري"
+                                //     }
+                                // }
                             }
                         };
                     })
@@ -185,18 +180,16 @@ export class ProductModel {
                 image: data.productData.image,
                 stock: data.productData.stock,
                 category: {
-                    connectOrCreate: {
-                        where: {
-                            title: data.productData.category
-                        },
-                        create: {
-                            company: {
-                                connect: {
-                                    id: data.companyID
-                                }
-                            },
-                            title: data.productData.category || "أخري"
-                        }
+                    connect: {
+                        id: data.productData.categoryID
+                        // create: {
+                        //     company: {
+                        //         connect: {
+                        //             id: data.companyID
+                        //         }
+                        //     },
+                        //     title: data.productData.category || "أخري"
+                        // }
                     }
                 }
             },
