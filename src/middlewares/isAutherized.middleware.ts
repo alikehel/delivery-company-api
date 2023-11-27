@@ -24,10 +24,10 @@ export const isAutherized = (allowedRoles: string[]) => {
             if (allowedRoles.includes(role)) {
                 return next(); // If user is authorized, call the next middleware function
             } else {
-                return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 401));
+                return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
             }
         } else {
-            return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 401));
+            return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
         }
     };
 };
