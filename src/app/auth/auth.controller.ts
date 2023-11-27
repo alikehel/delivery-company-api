@@ -26,7 +26,7 @@ export const signin = catchAsync(async (req, res) => {
     );
 
     if (!isValidPassword) {
-        throw new AppError("Password is not correct", 400);
+        throw new AppError("كلمة المرور غير صحيحة", 400);
     }
 
     const token = jwt.sign(
