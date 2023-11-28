@@ -29,6 +29,9 @@ const employeeSelect: Prisma.EmployeeSelect = {
 };
 
 const employeeReform = (employee: any) => {
+    if (!employee) {
+        return null;
+    }
     return {
         // TODO
         id: employee.id,

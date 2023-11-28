@@ -21,6 +21,9 @@ const notificationSelect: Prisma.NotificationSelect = {
 };
 
 const notificationReform = (notification: any) => {
+    if (!notification) {
+        return null;
+    }
     return {
         id: notification.id,
         title: notification.title,

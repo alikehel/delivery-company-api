@@ -27,6 +27,9 @@ const storeSelect: Prisma.StoreSelect = {
 };
 
 const storeSelectReform = (store: any) => {
+    if (!store) {
+        return null;
+    }
     return {
         id: store.id,
         name: store.name,

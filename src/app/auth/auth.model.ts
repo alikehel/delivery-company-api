@@ -37,6 +37,9 @@ const userSelect: Prisma.UserSelect = {
 };
 
 const userReform = (user: any) => {
+    if (!user) {
+        return null;
+    }
     return {
         id: user.id,
         username: user.username,

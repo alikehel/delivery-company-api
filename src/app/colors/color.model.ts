@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 const colorSelect: Prisma.ColorSelect = {
     id: true,
     title: true,
+    code: true,
     createdAt: true,
     updatedAt: true,
     company: {
@@ -30,6 +31,7 @@ export class ColorModel {
         const createdColor = await prisma.color.create({
             data: {
                 title: data.title,
+                code: data.code,
                 company: {
                     connect: {
                         id: companyID
@@ -74,7 +76,8 @@ export class ColorModel {
                 id: data.colorID
             },
             data: {
-                title: data.colorData.title
+                title: data.colorData.title,
+                code: data.colorData.code
             },
             select: colorSelect
         });

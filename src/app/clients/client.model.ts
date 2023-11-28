@@ -36,6 +36,9 @@ const clientSelect: Prisma.ClientSelect = {
 };
 
 const clientReform = (client: any) => {
+    if (!client) {
+        return null;
+    }
     return {
         // TODO
         id: client.id,
@@ -143,11 +146,13 @@ export class ClientModel {
                         avatar: data.clientData.avatar
                     }
                 },
-                company: {
-                    connect: {
-                        id: data.companyID
-                    }
-                },
+                company: data.companyID
+                    ? {
+                          connect: {
+                              id: data.companyID
+                          }
+                      }
+                    : undefined,
                 role: data.clientData.role,
                 token: data.clientData.token
             },

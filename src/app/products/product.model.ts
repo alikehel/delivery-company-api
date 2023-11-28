@@ -179,19 +179,21 @@ export class ProductModel {
                 price: data.productData.price,
                 image: data.productData.image,
                 stock: data.productData.stock,
-                category: {
-                    connect: {
-                        id: data.productData.categoryID
-                        // create: {
-                        //     company: {
-                        //         connect: {
-                        //             id: data.companyID
-                        //         }
-                        //     },
-                        //     title: data.productData.category || "أخري"
-                        // }
-                    }
-                }
+                category: data.productData.categoryID
+                    ? {
+                          connect: {
+                              id: data.productData.categoryID
+                              // create: {
+                              //     company: {
+                              //         connect: {
+                              //             id: data.companyID
+                              //         }
+                              //     },
+                              //     title: data.productData.category || "أخري"
+                              // }
+                          }
+                      }
+                    : undefined
             },
             //     ProductColors: {
             //         update: data.productData.colors?.map((color) => {

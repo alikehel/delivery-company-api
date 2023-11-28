@@ -352,6 +352,31 @@ export class OrderModel {
                         );
                     }
                 }
+
+                if (product.quantity) {
+                    const productQuantity = await prisma.product.findUnique({
+                        where: {
+                            id: product.productID
+                        },
+                        select: {
+                            stock: true
+                        }
+                    });
+
+                    if (!productQuantity) {
+                        throw new AppError(
+                            `المنتج ${product.productID} غير متوفر`,
+                            400
+                        );
+                    }
+
+                    if (productQuantity.stock < product.quantity) {
+                        throw new AppError(
+                            `الكمية المتاحة من المنتج ${product.productID} هي ${productQuantity.stock}`,
+                            400
+                        );
+                    }
+                }
             }
         }
 
@@ -453,6 +478,19 @@ export class OrderModel {
                         },
                         data: {
                             quantity: {
+                                decrement: product.quantity
+                            }
+                        }
+                    });
+                }
+
+                if (product.quantity) {
+                    await prisma.product.update({
+                        where: {
+                            id: product.productID
+                        },
+                        data: {
+                            stock: {
                                 decrement: product.quantity
                             }
                         }

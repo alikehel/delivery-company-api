@@ -30,6 +30,9 @@ const locationSelect: Prisma.LocationSelect = {
 };
 
 const locationReform = (location: any) => {
+    if (!location) {
+        return null;
+    }
     return {
         id: location.id,
         name: location.name,

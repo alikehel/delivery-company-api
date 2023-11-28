@@ -226,6 +226,9 @@ const reportselectReform = (
     //     };
     // }
 ) => {
+    if (!report) {
+        return null;
+    }
     const reportData = {
         ...report,
         createdBy: report.createdBy.user,
@@ -266,6 +269,8 @@ export class ReportModel {
         userID: number,
         data: ReportCreateType
     ) {
+        console.log(userID);
+
         const orders = {
             connect: data.ordersIDs.map((orderID) => {
                 return {
@@ -278,7 +283,7 @@ export class ReportModel {
                 type: data.type,
                 createdBy: {
                     connect: {
-                        id: userID
+                        userId: userID
                     }
                 },
                 company: {

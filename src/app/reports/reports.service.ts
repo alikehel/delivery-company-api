@@ -84,6 +84,8 @@ export class ReportService {
             });
         }
 
+        console.log(data.loggedInUserID);
+
         await reportModel.createReport(
             companyID,
             data.loggedInUserID,
