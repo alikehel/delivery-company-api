@@ -276,7 +276,7 @@ export class OrderModel {
                     }
                 });
                 if (!productData) {
-                    throw new Error("Product not found");
+                    throw new Error("منتج غير موجود");
                 }
                 totalCost += +productData.price * product.quantity;
                 quantity += product.quantity;
@@ -287,6 +287,21 @@ export class OrderModel {
         // Check if products are available for the specific color and size
         if (data.withProducts == true) {
             for (const product of data.products) {
+                const productData = await prisma.product.findUnique({
+                    where: {
+                        id: product.productID
+                    },
+                    select: {
+                        title: true
+                    }
+                });
+
+                if (!productData) {
+                    throw new AppError("منتج غير موجود", 400);
+                }
+
+                const productTitle = productData?.title;
+
                 if (product.colorID) {
                     const productColor = await prisma.productColors.findUnique({
                         where: {
@@ -307,14 +322,14 @@ export class OrderModel {
 
                     if (!productColor) {
                         throw new AppError(
-                            `المنتج ${product.productID} غير متوفر بهذا اللون`,
+                            `المنتج (${productTitle}) غير متوفر بهذا اللون`,
                             400
                         );
                     }
 
                     if (productColor.quantity < product.quantity) {
                         throw new AppError(
-                            `الكمية المتاحة من المنتج ${product.productID} باللون ${productColor.color.title} هي ${productColor.quantity}`,
+                            `الكمية المتاحة من المنتج (${productTitle}) باللون (${productColor.color.title}) هي (${productColor.quantity})`,
                             400
                         );
                     }
@@ -340,14 +355,14 @@ export class OrderModel {
 
                     if (!productSize) {
                         throw new AppError(
-                            `المنتج ${product.productID} غير متوفر بهذا المقاس`,
+                            `المنتج (${productTitle}) غير متوفر بهذا المقاس`,
                             400
                         );
                     }
 
                     if (productSize.quantity < product.quantity) {
                         throw new AppError(
-                            `الكمية المتاحة من المنتج ${product.productID} بالمقاس ${productSize.size.title} هي ${productSize.quantity}`,
+                            `الكمية المتاحة من المنتج (${productTitle}) بالمقاس (${productSize.size.title}) هي (${productSize.quantity})`,
                             400
                         );
                     }
@@ -365,14 +380,14 @@ export class OrderModel {
 
                     if (!productQuantity) {
                         throw new AppError(
-                            `المنتج ${product.productID} غير متوفر`,
+                            `المنتج (${productTitle}) غير متوفر`,
                             400
                         );
                     }
 
                     if (productQuantity.stock < product.quantity) {
                         throw new AppError(
-                            `الكمية المتاحة من المنتج ${product.productID} هي ${productQuantity.stock}`,
+                            `الكمية المتاحة من المنتج (${productTitle}) هي (${productQuantity.stock})`,
                             400
                         );
                     }
