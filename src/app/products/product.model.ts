@@ -19,7 +19,7 @@ const productSelect: Prisma.ProductSelect = {
         select: {
             quantity: true,
             color: {
-                select: { id: true, title: true }
+                select: { id: true, title: true, code: true }
             }
         }
     },
