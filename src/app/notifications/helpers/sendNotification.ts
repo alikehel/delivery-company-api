@@ -15,12 +15,12 @@ admin.initializeApp({
 const notificationModel = new NotificationModel();
 
 const sendNotification = async (data: NotificationCreateType) => {
-    const { user } = await notificationModel.createNotification(data);
+    const createdNotification =
+        await notificationModel.createNotification(data);
 
-    // TODO: Remove this
-    // console.log(user);
+    const user = createdNotification?.user;
 
-    if (!user.fcm) {
+    if (!user?.fcm) {
         return;
     }
 
