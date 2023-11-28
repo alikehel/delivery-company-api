@@ -56,6 +56,7 @@ export class NotificationModel {
             },
             select: notificationSelect
         });
+
         return notificationReform(createdNotification);
     }
 
@@ -74,13 +75,12 @@ export class NotificationModel {
             // if seen true gett all notifications seen and unseen
             // if seen false get only unseen notifications
             where: {
-                seen: seen
-                    ? {
-                          equals: true
-                      }
-                    : {
-                          equals: false
-                      },
+                seen:
+                    seen === true
+                        ? undefined
+                        : {
+                              equals: false
+                          },
                 user: {
                     id: userID
                 }
