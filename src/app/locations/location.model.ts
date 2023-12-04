@@ -14,7 +14,9 @@ const locationSelect: Prisma.LocationSelect = {
                 select: {
                     user: {
                         select: {
-                            name: true
+                            id: true,
+                            name: true,
+                            phone: true
                         }
                     }
                 }
@@ -41,8 +43,9 @@ const locationReform = (location: any) => {
         deliveryAgents: location.dileveryAgentsLocations.map(
             (deliveryAgent: any) => {
                 return {
-                    id: deliveryAgent.deliveryAgent.id,
-                    name: deliveryAgent.deliveryAgent.user.name
+                    id: deliveryAgent.deliveryAgent.user.id,
+                    name: deliveryAgent.deliveryAgent.user.name,
+                    phone: deliveryAgent.deliveryAgent.user.phone
                 };
             }
         ),

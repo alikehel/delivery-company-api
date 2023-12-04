@@ -11,7 +11,8 @@ export const ClientCreateSchema = z.object({
     token: z.string().optional(),
     password: z.string().min(6),
     fcm: z.string().optional(),
-    // branchID: z.coerce.number(),
+    branchID: z.coerce.number().optional(),
+    repositoryID: z.coerce.number().optional(),
     avatar: z.string().optional(),
     companyID: z.coerce.number().optional()
 });

@@ -238,6 +238,7 @@ model Client {
   user      User     @relation(fields: [userId], references: [id])
 
   repository Repository? @relation(fields: [repositoryId], references: [id])
+  branch     Branch?     @relation(fields: [branchId], references: [id])
 
   clientReports ClientReport[]
   company       Company        @relation(fields: [companyId], references: [id])
@@ -247,6 +248,7 @@ model Client {
   deletedAt   DateTime?
   deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
+  branchId    Int?
 }
 
 model Store {
@@ -286,7 +288,8 @@ model Branch {
   branchReports BranchReport[]
   company       Company        @relation(fields: [companyId], references: [id])
   companyId     Int
-  Order         Order[]
+  orders        Order[]
+  clients       Client[]
 }
 
 model Repository {

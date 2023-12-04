@@ -26,6 +26,18 @@ const clientSelect: Prisma.ClientSelect = {
             }
         }
     },
+    repository: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
+    branch: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
     company: {
         select: {
             id: true,
@@ -54,6 +66,8 @@ const clientReform = (client: any) => {
         avatar: client.user.avatar,
         role: client.role,
         company: client.company,
+        repository: client.repository,
+        branch: client.branch,
         createdBy: client.createdBy
             ? {
                   id: client.createdBy.id,
@@ -96,6 +110,16 @@ export class ClientModel {
                 },
                 role: data.role,
                 token: data.token,
+                branch: {
+                    connect: {
+                        id: data.branchID
+                    }
+                },
+                repository: {
+                    connect: {
+                        id: data.repositoryID
+                    }
+                },
                 createdBy: {
                     connect: {
                         id: data.userID
@@ -169,7 +193,21 @@ export class ClientModel {
                       }
                     : undefined,
                 role: data.clientData.role,
-                token: data.clientData.token
+                token: data.clientData.token,
+                branch: data.clientData.branchID
+                    ? {
+                          connect: {
+                              id: data.clientData.branchID
+                          }
+                      }
+                    : undefined,
+                repository: data.clientData.repositoryID
+                    ? {
+                          connect: {
+                              id: data.clientData.repositoryID
+                          }
+                      }
+                    : undefined
             },
             select: clientSelect
         });
