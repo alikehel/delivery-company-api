@@ -76,7 +76,7 @@ export const getAllClients = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as unknown as boolean) || false;
+    const deleted = (req.query.deleted as string) || "false";
 
     const clients = await clientModel.getAllClients(skip, take, {
         deleted: deleted

@@ -31,12 +31,7 @@ const employeeSelect: Prisma.EmployeeSelect = {
     deletedBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     }
 };
@@ -58,7 +53,7 @@ const employeeReform = (employee: any) => {
         branch: employee.branch,
         repository: employee.repository,
         company: employee.company,
-        deletedBy: employee.deleted && employee.deletedBy.user,
+        deletedBy: employee.deleted && employee.deletedBy,
         deletedAt: employee.deleted && employee.deletedAt.toISOString()
     };
 };
@@ -117,7 +112,7 @@ export class EmployeeModel {
     async getAllEmployees(
         skip: number,
         take: number,
-        filters: { roles?: EmployeeRole[]; deleted?: boolean }
+        filters: { roles?: EmployeeRole[]; deleted?: string }
     ) {
         const employees = await prisma.employee.findMany({
             skip: skip,
@@ -125,7 +120,7 @@ export class EmployeeModel {
             where: {
                 AND: [
                     { role: { in: filters.roles } },
-                    { deleted: filters.deleted == true ? true : false }
+                    { deleted: filters.deleted === "true" ? true : false }
                 ]
             },
             // orderBy: {

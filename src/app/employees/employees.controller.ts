@@ -83,7 +83,7 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as unknown as boolean) || false;
+    const deleted = (req.query.deleted as string) || "false";
 
     const employees = await employeeModel.getAllEmployees(skip, take, {
         roles: roles,
