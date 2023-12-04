@@ -25,6 +25,19 @@ const employeeSelect: Prisma.EmployeeSelect = {
             name: true,
             logo: true
         }
+    },
+    deleted: true,
+    deletedAt: true,
+    deletedBy: {
+        select: {
+            id: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
     }
 };
 
@@ -44,7 +57,9 @@ const employeeReform = (employee: any) => {
         permissions: employee.permissions,
         branch: employee.branch,
         repository: employee.repository,
-        company: employee.company
+        company: employee.company,
+        deletedBy: employee.deleted && employee.deletedBy.user,
+        deletedAt: employee.deleted && employee.deletedAt.toISOString()
     };
 };
 
@@ -102,13 +117,16 @@ export class EmployeeModel {
     async getAllEmployees(
         skip: number,
         take: number,
-        filters: { roles?: EmployeeRole[] }
+        filters: { roles?: EmployeeRole[]; deleted?: boolean }
     ) {
         const employees = await prisma.employee.findMany({
             skip: skip,
             take: take,
             where: {
-                AND: [{ role: { in: filters.roles } }]
+                AND: [
+                    { role: { in: filters.roles } },
+                    { deleted: filters.deleted == true ? true : false }
+                ]
             },
             // orderBy: {
             //     name: "desc"
@@ -176,10 +194,19 @@ export class EmployeeModel {
         return employeeReform(employee);
     }
 
-    async deleteEmployee(data: { employeeID: number }) {
-        const deletedEmployee = await prisma.employee.delete({
+    async deleteEmployee(data: { employeeID: number; deletedByID: number }) {
+        const deletedEmployee = await prisma.employee.update({
             where: {
                 id: data.employeeID
+            },
+            data: {
+                deleted: true,
+                deletedAt: new Date(),
+                deletedBy: {
+                    connect: {
+                        id: data.deletedByID
+                    }
+                }
             }
         });
         return deletedEmployee;

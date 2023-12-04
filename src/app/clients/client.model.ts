@@ -32,6 +32,17 @@ const clientSelect: Prisma.ClientSelect = {
             name: true,
             logo: true
         }
+    },
+    deletedBy: {
+        select: {
+            id: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
     }
 };
 
@@ -53,7 +64,9 @@ const clientReform = (client: any) => {
                   id: client.createdBy.id,
                   name: client.createdBy.user.name
               }
-            : null
+            : null,
+        deletedBy: client.deleted && client.deletedBy.user,
+        deletedAt: client.deleted && client.deletedAt.toISOString()
     };
 };
 
@@ -104,13 +117,20 @@ export class ClientModel {
         return clientsCount;
     }
 
-    async getAllClients(skip: number, take: number) {
+    async getAllClients(
+        skip: number,
+        take: number,
+        filters: { deleted?: boolean }
+    ) {
         const clients = await prisma.client.findMany({
             skip: skip,
             take: take,
             // orderBy: {
             //     name: "desc"
             // },
+            where: {
+                AND: [{ deleted: filters.deleted == true ? true : false }]
+            },
             select: clientSelect
         });
         return clients.map(clientReform);
@@ -161,10 +181,19 @@ export class ClientModel {
         return clientReform(client);
     }
 
-    async deleteClient(data: { clientID: number }) {
-        await prisma.client.delete({
+    async deleteClient(data: { clientID: number; deletedByID: number }) {
+        await prisma.client.update({
             where: {
                 id: data.clientID
+            },
+            data: {
+                deleted: true,
+                deletedAt: new Date(),
+                deletedBy: {
+                    connect: {
+                        id: data.deletedByID
+                    }
+                }
             }
         });
         return true;

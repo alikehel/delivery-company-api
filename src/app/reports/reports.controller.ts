@@ -122,9 +122,11 @@ export class ReportController {
 
     deleteReport = catchAsync(async (req, res) => {
         const reportID = +req.params["reportID"];
+        const loggedInUserID = +res.locals.user.id;
 
         await reportModel.deleteReport({
-            reportID: reportID
+            reportID: reportID,
+            deletedByID: loggedInUserID
         });
 
         res.status(200).json({

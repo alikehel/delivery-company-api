@@ -156,6 +156,8 @@ export class ReportService {
             ?.toString()
             .toUpperCase();
 
+        const deleted = (data.queryString.deleted as boolean) || false;
+
         let page = 1;
         if (
             data.queryString.page &&
@@ -185,7 +187,8 @@ export class ReportService {
             repositoryID: repositoryID,
             deliveryAgentID: deliveryAgentID,
             governorate: governorate,
-            companyID: companyID
+            companyID: companyID,
+            deleted: deleted
         });
 
         return { page, pagesCount, reports };

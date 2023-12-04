@@ -83,8 +83,11 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
+    const deleted = (req.query.deleted as unknown as boolean) || false;
+
     const employees = await employeeModel.getAllEmployees(skip, take, {
-        roles: roles
+        roles: roles,
+        deleted: deleted
     });
 
     res.status(200).json({
@@ -139,9 +142,11 @@ export const updateEmployee = catchAsync(async (req, res) => {
 
 export const deleteEmployee = catchAsync(async (req, res) => {
     const employeeID = +req.params["employeeID"];
+    const loggedInUserID = +res.locals.user.id;
 
     await employeeModel.deleteEmployee({
-        employeeID: employeeID
+        employeeID: employeeID,
+        deletedByID: loggedInUserID
     });
 
     res.status(200).json({

@@ -148,6 +148,19 @@ const reportSelect: Prisma.ReportSelect = {
             id: true,
             name: true
         }
+    },
+    deleted: true,
+    deletedAt: true,
+    deletedBy: {
+        select: {
+            id: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
     }
 };
 
@@ -256,7 +269,9 @@ const reportselectReform = (
             ...report.companyReport,
             company: report.companyReport.company
         },
-        company: report.company
+        company: report.company,
+        deletedBy: report.deleted && report.deletedBy.user,
+        deletedAt: report.deleted && report.deletedAt.toISOString()
     };
     return reportData;
 };
@@ -397,6 +412,7 @@ export class ReportModel {
             companyID?: number;
             status?: ReportStatus;
             type?: ReportType;
+            deleted?: boolean;
         }
     ) {
         const reports = await prisma.report.findMany({
@@ -454,6 +470,9 @@ export class ReportModel {
                     },
                     {
                         type: filters.type
+                    },
+                    {
+                        deleted: filters.deleted == true ? true : false
                     }
                 ]
             },
@@ -492,10 +511,19 @@ export class ReportModel {
         return reportselectReform(report);
     }
 
-    async deleteReport(data: { reportID: number }) {
-        await prisma.report.delete({
+    async deleteReport(data: { deletedByID: number; reportID: number }) {
+        await prisma.report.update({
             where: {
                 id: data.reportID
+            },
+            data: {
+                deleted: true,
+                deletedAt: new Date(),
+                deletedBy: {
+                    connect: {
+                        id: data.deletedByID
+                    }
+                }
             }
         });
 

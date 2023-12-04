@@ -208,6 +208,17 @@ model Employee {
   company                 Company                   @relation(fields: [companyId], references: [id])
   companyId               Int
   dileveryAgentsLocations DileveryAgentsLocations[]
+
+  deletedReports   Report[]   @relation("deletedBy")
+  deletedOrders    Order[]    @relation("deletedBy")
+  deletedClients   Client[]   @relation("deletedBy")
+  deletedStores    Store[]    @relation("deletedBy")
+  deletedEmployees Employee[] @relation("deletedBy")
+
+  deleted     Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById Int?
 }
 
 model Client {
@@ -231,6 +242,11 @@ model Client {
   clientReports ClientReport[]
   company       Company        @relation(fields: [companyId], references: [id])
   companyId     Int
+
+  deleted     Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById Int?
 }
 
 model Store {
@@ -247,6 +263,11 @@ model Store {
   clientReports ClientReport[]
   company       Company        @relation(fields: [companyId], references: [id])
   companyId     Int
+
+  deleted     Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById Int?
 }
 
 model Branch {
@@ -397,14 +418,23 @@ model Order {
   companyId                       Int
   repositoryId                    Int?
   branchId                        Int?
+
+  deleted     Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById Int?
 }
 
 model Report {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  status    ReportStatus @default(UNPAID)
-  type      ReportType
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  status      ReportStatus @default(UNPAID)
+  type        ReportType
+  deleted     Boolean      @default(false)
+  deletedAt   DateTime?
+  deletedBy   Employee?    @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById Int?
 
   createdBy           Employee             @relation(fields: [employeeId], references: [id])
   employeeId          Int

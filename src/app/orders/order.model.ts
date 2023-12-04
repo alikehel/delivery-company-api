@@ -98,6 +98,19 @@ const orderSelect: Prisma.OrderSelect = {
             id: true,
             name: true
         }
+    },
+    deleted: true,
+    deletedAt: true,
+    deletedBy: {
+        select: {
+            id: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
     }
 };
 
@@ -131,7 +144,9 @@ const orderReform = (
                   name: order.deliveryAgent.user.name,
                   phone: order.deliveryAgent.user.phone
               }
-            : undefined
+            : undefined,
+        deletedBy: order.deleted && order.deletedBy.user,
+        deletedAt: order.deleted && order.deletedAt.toISOString()
         // orderProducts: order.orderProducts.map((orderProduct: any) => {
         //     return {
         //         quantity: orderProduct.quantity,
@@ -564,6 +579,7 @@ export class OrderModel {
             recipientPhone?: string;
             recipientAddress?: string;
             notes?: string;
+            deleted?: boolean;
         }
     ) {
         const orders = await prisma.order.findMany({
@@ -718,6 +734,10 @@ export class OrderModel {
                         createdAt: {
                             lte: filters.endDate
                         }
+                    },
+                    // Filter by deleted
+                    {
+                        deleted: filters.deleted == true ? true : false
                     }
                 ]
             },
@@ -795,10 +815,19 @@ export class OrderModel {
         return orderReform(order);
     }
 
-    async deleteOrder(data: { orderID: number }) {
-        await prisma.order.delete({
+    async deleteOrder(data: { orderID: number; deletedByID: number }) {
+        await prisma.order.update({
             where: {
                 id: data.orderID
+            },
+            data: {
+                deleted: true,
+                deletedAt: new Date(),
+                deletedBy: {
+                    connect: {
+                        id: data.deletedByID
+                    }
+                }
             }
         });
         return true;

@@ -107,6 +107,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
+    const deleted = (req.query.deleted as unknown as boolean) || false;
+
     const orders = await orderModel.getAllOrders(skip, take, {
         search: search,
         sort: sort,
@@ -126,7 +128,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
         recipientName: recipientName,
         recipientPhone: recipientPhone,
         recipientAddress: recipientAddress,
-        notes: notes
+        notes: notes,
+        deleted: deleted
     });
 
     res.status(200).json({
@@ -188,9 +191,11 @@ export const updateOrder = catchAsync(async (req, res) => {
 
 export const deleteOrder = catchAsync(async (req, res) => {
     const orderID = +req.params["orderID"];
+    const loggedInUserID = +res.locals.user.id;
 
     await orderModel.deleteOrder({
-        orderID: orderID
+        orderID: orderID,
+        deletedByID: loggedInUserID
     });
 
     res.status(200).json({

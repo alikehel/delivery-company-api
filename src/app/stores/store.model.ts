@@ -23,6 +23,17 @@ const storeSelect: Prisma.StoreSelect = {
             id: true,
             name: true
         }
+    },
+    deletedBy: {
+        select: {
+            id: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
     }
 };
 
@@ -41,7 +52,9 @@ const storeSelectReform = (store: any) => {
                   name: store.client.user.name
               }
             : undefined,
-        company: store.company
+        company: store.company,
+        deletedBy: store.deleted && store.deletedBy.user,
+        deletedAt: store.deleted && store.deletedAt.toISOString()
     };
 };
 
@@ -73,12 +86,19 @@ export class StoreModel {
         return storesCount;
     }
 
-    async getAllStores(skip: number, take: number) {
+    async getAllStores(
+        skip: number,
+        take: number,
+        filters: { deleted?: boolean }
+    ) {
         const stores = await prisma.store.findMany({
             skip: skip,
             take: take,
             orderBy: {
                 name: "desc"
+            },
+            where: {
+                AND: [{ deleted: filters.deleted == true ? true : false }]
             },
             select: storeSelect
         });
@@ -117,10 +137,19 @@ export class StoreModel {
         return storeSelectReform(store);
     }
 
-    async deleteStore(data: { storeID: number }) {
-        await prisma.store.delete({
+    async deleteStore(data: { storeID: number; deletedByID: number }) {
+        await prisma.store.update({
             where: {
                 id: data.storeID
+            },
+            data: {
+                deleted: true,
+                deletedAt: new Date(),
+                deletedBy: {
+                    connect: {
+                        id: data.deletedByID
+                    }
+                }
             }
         });
         return true;

@@ -53,7 +53,11 @@ export const getAllStores = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const stores = await storeModel.getAllStores(skip, take);
+    const deleted = (req.query.deleted as unknown as boolean) || false;
+
+    const stores = await storeModel.getAllStores(skip, take, {
+        deleted: deleted
+    });
 
     res.status(200).json({
         status: "success",
@@ -95,9 +99,11 @@ export const updateStore = catchAsync(async (req, res) => {
 
 export const deleteStore = catchAsync(async (req, res) => {
     const storeID = +req.params["storeID"];
+    const loggedInUserID = +res.locals.user.id;
 
     await storeModel.deleteStore({
-        storeID: storeID
+        storeID: storeID,
+        deletedByID: loggedInUserID
     });
 
     res.status(200).json({

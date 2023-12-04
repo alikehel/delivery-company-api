@@ -1,10 +1,10 @@
+import { AdminRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
-import { AdminRole } from "@prisma/client";
 
 const clientModel = new ClientModel();
 
@@ -76,7 +76,11 @@ export const getAllClients = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const clients = await clientModel.getAllClients(skip, take);
+    const deleted = (req.query.deleted as unknown as boolean) || false;
+
+    const clients = await clientModel.getAllClients(skip, take, {
+        deleted: deleted
+    });
 
     res.status(200).json({
         status: "success",
@@ -130,9 +134,11 @@ export const updateClient = catchAsync(async (req, res) => {
 
 export const deleteClient = catchAsync(async (req, res) => {
     const clientID = +req.params["clientID"];
+    const loggedInUserID = +res.locals.user.id;
 
     await clientModel.deleteClient({
-        clientID: clientID
+        clientID: clientID,
+        deletedByID: loggedInUserID
     });
 
     res.status(200).json({
