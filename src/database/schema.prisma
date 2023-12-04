@@ -426,15 +426,17 @@ model Order {
 }
 
 model Report {
-  id          Int          @id @default(autoincrement())
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  status      ReportStatus @default(UNPAID)
-  type        ReportType
-  deleted     Boolean      @default(false)
-  deletedAt   DateTime?
-  deletedBy   User?        @relation("deletedBy", fields: [deletedById], references: [id])
-  deletedById Int?
+  id                      Int          @id @default(autoincrement())
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  status                  ReportStatus @default(UNPAID)
+  type                    ReportType
+  deleted                 Boolean      @default(false)
+  deletedAt               DateTime?
+  deletedBy               User?        @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById             Int?
+  baghdadOrdersCount      Int?         @default(0)
+  governoratesOrdersCount Int?         @default(0)
 
   createdBy           Employee             @relation(fields: [employeeId], references: [id])
   employeeId          Int

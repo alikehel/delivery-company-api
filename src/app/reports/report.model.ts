@@ -23,6 +23,8 @@ const reportSelect: Prisma.ReportSelect = {
             }
         }
     },
+    baghdadOrdersCount: true,
+    governoratesOrdersCount: true,
     type: true,
     createdAt: true,
     updatedAt: true,
@@ -243,7 +245,8 @@ const reportselectReform = (
         clientReport: report.clientReport && {
             reportNumber: report.clientReport.reportNumber,
             clientReportOrders: report.clientReport.orders,
-            client: report.clientReport.client.user
+            client: report.clientReport.client.user,
+            store: report.clientReport.store
         },
         repositoryReport: report.repositoryReport && {
             reportNumber: report.repositoryReport.reportNumber,
@@ -283,7 +286,9 @@ export class ReportModel {
     async createReport(
         companyID: number,
         userID: number,
-        data: ReportCreateType
+        data: ReportCreateType,
+        baghdadOrdersCount: number,
+        governoratesOrdersCount: number
     ) {
         console.log(userID);
 
@@ -306,7 +311,9 @@ export class ReportModel {
                     connect: {
                         id: companyID
                     }
-                }
+                },
+                baghdadOrdersCount: baghdadOrdersCount,
+                governoratesOrdersCount: governoratesOrdersCount
             }
         };
         if (data.type === ReportType.CLIENT) {
@@ -318,11 +325,11 @@ export class ReportModel {
                         }
                     },
                     // TODO
-                    // store: {
-                    //     connect: {
-                    //         id: data.storeID
-                    //     }
-                    // },
+                    store: {
+                        connect: {
+                            id: data.storeID
+                        }
+                    },
                     orders: orders,
                     report: report
                 }

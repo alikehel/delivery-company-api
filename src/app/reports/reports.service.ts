@@ -18,6 +18,17 @@ export class ReportService {
     ) {
         const orders = await orderModel.getOrdersByIDs(data.reportData);
 
+        let baghdadOrdersCount = 0;
+        let governoratesOrdersCount = 0;
+
+        orders.forEach((order) => {
+            if (order.governorate === "BAGHDAD") {
+                baghdadOrdersCount++;
+            } else {
+                governoratesOrdersCount++;
+            }
+        });
+
         if (data.reportData.type === ReportType.CLIENT) {
             orders.forEach((order) => {
                 if (order?.clientReportReportNumber) {
@@ -84,16 +95,16 @@ export class ReportService {
             });
         }
 
-        console.log(data.loggedInUserID);
-
-        await reportModel.createReport(
+        const reportData = await reportModel.createReport(
             companyID,
             data.loggedInUserID,
-            data.reportData
+            data.reportData,
+            baghdadOrdersCount,
+            governoratesOrdersCount
         );
 
         // TODO
-        const pdf = await generateReport(orders);
+        const pdf = await generateReport(reportData, orders);
         // const pdf = await generateReport(
         //     await orderModel.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
@@ -202,22 +213,22 @@ export class ReportService {
         // TODO: fix this
         const orders: Order[] = reportData?.repositoryReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.repositoryReport.orders
+              reportData?.repositoryReport.repositoryReportOrders
             : reportData?.branchReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.branchReport.orders
+              reportData?.branchReport.branchReportOrders
             : reportData?.clientReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.clientReport.orders
+              reportData?.clientReport.clientReportOrders
             : reportData?.deliveryAgentReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.deliveryAgentReport.orders
+              reportData?.deliveryAgentReport.deliveryAgentReportOrders
             : reportData?.governorateReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.governorateReport.orders
+              reportData?.governorateReport.governorateReportOrders
             : reportData?.companyReport
             ? // @tts-expect-error: Unreachable code error
-              reportData?.companyReport.orders
+              reportData?.companyReport.companyReportOrders
             : [];
 
         const ordersIDs = orders.map((order) => order.id);
@@ -226,7 +237,7 @@ export class ReportService {
             ordersIDs: ordersIDs
         });
 
-        const pdf = await generateReport(ordersData);
+        const pdf = await generateReport(reportData, ordersData);
         return pdf;
     }
 }

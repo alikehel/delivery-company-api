@@ -4,7 +4,7 @@ import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import { localizeOrderStatus } from "../../../utils/localize.util";
 
-export const generateReport = async (orders: any[]) => {
+export const generateReport = async (reportData: any, orders: any[]) => {
     let counter = 0;
 
     const fonts = {
@@ -79,7 +79,10 @@ export const generateReport = async (orders: any[]) => {
                             },
                             {
                                 text: handleArabicCharacters(
-                                    `عدد الطلبيات: ${800}`
+                                    `عدد الطلبيات: ${
+                                        reportData.baghdadOrdersCount +
+                                        reportData.governoratesOrdersCount
+                                    }`
                                 ),
                                 noWrap: true
                             },
@@ -88,24 +91,8 @@ export const generateReport = async (orders: any[]) => {
                                 noWrap: true
                             },
                             {
-                                text: handleArabicCharacters(`رقم الكشف: 6541`)
-                            }
-                        ],
-                        [
-                            "",
-                            {
                                 text: handleArabicCharacters(
-                                    `عدد طلبيات بغداد: ${400}`
-                                ),
-                                noWrap: true
-                            },
-                            {
-                                text: handleArabicCharacters(`شركة البرق`),
-                                noWrap: true
-                            },
-                            {
-                                text: handleArabicCharacters(
-                                    `التاريخ: 2021/5/5`
+                                    `رقم الكشف: ${reportData.id}`
                                 )
                             }
                         ],
@@ -113,7 +100,27 @@ export const generateReport = async (orders: any[]) => {
                             "",
                             {
                                 text: handleArabicCharacters(
-                                    `عدد طلبيات المحافظات: ${400}`
+                                    `عدد طلبيات بغداد: ${reportData.baghdadOrdersCount}`
+                                ),
+                                noWrap: true
+                            },
+                            {
+                                text: handleArabicCharacters(
+                                    reportData.company.name
+                                ),
+                                noWrap: true
+                            },
+                            {
+                                text: handleArabicCharacters(
+                                    `التاريخ: ${reportData.createdAt.toLocaleDateString()}`
+                                )
+                            }
+                        ],
+                        [
+                            "",
+                            {
+                                text: handleArabicCharacters(
+                                    `عدد طلبيات المحافظات: ${reportData.governoratesOrdersCount}`
                                 ),
                                 noWrap: true
                             },

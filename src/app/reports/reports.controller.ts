@@ -13,8 +13,6 @@ export class ReportController {
         const companyID = +res.locals.user.companyID;
         const loggedInUserID = res.locals.user.id ?? +res.locals.user.id;
 
-        console.log(loggedInUserID);
-
         const pdf = await reportService.createReport(companyID, {
             loggedInUserID,
             reportData
