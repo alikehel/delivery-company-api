@@ -241,27 +241,33 @@ const reportselectReform = (
         ...report,
         createdBy: report.createdBy.user,
         clientReport: report.clientReport && {
-            ...report.clientReport,
+            reportNumber: report.clientReport.reportNumber,
+            clientReportOrders: report.clientReport.orders,
             client: report.clientReport.client.user
         },
         repositoryReport: report.repositoryReport && {
-            ...report.repositoryReport,
+            reportNumber: report.repositoryReport.reportNumber,
+            repositoryReportOrders: report.repositoryReport.orders,
             repository: report.repositoryReport.repository
         },
         branchReport: report.branchReport && {
-            ...report.branchReport,
+            reportNumber: report.branchReport.reportNumber,
+            branchReportOrders: report.branchReport.orders,
             branch: report.branchReport.branch
         },
         governorateReport: report.governorateReport && {
-            ...report.governorateReport,
+            reportNumber: report.governorateReport.reportNumber,
+            governorateReportOrders: report.governorateReport.orders,
             governorate: report.governorateReport.governorate
         },
         deliveryAgentReport: report.deliveryAgentReport && {
-            ...report.deliveryAgentReport,
+            reportNumber: report.deliveryAgentReport.reportNumber,
+            deliveryAgentReportOrders: report.deliveryAgentReport.orders,
             deliveryAgent: report.deliveryAgentReport.deliveryAgent.user
         },
         companyReport: report.companyReport && {
-            ...report.companyReport,
+            reportNumber: report.companyReport.reportNumber,
+            companyReportOrders: report.companyReport.orders,
             company: report.companyReport.company
         },
         company: report.company,
