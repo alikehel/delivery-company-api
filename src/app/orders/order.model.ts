@@ -264,6 +264,19 @@ const todayOrdersCountAndEarningsReformed = (
     return todayOrdersCountAndEarningsReformed;
 };
 
+const chatMembersReformed = (chatMembers: any) => {
+    return [
+        {
+            ...chatMembers.client.user,
+            role: "client"
+        },
+        {
+            ...chatMembers.deliveryAgent.user,
+            role: "deliveryAgent"
+        }
+    ];
+};
+
 export class OrderModel {
     async createOrder(
         companyID: number,
@@ -985,5 +998,40 @@ export class OrderModel {
             }
         });
         return updatedOrderTimeline;
+    }
+
+    async getOrderChatMembers(data: { orderID: number }) {
+        const orderChatMembers = await prisma.order.findUnique({
+            where: {
+                id: data.orderID
+            },
+            select: {
+                client: {
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                avatar: true
+                            }
+                        }
+                    }
+                },
+                deliveryAgent: {
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                avatar: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        return chatMembersReformed(orderChatMembers);
     }
 }

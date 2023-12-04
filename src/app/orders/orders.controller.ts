@@ -298,3 +298,16 @@ export const getOrderTimeline = catchAsync(async (req, res) => {
         data: orderTimeline?.timeline as string
     });
 });
+
+export const getOrderChatMembers = catchAsync(async (req, res) => {
+    const orderID = +req.params["orderID"];
+
+    const orderChatMembers = await orderModel.getOrderChatMembers({
+        orderID: orderID
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: orderChatMembers
+    });
+});
