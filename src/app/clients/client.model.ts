@@ -36,12 +36,7 @@ const clientSelect: Prisma.ClientSelect = {
     deletedBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     }
 };
@@ -65,7 +60,7 @@ const clientReform = (client: any) => {
                   name: client.createdBy.user.name
               }
             : null,
-        deletedBy: client.deleted && client.deletedBy.user,
+        deletedBy: client.deleted && client.deletedBy,
         deletedAt: client.deleted && client.deletedAt.toISOString()
     };
 };
@@ -120,7 +115,7 @@ export class ClientModel {
     async getAllClients(
         skip: number,
         take: number,
-        filters: { deleted?: boolean }
+        filters: { deleted?: string }
     ) {
         const clients = await prisma.client.findMany({
             skip: skip,
@@ -129,7 +124,7 @@ export class ClientModel {
             //     name: "desc"
             // },
             where: {
-                AND: [{ deleted: filters.deleted == true ? true : false }]
+                AND: [{ deleted: filters.deleted === "true" ? true : false }]
             },
             select: clientSelect
         });

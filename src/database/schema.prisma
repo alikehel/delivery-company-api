@@ -171,6 +171,12 @@ model User {
   employee Employee?
   client   Client?
 
+  deletedReports   Report[]   @relation("deletedBy")
+  deletedOrders    Order[]    @relation("deletedBy")
+  deletedClients   Client[]   @relation("deletedBy")
+  deletedStores    Store[]    @relation("deletedBy")
+  deletedEmployees Employee[] @relation("deletedBy")
+
   notifications Notification[]
 }
 
@@ -209,15 +215,9 @@ model Employee {
   companyId               Int
   dileveryAgentsLocations DileveryAgentsLocations[]
 
-  deletedReports   Report[]   @relation("deletedBy")
-  deletedOrders    Order[]    @relation("deletedBy")
-  deletedClients   Client[]   @relation("deletedBy")
-  deletedStores    Store[]    @relation("deletedBy")
-  deletedEmployees Employee[] @relation("deletedBy")
-
   deleted     Boolean   @default(false)
   deletedAt   DateTime?
-  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
 }
 
@@ -245,7 +245,7 @@ model Client {
 
   deleted     Boolean   @default(false)
   deletedAt   DateTime?
-  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
 }
 
@@ -266,7 +266,7 @@ model Store {
 
   deleted     Boolean   @default(false)
   deletedAt   DateTime?
-  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
 }
 
@@ -421,7 +421,7 @@ model Order {
 
   deleted     Boolean   @default(false)
   deletedAt   DateTime?
-  deletedBy   Employee? @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
 }
 
@@ -433,7 +433,7 @@ model Report {
   type        ReportType
   deleted     Boolean      @default(false)
   deletedAt   DateTime?
-  deletedBy   Employee?    @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy   User?        @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
 
   createdBy           Employee             @relation(fields: [employeeId], references: [id])

@@ -104,12 +104,7 @@ const orderSelect: Prisma.OrderSelect = {
     deletedBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     }
 };
@@ -145,7 +140,7 @@ const orderReform = (
                   phone: order.deliveryAgent.user.phone
               }
             : undefined,
-        deletedBy: order.deleted && order.deletedBy.user,
+        deletedBy: order.deleted && order.deletedBy,
         deletedAt: order.deleted && order.deletedAt.toISOString()
         // orderProducts: order.orderProducts.map((orderProduct: any) => {
         //     return {
@@ -579,7 +574,7 @@ export class OrderModel {
             recipientPhone?: string;
             recipientAddress?: string;
             notes?: string;
-            deleted?: boolean;
+            deleted?: string;
         }
     ) {
         const orders = await prisma.order.findMany({
@@ -737,7 +732,7 @@ export class OrderModel {
                     },
                     // Filter by deleted
                     {
-                        deleted: filters.deleted == true ? true : false
+                        deleted: filters.deleted === "true" ? true : false
                     }
                 ]
             },

@@ -154,12 +154,7 @@ const reportSelect: Prisma.ReportSelect = {
     deletedBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     }
 };
@@ -270,7 +265,7 @@ const reportselectReform = (
             company: report.companyReport.company
         },
         company: report.company,
-        deletedBy: report.deleted && report.deletedBy.user,
+        deletedBy: report.deleted && report.deletedBy,
         deletedAt: report.deleted && report.deletedAt.toISOString()
     };
     return reportData;
@@ -412,7 +407,7 @@ export class ReportModel {
             companyID?: number;
             status?: ReportStatus;
             type?: ReportType;
-            deleted?: boolean;
+            deleted?: string;
         }
     ) {
         const reports = await prisma.report.findMany({
@@ -472,7 +467,7 @@ export class ReportModel {
                         type: filters.type
                     },
                     {
-                        deleted: filters.deleted == true ? true : false
+                        deleted: filters.deleted === "true" ? true : false
                     }
                 ]
             },

@@ -107,7 +107,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as unknown as boolean) || false;
+    const deleted = (req.query.deleted as string) || "false";
 
     const orders = await orderModel.getAllOrders(skip, take, {
         search: search,

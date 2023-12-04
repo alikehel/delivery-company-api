@@ -156,7 +156,7 @@ export class ReportService {
             ?.toString()
             .toUpperCase();
 
-        const deleted = (data.queryString.deleted as boolean) || false;
+        const deleted = data.queryString.deleted || "false";
 
         let page = 1;
         if (

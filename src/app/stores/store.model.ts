@@ -27,12 +27,7 @@ const storeSelect: Prisma.StoreSelect = {
     deletedBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     }
 };
@@ -53,7 +48,7 @@ const storeSelectReform = (store: any) => {
               }
             : undefined,
         company: store.company,
-        deletedBy: store.deleted && store.deletedBy.user,
+        deletedBy: store.deleted && store.deletedBy,
         deletedAt: store.deleted && store.deletedAt.toISOString()
     };
 };
@@ -89,7 +84,7 @@ export class StoreModel {
     async getAllStores(
         skip: number,
         take: number,
-        filters: { deleted?: boolean }
+        filters: { deleted?: string }
     ) {
         const stores = await prisma.store.findMany({
             skip: skip,
@@ -98,7 +93,7 @@ export class StoreModel {
                 name: "desc"
             },
             where: {
-                AND: [{ deleted: filters.deleted == true ? true : false }]
+                AND: [{ deleted: filters.deleted === "true" ? true : false }]
             },
             select: storeSelect
         });

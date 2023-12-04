@@ -53,7 +53,7 @@ export const getAllStores = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as unknown as boolean) || false;
+    const deleted = (req.query.deleted as string) || "false";
 
     const stores = await storeModel.getAllStores(skip, take, {
         deleted: deleted
