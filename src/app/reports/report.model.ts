@@ -401,7 +401,11 @@ export class ReportModel {
     }
 
     async getReportsCount() {
-        const reportsCount = await prisma.report.count();
+        const reportsCount = await prisma.report.count({
+            where: {
+                deleted: false
+            }
+        });
         return reportsCount;
     }
 
@@ -520,8 +524,17 @@ export class ReportModel {
         return reportselectReform(report);
     }
 
-    async deleteReport(data: { deletedByID: number; reportID: number }) {
-        await prisma.report.update({
+    async deleteReport(data: { reportID: number }) {
+        const deletedReport = await prisma.report.delete({
+            where: {
+                id: data.reportID
+            }
+        });
+        return deletedReport;
+    }
+
+    async deactivateReport(data: { reportID: number; deletedByID: number }) {
+        const deletedReport = await prisma.report.update({
             where: {
                 id: data.reportID
             },
@@ -535,7 +548,18 @@ export class ReportModel {
                 }
             }
         });
+        return deletedReport;
+    }
 
-        return true;
+    async reactivateReport(data: { reportID: number }) {
+        const deletedReport = await prisma.report.update({
+            where: {
+                id: data.reportID
+            },
+            data: {
+                deleted: false
+            }
+        });
+        return deletedReport;
     }
 }

@@ -97,4 +97,22 @@ router.route("/stores/:storeID").delete(
     */
 );
 
+router.route("/stores/:storeID/deactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    deactivateStore
+    /*
+        #swagger.tags = ['Stores Routes']
+    */
+);
+
+router.route("/stores/:storeID/reactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reactivateStore
+    /*
+        #swagger.tags = ['Stores Routes']
+    */
+);
+
 export default router;

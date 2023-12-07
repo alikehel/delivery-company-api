@@ -542,7 +542,11 @@ export class OrderModel {
     }
 
     async getOrdersCount() {
-        const ordersCount = await prisma.order.count();
+        const ordersCount = await prisma.order.count({
+            where: {
+                deleted: false
+            }
+        });
         return ordersCount;
     }
 
@@ -824,8 +828,17 @@ export class OrderModel {
         return orderReform(order);
     }
 
-    async deleteOrder(data: { orderID: number; deletedByID: number }) {
-        await prisma.order.update({
+    async deleteOrder(data: { orderID: number }) {
+        const deletedOrder = await prisma.order.delete({
+            where: {
+                id: data.orderID
+            }
+        });
+        return deletedOrder;
+    }
+
+    async deactivateOrder(data: { orderID: number; deletedByID: number }) {
+        const deletedOrder = await prisma.order.update({
             where: {
                 id: data.orderID
             },
@@ -839,7 +852,19 @@ export class OrderModel {
                 }
             }
         });
-        return true;
+        return deletedOrder;
+    }
+
+    async reactivateOrder(data: { orderID: number }) {
+        const deletedOrder = await prisma.order.update({
+            where: {
+                id: data.orderID
+            },
+            data: {
+                deleted: false
+            }
+        });
+        return deletedOrder;
     }
 
     async getAllOrdersStatuses() {

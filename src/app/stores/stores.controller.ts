@@ -99,11 +99,35 @@ export const updateStore = catchAsync(async (req, res) => {
 
 export const deleteStore = catchAsync(async (req, res) => {
     const storeID = +req.params["storeID"];
-    const loggedInUserID = +res.locals.user.id;
 
     await storeModel.deleteStore({
+        storeID: storeID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const deactivateStore = catchAsync(async (req, res) => {
+    const storeID = +req.params["storeID"];
+    const loggedInUserID = +res.locals.user.id;
+
+    await storeModel.deactivateStore({
         storeID: storeID,
         deletedByID: loggedInUserID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const reactivateStore = catchAsync(async (req, res) => {
+    const storeID = +req.params["storeID"];
+
+    await storeModel.reactivateStore({
+        storeID: storeID
     });
 
     res.status(200).json({

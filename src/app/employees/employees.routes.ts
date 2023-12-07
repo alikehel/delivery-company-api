@@ -103,4 +103,22 @@ router.route("/employees/:employeeID").delete(
     */
 );
 
+router.route("/employees/:employeeID/deactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    deactivateEmployee
+    /*
+        #swagger.tags = ['Employees Routes']
+    */
+);
+
+router.route("/employees/:employeeID/reactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reactivateEmployee
+    /*
+        #swagger.tags = ['Employees Routes']
+    */
+);
+
 export default router;

@@ -134,11 +134,35 @@ export const updateClient = catchAsync(async (req, res) => {
 
 export const deleteClient = catchAsync(async (req, res) => {
     const clientID = +req.params["clientID"];
-    const loggedInUserID = +res.locals.user.id;
 
     await clientModel.deleteClient({
+        clientID: clientID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const deactivateClient = catchAsync(async (req, res) => {
+    const clientID = +req.params["clientID"];
+    const loggedInUserID = +res.locals.user.id;
+
+    await clientModel.deactivateClient({
         clientID: clientID,
         deletedByID: loggedInUserID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const reactivateClient = catchAsync(async (req, res) => {
+    const clientID = +req.params["clientID"];
+
+    await clientModel.reactivateClient({
+        clientID: clientID
     });
 
     res.status(200).json({

@@ -191,11 +191,9 @@ export const updateOrder = catchAsync(async (req, res) => {
 
 export const deleteOrder = catchAsync(async (req, res) => {
     const orderID = +req.params["orderID"];
-    const loggedInUserID = +res.locals.user.id;
 
     await orderModel.deleteOrder({
-        orderID: orderID,
-        deletedByID: loggedInUserID
+        orderID: orderID
     });
 
     res.status(200).json({
@@ -309,5 +307,31 @@ export const getOrderChatMembers = catchAsync(async (req, res) => {
     res.status(200).json({
         status: "success",
         data: orderChatMembers
+    });
+});
+
+export const deactivateOrder = catchAsync(async (req, res) => {
+    const orderID = +req.params["orderID"];
+    const loggedInUserID = +res.locals.user.id;
+
+    await orderModel.deactivateOrder({
+        orderID: orderID,
+        deletedByID: loggedInUserID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const reactivateOrder = catchAsync(async (req, res) => {
+    const orderID = +req.params["orderID"];
+
+    await orderModel.reactivateOrder({
+        orderID: orderID
+    });
+
+    res.status(200).json({
+        status: "success"
     });
 });

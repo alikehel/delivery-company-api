@@ -142,11 +142,35 @@ export const updateEmployee = catchAsync(async (req, res) => {
 
 export const deleteEmployee = catchAsync(async (req, res) => {
     const employeeID = +req.params["employeeID"];
-    const loggedInUserID = +res.locals.user.id;
 
     await employeeModel.deleteEmployee({
+        employeeID: employeeID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const deactivateEmployee = catchAsync(async (req, res) => {
+    const employeeID = +req.params["employeeID"];
+    const loggedInUserID = +res.locals.user.id;
+
+    await employeeModel.deactivateEmployee({
         employeeID: employeeID,
         deletedByID: loggedInUserID
+    });
+
+    res.status(200).json({
+        status: "success"
+    });
+});
+
+export const reactivateEmployee = catchAsync(async (req, res) => {
+    const employeeID = +req.params["employeeID"];
+
+    await employeeModel.reactivateEmployee({
+        employeeID: employeeID
     });
 
     res.status(200).json({

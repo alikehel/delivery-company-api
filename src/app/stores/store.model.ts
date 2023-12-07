@@ -80,7 +80,11 @@ export class StoreModel {
     }
 
     async getStoresCount() {
-        const storesCount = await prisma.store.count();
+        const storesCount = await prisma.store.count({
+            where: {
+                deleted: false
+            }
+        });
         return storesCount;
     }
 
@@ -135,8 +139,17 @@ export class StoreModel {
         return storeSelectReform(store);
     }
 
-    async deleteStore(data: { storeID: number; deletedByID: number }) {
-        await prisma.store.update({
+    async deleteStore(data: { storeID: number }) {
+        const deletedStore = await prisma.store.delete({
+            where: {
+                id: data.storeID
+            }
+        });
+        return deletedStore;
+    }
+
+    async deactivateStore(data: { storeID: number; deletedByID: number }) {
+        const deletedStore = await prisma.store.update({
             where: {
                 id: data.storeID
             },
@@ -150,6 +163,18 @@ export class StoreModel {
                 }
             }
         });
-        return true;
+        return deletedStore;
+    }
+
+    async reactivateStore(data: { storeID: number }) {
+        const deletedStore = await prisma.store.update({
+            where: {
+                id: data.storeID
+            },
+            data: {
+                deleted: false
+            }
+        });
+        return deletedStore;
     }
 }

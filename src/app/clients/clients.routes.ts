@@ -97,4 +97,22 @@ router.route("/clients/:clientID").delete(
     */
 );
 
+router.route("/clients/:clientID/deactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    deactivateClient
+    /*
+        #swagger.tags = ['Clients Routes']
+    */
+);
+
+router.route("/clients/:clientID/reactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reactivateClient
+    /*
+        #swagger.tags = ['Clients Routes']
+    */
+);
+
 export default router;

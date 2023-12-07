@@ -164,4 +164,22 @@ router.route("/reports/:reportID").delete(
     */
 );
 
+router.route("/reports/:reportID/deactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reportController.deactivateReport
+    /*
+        #swagger.tags = ['Reports Routes']
+    */
+);
+
+router.route("/reports/:reportID/reactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reportController.reactivateReport
+    /*
+        #swagger.tags = ['Reports Routes']
+    */
+);
+
 export default router;

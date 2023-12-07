@@ -120,11 +120,35 @@ export class ReportController {
 
     deleteReport = catchAsync(async (req, res) => {
         const reportID = +req.params["reportID"];
-        const loggedInUserID = +res.locals.user.id;
 
         await reportModel.deleteReport({
+            reportID: reportID
+        });
+
+        res.status(200).json({
+            status: "success"
+        });
+    });
+
+    deactivateReport = catchAsync(async (req, res) => {
+        const reportID = +req.params["reportID"];
+        const loggedInUserID = +res.locals.user.id;
+
+        await reportModel.deactivateReport({
             reportID: reportID,
             deletedByID: loggedInUserID
+        });
+
+        res.status(200).json({
+            status: "success"
+        });
+    });
+
+    reactivateReport = catchAsync(async (req, res) => {
+        const reportID = +req.params["reportID"];
+
+        await reportModel.reactivateReport({
+            reportID: reportID
         });
 
         res.status(200).json({

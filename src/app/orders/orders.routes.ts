@@ -310,4 +310,22 @@ router.route("/orders/:orderID").delete(
     */
 );
 
+router.route("/orders/:orderID/deactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    deactivateOrder
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/:orderID/reactivate").patch(
+    isLoggedIn,
+    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    reactivateOrder
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
 export default router;

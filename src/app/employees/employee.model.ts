@@ -106,7 +106,11 @@ export class EmployeeModel {
     }
 
     async getEmployeesCount() {
-        const employeesCount = await prisma.employee.count();
+        const employeesCount = await prisma.employee.count({
+            where: {
+                deleted: false
+            }
+        });
         return employeesCount;
     }
 
@@ -190,7 +194,19 @@ export class EmployeeModel {
         return employeeReform(employee);
     }
 
-    async deleteEmployee(data: { employeeID: number; deletedByID: number }) {
+    async deleteEmployee(data: { employeeID: number }) {
+        const deletedEmployee = await prisma.employee.delete({
+            where: {
+                id: data.employeeID
+            }
+        });
+        return deletedEmployee;
+    }
+
+    async deactivateEmployee(data: {
+        employeeID: number;
+        deletedByID: number;
+    }) {
         const deletedEmployee = await prisma.employee.update({
             where: {
                 id: data.employeeID
@@ -203,6 +219,18 @@ export class EmployeeModel {
                         id: data.deletedByID
                     }
                 }
+            }
+        });
+        return deletedEmployee;
+    }
+
+    async reactivateEmployee(data: { employeeID: number }) {
+        const deletedEmployee = await prisma.employee.update({
+            where: {
+                id: data.employeeID
+            },
+            data: {
+                deleted: false
             }
         });
         return deletedEmployee;

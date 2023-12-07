@@ -113,16 +113,20 @@ export class ClientModel {
                 },
                 role: data.role,
                 token: data.token,
-                branch: {
-                    connect: {
-                        id: data.branchID
-                    }
-                },
-                repository: {
-                    connect: {
-                        id: data.repositoryID
-                    }
-                },
+                branch: data.branchID
+                    ? {
+                          connect: {
+                              id: data.branchID
+                          }
+                      }
+                    : undefined,
+                repository: data.repositoryID
+                    ? {
+                          connect: {
+                              id: data.repositoryID
+                          }
+                      }
+                    : undefined,
                 createdBy: {
                     connect: {
                         id: data.userID
@@ -135,7 +139,11 @@ export class ClientModel {
     }
 
     async getClientsCount() {
-        const clientsCount = await prisma.client.count();
+        const clientsCount = await prisma.client.count({
+            where: {
+                deleted: false
+            }
+        });
         return clientsCount;
     }
 
@@ -217,8 +225,17 @@ export class ClientModel {
         return clientReform(client);
     }
 
-    async deleteClient(data: { clientID: number; deletedByID: number }) {
-        await prisma.client.update({
+    async deleteClient(data: { clientID: number }) {
+        const deletedClient = await prisma.client.delete({
+            where: {
+                id: data.clientID
+            }
+        });
+        return deletedClient;
+    }
+
+    async deactivateClient(data: { clientID: number; deletedByID: number }) {
+        const deletedClient = await prisma.client.update({
             where: {
                 id: data.clientID
             },
@@ -232,6 +249,18 @@ export class ClientModel {
                 }
             }
         });
-        return true;
+        return deletedClient;
+    }
+
+    async reactivateClient(data: { clientID: number }) {
+        const deletedClient = await prisma.client.update({
+            where: {
+                id: data.clientID
+            },
+            data: {
+                deleted: false
+            }
+        });
+        return deletedClient;
     }
 }
