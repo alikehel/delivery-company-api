@@ -6,9 +6,11 @@ import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createStore,
+    deactivateStore,
     deleteStore,
     getAllStores,
     getStore,
+    reactivateStore,
     updateStore
 } from "./stores.controller";
 

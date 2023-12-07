@@ -6,6 +6,7 @@ import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createOrder,
     createOrdersReceipts,
+    deactivateOrder,
     deleteOrder,
     getAllOrders,
     getAllOrdersStatuses,
@@ -14,6 +15,7 @@ import {
     getOrderTimeline,
     getOrdersStatistics,
     getTodayOrdersCountAndEarnings,
+    reactivateOrder,
     updateOrder
 } from "./orders.controller";
 

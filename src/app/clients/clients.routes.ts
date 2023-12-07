@@ -6,9 +6,11 @@ import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createClient,
+    deactivateClient,
     deleteClient,
     getAllClients,
     getClient,
+    reactivateClient,
     updateClient
 } from "./clients.controller";
 

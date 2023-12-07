@@ -6,9 +6,11 @@ import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createEmployee,
+    deactivateEmployee,
     deleteEmployee,
     getAllEmployees,
     getEmployee,
+    reactivateEmployee,
     updateEmployee
 } from "./employees.controller";
 
