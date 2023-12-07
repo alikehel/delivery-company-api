@@ -53,6 +53,7 @@ const employeeReform = (employee: any) => {
         branch: employee.branch,
         repository: employee.repository,
         company: employee.company,
+        deleted: employee.deleted,
         deletedBy: employee.deleted && employee.deletedBy,
         deletedAt: employee.deleted && employee.deletedAt.toISOString()
     };

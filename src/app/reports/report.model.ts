@@ -274,6 +274,7 @@ const reportselectReform = (
             company: report.companyReport.company
         },
         company: report.company,
+        deleted: report.deleted,
         deletedBy: report.deleted && report.deletedBy,
         deletedAt: report.deleted && report.deletedAt.toISOString()
     };

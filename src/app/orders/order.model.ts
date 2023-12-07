@@ -140,6 +140,7 @@ const orderReform = (
                   phone: order.deliveryAgent.user.phone
               }
             : undefined,
+        deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
         deletedAt: order.deleted && order.deletedAt.toISOString()
         // orderProducts: order.orderProducts.map((orderProduct: any) => {

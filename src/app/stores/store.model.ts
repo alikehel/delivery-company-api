@@ -24,6 +24,8 @@ const storeSelect: Prisma.StoreSelect = {
             name: true
         }
     },
+    deleted: true,
+    deletedAt: true,
     deletedBy: {
         select: {
             id: true,
@@ -48,6 +50,7 @@ const storeSelectReform = (store: any) => {
               }
             : undefined,
         company: store.company,
+        deleted: store.deleted,
         deletedBy: store.deleted && store.deletedBy,
         deletedAt: store.deleted && store.deletedAt.toISOString()
     };

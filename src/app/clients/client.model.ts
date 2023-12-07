@@ -45,6 +45,8 @@ const clientSelect: Prisma.ClientSelect = {
             logo: true
         }
     },
+    deleted: true,
+    deletedAt: true,
     deletedBy: {
         select: {
             id: true,
@@ -74,6 +76,7 @@ const clientReform = (client: any) => {
                   name: client.createdBy.user.name
               }
             : null,
+        deleted: client.deleted,
         deletedBy: client.deleted && client.deletedBy,
         deletedAt: client.deleted && client.deletedAt.toISOString()
     };
