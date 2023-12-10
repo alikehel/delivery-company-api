@@ -1,10 +1,19 @@
 // import { Order } from "@prisma/client";
 // import fs from "fs";
+import { ReportType } from "@prisma/client";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
-import { localizeOrderStatus } from "../../../utils/localize.util";
+import {
+    localizeGovernorate,
+    localizeOrderStatus,
+    localizeReportType
+} from "../../../utils/localize.util";
 
-export const generateReport = async (reportData: any, orders: any[]) => {
+export const generateReport = async (
+    reportType: ReportType,
+    reportData: any,
+    orders: any[]
+) => {
     let counter = 0;
 
     const fonts = {
@@ -87,7 +96,9 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                 noWrap: true
                             },
                             {
-                                text: handleArabicCharacters(`كشف شركة`),
+                                text: handleArabicCharacters(
+                                    `كشف ${localizeReportType(reportType)}`
+                                ),
                                 noWrap: true
                             },
                             {
@@ -106,7 +117,24 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                             },
                             {
                                 text: handleArabicCharacters(
-                                    reportData.company.name
+                                    reportType === "CLIENT"
+                                        ? reportData.clientReport.client.name
+                                        : reportType === "REPOSITORY"
+                                        ? reportData.repositoryReport.repository
+                                              .name
+                                        : reportType === "BRANCH"
+                                        ? reportData.branchReport.branch.name
+                                        : reportType === "GOVERNORATE"
+                                        ? localizeGovernorate(
+                                              reportData.governorateReport
+                                                  .governorate
+                                          )
+                                        : reportType === "DELIVERY_AGENT"
+                                        ? reportData.deliveryAgentReport
+                                              .deliveryAgent.name
+                                        : reportType === "COMPANY"
+                                        ? reportData.companyReport.company.name
+                                        : ""
                                 ),
                                 noWrap: true
                             },
@@ -125,15 +153,27 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                 noWrap: true
                             },
                             {
-                                text: handleArabicCharacters(
-                                    `صافي العميل: 5000`
-                                ),
-                                noWrap: true
+                                // TODO
+                                text: reportData.clientReport.store
+                                    ? handleArabicCharacters(
+                                          `الصفحة: ${reportData.clientReport.name}}`
+                                      )
+                                    : ""
                             },
                             {
-                                text: handleArabicCharacters(
-                                    `الصفحة: صفحة ملابس الاطفال`
-                                )
+                                text:
+                                    reportType === "CLIENT"
+                                        ? handleArabicCharacters(
+                                              `صافي العميل: ${reportData.clientNet}`
+                                          )
+                                        : reportType === "BRANCH" ||
+                                          reportType === "GOVERNORATE" ||
+                                          reportType === "DELIVERY_AGENT"
+                                        ? handleArabicCharacters(
+                                              `صافي الشركة: ${reportData.companyNet}`
+                                          )
+                                        : "",
+                                noWrap: true
                             }
                         ]
                     ]
@@ -173,9 +213,9 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                 noWrap: true
                                 // style: "header"
                             },
-                            orders[0].branchReportReportNumber ||
-                            orders[0].governorateReportReportNumber ||
-                            orders[0].deliveryAgentReportReportNumber
+                            reportType === "BRANCH" ||
+                            reportType === "GOVERNORATE" ||
+                            reportType === "DELIVERY_AGENT"
                                 ? {
                                       text: handleArabicCharacters(
                                           "صافي المندوب"
@@ -183,9 +223,9 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                       noWrap: true
                                       // style: "header"
                                   }
-                                : "",
-                            orders[0].clientReportReportNumber ||
-                            orders[0].repositoryReportReportNumber
+                                : {},
+                            reportType === "CLIENT" ||
+                            reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
                                       text: handleArabicCharacters(
@@ -195,8 +235,8 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                       // style: "header"
                                   }
                                 : "",
-                            orders[0].clientReportReportNumber ||
-                            orders[0].repositoryReportReportNumber
+                            reportType === "CLIENT" ||
+                            reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
                                       text: handleArabicCharacters(
@@ -256,24 +296,23 @@ export const generateReport = async (reportData: any, orders: any[]) => {
                                     localizeOrderStatus(order.status) || "اخري"
                                 )
                             },
-                            orders[0].branchReportReportNumber ||
-                            orders[0].governorateReportReportNumber ||
-                            orders[0].deliveryAgentReportReportNumber
+                            reportType === "BRANCH" ||
+                            reportType === "GOVERNORATE" ||
+                            reportType === "DELIVERY_AGENT"
                                 ? {
                                       text: order.paidAmount?.toString() || "0"
                                   }
-                                : "",
-                            orders[0].clientReportReportNumber ||
-                            orders[0].repositoryReportReportNumber
+                                : {},
+                            reportType === "CLIENT" ||
+                            reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
                                       text: order.totalCost.toString() || "0"
-
                                       // fillColor: "#5bc0de"
                                   }
                                 : "",
-                            orders[0].clientReportReportNumber ||
-                            orders[0].repositoryReportReportNumber
+                            reportType === "CLIENT" ||
+                            reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
                                       text:

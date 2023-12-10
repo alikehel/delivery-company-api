@@ -44,6 +44,7 @@ const orderSelect: Prisma.OrderSelect = {
     },
     deliveryAgent: {
         select: {
+            deliveryCost: true,
             user: {
                 select: {
                     id: true,
@@ -137,7 +138,8 @@ const orderReform = (
             ? {
                   id: order.deliveryAgent.user.id,
                   name: order.deliveryAgent.user.name,
-                  phone: order.deliveryAgent.user.phone
+                  phone: order.deliveryAgent.user.phone,
+                  deliveryCost: order.deliveryAgent.deliveryCost
               }
             : undefined,
         deleted: order.deleted,

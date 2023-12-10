@@ -8,7 +8,7 @@ const locationSelect: Prisma.LocationSelect = {
     name: true,
     governorate: true,
     branch: true,
-    dileveryAgentsLocations: {
+    deliveryAgentsLocations: {
         select: {
             deliveryAgent: {
                 select: {
@@ -40,7 +40,7 @@ const locationReform = (location: any) => {
         name: location.name,
         governorate: location.governorate,
         branch: location.branch,
-        deliveryAgents: location.dileveryAgentsLocations.map(
+        deliveryAgents: location.deliveryAgentsLocations.map(
             (deliveryAgent: any) => {
                 return {
                     id: deliveryAgent.deliveryAgent.user.id,
@@ -64,7 +64,7 @@ export class LocationModel {
                         id: data.branchID
                     }
                 },
-                // dileveryAgentsLocations: {
+                // deliveryAgentsLocations: {
                 //     connect: data.deliveryAgentsIDs.map((id) => {
                 //         return {
                 //             deliveryAgentId_locationId: {
@@ -130,7 +130,7 @@ export class LocationModel {
                           }
                       }
                     : undefined,
-                dileveryAgentsLocations: data.locationData.deliveryAgentsIDs
+                deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
                           connect: data.locationData.deliveryAgentsIDs?.map(
                               (id) => {

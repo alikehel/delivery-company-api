@@ -25,6 +25,12 @@ const reportSelect: Prisma.ReportSelect = {
     },
     baghdadOrdersCount: true,
     governoratesOrdersCount: true,
+    totalCost: true,
+    paidAmount: true,
+    deliveryCost: true,
+    clientNet: true,
+    deliveryAgentNet: true,
+    companyNet: true,
     type: true,
     createdAt: true,
     updatedAt: true,
@@ -288,8 +294,16 @@ export class ReportModel {
         companyID: number,
         userID: number,
         data: ReportCreateType,
-        baghdadOrdersCount: number,
-        governoratesOrdersCount: number
+        reportMetaData: {
+            totalCost: number;
+            paidAmount: number;
+            deliveryCost: number;
+            baghdadOrdersCount: number;
+            governoratesOrdersCount: number;
+            clientNet: number;
+            deliveryAgentNet: number;
+            companyNet: number;
+        }
     ) {
         console.log(userID);
 
@@ -313,8 +327,14 @@ export class ReportModel {
                         id: companyID
                     }
                 },
-                baghdadOrdersCount: baghdadOrdersCount,
-                governoratesOrdersCount: governoratesOrdersCount
+                baghdadOrdersCount: reportMetaData.baghdadOrdersCount,
+                governoratesOrdersCount: reportMetaData.governoratesOrdersCount,
+                totalCost: reportMetaData.totalCost,
+                paidAmount: reportMetaData.paidAmount,
+                deliveryCost: reportMetaData.deliveryCost,
+                clientNet: reportMetaData.clientNet,
+                deliveryAgentNet: reportMetaData.deliveryAgentNet,
+                companyNet: reportMetaData.companyNet
             }
         };
         if (data.type === ReportType.CLIENT) {

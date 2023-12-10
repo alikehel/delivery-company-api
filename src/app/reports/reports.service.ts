@@ -18,14 +18,30 @@ export class ReportService {
     ) {
         const orders = await orderModel.getOrdersByIDs(data.reportData);
 
-        let baghdadOrdersCount = 0;
-        let governoratesOrdersCount = 0;
+        const reportMetaData = {
+            baghdadOrdersCount: 0,
+            governoratesOrdersCount: 0,
+            totalCost: 0,
+            paidAmount: 0,
+            deliveryCost: 0,
+            clientNet: 0,
+            deliveryAgentNet: 0,
+            companyNet: 0
+        };
 
         orders.forEach((order) => {
+            reportMetaData.totalCost += order.totalCost;
+            reportMetaData.paidAmount += order.paidAmount;
+            reportMetaData.deliveryCost += order.deliveryCost;
+            reportMetaData.clientNet += order.clientNet;
+            reportMetaData.deliveryAgentNet += order.deliveryAgent
+                ? order.deliveryAgent.deliveryCost
+                : 0;
+            reportMetaData.companyNet += order.companyNet;
             if (order.governorate === "BAGHDAD") {
-                baghdadOrdersCount++;
+                reportMetaData.baghdadOrdersCount++;
             } else {
-                governoratesOrdersCount++;
+                reportMetaData.governoratesOrdersCount++;
             }
         });
 
@@ -99,12 +115,15 @@ export class ReportService {
             companyID,
             data.loggedInUserID,
             data.reportData,
-            baghdadOrdersCount,
-            governoratesOrdersCount
+            reportMetaData
         );
 
         // TODO
-        const pdf = await generateReport(reportData, orders);
+        const pdf = await generateReport(
+            data.reportData.type,
+            reportData,
+            orders
+        );
         // const pdf = await generateReport(
         //     await orderModel.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
@@ -237,7 +256,11 @@ export class ReportService {
             ordersIDs: ordersIDs
         });
 
-        const pdf = await generateReport(reportData, ordersData);
+        const pdf = await generateReport(
+            reportData.type,
+            reportData,
+            ordersData
+        );
         return pdf;
     }
 }
