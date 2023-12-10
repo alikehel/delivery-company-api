@@ -303,7 +303,7 @@ export const generateReport = async (
                             reportType === "DELIVERY_AGENT"
                                 ? {
                                       text:
-                                          order.deliveryAgentNet?.toString() ||
+                                          order.deliveryAgent.deliveryCost?.toString() ||
                                           "0"
                                   }
                                 : {},
