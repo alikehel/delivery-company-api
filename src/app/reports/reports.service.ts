@@ -111,12 +111,20 @@ export class ReportService {
             });
         }
 
-        const reportData = await reportModel.createReport(
+        const report = await reportModel.createReport(
             companyID,
             data.loggedInUserID,
             data.reportData,
             reportMetaData
         );
+
+        if (!report) {
+            throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
+        }
+
+        const reportData = await reportModel.getReport({
+            reportID: report.reportId
+        });
 
         // TODO
         const pdf = await generateReport(

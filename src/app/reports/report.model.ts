@@ -305,8 +305,6 @@ export class ReportModel {
             companyNet: number;
         }
     ) {
-        console.log(userID);
-
         const orders = {
             connect: data.ordersIDs.map((orderID) => {
                 return {

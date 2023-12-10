@@ -156,7 +156,7 @@ export const generateReport = async (
                                 // TODO
                                 text: reportData.clientReport.store
                                     ? handleArabicCharacters(
-                                          `الصفحة: ${reportData.clientReport.name}}`
+                                          `الصفحة: ${reportData.clientReport.store.name}}`
                                       )
                                     : ""
                             },
@@ -300,14 +300,16 @@ export const generateReport = async (
                             reportType === "GOVERNORATE" ||
                             reportType === "DELIVERY_AGENT"
                                 ? {
-                                      text: order.paidAmount?.toString() || "0"
+                                      text:
+                                          order.deliveryAgentNet?.toString() ||
+                                          "0"
                                   }
                                 : {},
                             reportType === "CLIENT" ||
                             reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
-                                      text: order.totalCost.toString() || "0"
+                                      text: order.clientNet.toString() || "0"
                                       // fillColor: "#5bc0de"
                                   }
                                 : "",
@@ -315,9 +317,7 @@ export const generateReport = async (
                             reportType === "REPOSITORY"
                                 ? {
                                       // || orders[0].companyReportReportNumber)
-                                      text:
-                                          // order.deliveryCost.toString() ||
-                                          "0"
+                                      text: order.deliveryCost.toString() || "0"
                                   }
                                 : "",
                             {
