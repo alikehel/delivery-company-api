@@ -154,11 +154,13 @@ export const generateReport = async (
                             },
                             {
                                 // TODO
-                                text: reportData.clientReport.store
-                                    ? handleArabicCharacters(
-                                          `الصفحة: ${reportData.clientReport.store.name}}`
-                                      )
-                                    : ""
+                                text:
+                                    reportData.clientReport &&
+                                    reportData.clientReport.store
+                                        ? handleArabicCharacters(
+                                              `الصفحة: ${reportData.clientReport.store.name}}`
+                                          )
+                                        : ""
                             },
                             {
                                 text:
