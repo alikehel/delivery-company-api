@@ -808,6 +808,180 @@
         }
       }
     },
+    "/api/v1/employees/{employeeID}/deactivate": {
+      "patch": {
+        "tags": [
+          "Employees Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "employeeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{employeeID}/reactivate": {
+      "patch": {
+        "tags": [
+          "Employees Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "employeeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/repositories": {
       "post": {
         "tags": [
@@ -1645,6 +1819,180 @@
         }
       },
       "delete": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientID}/deactivate": {
+      "patch": {
+        "tags": [
+          "Clients Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientID}/reactivate": {
+      "patch": {
         "tags": [
           "Clients Routes"
         ],
@@ -4114,6 +4462,93 @@
         }
       }
     },
+    "/api/v1/orders/{orderID}/chat-members": {
+      "get": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/orders/receipts": {
       "post": {
         "tags": [
@@ -4201,6 +4636,180 @@
               "examples": {
                 "OrderCreateExample": {
                   "$ref": "#/components/examples/OrdersReceiptsCreateExample"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{orderID}/deactivate": {
+      "patch": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{orderID}/reactivate": {
+      "patch": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
                 }
               }
             }
@@ -6813,6 +7422,180 @@
         }
       }
     },
+    "/api/v1/stores/{storeID}/deactivate": {
+      "patch": {
+        "tags": [
+          "Stores Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stores/{storeID}/reactivate": {
+      "patch": {
+        "tags": [
+          "Stores Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/banners": {
       "post": {
         "tags": [
@@ -7920,275 +8703,464 @@
           }
         }
       }
+    },
+    "/api/v1/reports/{reportID}/deactivate": {
+      "patch": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{reportID}/reactivate": {
+      "patch": {
+        "tags": [
+          "Reports Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "reportID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Client Error - Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "examples": {
       "EmployeeCreateExample": {
         "value": {
-          "username": "campana",
-          "name": "Gilbert Ernser",
-          "password": "3zMCRmIQsRqrtL9",
-          "phone": "07662961059",
-          "salary": 3769634712977408,
-          "repositoryID": 1208047712075776,
-          "branchID": 2129395592462336,
-          "role": "ACCOUNTANT",
+          "username": "temptatio",
+          "name": "Cory Donnelly",
+          "password": "MCjYxLaUJcTICDx",
+          "phone": "07601858247",
+          "salary": 3724235876859904,
+          "repositoryID": 2166725028085760,
+          "branchID": 7378560777977856,
+          "role": "COMPANY_MANAGER",
           "permissions": [
             "CHANGE_ORDER_STATUS",
-            "ADD_ORDER",
-            "DELETE_ORDERS",
-            "DELETE_COMPANY_REPORTS",
-            "DELETE_PRICES"
+            "EDIT_CLIENT_NAME",
+            "ADD_CLIENT"
           ],
-          "fcm": "taedium",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/233.jpg",
-          "companyID": 3906365001039872
+          "fcm": "appositus",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/398.jpg",
+          "companyID": 4699049624076288
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "tibi",
-          "password": "wRBnsxXCD6TRhwx",
-          "fcm": "stipes"
+          "username": "clam",
+          "password": "Iyvp3wgLfjObCm4",
+          "fcm": "aliquid"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Claudia Conn",
-          "branchID": 837896890220544
+          "name": "Susan Sporer Jr.",
+          "branchID": 5356875547672576
         }
       },
       "EmployeeUpdateExample": {
         "value": {
-          "username": "reiciendis",
-          "name": "Kellie Herzog",
-          "password": "bkNbYZL3ozeRBaE",
-          "phone": "07782377449",
-          "salary": 3964234769629184,
-          "repositoryID": 7779286557655040,
-          "branchID": 6407029587443712,
-          "role": "ACCOUNTANT",
+          "username": "bellum",
+          "name": "Terence Sporer",
+          "password": "Wn41Kbp19xQ8jAu",
+          "phone": "07395635596",
+          "salary": 2796826711293952,
+          "repositoryID": 5075862672113664,
+          "branchID": 3041428148060160,
+          "role": "COMPANY_MANAGER",
           "permissions": [
-            "EDIT_ORDER_TOTAL_AMOUNT",
-            "DELETE_REPOSITORIES_REPORTS",
-            "DELETE_REPOSITORIES_REPORTS"
+            "DELETE_DELIVERY_AGENT_REPORTS"
           ],
-          "fcm": "tepidus",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1014.jpg",
-          "companyID": 875241091891200
+          "fcm": "canto",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1119.jpg",
+          "companyID": 1081323351441408
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Jenny Turner-Kihn",
-          "branchID": 4845383983300608
+          "name": "Reginald Torp",
+          "branchID": 6732632754749440
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Alma Franecki",
-          "governorate": "BAGHDAD",
-          "branchID": 4873279223365632,
+          "name": "Leon Leffler",
+          "governorate": "AL_ANBAR",
+          "branchID": 88819927875584,
           "deliveryAgentsIDs": [
-            8501074337988608,
-            1214220622364672,
-            270350759755776,
-            2218300423536640,
-            4685454907539456
+            1077306365837312,
+            4251228636708864,
+            2739688609677312,
+            4651792631595008,
+            2000096992428032
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Marvin Hilpert Sr.",
-          "governorate": "WASIT",
-          "branchID": 1033787324497920,
+          "name": "Latoya Zulauf II",
+          "governorate": "DUHOK",
+          "branchID": 3635820477022208,
           "deliveryAgentsIDs": [
-            4657529965510656,
-            5478797136625664
+            1153500528508928
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Evelyn Grimes",
-          "username": "communis",
-          "phone": "07326064580",
+          "name": "Margaret Gerlach",
+          "username": "allatus",
+          "phone": "07417458171",
           "role": "CLIENT",
-          "token": "cito",
-          "password": "UsF43Ml8EWfyy90",
-          "fcm": "comparo",
-          "avatar": "https://avatars.githubusercontent.com/u/90679993",
-          "companyID": 713090987458560
+          "token": "illo",
+          "password": "jrfaDcVdBZYv6Dc",
+          "fcm": "doloremque",
+          "branchID": 1765747745357824,
+          "repositoryID": 3593721345998848,
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/918.jpg",
+          "companyID": 5093092491264000,
+          "governoratesDeliveryCosts": [
+            {
+              "governorate": "BASRA",
+              "cost": 7603456965607424
+            },
+            {
+              "governorate": "WASIT",
+              "cost": 285752575393792
+            }
+          ]
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Roberta Parker",
-          "username": "turbo",
-          "phone": "07888097963",
-          "role": "CLIENT",
-          "token": "uberrime",
-          "password": "NkfnCBFhgNFVA3t",
-          "fcm": "solitudo",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/583.jpg",
-          "companyID": 3286831189721088
+          "name": "Felix Altenwerth",
+          "username": "audeo",
+          "phone": "07421239664",
+          "role": "CLIENT_ASSISTANT",
+          "token": "civitas",
+          "password": "EoJFICUT9qa5Gxt",
+          "fcm": "debilito",
+          "branchID": 2987418649100288,
+          "repositoryID": 6252890970652672,
+          "avatar": "https://avatars.githubusercontent.com/u/47971043",
+          "companyID": 5170446590803968,
+          "governoratesDeliveryCosts": [
+            {
+              "governorate": "KIRKUK",
+              "cost": 891257152864256
+            },
+            {
+              "governorate": "BASRA",
+              "cost": 6046396851421184
+            }
+          ]
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Wade Parisian",
-          "email": "Alfonso.Trantow@example.org",
-          "phone": "07892525067",
-          "governorate": "WASIT"
+          "name": "Gustavo Mohr",
+          "email": "Luna10@example.org",
+          "phone": "07775303116",
+          "governorate": "KARBALA"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Rufus Bergnaum",
-          "email": "Austin76@example.com",
-          "phone": "07311749199",
-          "governorate": "ERBIL"
+          "name": "Daisy Veum III",
+          "email": "Stanton.Mills@example.net",
+          "phone": "07508689043",
+          "governorate": "KARBALA"
         }
       },
       "CompanyCreateExample": {
         "value": {
-          "name": "Kelli Gusikowski",
-          "phone": "07603257302",
-          "website": "https://lazy-private.name",
-          "logo": "ubi",
-          "registrationText": "deorsum",
-          "governoratePrice": 7557983728828416,
-          "deliveryAgentFee": 537207251140608,
-          "baghdadPrice": 6397984589742080,
-          "additionalPriceForEvery500000IraqiDinar": 3384492160974848,
-          "additionalPriceForEveryKilogram": 2030832631939072,
-          "additionalPriceForRemoteAreas": 508249109430272,
-          "orderStatusAutomaticUpdate": true
+          "name": "Norma Emmerich DVM",
+          "phone": "07732138038",
+          "website": "https://first-judo.net",
+          "logo": "peccatus",
+          "registrationText": "administratio",
+          "governoratePrice": 5409352890449920,
+          "deliveryAgentFee": 733372158574592,
+          "baghdadPrice": 8353604314333184,
+          "additionalPriceForEvery500000IraqiDinar": 7728362139156480,
+          "additionalPriceForEveryKilogram": 896975564177408,
+          "additionalPriceForRemoteAreas": 2601364219756544,
+          "orderStatusAutomaticUpdate": false
         }
       },
       "CompanyUpdateExample": {
         "value": {
-          "name": "Mrs. Delores Orn",
-          "phone": "07614713988",
-          "website": "https://scholarly-fry.name/",
-          "logo": "degusto",
-          "registrationText": "coniecto",
-          "governoratePrice": 6923813069520896,
-          "deliveryAgentFee": 8285018919010304,
-          "baghdadPrice": 1214296109350912,
-          "additionalPriceForEvery500000IraqiDinar": 7990252887080960,
-          "additionalPriceForEveryKilogram": 1975329616822272,
-          "additionalPriceForRemoteAreas": 6814219380981760,
+          "name": "Tony Mills",
+          "phone": "07555973543",
+          "website": "https://vibrant-concentrate.name/",
+          "logo": "cogito",
+          "registrationText": "arcesso",
+          "governoratePrice": 8344354403909632,
+          "deliveryAgentFee": 5750947309420544,
+          "baghdadPrice": 823970412625920,
+          "additionalPriceForEvery500000IraqiDinar": 7567630321844224,
+          "additionalPriceForEveryKilogram": 3540772544577536,
+          "additionalPriceForRemoteAreas": 1528743661142016,
           "orderStatusAutomaticUpdate": false
         }
       },
       "OrderCreateExample": {
         "value": {
           "withProducts": false,
-          "totalCost": 7630829930938368,
-          "quantity": 6410509083475968,
-          "weight": 4221078559784960,
-          "recipientName": "certus",
-          "recipientPhone": "charisma",
-          "recipientAddress": "titulus",
-          "notes": "clibanus",
-          "details": "patria",
+          "totalCost": 7236271776727040,
+          "quantity": 3058809077497856,
+          "weight": 5469803984715776,
+          "recipientName": "advoco",
+          "recipientPhone": "compono",
+          "recipientAddress": "abeo",
+          "notes": "creptio",
+          "details": "qui",
           "deliveryType": "NORMAL",
-          "governorate": "WASIT",
-          "locationID": 435267687153664,
-          "storeID": 2603209864511488
+          "governorate": "SALAH_AL_DIN",
+          "locationID": 2231011165339648,
+          "storeID": 1416106587717632
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "paidAmount": 672475897659392,
-          "discount": 8545796085514240,
+          "paidAmount": 7228436842020864,
+          "discount": 7177890458238976,
           "status": "WITH_DELIVERY_AGENT",
-          "deliveryAgentID": 4051673290899456,
-          "deliveryDate": "2023-11-24T21:55:29.803Z",
-          "recipientName": "aufero",
-          "recipientPhone": "sortitus",
-          "recipientAddress": "aedificium",
-          "notes": "defero",
-          "details": "beatus"
+          "deliveryAgentID": 2153792762019840,
+          "deliveryDate": "2023-12-11T10:44:02.931Z",
+          "recipientName": "vallum",
+          "recipientPhone": "eius",
+          "recipientAddress": "repudiandae",
+          "notes": "patria",
+          "details": "aperte",
+          "repositoryID": 8705212755738624,
+          "branchID": 7735072889241600
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "dolorum",
-          "price": 8404565028241408,
-          "image": "https://picsum.photos/seed/pg3yZNBTG/640/480",
-          "weight": 479183461416960,
-          "stock": 5061359072968704,
-          "category": "cribro",
+          "title": "sol",
+          "price": 2179835203944448,
+          "image": "https://loremflickr.com/640/480?lock=1360211424051200",
+          "weight": 6697295147958272,
+          "stock": 5225951241699328,
+          "categoryID": 5056913100242944,
           "colors": [
             {
-              "colorID": 4532387209805824,
-              "title": "delectus",
-              "quantity": 4421061825265664
+              "colorID": 3057542236209152,
+              "quantity": 8500684158664704
             },
             {
-              "colorID": 1720754353733632,
-              "title": "sequi",
-              "quantity": 8585657882509312
+              "colorID": 8382394828587008,
+              "quantity": 6495230412980224
+            },
+            {
+              "colorID": 8281443169992704,
+              "quantity": 1477812380762112
             }
           ],
           "sizes": [
             {
-              "sizeID": 7741651919306752,
-              "title": "comminor",
-              "quantity": 7194125373800448
+              "sizeID": 556981150547968,
+              "quantity": 294513262198784
             },
             {
-              "sizeID": 7219453144072192,
-              "title": "appono",
-              "quantity": 1405087152865280
+              "sizeID": 7462407825784832,
+              "quantity": 938462815453184
             },
             {
-              "sizeID": 5323319817535488,
-              "title": "ab",
-              "quantity": 1932321720631296
+              "sizeID": 76910864367616,
+              "quantity": 1567642724859904
             },
             {
-              "sizeID": 4368074232823808,
-              "title": "advoco",
-              "quantity": 4045772154732544
+              "sizeID": 8424924704145408,
+              "quantity": 4906900590166016
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "sufficio",
-          "price": 8694637805961216,
-          "image": "https://picsum.photos/seed/ig2i9UrlwD/640/480",
-          "weight": 221839557132288,
-          "stock": 8387242154262528,
-          "category": "acceptus",
+          "title": "compello",
+          "price": 8782397948559360,
+          "image": "https://picsum.photos/seed/3jqGitbc/640/480",
+          "weight": 2440817979424768,
+          "stock": 8275388792832000,
+          "categoryID": 8716136329773056,
           "colors": [
             {
-              "colorID": 4013117535158272,
-              "title": "ventus",
-              "quantity": 7628045850509312
-            },
-            {
-              "colorID": 2189906312953856,
-              "title": "truculenter",
-              "quantity": 4310766922498048
-            },
-            {
-              "colorID": 2088078111932416,
-              "title": "aggero",
-              "quantity": 1902198451601408
+              "colorID": 5496623763292160,
+              "quantity": 8132629616394240
             }
           ],
           "sizes": [
             {
-              "sizeID": 5319508870823936,
-              "title": "ocer",
-              "quantity": 8880222021615616
+              "sizeID": 815068304375808,
+              "quantity": 7608466455658496
+            },
+            {
+              "sizeID": 6096011745296384,
+              "quantity": 2176940247089152
+            },
+            {
+              "sizeID": 8693319427162112,
+              "quantity": 3668375437836288
             }
           ]
         }
@@ -8200,92 +9172,94 @@
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "arguo"
+          "title": "curriculum"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "denuo"
+          "title": "verus"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "vomica"
+          "title": "terebro",
+          "code": "tempus"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "circumvenio"
+          "title": "cupio",
+          "code": "utique"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "desino"
+          "title": "magnam"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "constans"
+          "title": "ademptio"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Alma Johnston",
-          "clientID": 3664882387910656,
-          "notes": "cerno",
-          "logo": "soleo"
+          "name": "Vickie Gerlach",
+          "clientID": 2540494829649920,
+          "notes": "aer",
+          "logo": "curatio"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Nichole O'Hara",
-          "clientID": 6970036988149760,
-          "notes": "coma",
-          "logo": "condico"
+          "name": "Horace Hirthe",
+          "clientID": 6521064179892224,
+          "notes": "angulus",
+          "logo": "comis"
         }
       },
       "BannerCreateExample": {
         "value": {
-          "title": "aperiam",
-          "content": "vigilo",
-          "image": "https://loremflickr.com/640/480?lock=789266770690048",
-          "url": "https://timely-prompt.org/"
+          "title": "suffragium",
+          "content": "abscido",
+          "image": "https://loremflickr.com/640/480?lock=5873556575485952",
+          "url": "https://capital-apple.biz/"
         }
       },
       "BannerUpdateExample": {
         "value": {
-          "title": "arcesso",
-          "content": "voluptas",
-          "image": "https://loremflickr.com/640/480?lock=2505192733933568",
-          "url": "https://elderly-sportsman.biz/"
+          "title": "asporto",
+          "content": "talis",
+          "image": "https://loremflickr.com/640/480?lock=2559676763865088",
+          "url": "https://starry-weedkiller.name/"
         }
       },
       "ReportCreateExample": {
         "value": {
-          "type": "CLIENT",
-          "clientID": 6794841788776448,
-          "storeID": 3200311577542656,
+          "type": "COMPANY",
+          "companyID": 1804651030642688,
           "ordersIDs": [
-            8782579962478592,
-            3025294287962112,
-            4160375635312640,
-            3428873997910016,
-            7734021838602240
+            2082382148534272,
+            6677012036976640,
+            3944265277243392,
+            4250948564156416,
+            1326237299507200
           ]
         }
       },
       "ReportUpdateExample": {
         "value": {
-          "status": "PAID"
+          "status": "UNPAID"
         }
       },
       "OrdersReceiptsCreateExample": {
         "value": {
           "ordersIDs": [
-            606409332883456,
-            8700932380426240,
-            819100710338560,
-            5714620497002496
+            5200926820270080,
+            5284355261857792,
+            8129259256152064,
+            1855478380363776,
+            7640926797168640
           ]
         }
       }
@@ -8663,12 +9637,59 @@
           "fcm": {
             "type": "string"
           },
+          "branchID": {
+            "type": "number",
+            "nullable": true
+          },
+          "repositoryID": {
+            "type": "number",
+            "nullable": true
+          },
           "avatar": {
             "type": "string"
           },
           "companyID": {
             "type": "number",
             "nullable": true
+          },
+          "governoratesDeliveryCosts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "governorate": {
+                  "type": "string",
+                  "enum": [
+                    "AL_ANBAR",
+                    "BABIL",
+                    "BAGHDAD",
+                    "BASRA",
+                    "DHI_QAR",
+                    "AL_QADISIYYAH",
+                    "DIYALA",
+                    "DUHOK",
+                    "ERBIL",
+                    "KARBALA",
+                    "KIRKUK",
+                    "MAYSAN",
+                    "MUTHANNA",
+                    "NAJAF",
+                    "NINAWA",
+                    "SALAH_AL_DIN",
+                    "SULAYMANIYAH",
+                    "WASIT"
+                  ]
+                },
+                "cost": {
+                  "type": "number",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "governorate",
+                "cost"
+              ]
+            }
           }
         },
         "required": [
@@ -8711,12 +9732,59 @@
           "fcm": {
             "type": "string"
           },
+          "branchID": {
+            "type": "number",
+            "nullable": true
+          },
+          "repositoryID": {
+            "type": "number",
+            "nullable": true
+          },
           "avatar": {
             "type": "string"
           },
           "companyID": {
             "type": "number",
             "nullable": true
+          },
+          "governoratesDeliveryCosts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "governorate": {
+                  "type": "string",
+                  "enum": [
+                    "AL_ANBAR",
+                    "BABIL",
+                    "BAGHDAD",
+                    "BASRA",
+                    "DHI_QAR",
+                    "AL_QADISIYYAH",
+                    "DIYALA",
+                    "DUHOK",
+                    "ERBIL",
+                    "KARBALA",
+                    "KIRKUK",
+                    "MAYSAN",
+                    "MUTHANNA",
+                    "NAJAF",
+                    "NINAWA",
+                    "SALAH_AL_DIN",
+                    "SULAYMANIYAH",
+                    "WASIT"
+                  ]
+                },
+                "cost": {
+                  "type": "number",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "governorate",
+                "cost"
+              ]
+            }
           }
         }
       },
@@ -9124,6 +10192,14 @@
           },
           "details": {
             "type": "string"
+          },
+          "repositoryID": {
+            "type": "number",
+            "nullable": true
+          },
+          "branchID": {
+            "type": "number",
+            "nullable": true
           }
         }
       },
@@ -9151,8 +10227,9 @@
             "minimum": 0,
             "nullable": true
           },
-          "category": {
-            "type": "string"
+          "categoryID": {
+            "type": "number",
+            "nullable": true
           },
           "colors": {
             "type": "array",
@@ -9163,16 +10240,12 @@
                   "type": "number",
                   "nullable": true
                 },
-                "title": {
-                  "type": "string"
-                },
                 "quantity": {
                   "type": "number",
                   "minimum": 0
                 }
               },
               "required": [
-                "title",
                 "quantity"
               ]
             }
@@ -9186,16 +10259,12 @@
                   "type": "number",
                   "nullable": true
                 },
-                "title": {
-                  "type": "string"
-                },
                 "quantity": {
                   "type": "number",
                   "minimum": 0
                 }
               },
               "required": [
-                "title",
                 "quantity"
               ]
             }
@@ -9204,7 +10273,8 @@
         "required": [
           "title",
           "price",
-          "stock"
+          "stock",
+          "categoryID"
         ]
       },
       "ProductUpdateSchema": {
@@ -9231,8 +10301,9 @@
             "minimum": 0,
             "nullable": true
           },
-          "category": {
-            "type": "string"
+          "categoryID": {
+            "type": "number",
+            "nullable": true
           },
           "colors": {
             "type": "array",
@@ -9243,16 +10314,12 @@
                   "type": "number",
                   "nullable": true
                 },
-                "title": {
-                  "type": "string"
-                },
                 "quantity": {
                   "type": "number",
                   "minimum": 0
                 }
               },
               "required": [
-                "title",
                 "quantity"
               ]
             }
@@ -9266,16 +10333,12 @@
                   "type": "number",
                   "nullable": true
                 },
-                "title": {
-                  "type": "string"
-                },
                 "quantity": {
                   "type": "number",
                   "minimum": 0
                 }
               },
               "required": [
-                "title",
                 "quantity"
               ]
             }
@@ -9315,16 +10378,23 @@
         "properties": {
           "title": {
             "type": "string"
+          },
+          "code": {
+            "type": "string"
           }
         },
         "required": [
-          "title"
+          "title",
+          "code"
         ]
       },
       "ColorUpdateSchema": {
         "type": "object",
         "properties": {
           "title": {
+            "type": "string"
+          },
+          "code": {
             "type": "string"
           }
         }

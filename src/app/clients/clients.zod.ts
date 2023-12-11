@@ -1,6 +1,6 @@
 import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { ClientRole } from "@prisma/client";
+import { ClientRole, Governorate } from "@prisma/client";
 import { z } from "zod";
 
 export const ClientCreateSchema = z.object({
@@ -14,7 +14,15 @@ export const ClientCreateSchema = z.object({
     branchID: z.coerce.number().optional(),
     repositoryID: z.coerce.number().optional(),
     avatar: z.string().optional(),
-    companyID: z.coerce.number().optional()
+    companyID: z.coerce.number().optional(),
+    governoratesDeliveryCosts: z
+        .array(
+            z.object({
+                governorate: z.nativeEnum(Governorate),
+                cost: z.coerce.number().max(30000)
+            })
+        )
+        .optional()
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;

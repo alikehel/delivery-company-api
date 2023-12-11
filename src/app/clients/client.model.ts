@@ -15,6 +15,7 @@ const clientSelect: Prisma.ClientSelect = {
     },
     id: true,
     role: true,
+    governoratesDeliveryCosts: true,
     createdBy: {
         select: {
             id: true,
@@ -70,6 +71,7 @@ const clientReform = (client: any) => {
         company: client.company,
         repository: client.repository,
         branch: client.branch,
+        governoratesDeliveryCosts: client.governoratesDeliveryCosts,
         createdBy: client.createdBy
             ? {
                   id: client.createdBy.id,
@@ -131,7 +133,8 @@ export class ClientModel {
                     connect: {
                         id: data.userID
                     }
-                }
+                },
+                governoratesDeliveryCosts: data.governoratesDeliveryCosts
             },
             select: clientSelect
         });
@@ -218,7 +221,9 @@ export class ClientModel {
                               id: data.clientData.repositoryID
                           }
                       }
-                    : undefined
+                    : undefined,
+                governoratesDeliveryCosts:
+                    data.clientData.governoratesDeliveryCosts
             },
             select: clientSelect
         });
