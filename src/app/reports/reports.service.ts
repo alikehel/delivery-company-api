@@ -30,14 +30,14 @@ export class ReportService {
         };
 
         orders.forEach((order) => {
-            reportMetaData.totalCost += order.totalCost;
-            reportMetaData.paidAmount += order.paidAmount;
-            reportMetaData.deliveryCost += order.deliveryCost;
-            reportMetaData.clientNet += order.clientNet;
+            reportMetaData.totalCost += +order.totalCost;
+            reportMetaData.paidAmount += +order.paidAmount;
+            reportMetaData.deliveryCost += +order.deliveryCost;
+            reportMetaData.clientNet += +order.clientNet;
             reportMetaData.deliveryAgentNet += order.deliveryAgent
-                ? order.deliveryAgent.deliveryCost
+                ? +order.deliveryAgent.deliveryCost
                 : 0;
-            reportMetaData.companyNet += order.companyNet;
+            reportMetaData.companyNet += +order.companyNet;
             if (order.governorate === "BAGHDAD") {
                 reportMetaData.baghdadOrdersCount++;
             } else {
