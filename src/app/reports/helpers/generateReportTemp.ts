@@ -1,6 +1,6 @@
 // import { Order } from "@prisma/client";
 // import fs from "fs";
-import { ReportType } from "@prisma/client";
+import { Governorate, ReportType } from "@prisma/client";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import {
@@ -331,12 +331,14 @@ export const generateReport = async (
                             {
                                 text:
                                     handleArabicCharacters(
+                                        localizeGovernorate(
+                                            order.governorate as Governorate
+                                        ) || ""
+                                    ) +
+                                    "  -  " +
+                                    handleArabicCharacters(
                                         // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
                                         order.recipientAddress || ""
-                                    ) +
-                                    " - " +
-                                    handleArabicCharacters(
-                                        order.governorate || ""
                                     )
                             },
                             {
