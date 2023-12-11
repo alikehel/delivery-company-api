@@ -317,9 +317,10 @@ export const generateReport = async (
                                 reportType === "GOVERNORATE" ||
                                 reportType === "DELIVERY_AGENT"
                                     ? {
-                                          text:
-                                              order.deliveryAgent.deliveryCost?.toString() ||
-                                              "0"
+                                          text: order.deliveryAgent
+                                              ? order.deliveryAgent.deliveryCost?.toString() ||
+                                                "0"
+                                              : "0"
                                       }
                                     : {},
                                 reportType === "CLIENT" ||

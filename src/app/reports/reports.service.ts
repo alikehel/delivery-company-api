@@ -47,9 +47,9 @@ export class ReportService {
 
         if (data.reportData.type === ReportType.CLIENT) {
             orders.forEach((order) => {
-                if (order?.clientReportReportNumber) {
+                if (order?.clientReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.reportNumber}`,
                         400
                     );
                 }
@@ -66,45 +66,45 @@ export class ReportService {
             });
         } else if (data.reportData.type === ReportType.REPOSITORY) {
             orders.forEach((order) => {
-                if (order?.repositoryReportReportNumber) {
+                if (order?.repositoryReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.reportNumber}`,
                         400
                     );
                 }
             });
         } else if (data.reportData.type === ReportType.BRANCH) {
             orders.forEach((order) => {
-                if (order?.branchReportReportNumber) {
+                if (order?.branchReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.reportNumber}`,
                         400
                     );
                 }
             });
         } else if (data.reportData.type === ReportType.GOVERNORATE) {
             orders.forEach((order) => {
-                if (order?.governorateReportReportNumber) {
+                if (order?.governorateReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.reportNumber}`,
                         400
                     );
                 }
             });
         } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
             orders.forEach((order) => {
-                if (order?.deliveryAgentReportReportNumber) {
+                if (order?.deliveryAgentReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.reportNumber}`,
                         400
                     );
                 }
             });
         } else if (data.reportData.type === ReportType.COMPANY) {
             orders.forEach((order) => {
-                if (order?.companyReportReportNumber) {
+                if (order?.companyReport) {
                     throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReportReportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.reportNumber}`,
                         400
                     );
                 }
