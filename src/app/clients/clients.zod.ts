@@ -19,7 +19,7 @@ export const ClientCreateSchema = z.object({
         .array(
             z.object({
                 governorate: z.nativeEnum(Governorate),
-                cost: z.coerce.number().max(30000)
+                cost: z.coerce.number().max(100000).default(0)
             })
         )
         .optional()

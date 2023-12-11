@@ -79,13 +79,12 @@ const orderSelect: Prisma.OrderSelect = {
             name: true
         }
     },
-    clientReportReportNumber: true,
-    repositoryReportReportNumber: true,
-    branchReportReportNumber: true,
-    // tenantReportReportNumber: true,
-    deliveryAgentReportReportNumber: true,
-    governorateReportReportNumber: true,
-    companyReportReportNumber: true,
+    clientReport: true,
+    repositoryReport: true,
+    branchReport: true,
+    deliveryAgentReport: true,
+    governorateReport: true,
+    companyReport: true,
     company: {
         select: {
             id: true,

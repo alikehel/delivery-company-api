@@ -25,7 +25,8 @@ export const EmployeeCreateSchema = z.object({
         .optional(),
     fcm: z.string().optional(),
     avatar: z.string().optional(),
-    companyID: z.coerce.number().optional()
+    companyID: z.coerce.number().optional(),
+    deliveryCost: z.coerce.number().optional()
 });
 
 export type EmployeeCreateType = z.infer<typeof EmployeeCreateSchema>;
