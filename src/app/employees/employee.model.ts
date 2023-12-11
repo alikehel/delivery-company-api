@@ -10,6 +10,7 @@ const employeeSelect: Prisma.EmployeeSelect = {
     permissions: true,
     branch: true,
     repository: true,
+    deliveryCost: true,
     user: {
         select: {
             id: true,
@@ -50,6 +51,7 @@ const employeeReform = (employee: any) => {
         salary: employee.salary,
         role: employee.role,
         permissions: employee.permissions,
+        deliveryCost: employee.deliveryCost,
         branch: employee.branch,
         repository: employee.repository,
         company: employee.company,

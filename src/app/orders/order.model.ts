@@ -425,10 +425,48 @@ export class OrderModel {
             }
         }
 
+        // Calculate delivery cost
+
+        let deliveryCost = 0;
+
+        const client = await prisma.client.findUnique({
+            where: {
+                userId: clientID
+            },
+            select: {
+                governoratesDeliveryCosts: true
+            }
+        });
+
+        if (!client) {
+            throw new AppError("العميل غير موجود", 400);
+        }
+
+        const governoratesDeliveryCosts = client.governoratesDeliveryCosts as {
+            governorate: Governorate;
+            cost: number;
+        }[];
+
+        if (governoratesDeliveryCosts) {
+            deliveryCost =
+                governoratesDeliveryCosts.find(
+                    (governorateDeliveryCost: {
+                        governorate: Governorate;
+                        cost: number;
+                    }) => {
+                        return (
+                            governorateDeliveryCost.governorate ===
+                            data.governorate
+                        );
+                    }
+                )?.cost || 0;
+        }
+
         const createdOrder = await prisma.order.create({
             data: {
                 totalCost:
                     data.withProducts === false ? data.totalCost : totalCost,
+                deliveryCost: deliveryCost,
                 quantity:
                     data.withProducts === false ? data.quantity : quantity,
                 weight: data.withProducts === false ? data.weight : weight,
@@ -793,12 +831,47 @@ export class OrderModel {
     }
 
     async updateOrder(data: { orderID: number; orderData: OrderUpdateType }) {
+        let deliveryAgentCost;
+        let companyNet;
+        let clientNet;
+        if (data.orderData.paidAmount) {
+            // calculate company net
+            if (data.orderData.deliveryAgentID) {
+                const orderDeliveryAgent = await prisma.employee.findUnique({
+                    where: {
+                        id: data.orderData.deliveryAgentID
+                    },
+                    select: {
+                        deliveryCost: true
+                    }
+                });
+                deliveryAgentCost = (orderDeliveryAgent?.deliveryCost ||
+                    0) as number;
+
+                companyNet = data.orderData.paidAmount - deliveryAgentCost;
+            }
+            // calculate client net
+            const orderData = await prisma.order.findUnique({
+                where: {
+                    id: data.orderID
+                },
+                select: {
+                    deliveryCost: true
+                }
+            });
+            const deliveryCost = (orderData?.deliveryCost || 0) as number;
+            clientNet = data.orderData.paidAmount - deliveryCost;
+        }
+
         const order = await prisma.order.update({
             where: {
                 id: data.orderID
             },
             data: {
                 paidAmount: data.orderData.paidAmount,
+                clientNet: clientNet,
+                deliveryAgentNet: deliveryAgentCost,
+                companyNet: companyNet,
                 discount: data.orderData.discount,
                 recipientName: data.orderData.recipientName,
                 recipientPhone: data.orderData.recipientPhone,
