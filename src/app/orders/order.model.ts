@@ -835,6 +835,23 @@ export class OrderModel {
         let companyNet;
         let clientNet;
         if (data.orderData.paidAmount) {
+            // calculate client net
+            const orderData = await prisma.order.findUnique({
+                where: {
+                    id: data.orderID
+                },
+                select: {
+                    deliveryCost: true,
+                    deliveryAgent: {
+                        select: {
+                            deliveryCost: true
+                        }
+                    }
+                }
+            });
+            const deliveryCost = (orderData?.deliveryCost || 0) as number;
+            clientNet = data.orderData.paidAmount - deliveryCost;
+
             // calculate company net
             if (data.orderData.deliveryAgentID) {
                 const orderDeliveryAgent = await prisma.employee.findUnique({
@@ -849,18 +866,11 @@ export class OrderModel {
                     0) as number;
 
                 companyNet = data.orderData.paidAmount - deliveryAgentCost;
+            } else if (orderData?.deliveryAgent) {
+                deliveryAgentCost = (orderData?.deliveryAgent?.deliveryCost ||
+                    0) as number;
+                companyNet = data.orderData.paidAmount - deliveryAgentCost;
             }
-            // calculate client net
-            const orderData = await prisma.order.findUnique({
-                where: {
-                    id: data.orderID
-                },
-                select: {
-                    deliveryCost: true
-                }
-            });
-            const deliveryCost = (orderData?.deliveryCost || 0) as number;
-            clientNet = data.orderData.paidAmount - deliveryCost;
         }
 
         const order = await prisma.order.update({
