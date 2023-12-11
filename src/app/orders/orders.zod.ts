@@ -12,7 +12,9 @@ export const OrderCreateBaseSchema = z.object({
     deliveryType: z.nativeEnum(DeliveryType),
     governorate: z.nativeEnum(Governorate),
     locationID: z.coerce.number().optional(),
-    storeID: z.coerce.number()
+    storeID: z.coerce.number(),
+    repositoryID: z.coerce.number().optional(),
+    branchID: z.coerce.number().optional()
     // paidAmount: z.number(),
     // totalCostInUSD: z.number(),
     // paidAmountInUSD: z.number(),
