@@ -329,10 +329,15 @@ export const generateReport = async (
                                 text: order.totalCost.toString()
                             },
                             {
-                                text: handleArabicCharacters(
-                                    // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
-                                    order.recipientAddress || ""
-                                )
+                                text:
+                                    handleArabicCharacters(
+                                        // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
+                                        order.recipientAddress || ""
+                                    ) +
+                                    " - " +
+                                    handleArabicCharacters(
+                                        order.governorate || ""
+                                    )
                             },
                             {
                                 text: order.recipientPhone
