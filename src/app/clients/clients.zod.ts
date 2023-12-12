@@ -16,11 +16,19 @@ export const ClientCreateSchema = z.object({
     avatar: z.string().optional(),
     companyID: z.coerce.number().optional(),
     governoratesDeliveryCosts: z
-        .array(
-            z.object({
-                governorate: z.nativeEnum(Governorate),
-                cost: z.coerce.number().max(100000).default(0)
-            })
+        .preprocess(
+            (data) => {
+                if (typeof data === "string") {
+                    return JSON.parse(data);
+                }
+                return data;
+            },
+            z.array(
+                z.object({
+                    governorate: z.nativeEnum(Governorate),
+                    cost: z.coerce.number().max(100000).default(0)
+                })
+            )
         )
         .optional()
 });
