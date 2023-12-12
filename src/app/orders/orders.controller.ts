@@ -5,6 +5,7 @@ import { generateReceipts } from "./helpers/generateReceipts";
 import { OrderModel } from "./order.model";
 import {
     OrderCreateSchema,
+    OrderTimelineType,
     OrderUpdateSchema,
     OrdersReceiptsCreateSchema
 } from "./orders.zod";
@@ -155,6 +156,7 @@ export const getOrder = catchAsync(async (req, res) => {
 
 export const updateOrder = catchAsync(async (req, res) => {
     const orderID = +req.params["orderID"];
+    const loggedInUser = res.locals.user;
 
     const orderData = OrderUpdateSchema.parse(req.body);
 
@@ -172,17 +174,126 @@ export const updateOrder = catchAsync(async (req, res) => {
         data: newOrder
     });
 
-    if (oldOrderData?.status !== newOrder?.status) {
-        const oldTimeline = oldOrderData?.timeline;
+    // Update Order Timeline
+
+    // Update status
+    if (
+        oldOrderData?.status !== newOrder?.status &&
+        newOrder?.status !== "DELIVERED"
+    ) {
+        const oldTimeline: OrderTimelineType = oldOrderData?.timeline;
         await orderModel.updateOrderTimeline({
             orderID: orderID,
             timeline: [
-                ...(oldTimeline as any),
+                ...oldTimeline,
                 {
                     type: "STATUS_CHANGE",
                     old: oldOrderData?.status,
                     new: newOrder?.status,
-                    date: newOrder?.updatedAt
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: loggedInUser.id,
+                        name: loggedInUser.name,
+                        role: loggedInUser.role
+                    }
+                }
+            ]
+        });
+    }
+
+    // Update delivery date
+    if (
+        oldOrderData.deliveryDate !== newOrder?.deliveryDate &&
+        newOrder?.deliveryDate === "DELIVERED"
+    ) {
+        const oldTimeline: OrderTimelineType = oldOrderData?.timeline;
+        await orderModel.updateOrderTimeline({
+            orderID: orderID,
+            timeline: [
+                ...oldTimeline,
+                {
+                    type: "DELIVERY_DATE_CHANGE",
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: loggedInUser.id,
+                        name: loggedInUser.name,
+                        role: loggedInUser.role
+                    }
+                }
+            ]
+        });
+    }
+
+    // Update delivery agent
+    if (oldOrderData.deliveryAgent.id !== newOrder?.deliveryAgent.id) {
+        const oldTimeline: OrderTimelineType = oldOrderData?.timeline;
+        await orderModel.updateOrderTimeline({
+            orderID: orderID,
+            timeline: [
+                ...oldTimeline,
+                {
+                    type: "DELIVERY_AGENT_CHANGE",
+                    old: {
+                        id: oldOrderData?.deliveryAgent.id,
+                        name: oldOrderData?.deliveryAgent.name
+                    },
+                    new: {
+                        id: newOrder?.deliveryAgent.id,
+                        name: newOrder?.deliveryAgent.name
+                    },
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: loggedInUser.id,
+                        name: loggedInUser.name,
+                        role: loggedInUser.role
+                    }
+                }
+            ]
+        });
+    }
+
+    // Update current location
+    if (
+        oldOrderData.currentLocation !== newOrder?.currentLocation ||
+        oldOrderData.currentLocation !== newOrder?.currentLocation
+    ) {
+        const oldTimeline: OrderTimelineType = oldOrderData?.timeline;
+        await orderModel.updateOrderTimeline({
+            orderID: orderID,
+            timeline: [
+                ...oldTimeline,
+                {
+                    type: "CURRENT_LOCATION_CHANGE",
+                    old: oldOrderData?.currentLocation,
+                    new: newOrder?.currentLocation,
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: loggedInUser.id,
+                        name: loggedInUser.name,
+                        role: loggedInUser.role
+                    }
+                }
+            ]
+        });
+    }
+
+    // Update paid amount
+    if (oldOrderData.paidAmount !== newOrder?.paidAmount) {
+        const oldTimeline: OrderTimelineType = oldOrderData?.timeline;
+        await orderModel.updateOrderTimeline({
+            orderID: orderID,
+            timeline: [
+                ...oldTimeline,
+                {
+                    type: "PAID_AMOUNT_CHANGE",
+                    old: oldOrderData?.paidAmount,
+                    new: newOrder?.paidAmount,
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: loggedInUser.id,
+                        name: loggedInUser.name,
+                        role: loggedInUser.role
+                    }
                 }
             ]
         });

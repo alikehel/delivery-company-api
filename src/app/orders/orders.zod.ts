@@ -1,6 +1,14 @@
 import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
+import {
+    AdminRole,
+    ClientRole,
+    DeliveryType,
+    EmployeeRole,
+    Governorate,
+    OrderStatus,
+    ReportType
+} from "@prisma/client";
 import { z } from "zod";
 
 export const OrderCreateBaseSchema = z.object({
@@ -75,7 +83,8 @@ export const OrderUpdateSchema = z
         notes: z.string().optional(),
         details: z.string().optional(),
         repositoryID: z.coerce.number().optional(),
-        branchID: z.coerce.number().optional()
+        branchID: z.coerce.number().optional(),
+        currentLocation: z.string().optional()
     })
     .partial();
 
@@ -104,3 +113,59 @@ export const OrdersReceiptsCreateMock = generateMock(
 );
 
 /* --------------------------------------------------------------- */
+
+export const OrderTimelinePieceBaseSchema = z.object({
+    date: z.date(),
+    by: z.object({
+        id: z.coerce.number(),
+        name: z.string(),
+        role: z.nativeEnum(EmployeeRole || AdminRole || ClientRole)
+    })
+});
+
+export const OrderTimelinePieceSchema = z
+    .discriminatedUnion("type", [
+        z.object({
+            type: z.literal("STATUS_CHANGE"),
+            old: z.nativeEnum(OrderStatus),
+            new: z.nativeEnum(OrderStatus)
+        }),
+        z.object({
+            type: z.literal("DELIVERY_AGENT_CHANGE"),
+            old: z.object({
+                id: z.coerce.number(),
+                name: z.string()
+            }),
+            new: z.object({
+                id: z.coerce.number(),
+                name: z.string()
+            })
+        }),
+        z.object({
+            type: z.literal("CURRENT_LOCATION_CHANGE"),
+            old: z.string(),
+            new: z.string()
+        }),
+        z.object({
+            type: z.literal("DELIVERY_DATE_CHANGE")
+        }),
+        z.object({
+            type: z.literal("REPORT_CREATE"),
+            reportType: z.nativeEnum(ReportType),
+            reportID: z.coerce.number()
+        }),
+        z.object({
+            type: z.literal("REPORT_DELETE"),
+            reportType: z.nativeEnum(ReportType)
+        }),
+        z.object({
+            type: z.literal("PAID_AMOUNT_CHANGE"),
+            old: z.coerce.number(),
+            new: z.coerce.number()
+        })
+    ])
+    .and(OrderTimelinePieceBaseSchema);
+
+export const OrderTimelineSchema = z.array(OrderTimelinePieceSchema);
+
+export type OrderTimelineType = z.infer<typeof OrderTimelineSchema>;

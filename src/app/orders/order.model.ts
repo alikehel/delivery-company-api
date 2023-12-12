@@ -6,7 +6,11 @@ import {
     PrismaClient
 } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
-import { OrderCreateType, OrderUpdateType } from "./orders.zod";
+import {
+    OrderCreateType,
+    OrderTimelineType,
+    OrderUpdateType
+} from "./orders.zod";
 
 const prisma = new PrismaClient();
 
@@ -886,6 +890,7 @@ export class OrderModel {
                 recipientPhone: data.orderData.recipientPhone,
                 recipientAddress: data.orderData.recipientAddress,
                 notes: data.orderData.notes,
+                currentLocation: data.orderData.currentLocation,
                 status: data.orderData.status,
                 details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
@@ -1093,12 +1098,7 @@ export class OrderModel {
 
     async updateOrderTimeline(data: {
         orderID: number;
-        timeline: {
-            type: string;
-            old: string;
-            new: string;
-            date: Date;
-        }[];
+        timeline: OrderTimelineType;
     }) {
         const updatedOrderTimeline = await prisma.order.update({
             where: {

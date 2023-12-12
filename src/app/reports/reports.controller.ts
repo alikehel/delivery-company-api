@@ -11,10 +11,10 @@ export class ReportController {
     createReport = catchAsync(async (req, res) => {
         const reportData = ReportCreateSchema.parse(req.body);
         const companyID = +res.locals.user.companyID;
-        const loggedInUserID = res.locals.user.id ?? +res.locals.user.id;
+        const loggedInUser = res.locals.user;
 
         const pdf = await reportService.createReport(companyID, {
-            loggedInUserID,
+            loggedInUser,
             reportData
         });
 
@@ -121,9 +121,7 @@ export class ReportController {
     deleteReport = catchAsync(async (req, res) => {
         const reportID = +req.params["reportID"];
 
-        await reportModel.deleteReport({
-            reportID: reportID
-        });
+        await reportService.deleteReport(reportID);
 
         res.status(200).json({
             status: "success"
@@ -134,10 +132,7 @@ export class ReportController {
         const reportID = +req.params["reportID"];
         const loggedInUserID = +res.locals.user.id;
 
-        await reportModel.deactivateReport({
-            reportID: reportID,
-            deletedByID: loggedInUserID
-        });
+        await reportService.deactivateReport(reportID, loggedInUserID);
 
         res.status(200).json({
             status: "success"
@@ -147,9 +142,7 @@ export class ReportController {
     reactivateReport = catchAsync(async (req, res) => {
         const reportID = +req.params["reportID"];
 
-        await reportModel.reactivateReport({
-            reportID: reportID
-        });
+        await reportService.reactivateReport(reportID);
 
         res.status(200).json({
             status: "success"

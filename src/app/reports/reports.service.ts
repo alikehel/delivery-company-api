@@ -1,6 +1,7 @@
 import { Order, ReportStatus, ReportType } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import { OrderModel } from "../orders/order.model";
+import { OrderTimelineType } from "../orders/orders.zod";
 import { generateReport } from "./helpers/generateReportTemp";
 import { ReportModel } from "./report.model";
 import { ReportCreateType } from "./reports.zod";
@@ -12,7 +13,7 @@ export class ReportService {
     async createReport(
         companyID: number,
         data: {
-            loggedInUserID: number;
+            loggedInUser: any;
             reportData: ReportCreateType;
         }
     ) {
@@ -113,7 +114,7 @@ export class ReportService {
 
         const report = await reportModel.createReport(
             companyID,
-            data.loggedInUserID,
+            data.loggedInUser.id,
             data.reportData,
             reportMetaData
         );
@@ -125,6 +126,28 @@ export class ReportService {
         const reportData = await reportModel.getReport({
             reportID: report.reportId
         });
+
+        // update orders timeline
+        for (const order of orders) {
+            const oldTimeline: OrderTimelineType = order?.timeline;
+            await orderModel.updateOrderTimeline({
+                orderID: order.id,
+                timeline: [
+                    ...oldTimeline,
+                    {
+                        type: "REPORT_CREATE",
+                        reportType: data.reportData.type,
+                        reportID: report.reportId,
+                        date: reportData.createdAt,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name,
+                            role: data.loggedInUser.role
+                        }
+                    }
+                ]
+            });
+        }
 
         // TODO
         const pdf = await generateReport(
@@ -270,5 +293,24 @@ export class ReportService {
             ordersData
         );
         return pdf;
+    }
+
+    async deleteReport(reportID: number) {
+        await reportModel.deleteReport({
+            reportID: reportID
+        });
+    }
+
+    async deactivateReport(reportID: number, loggedInUserID: number) {
+        await reportModel.deactivateReport({
+            reportID: reportID,
+            deletedByID: loggedInUserID
+        });
+    }
+
+    async reactivateReport(reportID: number) {
+        await reportModel.reactivateReport({
+            reportID: reportID
+        });
     }
 }
