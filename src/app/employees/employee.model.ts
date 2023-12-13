@@ -4,7 +4,6 @@ import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
 const prisma = new PrismaClient();
 
 const employeeSelect: Prisma.EmployeeSelect = {
-    id: true,
     salary: true,
     role: true,
     permissions: true,

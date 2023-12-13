@@ -340,7 +340,7 @@ export class ReportModel {
                 data: {
                     client: {
                         connect: {
-                            id: data.clientID
+                            userId: data.clientID
                         }
                     },
                     // TODO
@@ -385,7 +385,7 @@ export class ReportModel {
                 data: {
                     deliveryAgent: {
                         connect: {
-                            id: data.deliveryAgentID
+                            userId: data.deliveryAgentID
                         }
                     },
                     orders: orders,

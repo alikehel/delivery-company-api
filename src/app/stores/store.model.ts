@@ -70,7 +70,7 @@ export class StoreModel {
                 },
                 client: {
                     connect: {
-                        id: data.clientID
+                        userId: data.clientID
                     }
                 }
             },
@@ -129,7 +129,7 @@ export class StoreModel {
                 client: data.storeData.clientID
                     ? {
                           connect: {
-                              id: data.storeData.clientID
+                              userId: data.storeData.clientID
                           }
                       }
                     : undefined

@@ -13,7 +13,6 @@ const clientSelect: Prisma.ClientSelect = {
             avatar: true
         }
     },
-    id: true,
     role: true,
     governoratesDeliveryCosts: true,
     createdBy: {
@@ -131,7 +130,7 @@ export class ClientModel {
                     : undefined,
                 createdBy: {
                     connect: {
-                        id: data.userID
+                        userId: data.userID
                     }
                 },
                 governoratesDeliveryCosts: data.governoratesDeliveryCosts
