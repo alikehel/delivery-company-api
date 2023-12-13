@@ -54,6 +54,12 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         .toUpperCase()
         .split(",") as EmployeeRole[];
 
+    const locationID = req.query.location_id
+        ? +req.query.location_id
+        : undefined;
+
+    const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+
     // console.log(roles);
 
     if (pagesCount === 0) {
@@ -87,6 +93,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
 
     const employees = await employeeModel.getAllEmployees(skip, take, {
         roles: roles,
+        locationID: locationID,
+        branchID: branchID,
         deleted: deleted
     });
 

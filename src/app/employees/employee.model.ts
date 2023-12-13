@@ -118,7 +118,12 @@ export class EmployeeModel {
     async getAllEmployees(
         skip: number,
         take: number,
-        filters: { roles?: EmployeeRole[]; deleted?: string }
+        filters: {
+            roles?: EmployeeRole[];
+            branchID?: number;
+            locationID?: number;
+            deleted?: string;
+        }
     ) {
         const employees = await prisma.employee.findMany({
             skip: skip,
@@ -126,6 +131,27 @@ export class EmployeeModel {
             where: {
                 AND: [
                     { role: { in: filters.roles } },
+                    {
+                        branch: {
+                            id: filters.branchID
+                        }
+                    },
+                    {
+                        deliveryAgentsLocations: filters.roles?.find((role) => {
+                            return (
+                                role === "DELIVERY_AGENT" ||
+                                role === "RECEIVING_AGENT"
+                            );
+                        })
+                            ? {
+                                  some: {
+                                      location: {
+                                          id: filters.locationID
+                                      }
+                                  }
+                              }
+                            : undefined
+                    },
                     { deleted: filters.deleted === "true" ? true : false }
                 ]
             },
