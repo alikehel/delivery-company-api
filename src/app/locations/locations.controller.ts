@@ -1,3 +1,4 @@
+import { Governorate } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { LocationModel } from "./location.model";
@@ -24,6 +25,18 @@ export const getAllLocations = catchAsync(async (req, res) => {
     const locationsCount = await locationModel.getLocationsCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(locationsCount / size);
+
+    const search = req.query.search as string;
+
+    const governorate = req.query.governorate?.toString().toUpperCase() as
+        | Governorate
+        | undefined;
+
+    const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+
+    const deliveryAgentID = req.query.delivery_agent_id
+        ? +req.query.delivery_agent_id
+        : undefined;
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -52,7 +65,12 @@ export const getAllLocations = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const locations = await locationModel.getAllLocations(skip, take);
+    const locations = await locationModel.getAllLocations(skip, take, {
+        search: search,
+        branchID: branchID,
+        governorate: governorate,
+        deliveryAgentID: deliveryAgentID
+    });
 
     res.status(200).json({
         status: "success",

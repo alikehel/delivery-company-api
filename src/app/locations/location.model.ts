@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Governorate, Prisma, PrismaClient } from "@prisma/client";
 import { LocationCreateType, LocationUpdateType } from "./locations.zod";
 
 const prisma = new PrismaClient();
@@ -93,12 +93,44 @@ export class LocationModel {
         return locationsCount;
     }
 
-    async getAllLocations(skip: number, take: number) {
+    async getAllLocations(
+        skip: number,
+        take: number,
+        filters: {
+            search?: string;
+            branchID?: number;
+            governorate?: Governorate;
+            deliveryAgentID?: number;
+        }
+    ) {
         const locations = await prisma.location.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                name: "desc"
+            where: {
+                AND: [
+                    {
+                        name: {
+                            contains: filters.search
+                        }
+                    },
+                    {
+                        branch: {
+                            id: filters.branchID
+                        }
+                    },
+                    {
+                        governorate: filters.governorate
+                    },
+                    {
+                        deliveryAgentsLocations: {
+                            some: {
+                                deliveryAgent: {
+                                    id: filters.deliveryAgentID
+                                }
+                            }
+                        }
+                    }
+                ]
             },
             select: locationSelect
         });
