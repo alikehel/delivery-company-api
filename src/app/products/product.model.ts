@@ -10,6 +10,12 @@ const productSelect: Prisma.ProductSelect = {
     image: true,
     stock: true,
     weight: true,
+    store: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
     category: {
         select: {
             title: true
@@ -66,13 +72,27 @@ const productSelect: Prisma.ProductSelect = {
 // };
 
 export class ProductModel {
-    async createProduct(companyID: number, data: ProductCreateType) {
+    async createProduct(
+        companyID: number,
+        loggedInUserID: number,
+        data: ProductCreateType
+    ) {
         const createdProduct = await prisma.product.create({
             data: {
                 title: data.title,
                 price: data.price,
                 image: data.image,
                 stock: data.stock,
+                store: {
+                    connect: {
+                        id: data.storeID
+                    }
+                },
+                client: {
+                    connect: {
+                        userId: loggedInUserID
+                    }
+                },
                 category: {
                     connect: {
                         id: data.categoryID
@@ -168,6 +188,7 @@ export class ProductModel {
     async updateProduct(data: {
         productID: number;
         companyID: number;
+        loggedInUserID: number;
         productData: ProductUpdateType;
     }) {
         const product = await prisma.product.update({
@@ -179,6 +200,16 @@ export class ProductModel {
                 price: data.productData.price,
                 image: data.productData.image,
                 stock: data.productData.stock,
+                store: {
+                    connect: {
+                        id: data.productData.storeID
+                    }
+                },
+                client: {
+                    connect: {
+                        userId: data.loggedInUserID
+                    }
+                },
                 category: data.productData.categoryID
                     ? {
                           connect: {

@@ -253,6 +253,7 @@ model Client {
   deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
   branchId    Int?
+  products    Product[]
 }
 
 model Store {
@@ -274,6 +275,7 @@ model Store {
   deletedAt   DateTime?
   deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
+  products    Product[]
 }
 
 model Branch {
@@ -533,6 +535,7 @@ model Product {
   image         String?
   stock         Int             @default(0)
   weight        Float           @default(0)
+  store         Store           @relation(fields: [storeId], references: [id])
   // OrderProducts OrderProducts[]
   category      Category        @relation(fields: [categoryId], references: [id])
   categoryId    Int
@@ -541,6 +544,9 @@ model Product {
   productSizes  ProductSizes[]
   company       Company         @relation(fields: [companyId], references: [id])
   companyId     Int
+  storeId       Int
+  client        Client          @relation(fields: [clientId], references: [id])
+  clientId      Int
 }
 
 model Category {
