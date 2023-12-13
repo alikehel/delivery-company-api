@@ -36,6 +36,7 @@ const orderSelect: Prisma.OrderSelect = {
     status: true,
     deliveryType: true,
     deliveryDate: true,
+    currentLocation: true,
     createdAt: true,
     updatedAt: true,
     timeline: true,

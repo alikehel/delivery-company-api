@@ -147,7 +147,7 @@ export const OrderTimelinePieceSchema = z
             new: z.string()
         }),
         z.object({
-            type: z.literal("DELIVERY_DATE_CHANGE")
+            type: z.literal("ORDER_DELIVERY")
         }),
         z.object({
             type: z.literal("REPORT_CREATE"),
