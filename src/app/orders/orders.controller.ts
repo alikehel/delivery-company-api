@@ -180,7 +180,7 @@ export const updateOrder = catchAsync(async (req, res) => {
         const timeline: OrderTimelineType = oldOrderData?.timeline;
 
         // Update status
-        if (oldOrderData?.status !== newOrder?.status) {
+        if (orderData.status && oldOrderData.status !== newOrder.status) {
             timeline.push({
                 type: "STATUS_CHANGE",
                 old: oldOrderData?.status,
@@ -194,33 +194,20 @@ export const updateOrder = catchAsync(async (req, res) => {
             });
         }
 
-        // Update delivery date
-        if (
-            oldOrderData.deliveryDate.toString() !==
-            newOrder?.deliveryDate.toString()
-        ) {
-            timeline.push({
-                type: "ORDER_DELIVERY",
-                date: newOrder?.updatedAt,
-                by: {
-                    id: loggedInUser.id,
-                    name: loggedInUser.name,
-                    role: loggedInUser.role
-                }
-            });
-        }
-
         // Update delivery agent
-        if (oldOrderData.deliveryAgent.id !== newOrder?.deliveryAgent.id) {
+        if (
+            orderData.deliveryAgentID &&
+            oldOrderData.deliveryAgent?.id !== newOrder.deliveryAgent.id
+        ) {
             timeline.push({
                 type: "DELIVERY_AGENT_CHANGE",
                 old: {
-                    id: oldOrderData?.deliveryAgent.id,
-                    name: oldOrderData?.deliveryAgent.name
+                    id: oldOrderData.deliveryAgent?.id,
+                    name: oldOrderData.deliveryAgent?.name
                 },
                 new: {
-                    id: newOrder?.deliveryAgent.id,
-                    name: newOrder?.deliveryAgent.name
+                    id: newOrder.deliveryAgent.id,
+                    name: newOrder.deliveryAgent.name
                 },
                 date: newOrder?.updatedAt,
                 by: {
@@ -232,7 +219,10 @@ export const updateOrder = catchAsync(async (req, res) => {
         }
 
         // // Update current location
-        if (oldOrderData.currentLocation !== newOrder?.currentLocation) {
+        if (
+            orderData.currentLocation &&
+            oldOrderData.currentLocation !== newOrder.currentLocation
+        ) {
             timeline.push({
                 type: "CURRENT_LOCATION_CHANGE",
                 old: oldOrderData?.currentLocation,
@@ -247,12 +237,34 @@ export const updateOrder = catchAsync(async (req, res) => {
         }
 
         // Update paid amount
-        if (+oldOrderData?.paidAmount !== +newOrder?.paidAmount) {
+        if (
+            orderData.paidAmount &&
+            +oldOrderData.paidAmount !== +newOrder.paidAmount
+        ) {
             timeline.push({
                 type: "PAID_AMOUNT_CHANGE",
                 old: oldOrderData?.paidAmount,
                 new: newOrder?.paidAmount,
                 date: newOrder?.updatedAt,
+                by: {
+                    id: loggedInUser.id,
+                    name: loggedInUser.name,
+                    role: loggedInUser.role
+                }
+            });
+        }
+
+        // Update delivery date
+        if (
+            orderData.deliveryDate &&
+            oldOrderData.deliveryDate?.toString() !==
+                newOrder.deliveryDate.toString()
+        ) {
+            timeline.push({
+                type: "ORDER_DELIVERY",
+                // TODO
+                // date: newOrder?.updatedAt,
+                date: newOrder?.deliveryDate,
                 by: {
                     id: loggedInUser.id,
                     name: loggedInUser.name,
