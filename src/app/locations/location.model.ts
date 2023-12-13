@@ -64,16 +64,19 @@ export class LocationModel {
                         id: data.branchID
                     }
                 },
-                // deliveryAgentsLocations: {
-                //     connect: data.deliveryAgentsIDs.map((id) => {
-                //         return {
-                //             deliveryAgentId_locationId: {
-                //                 locationId: data.locationID,
-                //                 deliveryAgentId: id
-                //             }
-                //         };
-                //     })
-                // },
+                deliveryAgentsLocations: data.deliveryAgentsIDs
+                    ? {
+                          create: data.deliveryAgentsIDs?.map((id) => {
+                              return {
+                                  deliveryAgent: {
+                                      connect: {
+                                          id: id
+                                      }
+                                  }
+                              };
+                          })
+                      }
+                    : undefined,
                 company: {
                     connect: {
                         id: companyID
@@ -132,12 +135,13 @@ export class LocationModel {
                     : undefined,
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
-                          connect: data.locationData.deliveryAgentsIDs?.map(
+                          create: data.locationData.deliveryAgentsIDs?.map(
                               (id) => {
                                   return {
-                                      deliveryAgentId_locationId: {
-                                          locationId: data.locationID,
-                                          deliveryAgentId: id
+                                      deliveryAgent: {
+                                          connect: {
+                                              id: id
+                                          }
                                       }
                                   };
                               }
