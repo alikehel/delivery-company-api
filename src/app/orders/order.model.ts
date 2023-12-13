@@ -898,7 +898,7 @@ export class OrderModel {
                 deliveryAgent: data.orderData.deliveryAgentID
                     ? {
                           connect: {
-                              id: data.orderData.deliveryAgentID
+                              userId: data.orderData.deliveryAgentID
                           }
                       }
                     : undefined,

@@ -43,7 +43,7 @@ const employeeReform = (employee: any) => {
     }
     return {
         // TODO
-        id: employee.id,
+        id: employee.user.id,
         name: employee.user.name,
         username: employee.user.username,
         phone: employee.user.phone,

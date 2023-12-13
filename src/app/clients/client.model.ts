@@ -62,7 +62,7 @@ const clientReform = (client: any) => {
     }
     return {
         // TODO
-        id: client.id,
+        id: client.user.id,
         name: client.user.name,
         username: client.user.username,
         phone: client.user.phone,
