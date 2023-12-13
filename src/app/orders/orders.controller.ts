@@ -55,9 +55,10 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const governorate = req.query.governorate?.toString().toUpperCase() as
         | Governorate
         | undefined;
-    const status = req.query.status?.toString().toUpperCase() as
-        | OrderStatus
+    const statuses = req.query.status?.toString().toUpperCase().split(",") as
+        | OrderStatus[]
         | undefined;
+
     const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
         | DeliveryType
         | undefined;
@@ -118,7 +119,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
         endDate: endDate,
         deliveryDate: deliveryDate,
         governorate: governorate,
-        status: status,
+        statuses: statuses,
         deliveryType: deliveryType,
         deliveryAgentID: deliveryAgentID,
         clientID: clientID,

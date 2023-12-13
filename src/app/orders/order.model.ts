@@ -425,6 +425,20 @@ export class OrderModel {
                 details: data.details,
                 deliveryType: data.deliveryType,
                 governorate: data.governorate,
+                branch: data.branchID
+                    ? {
+                          connect: {
+                              id: data.branchID
+                          }
+                      }
+                    : undefined,
+                repository: data.repositoryID
+                    ? {
+                          connect: {
+                              id: data.repositoryID
+                          }
+                      }
+                    : undefined,
                 location: data.locationID
                     ? {
                           connect: {
@@ -571,7 +585,7 @@ export class OrderModel {
             endDate?: Date;
             deliveryDate?: Date;
             governorate?: Governorate;
-            status?: OrderStatus;
+            statuses?: OrderStatus[];
             deliveryType?: DeliveryType;
             deliveryAgentID?: number;
             clientID?: number;
@@ -626,7 +640,7 @@ export class OrderModel {
                     },
                     // Filter by status
                     {
-                        status: filters.status
+                        status: { in: filters.statuses }
                     },
                     // Filter by deliveryType
                     {
