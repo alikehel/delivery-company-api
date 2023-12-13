@@ -235,7 +235,6 @@ export const generateReport = async (
                                 reportType === "CLIENT" ||
                                 reportType === "REPOSITORY"
                                     ? {
-                                          // || orders[0].companyReportReportNumber)
                                           text: handleArabicCharacters(
                                               "صافي العميل"
                                           ),
@@ -246,7 +245,6 @@ export const generateReport = async (
                                 reportType === "CLIENT" ||
                                 reportType === "REPOSITORY"
                                     ? {
-                                          // || orders[0].companyReportReportNumber)
                                           text: handleArabicCharacters(
                                               "مبلغ التوصيل"
                                           ),
@@ -326,7 +324,6 @@ export const generateReport = async (
                                 reportType === "CLIENT" ||
                                 reportType === "REPOSITORY"
                                     ? {
-                                          // || orders[0].companyReportReportNumber)
                                           text:
                                               order.clientNet.toString() || "0"
                                           // fillColor: "#5bc0de"
@@ -335,7 +332,6 @@ export const generateReport = async (
                                 reportType === "CLIENT" ||
                                 reportType === "REPOSITORY"
                                     ? {
-                                          // || orders[0].companyReportReportNumber)
                                           text:
                                               order.deliveryCost.toString() ||
                                               "0"

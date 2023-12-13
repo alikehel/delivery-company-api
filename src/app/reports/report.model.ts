@@ -36,7 +36,7 @@ const reportSelect: Prisma.ReportSelect = {
     updatedAt: true,
     clientReport: {
         select: {
-            reportNumber: true,
+            id: true,
             client: {
                 select: {
                     user: {
@@ -57,14 +57,14 @@ const reportSelect: Prisma.ReportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    clientReportReportNumber: true
+                    clientReportId: true
                 }
             }
         }
     },
     repositoryReport: {
         select: {
-            reportNumber: true,
+            id: true,
             repository: {
                 select: {
                     id: true,
@@ -75,14 +75,14 @@ const reportSelect: Prisma.ReportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    repositoryReportReportNumber: true
+                    repositoryReportId: true
                 }
             }
         }
     },
     branchReport: {
         select: {
-            reportNumber: true,
+            id: true,
             branch: {
                 select: {
                     id: true,
@@ -93,27 +93,27 @@ const reportSelect: Prisma.ReportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    branchReportReportNumber: true
+                    branchReportId: true
                 }
             }
         }
     },
     governorateReport: {
         select: {
-            reportNumber: true,
+            id: true,
             governorate: true,
             orders: {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    governorateReportReportNumber: true
+                    governorateReportId: true
                 }
             }
         }
     },
     deliveryAgentReport: {
         select: {
-            reportNumber: true,
+            id: true,
             deliveryAgent: {
                 select: {
                     user: {
@@ -128,14 +128,14 @@ const reportSelect: Prisma.ReportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    deliveryAgentReportReportNumber: true
+                    deliveryAgentReportId: true
                 }
             }
         }
     },
     companyReport: {
         select: {
-            reportNumber: true,
+            id: true,
             company: {
                 select: {
                     id: true,
@@ -146,7 +146,7 @@ const reportSelect: Prisma.ReportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    companyReportReportNumber: true
+                    companyReportId: true
                 }
             }
         }

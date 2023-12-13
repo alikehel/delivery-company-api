@@ -376,63 +376,63 @@ model Company {
 }
 
 model Order {
-  id                              Int                  @id @default(autoincrement())
-  totalCost                       Decimal              @default(0)
-  paidAmount                      Decimal?             @default(0)
-  deliveryCost                    Decimal?             @default(0)
-  clientNet                       Decimal?             @default(0)
+  id                    Int                  @id @default(autoincrement())
+  totalCost             Decimal              @default(0)
+  paidAmount            Decimal?             @default(0)
+  deliveryCost          Decimal?             @default(0)
+  clientNet             Decimal?             @default(0)
   // TODO: remove this field
-  deliveryAgentNet                Decimal?             @default(0)
-  companyNet                      Decimal?             @default(0)
+  deliveryAgentNet      Decimal?             @default(0)
+  companyNet            Decimal?             @default(0)
   // TODO: remove this field
-  totalCostInUSD                  Decimal?             @default(0)
-  paidAmountInUSD                 Decimal?             @default(0)
-  discount                        Decimal?             @default(0)
-  receiptNumber                   Int                  @unique @default(autoincrement())
-  quantity                        Int                  @default(0)
-  weight                          Float                @default(0)
-  recipientName                   String
-  recipientPhone                  String
-  recipientAddress                String
+  totalCostInUSD        Decimal?             @default(0)
+  paidAmountInUSD       Decimal?             @default(0)
+  discount              Decimal?             @default(0)
+  receiptNumber         Int                  @unique @default(autoincrement())
+  quantity              Int                  @default(0)
+  weight                Float                @default(0)
+  recipientName         String
+  recipientPhone        String
+  recipientAddress      String
   // TODO: remove this field
   // recorded         Boolean         @default(false)
-  details                         String?
-  notes                           String?
-  status                          OrderStatus          @default(REGISTERED)
-  deliveryType                    DeliveryType         @default(NORMAL)
-  createdAt                       DateTime             @default(now())
-  updatedAt                       DateTime             @updatedAt
-  client                          Client?              @relation(fields: [clientId], references: [id])
-  deliveryAgent                   Employee?            @relation(fields: [deliveryAgentId], references: [id])
-  deliveryDate                    DateTime?
-  clientId                        Int?
-  deliveryAgentId                 Int?
-  orderProducts                   OrderProducts[]
-  governorate                     Governorate
-  location                        Location?            @relation(fields: [locationId], references: [id])
-  currentLocation                 String?
-  store                           Store                @relation(fields: [storeId], references: [id])
-  locationId                      Int?
-  storeId                         Int
-  repository                      Repository?          @relation(fields: [repositoryId], references: [id])
-  branch                          Branch?              @relation(fields: [branchId], references: [id])
-  clientReport                    ClientReport?        @relation(fields: [clientReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  clientReportReportNumber        Int?
-  repositoryReport                RepositoryReport?    @relation(fields: [repositoryReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  repositoryReportReportNumber    Int?
-  branchReport                    BranchReport?        @relation(fields: [branchReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  branchReportReportNumber        Int?
-  deliveryAgentReport             DeliveryAgentReport? @relation(fields: [deliveryAgentReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  deliveryAgentReportReportNumber Int?
-  governorateReport               GovernorateReport?   @relation(fields: [governorateReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  governorateReportReportNumber   Int?
-  companyReport                   CompanyReport?       @relation(fields: [companyReportReportNumber], references: [reportNumber], onDelete: SetNull)
-  companyReportReportNumber       Int?
-  timeline                        Json                 @default("[]")
-  company                         Company              @relation(fields: [companyId], references: [id])
-  companyId                       Int
-  repositoryId                    Int?
-  branchId                        Int?
+  details               String?
+  notes                 String?
+  status                OrderStatus          @default(REGISTERED)
+  deliveryType          DeliveryType         @default(NORMAL)
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  client                Client?              @relation(fields: [clientId], references: [id])
+  deliveryAgent         Employee?            @relation(fields: [deliveryAgentId], references: [id])
+  deliveryDate          DateTime?
+  clientId              Int?
+  deliveryAgentId       Int?
+  orderProducts         OrderProducts[]
+  governorate           Governorate
+  location              Location?            @relation(fields: [locationId], references: [id])
+  currentLocation       String?
+  store                 Store                @relation(fields: [storeId], references: [id])
+  locationId            Int?
+  storeId               Int
+  repository            Repository?          @relation(fields: [repositoryId], references: [id])
+  branch                Branch?              @relation(fields: [branchId], references: [id])
+  clientReport          ClientReport?        @relation(fields: [clientReportId], references: [id], onDelete: SetNull)
+  clientReportId        Int?
+  repositoryReport      RepositoryReport?    @relation(fields: [repositoryReportId], references: [id], onDelete: SetNull)
+  repositoryReportId    Int?
+  branchReport          BranchReport?        @relation(fields: [branchReportId], references: [id], onDelete: SetNull)
+  branchReportId        Int?
+  deliveryAgentReport   DeliveryAgentReport? @relation(fields: [deliveryAgentReportId], references: [id], onDelete: SetNull)
+  deliveryAgentReportId Int?
+  governorateReport     GovernorateReport?   @relation(fields: [governorateReportId], references: [id], onDelete: SetNull)
+  governorateReportId   Int?
+  companyReport         CompanyReport?       @relation(fields: [companyReportId], references: [id], onDelete: SetNull)
+  companyReportId       Int?
+  timeline              Json                 @default("[]")
+  company               Company              @relation(fields: [companyId], references: [id])
+  companyId             Int
+  repositoryId          Int?
+  branchId              Int?
 
   deleted     Boolean   @default(false)
   deletedAt   DateTime?
@@ -472,58 +472,52 @@ model Report {
 }
 
 model CompanyReport {
-  reportNumber Int     @unique @default(autoincrement())
-  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     Int     @unique
-  orders       Order[]
-  company      Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId    Int
+  id        Int     @id
+  report    Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders    Order[]
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
 }
 
 model ClientReport {
-  reportNumber Int     @unique @default(autoincrement())
-  client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId     Int
-  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     Int     @unique
-  store        Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  orders       Order[]
-  storeId      Int?
+  id       Int     @id
+  client   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId Int
+  report   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  store    Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  orders   Order[]
+  storeId  Int?
 }
 
 model RepositoryReport {
-  reportNumber Int        @unique @default(autoincrement())
+  id           Int        @id
   repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
   repositoryId Int
-  report       Report     @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     Int        @unique
+  report       Report     @relation(fields: [id], references: [id], onDelete: Cascade)
   orders       Order[]
 }
 
 model BranchReport {
-  reportNumber Int     @unique @default(autoincrement())
-  branch       Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  branchId     Int
-  report       Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     Int     @unique
-  orders       Order[]
+  id       Int     @id
+  branch   Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId Int
+  report   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders   Order[]
 }
 
 model DeliveryAgentReport {
-  reportNumber    Int      @unique @default(autoincrement())
+  id              Int      @id
   deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
   deliveryAgentId Int
-  report          Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId        Int      @unique
+  report          Report   @relation(fields: [id], references: [id], onDelete: Cascade)
   orders          Order[]
 }
 
 model GovernorateReport {
-  reportNumber Int         @unique @default(autoincrement())
-  governorate  Governorate
-  report       Report      @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId     Int         @unique
-  orders       Order[]
+  id          Int         @id
+  governorate Governorate
+  report      Report      @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders      Order[]
 }
 
 model Product {

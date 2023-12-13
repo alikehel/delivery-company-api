@@ -135,13 +135,6 @@ const orderReform = (
             name: order.client.user.name,
             phone: order.client.user.phone
         },
-        // client: order.client
-        //     ? {
-        //           id: order.client.user.id,
-        //           name: order.client.user.name,
-        //           phone: order.client.user.phone
-        //       }
-        //     : undefined,
         deliveryAgent: order.deliveryAgent
             ? {
                   id: order.deliveryAgent.user.id,
@@ -153,55 +146,6 @@ const orderReform = (
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
         deletedAt: order.deleted && order.deletedAt.toISOString()
-        // orderProducts: order.orderProducts.map((orderProduct: any) => {
-        //     return {
-        //         quantity: orderProduct.quantity,
-        //         product: {
-        //             id: orderProduct.product.id,
-        //             title: orderProduct.product.title,
-        //             price: orderProduct.product.price,
-        //             weight: orderProduct.product.weight,
-        //             image: orderProduct.product.image,
-        //             createdAt: orderProduct.product.createdAt,
-        //             updatedAt: orderProduct.product.updatedAt
-        //         },
-        //         color: orderProduct.color
-        //             ? {
-        //                   id: orderProduct.color.id,
-        //                   title: orderProduct.color.title,
-        //                   createdAt: orderProduct.color.createdAt,
-        //                   updatedAt: orderProduct.color.updatedAt
-        //               }
-        //             : undefined,
-        //         size: orderProduct.size
-        //             ? {
-        //                   id: orderProduct.size.id,
-        //                   title: orderProduct.size.title,
-        //                   createdAt: orderProduct.size.createdAt,
-        //                   updatedAt: orderProduct.size.updatedAt
-        //               }
-        //             : undefined
-        //     };
-        // }),
-        // location: order.location
-        //     ? {
-        //           id: order.location.id,
-        //           name: order.location.name
-        //       }
-        //     : undefined,
-        // store: order.store
-        //     ? {
-        //           id: order.store.id,
-        //           name: order.store.name
-        //       }
-        //     : undefined,
-        // clientReportReportNumber: order.clientReportReportNumber,
-        // repositoryReportReportNumber: order.repositoryReportReportNumber,
-        // branchReportReportNumber: order.branchReportReportNumber,
-        // // tenantReportReportNumber: order.tenantReportReportNumber,
-        // deliveryAgentReportReportNumber: order.deliveryAgentReportReportNumber,
-        // governorateReportReportNumber: order.governorateReportReportNumber,
-        // companyReportReportNumber: order.companyReportReportNumber
     };
 };
 

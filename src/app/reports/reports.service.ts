@@ -124,7 +124,7 @@ export class ReportService {
         }
 
         const reportData = await reportModel.getReport({
-            reportID: report.reportId
+            reportID: report.id
         });
 
         // update orders timeline
@@ -137,7 +137,7 @@ export class ReportService {
                     {
                         type: "REPORT_CREATE",
                         reportType: data.reportData.type,
-                        reportID: report.reportId,
+                        reportID: report.id,
                         date: reportData.createdAt,
                         by: {
                             id: data.loggedInUser.id,
