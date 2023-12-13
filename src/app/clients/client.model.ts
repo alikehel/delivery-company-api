@@ -130,7 +130,7 @@ export class ClientModel {
                     : undefined,
                 createdBy: {
                     connect: {
-                        userId: data.userID
+                        id: data.userID
                     }
                 },
                 governoratesDeliveryCosts: data.governoratesDeliveryCosts

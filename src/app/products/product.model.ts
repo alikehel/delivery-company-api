@@ -90,7 +90,7 @@ export class ProductModel {
                 },
                 client: {
                     connect: {
-                        userId: loggedInUserID
+                        id: loggedInUserID
                     }
                 },
                 category: {
@@ -207,7 +207,7 @@ export class ProductModel {
                 },
                 client: {
                     connect: {
-                        userId: data.loggedInUserID
+                        id: data.loggedInUserID
                     }
                 },
                 category: data.productData.categoryID

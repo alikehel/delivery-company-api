@@ -181,17 +181,17 @@ model User {
 }
 
 model Admin {
-  id     Int @id @default(autoincrement())
-  userId Int @unique
+  id Int @id
+  // userId Int @unique
 
   role AdminRole
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [id], references: [id])
 }
 
 model Employee {
-  id     Int @id @default(autoincrement())
-  userId Int @unique
+  id Int @id
+  // userId Int @unique
 
   salary       Decimal? @default(0)
   deliveryCost Decimal? @default(0)
@@ -205,7 +205,7 @@ model Employee {
   orders  Order[]
   clients Client[]
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [id], references: [id])
 
   repository Repository? @relation(fields: [repositoryId], references: [id])
   branch     Branch?     @relation(fields: [branchId], references: [id])
@@ -223,12 +223,12 @@ model Employee {
 }
 
 model Client {
-  id Int @id @default(autoincrement())
+  id Int @id
 
   token        String?
   employeeId   Int
   repositoryId Int?
-  userId       Int     @unique
+  // userId       Int     @unique
 
   role ClientRole
 
@@ -239,7 +239,7 @@ model Client {
   governoratesDeliveryCosts Json @default("[]")
 
   createdBy Employee @relation(fields: [employeeId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [id], references: [id])
 
   repository Repository? @relation(fields: [repositoryId], references: [id])
   branch     Branch?     @relation(fields: [branchId], references: [id])

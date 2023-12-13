@@ -435,7 +435,7 @@ export class OrderModel {
 
         const client = await prisma.client.findUnique({
             where: {
-                userId: clientID
+                id: clientID
             },
             select: {
                 governoratesDeliveryCosts: true
@@ -500,7 +500,7 @@ export class OrderModel {
                 },
                 client: {
                     connect: {
-                        userId: clientID
+                        id: clientID
                     }
                 },
                 orderProducts:
@@ -898,7 +898,7 @@ export class OrderModel {
                 deliveryAgent: data.orderData.deliveryAgentID
                     ? {
                           connect: {
-                              userId: data.orderData.deliveryAgentID
+                              id: data.orderData.deliveryAgentID
                           }
                       }
                     : undefined,

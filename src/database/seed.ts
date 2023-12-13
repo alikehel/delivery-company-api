@@ -524,7 +524,7 @@ async function main() {
 
     const albarq1ClientClient = await prisma.client.upsert({
         where: {
-            userId: albarq1Client.id
+            id: albarq1Client.id
         },
         update: {
             role: users.albarq1Client.role
@@ -543,7 +543,7 @@ async function main() {
             },
             createdBy: {
                 connect: {
-                    id: superadmin.id
+                    id: albarq1CompanyManager.id
                 }
             }
         }
@@ -574,7 +574,7 @@ async function main() {
 
     const albarq1ClientAssistantClient = await prisma.client.upsert({
         where: {
-            userId: albarq1ClientAssistant.id
+            id: albarq1ClientAssistant.id
         },
         update: {
             role: users.albarq1ClientAssistant.role
@@ -593,7 +593,7 @@ async function main() {
             },
             createdBy: {
                 connect: {
-                    id: superadmin.id
+                    id: albarq1CompanyManager.id
                 }
             }
         }
