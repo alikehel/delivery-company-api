@@ -55,7 +55,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const governorate = req.query.governorate?.toString().toUpperCase() as
         | Governorate
         | undefined;
-    const statuses = req.query.status?.toString().toUpperCase().split(",") as
+    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as
         | OrderStatus[]
         | undefined;
 
@@ -340,7 +340,7 @@ export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
 export const getOrdersStatistics = catchAsync(async (req, res) => {
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    const tenantID = req.query.tenant_id ? +req.query.tenant_id : undefined;
+    // const tenantID = req.query.tenant_id ? +req.query.tenant_id : undefined;
 
     // TODO: Fix this
     const recorded = (
@@ -365,7 +365,7 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 
     const statistics = await orderModel.getOrdersStatistics({
         storeID: storeID,
-        tenantID: tenantID,
+        // tenantID: tenantID,
         recorded: recorded,
         // status: status,
         startDate: startDate,

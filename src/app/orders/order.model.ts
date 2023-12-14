@@ -950,7 +950,7 @@ export class OrderModel {
     }
 
     async getOrdersStatistics(filters: {
-        tenantID?: number;
+        // tenantID?: number;
         storeID?: number;
         recorded?: boolean;
         // status?: OrderStatus;
