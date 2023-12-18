@@ -769,42 +769,54 @@ export class OrderModel {
                         clientReport:
                             filters.clientReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.clientReport === "false"
+                                ? { is: null }
+                                : undefined
                     },
                     // Filter by repositoryReport
                     {
                         repositoryReport:
                             filters.repositoryReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.repositoryReport === "false"
+                                ? { is: null }
+                                : undefined
                     },
                     // Filter by branchReport
                     {
                         branchReport:
                             filters.branchReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.branchReport === "false"
+                                ? { is: null }
+                                : undefined
                     },
                     // Filter by deliveryAgentReport
                     {
                         deliveryAgentReport:
                             filters.deliveryAgentReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.deliveryAgentReport === "false"
+                                ? { is: null }
+                                : undefined
                     },
                     // Filter by governorateReport
                     {
                         governorateReport:
                             filters.governorateReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.governorateReport === "false"
+                                ? { is: null }
+                                : undefined
                     },
                     // Filter by companyReport
                     {
                         companyReport:
                             filters.companyReport === "true"
                                 ? { isNot: null }
-                                : { is: null }
+                                : filters.companyReport === "false"
+                                ? { is: null }
+                                : undefined
                     }
                 ]
             },
