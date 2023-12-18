@@ -33,6 +33,8 @@ export const getAllProducts = catchAsync(async (req, res) => {
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(productsCount / size);
 
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
+
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -60,7 +62,9 @@ export const getAllProducts = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const products = await productModel.getAllProducts(skip, take);
+    const products = await productModel.getAllProducts(skip, take, {
+        storeID: storeID
+    });
 
     res.status(200).json({
         status: "success",

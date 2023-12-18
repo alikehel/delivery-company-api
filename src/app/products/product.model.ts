@@ -163,12 +163,24 @@ export class ProductModel {
         return productsCount;
     }
 
-    async getAllProducts(skip: number, take: number) {
+    async getAllProducts(
+        skip: number,
+        take: number,
+        filters: {
+            storeID?: number;
+        }
+    ) {
         const products = await prisma.product.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                title: "desc"
+            where: {
+                AND: [
+                    {
+                        store: {
+                            id: filters.storeID
+                        }
+                    }
+                ]
             },
             select: productSelect
         });
