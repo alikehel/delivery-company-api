@@ -1,5 +1,6 @@
 import { Order, ReportStatus, ReportType } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
+import sendNotification from "../notifications/helpers/sendNotification";
 import { OrderModel } from "../orders/order.model";
 import { OrderTimelineType } from "../orders/orders.zod";
 import { generateReport } from "./helpers/generateReportTemp";
@@ -126,6 +127,24 @@ export class ReportService {
         const reportData = await reportModel.getReport({
             reportID: report.id
         });
+
+        // Send notification to client if report type is client report
+        if (data.reportData.type === ReportType.CLIENT) {
+            await sendNotification({
+                title: "تم انشاء كشف جديد",
+                content: `تم انشاء كشف جديد برقم ${reportData.id}`,
+                userID: reportData.clientReport.client.id
+            });
+        }
+
+        // Send notification to delivery agent if report type is delivery agent report
+        if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+            await sendNotification({
+                title: "تم انشاء كشف جديد",
+                content: `تم انشاء كشف جديد برقم ${reportData.id}`,
+                userID: reportData.deliveryAgentReport.deliveryAgent.id
+            });
+        }
 
         // update orders timeline
         for (const order of orders) {
