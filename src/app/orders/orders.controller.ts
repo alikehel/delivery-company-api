@@ -1,4 +1,4 @@
-import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
+import { DeliveryType, Governorate, Order, OrderStatus } from "@prisma/client";
 import Logger from "../../lib/logger";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
@@ -16,20 +16,44 @@ import {
 const orderModel = new OrderModel();
 
 export const createOrder = catchAsync(async (req, res) => {
-    const orderData = OrderCreateSchema.parse(req.body);
+    // const orderData = OrderCreateSchema.parse(req.body);
     const clientID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
 
-    const createdOrder = await orderModel.createOrder(
-        companyID,
-        clientID,
-        orderData
-    );
+    let orderData;
+    const createdOrders: Order[] = [];
+    let createdOrder: Order;
 
-    res.status(200).json({
-        status: "success",
-        data: createdOrder
-    });
+    if (Array.isArray(req.body)) {
+        for (const order of req.body) {
+            orderData = OrderCreateSchema.parse(order);
+            createdOrders.push(
+                await orderModel.createOrder(companyID, clientID, orderData)
+            );
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: createdOrders
+        });
+    } else {
+        orderData = OrderCreateSchema.parse(req.body);
+        createdOrder = await orderModel.createOrder(
+            companyID,
+            clientID,
+            orderData
+        );
+
+        res.status(200).json({
+            status: "success",
+            data: createdOrder
+        });
+    }
+    // const createdOrder = await orderModel.createOrder(
+    //     companyID,
+    //     clientID,
+    //     orderData
+    // );
 });
 
 export const getAllOrders = catchAsync(async (req, res) => {
