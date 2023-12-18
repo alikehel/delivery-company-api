@@ -599,6 +599,12 @@ export class OrderModel {
             recipientAddress?: string;
             notes?: string;
             deleted?: string;
+            clientReport: string;
+            repositoryReport: string;
+            branchReport: string;
+            deliveryAgentReport: string;
+            governorateReport: string;
+            companyReport: string;
         }
     ) {
         const orders = await prisma.order.findMany({
@@ -757,6 +763,48 @@ export class OrderModel {
                     // Filter by deleted
                     {
                         deleted: filters.deleted === "true" ? true : false
+                    },
+                    // Filter by clientReport
+                    {
+                        clientReport:
+                            filters.clientReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
+                    },
+                    // Filter by repositoryReport
+                    {
+                        repositoryReport:
+                            filters.repositoryReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
+                    },
+                    // Filter by branchReport
+                    {
+                        branchReport:
+                            filters.branchReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
+                    },
+                    // Filter by deliveryAgentReport
+                    {
+                        deliveryAgentReport:
+                            filters.deliveryAgentReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
+                    },
+                    // Filter by governorateReport
+                    {
+                        governorateReport:
+                            filters.governorateReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
+                    },
+                    // Filter by companyReport
+                    {
+                        companyReport:
+                            filters.companyReport === "true"
+                                ? { isNot: null }
+                                : { is: null }
                     }
                 ]
             },

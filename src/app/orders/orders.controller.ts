@@ -81,6 +81,13 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const recipientPhone = req.query.recipient_phone as string;
     const recipientAddress = req.query.recipient_address as string;
 
+    const clientReport = req.query.client_report as string;
+    const repositoryReport = req.query.repository_report as string;
+    const branchReport = req.query.branch_report as string;
+    const deliveryAgentReport = req.query.delivery_agent_report as string;
+    const governorateReport = req.query.governorate_report as string;
+    const companyReport = req.query.company_report as string;
+
     const notes = req.query.notes as string;
 
     if (pagesCount === 0) {
@@ -132,7 +139,13 @@ export const getAllOrders = catchAsync(async (req, res) => {
         recipientPhone: recipientPhone,
         recipientAddress: recipientAddress,
         notes: notes,
-        deleted: deleted
+        deleted: deleted,
+        clientReport: clientReport,
+        repositoryReport: repositoryReport,
+        branchReport: branchReport,
+        deliveryAgentReport: deliveryAgentReport,
+        governorateReport: governorateReport,
+        companyReport: companyReport
     });
 
     res.status(200).json({
