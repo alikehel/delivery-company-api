@@ -60,6 +60,14 @@ export const getAllEmployees = catchAsync(async (req, res) => {
 
     const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
 
+    const ordersStartDate = req.query.orders_start_date
+        ? new Date(req.query.orders_start_date as string)
+        : undefined;
+
+    const ordersEndDate = req.query.orders_end_date
+        ? new Date(req.query.orders_end_date as string)
+        : undefined;
+
     // console.log(roles);
 
     if (pagesCount === 0) {
@@ -95,7 +103,9 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         roles: roles,
         locationID: locationID,
         branchID: branchID,
-        deleted: deleted
+        deleted: deleted,
+        ordersStartDate: ordersStartDate,
+        ordersEndDate: ordersEndDate
     });
 
     res.status(200).json({

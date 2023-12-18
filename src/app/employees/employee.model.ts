@@ -16,7 +16,9 @@ const employeeSelect: Prisma.EmployeeSelect = {
             name: true,
             username: true,
             phone: true,
-            avatar: true
+            avatar: true,
+            createdAt: true,
+            updatedAt: true
         }
     },
     company: {
@@ -56,7 +58,11 @@ const employeeReform = (employee: any) => {
         company: employee.company,
         deleted: employee.deleted,
         deletedBy: employee.deleted && employee.deletedBy,
-        deletedAt: employee.deleted && employee.deletedAt.toISOString()
+        deletedAt: employee.deleted && employee.deletedAt.toISOString(),
+        ordersCount: employee._count.orders,
+        createdAt: employee.user.createdAt.toISOString(),
+        updatedAt: employee.user.updatedAt.toISOString()
+        // deliveryAgentsLocationsCount: employee._count.deliveryAgentsLocations
     };
 };
 
@@ -123,6 +129,8 @@ export class EmployeeModel {
             branchID?: number;
             locationID?: number;
             deleted?: string;
+            ordersStartDate?: Date;
+            ordersEndDate?: Date;
         }
     ) {
         const employees = await prisma.employee.findMany({
@@ -158,7 +166,22 @@ export class EmployeeModel {
             // orderBy: {
             //     name: "desc"
             // },
-            select: employeeSelect
+            select: {
+                ...employeeSelect,
+                _count: {
+                    select: {
+                        orders: {
+                            where: {
+                                createdAt: {
+                                    gte: filters.ordersStartDate,
+                                    lte: filters.ordersEndDate
+                                }
+                            }
+                        }
+                        // deliveryAgentsLocations: true
+                    }
+                }
+            }
         });
         return employees.map(employeeReform);
     }
