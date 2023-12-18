@@ -2,6 +2,8 @@ import { DeliveryType, Governorate, OrderStatus } from "@prisma/client";
 import Logger from "../../lib/logger";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
+import { localizeOrderStatus } from "../../utils/localize.util";
+import sendNotification from "../notifications/helpers/sendNotification";
 import { generateReceipts } from "./helpers/generateReceipts";
 import { OrderModel } from "./order.model";
 import {
@@ -195,6 +197,17 @@ export const updateOrder = catchAsync(async (req, res) => {
 
         // Update status
         if (orderData.status && oldOrderData.status !== newOrder.status) {
+            // send notification to client
+            await sendNotification({
+                userID: newOrder.client.id,
+                title: "تم تغيير حالة الطلب",
+                content: `تم تغيير حالة الطلب رقم ${
+                    newOrder.id
+                } إلى ${localizeOrderStatus(newOrder.status)} ${
+                    newOrder.notes ? "(" + newOrder.notes + ")" : ""
+                }`
+            });
+
             timeline.push({
                 type: "STATUS_CHANGE",
                 old: oldOrderData?.status,
