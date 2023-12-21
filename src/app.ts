@@ -1,3 +1,4 @@
+import { apiReference } from "@scalar/express-api-reference";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -32,6 +33,15 @@ app.use(
     "/api-docs-dark-theme",
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, swaggerOptionsV1)
+);
+
+app.use(
+    "/api-docs-scalar",
+    apiReference({
+        spec: {
+            content: swaggerDocument
+        }
+    })
 );
 
 // Middlewares
