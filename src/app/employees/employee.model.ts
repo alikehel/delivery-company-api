@@ -3,7 +3,7 @@ import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
 
 const prisma = new PrismaClient();
 
-const employeeSelect: Prisma.EmployeeSelect = {
+const employeeSelect = {
     salary: true,
     role: true,
     permissions: true,
@@ -36,9 +36,13 @@ const employeeSelect: Prisma.EmployeeSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.EmployeeSelect;
 
-const employeeReform = (employee: any) => {
+const employeeReform = (
+    employee: Prisma.EmployeeGetPayload<{
+        select: typeof employeeSelect;
+    }> | null
+) => {
     if (!employee) {
         return null;
     }
@@ -58,7 +62,8 @@ const employeeReform = (employee: any) => {
         company: employee.company,
         deleted: employee.deleted,
         deletedBy: employee.deleted && employee.deletedBy,
-        deletedAt: employee.deleted && employee.deletedAt.toISOString(),
+        deletedAt: employee.deletedAt && employee.deletedAt.toISOString(),
+        // @ts-expect-error Fix later
         ordersCount: employee._count.orders,
         createdAt: employee.user.createdAt.toISOString(),
         updatedAt: employee.user.updatedAt.toISOString()

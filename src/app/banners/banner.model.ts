@@ -3,7 +3,7 @@ import { BannerCreateType, BannerUpdateType } from "./banners.zod";
 
 const prisma = new PrismaClient();
 
-const bannerSelect: Prisma.BannerSelect = {
+const bannerSelect = {
     id: true,
     title: true,
     content: true,
@@ -16,7 +16,7 @@ const bannerSelect: Prisma.BannerSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.BannerSelect;
 
 // const bannerReform = (banner: any) => {
 //     return {

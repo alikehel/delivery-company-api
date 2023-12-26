@@ -3,7 +3,7 @@ import { LocationCreateType, LocationUpdateType } from "./locations.zod";
 
 const prisma = new PrismaClient();
 
-const locationSelect: Prisma.LocationSelect = {
+const locationSelect = {
     id: true,
     name: true,
     governorate: true,
@@ -29,9 +29,13 @@ const locationSelect: Prisma.LocationSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.LocationSelect;
 
-const locationReform = (location: any) => {
+const locationReform = (
+    location: Prisma.LocationGetPayload<{
+        select: typeof locationSelect;
+    }> | null
+) => {
     if (!location) {
         return null;
     }
@@ -41,7 +45,7 @@ const locationReform = (location: any) => {
         governorate: location.governorate,
         branch: location.branch,
         deliveryAgents: location.deliveryAgentsLocations.map(
-            (deliveryAgent: any) => {
+            (deliveryAgent) => {
                 return {
                     id: deliveryAgent.deliveryAgent.user.id,
                     name: deliveryAgent.deliveryAgent.user.name,

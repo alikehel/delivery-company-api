@@ -3,7 +3,7 @@ import { CompanyCreateType, CompanyUpdateType } from "./companies.zod";
 
 const prisma = new PrismaClient();
 
-const companySelect: Prisma.CompanySelect = {
+const companySelect = {
     id: true,
     name: true,
     phone: true,
@@ -17,7 +17,7 @@ const companySelect: Prisma.CompanySelect = {
     additionalPriceForEveryKilogram: true,
     additionalPriceForRemoteAreas: true,
     orderStatusAutomaticUpdate: true
-};
+} satisfies Prisma.CompanySelect;
 
 // const companyReform = (company: any) => {
 //     return {

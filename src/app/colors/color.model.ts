@@ -3,7 +3,7 @@ import { ColorCreateType, ColorUpdateType } from "./colors.zod";
 
 const prisma = new PrismaClient();
 
-const colorSelect: Prisma.ColorSelect = {
+const colorSelect = {
     id: true,
     title: true,
     code: true,
@@ -15,7 +15,7 @@ const colorSelect: Prisma.ColorSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.ColorSelect;
 
 // const colorReform = (color: any) => {
 //     return {

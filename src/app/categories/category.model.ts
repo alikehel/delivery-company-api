@@ -3,7 +3,7 @@ import { CategoryCreateType, CategoryUpdateType } from "./categories.zod";
 
 const prisma = new PrismaClient();
 
-const categorySelect: Prisma.CategorySelect = {
+const categorySelect = {
     id: true,
     title: true,
     createdAt: true,
@@ -14,7 +14,7 @@ const categorySelect: Prisma.CategorySelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.CategorySelect;
 
 // const categoryReform = (category: any) => {
 //     return {

@@ -3,7 +3,7 @@ import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.zod";
 
 const prisma = new PrismaClient();
 
-const repositorySelect: Prisma.RepositorySelect = {
+const repositorySelect = {
     id: true,
     name: true,
     branch: true,
@@ -13,7 +13,7 @@ const repositorySelect: Prisma.RepositorySelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.RepositorySelect;
 
 // const repositorySelectReform = (
 //     repository: Prisma.RepositoryGetPayload<typeof repositorySelect>

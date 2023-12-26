@@ -6,7 +6,7 @@ import {
 
 const prisma = new PrismaClient();
 
-const notificationSelect: Prisma.NotificationSelect = {
+const notificationSelect = {
     id: true,
     title: true,
     content: true,
@@ -18,9 +18,13 @@ const notificationSelect: Prisma.NotificationSelect = {
             fcm: true
         }
     }
-};
+} satisfies Prisma.NotificationSelect;
 
-const notificationReform = (notification: any) => {
+const notificationReform = (
+    notification: Prisma.NotificationGetPayload<{
+        select: typeof notificationSelect;
+    }>
+) => {
     if (!notification) {
         return null;
     }

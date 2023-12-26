@@ -14,7 +14,7 @@ import {
 
 const prisma = new PrismaClient();
 
-const orderSelect: Prisma.OrderSelect = {
+export const orderSelect = {
     id: true,
     totalCost: true,
     paidAmount: true,
@@ -116,13 +116,12 @@ const orderSelect: Prisma.OrderSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.OrderSelect;
 
-const orderReform = (
-    order: any
-    //     Prisma.OrderGetPayload<{
-    //     include: Prisma.OrderInclude;
-    // }> | null
+export const orderReform = (
+    order: Prisma.OrderGetPayload<{
+        select: typeof orderSelect;
+    }> | null
 ) => {
     if (!order) {
         return null;
@@ -131,9 +130,9 @@ const orderReform = (
         ...order,
         // TODO
         client: {
-            id: order.client.user.id,
-            name: order.client.user.name,
-            phone: order.client.user.phone
+            id: order.client?.user.id,
+            name: order.client?.user.name,
+            phone: order.client?.user.phone
         },
         deliveryAgent: order.deliveryAgent
             ? {
@@ -145,11 +144,20 @@ const orderReform = (
             : undefined,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
-        deletedAt: order.deleted && order.deletedAt.toISOString()
+        deletedAt: order.deletedAt && order.deletedAt.toISOString()
     };
 };
 
-const ordersStatusesReformed = (ordersStatuses: any[]) => {
+const ordersStatusesReformed = (
+    ordersStatuses: (Prisma.PickEnumerable<
+        Prisma.OrderGroupByOutputType,
+        "status"[]
+    > & {
+        _count: {
+            status: number;
+        };
+    })[]
+) => {
     const ordersStatusesReformed = (
         Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
     ).map((status) => {
@@ -168,7 +176,40 @@ const ordersStatusesReformed = (ordersStatuses: any[]) => {
     return ordersStatusesReformed;
 };
 
-const statisticsReformed = (statistics: any) => {
+const statisticsReformed = (statistics: {
+    ordersStatisticsByStatus: (Prisma.PickEnumerable<
+        Prisma.OrderGroupByOutputType,
+        "status"[]
+    > & {
+        _count: {
+            id: number;
+        };
+        _sum: {
+            totalCost: Prisma.Decimal | null;
+        };
+    })[];
+
+    ordersStatisticsByGovernorate: (Prisma.PickEnumerable<
+        Prisma.OrderGroupByOutputType,
+        "governorate"[]
+    > & {
+        _count: {
+            id: number;
+        };
+        _sum: {
+            totalCost: Prisma.Decimal | null;
+        };
+    })[];
+
+    allOrdersStatistics: {
+        _count: {
+            id: number;
+        };
+        _sum: {
+            totalCost: Prisma.Decimal | null;
+        };
+    };
+}) => {
     const statisticsReformed = {
         ordersStatisticsByStatus: (
             Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
@@ -209,7 +250,22 @@ const statisticsReformed = (statistics: any) => {
 };
 
 const todayOrdersCountAndEarningsReformed = (
-    todayOrdersCountAndEarnings: any
+    todayOrdersCountAndEarnings: Prisma.GetOrderAggregateType<{
+        _sum: {
+            totalCost: true;
+            paidAmount: true;
+            totalCostInUSD: true;
+            paidAmountInUSD: true;
+        };
+        _count: {
+            id: true;
+        };
+        where: {
+            createdAt: {
+                gte: Date;
+            };
+        };
+    }>
 ) => {
     const todayOrdersCountAndEarningsReformed = {
         count: todayOrdersCountAndEarnings._count.id,
@@ -219,14 +275,46 @@ const todayOrdersCountAndEarningsReformed = (
     return todayOrdersCountAndEarningsReformed;
 };
 
-const chatMembersReformed = (chatMembers: any) => {
+const chatMembersReformed = (
+    chatMembers: Prisma.OrderGetPayload<{
+        select: {
+            client: {
+                select: {
+                    user: {
+                        select: {
+                            id: true;
+                            name: true;
+                            phone: true;
+                            avatar: true;
+                        };
+                    };
+                };
+            };
+            deliveryAgent: {
+                select: {
+                    user: {
+                        select: {
+                            id: true;
+                            name: true;
+                            phone: true;
+                            avatar: true;
+                        };
+                    };
+                };
+            };
+        };
+    }> | null
+) => {
+    if (!chatMembers) {
+        return null;
+    }
     return [
         {
-            ...chatMembers.client.user,
+            ...chatMembers.client?.user,
             role: "client"
         },
         {
-            ...chatMembers.deliveryAgent.user,
+            ...chatMembers.deliveryAgent?.user,
             role: "deliveryAgent"
         }
     ];
@@ -1069,20 +1157,6 @@ export class OrderModel {
                 ...filtersReformed
             }
         });
-
-        // const ordersStatisticsByCategory = await prisma.order.groupBy({
-        //     by: {
-        //     },
-        //     _sum: {
-        //         totalCost: true
-        //     },
-        //     _count: {
-        //         id: true
-        //     },
-        //     where: {
-        //         ...filtersReformed
-        //     }
-        // });
 
         const allOrdersStatistics = await prisma.order.aggregate({
             _sum: {

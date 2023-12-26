@@ -3,7 +3,7 @@ import { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.zod";
 
 const prisma = new PrismaClient();
 
-const clientSelect: Prisma.ClientSelect = {
+const clientSelect = {
     user: {
         select: {
             id: true,
@@ -53,9 +53,13 @@ const clientSelect: Prisma.ClientSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.ClientSelect;
 
-const clientReform = (client: any) => {
+const clientReform = (
+    client: Prisma.ClientGetPayload<{
+        select: typeof clientSelect;
+    }> | null
+) => {
     if (!client) {
         return null;
     }
@@ -79,7 +83,7 @@ const clientReform = (client: any) => {
             : null,
         deleted: client.deleted,
         deletedBy: client.deleted && client.deletedBy,
-        deletedAt: client.deleted && client.deletedAt.toISOString()
+        deletedAt: client.deletedAt && client.deletedAt.toISOString()
     };
 };
 

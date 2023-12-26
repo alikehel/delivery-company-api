@@ -3,12 +3,16 @@ import { UserSigninType } from "./auth.zod";
 
 const prisma = new PrismaClient();
 
-const userSelect: Prisma.UserSelect = {
+const userSelect = {
     id: true,
     password: true,
     username: true,
     name: true,
-    admin: true,
+    admin: {
+        select: {
+            role: true
+        }
+    },
     employee: {
         select: {
             role: true,
@@ -34,9 +38,13 @@ const userSelect: Prisma.UserSelect = {
             }
         }
     }
-};
+} satisfies Prisma.UserSelect;
 
-const userReform = (user: any) => {
+const userReform = (
+    user: Prisma.UserGetPayload<{
+        select: typeof userSelect;
+    }> | null
+) => {
     if (!user) {
         return null;
     }
@@ -52,8 +60,7 @@ const userReform = (user: any) => {
             : null,
         admin: user.admin
             ? {
-                  role: user.admin.role,
-                  permissions: user.admin.permissions
+                  role: user.admin.role
               }
             : null,
         employee: user.employee

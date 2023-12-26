@@ -3,7 +3,7 @@ import { ProductCreateType, ProductUpdateType } from "./products.zod";
 
 const prisma = new PrismaClient();
 
-const productSelect: Prisma.ProductSelect = {
+const productSelect = {
     id: true,
     title: true,
     price: true,
@@ -43,7 +43,7 @@ const productSelect: Prisma.ProductSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.ProductSelect;
 
 // const productSelectReform = (product: Prisma.ProductGetPayload<typeof productSelect>) => {
 //     return {

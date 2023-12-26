@@ -3,7 +3,7 @@ import { SizeCreateType, SizeUpdateType } from "./sizes.zod";
 
 const prisma = new PrismaClient();
 
-const sizeSelect: Prisma.SizeSelect = {
+const sizeSelect = {
     id: true,
     title: true,
     createdAt: true,
@@ -14,7 +14,7 @@ const sizeSelect: Prisma.SizeSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.SizeSelect;
 
 // const sizeSelectReform = (size: Prisma.SizeGetPayload<typeof sizeSelect>) => {
 //     return {

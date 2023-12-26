@@ -8883,284 +8883,314 @@
     "examples": {
       "EmployeeCreateExample": {
         "value": {
-          "username": "temptatio",
-          "name": "Cory Donnelly",
-          "password": "MCjYxLaUJcTICDx",
-          "phone": "07601858247",
-          "salary": 3724235876859904,
-          "repositoryID": 2166725028085760,
-          "branchID": 7378560777977856,
-          "role": "COMPANY_MANAGER",
+          "username": "denuo",
+          "name": "Darrel Huel",
+          "password": "h0WU_2F4QY17rKN",
+          "phone": "07513138779",
+          "salary": 6918921179365376,
+          "repositoryID": 938919466106880,
+          "branchID": 4929329031020544,
+          "role": "INQUIRY_EMPLOYEE",
           "permissions": [
-            "CHANGE_ORDER_STATUS",
-            "EDIT_CLIENT_NAME",
-            "ADD_CLIENT"
+            "ADD_PAGE",
+            "DELETE_REPOSITORIES_REPORTS",
+            "CHANGE_CLOSED_ORDER_STATUS",
+            "LOCK_ORDER_STATUS"
           ],
-          "fcm": "appositus",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/398.jpg",
-          "companyID": 4699049624076288
+          "fcm": "fugiat",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/381.jpg",
+          "companyID": 406077543809024,
+          "deliveryCost": 2586446217084928
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "clam",
-          "password": "Iyvp3wgLfjObCm4",
-          "fcm": "aliquid"
+          "username": "vociferor",
+          "password": "2Rsqy99wFl0Oxt6",
+          "fcm": "vespillo"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Susan Sporer Jr.",
-          "branchID": 5356875547672576
+          "name": "Alonzo Tillman DDS",
+          "branchID": 7650759403372544
         }
       },
       "EmployeeUpdateExample": {
         "value": {
-          "username": "bellum",
-          "name": "Terence Sporer",
-          "password": "Wn41Kbp19xQ8jAu",
-          "phone": "07395635596",
-          "salary": 2796826711293952,
-          "repositoryID": 5075862672113664,
-          "branchID": 3041428148060160,
-          "role": "COMPANY_MANAGER",
+          "username": "auxilium",
+          "name": "Mr. Shannon Schuppe",
+          "password": "zcjsdyA_jkW45Q6",
+          "phone": "07951743315",
+          "salary": 268675856728064,
+          "repositoryID": 2171068389261312,
+          "branchID": 8768390074204160,
+          "role": "DELIVERY_AGENT",
           "permissions": [
-            "DELETE_DELIVERY_AGENT_REPORTS"
+            "ADD_CLIENT"
           ],
-          "fcm": "canto",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1119.jpg",
-          "companyID": 1081323351441408
+          "fcm": "dignissimos",
+          "avatar": "https://avatars.githubusercontent.com/u/35988255",
+          "companyID": 8629625181700096,
+          "deliveryCost": 5560217473384448
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Reginald Torp",
-          "branchID": 6732632754749440
+          "name": "Mae Collier",
+          "branchID": 5271540920745984
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Leon Leffler",
-          "governorate": "AL_ANBAR",
-          "branchID": 88819927875584,
+          "name": "Robin Towne",
+          "governorate": "BASRA",
+          "branchID": 4229508857069568,
           "deliveryAgentsIDs": [
-            1077306365837312,
-            4251228636708864,
-            2739688609677312,
-            4651792631595008,
-            2000096992428032
+            6972586082697216,
+            1674321908989952,
+            220636179857408,
+            6001570791555072
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Latoya Zulauf II",
-          "governorate": "DUHOK",
-          "branchID": 3635820477022208,
+          "name": "Juan Greenholt",
+          "governorate": "KARBALA",
+          "branchID": 894278156943360,
           "deliveryAgentsIDs": [
-            1153500528508928
+            608803412246528,
+            7152680126382080,
+            2965946647969792,
+            2522462705156096
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Margaret Gerlach",
-          "username": "allatus",
-          "phone": "07417458171",
+          "name": "Gilbert Hettinger",
+          "username": "veritatis",
+          "phone": "07767165135",
           "role": "CLIENT",
-          "token": "illo",
-          "password": "jrfaDcVdBZYv6Dc",
-          "fcm": "doloremque",
-          "branchID": 1765747745357824,
-          "repositoryID": 3593721345998848,
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/918.jpg",
-          "companyID": 5093092491264000,
+          "token": "calamitas",
+          "password": "1_xkmTXZszvtp2K",
+          "fcm": "tepesco",
+          "branchID": 7940679286128640,
+          "repositoryID": 7406702573912064,
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/618.jpg",
+          "companyID": 4575543330603008,
           "governoratesDeliveryCosts": [
             {
-              "governorate": "BASRA",
-              "cost": 7603456965607424
+              "governorate": "AL_QADISIYYAH",
+              "cost": 84677
             },
             {
-              "governorate": "WASIT",
-              "cost": 285752575393792
+              "governorate": "DHI_QAR",
+              "cost": 0
+            },
+            {
+              "governorate": "MAYSAN",
+              "cost": 44515
+            },
+            {
+              "governorate": "BASRA",
+              "cost": 0
+            },
+            {
+              "governorate": "BASRA",
+              "cost": 0
             }
           ]
         }
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Felix Altenwerth",
-          "username": "audeo",
-          "phone": "07421239664",
-          "role": "CLIENT_ASSISTANT",
-          "token": "civitas",
-          "password": "EoJFICUT9qa5Gxt",
-          "fcm": "debilito",
-          "branchID": 2987418649100288,
-          "repositoryID": 6252890970652672,
-          "avatar": "https://avatars.githubusercontent.com/u/47971043",
-          "companyID": 5170446590803968,
+          "name": "Bobbie Johnson II",
+          "username": "caritas",
+          "phone": "07830888360",
+          "role": "CLIENT",
+          "token": "adiuvo",
+          "password": "Zj31YTAZOlTFNQH",
+          "fcm": "tibi",
+          "branchID": 5642954446209024,
+          "repositoryID": 8076008066383872,
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1166.jpg",
+          "companyID": 1436925214851072,
           "governoratesDeliveryCosts": [
             {
               "governorate": "KIRKUK",
-              "cost": 891257152864256
+              "cost": 0
             },
             {
-              "governorate": "BASRA",
-              "cost": 6046396851421184
+              "governorate": "DIYALA",
+              "cost": 0
+            },
+            {
+              "governorate": "WASIT",
+              "cost": 0
+            },
+            {
+              "governorate": "AL_ANBAR",
+              "cost": 0
+            },
+            {
+              "governorate": "SULAYMANIYAH",
+              "cost": 8893
             }
           ]
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Gustavo Mohr",
-          "email": "Luna10@example.org",
-          "phone": "07775303116",
+          "name": "Orville Veum",
+          "email": "Layne.Bins@example.org",
+          "phone": "07443828032",
           "governorate": "KARBALA"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Daisy Veum III",
-          "email": "Stanton.Mills@example.net",
-          "phone": "07508689043",
-          "governorate": "KARBALA"
+          "name": "Kelvin Hilll III",
+          "email": "Modesto.Wolff@example.org",
+          "phone": "07532728052",
+          "governorate": "BABIL"
         }
       },
       "CompanyCreateExample": {
         "value": {
-          "name": "Norma Emmerich DVM",
-          "phone": "07732138038",
-          "website": "https://first-judo.net",
-          "logo": "peccatus",
-          "registrationText": "administratio",
-          "governoratePrice": 5409352890449920,
-          "deliveryAgentFee": 733372158574592,
-          "baghdadPrice": 8353604314333184,
-          "additionalPriceForEvery500000IraqiDinar": 7728362139156480,
-          "additionalPriceForEveryKilogram": 896975564177408,
-          "additionalPriceForRemoteAreas": 2601364219756544,
-          "orderStatusAutomaticUpdate": false
+          "name": "Louise Crooks",
+          "phone": "07517717920",
+          "website": "https://rich-acrylic.net/",
+          "logo": "veritatis",
+          "registrationText": "substantia",
+          "governoratePrice": 731143770996736,
+          "deliveryAgentFee": 7122577082286080,
+          "baghdadPrice": 6659002033242112,
+          "additionalPriceForEvery500000IraqiDinar": 2487100406497280,
+          "additionalPriceForEveryKilogram": 4255031750557696,
+          "additionalPriceForRemoteAreas": 6915406608465920,
+          "orderStatusAutomaticUpdate": true
         }
       },
       "CompanyUpdateExample": {
         "value": {
-          "name": "Tony Mills",
-          "phone": "07555973543",
-          "website": "https://vibrant-concentrate.name/",
-          "logo": "cogito",
-          "registrationText": "arcesso",
-          "governoratePrice": 8344354403909632,
-          "deliveryAgentFee": 5750947309420544,
-          "baghdadPrice": 823970412625920,
-          "additionalPriceForEvery500000IraqiDinar": 7567630321844224,
-          "additionalPriceForEveryKilogram": 3540772544577536,
-          "additionalPriceForRemoteAreas": 1528743661142016,
-          "orderStatusAutomaticUpdate": false
+          "name": "Tiffany Brown",
+          "phone": "07818674988",
+          "website": "https://sociable-message.net",
+          "logo": "depopulo",
+          "registrationText": "convoco",
+          "governoratePrice": 1826397404266496,
+          "deliveryAgentFee": 5988972511625216,
+          "baghdadPrice": 1056074981441536,
+          "additionalPriceForEvery500000IraqiDinar": 2613405607264256,
+          "additionalPriceForEveryKilogram": 8327808348585984,
+          "additionalPriceForRemoteAreas": 5022855272071168,
+          "orderStatusAutomaticUpdate": true
         }
       },
       "OrderCreateExample": {
         "value": {
           "withProducts": false,
-          "totalCost": 7236271776727040,
-          "quantity": 3058809077497856,
-          "weight": 5469803984715776,
-          "recipientName": "advoco",
-          "recipientPhone": "compono",
-          "recipientAddress": "abeo",
-          "notes": "creptio",
-          "details": "qui",
-          "deliveryType": "NORMAL",
-          "governorate": "SALAH_AL_DIN",
-          "locationID": 2231011165339648,
-          "storeID": 1416106587717632
+          "totalCost": 1571226694713344,
+          "quantity": 7428658568364032,
+          "weight": 5426776480153600,
+          "recipientName": "averto",
+          "recipientPhone": "vestigium",
+          "recipientAddress": "venio",
+          "notes": "aperiam",
+          "details": "currus",
+          "deliveryType": "REPLACEMENT",
+          "governorate": "NINAWA",
+          "locationID": 3115729719132160,
+          "storeID": 3068696968822784,
+          "repositoryID": 130447998713856,
+          "branchID": 4489611225071616
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "paidAmount": 7228436842020864,
-          "discount": 7177890458238976,
-          "status": "WITH_DELIVERY_AGENT",
-          "deliveryAgentID": 2153792762019840,
-          "deliveryDate": "2023-12-11T10:44:02.931Z",
-          "recipientName": "vallum",
-          "recipientPhone": "eius",
-          "recipientAddress": "repudiandae",
-          "notes": "patria",
-          "details": "aperte",
-          "repositoryID": 8705212755738624,
-          "branchID": 7735072889241600
+          "paidAmount": 4880764938223616,
+          "discount": 4182442942398464,
+          "status": "DELIVERED",
+          "deliveryAgentID": 7764947037585408,
+          "deliveryDate": "2023-12-26T13:04:42.459Z",
+          "recipientName": "viridis",
+          "recipientPhone": "vicissitudo",
+          "recipientAddress": "dedecor",
+          "notes": "absum",
+          "details": "consequuntur",
+          "repositoryID": 290178446917632,
+          "branchID": 3341629549182976,
+          "currentLocation": "vilitas"
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "sol",
-          "price": 2179835203944448,
-          "image": "https://loremflickr.com/640/480?lock=1360211424051200",
-          "weight": 6697295147958272,
-          "stock": 5225951241699328,
-          "categoryID": 5056913100242944,
+          "title": "demoror",
+          "price": 7969626029817856,
+          "image": "https://loremflickr.com/640/480?lock=1265513764225024",
+          "weight": 7678652594520064,
+          "storeID": 315873787117568,
+          "stock": 1312651481186304,
+          "categoryID": 898674521538560,
           "colors": [
             {
-              "colorID": 3057542236209152,
-              "quantity": 8500684158664704
+              "colorID": 3642202385285120,
+              "quantity": 3567862272753664
             },
             {
-              "colorID": 8382394828587008,
-              "quantity": 6495230412980224
+              "colorID": 7705135811657728,
+              "quantity": 3732478185439232
             },
             {
-              "colorID": 8281443169992704,
-              "quantity": 1477812380762112
+              "colorID": 2818352269492224,
+              "quantity": 721647078211584
+            },
+            {
+              "colorID": 798188401328128,
+              "quantity": 7368191118409728
             }
           ],
           "sizes": [
             {
-              "sizeID": 556981150547968,
-              "quantity": 294513262198784
-            },
-            {
-              "sizeID": 7462407825784832,
-              "quantity": 938462815453184
-            },
-            {
-              "sizeID": 76910864367616,
-              "quantity": 1567642724859904
-            },
-            {
-              "sizeID": 8424924704145408,
-              "quantity": 4906900590166016
+              "sizeID": 2138839537680384,
+              "quantity": 169833960308736
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "compello",
-          "price": 8782397948559360,
-          "image": "https://picsum.photos/seed/3jqGitbc/640/480",
-          "weight": 2440817979424768,
-          "stock": 8275388792832000,
-          "categoryID": 8716136329773056,
+          "title": "aliquid",
+          "price": 7582258238062592,
+          "image": "https://picsum.photos/seed/pD9xxCKXe/640/480",
+          "weight": 3893483632852992,
+          "storeID": 7516535056760832,
+          "stock": 1443280359260160,
+          "categoryID": 221120858947584,
           "colors": [
             {
-              "colorID": 5496623763292160,
-              "quantity": 8132629616394240
+              "colorID": 4669253307334656,
+              "quantity": 8042358375448576
+            },
+            {
+              "colorID": 8672117182693376,
+              "quantity": 7108659800702976
             }
           ],
           "sizes": [
             {
-              "sizeID": 815068304375808,
-              "quantity": 7608466455658496
+              "sizeID": 1118037329575936,
+              "quantity": 6981706806460416
             },
             {
-              "sizeID": 6096011745296384,
-              "quantity": 2176940247089152
+              "sizeID": 3170676835876864,
+              "quantity": 3525367813898240
             },
             {
-              "sizeID": 8693319427162112,
-              "quantity": 3668375437836288
+              "sizeID": 1332868039049216,
+              "quantity": 1117117879418880
             }
           ]
         }
@@ -9172,94 +9202,86 @@
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "curriculum"
+          "title": "aeneus"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "verus"
+          "title": "valeo"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "terebro",
-          "code": "tempus"
+          "title": "alveus",
+          "code": "ultio"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "cupio",
-          "code": "utique"
+          "title": "utrimque",
+          "code": "comes"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "magnam"
+          "title": "appello"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "ademptio"
+          "title": "caritas"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Vickie Gerlach",
-          "clientID": 2540494829649920,
-          "notes": "aer",
-          "logo": "curatio"
+          "name": "Sheila Farrell",
+          "clientID": 4119945497542656,
+          "notes": "validus",
+          "logo": "clementia"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Horace Hirthe",
-          "clientID": 6521064179892224,
-          "notes": "angulus",
-          "logo": "comis"
+          "name": "Shawn Schaden",
+          "clientID": 2835484352970752,
+          "notes": "tendo",
+          "logo": "ventosus"
         }
       },
       "BannerCreateExample": {
         "value": {
-          "title": "suffragium",
-          "content": "abscido",
-          "image": "https://loremflickr.com/640/480?lock=5873556575485952",
-          "url": "https://capital-apple.biz/"
+          "title": "vacuus",
+          "content": "congregatio",
+          "image": "https://picsum.photos/seed/43fAKS/640/480",
+          "url": "https://indelible-league.net"
         }
       },
       "BannerUpdateExample": {
         "value": {
-          "title": "asporto",
-          "content": "talis",
-          "image": "https://loremflickr.com/640/480?lock=2559676763865088",
-          "url": "https://starry-weedkiller.name/"
+          "title": "verus",
+          "content": "studio",
+          "image": "https://loremflickr.com/640/480?lock=5254704925769728",
+          "url": "https://large-plume.info/"
         }
       },
       "ReportCreateExample": {
         "value": {
-          "type": "COMPANY",
-          "companyID": 1804651030642688,
+          "type": "BRANCH",
+          "branchID": 8613353366749184,
           "ordersIDs": [
-            2082382148534272,
-            6677012036976640,
-            3944265277243392,
-            4250948564156416,
-            1326237299507200
+            4390988361498624
           ]
         }
       },
       "ReportUpdateExample": {
         "value": {
-          "status": "UNPAID"
+          "status": "PAID"
         }
       },
       "OrdersReceiptsCreateExample": {
         "value": {
           "ordersIDs": [
-            5200926820270080,
-            5284355261857792,
-            8129259256152064,
-            1855478380363776,
-            7640926797168640
+            4004655998697472
           ]
         }
       }
@@ -9371,6 +9393,10 @@
             "type": "string"
           },
           "companyID": {
+            "type": "number",
+            "nullable": true
+          },
+          "deliveryCost": {
             "type": "number",
             "nullable": true
           }
@@ -9497,6 +9523,10 @@
             "type": "string"
           },
           "companyID": {
+            "type": "number",
+            "nullable": true
+          },
+          "deliveryCost": {
             "type": "number",
             "nullable": true
           }
@@ -9681,13 +9711,14 @@
                   ]
                 },
                 "cost": {
+                  "default": 0,
                   "type": "number",
+                  "maximum": 100000,
                   "nullable": true
                 }
               },
               "required": [
-                "governorate",
-                "cost"
+                "governorate"
               ]
             }
           }
@@ -9776,13 +9807,14 @@
                   ]
                 },
                 "cost": {
+                  "default": 0,
                   "type": "number",
+                  "maximum": 100000,
                   "nullable": true
                 }
               },
               "required": [
-                "governorate",
-                "cost"
+                "governorate"
               ]
             }
           }
@@ -10130,6 +10162,14 @@
               "storeID": {
                 "type": "number",
                 "nullable": true
+              },
+              "repositoryID": {
+                "type": "number",
+                "nullable": true
+              },
+              "branchID": {
+                "type": "number",
+                "nullable": true
               }
             },
             "required": [
@@ -10200,6 +10240,9 @@
           "branchID": {
             "type": "number",
             "nullable": true
+          },
+          "currentLocation": {
+            "type": "string"
           }
         }
       },
@@ -10220,6 +10263,10 @@
           "weight": {
             "type": "number",
             "minimum": 0,
+            "nullable": true
+          },
+          "storeID": {
+            "type": "number",
             "nullable": true
           },
           "stock": {
@@ -10294,6 +10341,10 @@
           "weight": {
             "type": "number",
             "minimum": 0,
+            "nullable": true
+          },
+          "storeID": {
+            "type": "number",
             "nullable": true
           },
           "stock": {

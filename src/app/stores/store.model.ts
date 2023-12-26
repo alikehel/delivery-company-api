@@ -3,7 +3,7 @@ import { StoreCreateType, StoreUpdateType } from "./stores.zod";
 
 const prisma = new PrismaClient();
 
-const storeSelect: Prisma.StoreSelect = {
+const storeSelect = {
     id: true,
     name: true,
     notes: true,
@@ -32,9 +32,13 @@ const storeSelect: Prisma.StoreSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.StoreSelect;
 
-const storeSelectReform = (store: any) => {
+const storeSelectReform = (
+    store: Prisma.StoreGetPayload<{
+        select: typeof storeSelect;
+    }> | null
+) => {
     if (!store) {
         return null;
     }
@@ -52,7 +56,7 @@ const storeSelectReform = (store: any) => {
         company: store.company,
         deleted: store.deleted,
         deletedBy: store.deleted && store.deletedBy,
-        deletedAt: store.deleted && store.deletedAt.toISOString()
+        deletedAt: store.deletedAt && store.deletedAt.toISOString()
     };
 };
 

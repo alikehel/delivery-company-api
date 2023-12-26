@@ -9,7 +9,7 @@ import { ReportCreateType, ReportUpdateType } from "./reports.zod";
 
 const prisma = new PrismaClient();
 
-const reportSelect: Prisma.ReportSelect = {
+export const reportSelect = {
     id: true,
     status: true,
     createdBy: {
@@ -165,82 +165,12 @@ const reportSelect: Prisma.ReportSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.ReportSelect;
 
-const reportselectReform = (
-    report: any
-    // Prisma.ReportGetPayload < {
-    //     include: Prisma.ReportInclude;
-    // }> & {
-    //     clientReport: Prisma.ClientReportGetPayload<{
-    //         include: Prisma.ClientReportInclude;
-    //     }> & {
-    //         client: Prisma.ClientGetPayload<{
-    //             include: Prisma.ClientInclude;
-    //         }> & {
-    //             user: Prisma.UserGetPayload<{
-    //                 include: Prisma.UserInclude;
-    //             }>;
-    //         };
-    //         store: Prisma.StoreGetPayload<{
-    //             include: Prisma.StoreInclude;
-    //         }>;
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    //     repositoryReport: Prisma.RepositoryReportGetPayload<{
-    //         include: Prisma.RepositoryReportInclude;
-    //     }> & {
-    //         repository: Prisma.RepositoryGetPayload<{
-    //             include: Prisma.RepositoryInclude;
-    //         }>;
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    //     branchReport: Prisma.BranchReportGetPayload<{
-    //         include: Prisma.BranchReportInclude;
-    //     }> & {
-    //         branch: Prisma.BranchGetPayload<{
-    //             include: Prisma.BranchInclude;
-    //         }>;
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    //     governorateReport: Prisma.GovernorateReportGetPayload<{
-    //         include: Prisma.GovernorateReportInclude;
-    //     }> & {
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    //     deliveryAgentReport: Prisma.DeliveryAgentReportGetPayload<{
-    //         include: Prisma.DeliveryAgentReportInclude;
-    //     }> & {
-    //         deliveryAgent: Prisma.EmployeeGetPayload<{
-    //             include: Prisma.EmployeeInclude;
-    //         }> & {
-    //             user: Prisma.UserGetPayload<{
-    //                 include: Prisma.UserInclude;
-    //             }>;
-    //         };
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    //     companyReport: Prisma.CompanyReportGetPayload<{
-    //         include: Prisma.CompanyReportInclude;
-    //     }> & {
-    //         company: Prisma.CompanyGetPayload<{
-    //             include: Prisma.CompanyInclude;
-    //         }>;
-    //         orders: Prisma.OrderGetPayload<{
-    //             include: Prisma.OrderInclude;
-    //         }>[];
-    //     };
-    // }
+export const reportReform = (
+    report: Prisma.ReportGetPayload<{
+        select: typeof reportSelect;
+    }> | null
 ) => {
     if (!report) {
         return null;
@@ -249,40 +179,40 @@ const reportselectReform = (
         ...report,
         createdBy: report.createdBy.user,
         clientReport: report.clientReport && {
-            reportNumber: report.clientReport.reportNumber,
+            reportNumber: report.clientReport.id,
             clientReportOrders: report.clientReport.orders,
             client: report.clientReport.client.user,
             store: report.clientReport.store
         },
         repositoryReport: report.repositoryReport && {
-            reportNumber: report.repositoryReport.reportNumber,
+            reportNumber: report.repositoryReport.id,
             repositoryReportOrders: report.repositoryReport.orders,
             repository: report.repositoryReport.repository
         },
         branchReport: report.branchReport && {
-            reportNumber: report.branchReport.reportNumber,
+            reportNumber: report.branchReport.id,
             branchReportOrders: report.branchReport.orders,
             branch: report.branchReport.branch
         },
         governorateReport: report.governorateReport && {
-            reportNumber: report.governorateReport.reportNumber,
+            reportNumber: report.governorateReport.id,
             governorateReportOrders: report.governorateReport.orders,
             governorate: report.governorateReport.governorate
         },
         deliveryAgentReport: report.deliveryAgentReport && {
-            reportNumber: report.deliveryAgentReport.reportNumber,
+            reportNumber: report.deliveryAgentReport.id,
             deliveryAgentReportOrders: report.deliveryAgentReport.orders,
             deliveryAgent: report.deliveryAgentReport.deliveryAgent.user
         },
         companyReport: report.companyReport && {
-            reportNumber: report.companyReport.reportNumber,
+            reportNumber: report.companyReport.id,
             companyReportOrders: report.companyReport.orders,
             company: report.companyReport.company
         },
         company: report.company,
         deleted: report.deleted,
         deletedBy: report.deleted && report.deletedBy,
-        deletedAt: report.deleted && report.deletedAt.toISOString()
+        deletedAt: report.deletedAt && report.deletedAt.toISOString()
     };
     return reportData;
 };
@@ -513,7 +443,7 @@ export class ReportModel {
             },
             select: reportSelect
         });
-        return reports.map((report) => reportselectReform(report));
+        return reports.map((report) => reportReform(report));
     }
 
     async getReport(data: { reportID: number }) {
@@ -523,7 +453,7 @@ export class ReportModel {
             },
             select: reportSelect
         });
-        return reportselectReform(report);
+        return reportReform(report);
     }
 
     async updateReport(data: {
@@ -539,7 +469,7 @@ export class ReportModel {
             },
             select: reportSelect
         });
-        return reportselectReform(report);
+        return reportReform(report);
     }
 
     async deleteReport(data: { reportID: number }) {

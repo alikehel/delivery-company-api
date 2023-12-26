@@ -3,13 +3,13 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const userSelect: Prisma.UserSelect = {
+const userSelect = {
     id: true,
     avatar: true,
     name: true,
     username: true,
     phone: true
-};
+} satisfies Prisma.UserSelect;
 
 // const userSelectReform = (user: any) => {
 //     return {

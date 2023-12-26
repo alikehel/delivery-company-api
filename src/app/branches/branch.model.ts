@@ -3,7 +3,7 @@ import { BranchCreateType, BranchUpdateType } from "./branches.zod";
 
 const prisma = new PrismaClient();
 
-const branchSelect: Prisma.BranchSelect = {
+const branchSelect = {
     id: true,
     name: true,
     email: true,
@@ -15,7 +15,7 @@ const branchSelect: Prisma.BranchSelect = {
             name: true
         }
     }
-};
+} satisfies Prisma.BranchSelect;
 
 // const branchReform = (branch: any) => {
 //     return {

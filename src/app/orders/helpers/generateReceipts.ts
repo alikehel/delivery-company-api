@@ -1,10 +1,15 @@
-// import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 // import fs from "fs";
-import { Order } from "@prisma/client";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
+import { orderSelect } from "../order.model";
 
-export const generateReceipts = async (orders: any[]) => {
+// TODO
+export const generateReceipts = async (
+    orders: Prisma.OrderGetPayload<{
+        select: typeof orderSelect;
+    }>[]
+) => {
     const fonts = {
         Cairo: {
             normal: "fonts/Cairo-VariableFont_slntwght.ttf",
@@ -26,7 +31,7 @@ export const generateReceipts = async (orders: any[]) => {
             bold: true,
             italics: false
         },
-        content: orders.map((order: Order) => {
+        content: orders.map((order) => {
             return [
                 {
                     image: "assets/albarq-logo.png",
