@@ -134,6 +134,11 @@ enum OrderStatus {
   PROCESSING
 }
 
+enum AutomaticUpdateReturnCondition {
+  WITH_AGENT
+  IN_REPOSITORY
+}
+
 // const deliveryTypes = ["توصيل عادي", "استبدال"];
 
 enum DeliveryType {
@@ -341,23 +346,23 @@ model DeliveryAgentsLocations {
 }
 
 model Company {
-  id                                      Int             @id @default(autoincrement())
-  name                                    String          @unique
+  id                                      Int               @id @default(autoincrement())
+  name                                    String            @unique
   phone                                   String?
   website                                 String?
   logo                                    String?
   registrationText                        String?
-  governoratePrice                        Decimal         @default(0)
-  deliveryAgentFee                        Decimal         @default(0)
+  governoratePrice                        Decimal           @default(0)
+  deliveryAgentFee                        Decimal           @default(0)
   // deliveryPrice              Decimal  @default(0)
-  baghdadPrice                            Decimal         @default(0)
-  additionalPriceForEvery500000IraqiDinar Decimal         @default(0)
-  additionalPriceForEveryKilogram         Decimal         @default(0)
-  additionalPriceForRemoteAreas           Decimal         @default(0)
-  orderStatusAutomaticUpdate              Boolean         @default(false)
+  baghdadPrice                            Decimal           @default(0)
+  additionalPriceForEvery500000IraqiDinar Decimal           @default(0)
+  additionalPriceForEveryKilogram         Decimal           @default(0)
+  additionalPriceForRemoteAreas           Decimal           @default(0)
+  orderStatusAutomaticUpdate              Boolean           @default(false)
   // mainCompany                Boolean  @default(false)
-  createdAt                               DateTime        @default(now())
-  updatedAt                               DateTime        @updatedAt
+  createdAt                               DateTime          @default(now())
+  updatedAt                               DateTime          @updatedAt
   employees                               Employee[]
   clients                                 Client[]
   stores                                  Store[]
@@ -373,6 +378,7 @@ model Company {
   // notifications                           Notification[]
   banners                                 Banner[]
   CompanyReport                           CompanyReport[]
+  automaticUpdates                        AutomaticUpdate[]
 }
 
 model Order {
@@ -384,11 +390,9 @@ model Order {
   // TODO: remove this field
   deliveryAgentNet      Decimal?             @default(0)
   companyNet            Decimal?             @default(0)
-  // TODO: remove this field
-  totalCostInUSD        Decimal?             @default(0)
-  paidAmountInUSD       Decimal?             @default(0)
   discount              Decimal?             @default(0)
-  receiptNumber         Int                  @unique @default(autoincrement())
+  // TODO
+  receiptNumber         Int                  @default(autoincrement())
   quantity              Int                  @default(0)
   weight                Float                @default(0)
   recipientName         String
@@ -634,4 +638,21 @@ model Banner {
   url       String?
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
+}
+
+model AutomaticUpdate {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId Int
+
+  orderStatus     OrderStatus
+  governorate     Governorate
+  returnCondition AutomaticUpdateReturnCondition
+  updateAt        Int                            @default(22) // 0 -> 24
+  checkAfter      Int                            @default(24) // 0 -> infinity
+
+  @@unique([orderStatus, governorate, companyId])
 }

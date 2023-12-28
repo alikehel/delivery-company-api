@@ -12,6 +12,7 @@ import {
 import { z } from "zod";
 
 export const OrderCreateBaseSchema = z.object({
+    receiptNumber: z.number().optional(),
     recipientName: z.string(),
     recipientPhone: z.string(),
     recipientAddress: z.string(),
@@ -71,8 +72,7 @@ export const OrderCreateMock = generateMock(OrderCreateSchema);
 export const OrderUpdateSchema = z
     .object({
         paidAmount: z.number(),
-        // totalCostInUSD: z.number(),
-        // paidAmountInUSD: z.number(),
+        receiptNumber: z.number().optional(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
         deliveryAgentID: z.coerce.number(),

@@ -109,6 +109,13 @@ import {
     ReportUpdateOpenAPISchema
 } from "./../app/reports/reports.zod";
 
+import {
+    AutomaticUpdateCreateMock,
+    AutomaticUpdateCreateOpenAPISchema,
+    AutomaticUpdateUpdateMock,
+    AutomaticUpdateUpdateOpenAPISchema
+} from "./../app/automaticUpdates/automaticUpdates.zod";
+
 const doc = {
     info: {
         version: "1.0.0",
@@ -160,7 +167,13 @@ const doc = {
             BannerUpdateExample: { value: BannerUpdateMock },
             ReportCreateExample: { value: ReportCreateMock },
             ReportUpdateExample: { value: ReportUpdateMock },
-            OrdersReceiptsCreateExample: { value: OrdersReceiptsCreateMock }
+            OrdersReceiptsCreateExample: { value: OrdersReceiptsCreateMock },
+            AutomaticUpdateCreateExample: {
+                value: AutomaticUpdateCreateMock
+            },
+            AutomaticUpdateUpdateExample: {
+                value: AutomaticUpdateUpdateMock
+            }
         },
         "@schemas": {
             SuccessResponseSchema: {
@@ -234,7 +247,9 @@ const doc = {
             BannerUpdateSchema: BannerUpdateOpenAPISchema,
             ReportCreateSchema: ReportCreateOpenAPISchema,
             ReportUpdateSchema: ReportUpdateOpenAPISchema,
-            OrdersReceiptsCreateSchema: OrdersReceiptsCreateOpenAPISchema
+            OrdersReceiptsCreateSchema: OrdersReceiptsCreateOpenAPISchema,
+            AutomaticUpdateCreateSchema: AutomaticUpdateCreateOpenAPISchema,
+            AutomaticUpdateUpdateSchema: AutomaticUpdateUpdateOpenAPISchema
         }
     }
 };

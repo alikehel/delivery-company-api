@@ -13,6 +13,7 @@ import employeesRoutes from "../app/employees/employees.routes";
 import locationsRoutes from "../app/locations/locations.routes";
 import notificationsRoutes from "../app/notifications/notifications.routes";
 import ordersRoutes from "../app/orders/orders.routes";
+import automaticUpdatesRoutes from "../app/automaticUpdates/automaticUpdates.routes";
 import productsRoutes from "../app/products/products.routes";
 import reportsRoutes from "../app/reports/reports.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
@@ -38,6 +39,7 @@ router.use("/", sizesRoutes);
 router.use("/", storesRoutes);
 router.use("/", bannersRoutes);
 router.use("/", reportsRoutes);
+router.use("/", automaticUpdatesRoutes);
 
 /*******************************************************************************
  * TEST ROUTES

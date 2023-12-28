@@ -18,8 +18,6 @@ export const orderSelect = {
     id: true,
     totalCost: true,
     paidAmount: true,
-    totalCostInUSD: true,
-    paidAmountInUSD: true,
     deliveryCost: true,
     clientNet: true,
     // deliveryAgentNet: true,
@@ -254,8 +252,6 @@ const todayOrdersCountAndEarningsReformed = (
         _sum: {
             totalCost: true;
             paidAmount: true;
-            totalCostInUSD: true;
-            paidAmountInUSD: true;
         };
         _count: {
             id: true;
@@ -508,6 +504,7 @@ export class OrderModel {
                 weight: data.withProducts === false ? data.weight : weight,
                 recipientName: data.recipientName,
                 recipientPhone: data.recipientPhone,
+                receiptNumber: data.receiptNumber,
                 recipientAddress: data.recipientAddress,
                 notes: data.notes,
                 details: data.details,
@@ -1081,9 +1078,7 @@ export class OrderModel {
         const todayOrdersCountAndEarnings = await prisma.order.aggregate({
             _sum: {
                 totalCost: true,
-                paidAmount: true,
-                totalCostInUSD: true,
-                paidAmountInUSD: true
+                paidAmount: true
             },
             _count: {
                 id: true
