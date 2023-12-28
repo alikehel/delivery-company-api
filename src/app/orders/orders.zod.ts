@@ -18,7 +18,7 @@ export const OrderCreateBaseSchema = z.object({
     recipientAddress: z.string(),
     notes: z.string().optional(),
     details: z.string().optional(),
-    deliveryType: z.nativeEnum(DeliveryType),
+    deliveryType: z.nativeEnum(DeliveryType).default(DeliveryType.NORMAL),
     governorate: z.nativeEnum(Governorate),
     locationID: z.coerce.number().optional(),
     storeID: z.coerce.number(),
@@ -44,7 +44,7 @@ export const OrderCreateSchema = z
             products: z.array(
                 z.object({
                     productID: z.coerce.number(),
-                    quantity: z.number().min(1),
+                    quantity: z.number().min(1).default(1),
                     colorID: z.coerce.number().optional(),
                     sizeID: z.coerce.number().optional()
                 })
@@ -53,7 +53,7 @@ export const OrderCreateSchema = z
         z.object({
             withProducts: z.literal(false),
             totalCost: z.number(),
-            quantity: z.number(),
+            quantity: z.number().default(1),
             weight: z.number().optional()
         })
     ])

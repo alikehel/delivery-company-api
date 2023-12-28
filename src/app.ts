@@ -9,7 +9,6 @@ import swaggerUi from "swagger-ui-express";
 
 // import { Role } from "@prisma/client";
 import globalErrorcontroller from "./error/error.controller";
-import { isAutherized } from "./middlewares/isAutherized.middleware";
 import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import {
     morganMiddleware,
