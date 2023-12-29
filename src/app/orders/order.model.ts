@@ -705,8 +705,62 @@ export class OrderModel {
                                     ? Number.isNaN(+filters.search)
                                         ? undefined
                                         : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                repositoryReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
                                         ? undefined
-                                        : +filters.search
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                branchReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                deliveryAgentReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                governorateReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                companyReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
+                                    : undefined
+                            },
+                            {
+                                clientReportId: filters.search
+                                    ? Number.isNaN(+filters.search)
+                                        ? undefined
+                                        : filters.search.length > 9
+                                          ? undefined
+                                          : +filters.search
                                     : undefined
                             },
                             {
@@ -855,8 +909,8 @@ export class OrderModel {
                             filters.clientReport === "true"
                                 ? { isNot: null }
                                 : filters.clientReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     },
                     // Filter by repositoryReport
                     {
@@ -864,8 +918,8 @@ export class OrderModel {
                             filters.repositoryReport === "true"
                                 ? { isNot: null }
                                 : filters.repositoryReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     },
                     // Filter by branchReport
                     {
@@ -873,8 +927,8 @@ export class OrderModel {
                             filters.branchReport === "true"
                                 ? { isNot: null }
                                 : filters.branchReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     },
                     // Filter by deliveryAgentReport
                     {
@@ -882,8 +936,8 @@ export class OrderModel {
                             filters.deliveryAgentReport === "true"
                                 ? { isNot: null }
                                 : filters.deliveryAgentReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     },
                     // Filter by governorateReport
                     {
@@ -891,8 +945,8 @@ export class OrderModel {
                             filters.governorateReport === "true"
                                 ? { isNot: null }
                                 : filters.governorateReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     },
                     // Filter by companyReport
                     {
@@ -900,8 +954,8 @@ export class OrderModel {
                             filters.companyReport === "true"
                                 ? { isNot: null }
                                 : filters.companyReport === "false"
-                                ? { is: null }
-                                : undefined
+                                  ? { is: null }
+                                  : undefined
                     }
                 ]
             },
