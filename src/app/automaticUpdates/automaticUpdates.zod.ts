@@ -14,7 +14,7 @@ export const AutomaticUpdateCreateSchema = z.object({
     governorate: z.nativeEnum(Governorate),
     returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition),
     updateAt: z.number().min(0).max(24),
-    checkAfter: z.number().min(0)
+    checkAfter: z.number().min(0).max(480)
 });
 
 export type AutomaticUpdateCreateType = z.infer<
