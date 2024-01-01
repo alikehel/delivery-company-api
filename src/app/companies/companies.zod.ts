@@ -7,6 +7,7 @@ export const CompanyCreateSchema = z.object({
     phone: z.string().regex(/^07[3-9][0-9]{8}$/),
     website: z.string().url().optional(),
     logo: z.string().optional(),
+    color: z.string().toUpperCase().length(6).optional(),
     registrationText: z.string().optional(),
     governoratePrice: z.coerce.number().min(0),
     deliveryAgentFee: z.coerce.number().min(0),

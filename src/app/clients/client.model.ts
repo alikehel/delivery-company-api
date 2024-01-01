@@ -42,7 +42,8 @@ const clientSelect = {
         select: {
             id: true,
             name: true,
-            logo: true
+            logo: true,
+            color: true
         }
     },
     deleted: true,

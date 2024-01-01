@@ -351,6 +351,7 @@ model Company {
   phone                                   String?
   website                                 String?
   logo                                    String?
+  color                                   String            @default("FF0000")
   registrationText                        String?
   governoratePrice                        Decimal           @default(0)
   deliveryAgentFee                        Decimal           @default(0)
