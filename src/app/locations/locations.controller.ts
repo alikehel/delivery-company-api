@@ -124,8 +124,5 @@ export const deleteLocation = catchAsync(async (req, res) => {
 export const publicGetAllLocations = catchAsync(async (req, res) => {
     const locations = await locationModel.publicGetAllLocations();
 
-    res.status(200).json({
-        status: "success",
-        data: locations
-    });
+    res.status(200).json(locations);
 });

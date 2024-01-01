@@ -433,8 +433,8 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
         req.query.recorded === "true"
             ? true
             : req.query.recorded === "false"
-            ? false
-            : undefined
+              ? false
+              : undefined
     ) as boolean | undefined;
 
     // const status = req.query.status?.toString().toUpperCase() as
