@@ -8,6 +8,7 @@ import {
     deleteLocation,
     getAllLocations,
     getLocation,
+    publicGetAllLocations,
     updateLocation
 } from "./locations.controller";
 
@@ -31,6 +32,15 @@ router.route("/locations").post(
                 }
             }
         }
+    */
+);
+
+router.route("/public/locations").get(
+    // isLoggedIn,
+    // isAutherized([Role.SUPER_ADMIN]),
+    publicGetAllLocations
+    /*
+        #swagger.tags = ['Locations Routes']
     */
 );
 

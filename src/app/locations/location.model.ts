@@ -198,4 +198,14 @@ export class LocationModel {
         });
         return true;
     }
+
+    async publicGetAllLocations() {
+        const locations = await prisma.location.findMany({
+            select: {
+                id: true,
+                name: true
+            }
+        });
+        return locations;
+    }
 }
