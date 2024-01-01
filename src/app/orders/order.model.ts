@@ -171,6 +171,25 @@ const ordersStatusesReformed = (
         };
     });
 
+    const sortingOrder = [
+        "WITH_DELIVERY_AGENT",
+        "POSTPONED",
+        "RESEND",
+        "PROCESSING",
+        "DELIVERED",
+        "PARTIALLY_RETURNED",
+        "REPLACED",
+        "CHANGE_ADDRESS",
+        "RETURNED",
+        "REGISTERED",
+        "WITH_RECEIVING_AGENT",
+        "READY_TO_SEND"
+    ];
+
+    ordersStatusesReformed.sort((a, b) => {
+        return sortingOrder.indexOf(a.status) - sortingOrder.indexOf(b.status);
+    });
+
     return ordersStatusesReformed;
 };
 
