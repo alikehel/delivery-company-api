@@ -35,6 +35,12 @@ const employeeSelect = {
             id: true,
             name: true
         }
+    },
+    _count: {
+        select: {
+            orders: true
+            // deliveryAgentsLocations: true
+        }
     }
 } satisfies Prisma.EmployeeSelect;
 
@@ -63,7 +69,6 @@ const employeeReform = (
         deleted: employee.deleted,
         deletedBy: employee.deleted && employee.deletedBy,
         deletedAt: employee.deletedAt && employee.deletedAt.toISOString(),
-        // @ts-expect-error Fix later
         ordersCount: employee._count.orders,
         createdAt: employee.user.createdAt.toISOString(),
         updatedAt: employee.user.updatedAt.toISOString()
