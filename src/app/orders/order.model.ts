@@ -226,6 +226,15 @@ const statisticsReformed = (statistics: {
             totalCost: Prisma.Decimal | null;
         };
     };
+
+    allOrdersStatisticsWithoutClientReport: {
+        _count: {
+            id: number;
+        };
+        _sum: {
+            totalCost: Prisma.Decimal | null;
+        };
+    };
 }) => {
     const statisticsReformed = {
         ordersStatisticsByStatus: (
@@ -260,6 +269,12 @@ const statisticsReformed = (statistics: {
         allOrdersStatistics: {
             totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
             count: statistics.allOrdersStatistics._count.id
+        },
+        allOrdersStatisticsWithoutClientReport: {
+            totalCost:
+                statistics.allOrdersStatisticsWithoutClientReport._sum
+                    .totalCost || 0,
+            count: statistics.allOrdersStatisticsWithoutClientReport._count.id
         }
     };
 
@@ -1166,27 +1181,86 @@ export class OrderModel {
     }
 
     async getOrdersStatistics(filters: {
-        // tenantID?: number;
+        companyID?: number;
         storeID?: number;
-        recorded?: boolean;
-        // status?: OrderStatus;
+        clientReport?: boolean;
+        governorateReport?: boolean;
+        branchReport?: boolean;
+        deliveryAgentReport?: boolean;
+        repositoryReport?: boolean;
+        companyReport?: boolean;
+        statuses?: OrderStatus[];
+        governorate?: Governorate;
         startDate?: Date;
         endDate?: Date;
+        clientID?: number;
+        deliveryType?: DeliveryType;
+        locationID?: number;
     }) {
         const filtersReformed = {
             AND: [
-                // {
-                //     tenantID: filters.tenantID
-                // },
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                },
                 {
                     storeId: filters.storeID
                 },
                 {
-                    recorded: filters.recorded
+                    clientReport:
+                        filters.clientReport === true
+                            ? { isNot: null }
+                            : filters.clientReport === false
+                              ? { is: null }
+                              : undefined
                 },
-                // {
-                //     status: filters.status
-                // },
+                {
+                    governorateReport:
+                        filters.governorateReport === true
+                            ? { isNot: null }
+                            : filters.governorateReport === false
+                              ? { is: null }
+                              : undefined
+                },
+                {
+                    branchReport:
+                        filters.branchReport === true
+                            ? { isNot: null }
+                            : filters.branchReport === false
+                              ? { is: null }
+                              : undefined
+                },
+                {
+                    deliveryAgentReport:
+                        filters.deliveryAgentReport === true
+                            ? { isNot: null }
+                            : filters.deliveryAgentReport === false
+                              ? { is: null }
+                              : undefined
+                },
+                {
+                    repositoryReport:
+                        filters.repositoryReport === true
+                            ? { isNot: null }
+                            : filters.repositoryReport === false
+                              ? { is: null }
+                              : undefined
+                },
+                {
+                    companyReport:
+                        filters.companyReport === true
+                            ? { isNot: null }
+                            : filters.companyReport === false
+                              ? { is: null }
+                              : undefined
+                },
+                {
+                    status: { in: filters.statuses }
+                },
+                {
+                    governorate: filters.governorate
+                },
                 {
                     createdAt: {
                         gte: filters.startDate
@@ -1196,9 +1270,22 @@ export class OrderModel {
                     createdAt: {
                         lte: filters.endDate
                     }
+                },
+                {
+                    client: {
+                        id: filters.clientID
+                    }
+                },
+                {
+                    deliveryType: filters.deliveryType
+                },
+                {
+                    location: {
+                        id: filters.locationID
+                    }
                 }
             ]
-        };
+        } satisfies Prisma.OrderWhereInput;
 
         const ordersStatisticsByStatus = await prisma.order.groupBy({
             by: ["status"],
@@ -1238,10 +1325,27 @@ export class OrderModel {
             }
         });
 
+        const allOrdersStatisticsWithoutClientReport =
+            await prisma.order.aggregate({
+                _sum: {
+                    totalCost: true
+                },
+                _count: {
+                    id: true
+                },
+                where: {
+                    ...filtersReformed,
+                    clientReport: {
+                        is: null
+                    }
+                }
+            });
+
         return statisticsReformed({
             ordersStatisticsByStatus,
             ordersStatisticsByGovernorate,
-            allOrdersStatistics
+            allOrdersStatistics,
+            allOrdersStatisticsWithoutClientReport
         });
     }
 

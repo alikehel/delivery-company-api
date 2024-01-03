@@ -9,12 +9,10 @@ import {
     deactivateOrder,
     deleteOrder,
     getAllOrders,
-    getAllOrdersStatuses,
     getOrder,
     getOrderChatMembers,
     getOrderTimeline,
     getOrdersStatistics,
-    getTodayOrdersCountAndEarnings,
     reactivateOrder,
     updateOrder
 } from "./orders.controller";
@@ -97,7 +95,7 @@ router.route("/orders").get(
             required: false
         }
 
-        #swagger.parameters['status'] = {
+        #swagger.parameters['statuses'] = {
             in: 'query',
             description: '',
             required: false
@@ -171,23 +169,25 @@ router.route("/orders").get(
     */
 );
 
-router.route("/orders/statuses").get(
-    isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
-    getAllOrdersStatuses
-    /*
-        #swagger.tags = ['Orders Routes']
-    */
-);
+// TODO: Remove this route
+// router.route("/orders/statuses").get(
+//     isLoggedIn,
+//     // isAutherized([Role.SUPER_ADMIN]),
+//     getAllOrdersStatuses
+//     /*
+//         #swagger.tags = ['Orders Routes']
+//     */
+// );
 
-router.route("/orders/today").get(
-    isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
-    getTodayOrdersCountAndEarnings
-    /*
-        #swagger.tags = ['Orders Routes']
-    */
-);
+// TODO: Remove this route
+// router.route("/orders/today").get(
+//     isLoggedIn,
+//     // isAutherized([Role.SUPER_ADMIN]),
+//     getTodayOrdersCountAndEarnings
+//     /*
+//         #swagger.tags = ['Orders Routes']
+//     */
+// );
 
 router.route("/orders/statistics").get(
     isLoggedIn,
@@ -196,7 +196,19 @@ router.route("/orders/statistics").get(
     /*
         #swagger.tags = ['Orders Routes']
 
-        #swagger.parameters['status'] = {
+        #swagger.parameters['statuseses'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['delivery_type'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['location_id'] = {
             in: 'query',
             description: '',
             required: false
@@ -208,13 +220,49 @@ router.route("/orders/statistics").get(
             required: false
         }
 
-        #swagger.parameters['tenant_id'] = {
+        #swagger.parameters['client_id'] = {
             in: 'query',
             description: '',
             required: false
         }
 
-        #swagger.parameters['recorded'] = {
+        #swagger.parameters['company_id'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['client_report'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['branch_report'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['repository_report'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['delivery_agent_report'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['governorate_report'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['company_report'] = {
             in: 'query',
             description: '',
             required: false
@@ -227,6 +275,12 @@ router.route("/orders/statistics").get(
         }
 
         #swagger.parameters['end_date'] = {
+            in: 'query',
+            description: '',
+            required: false
+        }
+
+        #swagger.parameters['governorate'] = {
             in: 'query',
             description: '',
             required: false

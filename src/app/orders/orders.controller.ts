@@ -426,20 +426,70 @@ export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
 export const getOrdersStatistics = catchAsync(async (req, res) => {
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    // const tenantID = req.query.tenant_id ? +req.query.tenant_id : undefined;
+    const clientID = req.query.client_id ? +req.query.client_id : undefined;
+
+    const companyID = req.query.company_id ? +req.query.company_id : undefined;
 
     // TODO: Fix this
-    const recorded = (
-        req.query.recorded === "true"
+    const clientReport = (
+        req.query.client_report === "true"
             ? true
-            : req.query.recorded === "false"
+            : req.query.client_report === "false"
               ? false
               : undefined
     ) as boolean | undefined;
 
-    // const status = req.query.status?.toString().toUpperCase() as
-    //     | OrderStatus
-    //     | undefined;
+    const branchReport = (
+        req.query.branch_report === "true"
+            ? true
+            : req.query.branch_report === "false"
+              ? false
+              : undefined
+    ) as boolean | undefined;
+
+    const repositoryReport = (
+        req.query.repository_report === "true"
+            ? true
+            : req.query.repository_report === "false"
+              ? false
+              : undefined
+    ) as boolean | undefined;
+
+    const deliveryAgentReport = (
+        req.query.delivery_agent_report === "true"
+            ? true
+            : req.query.delivery_agent_report === "false"
+              ? false
+              : undefined
+    ) as boolean | undefined;
+
+    const governorateReport = (
+        req.query.governorate_report === "true"
+            ? true
+            : req.query.governorate_report === "false"
+              ? false
+              : undefined
+    ) as boolean | undefined;
+
+    const companyReport = (
+        req.query.company_report === "true"
+            ? true
+            : req.query.company_report === "false"
+              ? false
+              : undefined
+    ) as boolean | undefined;
+
+    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as
+        | OrderStatus[]
+        | undefined;
+
+    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
+        | DeliveryType
+        | undefined;
+
+    const locationID = req.query.location_id
+        ? +req.query.location_id
+        : undefined;
 
     const startDate = req.query.start_date
         ? new Date(req.query.start_date as string)
@@ -449,13 +499,26 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
         ? new Date(req.query.end_date as string)
         : undefined;
 
+    const governorate = req.query.governorate?.toString().toUpperCase() as
+        | Governorate
+        | undefined;
+
     const statistics = await orderModel.getOrdersStatistics({
         storeID: storeID,
-        // tenantID: tenantID,
-        recorded: recorded,
-        // status: status,
+        companyID: companyID,
+        clientReport: clientReport,
+        governorate: governorate,
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
+        clientID: clientID,
+        branchReport: branchReport,
+        repositoryReport: repositoryReport,
+        deliveryAgentReport: deliveryAgentReport,
+        governorateReport: governorateReport,
+        companyReport: companyReport,
+        statuses: statuses,
+        deliveryType: deliveryType,
+        locationID: locationID
     });
 
     res.status(200).json({
