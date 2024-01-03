@@ -146,52 +146,53 @@ export const orderReform = (
     };
 };
 
-const ordersStatusesReformed = (
-    ordersStatuses: (Prisma.PickEnumerable<
-        Prisma.OrderGroupByOutputType,
-        "status"[]
-    > & {
-        _count: {
-            status: number;
-        };
-    })[]
-) => {
-    const ordersStatusesReformed = (
-        Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-    ).map((status) => {
-        const statusCount = ordersStatuses.find(
-            (orderStatus: { status: string }) => {
-                return orderStatus.status === status;
-            }
-        );
+// TODO: Remove this
+// const ordersStatusesReformed = (
+//     ordersStatuses: (Prisma.PickEnumerable<
+//         Prisma.OrderGroupByOutputType,
+//         "status"[]
+//     > & {
+//         _count: {
+//             status: number;
+//         };
+//     })[]
+// ) => {
+//     const ordersStatusesReformed = (
+//         Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+//     ).map((status) => {
+//         const statusCount = ordersStatuses.find(
+//             (orderStatus: { status: string }) => {
+//                 return orderStatus.status === status;
+//             }
+//         );
 
-        return {
-            status: status,
-            count: statusCount?._count?.status || 0
-        };
-    });
+//         return {
+//             status: status,
+//             count: statusCount?._count?.status || 0
+//         };
+//     });
 
-    const sortingOrder = [
-        "WITH_DELIVERY_AGENT",
-        "POSTPONED",
-        "RESEND",
-        "PROCESSING",
-        "DELIVERED",
-        "PARTIALLY_RETURNED",
-        "REPLACED",
-        "CHANGE_ADDRESS",
-        "RETURNED",
-        "REGISTERED",
-        "WITH_RECEIVING_AGENT",
-        "READY_TO_SEND"
-    ];
+//     const sortingOrder = [
+//         "WITH_DELIVERY_AGENT",
+//         "POSTPONED",
+//         "RESEND",
+//         "PROCESSING",
+//         "DELIVERED",
+//         "PARTIALLY_RETURNED",
+//         "REPLACED",
+//         "CHANGE_ADDRESS",
+//         "RETURNED",
+//         "REGISTERED",
+//         "WITH_RECEIVING_AGENT",
+//         "READY_TO_SEND"
+//     ];
 
-    ordersStatusesReformed.sort((a, b) => {
-        return sortingOrder.indexOf(a.status) - sortingOrder.indexOf(b.status);
-    });
+//     ordersStatusesReformed.sort((a, b) => {
+//         return sortingOrder.indexOf(a.status) - sortingOrder.indexOf(b.status);
+//     });
 
-    return ordersStatusesReformed;
-};
+//     return ordersStatusesReformed;
+// };
 
 const statisticsReformed = (statistics: {
     ordersStatisticsByStatus: (Prisma.PickEnumerable<
@@ -235,22 +236,54 @@ const statisticsReformed = (statistics: {
             totalCost: Prisma.Decimal | null;
         };
     };
+
+    todayOrdersStatistics: {
+        _count: {
+            id: number;
+        };
+        _sum: {
+            totalCost: Prisma.Decimal | null;
+        };
+    };
 }) => {
+    const sortingOrder = [
+        "WITH_DELIVERY_AGENT",
+        "POSTPONED",
+        "RESEND",
+        "PROCESSING",
+        "DELIVERED",
+        "PARTIALLY_RETURNED",
+        "REPLACED",
+        "CHANGE_ADDRESS",
+        "RETURNED",
+        "REGISTERED",
+        "WITH_RECEIVING_AGENT",
+        "READY_TO_SEND"
+    ];
+
     const statisticsReformed = {
         ordersStatisticsByStatus: (
             Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-        ).map((status) => {
-            const statusCount = statistics.ordersStatisticsByStatus.find(
-                (orderStatus: { status: string }) => {
-                    return orderStatus.status === status;
-                }
-            );
-            return {
-                status: status,
-                totalCost: statusCount?._sum.totalCost || 0,
-                count: statusCount?._count.id || 0
-            };
-        }),
+        )
+            .map((status) => {
+                const statusCount = statistics.ordersStatisticsByStatus.find(
+                    (orderStatus: { status: string }) => {
+                        return orderStatus.status === status;
+                    }
+                );
+                return {
+                    status: status,
+                    totalCost: statusCount?._sum.totalCost || 0,
+                    count: statusCount?._count.id || 0
+                };
+            })
+            .sort((a, b) => {
+                return (
+                    sortingOrder.indexOf(a.status) -
+                    sortingOrder.indexOf(b.status)
+                );
+            }),
+
         ordersStatisticsByGovernorate: (
             Object.keys(Governorate) as Array<keyof typeof Governorate>
         ).map((governorate) => {
@@ -266,44 +299,52 @@ const statisticsReformed = (statistics: {
                 count: governorateCount?._count.id || 0
             };
         }),
+
         allOrdersStatistics: {
             totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
             count: statistics.allOrdersStatistics._count.id
         },
+
         allOrdersStatisticsWithoutClientReport: {
             totalCost:
                 statistics.allOrdersStatisticsWithoutClientReport._sum
                     .totalCost || 0,
             count: statistics.allOrdersStatisticsWithoutClientReport._count.id
+        },
+
+        todayOrdersStatistics: {
+            totalCost: statistics.todayOrdersStatistics._sum.totalCost || 0,
+            count: statistics.todayOrdersStatistics._count.id
         }
     };
 
     return statisticsReformed;
 };
 
-const todayOrdersCountAndEarningsReformed = (
-    todayOrdersCountAndEarnings: Prisma.GetOrderAggregateType<{
-        _sum: {
-            totalCost: true;
-            paidAmount: true;
-        };
-        _count: {
-            id: true;
-        };
-        where: {
-            createdAt: {
-                gte: Date;
-            };
-        };
-    }>
-) => {
-    const todayOrdersCountAndEarningsReformed = {
-        count: todayOrdersCountAndEarnings._count.id,
-        totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
-    };
+// TODO: Remove this
+// const todayOrdersCountAndEarningsReformed = (
+//     todayOrdersCountAndEarnings: Prisma.GetOrderAggregateType<{
+//         _sum: {
+//             totalCost: true;
+//             paidAmount: true;
+//         };
+//         _count: {
+//             id: true;
+//         };
+//         where: {
+//             createdAt: {
+//                 gte: Date;
+//             };
+//         };
+//     }>
+// ) => {
+//     const todayOrdersCountAndEarningsReformed = {
+//         count: todayOrdersCountAndEarnings._count.id,
+//         totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
+//     };
 
-    return todayOrdersCountAndEarningsReformed;
-};
+//     return todayOrdersCountAndEarningsReformed;
+// };
 
 const chatMembersReformed = (
     chatMembers: Prisma.OrderGetPayload<{
@@ -1152,33 +1193,33 @@ export class OrderModel {
         return deletedOrder;
     }
 
-    async getAllOrdersStatuses() {
-        const ordersStatuses = await prisma.order.groupBy({
-            by: ["status"],
-            _count: {
-                status: true
-            }
-        });
-        return ordersStatusesReformed(ordersStatuses);
-    }
+    // async getAllOrdersStatuses() {
+    //     const ordersStatuses = await prisma.order.groupBy({
+    //         by: ["status"],
+    //         _count: {
+    //             status: true
+    //         }
+    //     });
+    //     return ordersStatusesReformed(ordersStatuses);
+    // }
 
-    async getTodayOrdersCountAndEarnings() {
-        const todayOrdersCountAndEarnings = await prisma.order.aggregate({
-            _sum: {
-                totalCost: true,
-                paidAmount: true
-            },
-            _count: {
-                id: true
-            },
-            where: {
-                createdAt: {
-                    gte: new Date(new Date().setHours(0, 0, 0, 0))
-                }
-            }
-        });
-        return todayOrdersCountAndEarningsReformed(todayOrdersCountAndEarnings);
-    }
+    // async getTodayOrdersCountAndEarnings() {
+    //     const todayOrdersCountAndEarnings = await prisma.order.aggregate({
+    //         _sum: {
+    //             totalCost: true,
+    //             paidAmount: true
+    //         },
+    //         _count: {
+    //             id: true
+    //         },
+    //         where: {
+    //             createdAt: {
+    //                 gte: new Date(new Date().setHours(0, 0, 0, 0))
+    //             }
+    //         }
+    //     });
+    //     return todayOrdersCountAndEarningsReformed(todayOrdersCountAndEarnings);
+    // }
 
     async getOrdersStatistics(filters: {
         companyID?: number;
@@ -1341,11 +1382,27 @@ export class OrderModel {
                 }
             });
 
+        const todayOrdersStatistics = await prisma.order.aggregate({
+            _sum: {
+                totalCost: true
+            },
+            _count: {
+                id: true
+            },
+            where: {
+                ...filtersReformed,
+                createdAt: {
+                    gte: new Date(new Date().setHours(0, 0, 0, 0))
+                }
+            }
+        });
+
         return statisticsReformed({
             ordersStatisticsByStatus,
             ordersStatisticsByGovernorate,
             allOrdersStatistics,
-            allOrdersStatisticsWithoutClientReport
+            allOrdersStatisticsWithoutClientReport,
+            todayOrdersStatistics
         });
     }
 

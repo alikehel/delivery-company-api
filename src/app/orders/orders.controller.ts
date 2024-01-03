@@ -404,24 +404,26 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
     pdf.end();
 });
 
-export const getAllOrdersStatuses = catchAsync(async (req, res) => {
-    const ordersStatuses = await orderModel.getAllOrdersStatuses();
+// TODO: Remove this
+// export const getAllOrdersStatuses = catchAsync(async (req, res) => {
+//     const ordersStatuses = await orderModel.getAllOrdersStatuses();
 
-    res.status(200).json({
-        status: "success",
-        data: ordersStatuses
-    });
-});
+//     res.status(200).json({
+//         status: "success",
+//         data: ordersStatuses
+//     });
+// });
 
-export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
-    const todayOrdersCountAndEarnings =
-        await orderModel.getTodayOrdersCountAndEarnings();
+// TODO: Remove this
+// export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
+//     const todayOrdersCountAndEarnings =
+//         await orderModel.getTodayOrdersCountAndEarnings();
 
-    res.status(200).json({
-        status: "success",
-        data: todayOrdersCountAndEarnings
-    });
-});
+//     res.status(200).json({
+//         status: "success",
+//         data: todayOrdersCountAndEarnings
+//     });
+// });
 
 export const getOrdersStatistics = catchAsync(async (req, res) => {
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
