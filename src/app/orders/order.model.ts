@@ -1,5 +1,6 @@
 import {
     DeliveryType,
+    EmployeeRole,
     Governorate,
     OrderStatus,
     Prisma,
@@ -345,51 +346,6 @@ const statisticsReformed = (statistics: {
 
 //     return todayOrdersCountAndEarningsReformed;
 // };
-
-const chatMembersReformed = (
-    chatMembers: Prisma.OrderGetPayload<{
-        select: {
-            client: {
-                select: {
-                    user: {
-                        select: {
-                            id: true;
-                            name: true;
-                            phone: true;
-                            avatar: true;
-                        };
-                    };
-                };
-            };
-            deliveryAgent: {
-                select: {
-                    user: {
-                        select: {
-                            id: true;
-                            name: true;
-                            phone: true;
-                            avatar: true;
-                        };
-                    };
-                };
-            };
-        };
-    }> | null
-) => {
-    if (!chatMembers) {
-        return null;
-    }
-    return [
-        {
-            ...chatMembers.client?.user,
-            role: "client"
-        },
-        {
-            ...chatMembers.deliveryAgent?.user,
-            role: "deliveryAgent"
-        }
-    ];
-};
 
 export class OrderModel {
     async createOrder(
@@ -1437,6 +1393,14 @@ export class OrderModel {
     }
 
     async getOrderChatMembers(data: { orderID: number }) {
+        /*
+            chatMembers:
+                CLIENT
+                DELIVERY_AGENT
+                RECEIVING_AGENT
+                BRANCH_MANAGER
+                INQUIRY_EMPLOYEE
+        */
         const orderChatMembers = await prisma.order.findUnique({
             where: {
                 id: data.orderID
@@ -1444,6 +1408,7 @@ export class OrderModel {
             select: {
                 client: {
                     select: {
+                        role: true,
                         user: {
                             select: {
                                 id: true,
@@ -1456,6 +1421,7 @@ export class OrderModel {
                 },
                 deliveryAgent: {
                     select: {
+                        role: true,
                         user: {
                             select: {
                                 id: true,
@@ -1465,9 +1431,69 @@ export class OrderModel {
                             }
                         }
                     }
+                },
+                branch: {
+                    select: {
+                        employees: {
+                            select: {
+                                role: true,
+                                user: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        phone: true,
+                                        avatar: true
+                                    }
+                                }
+                            },
+                            where: {
+                                role: {
+                                    in: [
+                                        EmployeeRole.BRANCH_MANAGER,
+                                        EmployeeRole.INQUIRY_EMPLOYEE
+                                    ]
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
-        return chatMembersReformed(orderChatMembers);
+
+        // array of chat members with no nulls
+
+        if (!orderChatMembers) {
+            throw new AppError("الطلب غير موجود", 404);
+        }
+
+        const chatMembers = [
+            orderChatMembers?.client && {
+                id: orderChatMembers?.client?.user?.id,
+                name: orderChatMembers?.client?.user?.name,
+                phone: orderChatMembers?.client?.user?.phone,
+                avatar: orderChatMembers?.client?.user?.avatar,
+                role: orderChatMembers?.client?.role
+            },
+            orderChatMembers?.deliveryAgent && {
+                id: orderChatMembers?.deliveryAgent?.user?.id,
+                name: orderChatMembers?.deliveryAgent?.user?.name,
+                phone: orderChatMembers?.deliveryAgent?.user?.phone,
+                avatar: orderChatMembers?.deliveryAgent?.user?.avatar,
+                role: orderChatMembers?.deliveryAgent?.role
+            },
+            ...(orderChatMembers?.branch?.employees?.map((employee) => {
+                return {
+                    id: employee.user?.id ?? null,
+                    name: employee.user?.name ?? null,
+                    phone: employee.user?.phone ?? null,
+                    avatar: employee.user?.avatar ?? null,
+                    role: employee.role ?? null
+                };
+            }) ?? [])
+        ].filter((chatMember) => {
+            return chatMember !== null;
+        });
+
+        return chatMembers;
     }
 }
