@@ -198,8 +198,8 @@ model Employee {
   id Int @id
   // userId Int @unique
 
-  salary       Decimal? @default(0)
-  deliveryCost Decimal? @default(0)
+  salary       Float? @default(0)
+  deliveryCost Float? @default(0)
   branchId     Int?
   repositoryId Int?
 
@@ -353,13 +353,13 @@ model Company {
   logo                                    String?
   color                                   String            @default("FF0000")
   registrationText                        String?
-  governoratePrice                        Decimal           @default(0)
-  deliveryAgentFee                        Decimal           @default(0)
-  // deliveryPrice              Decimal  @default(0)
-  baghdadPrice                            Decimal           @default(0)
-  additionalPriceForEvery500000IraqiDinar Decimal           @default(0)
-  additionalPriceForEveryKilogram         Decimal           @default(0)
-  additionalPriceForRemoteAreas           Decimal           @default(0)
+  governoratePrice                        Float             @default(0)
+  deliveryAgentFee                        Float             @default(0)
+  // deliveryPrice              Float  @default(0)
+  baghdadPrice                            Float             @default(0)
+  additionalPriceForEvery500000IraqiDinar Float             @default(0)
+  additionalPriceForEveryKilogram         Float             @default(0)
+  additionalPriceForRemoteAreas           Float             @default(0)
   orderStatusAutomaticUpdate              Boolean           @default(false)
   // mainCompany                Boolean  @default(false)
   createdAt                               DateTime          @default(now())
@@ -384,14 +384,14 @@ model Company {
 
 model Order {
   id                    Int                  @id @default(autoincrement())
-  totalCost             Decimal              @default(0)
-  paidAmount            Decimal?             @default(0)
-  deliveryCost          Decimal?             @default(0)
-  clientNet             Decimal?             @default(0)
+  totalCost             Float                @default(0)
+  paidAmount            Float?               @default(0)
+  deliveryCost          Float?               @default(0)
+  clientNet             Float?               @default(0)
   // TODO: remove this field
-  deliveryAgentNet      Decimal?             @default(0)
-  companyNet            Decimal?             @default(0)
-  discount              Decimal?             @default(0)
+  deliveryAgentNet      Float?               @default(0)
+  companyNet            Float?               @default(0)
+  discount              Float?               @default(0)
   // TODO
   receiptNumber         Int                  @default(autoincrement())
   quantity              Int                  @default(0)
@@ -457,12 +457,12 @@ model Report {
   deletedById             Int?
   baghdadOrdersCount      Int?         @default(0)
   governoratesOrdersCount Int?         @default(0)
-  totalCost               Decimal      @default(0)
-  paidAmount              Decimal      @default(0)
-  deliveryCost            Decimal      @default(0)
-  clientNet               Decimal      @default(0)
-  deliveryAgentNet        Decimal      @default(0)
-  companyNet              Decimal      @default(0)
+  totalCost               Float        @default(0)
+  paidAmount              Float        @default(0)
+  deliveryCost            Float        @default(0)
+  clientNet               Float        @default(0)
+  deliveryAgentNet        Float        @default(0)
+  companyNet              Float        @default(0)
 
   createdBy           Employee             @relation(fields: [employeeId], references: [id])
   employeeId          Int
@@ -528,7 +528,7 @@ model GovernorateReport {
 model Product {
   id            Int             @id @default(autoincrement())
   title         String
-  price         Decimal
+  price         Float
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   image         String?

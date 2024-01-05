@@ -204,7 +204,7 @@ const statisticsReformed = (statistics: {
             id: number;
         };
         _sum: {
-            totalCost: Prisma.Decimal | null;
+            totalCost: number | null;
         };
     })[];
 
@@ -216,7 +216,7 @@ const statisticsReformed = (statistics: {
             id: number;
         };
         _sum: {
-            totalCost: Prisma.Decimal | null;
+            totalCost: number | null;
         };
     })[];
 
@@ -225,7 +225,7 @@ const statisticsReformed = (statistics: {
             id: number;
         };
         _sum: {
-            totalCost: Prisma.Decimal | null;
+            totalCost: number | null;
         };
     };
 
@@ -234,7 +234,7 @@ const statisticsReformed = (statistics: {
             id: number;
         };
         _sum: {
-            totalCost: Prisma.Decimal | null;
+            totalCost: number | null;
         };
     };
 
@@ -243,7 +243,7 @@ const statisticsReformed = (statistics: {
             id: number;
         };
         _sum: {
-            totalCost: Prisma.Decimal | null;
+            totalCost: number | null;
         };
     };
 }) => {
