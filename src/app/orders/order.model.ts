@@ -801,9 +801,11 @@ export class OrderModel {
                                 }
                             },
                             {
-                                recipientPhones: {
-                                    has: filters.search
-                                }
+                                recipientPhones: filters.search
+                                    ? {
+                                          has: filters.search
+                                      }
+                                    : undefined
                             },
                             {
                                 recipientAddress: {
@@ -907,9 +909,11 @@ export class OrderModel {
                     },
                     // Filter by recipientPhone
                     {
-                        recipientPhones: {
-                            has: filters.recipientPhone
-                        }
+                        recipientPhones: filters.recipientPhone
+                            ? {
+                                  has: filters.recipientPhone
+                              }
+                            : undefined
                     },
                     // Filter by recipientAddress
                     {
