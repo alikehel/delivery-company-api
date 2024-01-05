@@ -28,7 +28,7 @@ export const orderSelect = {
     quantity: true,
     weight: true,
     recipientName: true,
-    recipientPhone: true,
+    recipientPhones: true,
     recipientAddress: true,
     notes: true,
     details: true,
@@ -534,7 +534,7 @@ export class OrderModel {
                     data.withProducts === false ? data.quantity : quantity,
                 weight: data.withProducts === false ? data.weight : weight,
                 recipientName: data.recipientName,
-                recipientPhone: data.recipientPhone,
+                recipientPhones: data.recipientPhones,
                 receiptNumber: data.receiptNumber,
                 recipientAddress: data.recipientAddress,
                 notes: data.notes,
@@ -801,9 +801,8 @@ export class OrderModel {
                                 }
                             },
                             {
-                                recipientPhone: {
-                                    contains: filters.search,
-                                    mode: "insensitive"
+                                recipientPhones: {
+                                    has: filters.search
                                 }
                             },
                             {
@@ -908,7 +907,9 @@ export class OrderModel {
                     },
                     // Filter by recipientPhone
                     {
-                        recipientPhone: filters.recipientPhone
+                        recipientPhones: {
+                            has: filters.recipientPhone
+                        }
                     },
                     // Filter by recipientAddress
                     {
@@ -1076,7 +1077,7 @@ export class OrderModel {
                 companyNet: companyNet,
                 discount: data.orderData.discount,
                 recipientName: data.orderData.recipientName,
-                recipientPhone: data.orderData.recipientPhone,
+                recipientPhones: data.orderData.recipientPhones,
                 recipientAddress: data.orderData.recipientAddress,
                 notes: data.orderData.notes,
                 currentLocation: data.orderData.currentLocation,

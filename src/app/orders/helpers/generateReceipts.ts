@@ -88,12 +88,17 @@ export const generateReceipts = async (
                         body: [
                             [
                                 handleArabicCharacters("العنوان"),
-                                handleArabicCharacters("رقم الهاتف"),
+                                handleArabicCharacters("ارقام الهاتف"),
                                 handleArabicCharacters("اسم المستلم")
                             ],
                             [
                                 order.recipientAddress || "",
-                                order.recipientPhone || "",
+                                order.recipientPhones.map((phone, i) => {
+                                    return i ===
+                                        order.recipientPhones.length - 1
+                                        ? phone
+                                        : phone + " - ";
+                                }) || "",
                                 order.recipientName
                             ]
                         ]

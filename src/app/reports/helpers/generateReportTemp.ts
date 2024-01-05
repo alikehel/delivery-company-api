@@ -132,24 +132,28 @@ export const generateReport = async (
                                             ? reportData.clientReport?.client
                                                   .name
                                             : reportType === "REPOSITORY"
-                                            ? reportData.repositoryReport
-                                                  ?.repository.name
-                                            : reportType === "BRANCH"
-                                            ? reportData.branchReport?.branch
-                                                  .name
-                                            : reportType === "GOVERNORATE" &&
-                                              reportData.governorateReport
-                                            ? localizeGovernorate(
-                                                  reportData.governorateReport
-                                                      .governorate
-                                              )
-                                            : reportType === "DELIVERY_AGENT"
-                                            ? reportData.deliveryAgentReport
-                                                  ?.deliveryAgent.name
-                                            : reportType === "COMPANY"
-                                            ? reportData.companyReport?.company
-                                                  .name
-                                            : ""
+                                              ? reportData.repositoryReport
+                                                    ?.repository.name
+                                              : reportType === "BRANCH"
+                                                ? reportData.branchReport
+                                                      ?.branch.name
+                                                : reportType ===
+                                                        "GOVERNORATE" &&
+                                                    reportData.governorateReport
+                                                  ? localizeGovernorate(
+                                                        reportData
+                                                            .governorateReport
+                                                            .governorate
+                                                    )
+                                                  : reportType ===
+                                                      "DELIVERY_AGENT"
+                                                    ? reportData
+                                                          .deliveryAgentReport
+                                                          ?.deliveryAgent.name
+                                                    : reportType === "COMPANY"
+                                                      ? reportData.companyReport
+                                                            ?.company.name
+                                                      : ""
                                     ),
                                     noWrap: true
                                 },
@@ -184,12 +188,12 @@ export const generateReport = async (
                                                   `صافي العميل: ${reportData.clientNet}`
                                               )
                                             : reportType === "BRANCH" ||
-                                              reportType === "GOVERNORATE" ||
-                                              reportType === "DELIVERY_AGENT"
-                                            ? handleArabicCharacters(
-                                                  `صافي الشركة: ${reportData.companyNet}`
-                                              )
-                                            : "",
+                                                reportType === "GOVERNORATE" ||
+                                                reportType === "DELIVERY_AGENT"
+                                              ? handleArabicCharacters(
+                                                    `صافي الشركة: ${reportData.companyNet}`
+                                                )
+                                              : "",
                                     noWrap: true
                                 }
                             ]
@@ -366,7 +370,14 @@ export const generateReport = async (
                                         )
                                 },
                                 {
-                                    text: order.recipientPhone
+                                    text: order.recipientPhones.map(
+                                        (phone, i) => {
+                                            return i ===
+                                                order.recipientPhones.length - 1
+                                                ? phone
+                                                : phone + " - ";
+                                        }
+                                    )
                                 },
                                 {
                                     text: order.createdAt.toLocaleDateString()

@@ -397,7 +397,7 @@ model Order {
   quantity              Int                  @default(0)
   weight                Float                @default(0)
   recipientName         String
-  recipientPhone        String
+  recipientPhones       String[]
   recipientAddress      String
   // TODO: remove this field
   // recorded         Boolean         @default(false)
