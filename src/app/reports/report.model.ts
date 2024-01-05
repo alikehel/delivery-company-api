@@ -12,6 +12,7 @@ const prisma = new PrismaClient();
 export const reportSelect = {
     id: true,
     status: true,
+    confirmed: true,
     createdBy: {
         select: {
             id: true,
@@ -465,7 +466,8 @@ export class ReportModel {
                 id: data.reportID
             },
             data: {
-                status: data.reportData.status
+                status: data.reportData.status,
+                confirmed: data.reportData.confirmed
             },
             select: reportSelect
         });

@@ -309,21 +309,21 @@ export class ReportService {
             ? // @tts-expect-error: Unreachable code error
               reportData?.repositoryReport.repositoryReportOrders
             : reportData?.branchReport
-            ? // @tts-expect-error: Unreachable code error
-              reportData?.branchReport.branchReportOrders
-            : reportData?.clientReport
-            ? // @tts-expect-error: Unreachable code error
-              reportData?.clientReport.clientReportOrders
-            : reportData?.deliveryAgentReport
-            ? // @tts-expect-error: Unreachable code error
-              reportData?.deliveryAgentReport.deliveryAgentReportOrders
-            : reportData?.governorateReport
-            ? // @tts-expect-error: Unreachable code error
-              reportData?.governorateReport.governorateReportOrders
-            : reportData?.companyReport
-            ? // @tts-expect-error: Unreachable code error
-              reportData?.companyReport.companyReportOrders
-            : [];
+              ? // @tts-expect-error: Unreachable code error
+                reportData?.branchReport.branchReportOrders
+              : reportData?.clientReport
+                ? // @tts-expect-error: Unreachable code error
+                  reportData?.clientReport.clientReportOrders
+                : reportData?.deliveryAgentReport
+                  ? // @tts-expect-error: Unreachable code error
+                    reportData?.deliveryAgentReport.deliveryAgentReportOrders
+                  : reportData?.governorateReport
+                    ? // @tts-expect-error: Unreachable code error
+                      reportData?.governorateReport.governorateReportOrders
+                    : reportData?.companyReport
+                      ? // @tts-expect-error: Unreachable code error
+                        reportData?.companyReport.companyReportOrders
+                      : [];
 
         const ordersIDs = orders.map((order) => order.id);
 
@@ -339,6 +339,63 @@ export class ReportService {
             ordersData
         );
         return pdf;
+    }
+
+    // updateReport = catchAsync(async (req, res) => {
+    //     const reportID = +req.params["reportID"];
+    //     const loggedInUser = res.locals.user;
+
+    //     const reportData = ReportUpdateSchema.parse(req.body);
+
+    //     if (
+    //         reportData.confirmed === false &&
+    //         loggedInUser.role !== "SUPER_ADMIN"
+    //     ) {
+    //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
+    //     }
+
+    //     const report = await reportModel.updateReport({
+    //         reportID: reportID,
+    //         reportData: reportData
+    //     });
+
+    //     res.status(200).json({
+    //         status: "success",
+    //         data: report
+    //     });
+    // });
+
+    async updateReport(data: {
+        reportID: number;
+        loggedInUser: {
+            id: number;
+            name: string;
+            role: string;
+        };
+        reportData: {
+            status: ReportStatus;
+            confirmed?: boolean;
+        };
+    }) {
+        const reportID = data.reportID;
+        const loggedInUser = data.loggedInUser;
+
+        const reportData = data.reportData;
+
+        if (
+            reportData.confirmed === false &&
+            (loggedInUser.role === "CLIENT" ||
+                loggedInUser.role === "CLIENT_ASSISTANT")
+        ) {
+            throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
+        }
+
+        const report = await reportModel.updateReport({
+            reportID: reportID,
+            reportData: reportData
+        });
+
+        return report;
     }
 
     async deleteReport(reportID: number) {

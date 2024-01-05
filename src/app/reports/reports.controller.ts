@@ -104,12 +104,14 @@ export class ReportController {
 
     updateReport = catchAsync(async (req, res) => {
         const reportID = +req.params["reportID"];
+        const loggedInUser = res.locals.user;
 
         const reportData = ReportUpdateSchema.parse(req.body);
 
-        const report = await reportModel.updateReport({
+        const report = await reportService.updateReport({
             reportID: reportID,
-            reportData: reportData
+            reportData: reportData,
+            loggedInUser: loggedInUser
         });
 
         res.status(200).json({

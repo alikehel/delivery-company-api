@@ -46,7 +46,8 @@ export const ReportCreateMock = generateMock(ReportCreateSchema);
 /* --------------------------------------------------------------- */
 
 export const ReportUpdateSchema = z.object({
-    status: z.nativeEnum(ReportStatus)
+    status: z.nativeEnum(ReportStatus),
+    confirmed: z.boolean().optional()
 });
 
 export type ReportUpdateType = z.infer<typeof ReportUpdateSchema>;
