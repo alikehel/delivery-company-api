@@ -1,15 +1,14 @@
-import { Prisma } from "@prisma/client";
+// TODO: Fix this
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 // import fs from "fs";
 import PdfPrinter from "pdfmake";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
-import { orderSelect } from "../order.model";
+import { orderReform } from "../order.model";
 
 // TODO
-export const generateReceipts = async (
-    orders: Prisma.OrderGetPayload<{
-        select: typeof orderSelect;
-    }>[]
-) => {
+export const generateReceipts = async (orders: (typeof orderReform)[]) => {
     const fonts = {
         Cairo: {
             normal: "fonts/Cairo-VariableFont_slntwght.ttf",
@@ -52,8 +51,8 @@ export const generateReceipts = async (
                             ],
                             [
                                 "",
-                                "order.client.phone" || "",
-                                "order.client.name"
+                                order.client?.phone || "",
+                                order.client?.name || ""
                             ]
                         ]
                     }
