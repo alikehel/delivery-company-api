@@ -212,16 +212,18 @@ export class ProductModel {
                 price: data.productData.price,
                 image: data.productData.image,
                 stock: data.productData.stock,
-                store: {
-                    connect: {
-                        id: data.productData.storeID
-                    }
-                },
-                client: {
-                    connect: {
-                        id: data.loggedInUserID
-                    }
-                },
+                store: data.productData.storeID
+                    ? {
+                          connect: {
+                              id: data.productData.storeID
+                          }
+                      }
+                    : undefined,
+                // client: {
+                //     connect: {
+                //         id: data.loggedInUserID
+                //     }
+                // },
                 category: data.productData.categoryID
                     ? {
                           connect: {
