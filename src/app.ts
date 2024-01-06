@@ -62,10 +62,9 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 
 // Function to serve all static files
-// app.use(express.static("uploads/images"));
 // app.use("/uploads", express.static("uploads"));
 // app.use("/storage", express.static("storage"));
-// app.use("/assets", express.static("assets"));
+app.use("/static", express.static("static"));
 app.use(
     "/logs",
     // isLoggedIn,

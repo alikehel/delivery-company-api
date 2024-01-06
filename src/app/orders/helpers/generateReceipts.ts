@@ -11,10 +11,10 @@ import { orderReform } from "../order.model";
 export const generateReceipts = async (orders: (typeof orderReform)[]) => {
     const fonts = {
         Cairo: {
-            normal: "fonts/Cairo-VariableFont_slntwght.ttf",
-            bold: "fonts/Cairo-VariableFont_slntwght.ttf",
-            italics: "fonts/Cairo-VariableFont_slntwght.ttf",
-            bolditalics: "fonts/Cairo-VariableFont_slntwght.ttf"
+            normal: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+            bold: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+            italics: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+            bolditalics: "static/fonts/Cairo-VariableFont_slntwght.ttf"
         }
     };
 
@@ -33,7 +33,7 @@ export const generateReceipts = async (orders: (typeof orderReform)[]) => {
         content: orders.map((order) => {
             return [
                 {
-                    image: "assets/albarq-logo.png",
+                    image: order.company.logo,
                     width: 80
                 },
                 { text: "\n" },

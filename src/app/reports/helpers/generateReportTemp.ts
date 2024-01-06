@@ -27,16 +27,16 @@ export const generateReport = async (
 
         const fonts = {
             Cairo: {
-                normal: "fonts/Cairo-VariableFont_slntwght.ttf",
-                bold: "fonts/Cairo-VariableFont_slntwght.ttf",
-                italics: "fonts/Cairo-VariableFont_slntwght.ttf",
-                bolditalics: "fonts/Cairo-VariableFont_slntwght.ttf"
+                normal: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+                bold: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+                italics: "static/fonts/Cairo-VariableFont_slntwght.ttf",
+                bolditalics: "static/fonts/Cairo-VariableFont_slntwght.ttf"
             },
             Amiri: {
-                normal: "fonts/Amiri-Regular.ttf",
-                bold: "fonts/Amiri-Bold.ttf",
-                italics: "fonts/Amiri-Italic.ttf",
-                bolditalics: "fonts/Amiri-BoldItalic.ttf"
+                normal: "static/fonts/Amiri-Regular.ttf",
+                bold: "static/fonts/Amiri-Bold.ttf",
+                italics: "static/fonts/Amiri-Italic.ttf",
+                bolditalics: "static/fonts/Amiri-BoldItalic.ttf"
             }
         };
 
@@ -78,7 +78,7 @@ export const generateReport = async (
             // direction: "rtl" // Right-to-left text direction for Arabic
             content: [
                 // {
-                //     image: "assets/albarq-logo.png",
+                //     image: "static/assets/albarq-logo.png",
                 //     width: 80
                 // },
                 // { text: "\n" },
@@ -92,7 +92,7 @@ export const generateReport = async (
                             [
                                 {
                                     rowSpan: 3,
-                                    image: "assets/albarq-logo.png",
+                                    image: orderReform.company.logo,
                                     width: 100
                                 },
                                 {
