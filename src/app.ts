@@ -8,7 +8,9 @@ import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 
 // import { Role } from "@prisma/client";
+import morganBody from "morgan-body";
 import globalErrorcontroller from "./error/error.controller";
+import Logger from "./lib/logger";
 import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import {
     morganMiddleware,
@@ -45,9 +47,15 @@ app.use(
 
 // Middlewares
 
-app.use(morganMiddlewareImmediate);
-app.use(morganMiddleware);
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(morganMiddlewareImmediate);
+morganBody(app, {
+    stream: {
+        // @ts-expect-error Fix later
+        write: (message) => Logger.http(message.replace(/\n$/, ""))
+    }
+});
+app.use(morganMiddleware);
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 app.use(helmet()); // Set security HTTP headers
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
