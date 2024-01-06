@@ -7,6 +7,7 @@ import sendNotification from "../notifications/helpers/sendNotification";
 import { generateReceipts } from "./helpers/generateReceipts";
 import { OrderModel } from "./order.model";
 import {
+    OrderChatNotificationCreateSchema,
     OrderCreateSchema,
     OrderCreateType,
     OrderTimelineType,
@@ -580,3 +581,40 @@ export const reactivateOrder = catchAsync(async (req, res) => {
         status: "success"
     });
 });
+
+export const sendNotificationToOrderChatMembers = catchAsync(
+    async (req, res) => {
+        const orderID = +req.params["orderID"];
+        const loggedInUser = res.locals.user;
+
+        const notificationData = OrderChatNotificationCreateSchema.parse(
+            req.body
+        );
+
+        const orderChatMembers = await orderModel.getOrderChatMembers({
+            orderID: orderID
+        });
+
+        const notificationPromises = orderChatMembers.map((member) => {
+            if (!member) {
+                return Promise.resolve();
+            }
+            if (member.id === loggedInUser.id) {
+                return Promise.resolve();
+            }
+            return sendNotification({
+                userID: member.id,
+                title: notificationData.title,
+                content:
+                    notificationData.content ||
+                    `تم إرسال رسالة جديدة في الطلب رقم ${orderID} من قبل ${loggedInUser.name}`
+            });
+        });
+
+        await Promise.all(notificationPromises);
+
+        res.status(200).json({
+            status: "success"
+        });
+    }
+);

@@ -14,6 +14,7 @@ import {
     getOrderTimeline,
     getOrdersStatistics,
     reactivateOrder,
+    sendNotificationToOrderChatMembers,
     updateOrder
 } from "./orders.controller";
 
@@ -310,6 +311,15 @@ router.route("/orders/:orderID/chat-members").get(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     getOrderChatMembers
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
+router.route("/orders/:orderID/chat").post(
+    isLoggedIn,
+    // isAutherized([Role.SUPER_ADMIN]),
+    sendNotificationToOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
     */

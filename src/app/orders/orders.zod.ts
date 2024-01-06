@@ -169,3 +169,20 @@ export const OrderTimelinePieceSchema = z
 export const OrderTimelineSchema = z.array(OrderTimelinePieceSchema);
 
 export type OrderTimelineType = z.infer<typeof OrderTimelineSchema>;
+
+/* --------------------------------------------------------------- */
+
+export const OrderChatNotificationCreateSchema = z.object({
+    title: z.string().optional().default("رسالة جديدة"),
+    content: z.string().optional()
+});
+
+export type OrderChatNotificationCreateType = z.infer<
+    typeof OrderChatNotificationCreateSchema
+>;
+
+// export const OrderChatNotificationCreateOpenAPISchema = generateSchema(
+//     OrderChatNotificationCreateSchema
+// );
+
+// export const OrderChatNotificationCreateMock = generateMock(ChatNotificationCreateSchema);
