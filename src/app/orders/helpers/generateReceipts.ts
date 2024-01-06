@@ -159,7 +159,7 @@ export const generateReceipts = async (orders: (typeof orderReform)[]) => {
                 },
                 { text: "\n" },
                 {
-                    qr: order.receiptNumber.toString(),
+                    qr: order.id.toString(),
                     pageBreak: "after" as const
                 }
             ];
