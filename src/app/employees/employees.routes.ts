@@ -3,7 +3,7 @@ import { Router } from "express";
 // import { EmployeeRole } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import { upload } from "../../middlewares/upload.middleware";
+// import { upload } from "../../middlewares/upload.middleware";
 import {
     createEmployee,
     deactivateEmployee,
@@ -19,7 +19,7 @@ const router = Router();
 router.route("/employees").post(
     isLoggedIn,
     // isAutherized([EmployeeRole.SUPER_ADMIN]),
-    upload.single("avatar"),
+    // upload.single("avatar"),
     createEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -77,7 +77,7 @@ router.route("/employees/:employeeID").get(
 router.route("/employees/:employeeID").patch(
     isLoggedIn,
     // isAutherized([EmployeeRole.SUPER_ADMIN]),
-    upload.single("avatar"),
+    // upload.single("avatar"),
     updateEmployee
     /*
         #swagger.tags = ['Employees Routes']

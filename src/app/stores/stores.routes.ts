@@ -3,7 +3,7 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import { upload } from "../../middlewares/upload.middleware";
+// import { upload } from "../../middlewares/upload.middleware";
 import {
     createStore,
     deactivateStore,
@@ -19,7 +19,7 @@ const router = Router();
 router.route("/stores").post(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
-    upload.single("logo"),
+    // upload.single("logo"),
     createStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -71,7 +71,7 @@ router.route("/stores/:storeID").get(
 router.route("/stores/:storeID").patch(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
-    upload.single("logo"),
+    // upload.single("logo"),
     updateStore
     /*
         #swagger.tags = ['Stores Routes']

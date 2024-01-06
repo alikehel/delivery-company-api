@@ -11,7 +11,7 @@ import swaggerUi from "swagger-ui-express";
 import morganBody from "morgan-body";
 import globalErrorcontroller from "./error/error.controller";
 import Logger from "./lib/logger";
-import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
+// import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import {
     morganMiddleware,
     morganMiddlewareImmediate
@@ -63,11 +63,12 @@ app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 
 // Function to serve all static files
 // app.use(express.static("uploads/images"));
-app.use("/uploads", express.static("uploads"));
-app.use("/storage", express.static("storage"));
+// app.use("/uploads", express.static("uploads"));
+// app.use("/storage", express.static("storage"));
+// app.use("/assets", express.static("assets"));
 app.use(
     "/logs",
-    isLoggedIn,
+    // isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     express.static("logs")
 );

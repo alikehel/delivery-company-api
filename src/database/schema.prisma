@@ -170,7 +170,7 @@ model User {
 
   phone  String?
   fcm    String?
-  avatar String?
+  avatar String? @default("https://placehold.co/400?text=USER+AVATAR+PLACEHOLDER&font=raleway")
 
   admin    Admin?
   employee Employee?
@@ -266,7 +266,7 @@ model Store {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  logo      String?
+  logo      String?  @default("https://placehold.co/400?text=STORE+LOGO+PLACEHOLDER&font=raleway")
   notes     String?
 
   client        Client         @relation(fields: [clientId], references: [id])
@@ -350,7 +350,7 @@ model Company {
   name                                    String            @unique
   phone                                   String?
   website                                 String?
-  logo                                    String?
+  logo                                    String?           @default("https://placehold.co/400?text=COMPANY+LOGO+PLACEHOLDER&font=raleway")
   color                                   String            @default("FF0000")
   registrationText                        String?
   governoratePrice                        Float             @default(0)
@@ -532,7 +532,7 @@ model Product {
   price         Float
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  image         String?
+  image         String?         @default("https://placehold.co/400?text=PRODUCT+IMAGE+PLACEHOLDER&font=raleway")
   stock         Int             @default(0)
   weight        Float           @default(0)
   store         Store           @relation(fields: [storeId], references: [id])
@@ -636,7 +636,7 @@ model Banner {
   updatedAt DateTime @updatedAt
   title     String
   content   String?
-  image     String?
+  image     String?  @default("https://placehold.co/400?text=BANNER+IMAGE+PLACEHOLDER&font=raleway")
   url       String?
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
