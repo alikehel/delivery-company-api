@@ -3,6 +3,7 @@ import { Router } from "express";
 import catchAsync from "../utils/catchAsync.util";
 
 import authRoutes from "../app/auth/auth.routes";
+import automaticUpdatesRoutes from "../app/automaticUpdates/automaticUpdates.routes";
 import bannersRoutes from "../app/banners/banners.routes";
 import branchesRoutes from "../app/branches/branches.routes";
 import categoriesRoutes from "../app/categories/categories.routes";
@@ -13,13 +14,12 @@ import employeesRoutes from "../app/employees/employees.routes";
 import locationsRoutes from "../app/locations/locations.routes";
 import notificationsRoutes from "../app/notifications/notifications.routes";
 import ordersRoutes from "../app/orders/orders.routes";
-import automaticUpdatesRoutes from "../app/automaticUpdates/automaticUpdates.routes";
 import productsRoutes from "../app/products/products.routes";
 import reportsRoutes from "../app/reports/reports.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
 import sizesRoutes from "../app/sizes/sizes.routes";
 import storesRoutes from "../app/stores/stores.routes";
-import { upload } from "../middlewares/upload.middleware";
+// import { upload } from "../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -47,7 +47,7 @@ router.use("/", automaticUpdatesRoutes);
  *******************************************************************************/
 
 router.route("/test").post(
-    upload.single("avatar"),
+    // upload.single("avatar"),
     catchAsync(async (req, res) => {
         //  req.file?.destination + "/" + req.file?.filename;
         const imagePath = "/" + req.file?.path.replace(/\\/g, "/");
