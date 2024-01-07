@@ -5,6 +5,7 @@ import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Logger from "../../../lib/logger";
 import AppError from "../../../utils/AppError.util";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
+import { localizeDeliveryType } from "../../../utils/localize.util";
 import { orderReform } from "../order.model";
 
 const getImage = (url: string | Buffer, size: number) => {
@@ -113,14 +114,16 @@ export const generateReceipts = async (
                                     handleArabicCharacters("اسم المستلم")
                                 ],
                                 [
-                                    order.recipientAddress || "",
+                                    handleArabicCharacters(
+                                        order.recipientAddress || ""
+                                    ) || "",
                                     order.recipientPhones.map((phone, i) => {
                                         return i ===
                                             order.recipientPhones.length - 1
                                             ? phone
                                             : phone + " - ";
                                     }) || "",
-                                    order.recipientName
+                                    handleArabicCharacters(order.recipientName)
                                 ]
                             ]
                         }
@@ -140,7 +143,9 @@ export const generateReceipts = async (
                                 [
                                     order.totalCost.toString(),
                                     order.quantity.toString(),
-                                    order.deliveryType || ""
+                                    handleArabicCharacters(
+                                        localizeDeliveryType(order.deliveryType)
+                                    ) || ""
                                 ]
                             ]
                         }
@@ -153,7 +158,10 @@ export const generateReceipts = async (
                             widths: ["*"],
                             body: [
                                 [handleArabicCharacters("ملاحظات")],
-                                [order.notes || ""]
+                                [
+                                    handleArabicCharacters(order.notes || "") ||
+                                        ""
+                                ]
                             ]
                         }
                     },
