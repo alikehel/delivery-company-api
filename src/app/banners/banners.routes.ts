@@ -4,6 +4,7 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createBanner,
     deleteBanner,
@@ -11,7 +12,6 @@ import {
     getBanner,
     updateBanner
 } from "./banners.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.route("/banners").post(
     isLoggedIn,
     // // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("image"),
+    upload.none(),
     createBanner
     /*
         #swagger.tags = ['Banners Routes']
