@@ -13,6 +13,7 @@ import {
     reactivateClient,
     updateClient
 } from "./clients.controller";
+import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -72,6 +73,7 @@ router.route("/clients/:clientID").patch(
     isLoggedIn,
     // // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("avatar"),
+    upload.none(),
     updateClient
     /*
         #swagger.tags = ['Clients Routes']

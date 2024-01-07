@@ -4,6 +4,7 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createCompany,
     deleteCompany,
@@ -70,6 +71,7 @@ router.route("/companies/:companyID").patch(
     isLoggedIn,
     // isAutherized([AdminRole.SUPER_ADMIN]),
     // upload.single("logo"),
+    upload.none(),
     updateCompany
     /*
         #swagger.tags = ['Companies Routes']
