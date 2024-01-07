@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { ClientRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { ClientRole } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createOrder,
@@ -22,7 +22,7 @@ const router = Router();
 
 router.route("/orders").post(
     isLoggedIn,
-    isAutherized([ClientRole.CLIENT, ClientRole.CLIENT_ASSISTANT]),
+    // isAutherized([ClientRole.CLIENT, ClientRole.CLIENT_ASSISTANT]),
     createOrder
     /*
         #swagger.tags = ['Orders Routes']

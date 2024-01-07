@@ -23,7 +23,8 @@ export const OrderCreateBaseSchema = z.object({
     locationID: z.coerce.number().optional(),
     storeID: z.coerce.number(),
     repositoryID: z.coerce.number().optional(),
-    branchID: z.coerce.number().optional()
+    branchID: z.coerce.number().optional(),
+    clientID: z.coerce.number().optional()
     // paidAmount: z.number(),
     // totalCostInUSD: z.number(),
     // paidAmountInUSD: z.number(),

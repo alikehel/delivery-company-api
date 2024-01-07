@@ -1508,4 +1508,16 @@ export class OrderModel {
 
         return chatMembers;
     }
+
+    async getClientIDByStoreID(data: { storeID: number }) {
+        const store = await prisma.store.findUnique({
+            where: {
+                id: data.storeID
+            },
+            select: {
+                clientId: true
+            }
+        });
+        return store?.clientId;
+    }
 }

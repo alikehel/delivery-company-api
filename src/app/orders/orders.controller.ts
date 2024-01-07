@@ -19,14 +19,17 @@ const orderModel = new OrderModel();
 
 export const createOrder = catchAsync(async (req, res) => {
     // const orderData = OrderCreateSchema.parse(req.body);
-    const clientID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
-
     let orderData: OrderCreateType;
     const createdOrders: Order[] = [];
     let createdOrder: Order;
 
     if (Array.isArray(req.body)) {
+        const storeID = OrderCreateSchema.parse(req.body[0]).storeID;
+        const clientID = await orderModel.getClientIDByStoreID({ storeID });
+        if (!clientID) {
+            throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+        }
         for (const order of req.body) {
             orderData = OrderCreateSchema.parse(order);
             const createdOrder = await orderModel.createOrder(
@@ -47,6 +50,11 @@ export const createOrder = catchAsync(async (req, res) => {
         });
     } else {
         orderData = OrderCreateSchema.parse(req.body);
+        const storeID = orderData.storeID;
+        const clientID = await orderModel.getClientIDByStoreID({ storeID });
+        if (!clientID) {
+            throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+        }
         // @ts-expect-error Fix later
         createdOrder = await orderModel.createOrder(
             companyID,
