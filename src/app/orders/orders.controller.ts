@@ -102,6 +102,9 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const statuses = req.query.statuses?.toString().toUpperCase().split(",") as
         | OrderStatus[]
         | undefined;
+    const status = req.query.status?.toString().toUpperCase() as
+        | OrderStatus
+        | undefined;
 
     const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
         | DeliveryType
@@ -174,6 +177,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
         deliveryDate: deliveryDate,
         governorate: governorate,
         statuses: statuses,
+        status: status,
         deliveryType: deliveryType,
         deliveryAgentID: deliveryAgentID,
         clientID: clientID,

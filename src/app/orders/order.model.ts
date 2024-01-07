@@ -708,6 +708,7 @@ export class OrderModel {
             deliveryDate?: Date;
             governorate?: Governorate;
             statuses?: OrderStatus[];
+            status?: OrderStatus;
             deliveryType?: DeliveryType;
             deliveryAgentID?: number;
             clientID?: number;
@@ -829,6 +830,9 @@ export class OrderModel {
                     // Filter by status
                     {
                         status: { in: filters.statuses }
+                    },
+                    {
+                        status: filters.status
                     },
                     // Filter by deliveryType
                     {
