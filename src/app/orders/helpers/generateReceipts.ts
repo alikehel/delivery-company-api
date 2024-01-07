@@ -8,9 +8,9 @@ import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import { localizeDeliveryType } from "../../../utils/localize.util";
 import { orderReform } from "../order.model";
 
-const getImage = (url: string | Buffer, size: number) => {
+const getImage = (url: string | Buffer) => {
     return loadImage(url).then((image) => {
-        const canvas = createCanvas(size, size);
+        const canvas = createCanvas(image.width, image.height);
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0);
         return canvas.toDataURL();
@@ -33,7 +33,7 @@ export const generateReceipts = async (
 
         const printer = new PdfPrinter(fonts);
 
-        const imageData = await getImage(orders[0]?.company?.logo || "", 80);
+        const imageData = await getImage(orders[0]?.company?.logo || "");
 
         // Generate the docDefinition dynamically based on the provided orders data
         const docDefinition: TDocumentDefinitions = {

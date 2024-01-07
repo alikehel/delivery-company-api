@@ -15,9 +15,9 @@ import {
 import { orderReform } from "../../orders/order.model";
 import { reportReform } from "../../reports/report.model";
 
-const getImage = (url: string | Buffer, size: number) => {
+const getImage = (url: string | Buffer) => {
     return loadImage(url).then((image) => {
-        const canvas = createCanvas(size, size);
+        const canvas = createCanvas(image.width, image.height);
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0);
         return canvas.toDataURL();
@@ -55,7 +55,7 @@ export const generateReport = async (
 
         const printer = new PdfPrinter(fonts);
 
-        const imageData = await getImage(orders[0]?.company?.logo || "", 100);
+        const imageData = await getImage(orders[0]?.company?.logo || "");
 
         // Generate the docDefinition dynamically based on the provided order data
         const docDefinition: TDocumentDefinitions = {
