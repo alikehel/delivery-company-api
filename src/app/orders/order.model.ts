@@ -723,6 +723,7 @@ export class OrderModel {
             deliveryAgentReport: string;
             governorateReport: string;
             companyReport: string;
+            orderID?: number;
         }
     ) {
         const orders = await prisma.order.findMany({
@@ -816,6 +817,10 @@ export class OrderModel {
                                 }
                             }
                         ]
+                    },
+                    // Filter by orderID
+                    {
+                        id: filters.orderID
                     },
                     // Filter by status
                     {

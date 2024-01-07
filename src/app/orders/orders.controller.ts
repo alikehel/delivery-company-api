@@ -155,7 +155,10 @@ export const getAllOrders = catchAsync(async (req, res) => {
 
     const deleted = (req.query.deleted as string) || "false";
 
+    const orderID = req.query.order_id ? +req.query.order_id : undefined;
+
     const orders = await orderModel.getAllOrders(skip, take, {
+        orderID: orderID,
         search: search,
         sort: sort,
         startDate: startDate,
