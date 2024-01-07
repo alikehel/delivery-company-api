@@ -170,7 +170,7 @@ model User {
 
   phone  String?
   fcm    String?
-  avatar String? @default("https://placehold.co/400?text=USER+AVATAR+PLACEHOLDER&font=raleway")
+  avatar String? @default("https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png")
 
   admin    Admin?
   employee Employee?
@@ -266,7 +266,7 @@ model Store {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  logo      String?  @default("https://placehold.co/400?text=STORE+LOGO+PLACEHOLDER&font=raleway")
+  logo      String?  @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
   notes     String?
 
   client        Client         @relation(fields: [clientId], references: [id])
@@ -350,7 +350,7 @@ model Company {
   name                                    String            @unique
   phone                                   String?
   website                                 String?
-  logo                                    String?           @default("https://placehold.co/400?text=COMPANY+LOGO+PLACEHOLDER&font=raleway")
+  logo                                    String?           @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
   color                                   String            @default("FF0000")
   registrationText                        String?
   governoratePrice                        Float             @default(0)
@@ -532,7 +532,7 @@ model Product {
   price         Float
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  image         String?         @default("https://placehold.co/400?text=PRODUCT+IMAGE+PLACEHOLDER&font=raleway")
+  image         String?         @default("https://w7.pngwing.com/pngs/436/721/png-transparent-package-delivery-box-freight-transport-computer-icons-shipping-miscellaneous-angle-freight-transport.png")
   stock         Int             @default(0)
   weight        Float           @default(0)
   store         Store           @relation(fields: [storeId], references: [id])
@@ -636,7 +636,7 @@ model Banner {
   updatedAt DateTime @updatedAt
   title     String
   content   String?
-  image     String?  @default("https://placehold.co/400?text=BANNER+IMAGE+PLACEHOLDER&font=raleway")
+  image     String?  @default("https://w7.pngwing.com/pngs/819/548/png-transparent-photo-image-landscape-icon-images.png")
   url       String?
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
