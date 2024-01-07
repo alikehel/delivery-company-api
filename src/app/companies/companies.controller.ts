@@ -76,13 +76,10 @@ export const getCompany = catchAsync(async (req, res) => {
 });
 
 export const updateCompany = catchAsync(async (req, res) => {
-    console.log(req.body);
     const companyID = +req.params["companyID"];
     const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
 
     const companyData = CompanyUpdateSchema.parse(req.body);
-
-    console.log(companyData);
 
     const company = await companyModel.updateCompany({
         companyID: +companyID,
