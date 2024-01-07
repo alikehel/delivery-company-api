@@ -93,7 +93,8 @@ export const orderSelect = {
         select: {
             id: true,
             name: true,
-            logo: true
+            logo: true,
+            registrationText: true
         }
     },
     branch: {

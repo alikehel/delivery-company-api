@@ -1,6 +1,7 @@
 // import { Order } from "@prisma/client";
 // import fs from "fs";
 import { Governorate, ReportType } from "@prisma/client";
+import { createCanvas, loadImage } from "canvas";
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Logger from "../../../lib/logger";
@@ -13,6 +14,15 @@ import {
 } from "../../../utils/localize.util";
 import { orderReform } from "../../orders/order.model";
 import { reportReform } from "../../reports/report.model";
+
+const getImage = (url: string | Buffer, size: number) => {
+    return loadImage(url).then((image) => {
+        const canvas = createCanvas(size, size);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        return canvas.toDataURL();
+    });
+};
 
 export const generateReport = async (
     reportType: ReportType,
@@ -44,6 +54,8 @@ export const generateReport = async (
         };
 
         const printer = new PdfPrinter(fonts);
+
+        const imageData = await getImage(orders[0]?.company?.logo || "", 100);
 
         // Generate the docDefinition dynamically based on the provided order data
         const docDefinition: TDocumentDefinitions = {
@@ -95,8 +107,8 @@ export const generateReport = async (
                             [
                                 {
                                     rowSpan: 3,
-                                    image: orders[0]?.company.logo || "",
-                                    width: 100
+                                    image: "data:image/jpeg," + imageData,
+                                    width: 80
                                 },
                                 {
                                     text: handleArabicCharacters(
@@ -248,7 +260,7 @@ export const generateReport = async (
                                           noWrap: true
                                           // style: "header"
                                       }
-                                    : {},
+                                    : "",
                                 reportType === "CLIENT" ||
                                 reportType === "REPOSITORY"
                                     ? {
@@ -311,7 +323,7 @@ export const generateReport = async (
                                     // style: "header"
                                 }
                             ],
-                            orders.map((order) => {
+                            ...orders.map((order) => {
                                 if (!order) {
                                     throw new AppError(
                                         "لا يوجد طلبات لعمل الكشف",
@@ -353,7 +365,7 @@ export const generateReport = async (
                                                   "0"
                                               // fillColor: "#5bc0de"
                                           }
-                                        : "",
+                                        : {},
                                     reportType === "CLIENT" ||
                                     reportType === "REPOSITORY"
                                         ? {
@@ -361,7 +373,7 @@ export const generateReport = async (
                                                   order.deliveryCost?.toString() ||
                                                   "0"
                                           }
-                                        : "",
+                                        : {},
                                     {
                                         text:
                                             order.paidAmount?.toString() || "0"
