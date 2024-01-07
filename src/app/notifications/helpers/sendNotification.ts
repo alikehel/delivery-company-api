@@ -44,11 +44,11 @@ const sendNotification = async (data: NotificationCreateType) => {
             Logger.error("Error sending message to tobic 'all':", error);
         });
 
-    admin
+    await admin
         .messaging()
         .send(message)
         .then((response) => {
-            Logger.log("Successfully sent message to token:", response);
+            Logger.info("Successfully sent message to token:", response);
         })
         .catch((error) => {
             Logger.error("Error sending message to token:", error);
