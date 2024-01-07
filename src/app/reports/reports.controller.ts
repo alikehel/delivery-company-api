@@ -1,4 +1,5 @@
 // import AppError from "../../utils/AppError.util";
+import { loggedInUserType } from "../../types/user";
 import catchAsync from "../../utils/catchAsync.util";
 import { ReportModel } from "./report.model";
 import { ReportService } from "./reports.service";
@@ -41,10 +42,12 @@ export class ReportController {
 
     getAllReports = catchAsync(async (req, res) => {
         const queryString = req.query;
+        const loggedInUser: loggedInUserType = res.locals.user;
 
         const { page, pagesCount, reports } = await reportService.getAllReports(
             {
-                queryString: queryString
+                queryString: queryString,
+                loggedInUser: loggedInUser
             }
         );
 

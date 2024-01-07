@@ -1,12 +1,7 @@
-import {
-    AdminRole,
-    ClientRole,
-    EmployeeRole,
-    Permission
-} from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";
+import { loggedInUserType } from "../types/user";
 import AppError from "../utils/AppError.util";
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
@@ -33,15 +28,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
             permissions,
             companyID,
             companyName
-        } = jwt.verify(token, JWT_SECRET as string) as {
-            id: string;
-            name: string;
-            username: string;
-            role: AdminRole[] | EmployeeRole[] | ClientRole[];
-            permissions: Permission[];
-            companyID: number;
-            companyName: string;
-        };
+        } = jwt.verify(token, JWT_SECRET as string) as loggedInUserType;
 
         // TODO: Check if user still exists
 
@@ -56,7 +43,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
             permissions,
             companyID,
             companyName
-        };
+        } satisfies loggedInUserType;
 
         // GRANT ACCESS
         return next();
