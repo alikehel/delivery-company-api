@@ -1,5 +1,6 @@
 import { Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
 import { Request } from "express";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import sendNotification from "../notifications/helpers/sendNotification";
 import { OrderModel } from "../orders/order.model";
@@ -206,7 +207,10 @@ export class ReportService {
         return pdf;
     }
 
-    async getAllReports(data: { queryString: Request["query"] }) {
+    async getAllReports(data: {
+        queryString: Request["query"];
+        loggedInUser: loggedInUserType;
+    }) {
         const reportsCount = await reportModel.getReportsCount();
         const size = data.queryString.size ? +data.queryString.size : 10;
         const pagesCount = Math.ceil(reportsCount / size);
@@ -240,9 +244,14 @@ export class ReportService {
         const branchID = data.queryString.branch_id
             ? +data.queryString.branch_id
             : undefined;
-        const clientID = data.queryString.client_id
-            ? +data.queryString.client_id
-            : undefined;
+
+        let clientID;
+        data.loggedInUser.role === "CLIENT" ||
+        data.loggedInUser.role === "CLIENT_ASSISTANT"
+            ? (clientID = +data.loggedInUser.id)
+            : data.queryString.client_id
+              ? (clientID = +data.queryString.client_id)
+              : undefined;
         const storeID = data.queryString.store_id
             ? +data.queryString.store_id
             : undefined;
@@ -341,7 +350,7 @@ export class ReportService {
 
     // updateReport = catchAsync(async (req, res) => {
     //     const reportID = +req.params["reportID"];
-    //     const loggedInUser = res.locals.user;
+    //    const loggedInUser: loggedInUserType = res.locals.user;
 
     //     const reportData = ReportUpdateSchema.parse(req.body);
 
