@@ -4,6 +4,7 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createEmployee,
     deactivateEmployee,
@@ -78,6 +79,7 @@ router.route("/employees/:employeeID").patch(
     isLoggedIn,
     // isAutherized([EmployeeRole.SUPER_ADMIN]),
     // upload.single("avatar"),
+    upload.none(),
     updateEmployee
     /*
         #swagger.tags = ['Employees Routes']

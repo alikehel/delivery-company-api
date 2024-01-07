@@ -13,6 +13,7 @@ import {
     reactivateStore,
     updateStore
 } from "./stores.controller";
+import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -72,6 +73,7 @@ router.route("/stores/:storeID").patch(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("logo"),
+    upload.none(),
     updateStore
     /*
         #swagger.tags = ['Stores Routes']

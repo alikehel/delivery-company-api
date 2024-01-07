@@ -11,6 +11,7 @@ import {
     getProduct,
     updateProduct
 } from "./products.controller";
+import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -70,6 +71,7 @@ router.route("/products/:productID").patch(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("image"),
+    upload.none(),
     updateProduct
     /*
         #swagger.tags = ['Products Routes']

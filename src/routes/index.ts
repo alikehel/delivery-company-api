@@ -19,6 +19,7 @@ import reportsRoutes from "../app/reports/reports.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
 import sizesRoutes from "../app/sizes/sizes.routes";
 import storesRoutes from "../app/stores/stores.routes";
+import { upload } from "../middlewares/upload.middleware";
 // import { upload } from "../middlewares/upload.middleware";
 
 const router = Router();
@@ -48,6 +49,7 @@ router.use("/", automaticUpdatesRoutes);
 
 router.route("/test").post(
     // upload.single("avatar"),
+    upload.none(),
     catchAsync(async (req, res) => {
         //  req.file?.destination + "/" + req.file?.filename;
         const imagePath = "/" + req.file?.path.replace(/\\/g, "/");

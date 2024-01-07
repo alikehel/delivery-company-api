@@ -11,6 +11,7 @@ import {
     getBanner,
     updateBanner
 } from "./banners.controller";
+import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -70,6 +71,7 @@ router.route("/banners/:bannerID").patch(
     isLoggedIn,
     // // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("image"),
+    upload.none(),
     updateBanner
     /*
         #swagger.tags = ['Banners Routes']
