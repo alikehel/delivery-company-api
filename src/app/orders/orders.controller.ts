@@ -386,7 +386,6 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
 
     const orders = await orderModel.getOrdersByIDs(ordersIDs);
 
-    // @ts-expect-error Fix later
     const pdf = await generateReceipts(orders);
 
     const chunks: Uint8Array[] = [];
