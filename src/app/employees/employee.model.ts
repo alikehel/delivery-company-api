@@ -137,6 +137,7 @@ export class EmployeeModel {
         take: number,
         filters: {
             roles?: EmployeeRole[];
+            role?: EmployeeRole;
             branchID?: number;
             locationID?: number;
             deleted?: string;
@@ -150,6 +151,7 @@ export class EmployeeModel {
             where: {
                 AND: [
                     { role: { in: filters.roles } },
+                    { role: filters.role },
                     {
                         branch: {
                             id: filters.branchID
