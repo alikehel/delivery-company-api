@@ -536,7 +536,11 @@ export class OrderModel {
                     data.withProducts === false ? data.quantity : quantity,
                 weight: data.withProducts === false ? data.weight : weight,
                 recipientName: data.recipientName,
-                recipientPhones: data.recipientPhones,
+                recipientPhones: data.recipientPhones
+                    ? data.recipientPhones
+                    : data.recipientPhone
+                      ? [data.recipientPhone]
+                      : undefined,
                 receiptNumber: data.receiptNumber,
                 recipientAddress: data.recipientAddress,
                 notes: data.notes,
@@ -1088,7 +1092,11 @@ export class OrderModel {
                 companyNet: companyNet,
                 discount: data.orderData.discount,
                 recipientName: data.orderData.recipientName,
-                recipientPhones: data.orderData.recipientPhones,
+                recipientPhones: data.orderData.recipientPhones
+                    ? data.orderData.recipientPhones
+                    : data.orderData.recipientPhone
+                      ? [data.orderData.recipientPhone]
+                      : undefined,
                 recipientAddress: data.orderData.recipientAddress,
                 notes: data.orderData.notes,
                 currentLocation: data.orderData.currentLocation,
