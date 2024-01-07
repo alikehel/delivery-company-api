@@ -9,12 +9,17 @@ import { localizeDeliveryType } from "../../../utils/localize.util";
 import { orderReform } from "../order.model";
 
 const getImage = (url: string | Buffer) => {
-    return loadImage(url).then((image) => {
-        const canvas = createCanvas(image.width, image.height);
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-        return canvas.toDataURL();
-    });
+    try {
+        return loadImage(url).then((image) => {
+            const canvas = createCanvas(image.width, image.height);
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0);
+            return canvas.toDataURL();
+        });
+    } catch (error) {
+        Logger.error(error);
+        return "";
+    }
 };
 
 // TODO
