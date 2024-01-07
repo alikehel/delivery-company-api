@@ -194,7 +194,6 @@ export class ReportService {
         // TODO
         const pdf = await generateReport(
             data.reportData.type,
-            // @ts-expect-error Fix later
             reportData,
             orders
         );
@@ -334,7 +333,6 @@ export class ReportService {
         const pdf = await generateReport(
             // @ts-expect-error Fix later
             reportData.type,
-            // @ts-expect-error Fix later
             reportData,
             ordersData
         );
