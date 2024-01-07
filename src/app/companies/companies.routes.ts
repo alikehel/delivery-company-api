@@ -19,6 +19,7 @@ router.route("/companies").post(
     isLoggedIn,
     // isAutherized([AdminRole.SUPER_ADMIN]),
     // upload.single("logo"),
+    upload.none(),
     createCompany
     /*
         #swagger.tags = ['Companies Routes']

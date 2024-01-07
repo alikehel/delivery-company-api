@@ -19,6 +19,7 @@ router.route("/products").post(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("image"),
+    upload.none(),
     createProduct
     /*
         #swagger.tags = ['Products Routes']
