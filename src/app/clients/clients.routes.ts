@@ -4,6 +4,7 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 import {
     createClient,
     deactivateClient,
@@ -13,7 +14,6 @@ import {
     reactivateClient,
     updateClient
 } from "./clients.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -21,6 +21,7 @@ router.route("/clients").post(
     isLoggedIn,
     // // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("avatar"),
+    upload.none(),
     createClient
     /*
         #swagger.tags = ['Clients Routes']

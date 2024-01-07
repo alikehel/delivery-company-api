@@ -21,6 +21,7 @@ router.route("/stores").post(
     isLoggedIn,
     // isAutherized([Role.SUPER_ADMIN]),
     // upload.single("logo"),
+    upload.none(),
     createStore
     /*
         #swagger.tags = ['Stores Routes']

@@ -21,6 +21,7 @@ router.route("/employees").post(
     isLoggedIn,
     // isAutherized([EmployeeRole.SUPER_ADMIN]),
     // upload.single("avatar"),
+    upload.none(),
     createEmployee
     /*
         #swagger.tags = ['Employees Routes']
