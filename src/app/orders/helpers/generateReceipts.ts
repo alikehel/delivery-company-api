@@ -1,14 +1,14 @@
-// TODO: Fix this
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 // import fs from "fs";
 import PdfPrinter from "pdfmake";
+import { TDocumentDefinitions } from "pdfmake/interfaces";
+import AppError from "../../../utils/AppError.util";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import { orderReform } from "../order.model";
 
 // TODO
-export const generateReceipts = async (orders: (typeof orderReform)[]) => {
+export const generateReceipts = async (
+    orders: ReturnType<typeof orderReform>[]
+) => {
     const fonts = {
         Cairo: {
             normal: "static/fonts/Cairo-VariableFont_slntwght.ttf",
@@ -21,7 +21,7 @@ export const generateReceipts = async (orders: (typeof orderReform)[]) => {
     const printer = new PdfPrinter(fonts);
 
     // Generate the docDefinition dynamically based on the provided orders data
-    const docDefinition = {
+    const docDefinition: TDocumentDefinitions = {
         pageSize: "A4" as const,
         watermark: {
             text: handleArabicCharacters("شركة البرق"),
@@ -31,9 +31,12 @@ export const generateReceipts = async (orders: (typeof orderReform)[]) => {
             italics: false
         },
         content: orders.map((order) => {
+            if (!order) {
+                throw new AppError("لا يوجد طلبات لعمل الوصولات", 404);
+            }
             return [
                 {
-                    image: order.company.logo,
+                    image: order.company.logo || "",
                     width: 80
                 },
                 { text: "\n" },

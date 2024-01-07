@@ -92,7 +92,8 @@ export const orderSelect = {
     company: {
         select: {
             id: true,
-            name: true
+            name: true,
+            logo: true
         }
     },
     branch: {

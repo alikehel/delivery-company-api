@@ -1,11 +1,8 @@
-// TODO: Fix this
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 // import { Order } from "@prisma/client";
 // import fs from "fs";
 import { Governorate, ReportType } from "@prisma/client";
 import PdfPrinter from "pdfmake";
+import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Logger from "../../../lib/logger";
 import AppError from "../../../utils/AppError.util";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
@@ -19,9 +16,15 @@ import { reportReform } from "../../reports/report.model";
 
 export const generateReport = async (
     reportType: ReportType,
-    reportData: typeof reportReform,
-    orders: (typeof orderReform)[]
+    reportData: ReturnType<typeof reportReform>,
+    orders: ReturnType<typeof orderReform>[]
 ) => {
+    if (!reportData) {
+        throw new AppError("لا يوجد بيانات لعمل الكشف", 404);
+    }
+    if (!orders) {
+        throw new AppError("لا يوجد طلبات لعمل الكشف", 404);
+    }
     try {
         let counter = 0;
 
@@ -43,7 +46,7 @@ export const generateReport = async (
         const printer = new PdfPrinter(fonts);
 
         // Generate the docDefinition dynamically based on the provided order data
-        const docDefinition = {
+        const docDefinition: TDocumentDefinitions = {
             pageSize: "A4" as const,
             pageOrientation: "landscape" as const,
             pageMargins: [5, 15, 5, 15] as [number, number, number, number],
@@ -92,7 +95,7 @@ export const generateReport = async (
                             [
                                 {
                                     rowSpan: 3,
-                                    image: orderReform.company.logo,
+                                    image: orders[0]?.company.logo || "",
                                     width: 100
                                 },
                                 {
@@ -130,13 +133,13 @@ export const generateReport = async (
                                     text: handleArabicCharacters(
                                         reportType === "CLIENT"
                                             ? reportData.clientReport?.client
-                                                  .name
+                                                  .name ?? ""
                                             : reportType === "REPOSITORY"
                                               ? reportData.repositoryReport
-                                                    ?.repository.name
+                                                    ?.repository.name ?? ""
                                               : reportType === "BRANCH"
                                                 ? reportData.branchReport
-                                                      ?.branch.name
+                                                      ?.branch.name ?? ""
                                                 : reportType ===
                                                         "GOVERNORATE" &&
                                                     reportData.governorateReport
@@ -149,10 +152,11 @@ export const generateReport = async (
                                                       "DELIVERY_AGENT"
                                                     ? reportData
                                                           .deliveryAgentReport
-                                                          ?.deliveryAgent.name
+                                                          ?.deliveryAgent
+                                                          .name ?? ""
                                                     : reportType === "COMPANY"
                                                       ? reportData.companyReport
-                                                            ?.company.name
+                                                            ?.company.name ?? ""
                                                       : ""
                                     ),
                                     noWrap: true
@@ -307,88 +311,100 @@ export const generateReport = async (
                                     // style: "header"
                                 }
                             ],
-                            ...orders.map((order) => [
-                                {
-                                    // text: handleArabicCharacters(
-                                    //     "مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد"
-                                    // ),
-                                    text: handleArabicCharacters(
-                                        order.notes || ""
-                                    )
-                                    // style: "red",
-                                    // fillColor: "#5bc0de"
-                                },
-                                {
-                                    text: handleArabicCharacters(
-                                        localizeOrderStatus(order.status) ||
-                                            "اخري"
-                                    )
-                                },
-                                reportType === "BRANCH" ||
-                                reportType === "GOVERNORATE" ||
-                                reportType === "DELIVERY_AGENT"
-                                    ? {
-                                          text: order.deliveryAgent
-                                              ? order.deliveryAgent.deliveryCost?.toString() ||
-                                                "0"
-                                              : "0"
-                                      }
-                                    : {},
-                                reportType === "CLIENT" ||
-                                reportType === "REPOSITORY"
-                                    ? {
-                                          text:
-                                              order.clientNet?.toString() || "0"
-                                          // fillColor: "#5bc0de"
-                                      }
-                                    : "",
-                                reportType === "CLIENT" ||
-                                reportType === "REPOSITORY"
-                                    ? {
-                                          text:
-                                              order.deliveryCost?.toString() ||
-                                              "0"
-                                      }
-                                    : "",
-                                {
-                                    text: order.paidAmount?.toString() || "0"
-                                },
-                                {
-                                    text: order.totalCost.toString()
-                                },
-                                {
-                                    text:
-                                        handleArabicCharacters(
-                                            localizeGovernorate(
-                                                order.governorate as Governorate
-                                            ) || ""
-                                        ) +
-                                        "  -  " +
-                                        handleArabicCharacters(
-                                            // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
-                                            order.recipientAddress || ""
-                                        )
-                                },
-                                {
-                                    text: order.recipientPhones.map(
-                                        (phone, i) => {
-                                            return i ===
-                                                order.recipientPhones.length - 1
-                                                ? phone
-                                                : phone + " - ";
-                                        }
-                                    )
-                                },
-                                {
-                                    text: order.createdAt.toLocaleDateString()
-                                },
-                                {
-                                    text: order.receiptNumber.toString()
-                                },
-                                {
-                                    text: ++counter
+                            orders.map((order) => {
+                                if (!order) {
+                                    throw new AppError(
+                                        "لا يوجد طلبات لعمل الكشف",
+                                        404
+                                    );
                                 }
-                            ])
+                                return [
+                                    {
+                                        // text: handleArabicCharacters(
+                                        //     "مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد"
+                                        // ),
+                                        text: handleArabicCharacters(
+                                            order.notes || ""
+                                        )
+                                        // style: "red",
+                                        // fillColor: "#5bc0de"
+                                    },
+                                    {
+                                        text: handleArabicCharacters(
+                                            localizeOrderStatus(order.status) ||
+                                                "اخري"
+                                        )
+                                    },
+                                    reportType === "BRANCH" ||
+                                    reportType === "GOVERNORATE" ||
+                                    reportType === "DELIVERY_AGENT"
+                                        ? {
+                                              text: order.deliveryAgent
+                                                  ? order.deliveryAgent.deliveryCost?.toString() ||
+                                                    "0"
+                                                  : "0"
+                                          }
+                                        : {},
+                                    reportType === "CLIENT" ||
+                                    reportType === "REPOSITORY"
+                                        ? {
+                                              text:
+                                                  order.clientNet?.toString() ||
+                                                  "0"
+                                              // fillColor: "#5bc0de"
+                                          }
+                                        : "",
+                                    reportType === "CLIENT" ||
+                                    reportType === "REPOSITORY"
+                                        ? {
+                                              text:
+                                                  order.deliveryCost?.toString() ||
+                                                  "0"
+                                          }
+                                        : "",
+                                    {
+                                        text:
+                                            order.paidAmount?.toString() || "0"
+                                    },
+                                    {
+                                        text: order.totalCost.toString()
+                                    },
+                                    {
+                                        text:
+                                            handleArabicCharacters(
+                                                localizeGovernorate(
+                                                    order.governorate as Governorate
+                                                ) || ""
+                                            ) +
+                                            "  -  " +
+                                            handleArabicCharacters(
+                                                // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
+                                                order.recipientAddress || ""
+                                            )
+                                    },
+                                    {
+                                        text: order.recipientPhones.map(
+                                            (phone, i) => {
+                                                return i ===
+                                                    order.recipientPhones
+                                                        .length -
+                                                        1
+                                                    ? phone
+                                                    : phone + " - ";
+                                            }
+                                        )
+                                    },
+                                    {
+                                        text: order.createdAt.toLocaleDateString()
+                                    },
+                                    {
+                                        text: order.receiptNumber.toString()
+                                    },
+                                    {
+                                        text: ++counter
+                                    }
+                                ];
+                            })
                         ]
                     }
                 }
