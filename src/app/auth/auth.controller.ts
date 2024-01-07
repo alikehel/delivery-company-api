@@ -37,23 +37,23 @@ export const signin = catchAsync(async (req, res) => {
             role: returnedUser.admin
                 ? returnedUser.admin.role
                 : returnedUser.employee
-                ? returnedUser.employee.role
-                : returnedUser.client
-                ? returnedUser.client.role
-                : null,
+                  ? returnedUser.employee.role
+                  : returnedUser.client
+                    ? returnedUser.client.role
+                    : null,
             permissions: returnedUser.employee
                 ? returnedUser.employee.permissions
                 : null,
             companyID: returnedUser.employee
                 ? returnedUser.employee.company.id
                 : returnedUser.client
-                ? returnedUser.client.company.id
-                : null,
+                  ? returnedUser.client.company.id
+                  : null,
             companyName: returnedUser.employee
                 ? returnedUser.employee.company.name
                 : returnedUser.client
-                ? returnedUser.client.company.name
-                : null
+                  ? returnedUser.client.company.name
+                  : null
         },
         JWT_SECRET as string,
         { expiresIn: JWT_EXPIRES_IN }
