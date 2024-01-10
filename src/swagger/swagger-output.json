@@ -18,15 +18,6 @@
           "Auth Routes"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -164,19 +155,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              }
-            }
+            "description": "OK"
           },
           "400": {
             "description": "Client Error",
@@ -385,19 +364,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -504,19 +471,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -591,19 +546,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -676,19 +619,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -776,19 +707,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -863,19 +782,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -950,19 +857,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1029,19 +924,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1139,19 +1022,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1226,19 +1097,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1311,19 +1170,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1411,19 +1258,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1490,19 +1325,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1600,19 +1423,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1687,19 +1498,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1772,19 +1571,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1872,19 +1659,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -1959,19 +1734,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2046,19 +1809,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2125,19 +1876,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2235,19 +1974,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2322,19 +2049,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2407,19 +2122,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2507,19 +2210,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2586,19 +2277,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2679,6 +2358,52 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/locations": {
+      "get": {
+        "tags": [
+          "Locations Routes"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Client Error",
@@ -2783,19 +2508,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2868,19 +2581,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -2968,19 +2669,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3047,19 +2736,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3157,19 +2834,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3244,19 +2909,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3329,19 +2982,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3429,19 +3070,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3508,19 +3137,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3640,7 +3257,7 @@
             }
           },
           {
-            "name": "status",
+            "name": "statuses",
             "in": "query",
             "description": "",
             "required": false,
@@ -3780,177 +3397,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/orders/statuses": {
-      "get": {
-        "tags": [
-          "Orders Routes"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/orders/today": {
-      "get": {
-        "tags": [
-          "Orders Routes"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/SuccessResponseSchema"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -3985,7 +3432,25 @@
             }
           },
           {
-            "name": "status",
+            "name": "statuseses",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "delivery_type",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location_id",
             "in": "query",
             "description": "",
             "required": false,
@@ -4003,7 +3468,7 @@
             }
           },
           {
-            "name": "tenant_id",
+            "name": "client_id",
             "in": "query",
             "description": "",
             "required": false,
@@ -4012,7 +3477,61 @@
             }
           },
           {
-            "name": "recorded",
+            "name": "company_id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_report",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch_report",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "repository_report",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "delivery_agent_report",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "governorate_report",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "company_report",
             "in": "query",
             "description": "",
             "required": false,
@@ -4031,6 +3550,15 @@
           },
           {
             "name": "end_date",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "governorate",
             "in": "query",
             "description": "",
             "required": false,
@@ -4071,19 +3599,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4158,19 +3674,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4243,19 +3747,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4343,19 +3835,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4430,19 +3910,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4517,7 +3985,10 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -4530,6 +4001,66 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{orderID}/chat": {
+      "post": {
+        "tags": [
+          "Orders Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "orderID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4596,19 +4127,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4698,19 +4217,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4785,19 +4292,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4864,19 +4359,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -4974,19 +4457,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5061,19 +4532,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5146,19 +4605,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5246,19 +4693,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5325,19 +4760,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5435,19 +4858,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5522,19 +4933,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5607,19 +5006,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5707,19 +5094,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5813,19 +5188,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5890,19 +5253,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -5992,19 +5343,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6086,19 +5425,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6196,19 +5523,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6283,19 +5598,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6368,19 +5671,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6468,19 +5759,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6547,19 +5826,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6657,19 +5924,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6744,19 +5999,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6829,19 +6072,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -6929,19 +6160,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7008,19 +6227,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7118,19 +6325,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7205,19 +6400,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7290,19 +6473,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7390,19 +6561,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7477,19 +6636,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7564,19 +6711,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7643,19 +6778,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7753,19 +6876,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7840,19 +6951,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -7925,19 +7024,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8025,19 +7112,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8104,19 +7179,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8313,19 +7376,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8400,19 +7451,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8485,19 +7524,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8585,19 +7612,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8672,19 +7687,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8759,19 +7762,7 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseSchema"
-                }
-              }
-            }
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8846,7 +7837,10 @@
             }
           },
           "401": {
-            "description": "Client Error - Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -8859,6 +7853,392 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/automatic-updates": {
+      "post": {
+        "tags": [
+          "Automatic Updates Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutomaticUpdateCreateSchema"
+              },
+              "examples": {
+                "AutomaticUpdateCreateExample": {
+                  "$ref": "#/components/examples/AutomaticUpdateCreateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Automatic Updates Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Page Size (Number of Items per Page) (Default: 10)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/automatic-updates/{automaticUpdateID}": {
+      "get": {
+        "tags": [
+          "Automatic Updates Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "automaticUpdateID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Automatic Updates Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "automaticUpdateID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutomaticUpdateUpdateSchema"
+              },
+              "examples": {
+                "AutomaticUpdateUpdateExample": {
+                  "$ref": "#/components/examples/AutomaticUpdateUpdateExample"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Automatic Updates Routes"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "automaticUpdateID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Server Error",
@@ -8883,118 +8263,114 @@
     "examples": {
       "EmployeeCreateExample": {
         "value": {
-          "username": "denuo",
-          "name": "Darrel Huel",
-          "password": "h0WU_2F4QY17rKN",
-          "phone": "07513138779",
-          "salary": 6918921179365376,
-          "repositoryID": 938919466106880,
-          "branchID": 4929329031020544,
-          "role": "INQUIRY_EMPLOYEE",
+          "username": "defleo",
+          "name": "Marilyn Mraz",
+          "password": "s3T278PGX3MB6FU",
+          "phone": "07412768259",
+          "salary": 1097236878458880,
+          "repositoryID": 4103873792835584,
+          "branchID": 857126092144640,
+          "role": "REPOSITORIY_EMPLOYEE",
           "permissions": [
-            "ADD_PAGE",
-            "DELETE_REPOSITORIES_REPORTS",
-            "CHANGE_CLOSED_ORDER_STATUS",
-            "LOCK_ORDER_STATUS"
+            "DELETE_DELIVERY_AGENT_REPORTS",
+            "ADD_CLIENT"
           ],
-          "fcm": "fugiat",
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/381.jpg",
-          "companyID": 406077543809024,
-          "deliveryCost": 2586446217084928
+          "fcm": "tripudio",
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/36.jpg",
+          "companyID": 3389410684960768,
+          "deliveryCost": 2419433700065280
         }
       },
       "UserSigninExample": {
         "value": {
-          "username": "vociferor",
-          "password": "2Rsqy99wFl0Oxt6",
-          "fcm": "vespillo"
+          "username": "suffragium",
+          "password": "irSudK73YFLiP9u",
+          "fcm": "adstringo"
         }
       },
       "RepositoryCreateExample": {
         "value": {
-          "name": "Alonzo Tillman DDS",
-          "branchID": 7650759403372544
+          "name": "Gerardo Pouros",
+          "branchID": 8841975784538112
         }
       },
       "EmployeeUpdateExample": {
         "value": {
-          "username": "auxilium",
-          "name": "Mr. Shannon Schuppe",
-          "password": "zcjsdyA_jkW45Q6",
-          "phone": "07951743315",
-          "salary": 268675856728064,
-          "repositoryID": 2171068389261312,
-          "branchID": 8768390074204160,
+          "username": "tripudio",
+          "name": "Mr. Lucas Donnelly MD",
+          "password": "WPywx_sNbgFMJi_",
+          "phone": "07399565070",
+          "salary": 5787300252352512,
+          "repositoryID": 1047970327822336,
+          "branchID": 3967687575207936,
           "role": "DELIVERY_AGENT",
           "permissions": [
-            "ADD_CLIENT"
+            "ADD_CLIENT",
+            "LOCK_ORDER_STATUS"
           ],
-          "fcm": "dignissimos",
-          "avatar": "https://avatars.githubusercontent.com/u/35988255",
-          "companyID": 8629625181700096,
-          "deliveryCost": 5560217473384448
+          "fcm": "thesaurus",
+          "avatar": "https://avatars.githubusercontent.com/u/89358957",
+          "companyID": 2668168862498816,
+          "deliveryCost": 4539889800445952
         }
       },
       "RepositoryUpdateExample": {
         "value": {
-          "name": "Mae Collier",
-          "branchID": 5271540920745984
+          "name": "Dominick Smitham",
+          "branchID": 853064133115904
         }
       },
       "LocationCreateExample": {
         "value": {
-          "name": "Robin Towne",
-          "governorate": "BASRA",
-          "branchID": 4229508857069568,
+          "name": "Lloyd Schulist",
+          "governorate": "DUHOK",
+          "branchID": 5536583673446400,
           "deliveryAgentsIDs": [
-            6972586082697216,
-            1674321908989952,
-            220636179857408,
-            6001570791555072
+            2333514265526272,
+            6876656799055872,
+            1409302759735296,
+            6995560869396480,
+            8730936596234240
           ]
         }
       },
       "LocationUpdateExample": {
         "value": {
-          "name": "Juan Greenholt",
-          "governorate": "KARBALA",
-          "branchID": 894278156943360,
+          "name": "Kelley Bergstrom PhD",
+          "governorate": "BABIL",
+          "branchID": 6820166887276544,
           "deliveryAgentsIDs": [
-            608803412246528,
-            7152680126382080,
-            2965946647969792,
-            2522462705156096
+            2026679555850240,
+            2994928724475904,
+            1964708947034112,
+            1400859562868736
           ]
         }
       },
       "ClientCreateExample": {
         "value": {
-          "name": "Gilbert Hettinger",
-          "username": "veritatis",
-          "phone": "07767165135",
+          "name": "Dr. Clarence Walter",
+          "username": "valde",
+          "phone": "07731326199",
           "role": "CLIENT",
-          "token": "calamitas",
-          "password": "1_xkmTXZszvtp2K",
-          "fcm": "tepesco",
-          "branchID": 7940679286128640,
-          "repositoryID": 7406702573912064,
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/618.jpg",
-          "companyID": 4575543330603008,
+          "token": "tenuis",
+          "password": "bMTb0_1M5moFMg0",
+          "fcm": "suggero",
+          "branchID": 845200291266560,
+          "repositoryID": 6378244488036352,
+          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/805.jpg",
+          "companyID": 7666300893528064,
           "governoratesDeliveryCosts": [
             {
-              "governorate": "AL_QADISIYYAH",
-              "cost": 84677
-            },
-            {
-              "governorate": "DHI_QAR",
+              "governorate": "SULAYMANIYAH",
               "cost": 0
             },
             {
-              "governorate": "MAYSAN",
-              "cost": 44515
+              "governorate": "SALAH_AL_DIN",
+              "cost": 63280
             },
             {
-              "governorate": "BASRA",
+              "governorate": "AL_ANBAR",
               "cost": 0
             },
             {
@@ -9006,191 +8382,232 @@
       },
       "ClientUpdateExample": {
         "value": {
-          "name": "Bobbie Johnson II",
-          "username": "caritas",
-          "phone": "07830888360",
-          "role": "CLIENT",
-          "token": "adiuvo",
-          "password": "Zj31YTAZOlTFNQH",
-          "fcm": "tibi",
-          "branchID": 5642954446209024,
-          "repositoryID": 8076008066383872,
-          "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1166.jpg",
-          "companyID": 1436925214851072,
+          "name": "Danielle Schroeder",
+          "username": "omnis",
+          "phone": "07755526830",
+          "role": "CLIENT_ASSISTANT",
+          "token": "tamisium",
+          "password": "o7penC3RWrRIlXX",
+          "fcm": "angustus",
+          "branchID": 1629220218339328,
+          "repositoryID": 4635386666024960,
+          "avatar": "https://avatars.githubusercontent.com/u/80415963",
+          "companyID": 1742173282238464,
           "governoratesDeliveryCosts": [
             {
-              "governorate": "KIRKUK",
-              "cost": 0
-            },
-            {
-              "governorate": "DIYALA",
-              "cost": 0
-            },
-            {
-              "governorate": "WASIT",
-              "cost": 0
-            },
-            {
-              "governorate": "AL_ANBAR",
-              "cost": 0
-            },
-            {
               "governorate": "SULAYMANIYAH",
-              "cost": 8893
+              "cost": 52478
+            },
+            {
+              "governorate": "NINAWA",
+              "cost": 0
             }
           ]
         }
       },
       "BranchCreateExample": {
         "value": {
-          "name": "Orville Veum",
-          "email": "Layne.Bins@example.org",
-          "phone": "07443828032",
+          "name": "Rene DuBuque DDS",
+          "email": "Thea60@example.com",
+          "phone": "07708796751",
           "governorate": "KARBALA"
         }
       },
       "BranchUpdateExample": {
         "value": {
-          "name": "Kelvin Hilll III",
-          "email": "Modesto.Wolff@example.org",
-          "phone": "07532728052",
-          "governorate": "BABIL"
+          "name": "Priscilla Fritsch",
+          "email": "Oscar.Lueilwitz80@example.org",
+          "phone": "07576224219",
+          "governorate": "DUHOK"
         }
       },
       "CompanyCreateExample": {
         "value": {
-          "name": "Louise Crooks",
-          "phone": "07517717920",
-          "website": "https://rich-acrylic.net/",
-          "logo": "veritatis",
-          "registrationText": "substantia",
-          "governoratePrice": 731143770996736,
-          "deliveryAgentFee": 7122577082286080,
-          "baghdadPrice": 6659002033242112,
-          "additionalPriceForEvery500000IraqiDinar": 2487100406497280,
-          "additionalPriceForEveryKilogram": 4255031750557696,
-          "additionalPriceForRemoteAreas": 6915406608465920,
+          "name": "Arnold Beer",
+          "phone": "07806958047",
+          "website": "https://pleased-spacing.net",
+          "logo": "caput",
+          "color": "#5a1e0",
+          "registrationText": "vix",
+          "governoratePrice": 7605538938421248,
+          "deliveryAgentFee": 4624518796541952,
+          "baghdadPrice": 1396239740436480,
+          "additionalPriceForEvery500000IraqiDinar": 1203271381286912,
+          "additionalPriceForEveryKilogram": 2563674996736000,
+          "additionalPriceForRemoteAreas": 7934688763052032,
           "orderStatusAutomaticUpdate": true
         }
       },
       "CompanyUpdateExample": {
         "value": {
-          "name": "Tiffany Brown",
-          "phone": "07818674988",
-          "website": "https://sociable-message.net",
-          "logo": "depopulo",
-          "registrationText": "convoco",
-          "governoratePrice": 1826397404266496,
-          "deliveryAgentFee": 5988972511625216,
-          "baghdadPrice": 1056074981441536,
-          "additionalPriceForEvery500000IraqiDinar": 2613405607264256,
-          "additionalPriceForEveryKilogram": 8327808348585984,
-          "additionalPriceForRemoteAreas": 5022855272071168,
+          "name": "Jerald Nolan",
+          "phone": "07768698810",
+          "website": "https://kindhearted-shout.biz/",
+          "logo": "tergeo",
+          "color": "#54670",
+          "registrationText": "ver",
+          "governoratePrice": 3771368720039936,
+          "deliveryAgentFee": 2490309892112384,
+          "baghdadPrice": 6903157988786176,
+          "additionalPriceForEvery500000IraqiDinar": 6842444452724736,
+          "additionalPriceForEveryKilogram": 7264425968926720,
+          "additionalPriceForRemoteAreas": 3528349760618496,
           "orderStatusAutomaticUpdate": true
         }
       },
       "OrderCreateExample": {
         "value": {
-          "withProducts": false,
-          "totalCost": 1571226694713344,
-          "quantity": 7428658568364032,
-          "weight": 5426776480153600,
-          "recipientName": "averto",
-          "recipientPhone": "vestigium",
-          "recipientAddress": "venio",
-          "notes": "aperiam",
-          "details": "currus",
-          "deliveryType": "REPLACEMENT",
-          "governorate": "NINAWA",
-          "locationID": 3115729719132160,
-          "storeID": 3068696968822784,
-          "repositoryID": 130447998713856,
-          "branchID": 4489611225071616
+          "withProducts": true,
+          "products": [
+            {
+              "productID": 8220244136951808,
+              "quantity": 1,
+              "colorID": 8957112663146496,
+              "sizeID": 720454960545792
+            },
+            {
+              "productID": 4093242507264000,
+              "quantity": 1,
+              "colorID": 6546732464734208,
+              "sizeID": 7872831803097088
+            },
+            {
+              "productID": 2957522256265216,
+              "quantity": 8747996413952000,
+              "colorID": 1130033401823232,
+              "sizeID": 5646292485144576
+            },
+            {
+              "productID": 1086786734391296,
+              "quantity": 407639083188224,
+              "colorID": 7306985183641600,
+              "sizeID": 1638369169768448
+            },
+            {
+              "productID": 5449149103210496,
+              "quantity": 4783402588831744,
+              "colorID": 8193107338199040,
+              "sizeID": 6211215145566208
+            }
+          ],
+          "receiptNumber": 5825748604551168,
+          "recipientName": "allatus",
+          "recipientPhones": [
+            "07978241825",
+            "07668864762"
+          ],
+          "recipientPhone": "07492903686",
+          "recipientAddress": "audax",
+          "notes": "complectus",
+          "details": "velociter",
+          "deliveryType": "NORMAL",
+          "governorate": "MAYSAN",
+          "locationID": 597283703881728,
+          "storeID": 6032243292110848,
+          "repositoryID": 8009188036837376,
+          "branchID": 4712137771450368,
+          "clientID": 216881306796032
         }
       },
       "OrderUpdateExample": {
         "value": {
-          "paidAmount": 4880764938223616,
-          "discount": 4182442942398464,
+          "paidAmount": 1236290787868672,
+          "receiptNumber": 2600873479897088,
+          "discount": 7043698355339264,
           "status": "DELIVERED",
-          "deliveryAgentID": 7764947037585408,
-          "deliveryDate": "2023-12-26T13:04:42.459Z",
-          "recipientName": "viridis",
-          "recipientPhone": "vicissitudo",
-          "recipientAddress": "dedecor",
-          "notes": "absum",
-          "details": "consequuntur",
-          "repositoryID": 290178446917632,
-          "branchID": 3341629549182976,
-          "currentLocation": "vilitas"
+          "deliveryAgentID": 6165908988887040,
+          "deliveryDate": "2024-01-11T19:33:22.726Z",
+          "recipientName": "sumo",
+          "recipientPhones": [
+            "07721550488",
+            "07908769030",
+            "07757806203",
+            "07565948585",
+            "07972259171"
+          ],
+          "recipientPhone": "07764897800",
+          "recipientAddress": "quas",
+          "notes": "uterque",
+          "details": "suppellex",
+          "repositoryID": 1009429627535360,
+          "branchID": 6165425752637440,
+          "currentLocation": "tandem"
         }
       },
       "ProductCreateExample": {
         "value": {
-          "title": "demoror",
-          "price": 7969626029817856,
-          "image": "https://loremflickr.com/640/480?lock=1265513764225024",
-          "weight": 7678652594520064,
-          "storeID": 315873787117568,
-          "stock": 1312651481186304,
-          "categoryID": 898674521538560,
+          "title": "articulus",
+          "price": 5564187312914432,
+          "image": "https://loremflickr.com/640/480?lock=8976578126020608",
+          "weight": 3163330686484480,
+          "storeID": 7176054659612672,
+          "stock": 3353415841218560,
+          "categoryID": 4773342959632384,
           "colors": [
             {
-              "colorID": 3642202385285120,
-              "quantity": 3567862272753664
+              "colorID": 6030930892292096,
+              "quantity": 6916313236635648
             },
             {
-              "colorID": 7705135811657728,
-              "quantity": 3732478185439232
+              "colorID": 5494899749158912,
+              "quantity": 1991148545507328
             },
             {
-              "colorID": 2818352269492224,
-              "quantity": 721647078211584
+              "colorID": 7713248730152960,
+              "quantity": 1375410405244928
             },
             {
-              "colorID": 798188401328128,
-              "quantity": 7368191118409728
+              "colorID": 6389703861338112,
+              "quantity": 5169236701872128
             }
           ],
           "sizes": [
             {
-              "sizeID": 2138839537680384,
-              "quantity": 169833960308736
+              "sizeID": 3336256903708672,
+              "quantity": 6324335658663936
+            },
+            {
+              "sizeID": 4101382848118784,
+              "quantity": 6487836807135232
+            },
+            {
+              "sizeID": 8518755267117056,
+              "quantity": 4912909060669440
+            },
+            {
+              "sizeID": 1148879609266176,
+              "quantity": 1510880170737664
             }
           ]
         }
       },
       "ProductUpdateExample": {
         "value": {
-          "title": "aliquid",
-          "price": 7582258238062592,
-          "image": "https://picsum.photos/seed/pD9xxCKXe/640/480",
-          "weight": 3893483632852992,
-          "storeID": 7516535056760832,
-          "stock": 1443280359260160,
-          "categoryID": 221120858947584,
+          "title": "aggredior",
+          "price": 4907597939343360,
+          "image": "https://picsum.photos/seed/YsEsbgH0hC/640/480",
+          "weight": 671952066838528,
+          "storeID": 5788028473704448,
+          "stock": 782767140896768,
+          "categoryID": 6384110241054720,
           "colors": [
             {
-              "colorID": 4669253307334656,
-              "quantity": 8042358375448576
+              "colorID": 7841709176127488,
+              "quantity": 7663328467877888
             },
             {
-              "colorID": 8672117182693376,
-              "quantity": 7108659800702976
+              "colorID": 8115149516832768,
+              "quantity": 1600125233266688
             }
           ],
           "sizes": [
             {
-              "sizeID": 1118037329575936,
-              "quantity": 6981706806460416
+              "sizeID": 8309665383317504,
+              "quantity": 1255440128147456
             },
             {
-              "sizeID": 3170676835876864,
-              "quantity": 3525367813898240
-            },
-            {
-              "sizeID": 1332868039049216,
-              "quantity": 1117117879418880
+              "sizeID": 1137128463400960,
+              "quantity": 1989340611739648
             }
           ]
         }
@@ -9202,87 +8619,111 @@
       },
       "CategoryUpdateExample": {
         "value": {
-          "title": "aeneus"
+          "title": "adficio"
         }
       },
       "CategoryCreateExample": {
         "value": {
-          "title": "valeo"
+          "title": "sollers"
         }
       },
       "ColorCreateExample": {
         "value": {
-          "title": "alveus",
-          "code": "ultio"
+          "title": "avarus",
+          "code": "vulgus"
         }
       },
       "ColorUpdateExample": {
         "value": {
-          "title": "utrimque",
-          "code": "comes"
+          "title": "amoveo",
+          "code": "videlicet"
         }
       },
       "SizeCreateExample": {
         "value": {
-          "title": "appello"
+          "title": "decumbo"
         }
       },
       "SizeUpdateExample": {
         "value": {
-          "title": "caritas"
+          "title": "versus"
         }
       },
       "StoreCreateExample": {
         "value": {
-          "name": "Sheila Farrell",
-          "clientID": 4119945497542656,
-          "notes": "validus",
-          "logo": "clementia"
+          "name": "Meghan Kuhic",
+          "clientID": 2922207573442560,
+          "notes": "universe",
+          "logo": "distinctio"
         }
       },
       "StoreUpdateExample": {
         "value": {
-          "name": "Shawn Schaden",
-          "clientID": 2835484352970752,
-          "notes": "tendo",
-          "logo": "ventosus"
+          "name": "Ginger Bogan",
+          "clientID": 5496039593213952,
+          "notes": "trans",
+          "logo": "ter"
         }
       },
       "BannerCreateExample": {
         "value": {
-          "title": "vacuus",
-          "content": "congregatio",
-          "image": "https://picsum.photos/seed/43fAKS/640/480",
-          "url": "https://indelible-league.net"
+          "title": "denique",
+          "content": "conqueror",
+          "image": "https://picsum.photos/seed/1s1KeE/640/480",
+          "url": "https://suspicious-membrane.biz/"
         }
       },
       "BannerUpdateExample": {
         "value": {
-          "title": "verus",
-          "content": "studio",
-          "image": "https://loremflickr.com/640/480?lock=5254704925769728",
-          "url": "https://large-plume.info/"
+          "title": "fugit",
+          "content": "canonicus",
+          "image": "https://picsum.photos/seed/QzwqvpAE/640/480",
+          "url": "https://upbeat-elixir.name"
         }
       },
       "ReportCreateExample": {
         "value": {
-          "type": "BRANCH",
-          "branchID": 8613353366749184,
+          "type": "CLIENT",
+          "clientID": 6651783023689728,
+          "storeID": 6930583114481664,
           "ordersIDs": [
-            4390988361498624
+            1611375656828928
           ]
         }
       },
       "ReportUpdateExample": {
         "value": {
-          "status": "PAID"
+          "status": "PAID",
+          "confirmed": true
         }
       },
       "OrdersReceiptsCreateExample": {
         "value": {
           "ordersIDs": [
-            4004655998697472
+            7115241389293568,
+            3589876578516992,
+            4283745334984704,
+            6464690305630208,
+            1387637891923968
           ]
+        }
+      },
+      "AutomaticUpdateCreateExample": {
+        "value": {
+          "orderStatus": "REGISTERED",
+          "governorate": "SALAH_AL_DIN",
+          "returnCondition": "IN_REPOSITORY",
+          "updateAt": 19,
+          "checkAfter": 124
+        }
+      },
+      "AutomaticUpdateUpdateExample": {
+        "value": {
+          "orderStatus": "DELIVERED",
+          "governorate": "DIYALA",
+          "returnCondition": "IN_REPOSITORY",
+          "updateAt": 5,
+          "checkAfter": 385
         }
       }
     },
@@ -9336,16 +8777,13 @@
           },
           "salary": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "repositoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "role": {
             "type": "string",
@@ -9393,12 +8831,10 @@
             "type": "string"
           },
           "companyID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "deliveryCost": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           }
         },
         "required": [
@@ -9436,8 +8872,7 @@
             "minLength": 3
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           }
         },
         "required": [
@@ -9466,16 +8901,13 @@
           },
           "salary": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "repositoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "role": {
             "type": "string",
@@ -9523,12 +8955,10 @@
             "type": "string"
           },
           "companyID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "deliveryCost": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           }
         }
       },
@@ -9540,8 +8970,7 @@
             "minLength": 3
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           }
         }
       },
@@ -9576,8 +9005,7 @@
             ]
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "deliveryAgentsIDs": {
             "type": "array",
@@ -9624,8 +9052,7 @@
             ]
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "deliveryAgentsIDs": {
             "type": "array",
@@ -9668,19 +9095,16 @@
             "type": "string"
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "repositoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "avatar": {
             "type": "string"
           },
           "companyID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "governoratesDeliveryCosts": {
             "type": "array",
@@ -9713,8 +9137,7 @@
                 "cost": {
                   "default": 0,
                   "type": "number",
-                  "maximum": 100000,
-                  "nullable": true
+                  "maximum": 100000
                 }
               },
               "required": [
@@ -9764,19 +9187,16 @@
             "type": "string"
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "repositoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "avatar": {
             "type": "string"
           },
           "companyID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "governoratesDeliveryCosts": {
             "type": "array",
@@ -9809,8 +9229,7 @@
                 "cost": {
                   "default": 0,
                   "type": "number",
-                  "maximum": 100000,
-                  "nullable": true
+                  "maximum": 100000
                 }
               },
               "required": [
@@ -9924,42 +9343,40 @@
           "logo": {
             "type": "string"
           },
+          "color": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          },
           "registrationText": {
             "type": "string"
           },
           "governoratePrice": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "deliveryAgentFee": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "baghdadPrice": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForEvery500000IraqiDinar": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForEveryKilogram": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForRemoteAreas": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "orderStatusAutomaticUpdate": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           }
         },
         "required": [
@@ -9991,42 +9408,40 @@
           "logo": {
             "type": "string"
           },
+          "color": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          },
           "registrationText": {
             "type": "string"
           },
           "governoratePrice": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "deliveryAgentFee": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "baghdadPrice": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForEvery500000IraqiDinar": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForEveryKilogram": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "additionalPriceForRemoteAreas": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "orderStatusAutomaticUpdate": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           }
         }
       },
@@ -10052,25 +9467,22 @@
                       "type": "object",
                       "properties": {
                         "productID": {
-                          "type": "number",
-                          "nullable": true
+                          "type": "number"
                         },
                         "quantity": {
+                          "default": 1,
                           "type": "number",
                           "minimum": 1
                         },
                         "colorID": {
-                          "type": "number",
-                          "nullable": true
+                          "type": "number"
                         },
                         "sizeID": {
-                          "type": "number",
-                          "nullable": true
+                          "type": "number"
                         }
                       },
                       "required": [
-                        "productID",
-                        "quantity"
+                        "productID"
                       ]
                     }
                   }
@@ -10093,6 +9505,7 @@
                     "type": "number"
                   },
                   "quantity": {
+                    "default": 1,
                     "type": "number"
                   },
                   "weight": {
@@ -10101,8 +9514,7 @@
                 },
                 "required": [
                   "withProducts",
-                  "totalCost",
-                  "quantity"
+                  "totalCost"
                 ]
               }
             ]
@@ -10110,11 +9522,22 @@
           {
             "type": "object",
             "properties": {
+              "receiptNumber": {
+                "type": "number"
+              },
               "recipientName": {
                 "type": "string"
               },
+              "recipientPhones": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^07[3-9][0-9]{8}$"
+                }
+              },
               "recipientPhone": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^07[3-9][0-9]{8}$"
               },
               "recipientAddress": {
                 "type": "string"
@@ -10126,6 +9549,7 @@
                 "type": "string"
               },
               "deliveryType": {
+                "default": "NORMAL",
                 "type": "string",
                 "enum": [
                   "NORMAL",
@@ -10156,27 +9580,24 @@
                 ]
               },
               "locationID": {
-                "type": "number",
-                "nullable": true
+                "type": "number"
               },
               "storeID": {
-                "type": "number",
-                "nullable": true
+                "type": "number"
               },
               "repositoryID": {
-                "type": "number",
-                "nullable": true
+                "type": "number"
               },
               "branchID": {
-                "type": "number",
-                "nullable": true
+                "type": "number"
+              },
+              "clientID": {
+                "type": "number"
               }
             },
             "required": [
               "recipientName",
-              "recipientPhone",
               "recipientAddress",
-              "deliveryType",
               "governorate",
               "storeID"
             ]
@@ -10187,6 +9608,9 @@
         "type": "object",
         "properties": {
           "paidAmount": {
+            "type": "number"
+          },
+          "receiptNumber": {
             "type": "number"
           },
           "discount": {
@@ -10210,19 +9634,25 @@
             ]
           },
           "deliveryAgentID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "deliveryDate": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
           "recipientName": {
             "type": "string"
           },
+          "recipientPhones": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^07[3-9][0-9]{8}$"
+            }
+          },
           "recipientPhone": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^07[3-9][0-9]{8}$"
           },
           "recipientAddress": {
             "type": "string"
@@ -10234,12 +9664,10 @@
             "type": "string"
           },
           "repositoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "branchID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "currentLocation": {
             "type": "string"
@@ -10254,29 +9682,24 @@
           },
           "price": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "image": {
             "type": "string"
           },
           "weight": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "storeID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "stock": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "categoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "colors": {
             "type": "array",
@@ -10284,8 +9707,7 @@
               "type": "object",
               "properties": {
                 "colorID": {
-                  "type": "number",
-                  "nullable": true
+                  "type": "number"
                 },
                 "quantity": {
                   "type": "number",
@@ -10303,8 +9725,7 @@
               "type": "object",
               "properties": {
                 "sizeID": {
-                  "type": "number",
-                  "nullable": true
+                  "type": "number"
                 },
                 "quantity": {
                   "type": "number",
@@ -10332,29 +9753,24 @@
           },
           "price": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "image": {
             "type": "string"
           },
           "weight": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "storeID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "stock": {
             "type": "number",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
           "categoryID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "colors": {
             "type": "array",
@@ -10362,8 +9778,7 @@
               "type": "object",
               "properties": {
                 "colorID": {
-                  "type": "number",
-                  "nullable": true
+                  "type": "number"
                 },
                 "quantity": {
                   "type": "number",
@@ -10381,8 +9796,7 @@
               "type": "object",
               "properties": {
                 "sizeID": {
-                  "type": "number",
-                  "nullable": true
+                  "type": "number"
                 },
                 "quantity": {
                   "type": "number",
@@ -10477,8 +9891,7 @@
             "minLength": 3
           },
           "clientID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "notes": {
             "type": "string"
@@ -10500,8 +9913,7 @@
             "minLength": 3
           },
           "clientID": {
-            "type": "number",
-            "nullable": true
+            "type": "number"
           },
           "notes": {
             "type": "string"
@@ -10567,8 +9979,7 @@
                     ]
                   },
                   "companyID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   }
                 },
                 "required": [
@@ -10586,8 +9997,7 @@
                     ]
                   },
                   "deliveryAgentID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   }
                 },
                 "required": [
@@ -10643,8 +10053,7 @@
                     ]
                   },
                   "branchID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   }
                 },
                 "required": [
@@ -10662,12 +10071,10 @@
                     ]
                   },
                   "clientID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   },
                   "storeID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   }
                 },
                 "required": [
@@ -10686,8 +10093,7 @@
                     ]
                   },
                   "repositoryID": {
-                    "type": "number",
-                    "nullable": true
+                    "type": "number"
                   }
                 },
                 "required": [
@@ -10703,8 +10109,7 @@
               "ordersIDs": {
                 "type": "array",
                 "items": {
-                  "type": "number",
-                  "nullable": true
+                  "type": "number"
                 },
                 "minItems": 1
               }
@@ -10724,6 +10129,9 @@
               "UNPAID",
               "PAID"
             ]
+          },
+          "confirmed": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -10736,8 +10144,7 @@
           "ordersIDs": {
             "type": "array",
             "items": {
-              "type": "number",
-              "nullable": true
+              "type": "number"
             },
             "minItems": 1
           }
@@ -10745,6 +10152,137 @@
         "required": [
           "ordersIDs"
         ]
+      },
+      "AutomaticUpdateCreateSchema": {
+        "type": "object",
+        "properties": {
+          "orderStatus": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "READY_TO_SEND",
+              "WITH_DELIVERY_AGENT",
+              "DELIVERED",
+              "REPLACED",
+              "PARTIALLY_RETURNED",
+              "RETURNED",
+              "POSTPONED",
+              "CHANGE_ADDRESS",
+              "RESEND",
+              "WITH_RECEIVING_AGENT",
+              "PROCESSING"
+            ]
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
+          },
+          "returnCondition": {
+            "type": "string",
+            "enum": [
+              "WITH_AGENT",
+              "IN_REPOSITORY"
+            ]
+          },
+          "updateAt": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 24
+          },
+          "checkAfter": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 480
+          }
+        },
+        "required": [
+          "orderStatus",
+          "governorate",
+          "returnCondition",
+          "updateAt",
+          "checkAfter"
+        ]
+      },
+      "AutomaticUpdateUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "orderStatus": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "READY_TO_SEND",
+              "WITH_DELIVERY_AGENT",
+              "DELIVERED",
+              "REPLACED",
+              "PARTIALLY_RETURNED",
+              "RETURNED",
+              "POSTPONED",
+              "CHANGE_ADDRESS",
+              "RESEND",
+              "WITH_RECEIVING_AGENT",
+              "PROCESSING"
+            ]
+          },
+          "governorate": {
+            "type": "string",
+            "enum": [
+              "AL_ANBAR",
+              "BABIL",
+              "BAGHDAD",
+              "BASRA",
+              "DHI_QAR",
+              "AL_QADISIYYAH",
+              "DIYALA",
+              "DUHOK",
+              "ERBIL",
+              "KARBALA",
+              "KIRKUK",
+              "MAYSAN",
+              "MUTHANNA",
+              "NAJAF",
+              "NINAWA",
+              "SALAH_AL_DIN",
+              "SULAYMANIYAH",
+              "WASIT"
+            ]
+          },
+          "returnCondition": {
+            "type": "string",
+            "enum": [
+              "WITH_AGENT",
+              "IN_REPOSITORY"
+            ]
+          },
+          "updateAt": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 24
+          },
+          "checkAfter": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 480
+          }
+        }
       }
     }
   }
