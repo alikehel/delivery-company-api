@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import {
-    AdminRole,
-    ClientRole,
-    EmployeeRole,
-    Permission
-} from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
 import AppError from "../utils/AppError.util";
 
 export const isAutherized = (allowedRoles: string[]) => {
@@ -23,11 +18,9 @@ export const isAutherized = (allowedRoles: string[]) => {
         if (res.locals.user) {
             if (allowedRoles.includes(role)) {
                 return next(); // If user is authorized, call the next middleware function
-            } else {
-                return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
             }
-        } else {
             return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
         }
+        return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
     };
 };

@@ -3,11 +3,7 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import {
-    getAllNotifications,
-    updateNotification,
-    updateNotifications
-} from "./notifications.controller";
+import { getAllNotifications, updateNotification, updateNotifications } from "./notifications.controller";
 
 const router = Router();
 

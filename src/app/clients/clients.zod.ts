@@ -43,9 +43,7 @@ export const ClientCreateSchemaWithUserID = ClientCreateSchema.extend({
     userID: z.coerce.number()
 });
 
-export type ClientCreateTypeWithUserID = z.infer<
-    typeof ClientCreateSchemaWithUserID
->;
+export type ClientCreateTypeWithUserID = z.infer<typeof ClientCreateSchemaWithUserID>;
 
 export const ClientUpdateSchema = ClientCreateSchema.partial();
 

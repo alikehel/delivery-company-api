@@ -1,8 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import {
-    AutomaticUpdateCreateType,
-    AutomaticUpdateUpdateType
-} from "./automaticUpdates.zod";
+import { AutomaticUpdateCreateType, AutomaticUpdateUpdateType } from "./automaticUpdates.zod";
 
 const prisma = new PrismaClient();
 
@@ -33,10 +30,7 @@ const automaticUpdateSelect = {
 // };
 
 export class AutomaticUpdateModel {
-    async createAutomaticUpdate(
-        companyID: number,
-        data: AutomaticUpdateCreateType
-    ) {
+    async createAutomaticUpdate(companyID: number, data: AutomaticUpdateCreateType) {
         const createdAutomaticUpdate = await prisma.automaticUpdate.create({
             data: {
                 orderStatus: data.orderStatus,

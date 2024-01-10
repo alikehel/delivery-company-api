@@ -12,10 +12,7 @@ import morganBody from "morgan-body";
 import globalErrorcontroller from "./error/error.controller";
 import Logger from "./lib/logger";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
-import {
-    morganMiddleware,
-    morganMiddlewareImmediate
-} from "./middlewares/morgan.middleware";
+import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
 import AppError from "./utils/AppError.util";
@@ -30,11 +27,7 @@ const swaggerOptionsV1 = {
     customCss: swaggerTheme.getBuffer("dark")
 };
 
-app.use(
-    "/api-docs-dark-theme",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, swaggerOptionsV1)
-);
+app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptionsV1));
 
 app.use(
     "/api-docs-scalar",

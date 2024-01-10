@@ -20,13 +20,13 @@ export class ReportController {
         });
 
         const chunks: Uint8Array[] = [];
-        let result;
+        let result: Buffer;
 
-        pdf.on("data", function (chunk) {
+        pdf.on("data", (chunk) => {
             chunks.push(chunk);
         });
 
-        pdf.on("end", function () {
+        pdf.on("end", () => {
             result = Buffer.concat(chunks);
             res.contentType("application/pdf");
             res.send(result);
@@ -44,12 +44,10 @@ export class ReportController {
         const queryString = req.query;
         const loggedInUser: loggedInUserType = res.locals.user;
 
-        const { page, pagesCount, reports } = await reportService.getAllReports(
-            {
-                queryString: queryString,
-                loggedInUser: loggedInUser
-            }
-        );
+        const { page, pagesCount, reports } = await reportService.getAllReports({
+            queryString: queryString,
+            loggedInUser: loggedInUser
+        });
 
         if (pagesCount === 0) {
             res.status(200).json({
@@ -70,7 +68,7 @@ export class ReportController {
     });
 
     getReport = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
 
         const report = await reportModel.getReport({
             reportID: reportID
@@ -83,20 +81,20 @@ export class ReportController {
     });
 
     getReportPDF = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
 
         const pdf = await reportService.getReportPDF({
             reportID: reportID
         });
 
         const chunks: Uint8Array[] = [];
-        let result;
+        let result: Buffer;
 
-        pdf.on("data", function (chunk) {
+        pdf.on("data", (chunk) => {
             chunks.push(chunk);
         });
 
-        pdf.on("end", function () {
+        pdf.on("end", () => {
             result = Buffer.concat(chunks);
             res.contentType("application/pdf");
             res.send(result);
@@ -106,7 +104,7 @@ export class ReportController {
     });
 
     updateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
         const loggedInUser = res.locals.user;
 
         const reportData = ReportUpdateSchema.parse(req.body);
@@ -124,7 +122,7 @@ export class ReportController {
     });
 
     deleteReport = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
 
         await reportService.deleteReport(reportID);
 
@@ -134,7 +132,7 @@ export class ReportController {
     });
 
     deactivateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
         const loggedInUserID = +res.locals.user.id;
 
         await reportService.deactivateReport(reportID, loggedInUserID);
@@ -145,7 +143,7 @@ export class ReportController {
     });
 
     reactivateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params["reportID"];
+        const reportID = +req.params.reportID;
 
         await reportService.reactivateReport(reportID);
 

@@ -44,15 +44,13 @@ const locationReform = (
         name: location.name,
         governorate: location.governorate,
         branch: location.branch,
-        deliveryAgents: location.deliveryAgentsLocations.map(
-            (deliveryAgent) => {
-                return {
-                    id: deliveryAgent.deliveryAgent.user.id,
-                    name: deliveryAgent.deliveryAgent.user.name,
-                    phone: deliveryAgent.deliveryAgent.user.phone
-                };
-            }
-        ),
+        deliveryAgents: location.deliveryAgentsLocations.map((deliveryAgent) => {
+            return {
+                id: deliveryAgent.deliveryAgent.user.id,
+                name: deliveryAgent.deliveryAgent.user.name,
+                phone: deliveryAgent.deliveryAgent.user.phone
+            };
+        }),
         company: location.company
     };
 };
@@ -171,17 +169,15 @@ export class LocationModel {
                     : undefined,
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
-                          create: data.locationData.deliveryAgentsIDs?.map(
-                              (id) => {
-                                  return {
-                                      deliveryAgent: {
-                                          connect: {
-                                              id: id
-                                          }
+                          create: data.locationData.deliveryAgentsIDs?.map((id) => {
+                              return {
+                                  deliveryAgent: {
+                                      connect: {
+                                          id: id
                                       }
-                                  };
-                              }
-                          )
+                                  }
+                              };
+                          })
                       }
                     : undefined
             },

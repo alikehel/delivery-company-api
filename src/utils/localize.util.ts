@@ -65,9 +65,7 @@ export const localizeReportStatus = (text: ReportStatus): string => {
     }
 };
 
-export const localizeRole = (
-    text: AdminRole | EmployeeRole | ClientRole
-): string => {
+export const localizeRole = (text: AdminRole | EmployeeRole | ClientRole): string => {
     switch (text) {
         case "COMPANY_MANAGER":
             return "مدير الشركه";

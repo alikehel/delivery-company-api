@@ -23,7 +23,10 @@ const stream: StreamOptions = {
 
 export const morganMiddlewareImmediate = morgan(
     '--> [ :user-agent | :remote-addr | :remote-user | ":method :url" ]',
-    { stream, immediate: true }
+    {
+        stream,
+        immediate: true
+    }
 );
 
 export const morganMiddleware = morgan(

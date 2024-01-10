@@ -52,7 +52,7 @@ router.route("/test").post(
     upload.none(),
     catchAsync(async (req, res) => {
         //  req.file?.destination + "/" + req.file?.filename;
-        const imagePath = "/" + req.file?.path.replace(/\\/g, "/");
+        const imagePath = `/${req.file?.path.replace(/\\/g, "/")}`;
         // #swagger.ignore = true
         res.status(200).json({
             status: "success",

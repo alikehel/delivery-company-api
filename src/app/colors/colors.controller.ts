@@ -33,11 +33,7 @@ export const getAllColors = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -60,7 +56,7 @@ export const getAllColors = catchAsync(async (req, res) => {
 });
 
 export const getColor = catchAsync(async (req, res) => {
-    const colorID = +req.params["colorID"];
+    const colorID = +req.params.colorID;
 
     const color = await colorModel.getColor({
         colorID: colorID
@@ -73,7 +69,7 @@ export const getColor = catchAsync(async (req, res) => {
 });
 
 export const updateColor = catchAsync(async (req, res) => {
-    const colorID = +req.params["colorID"];
+    const colorID = +req.params.colorID;
 
     const colorData = ColorUpdateSchema.parse(req.body);
 
@@ -89,7 +85,7 @@ export const updateColor = catchAsync(async (req, res) => {
 });
 
 export const deleteColor = catchAsync(async (req, res) => {
-    const colorID = +req.params["colorID"];
+    const colorID = +req.params.colorID;
 
     await colorModel.deleteColor({
         colorID: colorID

@@ -5,13 +5,7 @@ import { Router } from "express";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
 import { upload } from "../../middlewares/upload.middleware";
-import {
-    createBanner,
-    deleteBanner,
-    getAllBanners,
-    getBanner,
-    updateBanner
-} from "./banners.controller";
+import { createBanner, deleteBanner, getAllBanners, getBanner, updateBanner } from "./banners.controller";
 
 const router = Router();
 

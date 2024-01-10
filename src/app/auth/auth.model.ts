@@ -56,8 +56,8 @@ const userReform = (
         companyName: user.employee
             ? user.employee.company.name
             : user.client
-            ? user.client.company.name
-            : null,
+              ? user.client.company.name
+              : null,
         admin: user.admin
             ? {
                   role: user.admin.role

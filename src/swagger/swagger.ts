@@ -6,10 +6,7 @@ import {
     EmployeeUpdateOpenAPISchema
 } from "../app/employees/employees.zod";
 
-import {
-    UserSigninMock,
-    UserSigninOpenAPISchema
-} from "./../app/auth/auth.zod";
+import { UserSigninMock, UserSigninOpenAPISchema } from "./../app/auth/auth.zod";
 
 import {
     RepositoryCreateMock,

@@ -21,10 +21,7 @@ export const signin = catchAsync(async (req, res) => {
         throw new AppError("User not found", 400);
     }
 
-    const isValidPassword = bcrypt.compareSync(
-        user.password + (SECRET as string),
-        returnedUser.password
-    );
+    const isValidPassword = bcrypt.compareSync(user.password + (SECRET as string), returnedUser.password);
 
     if (!isValidPassword) {
         throw new AppError("كلمة المرور غير صحيحة", 400);
@@ -40,11 +37,9 @@ export const signin = catchAsync(async (req, res) => {
                 : returnedUser.employee
                   ? returnedUser.employee.role
                   : returnedUser.client
-                    ? returnedUser.client.role
-                    : null,
-            permissions: returnedUser.employee
-                ? returnedUser.employee.permissions
-                : null,
+                      ? returnedUser.client.role
+                      : null,
+            permissions: returnedUser.employee ? returnedUser.employee.permissions : null,
             companyID: returnedUser.employee
                 ? returnedUser.employee.company.id
                 : returnedUser.client

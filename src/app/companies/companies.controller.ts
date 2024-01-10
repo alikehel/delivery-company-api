@@ -7,7 +7,7 @@ const companyModel = new CompanyModel();
 
 export const createCompany = catchAsync(async (req, res) => {
     const companyData = CompanyCreateSchema.parse(req.body);
-    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
+    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const createdCompany = await companyModel.createCompany({
         ...companyData,
@@ -36,11 +36,7 @@ export const getAllCompanies = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -63,7 +59,7 @@ export const getAllCompanies = catchAsync(async (req, res) => {
 });
 
 export const getCompany = catchAsync(async (req, res) => {
-    const companyID = +req.params["companyID"];
+    const companyID = +req.params.companyID;
 
     const company = await companyModel.getCompany({
         companyID: +companyID
@@ -76,8 +72,8 @@ export const getCompany = catchAsync(async (req, res) => {
 });
 
 export const updateCompany = catchAsync(async (req, res) => {
-    const companyID = +req.params["companyID"];
-    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
+    const companyID = +req.params.companyID;
+    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const companyData = CompanyUpdateSchema.parse(req.body);
 
@@ -93,7 +89,7 @@ export const updateCompany = catchAsync(async (req, res) => {
 });
 
 export const deleteCompany = catchAsync(async (req, res) => {
-    const companyID = +req.params["companyID"];
+    const companyID = +req.params.companyID;
 
     await companyModel.deleteCompany({
         companyID: +companyID

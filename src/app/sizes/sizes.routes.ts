@@ -3,13 +3,7 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import {
-    createSize,
-    deleteSize,
-    getAllSizes,
-    getSize,
-    updateSize
-} from "./sizes.controller";
+import { createSize, deleteSize, getAllSizes, getSize, updateSize } from "./sizes.controller";
 
 const router = Router();
 

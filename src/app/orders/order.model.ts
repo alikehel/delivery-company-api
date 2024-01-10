@@ -1,17 +1,6 @@
-import {
-    DeliveryType,
-    EmployeeRole,
-    Governorate,
-    OrderStatus,
-    Prisma,
-    PrismaClient
-} from "@prisma/client";
+import { DeliveryType, EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import AppError from "../../utils/AppError.util";
-import {
-    OrderCreateType,
-    OrderTimelineType,
-    OrderUpdateType
-} from "./orders.zod";
+import { OrderCreateType, OrderTimelineType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();
 
@@ -145,7 +134,7 @@ export const orderReform = (
             : undefined,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
-        deletedAt: order.deletedAt && order.deletedAt.toISOString()
+        deletedAt: order.deletedAt?.toISOString()
     };
 };
 
@@ -198,10 +187,7 @@ export const orderReform = (
 // };
 
 const statisticsReformed = (statistics: {
-    ordersStatisticsByStatus: (Prisma.PickEnumerable<
-        Prisma.OrderGroupByOutputType,
-        "status"[]
-    > & {
+    ordersStatisticsByStatus: (Prisma.PickEnumerable<Prisma.OrderGroupByOutputType, "status"[]> & {
         _count: {
             id: number;
         };
@@ -210,10 +196,7 @@ const statisticsReformed = (statistics: {
         };
     })[];
 
-    ordersStatisticsByGovernorate: (Prisma.PickEnumerable<
-        Prisma.OrderGroupByOutputType,
-        "governorate"[]
-    > & {
+    ordersStatisticsByGovernorate: (Prisma.PickEnumerable<Prisma.OrderGroupByOutputType, "governorate"[]> & {
         _count: {
             id: number;
         };
@@ -265,9 +248,7 @@ const statisticsReformed = (statistics: {
     ];
 
     const statisticsReformed = {
-        ordersStatisticsByStatus: (
-            Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-        )
+        ordersStatisticsByStatus: (Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>)
             .map((status) => {
                 const statusCount = statistics.ordersStatisticsByStatus.find(
                     (orderStatus: { status: string }) => {
@@ -281,27 +262,23 @@ const statisticsReformed = (statistics: {
                 };
             })
             .sort((a, b) => {
-                return (
-                    sortingOrder.indexOf(a.status) -
-                    sortingOrder.indexOf(b.status)
-                );
+                return sortingOrder.indexOf(a.status) - sortingOrder.indexOf(b.status);
             }),
 
-        ordersStatisticsByGovernorate: (
-            Object.keys(Governorate) as Array<keyof typeof Governorate>
-        ).map((governorate) => {
-            const governorateCount =
-                statistics.ordersStatisticsByGovernorate.find(
+        ordersStatisticsByGovernorate: (Object.keys(Governorate) as Array<keyof typeof Governorate>).map(
+            (governorate) => {
+                const governorateCount = statistics.ordersStatisticsByGovernorate.find(
                     (orderStatus: { governorate: string }) => {
                         return orderStatus.governorate === governorate;
                     }
                 );
-            return {
-                governorate: governorate,
-                totalCost: governorateCount?._sum.totalCost || 0,
-                count: governorateCount?._count.id || 0
-            };
-        }),
+                return {
+                    governorate: governorate,
+                    totalCost: governorateCount?._sum.totalCost || 0,
+                    count: governorateCount?._count.id || 0
+                };
+            }
+        ),
 
         allOrdersStatistics: {
             totalCost: statistics.allOrdersStatistics._sum.totalCost || 0,
@@ -309,9 +286,7 @@ const statisticsReformed = (statistics: {
         },
 
         allOrdersStatisticsWithoutClientReport: {
-            totalCost:
-                statistics.allOrdersStatisticsWithoutClientReport._sum
-                    .totalCost || 0,
+            totalCost: statistics.allOrdersStatisticsWithoutClientReport._sum.totalCost || 0,
             count: statistics.allOrdersStatisticsWithoutClientReport._count.id
         },
 
@@ -350,16 +325,12 @@ const statisticsReformed = (statistics: {
 // };
 
 export class OrderModel {
-    async createOrder(
-        companyID: number,
-        clientID: number,
-        data: OrderCreateType
-    ) {
+    async createOrder(companyID: number, clientID: number, data: OrderCreateType) {
         let totalCost = 0;
         let quantity = 0;
         let weight = 0;
 
-        if (data.withProducts == true) {
+        if (data.withProducts === true) {
             for (const product of data.products) {
                 const productData = await prisma.product.findUnique({
                     where: {
@@ -380,7 +351,7 @@ export class OrderModel {
         }
 
         // Check if products are available for the specific color and size
-        if (data.withProducts == true) {
+        if (data.withProducts === true) {
             for (const product of data.products) {
                 const productData = await prisma.product.findUnique({
                     where: {
@@ -416,10 +387,7 @@ export class OrderModel {
                     });
 
                     if (!productColor) {
-                        throw new AppError(
-                            `المنتج (${productTitle}) غير متوفر بهذا اللون`,
-                            400
-                        );
+                        throw new AppError(`المنتج (${productTitle}) غير متوفر بهذا اللون`, 400);
                     }
 
                     if (productColor.quantity < product.quantity) {
@@ -449,10 +417,7 @@ export class OrderModel {
                     });
 
                     if (!productSize) {
-                        throw new AppError(
-                            `المنتج (${productTitle}) غير متوفر بهذا المقاس`,
-                            400
-                        );
+                        throw new AppError(`المنتج (${productTitle}) غير متوفر بهذا المقاس`, 400);
                     }
 
                     if (productSize.quantity < product.quantity) {
@@ -474,10 +439,7 @@ export class OrderModel {
                     });
 
                     if (!productQuantity) {
-                        throw new AppError(
-                            `المنتج (${productTitle}) غير متوفر`,
-                            400
-                        );
+                        throw new AppError(`المنتج (${productTitle}) غير متوفر`, 400);
                     }
 
                     if (productQuantity.stock < product.quantity) {
@@ -519,21 +481,16 @@ export class OrderModel {
                         governorate: Governorate;
                         cost: number;
                     }) => {
-                        return (
-                            governorateDeliveryCost.governorate ===
-                            data.governorate
-                        );
+                        return governorateDeliveryCost.governorate === data.governorate;
                     }
                 )?.cost || 0;
         }
 
         const createdOrder = await prisma.order.create({
             data: {
-                totalCost:
-                    data.withProducts === false ? data.totalCost : totalCost,
+                totalCost: data.withProducts === false ? data.totalCost : totalCost,
                 deliveryCost: deliveryCost,
-                quantity:
-                    data.withProducts === false ? data.quantity : quantity,
+                quantity: data.withProducts === false ? data.quantity : quantity,
                 weight: data.withProducts === false ? data.weight : weight,
                 recipientName: data.recipientName,
                 recipientPhones: data.recipientPhones
@@ -592,17 +549,17 @@ export class OrderModel {
                                       quantity: product.quantity,
                                       size: product.sizeID
                                           ? {
-                                                connect: {
-                                                    id: product.sizeID
-                                                }
-                                            }
+                                                  connect: {
+                                                      id: product.sizeID
+                                                  }
+                                              }
                                           : undefined,
                                       color: product.colorID
                                           ? {
-                                                connect: {
-                                                    id: product.colorID
-                                                }
-                                            }
+                                                  connect: {
+                                                      id: product.colorID
+                                                  }
+                                              }
                                           : undefined,
                                       product: {
                                           connect: {
@@ -617,7 +574,7 @@ export class OrderModel {
         });
 
         // TODO: Reduce products quantity and color and size quantity
-        if (data.withProducts == true) {
+        if (data.withProducts === true) {
             for (const product of data.products) {
                 if (product.colorID) {
                     await prisma.productColors.update({
@@ -843,22 +800,8 @@ export class OrderModel {
                         // gte deliveryDate day start time (00:00:00) and lte deliveryDate day end time (23:59:59)
                         deliveryDate: filters.deliveryDate
                             ? {
-                                  gte: new Date(
-                                      new Date(filters.deliveryDate).setHours(
-                                          0,
-                                          0,
-                                          0,
-                                          0
-                                      )
-                                  ),
-                                  lte: new Date(
-                                      new Date(filters.deliveryDate).setHours(
-                                          23,
-                                          59,
-                                          59,
-                                          999
-                                      )
-                                  )
+                                  gte: new Date(new Date(filters.deliveryDate).setHours(0, 0, 0, 0)),
+                                  lte: new Date(new Date(filters.deliveryDate).setHours(23, 59, 59, 999))
                               }
                             : undefined
                     },
@@ -1011,8 +954,7 @@ export class OrderModel {
                 ]
             },
             orderBy: {
-                [filters.sort.split(":")[0]]:
-                    filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+                [filters.sort.split(":")[0]]: filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: orderSelect
         });
@@ -1043,9 +985,9 @@ export class OrderModel {
     }
 
     async updateOrder(data: { orderID: number; orderData: OrderUpdateType }) {
-        let deliveryAgentCost;
-        let companyNet;
-        let clientNet;
+        let deliveryAgentCost = 0;
+        let companyNet = 0;
+        let clientNet = 0;
         if (data.orderData.paidAmount) {
             // calculate client net
             const orderData = await prisma.order.findUnique({
@@ -1074,13 +1016,11 @@ export class OrderModel {
                         deliveryCost: true
                     }
                 });
-                deliveryAgentCost = (orderDeliveryAgent?.deliveryCost ||
-                    0) as number;
+                deliveryAgentCost = (orderDeliveryAgent?.deliveryCost || 0) as number;
 
                 companyNet = data.orderData.paidAmount - deliveryAgentCost;
             } else if (orderData?.deliveryAgent) {
-                deliveryAgentCost = (orderData?.deliveryAgent?.deliveryCost ||
-                    0) as number;
+                deliveryAgentCost = (orderData?.deliveryAgent?.deliveryCost || 0) as number;
                 companyNet = data.orderData.paidAmount - deliveryAgentCost;
             }
         }
@@ -1346,21 +1286,20 @@ export class OrderModel {
             }
         });
 
-        const allOrdersStatisticsWithoutClientReport =
-            await prisma.order.aggregate({
-                _sum: {
-                    totalCost: true
-                },
-                _count: {
-                    id: true
-                },
-                where: {
-                    ...filtersReformed,
-                    clientReport: {
-                        is: null
-                    }
+        const allOrdersStatisticsWithoutClientReport = await prisma.order.aggregate({
+            _sum: {
+                totalCost: true
+            },
+            _count: {
+                id: true
+            },
+            where: {
+                ...filtersReformed,
+                clientReport: {
+                    is: null
                 }
-            });
+            }
+        });
 
         const todayOrdersStatistics = await prisma.order.aggregate({
             _sum: {
@@ -1472,10 +1411,7 @@ export class OrderModel {
                             },
                             where: {
                                 role: {
-                                    in: [
-                                        EmployeeRole.BRANCH_MANAGER,
-                                        EmployeeRole.INQUIRY_EMPLOYEE
-                                    ]
+                                    in: [EmployeeRole.BRANCH_MANAGER, EmployeeRole.INQUIRY_EMPLOYEE]
                                 }
                             }
                         }

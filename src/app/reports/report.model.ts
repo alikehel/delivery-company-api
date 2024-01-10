@@ -1,10 +1,4 @@
-import {
-    Governorate,
-    Prisma,
-    PrismaClient,
-    ReportStatus,
-    ReportType
-} from "@prisma/client";
+import { Governorate, Prisma, PrismaClient, ReportStatus, ReportType } from "@prisma/client";
 import { ReportCreateType, ReportUpdateType } from "./reports.zod";
 
 const prisma = new PrismaClient();
@@ -213,7 +207,7 @@ export const reportReform = (
         company: report.company,
         deleted: report.deleted,
         deletedBy: report.deleted && report.deletedBy,
-        deletedAt: report.deletedAt && report.deletedAt.toISOString()
+        deletedAt: report.deletedAt?.toISOString()
     };
     return reportData;
 };
@@ -285,7 +279,8 @@ export class ReportModel {
                 }
             });
             return createdReport;
-        } else if (data.type === ReportType.REPOSITORY) {
+        }
+        if (data.type === ReportType.REPOSITORY) {
             const createdReport = await prisma.repositoryReport.create({
                 data: {
                     repository: {
@@ -298,7 +293,8 @@ export class ReportModel {
                 }
             });
             return createdReport;
-        } else if (data.type === ReportType.BRANCH) {
+        }
+        if (data.type === ReportType.BRANCH) {
             const createdReport = await prisma.branchReport.create({
                 data: {
                     branch: {
@@ -311,7 +307,8 @@ export class ReportModel {
                 }
             });
             return createdReport;
-        } else if (data.type === ReportType.DELIVERY_AGENT) {
+        }
+        if (data.type === ReportType.DELIVERY_AGENT) {
             const createdReport = await prisma.deliveryAgentReport.create({
                 data: {
                     deliveryAgent: {
@@ -324,7 +321,8 @@ export class ReportModel {
                 }
             });
             return createdReport;
-        } else if (data.type === ReportType.GOVERNORATE) {
+        }
+        if (data.type === ReportType.GOVERNORATE) {
             const createdReport = await prisma.governorateReport.create({
                 data: {
                     governorate: data.governorate,
@@ -333,7 +331,8 @@ export class ReportModel {
                 }
             });
             return createdReport;
-        } else if (data.type === ReportType.COMPANY) {
+        }
+        if (data.type === ReportType.COMPANY) {
             const createdReport = await prisma.companyReport.create({
                 data: {
                     company: {
@@ -439,8 +438,7 @@ export class ReportModel {
                 ]
             },
             orderBy: {
-                [filters.sort.split(":")[0]]:
-                    filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+                [filters.sort.split(":")[0]]: filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: reportSelect
         });

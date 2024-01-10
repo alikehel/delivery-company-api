@@ -84,7 +84,7 @@ const clientReform = (
             : null,
         deleted: client.deleted,
         deletedBy: client.deleted && client.deletedBy,
-        deletedAt: client.deletedAt && client.deletedAt.toISOString()
+        deletedAt: client.deletedAt?.toISOString()
     };
 };
 
@@ -154,11 +154,7 @@ export class ClientModel {
         return clientsCount;
     }
 
-    async getAllClients(
-        skip: number,
-        take: number,
-        filters: { deleted?: string }
-    ) {
+    async getAllClients(skip: number, take: number, filters: { deleted?: string }) {
         const clients = await prisma.client.findMany({
             skip: skip,
             take: take,
@@ -226,8 +222,7 @@ export class ClientModel {
                           }
                       }
                     : undefined,
-                governoratesDeliveryCosts:
-                    data.clientData.governoratesDeliveryCosts
+                governoratesDeliveryCosts: data.clientData.governoratesDeliveryCosts
             },
             select: clientSelect
         });

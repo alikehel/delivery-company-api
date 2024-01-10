@@ -15,8 +15,7 @@ admin.initializeApp({
 const notificationModel = new NotificationModel();
 
 const sendNotification = async (data: NotificationCreateType) => {
-    const createdNotification =
-        await notificationModel.createNotification(data);
+    const createdNotification = await notificationModel.createNotification(data);
 
     const user = createdNotification?.user;
 

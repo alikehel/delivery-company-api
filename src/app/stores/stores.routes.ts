@@ -3,6 +3,7 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
 import {
     createStore,
@@ -13,7 +14,6 @@ import {
     reactivateStore,
     updateStore
 } from "./stores.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 

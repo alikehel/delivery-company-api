@@ -9,10 +9,7 @@ export const createCategory = catchAsync(async (req, res) => {
     const categoryData = CategoryCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
 
-    const createdCategory = await categoryModel.createCategory(
-        companyID,
-        categoryData
-    );
+    const createdCategory = await categoryModel.createCategory(companyID, categoryData);
 
     res.status(200).json({
         status: "success",
@@ -36,11 +33,7 @@ export const getAllCategories = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -63,7 +56,7 @@ export const getAllCategories = catchAsync(async (req, res) => {
 });
 
 export const getCategory = catchAsync(async (req, res) => {
-    const categoryID = +req.params["categoryID"];
+    const categoryID = +req.params.categoryID;
 
     const category = await categoryModel.getCategory({
         categoryID: categoryID
@@ -76,7 +69,7 @@ export const getCategory = catchAsync(async (req, res) => {
 });
 
 export const updateCategory = catchAsync(async (req, res) => {
-    const categoryID = +req.params["categoryID"];
+    const categoryID = +req.params.categoryID;
 
     const categoryData = CategoryUpdateSchema.parse(req.body);
 
@@ -92,7 +85,7 @@ export const updateCategory = catchAsync(async (req, res) => {
 });
 
 export const deleteCategory = catchAsync(async (req, res) => {
-    const categoryID = +req.params["categoryID"];
+    const categoryID = +req.params.categoryID;
 
     await categoryModel.deleteCategory({
         categoryID: categoryID

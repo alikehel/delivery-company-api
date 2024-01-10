@@ -33,11 +33,7 @@ export const getAllSizes = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -60,7 +56,7 @@ export const getAllSizes = catchAsync(async (req, res) => {
 });
 
 export const getSize = catchAsync(async (req, res) => {
-    const sizeID = +req.params["sizeID"];
+    const sizeID = +req.params.sizeID;
 
     const size = await sizeModel.getSize({
         sizeID: sizeID
@@ -73,7 +69,7 @@ export const getSize = catchAsync(async (req, res) => {
 });
 
 export const updateSize = catchAsync(async (req, res) => {
-    const sizeID = +req.params["sizeID"];
+    const sizeID = +req.params.sizeID;
 
     const sizeData = SizeUpdateSchema.parse(req.body);
 
@@ -89,7 +85,7 @@ export const updateSize = catchAsync(async (req, res) => {
 });
 
 export const deleteSize = catchAsync(async (req, res) => {
-    const sizeID = +req.params["sizeID"];
+    const sizeID = +req.params.sizeID;
 
     await sizeModel.deleteSize({
         sizeID: sizeID

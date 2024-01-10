@@ -69,7 +69,7 @@ const employeeReform = (
         company: employee.company,
         deleted: employee.deleted,
         deletedBy: employee.deleted && employee.deletedBy,
-        deletedAt: employee.deletedAt && employee.deletedAt.toISOString(),
+        deletedAt: employee.deletedAt?.toISOString(),
         ordersCount: employee._count.orders,
         createdAt: employee.user.createdAt.toISOString(),
         updatedAt: employee.user.updatedAt.toISOString()
@@ -159,10 +159,7 @@ export class EmployeeModel {
                     },
                     {
                         deliveryAgentsLocations: filters.roles?.find((role) => {
-                            return (
-                                role === "DELIVERY_AGENT" ||
-                                role === "RECEIVING_AGENT"
-                            );
+                            return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
                         })
                             ? {
                                   some: {

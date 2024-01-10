@@ -33,11 +33,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -60,7 +56,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
 });
 
 export const getBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params["branchID"];
+    const branchID = +req.params.branchID;
 
     const branch = await branchModel.getBranch({
         branchID: branchID
@@ -73,7 +69,7 @@ export const getBranch = catchAsync(async (req, res) => {
 });
 
 export const updateBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params["branchID"];
+    const branchID = +req.params.branchID;
 
     const branchData = BranchUpdateSchema.parse(req.body);
 
@@ -89,7 +85,7 @@ export const updateBranch = catchAsync(async (req, res) => {
 });
 
 export const deleteBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params["branchID"];
+    const branchID = +req.params.branchID;
 
     await branchModel.deleteBranch({
         branchID: branchID

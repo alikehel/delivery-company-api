@@ -32,11 +32,7 @@ export const createOrder = catchAsync(async (req, res) => {
         }
         for (const order of req.body) {
             orderData = OrderCreateSchema.parse(order);
-            const createdOrder = await orderModel.createOrder(
-                companyID,
-                clientID,
-                orderData
-            );
+            const createdOrder = await orderModel.createOrder(companyID, clientID, orderData);
             if (!createdOrder) {
                 throw new AppError("Failed to create order", 500);
             }
@@ -56,11 +52,7 @@ export const createOrder = catchAsync(async (req, res) => {
             throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
         }
         // @ts-expect-error Fix later
-        createdOrder = await orderModel.createOrder(
-            companyID,
-            clientID,
-            orderData
-        );
+        createdOrder = await orderModel.createOrder(companyID, clientID, orderData);
 
         res.status(200).json({
             status: "success",
@@ -86,44 +78,24 @@ export const getAllOrders = catchAsync(async (req, res) => {
 
     const sort = (req.query.sort as string) || "id:asc";
 
-    const startDate = req.query.start_date
-        ? new Date(req.query.start_date as string)
-        : undefined;
-    const endDate = req.query.end_date
-        ? new Date(req.query.end_date as string)
-        : undefined;
-    const deliveryDate = req.query.delivery_date
-        ? new Date(req.query.delivery_date as string)
-        : undefined;
+    const startDate = req.query.start_date ? new Date(req.query.start_date as string) : undefined;
+    const endDate = req.query.end_date ? new Date(req.query.end_date as string) : undefined;
+    const deliveryDate = req.query.delivery_date ? new Date(req.query.delivery_date as string) : undefined;
 
-    const governorate = req.query.governorate?.toString().toUpperCase() as
-        | Governorate
-        | undefined;
-    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as
-        | OrderStatus[]
-        | undefined;
-    const status = req.query.status?.toString().toUpperCase() as
-        | OrderStatus
-        | undefined;
+    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
+    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as OrderStatus[] | undefined;
+    const status = req.query.status?.toString().toUpperCase() as OrderStatus | undefined;
 
-    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
-        | DeliveryType
-        | undefined;
+    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as DeliveryType | undefined;
 
-    const deliveryAgentID = req.query.delivery_agent_id
-        ? +req.query.delivery_agent_id
-        : undefined;
+    const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
     const clientID = req.query.client_id ? +req.query.client_id : undefined;
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
     // const repositoryID = req.query.repository_id as string;
     const productID = req.query.product_id ? +req.query.product_id : undefined;
-    const locationID = req.query.location_id
-        ? +req.query.location_id
-        : undefined;
+    const locationID = req.query.location_id ? +req.query.location_id : undefined;
 
-    const receiptNumber = req.query.receipt_number
-        ? +req.query.receipt_number
-        : undefined;
+    const receiptNumber = req.query.receipt_number ? +req.query.receipt_number : undefined;
     const recipientName = req.query.recipient_name as string;
     const recipientPhone = req.query.recipient_phone as string;
     const recipientAddress = req.query.recipient_address as string;
@@ -148,11 +120,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -208,7 +176,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
 });
 
 export const getOrder = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
 
     const order = await orderModel.getOrder({
         orderID: orderID
@@ -221,7 +189,7 @@ export const getOrder = catchAsync(async (req, res) => {
 });
 
 export const updateOrder = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
     const loggedInUser = res.locals.user;
 
     const orderData = OrderUpdateSchema.parse(req.body);
@@ -259,7 +227,7 @@ export const updateOrder = catchAsync(async (req, res) => {
                     // @ts-expect-error Fix later
                 } إلى ${localizeOrderStatus(newOrder.status)} ${
                     // @ts-expect-error Fix later
-                    newOrder.notes ? "(" + newOrder.notes + ")" : ""
+                    newOrder.notes ? `(${newOrder.notes})` : ""
                 }`
             });
 
@@ -385,7 +353,7 @@ export const updateOrder = catchAsync(async (req, res) => {
 });
 
 export const deleteOrder = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
 
     await orderModel.deleteOrder({
         orderID: orderID
@@ -404,13 +372,13 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
     const pdf = await generateReceipts(orders);
 
     const chunks: Uint8Array[] = [];
-    let result;
+    let result: Buffer;
 
-    pdf.on("data", function (chunk) {
+    pdf.on("data", (chunk) => {
         chunks.push(chunk);
     });
 
-    pdf.on("end", function () {
+    pdf.on("end", () => {
         result = Buffer.concat(chunks);
         res.contentType("application/pdf");
         res.send(result);
@@ -449,19 +417,11 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 
     // TODO: Fix this
     const clientReport = (
-        req.query.client_report === "true"
-            ? true
-            : req.query.client_report === "false"
-              ? false
-              : undefined
+        req.query.client_report === "true" ? true : req.query.client_report === "false" ? false : undefined
     ) as boolean | undefined;
 
     const branchReport = (
-        req.query.branch_report === "true"
-            ? true
-            : req.query.branch_report === "false"
-              ? false
-              : undefined
+        req.query.branch_report === "true" ? true : req.query.branch_report === "false" ? false : undefined
     ) as boolean | undefined;
 
     const repositoryReport = (
@@ -489,36 +449,20 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
     ) as boolean | undefined;
 
     const companyReport = (
-        req.query.company_report === "true"
-            ? true
-            : req.query.company_report === "false"
-              ? false
-              : undefined
+        req.query.company_report === "true" ? true : req.query.company_report === "false" ? false : undefined
     ) as boolean | undefined;
 
-    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as
-        | OrderStatus[]
-        | undefined;
+    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as OrderStatus[] | undefined;
 
-    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as
-        | DeliveryType
-        | undefined;
+    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as DeliveryType | undefined;
 
-    const locationID = req.query.location_id
-        ? +req.query.location_id
-        : undefined;
+    const locationID = req.query.location_id ? +req.query.location_id : undefined;
 
-    const startDate = req.query.start_date
-        ? new Date(req.query.start_date as string)
-        : undefined;
+    const startDate = req.query.start_date ? new Date(req.query.start_date as string) : undefined;
 
-    const endDate = req.query.end_date
-        ? new Date(req.query.end_date as string)
-        : undefined;
+    const endDate = req.query.end_date ? new Date(req.query.end_date as string) : undefined;
 
-    const governorate = req.query.governorate?.toString().toUpperCase() as
-        | Governorate
-        | undefined;
+    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
     const statistics = await orderModel.getOrdersStatistics({
         storeID: storeID,
@@ -545,7 +489,7 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 });
 
 export const getOrderTimeline = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
 
     const orderTimeline = await orderModel.getOrderTimeline({
         orderID: orderID
@@ -558,7 +502,7 @@ export const getOrderTimeline = catchAsync(async (req, res) => {
 });
 
 export const getOrderChatMembers = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
 
     const orderChatMembers = await orderModel.getOrderChatMembers({
         orderID: orderID
@@ -571,7 +515,7 @@ export const getOrderChatMembers = catchAsync(async (req, res) => {
 });
 
 export const deactivateOrder = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
     const loggedInUserID = +res.locals.user.id;
 
     await orderModel.deactivateOrder({
@@ -585,7 +529,7 @@ export const deactivateOrder = catchAsync(async (req, res) => {
 });
 
 export const reactivateOrder = catchAsync(async (req, res) => {
-    const orderID = +req.params["orderID"];
+    const orderID = +req.params.orderID;
 
     await orderModel.reactivateOrder({
         orderID: orderID
@@ -596,39 +540,35 @@ export const reactivateOrder = catchAsync(async (req, res) => {
     });
 });
 
-export const sendNotificationToOrderChatMembers = catchAsync(
-    async (req, res) => {
-        const orderID = +req.params["orderID"];
-        const loggedInUser = res.locals.user;
+export const sendNotificationToOrderChatMembers = catchAsync(async (req, res) => {
+    const orderID = +req.params.orderID;
+    const loggedInUser = res.locals.user;
 
-        const notificationData = OrderChatNotificationCreateSchema.parse(
-            req.body
-        );
+    const notificationData = OrderChatNotificationCreateSchema.parse(req.body);
 
-        const orderChatMembers = await orderModel.getOrderChatMembers({
-            orderID: orderID
+    const orderChatMembers = await orderModel.getOrderChatMembers({
+        orderID: orderID
+    });
+
+    const notificationPromises = orderChatMembers.map((member) => {
+        if (!member) {
+            return Promise.resolve();
+        }
+        if (member.id === loggedInUser.id) {
+            return Promise.resolve();
+        }
+        return sendNotification({
+            userID: member.id,
+            title: notificationData.title,
+            content:
+                notificationData.content ||
+                `تم إرسال رسالة جديدة في الطلب رقم ${orderID} من قبل ${loggedInUser.name}`
         });
+    });
 
-        const notificationPromises = orderChatMembers.map((member) => {
-            if (!member) {
-                return Promise.resolve();
-            }
-            if (member.id === loggedInUser.id) {
-                return Promise.resolve();
-            }
-            return sendNotification({
-                userID: member.id,
-                title: notificationData.title,
-                content:
-                    notificationData.content ||
-                    `تم إرسال رسالة جديدة في الطلب رقم ${orderID} من قبل ${loggedInUser.name}`
-            });
-        });
+    await Promise.all(notificationPromises);
 
-        await Promise.all(notificationPromises);
-
-        res.status(200).json({
-            status: "success"
-        });
-    }
-);
+    res.status(200).json({
+        status: "success"
+    });
+});

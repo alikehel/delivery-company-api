@@ -1,9 +1,4 @@
-import {
-    AdminRole,
-    ClientRole,
-    EmployeeRole,
-    Permission
-} from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
 
 export type loggedInUserType = {
     id: number;

@@ -56,7 +56,7 @@ const storeSelectReform = (
         company: store.company,
         deleted: store.deleted,
         deletedBy: store.deleted && store.deletedBy,
-        deletedAt: store.deletedAt && store.deletedAt.toISOString()
+        deletedAt: store.deletedAt?.toISOString()
     };
 };
 
@@ -92,11 +92,7 @@ export class StoreModel {
         return storesCount;
     }
 
-    async getAllStores(
-        skip: number,
-        take: number,
-        filters: { deleted?: string }
-    ) {
+    async getAllStores(skip: number, take: number, filters: { deleted?: string }) {
         const stores = await prisma.store.findMany({
             skip: skip,
             take: take,

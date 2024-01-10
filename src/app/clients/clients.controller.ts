@@ -12,19 +12,13 @@ export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
     let companyID = +res.locals.user.companyID;
     const { password, ...rest } = clientData;
-    const avatar = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const currentUser = res.locals.user;
 
     // TODO: CANT CRATE ADMIN
 
-    if (
-        !companyID &&
-        (currentUser.role === AdminRole.SUPER_ADMIN ||
-            currentUser.role === AdminRole.ADMIN)
-    ) {
+    if (!companyID && (currentUser.role === AdminRole.SUPER_ADMIN || currentUser.role === AdminRole.ADMIN)) {
         companyID = clientData.companyID as number;
     }
 
@@ -60,11 +54,7 @@ export const getAllClients = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -91,7 +81,7 @@ export const getAllClients = catchAsync(async (req, res) => {
 });
 
 export const getClient = catchAsync(async (req, res) => {
-    const clientID = +req.params["clientID"];
+    const clientID = +req.params.clientID;
 
     const client = await clientModel.getClient({
         clientID: clientID
@@ -105,11 +95,9 @@ export const getClient = catchAsync(async (req, res) => {
 
 export const updateClient = catchAsync(async (req, res) => {
     const clientData = ClientUpdateSchema.parse(req.body);
-    const clientID = +req.params["clientID"];
+    const clientID = +req.params.clientID;
     const companyID = +res.locals.user.companyID;
-    const avatar = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const { password, ...rest } = clientData;
 
@@ -133,7 +121,7 @@ export const updateClient = catchAsync(async (req, res) => {
 });
 
 export const deleteClient = catchAsync(async (req, res) => {
-    const clientID = +req.params["clientID"];
+    const clientID = +req.params.clientID;
 
     await clientModel.deleteClient({
         clientID: clientID
@@ -145,7 +133,7 @@ export const deleteClient = catchAsync(async (req, res) => {
 });
 
 export const deactivateClient = catchAsync(async (req, res) => {
-    const clientID = +req.params["clientID"];
+    const clientID = +req.params.clientID;
     const loggedInUserID = +res.locals.user.id;
 
     await clientModel.deactivateClient({
@@ -159,7 +147,7 @@ export const deactivateClient = catchAsync(async (req, res) => {
 });
 
 export const reactivateClient = catchAsync(async (req, res) => {
-    const clientID = +req.params["clientID"];
+    const clientID = +req.params.clientID;
 
     await clientModel.reactivateClient({
         clientID: clientID
