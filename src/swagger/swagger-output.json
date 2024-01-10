@@ -8069,131 +8069,128 @@
         "examples": {
             "EmployeeCreateExample": {
                 "value": {
-                    "username": "defleo",
-                    "name": "Marilyn Mraz",
-                    "password": "s3T278PGX3MB6FU",
-                    "phone": "07412768259",
-                    "salary": 1097236878458880,
-                    "repositoryID": 4103873792835584,
-                    "branchID": 857126092144640,
-                    "role": "REPOSITORIY_EMPLOYEE",
-                    "permissions": ["DELETE_DELIVERY_AGENT_REPORTS", "ADD_CLIENT"],
-                    "fcm": "tripudio",
-                    "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/36.jpg",
-                    "companyID": 3389410684960768,
-                    "deliveryCost": 2419433700065280
+                    "username": "cibus",
+                    "name": "Dr. Raymond Stiedemann",
+                    "password": "yHUznAM7YcMzUyk",
+                    "phone": "07415539152",
+                    "salary": 3500495391948800,
+                    "repositoryID": 8324890595688448,
+                    "branchID": 2528996646453248,
+                    "role": "RECEIVING_AGENT",
+                    "permissions": [
+                        "DELETE_REPORTS",
+                        "EDIT_ORDER_TOTAL_AMOUNT",
+                        "LOCK_ORDER_STATUS",
+                        "EDIT_ORDER_TOTAL_AMOUNT",
+                        "DELETE_PRICES"
+                    ],
+                    "fcm": "depono",
+                    "avatar": "https://avatars.githubusercontent.com/u/84848176",
+                    "companyID": 6929044245315584,
+                    "deliveryCost": 425313915895808
                 }
             },
             "UserSigninExample": {
                 "value": {
-                    "username": "suffragium",
-                    "password": "irSudK73YFLiP9u",
-                    "fcm": "adstringo"
+                    "username": "ustilo",
+                    "password": "dNC25_WOro7Euym",
+                    "fcm": "conatus"
                 }
             },
             "RepositoryCreateExample": {
                 "value": {
-                    "name": "Gerardo Pouros",
-                    "branchID": 8841975784538112
+                    "name": "Simon Emard DVM",
+                    "branchID": 8254408125054976
                 }
             },
             "EmployeeUpdateExample": {
                 "value": {
-                    "username": "tripudio",
-                    "name": "Mr. Lucas Donnelly MD",
-                    "password": "WPywx_sNbgFMJi_",
-                    "phone": "07399565070",
-                    "salary": 5787300252352512,
-                    "repositoryID": 1047970327822336,
-                    "branchID": 3967687575207936,
-                    "role": "DELIVERY_AGENT",
-                    "permissions": ["ADD_CLIENT", "LOCK_ORDER_STATUS"],
-                    "fcm": "thesaurus",
-                    "avatar": "https://avatars.githubusercontent.com/u/89358957",
-                    "companyID": 2668168862498816,
-                    "deliveryCost": 4539889800445952
+                    "username": "peior",
+                    "name": "Andy Kutch MD",
+                    "password": "w8NHthGNBAOcIOE",
+                    "phone": "07321082566",
+                    "salary": 3039439685156864,
+                    "repositoryID": 3826375370735616,
+                    "branchID": 2004776803893248,
+                    "role": "INQUIRY_EMPLOYEE",
+                    "permissions": ["DELETE_ORDERS", "EDIT_CLIENT_NAME", "ADD_ORDER_TO_DELIVERY_AGENT"],
+                    "fcm": "nihil",
+                    "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/683.jpg",
+                    "companyID": 1529973183610880,
+                    "deliveryCost": 3253046628843520
                 }
             },
             "RepositoryUpdateExample": {
                 "value": {
-                    "name": "Dominick Smitham",
-                    "branchID": 853064133115904
+                    "name": "Oliver Grady",
+                    "branchID": 4833614986477568
                 }
             },
             "LocationCreateExample": {
                 "value": {
-                    "name": "Lloyd Schulist",
-                    "governorate": "DUHOK",
-                    "branchID": 5536583673446400,
-                    "deliveryAgentsIDs": [
-                        2333514265526272, 6876656799055872, 1409302759735296, 6995560869396480,
-                        8730936596234240
-                    ]
+                    "name": "Leona Daniel",
+                    "governorate": "BABIL",
+                    "branchID": 3185631245107200,
+                    "deliveryAgentsIDs": [2129432378605568, 2400057622003712, 8016893577265152]
                 }
             },
             "LocationUpdateExample": {
                 "value": {
-                    "name": "Kelley Bergstrom PhD",
-                    "governorate": "BABIL",
-                    "branchID": 6820166887276544,
-                    "deliveryAgentsIDs": [
-                        2026679555850240, 2994928724475904, 1964708947034112, 1400859562868736
-                    ]
+                    "name": "Dr. Vincent Tremblay",
+                    "governorate": "DUHOK",
+                    "branchID": 5207059423297536,
+                    "deliveryAgentsIDs": [3187262583996416, 4008622572961792, 5687424873136128]
                 }
             },
             "ClientCreateExample": {
                 "value": {
-                    "name": "Dr. Clarence Walter",
-                    "username": "valde",
-                    "phone": "07731326199",
-                    "role": "CLIENT",
-                    "token": "tenuis",
-                    "password": "bMTb0_1M5moFMg0",
-                    "fcm": "suggero",
-                    "branchID": 845200291266560,
-                    "repositoryID": 6378244488036352,
-                    "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/805.jpg",
-                    "companyID": 7666300893528064,
+                    "name": "Robert Effertz Sr.",
+                    "username": "sublime",
+                    "phone": "07530484701",
+                    "role": "CLIENT_ASSISTANT",
+                    "token": "denuncio",
+                    "password": "7_Rj04Rf2KjyLnp",
+                    "fcm": "degero",
+                    "branchID": 1430350278426624,
+                    "repositoryID": 487590916521984,
+                    "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1128.jpg",
+                    "companyID": 7781864148303872,
                     "governoratesDeliveryCosts": [
                         {
-                            "governorate": "SULAYMANIYAH",
+                            "governorate": "KARBALA",
                             "cost": 0
                         },
                         {
-                            "governorate": "SALAH_AL_DIN",
-                            "cost": 63280
-                        },
-                        {
-                            "governorate": "AL_ANBAR",
+                            "governorate": "KIRKUK",
                             "cost": 0
                         },
                         {
-                            "governorate": "BASRA",
-                            "cost": 0
+                            "governorate": "MUTHANNA",
+                            "cost": 89331
                         }
                     ]
                 }
             },
             "ClientUpdateExample": {
                 "value": {
-                    "name": "Danielle Schroeder",
-                    "username": "omnis",
-                    "phone": "07755526830",
+                    "name": "Percy Witting",
+                    "username": "praesentium",
+                    "phone": "07883857720",
                     "role": "CLIENT_ASSISTANT",
-                    "token": "tamisium",
-                    "password": "o7penC3RWrRIlXX",
-                    "fcm": "angustus",
-                    "branchID": 1629220218339328,
-                    "repositoryID": 4635386666024960,
-                    "avatar": "https://avatars.githubusercontent.com/u/80415963",
-                    "companyID": 1742173282238464,
+                    "token": "textus",
+                    "password": "yAxE9jFeDqEgAlF",
+                    "fcm": "repellendus",
+                    "branchID": 8235666301255680,
+                    "repositoryID": 5583982406139904,
+                    "avatar": "https://avatars.githubusercontent.com/u/46462052",
+                    "companyID": 5297777745592320,
                     "governoratesDeliveryCosts": [
                         {
-                            "governorate": "SULAYMANIYAH",
-                            "cost": 52478
+                            "governorate": "NAJAF",
+                            "cost": 30252
                         },
                         {
-                            "governorate": "NINAWA",
+                            "governorate": "DHI_QAR",
                             "cost": 0
                         }
                     ]
@@ -8201,51 +8198,51 @@
             },
             "BranchCreateExample": {
                 "value": {
-                    "name": "Rene DuBuque DDS",
-                    "email": "Thea60@example.com",
-                    "phone": "07708796751",
-                    "governorate": "KARBALA"
+                    "name": "Bert Mertz DVM",
+                    "email": "Omer_Hackett4@example.com",
+                    "phone": "07598033011",
+                    "governorate": "NAJAF"
                 }
             },
             "BranchUpdateExample": {
                 "value": {
-                    "name": "Priscilla Fritsch",
-                    "email": "Oscar.Lueilwitz80@example.org",
-                    "phone": "07576224219",
+                    "name": "Cecilia Hartmann",
+                    "email": "Cielo.Rempel@example.net",
+                    "phone": "07767060056",
                     "governorate": "DUHOK"
                 }
             },
             "CompanyCreateExample": {
                 "value": {
-                    "name": "Arnold Beer",
-                    "phone": "07806958047",
-                    "website": "https://pleased-spacing.net",
-                    "logo": "caput",
-                    "color": "#5a1e0",
-                    "registrationText": "vix",
-                    "governoratePrice": 7605538938421248,
-                    "deliveryAgentFee": 4624518796541952,
-                    "baghdadPrice": 1396239740436480,
-                    "additionalPriceForEvery500000IraqiDinar": 1203271381286912,
-                    "additionalPriceForEveryKilogram": 2563674996736000,
-                    "additionalPriceForRemoteAreas": 7934688763052032,
-                    "orderStatusAutomaticUpdate": true
+                    "name": "Allison Jones",
+                    "phone": "07340640342",
+                    "website": "https://flawless-record.biz/",
+                    "logo": "currus",
+                    "color": "#347a5",
+                    "registrationText": "cena",
+                    "governoratePrice": 3698798614282240,
+                    "deliveryAgentFee": 5123443215302656,
+                    "baghdadPrice": 4474930236227584,
+                    "additionalPriceForEvery500000IraqiDinar": 3086642164269056,
+                    "additionalPriceForEveryKilogram": 4538057179004928,
+                    "additionalPriceForRemoteAreas": 1695658471849984,
+                    "orderStatusAutomaticUpdate": false
                 }
             },
             "CompanyUpdateExample": {
                 "value": {
-                    "name": "Jerald Nolan",
-                    "phone": "07768698810",
-                    "website": "https://kindhearted-shout.biz/",
-                    "logo": "tergeo",
-                    "color": "#54670",
-                    "registrationText": "ver",
-                    "governoratePrice": 3771368720039936,
-                    "deliveryAgentFee": 2490309892112384,
-                    "baghdadPrice": 6903157988786176,
-                    "additionalPriceForEvery500000IraqiDinar": 6842444452724736,
-                    "additionalPriceForEveryKilogram": 7264425968926720,
-                    "additionalPriceForRemoteAreas": 3528349760618496,
+                    "name": "Clint Moen",
+                    "phone": "07850761301",
+                    "website": "https://doting-mist.biz/",
+                    "logo": "suadeo",
+                    "color": "#26461",
+                    "registrationText": "degenero",
+                    "governoratePrice": 5473926085869568,
+                    "deliveryAgentFee": 5479827270270976,
+                    "baghdadPrice": 7298645741273088,
+                    "additionalPriceForEvery500000IraqiDinar": 6661612842778624,
+                    "additionalPriceForEveryKilogram": 3908179666665472,
+                    "additionalPriceForRemoteAreas": 2469219975299072,
                     "orderStatusAutomaticUpdate": true
                 }
             },
@@ -8254,151 +8251,145 @@
                     "withProducts": true,
                     "products": [
                         {
-                            "productID": 8220244136951808,
+                            "productID": 833515245535232,
                             "quantity": 1,
-                            "colorID": 8957112663146496,
-                            "sizeID": 720454960545792
+                            "colorID": 338621963960320,
+                            "sizeID": 7245614830059520
                         },
                         {
-                            "productID": 4093242507264000,
+                            "productID": 8712601693323264,
                             "quantity": 1,
-                            "colorID": 6546732464734208,
-                            "sizeID": 7872831803097088
+                            "colorID": 12573038608384,
+                            "sizeID": 276885862875136
                         },
                         {
-                            "productID": 2957522256265216,
-                            "quantity": 8747996413952000,
-                            "colorID": 1130033401823232,
-                            "sizeID": 5646292485144576
-                        },
-                        {
-                            "productID": 1086786734391296,
-                            "quantity": 407639083188224,
-                            "colorID": 7306985183641600,
-                            "sizeID": 1638369169768448
-                        },
-                        {
-                            "productID": 5449149103210496,
-                            "quantity": 4783402588831744,
-                            "colorID": 8193107338199040,
-                            "sizeID": 6211215145566208
+                            "productID": 7083712124551168,
+                            "quantity": 1,
+                            "colorID": 957489178738688,
+                            "sizeID": 7626188793053184
                         }
                     ],
-                    "receiptNumber": 5825748604551168,
-                    "recipientName": "allatus",
-                    "recipientPhones": ["07978241825", "07668864762"],
-                    "recipientPhone": "07492903686",
-                    "recipientAddress": "audax",
-                    "notes": "complectus",
-                    "details": "velociter",
-                    "deliveryType": "NORMAL",
+                    "receiptNumber": 6511339402952704,
+                    "recipientName": "reprehenderit",
+                    "recipientPhones": ["07376639620", "07493926734"],
+                    "recipientPhone": "07770672427",
+                    "recipientAddress": "campana",
+                    "notes": "degero",
+                    "details": "complectus",
+                    "deliveryType": "REPLACEMENT",
                     "governorate": "MAYSAN",
-                    "locationID": 597283703881728,
-                    "storeID": 6032243292110848,
-                    "repositoryID": 8009188036837376,
-                    "branchID": 4712137771450368,
-                    "clientID": 216881306796032
+                    "locationID": 8011154515296256,
+                    "storeID": 7185419502354432,
+                    "repositoryID": 6134099561414656,
+                    "branchID": 3240336497311744,
+                    "clientID": 3251483357216768
                 }
             },
             "OrderUpdateExample": {
                 "value": {
-                    "paidAmount": 1236290787868672,
-                    "receiptNumber": 2600873479897088,
-                    "discount": 7043698355339264,
-                    "status": "DELIVERED",
-                    "deliveryAgentID": 6165908988887040,
-                    "deliveryDate": "2024-01-11T19:33:22.726Z",
-                    "recipientName": "sumo",
-                    "recipientPhones": [
-                        "07721550488",
-                        "07908769030",
-                        "07757806203",
-                        "07565948585",
-                        "07972259171"
-                    ],
-                    "recipientPhone": "07764897800",
-                    "recipientAddress": "quas",
-                    "notes": "uterque",
-                    "details": "suppellex",
-                    "repositoryID": 1009429627535360,
-                    "branchID": 6165425752637440,
-                    "currentLocation": "tandem"
+                    "paidAmount": 5458512219996160,
+                    "receiptNumber": 7516257416904704,
+                    "discount": 7770488275206144,
+                    "status": "REGISTERED",
+                    "deliveryAgentID": 3141852148531200,
+                    "deliveryDate": "2024-01-11T09:16:05.129Z",
+                    "recipientName": "alter",
+                    "recipientPhones": ["07926541398", "07647758870", "07920265401", "07628590912"],
+                    "recipientPhone": "07587302285",
+                    "recipientAddress": "abstergo",
+                    "notes": "sollicito",
+                    "details": "video",
+                    "repositoryID": 1775009217380352,
+                    "branchID": 4550539985551360,
+                    "currentLocation": "similique"
                 }
             },
             "ProductCreateExample": {
                 "value": {
-                    "title": "articulus",
-                    "price": 5564187312914432,
-                    "image": "https://loremflickr.com/640/480?lock=8976578126020608",
-                    "weight": 3163330686484480,
-                    "storeID": 7176054659612672,
-                    "stock": 3353415841218560,
-                    "categoryID": 4773342959632384,
+                    "title": "perspiciatis",
+                    "price": 1943955140771840,
+                    "image": "https://loremflickr.com/640/480?lock=7492284864004096",
+                    "weight": 5379882475323392,
+                    "storeID": 8969829176311808,
+                    "stock": 8057044741390336,
+                    "categoryID": 4966779505868800,
                     "colors": [
                         {
-                            "colorID": 6030930892292096,
-                            "quantity": 6916313236635648
+                            "colorID": 6781521067245568,
+                            "quantity": 7347898035470336
                         },
                         {
-                            "colorID": 5494899749158912,
-                            "quantity": 1991148545507328
+                            "colorID": 4357270792044544,
+                            "quantity": 3163342296317952
                         },
                         {
-                            "colorID": 7713248730152960,
-                            "quantity": 1375410405244928
+                            "colorID": 4764312088346624,
+                            "quantity": 1574547249692672
                         },
                         {
-                            "colorID": 6389703861338112,
-                            "quantity": 5169236701872128
+                            "colorID": 4244705265057792,
+                            "quantity": 1685389274251264
                         }
                     ],
                     "sizes": [
                         {
-                            "sizeID": 3336256903708672,
-                            "quantity": 6324335658663936
+                            "sizeID": 4001739174838272,
+                            "quantity": 7415545360023552
                         },
                         {
-                            "sizeID": 4101382848118784,
-                            "quantity": 6487836807135232
+                            "sizeID": 1254264898846720,
+                            "quantity": 3585134739587072
                         },
                         {
-                            "sizeID": 8518755267117056,
-                            "quantity": 4912909060669440
+                            "sizeID": 8283597731528704,
+                            "quantity": 3782216062599168
                         },
                         {
-                            "sizeID": 1148879609266176,
-                            "quantity": 1510880170737664
+                            "sizeID": 4253393612701696,
+                            "quantity": 2990982968639488
+                        },
+                        {
+                            "sizeID": 3330406946439168,
+                            "quantity": 2031955579240448
                         }
                     ]
                 }
             },
             "ProductUpdateExample": {
                 "value": {
-                    "title": "aggredior",
-                    "price": 4907597939343360,
-                    "image": "https://picsum.photos/seed/YsEsbgH0hC/640/480",
-                    "weight": 671952066838528,
-                    "storeID": 5788028473704448,
-                    "stock": 782767140896768,
-                    "categoryID": 6384110241054720,
+                    "title": "tantum",
+                    "price": 7211253650948096,
+                    "image": "https://picsum.photos/seed/e3idZ/640/480",
+                    "weight": 5650633073885184,
+                    "storeID": 6426898053726208,
+                    "stock": 8892951962845184,
+                    "categoryID": 2405133994426368,
                     "colors": [
                         {
-                            "colorID": 7841709176127488,
-                            "quantity": 7663328467877888
+                            "colorID": 1799478665281536,
+                            "quantity": 1412159510675456
                         },
                         {
-                            "colorID": 8115149516832768,
-                            "quantity": 1600125233266688
+                            "colorID": 4918525974020096,
+                            "quantity": 8017991497154560
+                        },
+                        {
+                            "colorID": 3472454978633728,
+                            "quantity": 5183668700053504
+                        },
+                        {
+                            "colorID": 2583033834110976,
+                            "quantity": 876581188796416
                         }
                     ],
                     "sizes": [
                         {
-                            "sizeID": 8309665383317504,
-                            "quantity": 1255440128147456
+                            "sizeID": 1068717154762752,
+                            "quantity": 2191887779758080
                         },
                         {
-                            "sizeID": 1137128463400960,
-                            "quantity": 1989340611739648
+                            "sizeID": 1906106370621440,
+                            "quantity": 7064357517131776
                         }
                     ]
                 }
@@ -8410,106 +8401,102 @@
             },
             "CategoryUpdateExample": {
                 "value": {
-                    "title": "adficio"
+                    "title": "officiis"
                 }
             },
             "CategoryCreateExample": {
                 "value": {
-                    "title": "sollers"
+                    "title": "adhuc"
                 }
             },
             "ColorCreateExample": {
                 "value": {
-                    "title": "avarus",
-                    "code": "vulgus"
+                    "title": "voluptates",
+                    "code": "atrocitas"
                 }
             },
             "ColorUpdateExample": {
                 "value": {
-                    "title": "amoveo",
-                    "code": "videlicet"
+                    "title": "absque",
+                    "code": "undique"
                 }
             },
             "SizeCreateExample": {
                 "value": {
-                    "title": "decumbo"
+                    "title": "tepesco"
                 }
             },
             "SizeUpdateExample": {
                 "value": {
-                    "title": "versus"
+                    "title": "acerbitas"
                 }
             },
             "StoreCreateExample": {
                 "value": {
-                    "name": "Meghan Kuhic",
-                    "clientID": 2922207573442560,
-                    "notes": "universe",
-                    "logo": "distinctio"
+                    "name": "Kathryn Ward",
+                    "clientID": 7165300759855104,
+                    "notes": "cubicularis",
+                    "logo": "terminatio"
                 }
             },
             "StoreUpdateExample": {
                 "value": {
-                    "name": "Ginger Bogan",
-                    "clientID": 5496039593213952,
-                    "notes": "trans",
-                    "logo": "ter"
+                    "name": "Joy Swaniawski",
+                    "clientID": 7275523654811648,
+                    "notes": "subito",
+                    "logo": "vinculum"
                 }
             },
             "BannerCreateExample": {
                 "value": {
-                    "title": "denique",
-                    "content": "conqueror",
-                    "image": "https://picsum.photos/seed/1s1KeE/640/480",
-                    "url": "https://suspicious-membrane.biz/"
+                    "title": "calculus",
+                    "content": "conservo",
+                    "image": "https://loremflickr.com/640/480?lock=5545371505786880",
+                    "url": "https://free-cuckoo.name/"
                 }
             },
             "BannerUpdateExample": {
                 "value": {
-                    "title": "fugit",
-                    "content": "canonicus",
-                    "image": "https://picsum.photos/seed/QzwqvpAE/640/480",
-                    "url": "https://upbeat-elixir.name"
+                    "title": "consuasor",
+                    "content": "soleo",
+                    "image": "https://loremflickr.com/640/480?lock=7170169981894656",
+                    "url": "https://jagged-action.biz"
                 }
             },
             "ReportCreateExample": {
                 "value": {
-                    "type": "CLIENT",
-                    "clientID": 6651783023689728,
-                    "storeID": 6930583114481664,
-                    "ordersIDs": [1611375656828928]
+                    "type": "COMPANY",
+                    "companyID": 8158675810123776,
+                    "ordersIDs": [338959699804160, 7138738423463936, 3748357384175616, 7009293496745984]
                 }
             },
             "ReportUpdateExample": {
                 "value": {
-                    "status": "PAID",
-                    "confirmed": true
+                    "status": "UNPAID",
+                    "confirmed": false
                 }
             },
             "OrdersReceiptsCreateExample": {
                 "value": {
-                    "ordersIDs": [
-                        7115241389293568, 3589876578516992, 4283745334984704, 6464690305630208,
-                        1387637891923968
-                    ]
+                    "ordersIDs": [4517271821090816, 2354660688003072, 6071868796698624, 4530507618451456]
                 }
             },
             "AutomaticUpdateCreateExample": {
                 "value": {
-                    "orderStatus": "REGISTERED",
-                    "governorate": "SALAH_AL_DIN",
-                    "returnCondition": "IN_REPOSITORY",
-                    "updateAt": 19,
-                    "checkAfter": 124
+                    "orderStatus": "PROCESSING",
+                    "governorate": "MUTHANNA",
+                    "returnCondition": "WITH_AGENT",
+                    "updateAt": 23,
+                    "checkAfter": 158
                 }
             },
             "AutomaticUpdateUpdateExample": {
                 "value": {
-                    "orderStatus": "DELIVERED",
-                    "governorate": "DIYALA",
-                    "returnCondition": "IN_REPOSITORY",
-                    "updateAt": 5,
-                    "checkAfter": 385
+                    "orderStatus": "REGISTERED",
+                    "governorate": "BASRA",
+                    "returnCondition": "WITH_AGENT",
+                    "updateAt": 0,
+                    "checkAfter": 315
                 }
             }
         },

@@ -28,5 +28,9 @@
         "parser": {
             "allowTrailingCommas": false
         }
+    },
+    "files": {
+        "ignore": ["node_modules"],
+        "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json"]
     }
 }
