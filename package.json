@@ -11,7 +11,7 @@
         "docker:compose:up": "docker-compose up -d",
         "docker:compose:down": "docker-compose down",
         "prisma:migrate:reset": "yarn dlx prisma db push && yarn dlx prisma generate && yarn dlx prisma migrate dev && yarn dlx prisma migrate reset",
-        "prisma:migrate:dev": "yarn dlx prisma migrate dev --no-name",
+        "prisma:migrate:dev": "yarn dlx prisma migrate dev",
         "prisma:studio": "yarn dlx prisma studio",
         "prisma:seed": "yarn dlx prisma generate && yarn dlx prisma db seed",
         "swagger:autogen": "ts-node ./src/swagger/swagger.ts",
