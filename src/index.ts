@@ -7,7 +7,7 @@ const address = `http://localhost:${PORT}`;
 const server = app.listen(PORT, () => {
     // if (NODE_ENV === "dev") {
     // eslint-disable-next-line no-console
-    console.log("------------------------------------------------------------");
+    console.info("------------------------------------------------------------");
     Logger.debug(`Starting APP On -> ${address}`);
     // }
 });

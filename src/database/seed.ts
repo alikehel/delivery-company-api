@@ -569,7 +569,7 @@ async function main() {
     // console.log({ superAdmin });
     // Logger.info({ superAdmin });
 
-    console.log({
+    console.info({
         albarq1,
         albarq2,
         superadmin,
