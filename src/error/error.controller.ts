@@ -135,5 +135,5 @@ export default (
     }
 
     Logger.error(err.message);
-    console.log(err);
+    console.error(err);
 };
