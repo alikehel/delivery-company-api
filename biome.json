@@ -15,7 +15,16 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "recommended": true,
+            "style": {
+                "useCollapsedElseIf": "warn"
+            },
+            "suspicious": {
+                "noConsoleLog": "warn"
+            },
+            "nursery": {
+                "useAwait": "error"
+            }
         }
     },
     "javascript": {
@@ -30,7 +39,7 @@
         }
     },
     "files": {
-        "ignore": ["node_modules"],
+        "ignore": ["node_modules", "src/database/migrations"],
         "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json"]
     }
 }
