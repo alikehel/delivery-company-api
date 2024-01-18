@@ -33,41 +33,14 @@ async function main() {
     /***************************** USERS *****************************/
     /*****************************************************************/
 
-    const superadmin = await prisma.user.upsert({
-        where: {
-            username: users.superAdmin.username
-        },
-        update: {
-            name: users.superAdmin.name,
-            phone: users.superAdmin.phone,
-            password: bcrypt.hashSync(users.superAdmin.password + (SECRET as string), 12),
-            admin: {
-                update: {
-                    role: users.superAdmin.role
-                }
-            }
-        },
-        create: {
-            name: users.superAdmin.name,
-            username: users.superAdmin.username,
-            phone: users.superAdmin.phone,
-            password: bcrypt.hashSync(users.superAdmin.password + (SECRET as string), 12),
-            admin: {
-                create: {
-                    role: users.superAdmin.role
-                }
-            }
-        }
-    });
-
     const admin = await prisma.user.upsert({
         where: {
             username: users.admin.username
         },
         update: {
             name: users.admin.name,
-            password: bcrypt.hashSync(users.admin.password + (SECRET as string), 12),
             phone: users.admin.phone,
+            password: bcrypt.hashSync(users.admin.password + (SECRET as string), 12),
             admin: {
                 update: {
                     role: users.admin.role
@@ -82,6 +55,33 @@ async function main() {
             admin: {
                 create: {
                     role: users.admin.role
+                }
+            }
+        }
+    });
+
+    const adminAssistant = await prisma.user.upsert({
+        where: {
+            username: users.adminAssistant.username
+        },
+        update: {
+            name: users.adminAssistant.name,
+            password: bcrypt.hashSync(users.adminAssistant.password + (SECRET as string), 12),
+            phone: users.adminAssistant.phone,
+            admin: {
+                update: {
+                    role: users.adminAssistant.role
+                }
+            }
+        },
+        create: {
+            name: users.adminAssistant.name,
+            username: users.adminAssistant.username,
+            phone: users.adminAssistant.phone,
+            password: bcrypt.hashSync(users.adminAssistant.password + (SECRET as string), 12),
+            admin: {
+                create: {
+                    role: users.adminAssistant.role
                 }
             }
         }
@@ -572,8 +572,8 @@ async function main() {
     console.info({
         albarq1,
         albarq2,
-        superadmin,
         admin,
+        adminAssistant,
         albarq1CompanyManager,
         albarq1AccountManager,
         albarq1Accountant,
