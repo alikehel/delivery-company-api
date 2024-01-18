@@ -11,7 +11,7 @@ const router = Router();
 
 router.route("/banners").post(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     // upload.single("image"),
     upload.none(),
     createBanner
@@ -34,7 +34,7 @@ router.route("/banners").post(
 
 router.route("/banners").get(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     getAllBanners
     /*
         #swagger.tags = ['Banners Routes']
@@ -55,7 +55,7 @@ router.route("/banners").get(
 
 router.route("/banners/:bannerID").get(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     getBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -64,7 +64,7 @@ router.route("/banners/:bannerID").get(
 
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     // upload.single("image"),
     upload.none(),
     updateBanner
@@ -87,7 +87,7 @@ router.route("/banners/:bannerID").patch(
 
 router.route("/banners/:bannerID").delete(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     deleteBanner
     /*
         #swagger.tags = ['Banners Routes']

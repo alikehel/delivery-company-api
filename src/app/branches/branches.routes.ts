@@ -9,7 +9,7 @@ const router = Router();
 
 router.route("/branches").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -30,7 +30,7 @@ router.route("/branches").post(
 
 router.route("/branches").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllBranches
     /*
         #swagger.tags = ['Branches Routes']
@@ -51,7 +51,7 @@ router.route("/branches").get(
 
 router.route("/branches/:branchID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -60,7 +60,7 @@ router.route("/branches/:branchID").get(
 
 router.route("/branches/:branchID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -81,7 +81,7 @@ router.route("/branches/:branchID").patch(
 
 router.route("/branches/:branchID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteBranch
     /*
         #swagger.tags = ['Branches Routes']

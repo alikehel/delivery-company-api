@@ -10,7 +10,7 @@ const reportController = new ReportController();
 
 router.route("/reports").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.createReport
     /*
         #swagger.tags = ['Reports Routes']
@@ -31,7 +31,7 @@ router.route("/reports").post(
 
 router.route("/reports").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.getAllReports
     /*
         #swagger.tags = ['Reports Routes']
@@ -118,7 +118,7 @@ router.route("/reports").get(
 
 router.route("/reports/:reportID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.getReport
     /*
         #swagger.tags = ['Reports Routes']
@@ -127,7 +127,7 @@ router.route("/reports/:reportID").get(
 
 router.route("/reports/:reportID/pdf").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.getReportPDF
     /*
         #swagger.tags = ['Reports Routes']
@@ -136,7 +136,7 @@ router.route("/reports/:reportID/pdf").get(
 
 router.route("/reports/:reportID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.updateReport
     /*
         #swagger.tags = ['Reports Routes']
@@ -157,7 +157,7 @@ router.route("/reports/:reportID").patch(
 
 router.route("/reports/:reportID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     reportController.deleteReport
     /*
         #swagger.tags = ['Reports Routes']
@@ -166,7 +166,7 @@ router.route("/reports/:reportID").delete(
 
 router.route("/reports/:reportID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reportController.deactivateReport
     /*
         #swagger.tags = ['Reports Routes']
@@ -175,7 +175,7 @@ router.route("/reports/:reportID/deactivate").patch(
 
 router.route("/reports/:reportID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reportController.reactivateReport
     /*
         #swagger.tags = ['Reports Routes']

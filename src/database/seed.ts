@@ -535,7 +535,7 @@ async function main() {
     //                 phone: "01000000000"
     //             }
     //         },
-    //         role: AdminRole.SUPER_ADMIN
+    //         role: AdminRole.ADMIN
     //     },
     //     create: {
     //         user: {
@@ -550,7 +550,7 @@ async function main() {
     //                 phone: "01000000000"
     //             }
     //         },
-    //         role: AdminRole.SUPER_ADMIN
+    //         role: AdminRole.ADMIN
     //     }
     // });
 

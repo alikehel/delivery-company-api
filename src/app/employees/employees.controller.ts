@@ -13,11 +13,11 @@ export const createEmployee = catchAsync(async (req, res) => {
     let companyID = +res.locals.user.companyID;
     const loggedInUser = res.locals.user;
 
-    // TODO: CANT CRATE ADMIN
+    // TODO: CANT CRATE ADMIN_ASSISTANT
 
     if (
         !companyID &&
-        (loggedInUser.role === AdminRole.SUPER_ADMIN || loggedInUser.role === AdminRole.ADMIN)
+        (loggedInUser.role === AdminRole.ADMIN || loggedInUser.role === AdminRole.ADMIN_ASSISTANT)
     ) {
         companyID = employeeData.companyID as number;
     }

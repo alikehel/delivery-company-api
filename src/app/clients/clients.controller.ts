@@ -16,9 +16,12 @@ export const createClient = catchAsync(async (req, res) => {
 
     const currentUser = res.locals.user;
 
-    // TODO: CANT CRATE ADMIN
+    // TODO: CANT CRATE ADMIN_ASSISTANT
 
-    if (!companyID && (currentUser.role === AdminRole.SUPER_ADMIN || currentUser.role === AdminRole.ADMIN)) {
+    if (
+        !companyID &&
+        (currentUser.role === AdminRole.ADMIN || currentUser.role === AdminRole.ADMIN_ASSISTANT)
+    ) {
         companyID = clientData.companyID as number;
     }
 

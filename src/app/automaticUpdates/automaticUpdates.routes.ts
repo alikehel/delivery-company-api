@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/automatic-updates").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -36,7 +36,7 @@ router.route("/automatic-updates").post(
 
 router.route("/automatic-updates").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllAutomaticUpdates
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -57,7 +57,7 @@ router.route("/automatic-updates").get(
 
 router.route("/automatic-updates/:automaticUpdateID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -66,7 +66,7 @@ router.route("/automatic-updates/:automaticUpdateID").get(
 
 router.route("/automatic-updates/:automaticUpdateID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -87,7 +87,7 @@ router.route("/automatic-updates/:automaticUpdateID").patch(
 
 router.route("/automatic-updates/:automaticUpdateID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']

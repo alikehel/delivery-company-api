@@ -16,7 +16,7 @@ const router = Router();
 
 router.route("/locations").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -37,7 +37,7 @@ router.route("/locations").post(
 
 router.route("/public/locations").get(
     // isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     publicGetAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -46,7 +46,7 @@ router.route("/public/locations").get(
 
 router.route("/locations").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -67,7 +67,7 @@ router.route("/locations").get(
 
 router.route("/locations/:locationID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -76,7 +76,7 @@ router.route("/locations/:locationID").get(
 
 router.route("/locations/:locationID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -97,7 +97,7 @@ router.route("/locations/:locationID").patch(
 
 router.route("/locations/:locationID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']

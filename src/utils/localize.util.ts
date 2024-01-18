@@ -91,10 +91,10 @@ export const localizeRole = (text: AdminRole | EmployeeRole | ClientRole): strin
             return "مساعد عميل";
         case "CLIENT":
             return "عميل";
-        case "SUPER_ADMIN":
-            return "سوبر ادمن";
         case "ADMIN":
             return "ادمن";
+        case "ADMIN_ASSISTANT":
+            return "مساعد ادمن";
         default:
             return text;
     }

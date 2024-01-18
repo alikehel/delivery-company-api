@@ -5,7 +5,7 @@ const superAdmin = {
     name: "سوبر أدمن",
     password: "password",
     phone: "07345678903",
-    role: AdminRole.SUPER_ADMIN
+    role: AdminRole.ADMIN
 };
 
 const admin = {
@@ -13,7 +13,7 @@ const admin = {
     name: "أدمن",
     password: "password",
     phone: "07345678904",
-    role: AdminRole.ADMIN
+    role: AdminRole.ADMIN_ASSISTANT
 };
 
 const albarq1CompanyManager = {

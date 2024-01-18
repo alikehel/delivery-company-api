@@ -43,7 +43,7 @@ router.route("/orders").post(
 
 router.route("/orders").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllOrders
     /*
         #swagger.tags = ['Orders Routes']
@@ -173,7 +173,7 @@ router.route("/orders").get(
 // TODO: Remove this route
 // router.route("/orders/statuses").get(
 //     isLoggedIn,
-//     // isAutherized([Role.SUPER_ADMIN]),
+//     // isAutherized([Role.ADMIN]),
 //     getAllOrdersStatuses
 //     /*
 //         #swagger.tags = ['Orders Routes']
@@ -183,7 +183,7 @@ router.route("/orders").get(
 // TODO: Remove this route
 // router.route("/orders/today").get(
 //     isLoggedIn,
-//     // isAutherized([Role.SUPER_ADMIN]),
+//     // isAutherized([Role.ADMIN]),
 //     getTodayOrdersCountAndEarnings
 //     /*
 //         #swagger.tags = ['Orders Routes']
@@ -192,7 +192,7 @@ router.route("/orders").get(
 
 router.route("/orders/statistics").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getOrdersStatistics
     /*
         #swagger.tags = ['Orders Routes']
@@ -291,7 +291,7 @@ router.route("/orders/statistics").get(
 
 router.route("/orders/:orderID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -300,7 +300,7 @@ router.route("/orders/:orderID").get(
 
 router.route("/orders/:orderID/timeline").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getOrderTimeline
     /*
         #swagger.tags = ['Orders Routes']
@@ -309,7 +309,7 @@ router.route("/orders/:orderID/timeline").get(
 
 router.route("/orders/:orderID/chat-members").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
@@ -318,7 +318,7 @@ router.route("/orders/:orderID/chat-members").get(
 
 router.route("/orders/:orderID/chat").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     sendNotificationToOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
@@ -327,7 +327,7 @@ router.route("/orders/:orderID/chat").post(
 
 router.route("/orders/receipts").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createOrdersReceipts
     /*
         #swagger.tags = ['Orders Routes']
@@ -348,7 +348,7 @@ router.route("/orders/receipts").post(
 
 router.route("/orders/:orderID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -369,7 +369,7 @@ router.route("/orders/:orderID").patch(
 
 router.route("/orders/:orderID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -378,7 +378,7 @@ router.route("/orders/:orderID").delete(
 
 router.route("/orders/:orderID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     deactivateOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -387,7 +387,7 @@ router.route("/orders/:orderID/deactivate").patch(
 
 router.route("/orders/:orderID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reactivateOrder
     /*
         #swagger.tags = ['Orders Routes']

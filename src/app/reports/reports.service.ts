@@ -338,7 +338,7 @@ export class ReportService {
 
     //     if (
     //         reportData.confirmed === false &&
-    //         loggedInUser.role !== "SUPER_ADMIN"
+    //         loggedInUser.role !== "ADMIN"
     //     ) {
     //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
     //     }

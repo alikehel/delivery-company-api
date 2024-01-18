@@ -19,7 +19,7 @@ const router = Router();
 
 router.route("/employees").post(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     // upload.single("avatar"),
     upload.none(),
     createEmployee
@@ -42,7 +42,7 @@ router.route("/employees").post(
 
 router.route("/employees").get(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     getAllEmployees
     /*
         #swagger.tags = ['Employees Routes']
@@ -69,7 +69,7 @@ router.route("/employees").get(
 
 router.route("/employees/:employeeID").get(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     getEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -78,7 +78,7 @@ router.route("/employees/:employeeID").get(
 
 router.route("/employees/:employeeID").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     // upload.single("avatar"),
     upload.none(),
     updateEmployee
@@ -101,7 +101,7 @@ router.route("/employees/:employeeID").patch(
 
 router.route("/employees/:employeeID").delete(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     deleteEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -110,7 +110,7 @@ router.route("/employees/:employeeID").delete(
 
 router.route("/employees/:employeeID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     deactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -119,7 +119,7 @@ router.route("/employees/:employeeID/deactivate").patch(
 
 router.route("/employees/:employeeID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']

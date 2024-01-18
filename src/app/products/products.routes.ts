@@ -17,7 +17,7 @@ const router = Router();
 
 router.route("/products").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     // upload.single("image"),
     upload.none(),
     createProduct
@@ -40,7 +40,7 @@ router.route("/products").post(
 
 router.route("/products").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllProducts
     /*
         #swagger.tags = ['Products Routes']
@@ -61,7 +61,7 @@ router.route("/products").get(
 
 router.route("/products/:productID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -70,7 +70,7 @@ router.route("/products/:productID").get(
 
 router.route("/products/:productID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     // upload.single("image"),
     upload.none(),
     updateProduct
@@ -93,7 +93,7 @@ router.route("/products/:productID").patch(
 
 router.route("/products/:productID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteProduct
     /*
         #swagger.tags = ['Products Routes']
