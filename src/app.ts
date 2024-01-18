@@ -4,14 +4,15 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+import shrinkRay from "shrink-ray-current";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
-
 // import { Role } from "@prisma/client";
 import morganBody from "morgan-body";
 import globalErrorcontroller from "./error/error.controller";
 import Logger from "./lib/logger";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
+import compression from "compression";
 import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
@@ -54,6 +55,33 @@ app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an
 app.use(helmet()); // Set security HTTP headers
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
+// app.use(
+//     compression({
+//         filter: (req, res) => {
+//             if (req.headers["x-no-compression"]) {
+//                 return false;
+//             }
+//             return compression.filter(req, res);
+//         },
+//         threshold: 0
+//     })
+// );
+app.use(
+    shrinkRay({
+        brotli: {
+            quality: 11
+        },
+        zlib: {
+            level: 9
+        },
+        filter: (req, res) => {
+            if (req.headers["x-no-compression"]) {
+                return false;
+            }
+            return shrinkRay.filter(req, res);
+        }
+    })
+);
 
 // Function to serve all static files
 // app.use("/uploads", express.static("uploads"));
@@ -62,7 +90,7 @@ app.use("/static", express.static("static"));
 app.use(
     "/logs",
     // isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     express.static("logs")
 );
 
