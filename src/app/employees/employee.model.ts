@@ -158,16 +158,18 @@ export class EmployeeModel {
                         }
                     },
                     {
-                        deliveryAgentsLocations: filters.roles?.find((role) => {
-                            return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
-                        })
-                            ? {
-                                  some: {
-                                      location: {
-                                          id: filters.locationID
+                        deliveryAgentsLocations: filters.locationID
+                            ? filters.roles?.find((role) => {
+                                  return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
+                              })
+                                ? {
+                                      some: {
+                                          location: {
+                                              id: filters.locationID
+                                          }
                                       }
                                   }
-                              }
+                                : undefined
                             : undefined
                     },
                     { deleted: filters.deleted === "true" ? true : false }

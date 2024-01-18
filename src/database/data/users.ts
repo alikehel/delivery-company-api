@@ -1,16 +1,16 @@
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 
-const superAdmin = {
-    username: "superadmin",
-    name: "سوبر أدمن",
+const admin = {
+    username: "admin",
+    name: "أدمن",
     password: "password",
     phone: "07345678903",
     role: AdminRole.ADMIN
 };
 
-const admin = {
-    username: "admin",
-    name: "أدمن",
+const adminAssistant = {
+    username: "adminassistant",
+    name: "أدمن مساعد",
     password: "password",
     phone: "07345678904",
     role: AdminRole.ADMIN_ASSISTANT
@@ -123,8 +123,8 @@ const albarq1ClientAssistant = {
 };
 
 export default {
-    superAdmin,
     admin,
+    adminAssistant,
     albarq1CompanyManager,
     albarq1AccountManager,
     albarq1Accountant,
