@@ -3,17 +3,13 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import {
-    getAllNotifications,
-    updateNotification,
-    updateNotifications
-} from "./notifications.controller";
+import { getAllNotifications, updateNotification, updateNotifications } from "./notifications.controller";
 
 const router = Router();
 
 router.route("/notifications").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllNotifications
     /*
         #swagger.tags = ['Notifications Routes']
@@ -40,7 +36,7 @@ router.route("/notifications").get(
 
 router.route("/notifications/:notificationID").patch(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     updateNotification
     /*
         #swagger.tags = ['Notifications Routes']
@@ -63,7 +59,7 @@ router.route("/notifications/:notificationID").patch(
 
 router.route("/notifications").patch(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     updateNotifications
     /*
         #swagger.tags = ['Notifications Routes']

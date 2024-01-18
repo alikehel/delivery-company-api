@@ -65,9 +65,7 @@ export const localizeReportStatus = (text: ReportStatus): string => {
     }
 };
 
-export const localizeRole = (
-    text: AdminRole | EmployeeRole | ClientRole
-): string => {
+export const localizeRole = (text: AdminRole | EmployeeRole | ClientRole): string => {
     switch (text) {
         case "COMPANY_MANAGER":
             return "مدير الشركه";
@@ -93,10 +91,10 @@ export const localizeRole = (
             return "مساعد عميل";
         case "CLIENT":
             return "عميل";
-        case "SUPER_ADMIN":
-            return "سوبر ادمن";
         case "ADMIN":
             return "ادمن";
+        case "ADMIN_ASSISTANT":
+            return "مساعد ادمن";
         default:
             return text;
     }
@@ -104,38 +102,59 @@ export const localizeRole = (
 
 export const localizePermission = (text: Permission): string => {
     switch (text) {
-        case "ADD_ORDER_TO_DELIVERY_AGENT":
-            return "احالة الطلبات الي المندوب";
-        case "ADD_PAGE":
-            return "اضافة صفحة";
-        case "ADD_ORDER":
-            return "اضافة طلبية";
+        case "ADD_STORE":
+            return "اضافة متجر";
         case "ADD_CLIENT":
             return "اضافة عميل";
-        case "EDIT_CLIENT_NAME":
-            return "تعديل اسم عميل";
-        case "EDIT_ORDER_TOTAL_AMOUNT":
-            return "تعديل المبلغ الكلي للعملية";
+        case "ADD_LOCATION":
+            return "اضافة منطقة";
+        case "ADD_DELIVERY_AGENT":
+            return "اضافة مندوب";
+        case "ADD_ORDER":
+            return "اضافة طلبية";
+        case "DELETE_ORDER":
+            return "مسح طلبية";
         case "CHANGE_ORDER_STATUS":
-            return "تغيير الحالة";
+            return "تغيير حالة طلبية";
         case "CHANGE_CLOSED_ORDER_STATUS":
-            return "تغيير حالة الطلبية المغلقة";
+            return "تغيير حالة طلبية مغلقة";
+        case "CHANGE_ORDER_TOTAL_AMOUNT":
+            return "تعديل المبلغ الكلي لطلبية";
         case "LOCK_ORDER_STATUS":
-            return "قفل حالة الطلبية";
-        case "DELETE_PRICES":
-            return "مسح الاسعار";
-        case "DELETE_ORDERS":
-            return "مسح الطلبيات";
-        case "DELETE_REPORTS":
-            return "مسح الكشوفات";
-        case "DELETE_COMPANY_REPORTS":
-            return "مسح كشوفات الشركات";
-        case "DELETE_REPOSITORIES_REPORTS":
-            return "مسح كشوفات المخازن";
-        case "DELETE_GOVERNMENT_REPORTS":
-            return "مسح كشوفات المحافظات";
-        case "DELETE_DELIVERY_AGENT_REPORTS":
-            return "مسح كشوفات المندوبين";
+            return "قفل حالة طلبية";
+        case "CHANGE_ORDER_DELIVERY_AGENT":
+            return "احالة طلبية من مندوب الي اخر";
+        case "CHANGE_ORDER_BRANCH":
+            return "احالة طلبية من فرع الي اخر";
+        case "CHANGE_ORDER_CLIENT":
+            return "احالة طلبية من عميل الي اخر";
+        case "CHANGE_ORDER_COMPANY":
+            return "احالة طلبية من شركة الي اخرى";
+        case "CREATE_DELIVERY_AGENT_REPORT":
+            return "انشاء كشف مندوب";
+        case "CREATE_CLIENT_REPORT":
+            return "انشاء كشف عميل";
+        case "CREATE_REPOSITORY_REPORT":
+            return "انشاء كشف مخزن";
+        case "CREATE_COMPANY_REPORT":
+            return "انشاء كشف شركة";
+        case "CREATE_GOVERNMENT_REPORT":
+            return "انشاء كشف محافظة";
+        case "CREATE_BRANCH_REPORT":
+            return "انشاء كشف فرع";
+        case "DELETE_COMPANY_REPORT":
+            return "مسح كشف شركة";
+        case "DELETE_REPOSITORIES_REPORT":
+            return "مسح كشف مخزن";
+        case "DELETE_GOVERNMENT_REPORT":
+            return "مسح كشف محافظة";
+        case "DELETE_DELIVERY_AGENT_REPORT":
+            return "مسح كشف مندوب";
+        case "DELETE_CLIENT_REPORT":
+            return "مسح كشف عميل";
+        case "DELETE_BRANCH_REPORT":
+            return "مسح كشف فرع";
+
         default:
             return text;
     }

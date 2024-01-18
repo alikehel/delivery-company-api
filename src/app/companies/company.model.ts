@@ -52,12 +52,9 @@ export class CompanyModel {
                 governoratePrice: data.governoratePrice,
                 deliveryAgentFee: data.deliveryAgentFee,
                 baghdadPrice: data.baghdadPrice,
-                additionalPriceForEvery500000IraqiDinar:
-                    data.additionalPriceForEvery500000IraqiDinar,
-                additionalPriceForEveryKilogram:
-                    data.additionalPriceForEveryKilogram,
-                additionalPriceForRemoteAreas:
-                    data.additionalPriceForRemoteAreas,
+                additionalPriceForEvery500000IraqiDinar: data.additionalPriceForEvery500000IraqiDinar,
+                additionalPriceForEveryKilogram: data.additionalPriceForEveryKilogram,
+                additionalPriceForRemoteAreas: data.additionalPriceForRemoteAreas,
                 orderStatusAutomaticUpdate: data.orderStatusAutomaticUpdate
             },
             select: companySelect
@@ -112,12 +109,9 @@ export class CompanyModel {
                 baghdadPrice: data.companyData.baghdadPrice,
                 additionalPriceForEvery500000IraqiDinar:
                     data.companyData.additionalPriceForEvery500000IraqiDinar,
-                additionalPriceForEveryKilogram:
-                    data.companyData.additionalPriceForEveryKilogram,
-                additionalPriceForRemoteAreas:
-                    data.companyData.additionalPriceForRemoteAreas,
-                orderStatusAutomaticUpdate:
-                    data.companyData.orderStatusAutomaticUpdate
+                additionalPriceForEveryKilogram: data.companyData.additionalPriceForEveryKilogram,
+                additionalPriceForRemoteAreas: data.companyData.additionalPriceForRemoteAreas,
+                orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate
             },
             select: companySelect
         });

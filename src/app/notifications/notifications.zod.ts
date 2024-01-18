@@ -23,8 +23,6 @@ export const NotificationUpdateSchema = NotificationCreateSchema.pick({
 
 export type NotificationUpdateType = z.infer<typeof NotificationUpdateSchema>;
 
-export const NotificationUpdateOpenAPISchema = generateSchema(
-    NotificationUpdateSchema
-);
+export const NotificationUpdateOpenAPISchema = generateSchema(NotificationUpdateSchema);
 
 export const NotificationUpdateMock = generateMock(NotificationUpdateSchema);

@@ -1,9 +1,6 @@
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
-import {
-    RepositoryCreateSchema,
-    RepositoryUpdateSchema
-} from "./repositories.zod";
+import { RepositoryCreateSchema, RepositoryUpdateSchema } from "./repositories.zod";
 import { RepositoryModel } from "./repository.model";
 
 const repositoryModel = new RepositoryModel();
@@ -12,10 +9,7 @@ export const createRepository = catchAsync(async (req, res) => {
     const repositoryData = RepositoryCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
 
-    const createdRepository = await repositoryModel.createRepository(
-        companyID,
-        repositoryData
-    );
+    const createdRepository = await repositoryModel.createRepository(companyID, repositoryData);
 
     res.status(200).json({
         status: "success",
@@ -39,11 +33,7 @@ export const getAllRepositories = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -66,7 +56,7 @@ export const getAllRepositories = catchAsync(async (req, res) => {
 });
 
 export const getRepository = catchAsync(async (req, res) => {
-    const repositoryID = +req.params["repositoryID"];
+    const repositoryID = +req.params.repositoryID;
 
     const repository = await repositoryModel.getRepository({
         repositoryID: repositoryID
@@ -79,7 +69,7 @@ export const getRepository = catchAsync(async (req, res) => {
 });
 
 export const updateRepository = catchAsync(async (req, res) => {
-    const repositoryID = +req.params["repositoryID"];
+    const repositoryID = +req.params.repositoryID;
 
     const repositoryData = RepositoryUpdateSchema.parse(req.body);
 
@@ -95,7 +85,7 @@ export const updateRepository = catchAsync(async (req, res) => {
 });
 
 export const deleteRepository = catchAsync(async (req, res) => {
-    const repositoryID = +req.params["repositoryID"];
+    const repositoryID = +req.params.repositoryID;
 
     await repositoryModel.deleteRepository({
         repositoryID: repositoryID

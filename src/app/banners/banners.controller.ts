@@ -8,9 +8,7 @@ const bannerModel = new BannerModel();
 export const createBanner = catchAsync(async (req, res) => {
     const bannerData = BannerCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
-    const image = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const createdBanner = await bannerModel.createBanner(companyID, {
         ...bannerData,
@@ -39,11 +37,7 @@ export const getAllBanners = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -66,7 +60,7 @@ export const getAllBanners = catchAsync(async (req, res) => {
 });
 
 export const getBanner = catchAsync(async (req, res) => {
-    const bannerID = +req.params["bannerID"];
+    const bannerID = +req.params.bannerID;
 
     const banner = await bannerModel.getBanner({
         bannerID: bannerID
@@ -79,12 +73,10 @@ export const getBanner = catchAsync(async (req, res) => {
 });
 
 export const updateBanner = catchAsync(async (req, res) => {
-    const bannerID = +req.params["bannerID"];
+    const bannerID = +req.params.bannerID;
 
     const bannerData = BannerUpdateSchema.parse(req.body);
-    const image = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const banner = await bannerModel.updateBanner({
         bannerID: bannerID,
@@ -98,7 +90,7 @@ export const updateBanner = catchAsync(async (req, res) => {
 });
 
 export const deleteBanner = catchAsync(async (req, res) => {
-    const bannerID = +req.params["bannerID"];
+    const bannerID = +req.params.bannerID;
 
     await bannerModel.deleteBanner({
         bannerID: bannerID

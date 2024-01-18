@@ -9,18 +9,12 @@ export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
     const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
-    const image = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
-    const createdProduct = await productModel.createProduct(
-        companyID,
-        loggedInUserID,
-        {
-            ...productData,
-            image
-        }
-    );
+    const createdProduct = await productModel.createProduct(companyID, loggedInUserID, {
+        ...productData,
+        image
+    });
 
     res.status(200).json({
         status: "success",
@@ -46,11 +40,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -75,7 +65,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
 });
 
 export const getProduct = catchAsync(async (req, res) => {
-    const productID = +req.params["productID"];
+    const productID = +req.params.productID;
 
     const product = await productModel.getProduct({
         productID: productID
@@ -88,14 +78,12 @@ export const getProduct = catchAsync(async (req, res) => {
 });
 
 export const updateProduct = catchAsync(async (req, res) => {
-    const productID = +req.params["productID"];
+    const productID = +req.params.productID;
     const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
 
     const productData = ProductUpdateSchema.parse(req.body);
-    const image = req.file
-        ? "/" + req.file.path.replace(/\\/g, "/")
-        : undefined;
+    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const product = await productModel.updateProduct({
         productID: productID,
@@ -111,7 +99,7 @@ export const updateProduct = catchAsync(async (req, res) => {
 });
 
 export const deleteProduct = catchAsync(async (req, res) => {
-    const productID = +req.params["productID"];
+    const productID = +req.params.productID;
 
     await productModel.deleteProduct({
         productID: productID

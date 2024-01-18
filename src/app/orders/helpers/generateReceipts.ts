@@ -23,9 +23,7 @@ const getImage = (url: string | Buffer) => {
 };
 
 // TODO
-export const generateReceipts = async (
-    orders: ReturnType<typeof orderReform>[]
-) => {
+export const generateReceipts = async (orders: ReturnType<typeof orderReform>[]) => {
     try {
         const fonts = {
             Cairo: {
@@ -61,7 +59,7 @@ export const generateReceipts = async (
                     { text: "", headlineLevel: 1 },
                     // image url
                     {
-                        image: "data:image/jpeg," + imageData,
+                        image: `data:image/jpeg,${imageData}`,
                         width: 80
                     },
                     { text: "\n" },
@@ -77,11 +75,7 @@ export const generateReceipts = async (
                                     handleArabicCharacters("رقم الهاتف"),
                                     handleArabicCharacters("اسم العميل")
                                 ],
-                                [
-                                    "",
-                                    order.client?.phone || "",
-                                    order.client?.name || ""
-                                ]
+                                ["", order.client?.phone || "", order.client?.name || ""]
                             ]
                         }
                     },
@@ -92,14 +86,9 @@ export const generateReceipts = async (
                             headerRows: 1,
                             widths: ["*", "*"],
                             body: [
+                                [handleArabicCharacters("التاريخ"), handleArabicCharacters("رقم الوصل")],
                                 [
-                                    handleArabicCharacters("التاريخ"),
-                                    handleArabicCharacters("رقم الوصل")
-                                ],
-                                [
-                                    handleArabicCharacters(
-                                        order.createdAt.toLocaleDateString()
-                                    ),
+                                    handleArabicCharacters(order.createdAt.toLocaleDateString()),
                                     order.receiptNumber.toString()
                                 ]
                             ]
@@ -119,14 +108,9 @@ export const generateReceipts = async (
                                     handleArabicCharacters("اسم المستلم")
                                 ],
                                 [
-                                    handleArabicCharacters(
-                                        order.recipientAddress || ""
-                                    ) || "",
+                                    handleArabicCharacters(order.recipientAddress || "") || "",
                                     order.recipientPhones.map((phone, i) => {
-                                        return i ===
-                                            order.recipientPhones.length - 1
-                                            ? phone
-                                            : phone + " - ";
+                                        return i === order.recipientPhones.length - 1 ? phone : `${phone} - `;
                                     }) || "",
                                     handleArabicCharacters(order.recipientName)
                                 ]
@@ -148,9 +132,7 @@ export const generateReceipts = async (
                                 [
                                     order.totalCost.toString(),
                                     order.quantity.toString(),
-                                    handleArabicCharacters(
-                                        localizeDeliveryType(order.deliveryType)
-                                    ) || ""
+                                    handleArabicCharacters(localizeDeliveryType(order.deliveryType)) || ""
                                 ]
                             ]
                         }
@@ -163,10 +145,7 @@ export const generateReceipts = async (
                             widths: ["*"],
                             body: [
                                 [handleArabicCharacters("ملاحظات")],
-                                [
-                                    handleArabicCharacters(order.notes || "") ||
-                                        ""
-                                ]
+                                [handleArabicCharacters(order.notes || "") || ""]
                             ]
                         }
                     },
@@ -180,9 +159,7 @@ export const generateReceipts = async (
                                 [handleArabicCharacters("التسجيل")],
                                 ...(order.company?.registrationText
                                     ?.split(/\r?\n/)
-                                    .map((line) => [
-                                        handleArabicCharacters(line)
-                                    ]) || [])
+                                    .map((line) => [handleArabicCharacters(line)]) || [])
 
                                 // [
                                 //     handleArabicCharacters(
@@ -209,12 +186,8 @@ export const generateReceipts = async (
                     }
                 ];
             }),
-            pageBreakBefore: function (currentNode, followingNodesOnPage) {
-                return (
-                    currentNode.headlineLevel === 1 &&
-                    followingNodesOnPage.length === 0
-                );
-            },
+            pageBreakBefore: (currentNode, followingNodesOnPage) =>
+                currentNode.headlineLevel === 1 && followingNodesOnPage.length === 0,
             defaultStyle: {
                 font: "Cairo",
                 alignment: "right" as const,

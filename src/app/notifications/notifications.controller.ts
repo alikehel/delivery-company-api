@@ -9,12 +9,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     const notificationsCount = await notificationModel.getNotificationsCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(notificationsCount / size);
-    let userID;
-    if (res.locals.user.id) {
-        userID = +res.locals.user.id as number;
-    } else {
-        throw new AppError("User not found", 404);
-    }
+    const userID = +res.locals.user.id as number;
 
     let seen = false;
     if (req.query.seen && req.query.seen === "true") {
@@ -32,11 +27,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -48,12 +39,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const notifications = await notificationModel.getAllNotifications(
-        userID,
-        skip,
-        take,
-        seen
-    );
+    const notifications = await notificationModel.getAllNotifications(userID, skip, take, seen);
 
     res.status(200).json({
         status: "success",
@@ -64,7 +50,7 @@ export const getAllNotifications = catchAsync(async (req, res) => {
 });
 
 export const updateNotification = catchAsync(async (req, res) => {
-    const notificationID = +req.params["notificationID"];
+    const notificationID = +req.params.notificationID;
 
     const notificationData = NotificationUpdateSchema.parse(req.body);
 

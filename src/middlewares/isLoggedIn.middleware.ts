@@ -6,12 +6,9 @@ import AppError from "../utils/AppError.util";
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     try {
-        let token;
+        let token: string;
         // IS USER LOGGED IN
-        if (
-            req.headers.authorization &&
-            req.headers.authorization?.startsWith("Bearer")
-        ) {
+        if (req.headers.authorization?.startsWith("Bearer")) {
             token = req.headers.authorization.split(" ")[1];
         } else if (req.cookies.jwt) {
             token = req.cookies.jwt;
@@ -20,15 +17,10 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         }
 
         // IS TOKEN VALID
-        const {
-            id,
-            name,
-            username,
-            role,
-            permissions,
-            companyID,
-            companyName
-        } = jwt.verify(token, JWT_SECRET as string) as loggedInUserType;
+        const { id, name, username, role, permissions, companyID, companyName } = jwt.verify(
+            token,
+            JWT_SECRET as string
+        ) as loggedInUserType;
 
         // TODO: Check if user still exists
 

@@ -8,7 +8,7 @@ const storeModel = new StoreModel();
 export const createStore = catchAsync(async (req, res) => {
     const storeData = StoreCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
-    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
+    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const createdStore = await storeModel.createStore(companyID, {
         ...storeData,
@@ -37,11 +37,7 @@ export const getAllStores = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -68,7 +64,7 @@ export const getAllStores = catchAsync(async (req, res) => {
 });
 
 export const getStore = catchAsync(async (req, res) => {
-    const storeID = +req.params["storeID"];
+    const storeID = +req.params.storeID;
 
     const store = await storeModel.getStore({
         storeID: storeID
@@ -81,8 +77,8 @@ export const getStore = catchAsync(async (req, res) => {
 });
 
 export const updateStore = catchAsync(async (req, res) => {
-    const storeID = +req.params["storeID"];
-    const logo = req.file ? "/" + req.file.path.replace(/\\/g, "/") : undefined;
+    const storeID = +req.params.storeID;
+    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const storeData = StoreUpdateSchema.parse(req.body);
 
@@ -98,7 +94,7 @@ export const updateStore = catchAsync(async (req, res) => {
 });
 
 export const deleteStore = catchAsync(async (req, res) => {
-    const storeID = +req.params["storeID"];
+    const storeID = +req.params.storeID;
 
     await storeModel.deleteStore({
         storeID: storeID
@@ -110,7 +106,7 @@ export const deleteStore = catchAsync(async (req, res) => {
 });
 
 export const deactivateStore = catchAsync(async (req, res) => {
-    const storeID = +req.params["storeID"];
+    const storeID = +req.params.storeID;
     const loggedInUserID = +res.locals.user.id;
 
     await storeModel.deactivateStore({
@@ -124,7 +120,7 @@ export const deactivateStore = catchAsync(async (req, res) => {
 });
 
 export const reactivateStore = catchAsync(async (req, res) => {
-    const storeID = +req.params["storeID"];
+    const storeID = +req.params.storeID;
 
     await storeModel.reactivateStore({
         storeID: storeID

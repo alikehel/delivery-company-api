@@ -4,9 +4,7 @@ import { ZodError } from "zod";
 import Logger from "../lib/logger";
 import AppError from "../utils/AppError.util";
 
-const handlePrismaConstraintError = (
-    err: Prisma.PrismaClientKnownRequestError
-) => {
+const handlePrismaConstraintError = (err: Prisma.PrismaClientKnownRequestError) => {
     // The .code property can be accessed in a type-safe manner
     const errMeta = err.meta as unknown as { target: string };
     const errTarget = errMeta.target[0] as string;
@@ -17,9 +15,7 @@ const handlePrismaConstraintError = (
     return new AppError(`القيمة في حقل (${errTarget}) موجودة مسبقاً`, 400);
 };
 
-const handlePrismaDependencyError = (
-    err: Prisma.PrismaClientKnownRequestError
-) => {
+const handlePrismaDependencyError = (err: Prisma.PrismaClientKnownRequestError) => {
     const errMeta = err.meta as unknown as { cause: string };
     const errCause = errMeta.cause as string;
     // Arabic
@@ -30,7 +26,7 @@ const handlePrismaDependencyError = (
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handleJWTError = (err: Error) => {
     // const message = err.message;
-    const message = `الرجاء تسجيل الدخول مرة أخرى`;
+    const message = "الرجاء تسجيل الدخول مرة أخرى";
     return new AppError(message, 401);
 };
 
@@ -43,15 +39,20 @@ const handleZODError = (err: ZodError) => {
 const handleMulterError = (err: Error) => {
     if (err.message === "File too large") {
         return new AppError("حجم الملف اكبر من 5 ميجابايت", 400);
-    } else if (err.message === "Unexpected field") {
+    }
+    if (err.message === "Unexpected field") {
         return new AppError("حدث خطأ ما", 400);
-    } else if (err.message === "File too small") {
+    }
+    if (err.message === "File too small") {
         return new AppError("حجم الملف صغير جداً", 400);
-    } else if (err.message === "Too many files") {
+    }
+    if (err.message === "Too many files") {
         return new AppError("عدد الملفات كبير جداً", 400);
-    } else if (err.message === "Unexpected file") {
+    }
+    if (err.message === "Unexpected file") {
         return new AppError("حدث خطأ ما", 400);
-    } else if (err.message === "Wrong file type") {
+    }
+    if (err.message === "Wrong file type") {
         return new AppError("نوع الملف غير مدعوم", 400);
     }
 
@@ -116,23 +117,16 @@ export default (
         }
 
         if (error.code === "P2002") {
-            error = handlePrismaConstraintError(
-                error as unknown as Prisma.PrismaClientKnownRequestError
-            );
+            error = handlePrismaConstraintError(error as unknown as Prisma.PrismaClientKnownRequestError);
         } else if (error.code === "P2025") {
-            error = handlePrismaDependencyError(
-                error as unknown as Prisma.PrismaClientKnownRequestError
-            );
-        } else if (error.code && error.code.startsWith("P")) {
+            error = handlePrismaDependencyError(error as unknown as Prisma.PrismaClientKnownRequestError);
+        } else if (error.code?.startsWith("P")) {
             // console.log(error);
             // error = new AppError(
             //     `حدث خطأ ما في قاعدة البيانات [رمز الخطأ: ${error.code}]`,
             //     500
             // );
-            error = new AppError(
-                `حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${error.code}]`,
-                500
-            );
+            error = new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${error.code}]`, 500);
         } else if (error.name === "MulterError") {
             error = handleMulterError(error);
         }
@@ -141,5 +135,5 @@ export default (
     }
 
     Logger.error(err.message);
-    console.log(err);
+    console.error(err);
 };

@@ -10,10 +10,7 @@ export const createLocation = catchAsync(async (req, res) => {
     const locationData = LocationCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
 
-    const createdLocation = await locationModel.createLocation(
-        companyID,
-        locationData
-    );
+    const createdLocation = await locationModel.createLocation(companyID, locationData);
 
     res.status(200).json({
         status: "success",
@@ -28,15 +25,11 @@ export const getAllLocations = catchAsync(async (req, res) => {
 
     const search = req.query.search as string;
 
-    const governorate = req.query.governorate?.toString().toUpperCase() as
-        | Governorate
-        | undefined;
+    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
     const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
 
-    const deliveryAgentID = req.query.delivery_agent_id
-        ? +req.query.delivery_agent_id
-        : undefined;
+    const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -49,11 +42,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -81,7 +70,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
 });
 
 export const getLocation = catchAsync(async (req, res) => {
-    const locationID = +req.params["locationID"];
+    const locationID = +req.params.locationID;
 
     const location = await locationModel.getLocation({
         locationID: locationID
@@ -94,7 +83,7 @@ export const getLocation = catchAsync(async (req, res) => {
 });
 
 export const updateLocation = catchAsync(async (req, res) => {
-    const locationID = +req.params["locationID"];
+    const locationID = +req.params.locationID;
 
     const locationData = LocationUpdateSchema.parse(req.body);
 
@@ -110,7 +99,7 @@ export const updateLocation = catchAsync(async (req, res) => {
 });
 
 export const deleteLocation = catchAsync(async (req, res) => {
-    const locationID = +req.params["locationID"];
+    const locationID = +req.params.locationID;
 
     await locationModel.deleteLocation({
         locationID: locationID

@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/categories").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -36,7 +36,7 @@ router.route("/categories").post(
 
 router.route("/categories").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllCategories
     /*
         #swagger.tags = ['Categories Routes']
@@ -57,7 +57,7 @@ router.route("/categories").get(
 
 router.route("/categories/:categoryID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -66,7 +66,7 @@ router.route("/categories/:categoryID").get(
 
 router.route("/categories/:categoryID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -87,7 +87,7 @@ router.route("/categories/:categoryID").patch(
 
 router.route("/categories/:categoryID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteCategory
     /*
         #swagger.tags = ['Categories Routes']

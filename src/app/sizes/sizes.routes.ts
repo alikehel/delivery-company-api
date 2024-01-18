@@ -3,19 +3,13 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import {
-    createSize,
-    deleteSize,
-    getAllSizes,
-    getSize,
-    updateSize
-} from "./sizes.controller";
+import { createSize, deleteSize, getAllSizes, getSize, updateSize } from "./sizes.controller";
 
 const router = Router();
 
 router.route("/sizes").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -36,7 +30,7 @@ router.route("/sizes").post(
 
 router.route("/sizes").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllSizes
     /*
         #swagger.tags = ['Sizes Routes']
@@ -57,7 +51,7 @@ router.route("/sizes").get(
 
 router.route("/sizes/:sizeID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -66,7 +60,7 @@ router.route("/sizes/:sizeID").get(
 
 router.route("/sizes/:sizeID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -87,7 +81,7 @@ router.route("/sizes/:sizeID").patch(
 
 router.route("/sizes/:sizeID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteSize
     /*
         #swagger.tags = ['Sizes Routes']

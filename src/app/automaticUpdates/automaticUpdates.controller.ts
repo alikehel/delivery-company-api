@@ -1,10 +1,7 @@
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { AutomaticUpdateModel } from "./automaticUpdate.model";
-import {
-    AutomaticUpdateCreateSchema,
-    AutomaticUpdateUpdateSchema
-} from "./automaticUpdates.zod";
+import { AutomaticUpdateCreateSchema, AutomaticUpdateUpdateSchema } from "./automaticUpdates.zod";
 
 const automaticUpdateModel = new AutomaticUpdateModel();
 
@@ -12,11 +9,10 @@ export const createAutomaticUpdate = catchAsync(async (req, res) => {
     const automaticUpdateData = AutomaticUpdateCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
 
-    const createdAutomaticUpdate =
-        await automaticUpdateModel.createAutomaticUpdate(
-            companyID,
-            automaticUpdateData
-        );
+    const createdAutomaticUpdate = await automaticUpdateModel.createAutomaticUpdate(
+        companyID,
+        automaticUpdateData
+    );
 
     res.status(200).json({
         status: "success",
@@ -25,8 +21,7 @@ export const createAutomaticUpdate = catchAsync(async (req, res) => {
 });
 
 export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
-    const automaticUpdatesCount =
-        await automaticUpdateModel.getAutomaticUpdatesCount();
+    const automaticUpdatesCount = await automaticUpdateModel.getAutomaticUpdatesCount();
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(automaticUpdatesCount / size);
 
@@ -41,11 +36,7 @@ export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
     }
 
     let page = 1;
-    if (
-        req.query.page &&
-        !Number.isNaN(+req.query.page) &&
-        +req.query.page > 0
-    ) {
+    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
     if (page > pagesCount) {
@@ -57,10 +48,7 @@ export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const automaticUpdates = await automaticUpdateModel.getAllAutomaticUpdates(
-        skip,
-        take
-    );
+    const automaticUpdates = await automaticUpdateModel.getAllAutomaticUpdates(skip, take);
 
     res.status(200).json({
         status: "success",
@@ -71,7 +59,7 @@ export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
 });
 
 export const getAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params["automaticUpdateID"];
+    const automaticUpdateID = +req.params.automaticUpdateID;
 
     const automaticUpdate = await automaticUpdateModel.getAutomaticUpdate({
         automaticUpdateID: automaticUpdateID
@@ -84,7 +72,7 @@ export const getAutomaticUpdate = catchAsync(async (req, res) => {
 });
 
 export const updateAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params["automaticUpdateID"];
+    const automaticUpdateID = +req.params.automaticUpdateID;
 
     const automaticUpdateData = AutomaticUpdateUpdateSchema.parse(req.body);
 
@@ -100,7 +88,7 @@ export const updateAutomaticUpdate = catchAsync(async (req, res) => {
 });
 
 export const deleteAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params["automaticUpdateID"];
+    const automaticUpdateID = +req.params.automaticUpdateID;
 
     await automaticUpdateModel.deleteAutomaticUpdate({
         automaticUpdateID: automaticUpdateID

@@ -41,7 +41,7 @@ export class ReportService {
             companyNet: 0
         };
 
-        orders.forEach((order) => {
+        for (const order of orders) {
             // @ts-expect-error Fix later
             reportMetaData.totalCost += +order.totalCost;
             // @ts-expect-error Fix later
@@ -63,12 +63,13 @@ export class ReportService {
             } else {
                 reportMetaData.governoratesOrdersCount++;
             }
-        });
+        }
 
         if (data.reportData.type === ReportType.CLIENT) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.clientReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.reportNumber}`,
                         400
                     );
@@ -83,52 +84,57 @@ export class ReportService {
                 //         400
                 //     );
                 // }
-            });
+            }
         } else if (data.reportData.type === ReportType.REPOSITORY) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.repositoryReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.reportNumber}`,
                         400
                     );
                 }
-            });
+            }
         } else if (data.reportData.type === ReportType.BRANCH) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.branchReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.reportNumber}`,
                         400
                     );
                 }
-            });
+            }
         } else if (data.reportData.type === ReportType.GOVERNORATE) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.governorateReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.reportNumber}`,
                         400
                     );
                 }
-            });
+            }
         } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.deliveryAgentReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.reportNumber}`,
                         400
                     );
                 }
-            });
+            }
         } else if (data.reportData.type === ReportType.COMPANY) {
-            orders.forEach((order) => {
+            for (const order of orders) {
                 if (order?.companyReport) {
-                    throw new AppError( // @ts-expect-error Fix later
+                    throw new AppError(
+                        // @ts-expect-error Fix later
                         `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.reportNumber}`,
                         400
                     );
                 }
-            });
+            }
         }
 
         const report = await reportModel.createReport(
@@ -160,8 +166,7 @@ export class ReportService {
             await sendNotification({
                 title: "تم انشاء كشف جديد",
                 content: `تم انشاء كشف جديد برقم ${reportData?.id}`,
-                userID: reportData?.deliveryAgentReport?.deliveryAgent
-                    .id as number
+                userID: reportData?.deliveryAgentReport?.deliveryAgent.id as number
             });
         }
 
@@ -193,11 +198,7 @@ export class ReportService {
         }
 
         // TODO
-        const pdf = await generateReport(
-            data.reportData.type,
-            reportData,
-            orders
-        );
+        const pdf = await generateReport(data.reportData.type, reportData, orders);
         // const pdf = await generateReport(
         //     await orderModel.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
@@ -230,52 +231,33 @@ export class ReportService {
         const startDate = data.queryString.start_date
             ? new Date(data.queryString.start_date as string)
             : undefined;
-        const endDate = data.queryString.end_date
-            ? new Date(data.queryString.end_date as string)
-            : undefined;
+        const endDate = data.queryString.end_date ? new Date(data.queryString.end_date as string) : undefined;
 
-        const status = data.queryString.status?.toString().toUpperCase() as
-            | ReportStatus
-            | undefined;
-        const type = data.queryString.type?.toString().toUpperCase() as
-            | ReportType
-            | undefined;
+        const status = data.queryString.status?.toString().toUpperCase() as ReportStatus | undefined;
+        const type = data.queryString.type?.toString().toUpperCase() as ReportType | undefined;
 
-        const branchID = data.queryString.branch_id
-            ? +data.queryString.branch_id
-            : undefined;
+        const branchID = data.queryString.branch_id ? +data.queryString.branch_id : undefined;
 
-        let clientID;
-        data.loggedInUser.role === "CLIENT" ||
-        data.loggedInUser.role === "CLIENT_ASSISTANT"
-            ? (clientID = +data.loggedInUser.id)
-            : data.queryString.client_id
-              ? (clientID = +data.queryString.client_id)
-              : undefined;
-        const storeID = data.queryString.store_id
-            ? +data.queryString.store_id
-            : undefined;
-        const repositoryID = data.queryString.repository_id
-            ? +data.queryString.repository_id
-            : undefined;
+        let clientID: number | undefined;
+        if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
+            clientID = +data.loggedInUser.id;
+        } else if (data.queryString.client_id) {
+            clientID = +data.queryString.client_id;
+        } else {
+            clientID = undefined;
+        }
+        const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
+        const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
         const deliveryAgentID = data.queryString.delivery_agent_id
             ? +data.queryString.delivery_agent_id
             : undefined;
-        const companyID = data.queryString.company_id
-            ? +data.queryString.company_id
-            : undefined;
-        const governorate = data.queryString.governorate
-            ?.toString()
-            .toUpperCase() as Governorate | undefined;
+        const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
+        const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
 
         const deleted = data.queryString.deleted?.toString() || "false";
 
         let page = 1;
-        if (
-            data.queryString.page &&
-            !Number.isNaN(+data.queryString.page) &&
-            +data.queryString.page > 0
-        ) {
+        if (data.queryString.page && !Number.isNaN(+data.queryString.page) && +data.queryString.page > 0) {
             page = +data.queryString.page;
         }
         if (page > pagesCount) {
@@ -318,20 +300,20 @@ export class ReportService {
               reportData?.repositoryReport.repositoryReportOrders
             : reportData?.branchReport
               ? // @tts-expect-error: Unreachable code error
-                reportData?.branchReport.branchReportOrders
+                  reportData?.branchReport.branchReportOrders
               : reportData?.clientReport
-                ? // @tts-expect-error: Unreachable code error
-                  reportData?.clientReport.clientReportOrders
-                : reportData?.deliveryAgentReport
                   ? // @tts-expect-error: Unreachable code error
-                    reportData?.deliveryAgentReport.deliveryAgentReportOrders
-                  : reportData?.governorateReport
-                    ? // @tts-expect-error: Unreachable code error
-                      reportData?.governorateReport.governorateReportOrders
-                    : reportData?.companyReport
+                      reportData?.clientReport.clientReportOrders
+                  : reportData?.deliveryAgentReport
                       ? // @tts-expect-error: Unreachable code error
-                        reportData?.companyReport.companyReportOrders
-                      : [];
+                          reportData?.deliveryAgentReport.deliveryAgentReportOrders
+                      : reportData?.governorateReport
+                          ? // @tts-expect-error: Unreachable code error
+                              reportData?.governorateReport.governorateReportOrders
+                          : reportData?.companyReport
+                              ? // @tts-expect-error: Unreachable code error
+                                  reportData?.companyReport.companyReportOrders
+                              : [];
 
         const ordersIDs = orders.map((order) => order.id);
 
@@ -356,7 +338,7 @@ export class ReportService {
 
     //     if (
     //         reportData.confirmed === false &&
-    //         loggedInUser.role !== "SUPER_ADMIN"
+    //         loggedInUser.role !== "ADMIN"
     //     ) {
     //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
     //     }
@@ -391,8 +373,7 @@ export class ReportService {
 
         if (
             reportData.confirmed === false &&
-            (loggedInUser.role === "CLIENT" ||
-                loggedInUser.role === "CLIENT_ASSISTANT")
+            (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT")
         ) {
             throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
         }

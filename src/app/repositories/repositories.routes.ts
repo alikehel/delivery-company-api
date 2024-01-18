@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/repositories").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     createRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -36,7 +36,7 @@ router.route("/repositories").post(
 
 router.route("/repositories").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllRepositories
     /*
         #swagger.tags = ['Repositories Routes']
@@ -57,7 +57,7 @@ router.route("/repositories").get(
 
 router.route("/repositories/:repositoryID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -66,7 +66,7 @@ router.route("/repositories/:repositoryID").get(
 
 router.route("/repositories/:repositoryID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     updateRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -87,7 +87,7 @@ router.route("/repositories/:repositoryID").patch(
 
 router.route("/repositories/:repositoryID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteRepository
     /*
         #swagger.tags = ['Repositories Routes']

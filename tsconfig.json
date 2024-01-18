@@ -1,17 +1,24 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "lib": ["ES6", "DOM"],
-        "outDir": "./build",
-        "rootDir": "./src",
-        "strict": true,
-        "noImplicitAny": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true
-    },
-    "include": ["./src"],
-    "exclude": ["node_modules", "spec", "build"]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Node 20",
+	"_version": "20.1.0",
+	"compilerOptions": {
+		// "target": "es2015",
+		// "module": "commonjs",
+		// "lib": ["ES6", "DOM"],
+		"outDir": "./build",
+		"rootDir": "./src",
+		"strict": true,
+		"noImplicitAny": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"lib": ["es2023"],
+		"module": "node16",
+		"target": "es2022",
+		"moduleResolution": "node16"
+	},
+	"include": ["./src"],
+	"exclude": ["node_modules", "spec", "build"]
 }

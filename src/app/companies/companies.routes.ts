@@ -17,7 +17,7 @@ const router = Router();
 
 router.route("/companies").post(
     isLoggedIn,
-    // isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.ADMIN]),
     // upload.single("logo"),
     upload.none(),
     createCompany
@@ -40,7 +40,7 @@ router.route("/companies").post(
 
 router.route("/companies").get(
     isLoggedIn,
-    // isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.ADMIN]),
     getAllCompanies
     /*
         #swagger.tags = ['Companies Routes']
@@ -61,7 +61,7 @@ router.route("/companies").get(
 
 router.route("/companies/:companyID").get(
     isLoggedIn,
-    // isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.ADMIN]),
     getCompany
     /*
         #swagger.tags = ['Companies Routes']
@@ -70,7 +70,7 @@ router.route("/companies/:companyID").get(
 
 router.route("/companies/:companyID").patch(
     isLoggedIn,
-    // isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.ADMIN]),
     // upload.single("logo"),
     upload.none(),
     updateCompany
@@ -93,7 +93,7 @@ router.route("/companies/:companyID").patch(
 
 router.route("/companies/:companyID").delete(
     isLoggedIn,
-    // isAutherized([AdminRole.SUPER_ADMIN]),
+    // isAutherized([AdminRole.ADMIN]),
     deleteCompany
     /*
         #swagger.tags = ['Companies Routes']

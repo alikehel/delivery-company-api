@@ -7,11 +7,7 @@ import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Logger from "../../../lib/logger";
 import AppError from "../../../utils/AppError.util";
 import handleArabicCharacters from "../../../utils/handleArabicCharacters";
-import {
-    localizeGovernorate,
-    localizeOrderStatus,
-    localizeReportType
-} from "../../../utils/localize.util";
+import { localizeGovernorate, localizeOrderStatus, localizeReportType } from "../../../utils/localize.util";
 import { orderReform } from "../../orders/order.model";
 import { reportReform } from "../../reports/report.model";
 
@@ -107,30 +103,24 @@ export const generateReport = async (
                             [
                                 {
                                     rowSpan: 3,
-                                    image: "data:image/jpeg," + imageData,
+                                    image: `data:image/jpeg,${imageData}`,
                                     width: 80
                                 },
                                 {
                                     text: handleArabicCharacters(
                                         `عدد الطلبيات: ${
-                                            (reportData.baghdadOrdersCount ||
-                                                0) +
-                                            (reportData.governoratesOrdersCount ||
-                                                0)
+                                            (reportData.baghdadOrdersCount || 0) +
+                                            (reportData.governoratesOrdersCount || 0)
                                         }`
                                     ),
                                     noWrap: true
                                 },
                                 {
-                                    text: handleArabicCharacters(
-                                        `كشف ${localizeReportType(reportType)}`
-                                    ),
+                                    text: handleArabicCharacters(`كشف ${localizeReportType(reportType)}`),
                                     noWrap: true
                                 },
                                 {
-                                    text: handleArabicCharacters(
-                                        `رقم الكشف: ${reportData.id}`
-                                    )
+                                    text: handleArabicCharacters(`رقم الكشف: ${reportData.id}`)
                                 }
                             ],
                             [
@@ -144,32 +134,22 @@ export const generateReport = async (
                                 {
                                     text: handleArabicCharacters(
                                         reportType === "CLIENT"
-                                            ? reportData.clientReport?.client
-                                                  .name ?? ""
+                                            ? reportData.clientReport?.client.name ?? ""
                                             : reportType === "REPOSITORY"
-                                              ? reportData.repositoryReport
-                                                    ?.repository.name ?? ""
+                                              ? reportData.repositoryReport?.repository.name ?? ""
                                               : reportType === "BRANCH"
-                                                ? reportData.branchReport
-                                                      ?.branch.name ?? ""
-                                                : reportType ===
-                                                        "GOVERNORATE" &&
-                                                    reportData.governorateReport
-                                                  ? localizeGovernorate(
-                                                        reportData
-                                                            .governorateReport
-                                                            .governorate
-                                                    )
-                                                  : reportType ===
-                                                      "DELIVERY_AGENT"
-                                                    ? reportData
-                                                          .deliveryAgentReport
-                                                          ?.deliveryAgent
-                                                          .name ?? ""
-                                                    : reportType === "COMPANY"
-                                                      ? reportData.companyReport
-                                                            ?.company.name ?? ""
-                                                      : ""
+                                                  ? reportData.branchReport?.branch.name ?? ""
+                                                  : reportType === "GOVERNORATE" &&
+                                                          reportData.governorateReport
+                                                      ? localizeGovernorate(
+                                                              reportData.governorateReport.governorate
+                                                          )
+                                                      : reportType === "DELIVERY_AGENT"
+                                                          ? reportData.deliveryAgentReport?.deliveryAgent
+                                                                  .name ?? ""
+                                                          : reportType === "COMPANY"
+                                                              ? reportData.companyReport?.company.name ?? ""
+                                                              : ""
                                     ),
                                     noWrap: true
                                 },
@@ -189,26 +169,22 @@ export const generateReport = async (
                                 },
                                 {
                                     // TODO
-                                    text:
-                                        reportData.clientReport &&
-                                        reportData.clientReport.store
-                                            ? handleArabicCharacters(
-                                                  `الصفحة: ${reportData.clientReport.store.name}}`
-                                              )
-                                            : ""
+                                    text: reportData.clientReport?.store
+                                        ? handleArabicCharacters(
+                                              `الصفحة: ${reportData.clientReport.store.name}}`
+                                          )
+                                        : ""
                                 },
                                 {
                                     text:
                                         reportType === "CLIENT"
-                                            ? handleArabicCharacters(
-                                                  `صافي العميل: ${reportData.clientNet}`
-                                              )
+                                            ? handleArabicCharacters(`صافي العميل: ${reportData.clientNet}`)
                                             : reportType === "BRANCH" ||
-                                                reportType === "GOVERNORATE" ||
-                                                reportType === "DELIVERY_AGENT"
+                                                  reportType === "GOVERNORATE" ||
+                                                  reportType === "DELIVERY_AGENT"
                                               ? handleArabicCharacters(
-                                                    `صافي الشركة: ${reportData.companyNet}`
-                                                )
+                                                      `صافي الشركة: ${reportData.companyNet}`
+                                                  )
                                               : "",
                                     noWrap: true
                                 }
@@ -254,37 +230,27 @@ export const generateReport = async (
                                 reportType === "GOVERNORATE" ||
                                 reportType === "DELIVERY_AGENT"
                                     ? {
-                                          text: handleArabicCharacters(
-                                              "صافي المندوب"
-                                          ),
+                                          text: handleArabicCharacters("صافي المندوب"),
                                           noWrap: true
                                           // style: "header"
                                       }
                                     : "",
-                                reportType === "CLIENT" ||
-                                reportType === "REPOSITORY"
+                                reportType === "CLIENT" || reportType === "REPOSITORY"
                                     ? {
-                                          text: handleArabicCharacters(
-                                              "صافي العميل"
-                                          ),
+                                          text: handleArabicCharacters("صافي العميل"),
                                           noWrap: true
                                           // style: "header"
                                       }
                                     : "",
-                                reportType === "CLIENT" ||
-                                reportType === "REPOSITORY"
+                                reportType === "CLIENT" || reportType === "REPOSITORY"
                                     ? {
-                                          text: handleArabicCharacters(
-                                              "مبلغ التوصيل"
-                                          ),
+                                          text: handleArabicCharacters("مبلغ التوصيل"),
                                           noWrap: true
                                           // style: "header"
                                       }
                                     : "",
                                 {
-                                    text: handleArabicCharacters(
-                                        "المبلغ المستلم"
-                                    ),
+                                    text: handleArabicCharacters("المبلغ المستلم"),
                                     noWrap: true
                                     // style: "header"
                                 },
@@ -294,16 +260,12 @@ export const generateReport = async (
                                     // style: "header"
                                 },
                                 {
-                                    text: handleArabicCharacters(
-                                        "عنوان المستلم"
-                                    ),
+                                    text: handleArabicCharacters("عنوان المستلم"),
                                     noWrap: true
                                     // style: "header"
                                 },
                                 {
-                                    text: handleArabicCharacters(
-                                        "هاتف المستلم"
-                                    ),
+                                    text: handleArabicCharacters("هاتف المستلم"),
                                     noWrap: true
                                     // style: "header"
                                 },
@@ -325,26 +287,20 @@ export const generateReport = async (
                             ],
                             ...orders.map((order) => {
                                 if (!order) {
-                                    throw new AppError(
-                                        "لا يوجد طلبات لعمل الكشف",
-                                        404
-                                    );
+                                    throw new AppError("لا يوجد طلبات لعمل الكشف", 404);
                                 }
                                 return [
                                     {
                                         // text: handleArabicCharacters(
                                         //     "مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد مسجد جامعة بغداد"
                                         // ),
-                                        text: handleArabicCharacters(
-                                            order.notes || ""
-                                        )
+                                        text: handleArabicCharacters(order.notes || "")
                                         // style: "red",
                                         // fillColor: "#5bc0de"
                                     },
                                     {
                                         text: handleArabicCharacters(
-                                            localizeOrderStatus(order.status) ||
-                                                "اخري"
+                                            localizeOrderStatus(order.status) || "اخري"
                                         )
                                     },
                                     reportType === "BRANCH" ||
@@ -352,59 +308,41 @@ export const generateReport = async (
                                     reportType === "DELIVERY_AGENT"
                                         ? {
                                               text: order.deliveryAgent
-                                                  ? order.deliveryAgent.deliveryCost?.toString() ||
-                                                    "0"
+                                                  ? order.deliveryAgent.deliveryCost?.toString() || "0"
                                                   : "0"
                                           }
                                         : {},
-                                    reportType === "CLIENT" ||
-                                    reportType === "REPOSITORY"
+                                    reportType === "CLIENT" || reportType === "REPOSITORY"
                                         ? {
-                                              text:
-                                                  order.clientNet?.toString() ||
-                                                  "0"
+                                              text: order.clientNet?.toString() || "0"
                                               // fillColor: "#5bc0de"
                                           }
                                         : {},
-                                    reportType === "CLIENT" ||
-                                    reportType === "REPOSITORY"
+                                    reportType === "CLIENT" || reportType === "REPOSITORY"
                                         ? {
-                                              text:
-                                                  order.deliveryCost?.toString() ||
-                                                  "0"
+                                              text: order.deliveryCost?.toString() || "0"
                                           }
                                         : {},
                                     {
-                                        text:
-                                            order.paidAmount?.toString() || "0"
+                                        text: order.paidAmount?.toString() || "0"
                                     },
                                     {
                                         text: order.totalCost.toString()
                                     },
                                     {
-                                        text:
-                                            handleArabicCharacters(
-                                                localizeGovernorate(
-                                                    order.governorate as Governorate
-                                                ) || ""
-                                            ) +
-                                            "  -  " +
-                                            handleArabicCharacters(
-                                                // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
-                                                order.recipientAddress || ""
-                                            )
+                                        text: `${handleArabicCharacters(
+                                            localizeGovernorate(order.governorate as Governorate) || ""
+                                        )}  -  ${handleArabicCharacters(
+                                            // "مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد - مسجد جامعة بغداد"
+                                            order.recipientAddress || ""
+                                        )}`
                                     },
                                     {
-                                        text: order.recipientPhones.map(
-                                            (phone, i) => {
-                                                return i ===
-                                                    order.recipientPhones
-                                                        .length -
-                                                        1
-                                                    ? phone
-                                                    : phone + " - ";
-                                            }
-                                        )
+                                        text: order.recipientPhones.map((phone, i) => {
+                                            return i === order.recipientPhones.length - 1
+                                                ? phone
+                                                : `${phone} - `;
+                                        })
                                     },
                                     {
                                         text: order.createdAt.toLocaleDateString()

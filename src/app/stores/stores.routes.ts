@@ -3,6 +3,7 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { upload } from "../../middlewares/upload.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
 import {
     createStore,
@@ -13,13 +14,12 @@ import {
     reactivateStore,
     updateStore
 } from "./stores.controller";
-import { upload } from "../../middlewares/upload.middleware";
 
 const router = Router();
 
 router.route("/stores").post(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     // upload.single("logo"),
     upload.none(),
     createStore
@@ -42,7 +42,7 @@ router.route("/stores").post(
 
 router.route("/stores").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getAllStores
     /*
         #swagger.tags = ['Stores Routes']
@@ -63,7 +63,7 @@ router.route("/stores").get(
 
 router.route("/stores/:storeID").get(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     getStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -72,7 +72,7 @@ router.route("/stores/:storeID").get(
 
 router.route("/stores/:storeID").patch(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     // upload.single("logo"),
     upload.none(),
     updateStore
@@ -95,7 +95,7 @@ router.route("/stores/:storeID").patch(
 
 router.route("/stores/:storeID").delete(
     isLoggedIn,
-    // isAutherized([Role.SUPER_ADMIN]),
+    // isAutherized([Role.ADMIN]),
     deleteStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -104,7 +104,7 @@ router.route("/stores/:storeID").delete(
 
 router.route("/stores/:storeID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     deactivateStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -113,7 +113,7 @@ router.route("/stores/:storeID/deactivate").patch(
 
 router.route("/stores/:storeID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reactivateStore
     /*
         #swagger.tags = ['Stores Routes']

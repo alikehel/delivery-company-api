@@ -83,9 +83,7 @@ export const OrderUpdateSchema = z
         deliveryAgentID: z.coerce.number(),
         deliveryDate: z.coerce.date().optional(),
         recipientName: z.string(),
-        recipientPhones: z
-            .array(z.string().regex(/^07[3-9][0-9]{8}$/))
-            .optional(),
+        recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
         recipientPhone: z
             .string()
             .regex(/^07[3-9][0-9]{8}$/)
@@ -111,17 +109,11 @@ export const OrdersReceiptsCreateSchema = z.object({
     ordersIDs: z.array(z.coerce.number()).min(1)
 });
 
-export type OrdersReceiptsCreateType = z.infer<
-    typeof OrdersReceiptsCreateSchema
->;
+export type OrdersReceiptsCreateType = z.infer<typeof OrdersReceiptsCreateSchema>;
 
-export const OrdersReceiptsCreateOpenAPISchema = generateSchema(
-    OrdersReceiptsCreateSchema
-);
+export const OrdersReceiptsCreateOpenAPISchema = generateSchema(OrdersReceiptsCreateSchema);
 
-export const OrdersReceiptsCreateMock = generateMock(
-    OrdersReceiptsCreateSchema
-);
+export const OrdersReceiptsCreateMock = generateMock(OrdersReceiptsCreateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -188,9 +180,7 @@ export const OrderChatNotificationCreateSchema = z.object({
     content: z.string().optional()
 });
 
-export type OrderChatNotificationCreateType = z.infer<
-    typeof OrderChatNotificationCreateSchema
->;
+export type OrderChatNotificationCreateType = z.infer<typeof OrderChatNotificationCreateSchema>;
 
 // export const OrderChatNotificationCreateOpenAPISchema = generateSchema(
 //     OrderChatNotificationCreateSchema

@@ -19,7 +19,7 @@ const router = Router();
 
 router.route("/clients").post(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     // upload.single("avatar"),
     upload.none(),
     createClient
@@ -42,7 +42,7 @@ router.route("/clients").post(
 
 router.route("/clients").get(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     getAllClients
     /*
         #swagger.tags = ['Clients Routes']
@@ -63,7 +63,7 @@ router.route("/clients").get(
 
 router.route("/clients/:clientID").get(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     getClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -72,7 +72,7 @@ router.route("/clients/:clientID").get(
 
 router.route("/clients/:clientID").patch(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     // upload.single("avatar"),
     upload.none(),
     updateClient
@@ -95,7 +95,7 @@ router.route("/clients/:clientID").patch(
 
 router.route("/clients/:clientID").delete(
     isLoggedIn,
-    // // isAutherized([Role.SUPER_ADMIN]),
+    // // isAutherized([Role.ADMIN]),
     deleteClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -104,7 +104,7 @@ router.route("/clients/:clientID").delete(
 
 router.route("/clients/:clientID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     deactivateClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -113,7 +113,7 @@ router.route("/clients/:clientID/deactivate").patch(
 
 router.route("/clients/:clientID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.SUPER_ADMIN]),
+    // isAutherized([EmployeeRole.ADMIN]),
     reactivateClient
     /*
         #swagger.tags = ['Clients Routes']

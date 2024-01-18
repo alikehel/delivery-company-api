@@ -1,8 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import {
-    NotificationCreateType,
-    NotificationUpdateType
-} from "./notifications.zod";
+import { NotificationCreateType, NotificationUpdateType } from "./notifications.zod";
 
 const prisma = new PrismaClient();
 
@@ -69,12 +66,7 @@ export class NotificationModel {
         return notificationsCount;
     }
 
-    async getAllNotifications(
-        userID: number,
-        skip: number,
-        take: number,
-        seen: boolean
-    ) {
+    async getAllNotifications(userID: number, skip: number, take: number, seen: boolean) {
         const notifications = await prisma.notification.findMany({
             // if seen true gett all notifications seen and unseen
             // if seen false get only unseen notifications

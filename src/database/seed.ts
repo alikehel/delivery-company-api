@@ -40,10 +40,7 @@ async function main() {
         update: {
             name: users.superAdmin.name,
             phone: users.superAdmin.phone,
-            password: bcrypt.hashSync(
-                users.superAdmin.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.superAdmin.password + (SECRET as string), 12),
             admin: {
                 update: {
                     role: users.superAdmin.role
@@ -54,10 +51,7 @@ async function main() {
             name: users.superAdmin.name,
             username: users.superAdmin.username,
             phone: users.superAdmin.phone,
-            password: bcrypt.hashSync(
-                users.superAdmin.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.superAdmin.password + (SECRET as string), 12),
             admin: {
                 create: {
                     role: users.superAdmin.role
@@ -72,10 +66,7 @@ async function main() {
         },
         update: {
             name: users.admin.name,
-            password: bcrypt.hashSync(
-                users.admin.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.admin.password + (SECRET as string), 12),
             phone: users.admin.phone,
             admin: {
                 update: {
@@ -87,10 +78,7 @@ async function main() {
             name: users.admin.name,
             username: users.admin.username,
             phone: users.admin.phone,
-            password: bcrypt.hashSync(
-                users.admin.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.admin.password + (SECRET as string), 12),
             admin: {
                 create: {
                     role: users.admin.role
@@ -105,10 +93,7 @@ async function main() {
         },
         update: {
             name: users.albarq1CompanyManager.name,
-            password: bcrypt.hashSync(
-                users.albarq1CompanyManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1CompanyManager.password + (SECRET as string), 12),
             phone: users.albarq1CompanyManager.phone,
             employee: {
                 update: {
@@ -121,10 +106,7 @@ async function main() {
             name: users.albarq1CompanyManager.name,
             username: users.albarq1CompanyManager.username,
             phone: users.albarq1CompanyManager.phone,
-            password: bcrypt.hashSync(
-                users.albarq1CompanyManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1CompanyManager.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1CompanyManager.salary,
@@ -145,10 +127,7 @@ async function main() {
         },
         update: {
             name: users.albarq1AccountManager.name,
-            password: bcrypt.hashSync(
-                users.albarq1AccountManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1AccountManager.password + (SECRET as string), 12),
             phone: users.albarq1AccountManager.phone,
             employee: {
                 update: {
@@ -161,10 +140,7 @@ async function main() {
             name: users.albarq1AccountManager.name,
             username: users.albarq1AccountManager.username,
             phone: users.albarq1AccountManager.phone,
-            password: bcrypt.hashSync(
-                users.albarq1AccountManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1AccountManager.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1AccountManager.salary,
@@ -185,10 +161,7 @@ async function main() {
         },
         update: {
             name: users.albarq1Accountant.name,
-            password: bcrypt.hashSync(
-                users.albarq1Accountant.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1Accountant.password + (SECRET as string), 12),
             phone: users.albarq1Accountant.phone,
             employee: {
                 update: {
@@ -201,10 +174,7 @@ async function main() {
             name: users.albarq1Accountant.name,
             username: users.albarq1Accountant.username,
             phone: users.albarq1Accountant.phone,
-            password: bcrypt.hashSync(
-                users.albarq1Accountant.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1Accountant.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1Accountant.salary,
@@ -225,10 +195,7 @@ async function main() {
         },
         update: {
             name: users.albarq1DeliveryAgent.name,
-            password: bcrypt.hashSync(
-                users.albarq1DeliveryAgent.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (SECRET as string), 12),
             phone: users.albarq1DeliveryAgent.phone,
             employee: {
                 update: {
@@ -241,10 +208,7 @@ async function main() {
             name: users.albarq1DeliveryAgent.name,
             username: users.albarq1DeliveryAgent.username,
             phone: users.albarq1DeliveryAgent.phone,
-            password: bcrypt.hashSync(
-                users.albarq1DeliveryAgent.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1DeliveryAgent.salary,
@@ -265,10 +229,7 @@ async function main() {
         },
         update: {
             name: users.albarq1ReceivingAgent.name,
-            password: bcrypt.hashSync(
-                users.albarq1ReceivingAgent.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (SECRET as string), 12),
             phone: users.albarq1ReceivingAgent.phone,
             employee: {
                 update: {
@@ -281,10 +242,7 @@ async function main() {
             name: users.albarq1ReceivingAgent.name,
             username: users.albarq1ReceivingAgent.username,
             phone: users.albarq1ReceivingAgent.phone,
-            password: bcrypt.hashSync(
-                users.albarq1ReceivingAgent.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1ReceivingAgent.salary,
@@ -305,10 +263,7 @@ async function main() {
         },
         update: {
             name: users.albarq1BranchManager.name,
-            password: bcrypt.hashSync(
-                users.albarq1BranchManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1BranchManager.password + (SECRET as string), 12),
             phone: users.albarq1BranchManager.phone,
             employee: {
                 update: {
@@ -321,10 +276,7 @@ async function main() {
             name: users.albarq1BranchManager.name,
             username: users.albarq1BranchManager.username,
             phone: users.albarq1BranchManager.phone,
-            password: bcrypt.hashSync(
-                users.albarq1BranchManager.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1BranchManager.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1BranchManager.salary,
@@ -345,10 +297,7 @@ async function main() {
         },
         update: {
             name: users.albarq1EmergencyEmployee.name,
-            password: bcrypt.hashSync(
-                users.albarq1EmergencyEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (SECRET as string), 12),
             phone: users.albarq1EmergencyEmployee.phone,
             employee: {
                 update: {
@@ -361,10 +310,7 @@ async function main() {
             name: users.albarq1EmergencyEmployee.name,
             username: users.albarq1EmergencyEmployee.username,
             phone: users.albarq1EmergencyEmployee.phone,
-            password: bcrypt.hashSync(
-                users.albarq1EmergencyEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1EmergencyEmployee.salary,
@@ -385,10 +331,7 @@ async function main() {
         },
         update: {
             name: users.albarq1DataEntry.name,
-            password: bcrypt.hashSync(
-                users.albarq1DataEntry.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1DataEntry.password + (SECRET as string), 12),
             phone: users.albarq1DataEntry.phone,
             employee: {
                 update: {
@@ -401,10 +344,7 @@ async function main() {
             name: users.albarq1DataEntry.name,
             username: users.albarq1DataEntry.username,
             phone: users.albarq1DataEntry.phone,
-            password: bcrypt.hashSync(
-                users.albarq1DataEntry.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1DataEntry.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1DataEntry.salary,
@@ -425,10 +365,7 @@ async function main() {
         },
         update: {
             name: users.albarq1RepositoryEmployee.name,
-            password: bcrypt.hashSync(
-                users.albarq1RepositoryEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (SECRET as string), 12),
             phone: users.albarq1RepositoryEmployee.phone,
             employee: {
                 update: {
@@ -441,10 +378,7 @@ async function main() {
             name: users.albarq1RepositoryEmployee.name,
             username: users.albarq1RepositoryEmployee.username,
             phone: users.albarq1RepositoryEmployee.phone,
-            password: bcrypt.hashSync(
-                users.albarq1RepositoryEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1RepositoryEmployee.salary,
@@ -465,10 +399,7 @@ async function main() {
         },
         update: {
             name: users.albarq1InquiryEmployee.name,
-            password: bcrypt.hashSync(
-                users.albarq1InquiryEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (SECRET as string), 12),
             phone: users.albarq1InquiryEmployee.phone,
             employee: {
                 update: {
@@ -481,10 +412,7 @@ async function main() {
             name: users.albarq1InquiryEmployee.name,
             username: users.albarq1InquiryEmployee.username,
             phone: users.albarq1InquiryEmployee.phone,
-            password: bcrypt.hashSync(
-                users.albarq1InquiryEmployee.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (SECRET as string), 12),
             employee: {
                 create: {
                     salary: users.albarq1InquiryEmployee.salary,
@@ -505,20 +433,14 @@ async function main() {
         },
         update: {
             name: users.albarq1Client.name,
-            password: bcrypt.hashSync(
-                users.albarq1Client.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1Client.password + (SECRET as string), 12),
             phone: users.albarq1Client.phone
         },
         create: {
             name: users.albarq1Client.name,
             username: users.albarq1Client.username,
             phone: users.albarq1Client.phone,
-            password: bcrypt.hashSync(
-                users.albarq1Client.password + (SECRET as string),
-                12
-            )
+            password: bcrypt.hashSync(users.albarq1Client.password + (SECRET as string), 12)
         }
     });
 
@@ -555,20 +477,14 @@ async function main() {
         },
         update: {
             name: users.albarq1ClientAssistant.name,
-            password: bcrypt.hashSync(
-                users.albarq1ClientAssistant.password + (SECRET as string),
-                12
-            ),
+            password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (SECRET as string), 12),
             phone: users.albarq1ClientAssistant.phone
         },
         create: {
             name: users.albarq1ClientAssistant.name,
             username: users.albarq1ClientAssistant.username,
             phone: users.albarq1ClientAssistant.phone,
-            password: bcrypt.hashSync(
-                users.albarq1ClientAssistant.password + (SECRET as string),
-                12
-            )
+            password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (SECRET as string), 12)
         }
     });
 
@@ -619,7 +535,7 @@ async function main() {
     //                 phone: "01000000000"
     //             }
     //         },
-    //         role: AdminRole.SUPER_ADMIN
+    //         role: AdminRole.ADMIN
     //     },
     //     create: {
     //         user: {
@@ -634,7 +550,7 @@ async function main() {
     //                 phone: "01000000000"
     //             }
     //         },
-    //         role: AdminRole.SUPER_ADMIN
+    //         role: AdminRole.ADMIN
     //     }
     // });
 
@@ -653,7 +569,7 @@ async function main() {
     // console.log({ superAdmin });
     // Logger.info({ superAdmin });
 
-    console.log({
+    console.info({
         albarq1,
         albarq2,
         superadmin,

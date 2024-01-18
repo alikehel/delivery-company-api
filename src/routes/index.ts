@@ -50,9 +50,10 @@ router.use("/", automaticUpdatesRoutes);
 router.route("/test").post(
     // upload.single("avatar"),
     upload.none(),
+    // biome-ignore lint/nursery/useAwait: <explanation>
     catchAsync(async (req, res) => {
         //  req.file?.destination + "/" + req.file?.filename;
-        const imagePath = "/" + req.file?.path.replace(/\\/g, "/");
+        const imagePath = `/${req.file?.path.replace(/\\/g, "/")}`;
         // #swagger.ignore = true
         res.status(200).json({
             status: "success",
