@@ -39,7 +39,7 @@
         }
     },
     "files": {
-        "ignore": ["node_modules", "src/database/migrations"],
+        "ignore": ["node_modules", "src/database/migrations", "build"],
         "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.json"]
     }
 }
