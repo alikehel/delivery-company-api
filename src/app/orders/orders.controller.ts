@@ -149,8 +149,6 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(ordersCount / size);
 
-    // Filters Query Params
-
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -448,11 +446,18 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
 // });
 
 export const getOrdersStatistics = catchAsync(async (req, res) => {
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
     const clientID = req.query.client_id ? +req.query.client_id : undefined;
-
-    const companyID = req.query.company_id ? +req.query.company_id : undefined;
 
     // TODO: Fix this
     const clientReport = (

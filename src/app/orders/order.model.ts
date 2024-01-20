@@ -749,7 +749,9 @@ export class OrderModel {
                     },
                     // Filter by companyID
                     {
-                        id: filters.companyID
+                        company: {
+                            id: filters.companyID
+                        }
                     },
                     // Filter by orderID
                     {
@@ -925,6 +927,7 @@ export class OrderModel {
                 ]
             }
         });
+
         return ordersCount;
     }
 
@@ -1076,7 +1079,9 @@ export class OrderModel {
                     },
                     // Filter by companyID
                     {
-                        id: filters.companyID
+                        company: {
+                            id: filters.companyID
+                        }
                     },
                     // Filter by orderID
                     {
