@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { CategoryCreateSchema, CategoryUpdateSchema } from "./categories.zod";
@@ -18,7 +20,18 @@ export const createCategory = catchAsync(async (req, res) => {
 });
 
 export const getAllCategories = catchAsync(async (req, res) => {
-    const categoriesCount = await categoryModel.getCategoriesCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    const categoriesCount = await categoryModel.getCategoriesCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(categoriesCount / size);
 
@@ -45,7 +58,9 @@ export const getAllCategories = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const categories = await categoryModel.getAllCategories(skip, take);
+    const categories = await categoryModel.getAllCategories(skip, take, {
+        companyID: companyID
+    });
 
     res.status(200).json({
         status: "success",

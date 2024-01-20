@@ -1,6 +1,7 @@
 import { AdminRole, EmployeeRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { EmployeeModel } from "./employee.model";
@@ -39,10 +40,14 @@ export const createEmployee = catchAsync(async (req, res) => {
 });
 
 export const getAllEmployees = catchAsync(async (req, res) => {
-    const employeesCount = await employeeModel.getEmployeesCount();
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(employeesCount / size);
-
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
     const roles = req.query.roles?.toString().toUpperCase().split(",") as EmployeeRole[];
 
     const role = req.query.role?.toString().toUpperCase() as EmployeeRole;
@@ -59,9 +64,24 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         ? new Date(req.query.orders_end_date as string)
         : undefined;
 
-    // console.log(roles);
+    const deleted = (req.query.deleted as string) || "false";
+
+    const employeesCount = await employeeModel.getEmployeesCount({
+        roles: roles,
+        role: role,
+        locationID: locationID,
+        branchID: branchID,
+        deleted: deleted,
+        ordersStartDate: ordersStartDate,
+        ordersEndDate: ordersEndDate,
+        companyID: companyID
+    });
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(employeesCount / size);
 
     if (pagesCount === 0) {
+        // console.log(roles);
+
         res.status(200).json({
             status: "success",
             page: 1,
@@ -84,8 +104,6 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as string) || "false";
-
     const employees = await employeeModel.getAllEmployees(skip, take, {
         roles: roles,
         role: role,
@@ -93,7 +111,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         branchID: branchID,
         deleted: deleted,
         ordersStartDate: ordersStartDate,
-        ordersEndDate: ordersEndDate
+        ordersEndDate: ordersEndDate,
+        companyID: companyID
     });
 
     res.status(200).json({

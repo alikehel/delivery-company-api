@@ -144,7 +144,7 @@ export const localizePermission = (text: Permission): string => {
             return "انشاء كشف فرع";
         case "DELETE_COMPANY_REPORT":
             return "مسح كشف شركة";
-        case "DELETE_REPOSITORIES_REPORT":
+        case "DELETE_REPOSITORY_REPORT":
             return "مسح كشف مخزن";
         case "DELETE_GOVERNMENT_REPORT":
             return "مسح كشف محافظة";

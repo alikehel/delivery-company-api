@@ -57,7 +57,7 @@ enum Permission {
   CREATE_BRANCH_REPORT // انشاء كشف فرع
 
   DELETE_COMPANY_REPORT // مسح كشف شركة
-  DELETE_REPOSITORIES_REPORT // مسح كشف مخزن
+  DELETE_REPOSITORY_REPORT // مسح كشف مخزن
   DELETE_GOVERNMENT_REPORT // مسح كشف محافظة
   DELETE_DELIVERY_AGENT_REPORT // مسح كشف مندوب
   DELETE_CLIENT_REPORT // مسح كشف عميل

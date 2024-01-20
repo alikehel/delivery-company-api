@@ -2,6 +2,8 @@ import { Router } from "express";
 
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createRepository,
@@ -15,7 +17,12 @@ const router = Router();
 
 router.route("/repositories").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.REPOSITORIY_EMPLOYEE,
+        EmployeeRole.BRANCH_MANAGER,
+        EmployeeRole.ACCOUNTANT
+    ]),
     createRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -36,7 +43,17 @@ router.route("/repositories").post(
 
 router.route("/repositories").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.REPOSITORIY_EMPLOYEE,
+        EmployeeRole.BRANCH_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllRepositories
     /*
         #swagger.tags = ['Repositories Routes']
@@ -57,7 +74,14 @@ router.route("/repositories").get(
 
 router.route("/repositories/:repositoryID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.REPOSITORIY_EMPLOYEE,
+        EmployeeRole.BRANCH_MANAGER,
+        EmployeeRole.ACCOUNTANT
+    ]),
     getRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -66,7 +90,14 @@ router.route("/repositories/:repositoryID").get(
 
 router.route("/repositories/:repositoryID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.REPOSITORIY_EMPLOYEE,
+        EmployeeRole.BRANCH_MANAGER,
+        EmployeeRole.ACCOUNTANT
+    ]),
     updateRepository
     /*
         #swagger.tags = ['Repositories Routes']
@@ -87,7 +118,14 @@ router.route("/repositories/:repositoryID").patch(
 
 router.route("/repositories/:repositoryID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.REPOSITORIY_EMPLOYEE,
+        EmployeeRole.BRANCH_MANAGER,
+        EmployeeRole.ACCOUNTANT
+    ]),
     deleteRepository
     /*
         #swagger.tags = ['Repositories Routes']

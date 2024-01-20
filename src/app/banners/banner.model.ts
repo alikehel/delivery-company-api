@@ -49,17 +49,33 @@ export class BannerModel {
         return createdBanner;
     }
 
-    async getBannersCount() {
-        const bannersCount = await prisma.banner.count();
+    async getBannersCount(filters: {
+        companyID?: number;
+    }) {
+        const bannersCount = await prisma.banner.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return bannersCount;
     }
 
-    async getAllBanners(skip: number, take: number) {
+    async getAllBanners(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const banners = await prisma.banner.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                createdAt: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: bannerSelect
         });

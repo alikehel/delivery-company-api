@@ -4,12 +4,14 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { createColor, deleteColor, getAllColors, getColor, updateColor } from "./colors.controller";
+import { EmployeeRole, AdminRole, ClientRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 
 const router = Router();
 
 router.route("/colors").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
     createColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -30,7 +32,14 @@ router.route("/colors").post(
 
 router.route("/colors").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllColors
     /*
         #swagger.tags = ['Colors Routes']
@@ -51,7 +60,7 @@ router.route("/colors").get(
 
 router.route("/colors/:colorID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -60,7 +69,7 @@ router.route("/colors/:colorID").get(
 
 router.route("/colors/:colorID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     updateColor
     /*
         #swagger.tags = ['Colors Routes']
@@ -81,7 +90,7 @@ router.route("/colors/:colorID").patch(
 
 router.route("/colors/:colorID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteColor
     /*
         #swagger.tags = ['Colors Routes']

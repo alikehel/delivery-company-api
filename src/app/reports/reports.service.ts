@@ -1,4 +1,4 @@
-import { Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
+import { AdminRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
 import { Request } from "express";
 import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
@@ -212,18 +212,12 @@ export class ReportService {
         queryString: Request["query"];
         loggedInUser: loggedInUserType;
     }) {
-        const reportsCount = await reportModel.getReportsCount();
-        const size = data.queryString.size ? +data.queryString.size : 10;
-        const pagesCount = Math.ceil(reportsCount / size);
-
-        if (pagesCount === 0) {
-            // res.status(200).json({
-            //     status: "success",
-            //     page: 1,
-            //     pagesCount: 1,
-            //     data: []
-            // });
-            return { pagesCount };
+        // Filters
+        let companyID: number | undefined;
+        if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
+            companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
+        } else if (data.loggedInUser.companyID) {
+            companyID = data.loggedInUser.companyID;
         }
 
         const sort = (data.queryString.sort as string) || "id:asc";
@@ -251,10 +245,37 @@ export class ReportService {
         const deliveryAgentID = data.queryString.delivery_agent_id
             ? +data.queryString.delivery_agent_id
             : undefined;
-        const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
         const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
 
         const deleted = data.queryString.deleted?.toString() || "false";
+
+        const reportsCount = await reportModel.getReportsCount({
+            sort: sort,
+            startDate: startDate,
+            endDate: endDate,
+            status: status,
+            type: type,
+            branchID: branchID,
+            clientID: clientID,
+            storeID: storeID,
+            repositoryID: repositoryID,
+            deliveryAgentID: deliveryAgentID,
+            governorate: governorate,
+            companyID: companyID,
+            deleted: deleted
+        });
+        const size = data.queryString.size ? +data.queryString.size : 10;
+        const pagesCount = Math.ceil(reportsCount / size);
+
+        if (pagesCount === 0) {
+            // res.status(200).json({
+            //     status: "success",
+            //     page: 1,
+            //     pagesCount: 1,
+            //     data: []
+            // });
+            return { pagesCount };
+        }
 
         let page = 1;
         if (data.queryString.page && !Number.isNaN(+data.queryString.page) && +data.queryString.page > 0) {

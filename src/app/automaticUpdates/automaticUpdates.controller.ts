@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { AutomaticUpdateModel } from "./automaticUpdate.model";
@@ -21,7 +23,18 @@ export const createAutomaticUpdate = catchAsync(async (req, res) => {
 });
 
 export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
-    const automaticUpdatesCount = await automaticUpdateModel.getAutomaticUpdatesCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    const automaticUpdatesCount = await automaticUpdateModel.getAutomaticUpdatesCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(automaticUpdatesCount / size);
 
@@ -48,7 +61,9 @@ export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const automaticUpdates = await automaticUpdateModel.getAllAutomaticUpdates(skip, take);
+    const automaticUpdates = await automaticUpdateModel.getAllAutomaticUpdates(skip, take, {
+        companyID: companyID
+    });
 
     res.status(200).json({
         status: "success",

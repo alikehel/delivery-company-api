@@ -2,6 +2,8 @@ import { Router } from "express";
 
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { AdminRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createAutomaticUpdate,
@@ -15,7 +17,7 @@ const router = Router();
 
 router.route("/automatic-updates").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
     createAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -36,7 +38,7 @@ router.route("/automatic-updates").post(
 
 router.route("/automatic-updates").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getAllAutomaticUpdates
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -57,7 +59,7 @@ router.route("/automatic-updates").get(
 
 router.route("/automatic-updates/:automaticUpdateID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -66,7 +68,7 @@ router.route("/automatic-updates/:automaticUpdateID").get(
 
 router.route("/automatic-updates/:automaticUpdateID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     updateAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']
@@ -87,7 +89,7 @@ router.route("/automatic-updates/:automaticUpdateID").patch(
 
 router.route("/automatic-updates/:automaticUpdateID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteAutomaticUpdate
     /*
         #swagger.tags = ['Automatic Updates Routes']

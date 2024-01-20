@@ -5,6 +5,8 @@ import { Router } from "express";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import {
     createStore,
     deactivateStore,
@@ -19,8 +21,17 @@ const router = Router();
 
 router.route("/stores").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
-    // upload.single("logo"),
+    isAutherized(
+        [
+            EmployeeRole.COMPANY_MANAGER,
+            EmployeeRole.ACCOUNTANT,
+            EmployeeRole.DATA_ENTRY,
+            EmployeeRole.BRANCH_MANAGER,
+            ClientRole.CLIENT,
+            ClientRole.CLIENT_ASSISTANT
+        ],
+        [Permission.ADD_STORE]
+    ), // upload.single("logo"),
     upload.none(),
     createStore
     /*
@@ -42,7 +53,19 @@ router.route("/stores").post(
 
 router.route("/stores").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllStores
     /*
         #swagger.tags = ['Stores Routes']
@@ -63,7 +86,16 @@ router.route("/stores").get(
 
 router.route("/stores/:storeID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     getStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -72,8 +104,16 @@ router.route("/stores/:storeID").get(
 
 router.route("/stores/:storeID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
-    // upload.single("logo"),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]), // upload.single("logo"),
     upload.none(),
     updateStore
     /*
@@ -95,7 +135,7 @@ router.route("/stores/:storeID").patch(
 
 router.route("/stores/:storeID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
     deleteStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -104,7 +144,16 @@ router.route("/stores/:storeID").delete(
 
 router.route("/stores/:storeID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     deactivateStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -113,7 +162,7 @@ router.route("/stores/:storeID/deactivate").patch(
 
 router.route("/stores/:storeID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
     reactivateStore
     /*
         #swagger.tags = ['Stores Routes']

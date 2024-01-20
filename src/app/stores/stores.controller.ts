@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { StoreModel } from "./store.model";
@@ -22,7 +24,21 @@ export const createStore = catchAsync(async (req, res) => {
 });
 
 export const getAllStores = catchAsync(async (req, res) => {
-    const storesCount = await storeModel.getStoresCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    const deleted = (req.query.deleted as string) || "false";
+
+    const storesCount = await storeModel.getStoresCount({
+        deleted: deleted,
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(storesCount / size);
 
@@ -49,10 +65,9 @@ export const getAllStores = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as string) || "false";
-
     const stores = await storeModel.getAllStores(skip, take, {
-        deleted: deleted
+        deleted: deleted,
+        companyID: companyID
     });
 
     res.status(200).json({

@@ -43,17 +43,33 @@ export class ColorModel {
         return createdColor;
     }
 
-    async getColorsCount() {
-        const colorsCount = await prisma.color.count();
+    async getColorsCount(filters: {
+        companyID?: number;
+    }) {
+        const colorsCount = await prisma.color.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return colorsCount;
     }
 
-    async getAllColors(skip: number, take: number) {
+    async getAllColors(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const colors = await prisma.color.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                title: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: colorSelect
         });

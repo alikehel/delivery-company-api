@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { ColorModel } from "./color.model";
@@ -18,7 +20,18 @@ export const createColor = catchAsync(async (req, res) => {
 });
 
 export const getAllColors = catchAsync(async (req, res) => {
-    const colorsCount = await colorModel.getColorsCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    const colorsCount = await colorModel.getColorsCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(colorsCount / size);
 
@@ -45,7 +58,9 @@ export const getAllColors = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const colors = await colorModel.getAllColors(skip, take);
+    const colors = await colorModel.getAllColors(skip, take, {
+        companyID: companyID
+    });
 
     res.status(200).json({
         status: "success",

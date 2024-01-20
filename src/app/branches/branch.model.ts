@@ -48,17 +48,33 @@ export class BranchModel {
         return createdBranch;
     }
 
-    async getBranchesCount() {
-        const branchesCount = await prisma.branch.count();
+    async getBranchesCount(filters: {
+        companyID?: number;
+    }) {
+        const branchesCount = await prisma.branch.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return branchesCount;
     }
 
-    async getAllBranches(skip: number, take: number) {
+    async getAllBranches(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const branches = await prisma.branch.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                name: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: branchSelect
         });

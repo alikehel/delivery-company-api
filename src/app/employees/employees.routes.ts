@@ -4,6 +4,8 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createEmployee,
@@ -19,7 +21,10 @@ const router = Router();
 
 router.route("/employees").post(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized(
+        [EmployeeRole.COMPANY_MANAGER, EmployeeRole.BRANCH_MANAGER],
+        [Permission.ADD_DELIVERY_AGENT]
+    ),
     // upload.single("avatar"),
     upload.none(),
     createEmployee
@@ -42,7 +47,14 @@ router.route("/employees").post(
 
 router.route("/employees").get(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllEmployees
     /*
         #swagger.tags = ['Employees Routes']
@@ -69,7 +81,7 @@ router.route("/employees").get(
 
 router.route("/employees/:employeeID").get(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -78,7 +90,7 @@ router.route("/employees/:employeeID").get(
 
 router.route("/employees/:employeeID").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     // upload.single("avatar"),
     upload.none(),
     updateEmployee
@@ -101,7 +113,7 @@ router.route("/employees/:employeeID").patch(
 
 router.route("/employees/:employeeID").delete(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -110,7 +122,7 @@ router.route("/employees/:employeeID").delete(
 
 router.route("/employees/:employeeID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -119,7 +131,8 @@ router.route("/employees/:employeeID/deactivate").patch(
 
 router.route("/employees/:employeeID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    //TODO: Maybe add All Employee Roles for profile update
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     reactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']

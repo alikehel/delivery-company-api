@@ -154,8 +154,26 @@ export class ProductModel {
         return createdProduct;
     }
 
-    async getProductsCount() {
-        const productsCount = await prisma.product.count();
+    async getProductsCount(filters: {
+        storeID?: number;
+        companyID?: number;
+    }) {
+        const productsCount = await prisma.product.count({
+            where: {
+                AND: [
+                    {
+                        store: {
+                            id: filters.storeID
+                        }
+                    },
+                    {
+                        company: {
+                            id: filters.companyID
+                        }
+                    }
+                ]
+            }
+        });
         return productsCount;
     }
 
@@ -164,6 +182,7 @@ export class ProductModel {
         take: number,
         filters: {
             storeID?: number;
+            companyID?: number;
         }
     ) {
         const products = await prisma.product.findMany({
@@ -174,6 +193,11 @@ export class ProductModel {
                     {
                         store: {
                             id: filters.storeID
+                        }
+                    },
+                    {
+                        company: {
+                            id: filters.companyID
                         }
                     }
                 ]

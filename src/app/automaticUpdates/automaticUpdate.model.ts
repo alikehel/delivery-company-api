@@ -49,15 +49,34 @@ export class AutomaticUpdateModel {
         return createdAutomaticUpdate;
     }
 
-    async getAutomaticUpdatesCount() {
-        const automaticUpdatesCount = await prisma.automaticUpdate.count();
+    async getAutomaticUpdatesCount(filters: {
+        companyID?: number;
+    }) {
+        const automaticUpdatesCount = await prisma.automaticUpdate.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return automaticUpdatesCount;
     }
 
-    async getAllAutomaticUpdates(skip: number, take: number) {
+    async getAllAutomaticUpdates(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const automaticUpdates = await prisma.automaticUpdate.findMany({
             skip: skip,
             take: take,
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            },
             select: automaticUpdateSelect
         });
         return automaticUpdates;

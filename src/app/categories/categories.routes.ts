@@ -10,12 +10,14 @@ import {
     getCategory,
     updateCategory
 } from "./categories.controller";
+import { EmployeeRole, AdminRole, ClientRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 
 const router = Router();
 
 router.route("/categories").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
     createCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -36,7 +38,14 @@ router.route("/categories").post(
 
 router.route("/categories").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllCategories
     /*
         #swagger.tags = ['Categories Routes']
@@ -57,7 +66,7 @@ router.route("/categories").get(
 
 router.route("/categories/:categoryID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -66,7 +75,7 @@ router.route("/categories/:categoryID").get(
 
 router.route("/categories/:categoryID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     updateCategory
     /*
         #swagger.tags = ['Categories Routes']
@@ -87,7 +96,7 @@ router.route("/categories/:categoryID").patch(
 
 router.route("/categories/:categoryID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteCategory
     /*
         #swagger.tags = ['Categories Routes']

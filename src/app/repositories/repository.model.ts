@@ -46,17 +46,33 @@ export class RepositoryModel {
         return createdRepository;
     }
 
-    async getRepositoriesCount() {
-        const repositoriesCount = await prisma.repository.count();
+    async getRepositoriesCount(filters: {
+        companyID?: number;
+    }) {
+        const repositoriesCount = await prisma.repository.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return repositoriesCount;
     }
 
-    async getAllRepositories(skip: number, take: number) {
+    async getAllRepositories(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const repositories = await prisma.repository.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                name: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: repositorySelect
         });

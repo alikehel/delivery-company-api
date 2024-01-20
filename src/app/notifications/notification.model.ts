@@ -61,8 +61,20 @@ export class NotificationModel {
         return notificationReform(createdNotification);
     }
 
-    async getNotificationsCount() {
-        const notificationsCount = await prisma.notification.count();
+    async getNotificationsCount(userID: number, seen: boolean) {
+        const notificationsCount = await prisma.notification.count({
+            where: {
+                seen:
+                    seen === true
+                        ? undefined
+                        : {
+                              equals: false
+                          },
+                user: {
+                    id: userID
+                }
+            }
+        });
         return notificationsCount;
     }
 

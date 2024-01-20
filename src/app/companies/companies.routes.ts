@@ -4,6 +4,8 @@ import { Router } from "express";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createCompany,
@@ -17,7 +19,7 @@ const router = Router();
 
 router.route("/companies").post(
     isLoggedIn,
-    // isAutherized([AdminRole.ADMIN]),
+    isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     // upload.single("logo"),
     upload.none(),
     createCompany
@@ -40,7 +42,14 @@ router.route("/companies").post(
 
 router.route("/companies").get(
     isLoggedIn,
-    // isAutherized([AdminRole.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllCompanies
     /*
         #swagger.tags = ['Companies Routes']
@@ -61,7 +70,7 @@ router.route("/companies").get(
 
 router.route("/companies/:companyID").get(
     isLoggedIn,
-    // isAutherized([AdminRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getCompany
     /*
         #swagger.tags = ['Companies Routes']
@@ -70,7 +79,7 @@ router.route("/companies/:companyID").get(
 
 router.route("/companies/:companyID").patch(
     isLoggedIn,
-    // isAutherized([AdminRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     // upload.single("logo"),
     upload.none(),
     updateCompany
@@ -93,7 +102,7 @@ router.route("/companies/:companyID").patch(
 
 router.route("/companies/:companyID").delete(
     isLoggedIn,
-    // isAutherized([AdminRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteCompany
     /*
         #swagger.tags = ['Companies Routes']

@@ -41,17 +41,33 @@ export class SizeModel {
         return createdSize;
     }
 
-    async getSizesCount() {
-        const sizesCount = await prisma.size.count();
+    async getSizesCount(filters: {
+        companyID?: number;
+    }) {
+        const sizesCount = await prisma.size.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return sizesCount;
     }
 
-    async getAllSizes(skip: number, take: number) {
+    async getAllSizes(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const sizes = await prisma.size.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                title: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: sizeSelect
         });

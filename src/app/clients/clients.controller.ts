@@ -1,6 +1,7 @@
 import { AdminRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { ClientModel } from "./client.model";
@@ -42,7 +43,20 @@ export const createClient = catchAsync(async (req, res) => {
 });
 
 export const getAllClients = catchAsync(async (req, res) => {
-    const clientsCount = await clientModel.getClientsCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+    const deleted = (req.query.deleted as string) || "false";
+
+    const clientsCount = await clientModel.getClientsCount({
+        companyID: companyID,
+        deleted: deleted
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(clientsCount / size);
 
@@ -69,10 +83,9 @@ export const getAllClients = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as string) || "false";
-
     const clients = await clientModel.getAllClients(skip, take, {
-        deleted: deleted
+        deleted: deleted,
+        companyID: companyID
     });
 
     res.status(200).json({
