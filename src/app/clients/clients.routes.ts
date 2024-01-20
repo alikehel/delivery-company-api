@@ -24,6 +24,8 @@ router.route("/clients").post(
     isAutherized(
         [
             EmployeeRole.COMPANY_MANAGER,
+            AdminRole.ADMIN,
+            AdminRole.ADMIN_ASSISTANT,
             EmployeeRole.ACCOUNTANT,
             EmployeeRole.DATA_ENTRY,
             EmployeeRole.BRANCH_MANAGER

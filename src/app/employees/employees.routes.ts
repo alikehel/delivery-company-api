@@ -22,7 +22,12 @@ const router = Router();
 router.route("/employees").post(
     isLoggedIn,
     isAutherized(
-        [EmployeeRole.COMPANY_MANAGER, EmployeeRole.BRANCH_MANAGER],
+        [
+            AdminRole.ADMIN,
+            AdminRole.ADMIN_ASSISTANT,
+            EmployeeRole.COMPANY_MANAGER,
+            EmployeeRole.BRANCH_MANAGER
+        ],
         [Permission.ADD_DELIVERY_AGENT]
     ),
     // upload.single("avatar"),
