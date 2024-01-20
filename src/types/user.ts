@@ -26,5 +26,5 @@ export type loggedInUserType = {
     id: number;
     name: string;
     username: string;
-    permissions: Permission[] | null;
+    permissions: Permission[];
 } & (AdminUserType | NonAdminUserType);
