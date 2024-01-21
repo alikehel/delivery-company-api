@@ -1,9 +1,11 @@
 import { Router } from "express";
 
+// import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-// import { upload } from "../../middlewares/upload.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createClient,
@@ -19,9 +21,19 @@ const router = Router();
 
 router.route("/clients").post(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
-    // upload.single("avatar"),
-    upload.none(),
+    isAutherized(
+        [
+            EmployeeRole.COMPANY_MANAGER,
+            AdminRole.ADMIN,
+            AdminRole.ADMIN_ASSISTANT,
+            EmployeeRole.ACCOUNTANT,
+            EmployeeRole.DATA_ENTRY,
+            EmployeeRole.BRANCH_MANAGER
+        ],
+        [Permission.ADD_CLIENT]
+    ),
+    upload.single("avatar"),
+    // upload.none(),
     createClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -42,7 +54,17 @@ router.route("/clients").post(
 
 router.route("/clients").get(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllClients
     /*
         #swagger.tags = ['Clients Routes']
@@ -63,7 +85,14 @@ router.route("/clients").get(
 
 router.route("/clients/:clientID").get(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
     getClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -72,9 +101,17 @@ router.route("/clients/:clientID").get(
 
 router.route("/clients/:clientID").patch(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
-    // upload.single("avatar"),
-    upload.none(),
+    //TODO: Maybe add All Clients Roles for profile update
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
+    upload.single("avatar"),
+    // upload.none(),
     updateClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -95,7 +132,7 @@ router.route("/clients/:clientID").patch(
 
 router.route("/clients/:clientID").delete(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
     deleteClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -104,7 +141,14 @@ router.route("/clients/:clientID").delete(
 
 router.route("/clients/:clientID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
     deactivateClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -113,7 +157,7 @@ router.route("/clients/:clientID/deactivate").patch(
 
 router.route("/clients/:clientID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
     reactivateClient
     /*
         #swagger.tags = ['Clients Routes']

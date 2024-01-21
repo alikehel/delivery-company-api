@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { ProductModel } from "./product.model";
@@ -9,7 +11,9 @@ export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
     const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdProduct = await productModel.createProduct(companyID, loggedInUserID, {
         ...productData,
@@ -23,11 +27,22 @@ export const createProduct = catchAsync(async (req, res) => {
 });
 
 export const getAllProducts = catchAsync(async (req, res) => {
-    const productsCount = await productModel.getProductsCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
+
+    const productsCount = await productModel.getProductsCount({
+        companyID: companyID,
+        storeID: storeID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(productsCount / size);
-
-    const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -53,7 +68,8 @@ export const getAllProducts = catchAsync(async (req, res) => {
     // }
 
     const products = await productModel.getAllProducts(skip, take, {
-        storeID: storeID
+        storeID: storeID,
+        companyID: companyID
     });
 
     res.status(200).json({
@@ -83,7 +99,9 @@ export const updateProduct = catchAsync(async (req, res) => {
     const companyID = +res.locals.user.companyID;
 
     const productData = ProductUpdateSchema.parse(req.body);
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const product = await productModel.updateProduct({
         productID: productID,

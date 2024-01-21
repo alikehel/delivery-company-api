@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { BannerModel } from "./banner.model";
@@ -8,7 +10,9 @@ const bannerModel = new BannerModel();
 export const createBanner = catchAsync(async (req, res) => {
     const bannerData = BannerCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdBanner = await bannerModel.createBanner(companyID, {
         ...bannerData,
@@ -22,10 +26,21 @@ export const createBanner = catchAsync(async (req, res) => {
 });
 
 export const getAllBanners = catchAsync(async (req, res) => {
-    const bannersCount = await bannerModel.getBannersCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    // Pagination
+    const bannersCount = await bannerModel.getBannersCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(bannersCount / size);
-
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -35,7 +50,6 @@ export const getAllBanners = catchAsync(async (req, res) => {
         });
         return;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
@@ -49,8 +63,12 @@ export const getAllBanners = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const banners = await bannerModel.getAllBanners(skip, take);
+    // Query
+    const banners = await bannerModel.getAllBanners(skip, take, {
+        companyID: companyID
+    });
 
+    // Response
     res.status(200).json({
         status: "success",
         page: page,
@@ -76,7 +94,9 @@ export const updateBanner = catchAsync(async (req, res) => {
     const bannerID = +req.params.bannerID;
 
     const bannerData = BannerUpdateSchema.parse(req.body);
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const banner = await bannerModel.updateBanner({
         bannerID: bannerID,

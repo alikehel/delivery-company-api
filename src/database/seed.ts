@@ -21,13 +21,13 @@ async function main() {
         create: companies.albarq1
     });
 
-    const albarq2 = await prisma.company.upsert({
-        where: {
-            name: companies.albarq2.name
-        },
-        update: companies.albarq2,
-        create: companies.albarq2
-    });
+    // const albarq2 = await prisma.company.upsert({
+    //     where: {
+    //         name: companies.albarq2.name
+    //     },
+    //     update: companies.albarq2,
+    //     create: companies.albarq2
+    // });
 
     /*****************************************************************/
     /***************************** USERS *****************************/
@@ -540,7 +540,7 @@ async function main() {
     //     create: {
     //         user: {
     //             create: {
-    //                 id: 1,
+    //
     //                 name: "Super Admin",
     //                 username: "superadmin",
     //                 password: bcrypt.hashSync(
@@ -569,9 +569,15 @@ async function main() {
     // console.log({ superAdmin });
     // Logger.info({ superAdmin });
 
+    /*****************************************************************/
+    /*************************** BRANCHES ***********************/
+    /*****************************************************************/
+
+    // await createData(prisma, albarq1.id);
+
     console.info({
         albarq1,
-        albarq2,
+        // albarq2,
         admin,
         adminAssistant,
         albarq1CompanyManager,

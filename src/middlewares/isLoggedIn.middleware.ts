@@ -35,7 +35,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
             permissions,
             companyID,
             companyName
-        } satisfies loggedInUserType;
+        } as loggedInUserType;
 
         // GRANT ACCESS
         return next();

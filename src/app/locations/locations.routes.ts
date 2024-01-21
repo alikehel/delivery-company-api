@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
@@ -16,7 +18,15 @@ const router = Router();
 
 router.route("/locations").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized(
+        [
+            EmployeeRole.COMPANY_MANAGER,
+            EmployeeRole.ACCOUNTANT,
+            EmployeeRole.DATA_ENTRY,
+            EmployeeRole.BRANCH_MANAGER
+        ],
+        [Permission.ADD_LOCATION]
+    ),
     createLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -46,7 +56,17 @@ router.route("/public/locations").get(
 
 router.route("/locations").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -67,7 +87,14 @@ router.route("/locations").get(
 
 router.route("/locations/:locationID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -76,7 +103,14 @@ router.route("/locations/:locationID").get(
 
 router.route("/locations/:locationID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -97,7 +131,14 @@ router.route("/locations/:locationID").patch(
 
 router.route("/locations/:locationID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.ACCOUNTANT,
+        EmployeeRole.DATA_ENTRY,
+        EmployeeRole.BRANCH_MANAGER
+    ]),
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']

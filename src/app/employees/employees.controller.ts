@@ -1,6 +1,7 @@
 import { AdminRole, EmployeeRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { EmployeeModel } from "./employee.model";
@@ -22,7 +23,18 @@ export const createEmployee = catchAsync(async (req, res) => {
         companyID = employeeData.companyID as number;
     }
 
-    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    if (
+        employeeData.role !== EmployeeRole.DELIVERY_AGENT &&
+        (loggedInUser.role !== EmployeeRole.COMPANY_MANAGER ||
+            loggedInUser.role !== AdminRole.ADMIN ||
+            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT)
+    ) {
+        throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
+    }
+
+    const avatar = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
 
@@ -39,10 +51,14 @@ export const createEmployee = catchAsync(async (req, res) => {
 });
 
 export const getAllEmployees = catchAsync(async (req, res) => {
-    const employeesCount = await employeeModel.getEmployeesCount();
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(employeesCount / size);
-
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
     const roles = req.query.roles?.toString().toUpperCase().split(",") as EmployeeRole[];
 
     const role = req.query.role?.toString().toUpperCase() as EmployeeRole;
@@ -59,9 +75,24 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         ? new Date(req.query.orders_end_date as string)
         : undefined;
 
-    // console.log(roles);
+    const deleted = (req.query.deleted as string) || "false";
+
+    const employeesCount = await employeeModel.getEmployeesCount({
+        roles: roles,
+        role: role,
+        locationID: locationID,
+        branchID: branchID,
+        deleted: deleted,
+        ordersStartDate: ordersStartDate,
+        ordersEndDate: ordersEndDate,
+        companyID: companyID
+    });
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(employeesCount / size);
 
     if (pagesCount === 0) {
+        // console.log(roles);
+
         res.status(200).json({
             status: "success",
             page: 1,
@@ -84,8 +115,6 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const deleted = (req.query.deleted as string) || "false";
-
     const employees = await employeeModel.getAllEmployees(skip, take, {
         roles: roles,
         role: role,
@@ -93,7 +122,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         branchID: branchID,
         deleted: deleted,
         ordersStartDate: ordersStartDate,
-        ordersEndDate: ordersEndDate
+        ordersEndDate: ordersEndDate,
+        companyID: companyID
     });
 
     res.status(200).json({
@@ -123,7 +153,9 @@ export const updateEmployee = catchAsync(async (req, res) => {
     const companyID = +res.locals.user.companyID;
 
     if (req.file) {
-        employeeData.avatar = `/${req.file.path.replace(/\\/g, "/")}`;
+        employeeData.avatar = req.file
+            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+            : undefined;
     }
 
     if (employeeData.password) {

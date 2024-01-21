@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { SizeModel } from "./size.model";
@@ -18,7 +20,18 @@ export const createSize = catchAsync(async (req, res) => {
 });
 
 export const getAllSizes = catchAsync(async (req, res) => {
-    const sizesCount = await sizeModel.getSizesCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    const sizesCount = await sizeModel.getSizesCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(sizesCount / size);
 
@@ -45,7 +58,9 @@ export const getAllSizes = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const sizes = await sizeModel.getAllSizes(skip, take);
+    const sizes = await sizeModel.getAllSizes(skip, take, {
+        companyID: companyID
+    });
 
     res.status(200).json({
         status: "success",

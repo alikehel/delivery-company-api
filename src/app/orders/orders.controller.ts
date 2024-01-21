@@ -1,5 +1,6 @@
-import { DeliveryType, Governorate, Order, OrderStatus } from "@prisma/client";
+import { AdminRole, DeliveryType, Governorate, Order, OrderStatus } from "@prisma/client";
 import Logger from "../../lib/logger";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { localizeOrderStatus } from "../../utils/localize.util";
@@ -67,12 +68,14 @@ export const createOrder = catchAsync(async (req, res) => {
 });
 
 export const getAllOrders = catchAsync(async (req, res) => {
-    // Pagination
-    const ordersCount = await orderModel.getOrdersCount();
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(ordersCount / size);
-
-    // Filters Query Params
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
 
     const search = req.query.search as string;
 
@@ -108,6 +111,43 @@ export const getAllOrders = catchAsync(async (req, res) => {
     const companyReport = req.query.company_report as string;
 
     const notes = req.query.notes as string;
+    const deleted = (req.query.deleted as string) || "false";
+    const orderID = req.query.order_id ? +req.query.order_id : undefined;
+
+    // Pagination
+    const ordersCount = await orderModel.getOrdersCount({
+        orderID: orderID,
+        search: search,
+        sort: sort,
+        startDate: startDate,
+        endDate: endDate,
+        deliveryDate: deliveryDate,
+        governorate: governorate,
+        statuses: statuses,
+        status: status,
+        deliveryType: deliveryType,
+        deliveryAgentID: deliveryAgentID,
+        clientID: clientID,
+        storeID: storeID,
+        // repositoryID: repositoryID,
+        productID: productID,
+        locationID: locationID,
+        receiptNumber: receiptNumber,
+        recipientName: recipientName,
+        recipientPhone: recipientPhone,
+        recipientAddress: recipientAddress,
+        notes: notes,
+        deleted: deleted,
+        clientReport: clientReport,
+        repositoryReport: repositoryReport,
+        branchReport: branchReport,
+        deliveryAgentReport: deliveryAgentReport,
+        governorateReport: governorateReport,
+        companyReport: companyReport,
+        companyID: companyID
+    });
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(ordersCount / size);
 
     if (pagesCount === 0) {
         res.status(200).json({
@@ -131,10 +171,6 @@ export const getAllOrders = catchAsync(async (req, res) => {
     // if (Number.isNaN(offset)) {
     //     skip = 0;
     // }
-
-    const deleted = (req.query.deleted as string) || "false";
-
-    const orderID = req.query.order_id ? +req.query.order_id : undefined;
 
     const orders = await orderModel.getAllOrders(skip, take, {
         orderID: orderID,
@@ -164,7 +200,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
         branchReport: branchReport,
         deliveryAgentReport: deliveryAgentReport,
         governorateReport: governorateReport,
-        companyReport: companyReport
+        companyReport: companyReport,
+        companyID: companyID
     });
 
     res.status(200).json({
@@ -409,11 +446,18 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
 // });
 
 export const getOrdersStatistics = catchAsync(async (req, res) => {
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
     const clientID = req.query.client_id ? +req.query.client_id : undefined;
-
-    const companyID = req.query.company_id ? +req.query.company_id : undefined;
 
     // TODO: Fix this
     const clientReport = (

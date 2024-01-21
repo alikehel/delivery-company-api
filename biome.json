@@ -23,7 +23,11 @@
                 "noConsoleLog": "warn"
             },
             "nursery": {
-                "useAwait": "error"
+                "useAwait": "error",
+                "noInvalidUseBeforeDeclaration": "error",
+                "noUnusedImports": "error",
+                "noUselessTernary": "error",
+                "useForOf": "error"
             }
         }
     },

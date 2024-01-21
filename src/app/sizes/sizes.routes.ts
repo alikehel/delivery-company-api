@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
@@ -9,7 +11,7 @@ const router = Router();
 
 router.route("/sizes").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
     createSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -30,7 +32,14 @@ router.route("/sizes").post(
 
 router.route("/sizes").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllSizes
     /*
         #swagger.tags = ['Sizes Routes']
@@ -51,7 +60,7 @@ router.route("/sizes").get(
 
 router.route("/sizes/:sizeID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -60,7 +69,7 @@ router.route("/sizes/:sizeID").get(
 
 router.route("/sizes/:sizeID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     updateSize
     /*
         #swagger.tags = ['Sizes Routes']
@@ -81,7 +90,7 @@ router.route("/sizes/:sizeID").patch(
 
 router.route("/sizes/:sizeID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteSize
     /*
         #swagger.tags = ['Sizes Routes']

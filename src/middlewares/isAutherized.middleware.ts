@@ -1,25 +1,22 @@
-import { NextFunction, Request, Response } from "express";
-
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { NextFunction, Request, Response } from "express";
+import { loggedInUserType } from "../types/user";
 import AppError from "../utils/AppError.util";
 
-export const isAutherized = (allowedRoles: string[]) => {
+export const isAutherized = (
+    allowedRoles: (AdminRole | EmployeeRole | ClientRole)[],
+    allowedPermissions?: Permission[]
+) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        // Check if the user is logged in and has the appropriate role
-        const { role } = res.locals.user as {
-            id: string;
-            name: string;
-            username: string;
-            role: AdminRole | EmployeeRole | ClientRole;
-            permissions: Permission[];
-            companyID: number;
-        };
-
-        if (res.locals.user) {
-            if (allowedRoles.includes(role)) {
-                return next(); // If user is authorized, call the next middleware function
+        const { role, permissions } = res.locals.user as loggedInUserType;
+        if (res.locals.user && allowedRoles.includes(role)) {
+            return next();
+        }
+        if (res.locals.user && allowedPermissions && permissions) {
+            const allowed = allowedPermissions.every((permission) => permissions.includes(permission));
+            if (allowed) {
+                return next();
             }
-            return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
         }
         return next(new AppError("ليس مصرح لك القيام بهذا الفعل", 403));
     };

@@ -8,14 +8,13 @@ import handleArabicCharacters from "../../../utils/handleArabicCharacters";
 import { localizeDeliveryType } from "../../../utils/localize.util";
 import { orderReform } from "../order.model";
 
-const getImage = (url: string | Buffer) => {
+const getImage = async (url: string | Buffer) => {
     try {
-        return loadImage(url).then((image) => {
-            const canvas = createCanvas(image.width, image.height);
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(image, 0, 0);
-            return canvas.toDataURL();
-        });
+        const image = await loadImage(url);
+        const canvas = createCanvas(image.width, image.height);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        return canvas.toDataURL();
     } catch (error) {
         Logger.error(error);
         return "";
@@ -59,7 +58,10 @@ export const generateReceipts = async (orders: ReturnType<typeof orderReform>[])
                     { text: "", headlineLevel: 1 },
                     // image url
                     {
-                        image: `data:image/jpeg,${imageData}`,
+                        image:
+                            imageData === ""
+                                ? "static/assets/placeholder-logo.png"
+                                : `data:image/jpeg,${imageData}`,
                         width: 80
                     },
                     { text: "\n" },

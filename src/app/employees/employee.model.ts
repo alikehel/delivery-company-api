@@ -123,10 +123,48 @@ export class EmployeeModel {
         return employeeReform(createdEmployee);
     }
 
-    async getEmployeesCount() {
+    async getEmployeesCount(filters: {
+        roles?: EmployeeRole[];
+        role?: EmployeeRole;
+        branchID?: number;
+        locationID?: number;
+        deleted?: string;
+        ordersStartDate?: Date;
+        ordersEndDate?: Date;
+        companyID?: number;
+    }) {
         const employeesCount = await prisma.employee.count({
             where: {
-                deleted: false
+                AND: [
+                    { role: { in: filters.roles } },
+                    { role: filters.role },
+                    {
+                        branch: {
+                            id: filters.branchID
+                        }
+                    },
+                    {
+                        deliveryAgentsLocations: filters.locationID
+                            ? filters.roles?.find((role) => {
+                                  return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
+                              })
+                                ? {
+                                      some: {
+                                          location: {
+                                              id: filters.locationID
+                                          }
+                                      }
+                                  }
+                                : undefined
+                            : undefined
+                    },
+                    { deleted: filters.deleted === "true" },
+                    {
+                        company: {
+                            id: filters.companyID
+                        }
+                    }
+                ]
             }
         });
         return employeesCount;
@@ -143,6 +181,7 @@ export class EmployeeModel {
             deleted?: string;
             ordersStartDate?: Date;
             ordersEndDate?: Date;
+            companyID?: number;
         }
     ) {
         const employees = await prisma.employee.findMany({
@@ -172,7 +211,12 @@ export class EmployeeModel {
                                 : undefined
                             : undefined
                     },
-                    { deleted: filters.deleted === "true" ? true : false }
+                    { deleted: filters.deleted === "true" },
+                    {
+                        company: {
+                            id: filters.companyID
+                        }
+                    }
                 ]
             },
             // orderBy: {

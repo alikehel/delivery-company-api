@@ -1,10 +1,12 @@
 import { Router } from "express";
 
+// import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
-// import { upload } from "../../middlewares/upload.middleware";
 import {
     createProduct,
     deleteProduct,
@@ -17,9 +19,14 @@ const router = Router();
 
 router.route("/products").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
-    // upload.single("image"),
-    upload.none(),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.DATA_ENTRY,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
+    upload.single("image"),
+    // upload.none(),
     createProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -40,7 +47,17 @@ router.route("/products").post(
 
 router.route("/products").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.DATA_ENTRY,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllProducts
     /*
         #swagger.tags = ['Products Routes']
@@ -61,7 +78,14 @@ router.route("/products").get(
 
 router.route("/products/:productID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.DATA_ENTRY,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     getProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -70,9 +94,16 @@ router.route("/products/:productID").get(
 
 router.route("/products/:productID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
-    // upload.single("image"),
-    upload.none(),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.DATA_ENTRY,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
+    upload.single("image"),
+    // upload.none(),
     updateProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -93,7 +124,14 @@ router.route("/products/:productID").patch(
 
 router.route("/products/:productID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        EmployeeRole.DATA_ENTRY,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     deleteProduct
     /*
         #swagger.tags = ['Products Routes']

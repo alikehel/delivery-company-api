@@ -41,17 +41,33 @@ export class CategoryModel {
         return createdCategory;
     }
 
-    async getCategoriesCount() {
-        const categoriesCount = await prisma.category.count();
+    async getCategoriesCount(filters: {
+        companyID?: number;
+    }) {
+        const categoriesCount = await prisma.category.count({
+            where: {
+                company: {
+                    id: filters.companyID
+                }
+            }
+        });
         return categoriesCount;
     }
 
-    async getAllCategories(skip: number, take: number) {
+    async getAllCategories(
+        skip: number,
+        take: number,
+        filters: {
+            companyID?: number;
+        }
+    ) {
         const categories = await prisma.category.findMany({
             skip: skip,
             take: take,
-            orderBy: {
-                title: "desc"
+            where: {
+                company: {
+                    id: filters.companyID
+                }
             },
             select: categorySelect
         });

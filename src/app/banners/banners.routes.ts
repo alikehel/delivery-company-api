@@ -1,9 +1,11 @@
 import { Router } from "express";
 
+// import { upload } from "../../middlewares/upload.middleware";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-// import { upload } from "../../middlewares/upload.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import { createBanner, deleteBanner, getAllBanners, getBanner, updateBanner } from "./banners.controller";
 
@@ -11,9 +13,9 @@ const router = Router();
 
 router.route("/banners").post(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
-    // upload.single("image"),
-    upload.none(),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
+    upload.single("image"),
+    // upload.none(),
     createBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -34,7 +36,13 @@ router.route("/banners").post(
 
 router.route("/banners").get(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     getAllBanners
     /*
         #swagger.tags = ['Banners Routes']
@@ -55,7 +63,13 @@ router.route("/banners").get(
 
 router.route("/banners/:bannerID").get(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     getBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -64,9 +78,9 @@ router.route("/banners/:bannerID").get(
 
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
-    // upload.single("image"),
-    upload.none(),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
+    upload.single("image"),
+    // upload.none(),
     updateBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -87,7 +101,7 @@ router.route("/banners/:bannerID").patch(
 
 router.route("/banners/:bannerID").delete(
     isLoggedIn,
-    // // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteBanner
     /*
         #swagger.tags = ['Banners Routes']

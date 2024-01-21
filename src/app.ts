@@ -4,15 +4,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+// import { Role } from "@prisma/client";
+import morganBody from "morgan-body";
 import shrinkRay from "shrink-ray-current";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
-// import { Role } from "@prisma/client";
-import morganBody from "morgan-body";
 import globalErrorcontroller from "./error/error.controller";
 import Logger from "./lib/logger";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
-import compression from "compression";
 import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
@@ -84,7 +83,7 @@ app.use(
 );
 
 // Function to serve all static files
-// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 // app.use("/storage", express.static("storage"));
 app.use("/static", express.static("static"));
 app.use(

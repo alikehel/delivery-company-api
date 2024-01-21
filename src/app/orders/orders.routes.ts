@@ -2,6 +2,8 @@ import { Router } from "express";
 
 // import { ClientRole } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import {
     createOrder,
@@ -22,7 +24,16 @@ const router = Router();
 
 router.route("/orders").post(
     isLoggedIn,
-    // isAutherized([ClientRole.CLIENT, ClientRole.CLIENT_ASSISTANT]),
+    isAutherized(
+        [
+            EmployeeRole.COMPANY_MANAGER,
+            EmployeeRole.DATA_ENTRY,
+            EmployeeRole.ACCOUNTANT,
+            ClientRole.CLIENT,
+            ClientRole.CLIENT_ASSISTANT
+        ],
+        [Permission.ADD_ORDER]
+    ),
     createOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -43,7 +54,7 @@ router.route("/orders").post(
 
 router.route("/orders").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     getAllOrders
     /*
         #swagger.tags = ['Orders Routes']
@@ -192,7 +203,13 @@ router.route("/orders").get(
 
 router.route("/orders/statistics").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        EmployeeRole.COMPANY_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
+    ]),
     getOrdersStatistics
     /*
         #swagger.tags = ['Orders Routes']
@@ -291,7 +308,7 @@ router.route("/orders/statistics").get(
 
 router.route("/orders/:orderID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     getOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -300,7 +317,7 @@ router.route("/orders/:orderID").get(
 
 router.route("/orders/:orderID/timeline").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     getOrderTimeline
     /*
         #swagger.tags = ['Orders Routes']
@@ -309,7 +326,7 @@ router.route("/orders/:orderID/timeline").get(
 
 router.route("/orders/:orderID/chat-members").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     getOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
@@ -318,7 +335,7 @@ router.route("/orders/:orderID/chat-members").get(
 
 router.route("/orders/:orderID/chat").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     sendNotificationToOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
@@ -327,7 +344,7 @@ router.route("/orders/:orderID/chat").post(
 
 router.route("/orders/receipts").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     createOrdersReceipts
     /*
         #swagger.tags = ['Orders Routes']
@@ -348,7 +365,19 @@ router.route("/orders/receipts").post(
 
 router.route("/orders/:orderID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized(
+        [...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)],
+        [
+            Permission.CHANGE_CLOSED_ORDER_STATUS,
+            Permission.CHANGE_ORDER_BRANCH,
+            Permission.CHANGE_ORDER_CLIENT,
+            Permission.CHANGE_ORDER_COMPANY,
+            Permission.CHANGE_ORDER_DELIVERY_AGENT,
+            Permission.CHANGE_ORDER_STATUS,
+            Permission.CHANGE_ORDER_TOTAL_AMOUNT,
+            Permission.LOCK_ORDER_STATUS
+        ]
+    ),
     updateOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -369,7 +398,7 @@ router.route("/orders/:orderID").patch(
 
 router.route("/orders/:orderID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -378,7 +407,10 @@ router.route("/orders/:orderID").delete(
 
 router.route("/orders/:orderID/deactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized(
+        [EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT],
+        [Permission.DELETE_ORDER]
+    ),
     deactivateOrder
     /*
         #swagger.tags = ['Orders Routes']
@@ -387,7 +419,7 @@ router.route("/orders/:orderID/deactivate").patch(
 
 router.route("/orders/:orderID/reactivate").patch(
     isLoggedIn,
-    // isAutherized([EmployeeRole.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     reactivateOrder
     /*
         #swagger.tags = ['Orders Routes']

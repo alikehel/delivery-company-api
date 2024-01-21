@@ -348,10 +348,84 @@ export class ReportModel {
         }
     }
 
-    async getReportsCount() {
+    async getReportsCount(filters: {
+        sort: string;
+        startDate?: Date;
+        endDate?: Date;
+        clientID?: number;
+        storeID?: number;
+        repositoryID?: number;
+        branchID?: number;
+        deliveryAgentID?: number;
+        governorate?: Governorate;
+        companyID?: number;
+        status?: ReportStatus;
+        type?: ReportType;
+        deleted?: string;
+    }) {
         const reportsCount = await prisma.report.count({
             where: {
-                deleted: false
+                AND: [
+                    {
+                        createdAt: {
+                            gte: filters.startDate
+                        }
+                    },
+                    {
+                        createdAt: {
+                            lte: filters.endDate
+                        }
+                    },
+                    {
+                        clientReport: {
+                            clientId: filters.clientID
+                        }
+                    },
+                    {
+                        clientReport: {
+                            storeId: filters.storeID
+                        }
+                    },
+                    {
+                        repositoryReport: {
+                            repositoryId: filters.repositoryID
+                        }
+                    },
+                    {
+                        branchReport: {
+                            branchId: filters.branchID
+                        }
+                    },
+                    {
+                        deliveryAgentReport: {
+                            deliveryAgentId: filters.deliveryAgentID
+                        }
+                    },
+                    {
+                        governorateReport: {
+                            governorate: filters.governorate
+                        }
+                    },
+                    {
+                        companyReport: {
+                            companyId: filters.companyID
+                        }
+                    },
+                    {
+                        status: filters.status
+                    },
+                    {
+                        type: filters.type
+                    },
+                    {
+                        deleted: filters.deleted === "true"
+                    },
+                    {
+                        company: {
+                            id: filters.companyID
+                        }
+                    }
+                ]
             }
         });
         return reportsCount;
@@ -433,7 +507,12 @@ export class ReportModel {
                         type: filters.type
                     },
                     {
-                        deleted: filters.deleted === "true" ? true : false
+                        deleted: filters.deleted === "true"
+                    },
+                    {
+                        company: {
+                            id: filters.companyID
+                        }
                     }
                 ]
             },

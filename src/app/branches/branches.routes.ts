@@ -2,6 +2,8 @@ import { Router } from "express";
 
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { createBranch, deleteBranch, getAllBranches, getBranch, updateBranch } from "./branches.controller";
 
@@ -9,7 +11,7 @@ const router = Router();
 
 router.route("/branches").post(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER]),
     createBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -30,7 +32,14 @@ router.route("/branches").post(
 
 router.route("/branches").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        //TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getAllBranches
     /*
         #swagger.tags = ['Branches Routes']
@@ -51,7 +60,7 @@ router.route("/branches").get(
 
 router.route("/branches/:branchID").get(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     getBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -60,7 +69,7 @@ router.route("/branches/:branchID").get(
 
 router.route("/branches/:branchID").patch(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     updateBranch
     /*
         #swagger.tags = ['Branches Routes']
@@ -81,7 +90,7 @@ router.route("/branches/:branchID").patch(
 
 router.route("/branches/:branchID").delete(
     isLoggedIn,
-    // isAutherized([Role.ADMIN]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteBranch
     /*
         #swagger.tags = ['Branches Routes']

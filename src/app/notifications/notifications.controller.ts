@@ -6,15 +6,15 @@ import { NotificationUpdateSchema } from "./notifications.zod";
 const notificationModel = new NotificationModel();
 
 export const getAllNotifications = catchAsync(async (req, res) => {
-    const notificationsCount = await notificationModel.getNotificationsCount();
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(notificationsCount / size);
     const userID = +res.locals.user.id as number;
-
     let seen = false;
     if (req.query.seen && req.query.seen === "true") {
         seen = true;
     }
+
+    const notificationsCount = await notificationModel.getNotificationsCount(userID, seen);
+    const size = req.query.size ? +req.query.size : 10;
+    const pagesCount = Math.ceil(notificationsCount / size);
 
     if (pagesCount === 0) {
         res.status(200).json({

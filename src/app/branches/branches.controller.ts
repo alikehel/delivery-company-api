@@ -1,3 +1,5 @@
+import { AdminRole } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
 import { BranchModel } from "./branch.model";
@@ -18,10 +20,21 @@ export const createBranch = catchAsync(async (req, res) => {
 });
 
 export const getAllBranches = catchAsync(async (req, res) => {
-    const branchesCount = await branchModel.getBranchesCount();
+    // Filters
+    const loggedInUser = res.locals.user as loggedInUserType;
+    let companyID: number | undefined;
+    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        companyID = req.query.company_id ? +req.query.company_id : undefined;
+    } else if (loggedInUser.companyID) {
+        companyID = loggedInUser.companyID;
+    }
+
+    // Pagination
+    const branchesCount = await branchModel.getBranchesCount({
+        companyID: companyID
+    });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(branchesCount / size);
-
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -31,7 +44,6 @@ export const getAllBranches = catchAsync(async (req, res) => {
         });
         return;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
@@ -45,8 +57,12 @@ export const getAllBranches = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const branches = await branchModel.getAllBranches(skip, take);
+    // Query
+    const branches = await branchModel.getAllBranches(skip, take, {
+        companyID: companyID
+    });
 
+    // Response
     res.status(200).json({
         status: "success",
         page: page,
