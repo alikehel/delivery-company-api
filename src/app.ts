@@ -83,7 +83,7 @@ app.use(
 );
 
 // Function to serve all static files
-// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 // app.use("/storage", express.static("storage"));
 app.use("/static", express.static("static"));
 app.use(
