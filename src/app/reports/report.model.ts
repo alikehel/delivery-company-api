@@ -356,6 +356,7 @@ export class ReportModel {
         storeID?: number;
         repositoryID?: number;
         branchID?: number;
+        branch?: number;
         deliveryAgentID?: number;
         governorate?: Governorate;
         companyID?: number;
@@ -367,6 +368,62 @@ export class ReportModel {
         const reportsCount = await prisma.report.count({
             where: {
                 AND: [
+                    {
+                        OR: [
+                            {
+                                deliveryAgentReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                clientReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                repositoryReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                branchReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            }
+                        ]
+                    },
                     {
                         createdAt: {
                             gte: filters.startDate
@@ -446,6 +503,7 @@ export class ReportModel {
             storeID?: number;
             repositoryID?: number;
             branchID?: number;
+            branch?: number;
             deliveryAgentID?: number;
             governorate?: Governorate;
             companyID?: number;
@@ -460,6 +518,62 @@ export class ReportModel {
             take: take,
             where: {
                 AND: [
+                    {
+                        OR: [
+                            {
+                                deliveryAgentReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                clientReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                repositoryReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                branchReport: filters.branch
+                                    ? {
+                                          orders: {
+                                              some: {
+                                                  branch: {
+                                                      id: filters.branch
+                                                  }
+                                              }
+                                          }
+                                      }
+                                    : undefined
+                            }
+                        ]
+                    },
                     {
                         createdAt: {
                             gte: filters.startDate
