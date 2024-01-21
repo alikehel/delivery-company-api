@@ -86,7 +86,14 @@ router.route("/employees").get(
 
 router.route("/employees/:employeeID").get(
     isLoggedIn,
-    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
+    isAutherized([
+        EmployeeRole.COMPANY_MANAGER,
+        AdminRole.ADMIN,
+        AdminRole.ADMIN_ASSISTANT,
+        // TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
+    ]),
     getEmployee
     /*
         #swagger.tags = ['Employees Routes']
