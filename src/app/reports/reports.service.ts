@@ -213,11 +213,11 @@ export class ReportService {
         loggedInUser: loggedInUserType;
     }) {
         // Filters
-        let companyID: number | undefined;
+        let company: number | undefined;
         if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
-            companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
+            company = data.queryString.company ? +data.queryString.company : undefined;
         } else if (data.loggedInUser.companyID) {
-            companyID = data.loggedInUser.companyID;
+            company = data.loggedInUser.companyID;
         }
 
         const sort = (data.queryString.sort as string) || "id:asc";
@@ -240,6 +240,7 @@ export class ReportService {
         } else {
             clientID = undefined;
         }
+        const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
         const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
         const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
         const deliveryAgentID = data.queryString.delivery_agent_id
@@ -262,6 +263,8 @@ export class ReportService {
             deliveryAgentID: deliveryAgentID,
             governorate: governorate,
             companyID: companyID,
+            // TODO: fix this
+            company: company,
             deleted: deleted
         });
         const size = data.queryString.size ? +data.queryString.size : 10;
