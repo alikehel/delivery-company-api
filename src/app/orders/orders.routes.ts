@@ -208,7 +208,10 @@ router.route("/orders/statistics").get(
         AdminRole.ADMIN_ASSISTANT,
         EmployeeRole.COMPANY_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        ClientRole.CLIENT_ASSISTANT,
+        // TODO: Remove later
+        ...Object.values(EmployeeRole),
+        ...Object.values(ClientRole)
     ]),
     getOrdersStatistics
     /*
