@@ -20,8 +20,8 @@ const router = Router();
 router.route("/companies").post(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    // upload.single("logo"),
-    upload.none(),
+    upload.single("logo"),
+    // upload.none(),
     createCompany
     /*
         #swagger.tags = ['Companies Routes']
