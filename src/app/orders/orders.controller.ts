@@ -1,4 +1,4 @@
-import { AdminRole, DeliveryType, Governorate, Order, OrderStatus } from "@prisma/client";
+import { AdminRole, DeliveryType, EmployeeRole, Governorate, Order, OrderStatus } from "@prisma/client";
 import Logger from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
@@ -91,8 +91,24 @@ export const getAllOrders = catchAsync(async (req, res) => {
 
     const deliveryType = req.query.delivery_type?.toString().toUpperCase() as DeliveryType | undefined;
 
-    const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
-    const clientID = req.query.client_id ? +req.query.client_id : undefined;
+    let deliveryAgentID: number | undefined;
+    if (loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
+        deliveryAgentID = +loggedInUser.id;
+    } else if (req.query.delivery_agent_id) {
+        deliveryAgentID = +req.query.delivery_agent_id;
+    } else {
+        deliveryAgentID = undefined;
+    }
+
+    let clientID: number | undefined;
+    if (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT") {
+        clientID = +loggedInUser.id;
+    } else if (req.query.client_id) {
+        clientID = +req.query.client_id;
+    } else {
+        clientID = undefined;
+    }
+
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
     // const repositoryID = req.query.repository_id as string;
     const productID = req.query.product_id ? +req.query.product_id : undefined;
@@ -457,7 +473,23 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    const clientID = req.query.client_id ? +req.query.client_id : undefined;
+    let clientID: number | undefined;
+    if (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT") {
+        clientID = +loggedInUser.id;
+    } else if (req.query.client_id) {
+        clientID = +req.query.client_id;
+    } else {
+        clientID = undefined;
+    }
+
+    let deliveryAgentID: number | undefined;
+    if (loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
+        deliveryAgentID = +loggedInUser.id;
+    } else if (req.query.delivery_agent_id) {
+        deliveryAgentID = +req.query.delivery_agent_id;
+    } else {
+        deliveryAgentID = undefined;
+    }
 
     // TODO: Fix this
     const clientReport = (
@@ -514,6 +546,7 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
         clientReport: clientReport,
         governorate: governorate,
         startDate: startDate,
+        deliveryAgentID: deliveryAgentID,
         endDate: endDate,
         clientID: clientID,
         branchReport: branchReport,

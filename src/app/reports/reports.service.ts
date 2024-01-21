@@ -1,7 +1,8 @@
-import { AdminRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
+import { AdminRole, EmployeeRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
 import { Request } from "express";
 import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
+import { EmployeeModel } from "../employees/employee.model";
 import sendNotification from "../notifications/helpers/sendNotification";
 import { OrderModel } from "../orders/order.model";
 import { OrderTimelineType } from "../orders/orders.zod";
@@ -11,6 +12,7 @@ import { ReportCreateType } from "./reports.zod";
 
 const reportModel = new ReportModel();
 const orderModel = new OrderModel();
+const employeeModel = new EmployeeModel();
 
 export class ReportService {
     async createReport(
@@ -230,7 +232,15 @@ export class ReportService {
         const status = data.queryString.status?.toString().toUpperCase() as ReportStatus | undefined;
         const type = data.queryString.type?.toString().toUpperCase() as ReportType | undefined;
 
-        const branchID = data.queryString.branch_id ? +data.queryString.branch_id : undefined;
+        let branchID: number | undefined;
+        if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
+            const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
+            branchID = employee?.branch?.id;
+        } else if (data.queryString.branch_id) {
+            branchID = +data.queryString.branch_id;
+        } else {
+            branchID = undefined;
+        }
 
         let clientID: number | undefined;
         if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
@@ -243,9 +253,16 @@ export class ReportService {
         const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
         const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
         const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
-        const deliveryAgentID = data.queryString.delivery_agent_id
-            ? +data.queryString.delivery_agent_id
-            : undefined;
+
+        let deliveryAgentID: number | undefined;
+        if (data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
+            deliveryAgentID = +data.loggedInUser.id;
+        } else if (data.queryString.delivery_agent_id) {
+            deliveryAgentID = +data.queryString.delivery_agent_id;
+        } else {
+            deliveryAgentID = undefined;
+        }
+
         const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
 
         const deleted = data.queryString.deleted?.toString() || "false";
