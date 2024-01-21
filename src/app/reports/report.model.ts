@@ -359,6 +359,7 @@ export class ReportModel {
         deliveryAgentID?: number;
         governorate?: Governorate;
         companyID?: number;
+        company?: number;
         status?: ReportStatus;
         type?: ReportType;
         deleted?: string;
@@ -407,9 +408,12 @@ export class ReportModel {
                         }
                     },
                     {
-                        companyReport: {
-                            companyId: filters.companyID
-                        }
+                        // TODO: fix this: Report type filter vs company filter
+                        companyReport: filters.companyID
+                            ? {
+                                  companyId: filters.companyID
+                              }
+                            : undefined
                     },
                     {
                         status: filters.status
@@ -422,7 +426,7 @@ export class ReportModel {
                     },
                     {
                         company: {
-                            id: filters.companyID
+                            id: filters.company
                         }
                     }
                 ]
@@ -445,6 +449,7 @@ export class ReportModel {
             deliveryAgentID?: number;
             governorate?: Governorate;
             companyID?: number;
+            company?: number;
             status?: ReportStatus;
             type?: ReportType;
             deleted?: string;
@@ -496,9 +501,12 @@ export class ReportModel {
                         }
                     },
                     {
-                        companyReport: {
-                            companyId: filters.companyID
-                        }
+                        // TODO: fix this: Report type filter vs company filter
+                        companyReport: filters.companyID
+                            ? {
+                                  companyId: filters.companyID
+                              }
+                            : undefined
                     },
                     {
                         status: filters.status
@@ -511,7 +519,7 @@ export class ReportModel {
                     },
                     {
                         company: {
-                            id: filters.companyID
+                            id: filters.company
                         }
                     }
                 ]
