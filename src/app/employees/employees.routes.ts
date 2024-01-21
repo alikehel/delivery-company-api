@@ -30,8 +30,8 @@ router.route("/employees").post(
         ],
         [Permission.ADD_DELIVERY_AGENT]
     ),
-    // upload.single("avatar"),
-    upload.none(),
+    upload.single("avatar"),
+    // upload.none(),
     createEmployee
     /*
         #swagger.tags = ['Employees Routes']
@@ -96,8 +96,8 @@ router.route("/employees/:employeeID").get(
 router.route("/employees/:employeeID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    // upload.single("avatar"),
-    upload.none(),
+    upload.single("avatar"),
+    // upload.none(),
     updateEmployee
     /*
         #swagger.tags = ['Employees Routes']

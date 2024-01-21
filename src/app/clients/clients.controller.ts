@@ -13,7 +13,9 @@ export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
     let companyID = +res.locals.user.companyID;
     const { password, ...rest } = clientData;
-    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const avatar = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const currentUser = res.locals.user;
 
@@ -113,7 +115,9 @@ export const updateClient = catchAsync(async (req, res) => {
     const clientData = ClientUpdateSchema.parse(req.body);
     const clientID = +req.params.clientID;
     const companyID = +res.locals.user.companyID;
-    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const avatar = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const { password, ...rest } = clientData;
 

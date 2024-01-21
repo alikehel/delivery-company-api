@@ -32,7 +32,9 @@ export const createEmployee = catchAsync(async (req, res) => {
         throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
     }
 
-    const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const avatar = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
 
@@ -151,7 +153,9 @@ export const updateEmployee = catchAsync(async (req, res) => {
     const companyID = +res.locals.user.companyID;
 
     if (req.file) {
-        employeeData.avatar = `/${req.file.path.replace(/\\/g, "/")}`;
+        employeeData.avatar = req.file
+            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+            : undefined;
     }
 
     if (employeeData.password) {

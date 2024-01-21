@@ -10,7 +10,9 @@ const storeModel = new StoreModel();
 export const createStore = catchAsync(async (req, res) => {
     const storeData = StoreCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
-    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const logo = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdStore = await storeModel.createStore(companyID, {
         ...storeData,
@@ -93,7 +95,9 @@ export const getStore = catchAsync(async (req, res) => {
 
 export const updateStore = catchAsync(async (req, res) => {
     const storeID = +req.params.storeID;
-    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const logo = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const storeData = StoreUpdateSchema.parse(req.body);
 

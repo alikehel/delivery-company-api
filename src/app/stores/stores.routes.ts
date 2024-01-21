@@ -31,8 +31,9 @@ router.route("/stores").post(
             ClientRole.CLIENT_ASSISTANT
         ],
         [Permission.ADD_STORE]
-    ), // upload.single("logo"),
-    upload.none(),
+    ),
+    upload.single("logo"),
+    // upload.none(),
     createStore
     /*
         #swagger.tags = ['Stores Routes']
@@ -113,8 +114,9 @@ router.route("/stores/:storeID").patch(
         EmployeeRole.BRANCH_MANAGER,
         ClientRole.CLIENT,
         ClientRole.CLIENT_ASSISTANT
-    ]), // upload.single("logo"),
-    upload.none(),
+    ]),
+    upload.single("logo"),
+    // upload.none(),
     updateStore
     /*
         #swagger.tags = ['Stores Routes']

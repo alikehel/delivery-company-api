@@ -25,8 +25,8 @@ router.route("/products").post(
         ClientRole.CLIENT,
         ClientRole.CLIENT_ASSISTANT
     ]),
-    // upload.single("image"),
-    upload.none(),
+    upload.single("image"),
+    // upload.none(),
     createProduct
     /*
         #swagger.tags = ['Products Routes']
@@ -101,8 +101,9 @@ router.route("/products/:productID").patch(
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
         ClientRole.CLIENT_ASSISTANT
-    ]), // upload.single("image"),
-    upload.none(),
+    ]),
+    upload.single("image"),
+    // upload.none(),
     updateProduct
     /*
         #swagger.tags = ['Products Routes']

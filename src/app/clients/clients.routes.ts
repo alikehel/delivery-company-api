@@ -32,8 +32,8 @@ router.route("/clients").post(
         ],
         [Permission.ADD_CLIENT]
     ),
-    // upload.single("avatar"),
-    upload.none(),
+    upload.single("avatar"),
+    // upload.none(),
     createClient
     /*
         #swagger.tags = ['Clients Routes']
@@ -109,8 +109,9 @@ router.route("/clients/:clientID").patch(
         EmployeeRole.ACCOUNTANT,
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
-    ]), // upload.single("avatar"),
-    upload.none(),
+    ]),
+    upload.single("avatar"),
+    // upload.none(),
     updateClient
     /*
         #swagger.tags = ['Clients Routes']

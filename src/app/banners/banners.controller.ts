@@ -10,7 +10,9 @@ const bannerModel = new BannerModel();
 export const createBanner = catchAsync(async (req, res) => {
     const bannerData = BannerCreateSchema.parse(req.body);
     const companyID = +res.locals.user.companyID;
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdBanner = await bannerModel.createBanner(companyID, {
         ...bannerData,
@@ -92,7 +94,9 @@ export const updateBanner = catchAsync(async (req, res) => {
     const bannerID = +req.params.bannerID;
 
     const bannerData = BannerUpdateSchema.parse(req.body);
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const banner = await bannerModel.updateBanner({
         bannerID: bannerID,

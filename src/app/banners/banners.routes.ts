@@ -14,8 +14,8 @@ const router = Router();
 router.route("/banners").post(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER]),
-    // upload.single("image"),
-    upload.none(),
+    upload.single("image"),
+    // upload.none(),
     createBanner
     /*
         #swagger.tags = ['Banners Routes']
@@ -79,8 +79,8 @@ router.route("/banners/:bannerID").get(
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    // upload.single("image"),
-    upload.none(),
+    upload.single("image"),
+    // upload.none(),
     updateBanner
     /*
         #swagger.tags = ['Banners Routes']

@@ -11,7 +11,9 @@ export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
     const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdProduct = await productModel.createProduct(companyID, loggedInUserID, {
         ...productData,
@@ -97,7 +99,9 @@ export const updateProduct = catchAsync(async (req, res) => {
     const companyID = +res.locals.user.companyID;
 
     const productData = ProductUpdateSchema.parse(req.body);
-    const image = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const image = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const product = await productModel.updateProduct({
         productID: productID,
