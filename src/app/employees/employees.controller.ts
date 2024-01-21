@@ -23,6 +23,15 @@ export const createEmployee = catchAsync(async (req, res) => {
         companyID = employeeData.companyID as number;
     }
 
+    if (
+        employeeData.role !== EmployeeRole.DELIVERY_AGENT &&
+        (loggedInUser.role !== EmployeeRole.COMPANY_MANAGER ||
+            loggedInUser.role !== AdminRole.ADMIN ||
+            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT)
+    ) {
+        throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
+    }
+
     const avatar = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);

@@ -11,13 +11,17 @@ import { localizeGovernorate, localizeOrderStatus, localizeReportType } from "..
 import { orderReform } from "../../orders/order.model";
 import { reportReform } from "../../reports/report.model";
 
-const getImage = (url: string | Buffer) => {
-    return loadImage(url).then((image) => {
+const getImage = async (url: string | Buffer) => {
+    try {
+        const image = await loadImage(url);
         const canvas = createCanvas(image.width, image.height);
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0);
         return canvas.toDataURL();
-    });
+    } catch (error) {
+        Logger.error(error);
+        return "";
+    }
 };
 
 export const generateReport = async (
@@ -103,7 +107,10 @@ export const generateReport = async (
                             [
                                 {
                                     rowSpan: 3,
-                                    image: `data:image/jpeg,${imageData}`,
+                                    image:
+                                        imageData === ""
+                                            ? "static/assets/placeholder-logo.png"
+                                            : `data:image/jpeg,${imageData}`,
                                     width: 80
                                 },
                                 {
