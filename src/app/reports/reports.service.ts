@@ -232,14 +232,14 @@ export class ReportService {
         const status = data.queryString.status?.toString().toUpperCase() as ReportStatus | undefined;
         const type = data.queryString.type?.toString().toUpperCase() as ReportType | undefined;
 
-        let branchID: number | undefined;
+        let branch: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
             const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
-            branchID = employee?.branch?.id;
-        } else if (data.queryString.branch_id) {
-            branchID = +data.queryString.branch_id;
+            branch = employee?.branch?.id;
+        } else if (data.queryString.branch) {
+            branch = +data.queryString.branch;
         } else {
-            branchID = undefined;
+            branch = undefined;
         }
 
         let clientID: number | undefined;
@@ -253,6 +253,7 @@ export class ReportService {
         const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
         const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
         const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
+        const branchID = data.queryString.branch_id ? +data.queryString.branch_id : undefined;
 
         let deliveryAgentID: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
@@ -274,6 +275,7 @@ export class ReportService {
             status: status,
             type: type,
             branchID: branchID,
+            branch: branch,
             clientID: clientID,
             storeID: storeID,
             repositoryID: repositoryID,
@@ -317,6 +319,7 @@ export class ReportService {
             status: status,
             type: type,
             branchID: branchID,
+            branch: branch,
             clientID: clientID,
             storeID: storeID,
             repositoryID: repositoryID,
