@@ -114,13 +114,15 @@ export class LocationModel {
                         governorate: filters.governorate
                     },
                     {
-                        deliveryAgentsLocations: {
-                            some: {
-                                deliveryAgent: {
-                                    id: filters.deliveryAgentID
-                                }
-                            }
-                        }
+                        deliveryAgentsLocations: filters.deliveryAgentID
+                            ? {
+                                  some: {
+                                      deliveryAgent: {
+                                          id: filters.deliveryAgentID
+                                      }
+                                  }
+                              }
+                            : undefined
                     },
                     {
                         company: {
@@ -163,13 +165,15 @@ export class LocationModel {
                         governorate: filters.governorate
                     },
                     {
-                        deliveryAgentsLocations: {
-                            some: {
-                                deliveryAgent: {
-                                    id: filters.deliveryAgentID
-                                }
-                            }
-                        }
+                        deliveryAgentsLocations: filters.deliveryAgentID
+                            ? {
+                                  some: {
+                                      deliveryAgent: {
+                                          id: filters.deliveryAgentID
+                                      }
+                                  }
+                              }
+                            : undefined
                     },
                     {
                         company: {
