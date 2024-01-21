@@ -1454,6 +1454,7 @@ export class OrderModel {
         repositoryReport?: boolean;
         companyReport?: boolean;
         statuses?: OrderStatus[];
+        deliveryAgentID?: number;
         governorate?: Governorate;
         startDate?: Date;
         endDate?: Date;
@@ -1546,6 +1547,11 @@ export class OrderModel {
                 {
                     location: {
                         id: filters.locationID
+                    }
+                },
+                {
+                    deliveryAgent: {
+                        id: filters.deliveryAgentID
                     }
                 }
             ]
