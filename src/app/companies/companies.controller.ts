@@ -7,7 +7,7 @@ const companyModel = new CompanyModel();
 
 export const createCompany = catchAsync(async (req, res) => {
     const companyData = CompanyCreateSchema.parse(req.body);
-    const logo = req.file ? `/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const logo = req.file ? `${req.baseUrl}/${req.file.path.replace(/\\/g, "/")}` : undefined;
 
     const createdCompany = await companyModel.createCompany({
         ...companyData,

@@ -80,8 +80,8 @@ router.route("/companies/:companyID").get(
 router.route("/companies/:companyID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    // upload.single("logo"),
-    upload.none(),
+    upload.single("logo"),
+    // upload.none(),
     updateCompany
     /*
         #swagger.tags = ['Companies Routes']
