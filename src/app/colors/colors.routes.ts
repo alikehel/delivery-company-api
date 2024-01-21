@@ -1,11 +1,11 @@
 import { Router } from "express";
 
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { createColor, deleteColor, getAllColors, getColor, updateColor } from "./colors.controller";
-import { EmployeeRole, AdminRole, ClientRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
 
 const router = Router();
 

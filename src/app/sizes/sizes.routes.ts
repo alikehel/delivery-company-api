@@ -1,11 +1,11 @@
 import { Router } from "express";
 
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { isAutherized } from "../../middlewares/isAutherized.middleware";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { createSize, deleteSize, getAllSizes, getSize, updateSize } from "./sizes.controller";
-import { EmployeeRole, AdminRole, ClientRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
 
 const router = Router();
 

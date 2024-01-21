@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-// import { Role } from "@prisma/client";
-// import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import { createBanner, deleteBanner, getAllBanners, getBanner, updateBanner } from "./banners.controller";
 
@@ -78,11 +78,7 @@ router.route("/banners/:bannerID").get(
 
 router.route("/banners/:bannerID").patch(
     isLoggedIn,
-    isAutherized([
-        EmployeeRole.COMPANY_MANAGER,
-        AdminRole.ADMIN,
-        AdminRole.ADMIN_ASSISTANT,
-    ]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     // upload.single("image"),
     upload.none(),
     updateBanner
@@ -105,11 +101,7 @@ router.route("/banners/:bannerID").patch(
 
 router.route("/banners/:bannerID").delete(
     isLoggedIn,
-    isAutherized([
-        EmployeeRole.COMPANY_MANAGER,
-        AdminRole.ADMIN,
-        AdminRole.ADMIN_ASSISTANT,
-    ]),
+    isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     deleteBanner
     /*
         #swagger.tags = ['Banners Routes']

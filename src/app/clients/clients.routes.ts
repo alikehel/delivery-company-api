@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-// import { Role } from "@prisma/client";
-// import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 // import { upload } from "../../middlewares/upload.middleware";
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized.middleware";
+// import { Role } from "@prisma/client";
+// import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
 import { upload } from "../../middlewares/upload.middleware";
 import {
     createClient,
