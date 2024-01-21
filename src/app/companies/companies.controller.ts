@@ -7,7 +7,9 @@ const companyModel = new CompanyModel();
 
 export const createCompany = catchAsync(async (req, res) => {
     const companyData = CompanyCreateSchema.parse(req.body);
-    const logo = req.file ? `${req.baseUrl}/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const logo = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const createdCompany = await companyModel.createCompany({
         ...companyData,
@@ -73,7 +75,9 @@ export const getCompany = catchAsync(async (req, res) => {
 
 export const updateCompany = catchAsync(async (req, res) => {
     const companyID = +req.params.companyID;
-    const logo = req.file ? `${req.baseUrl}/${req.file.path.replace(/\\/g, "/")}` : undefined;
+    const logo = req.file
+        ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
+        : undefined;
 
     const companyData = CompanyUpdateSchema.parse(req.body);
 
