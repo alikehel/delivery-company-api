@@ -15,6 +15,7 @@ import Logger from "./lib/logger";
 import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
+import AppError from "./utils/AppError.util";
 
 const app = express();
 
@@ -138,7 +139,7 @@ app.route("/health").get((_req, res) => {
 app.all("*", (req, _res, next) => {
     // #swagger.ignore = true
     // Logger.error(`Can't find ${req.originalUrl} on this server!`);
-    next(new Error(`Can't find ${req.originalUrl} on this server!`));
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 // Global Error Handler
