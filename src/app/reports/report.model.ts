@@ -513,136 +513,158 @@ export class ReportModel {
             deleted?: string;
         }
     ) {
+        const where = {
+            AND: [
+                {
+                    OR: [
+                        {
+                            deliveryAgentReport: filters.branch
+                                ? {
+                                      orders: {
+                                          some: {
+                                              branch: {
+                                                  id: filters.branch
+                                              }
+                                          }
+                                      }
+                                  }
+                                : undefined
+                        },
+                        {
+                            clientReport: filters.branch
+                                ? {
+                                      orders: {
+                                          some: {
+                                              branch: {
+                                                  id: filters.branch
+                                              }
+                                          }
+                                      }
+                                  }
+                                : undefined
+                        },
+                        {
+                            repositoryReport: filters.branch
+                                ? {
+                                      orders: {
+                                          some: {
+                                              branch: {
+                                                  id: filters.branch
+                                              }
+                                          }
+                                      }
+                                  }
+                                : undefined
+                        },
+                        {
+                            branchReport: filters.branch
+                                ? {
+                                      orders: {
+                                          some: {
+                                              branch: {
+                                                  id: filters.branch
+                                              }
+                                          }
+                                      }
+                                  }
+                                : undefined
+                        }
+                    ]
+                },
+                {
+                    createdAt: {
+                        gte: filters.startDate
+                    }
+                },
+                {
+                    createdAt: {
+                        lte: filters.endDate
+                    }
+                },
+                {
+                    clientReport: {
+                        clientId: filters.clientID
+                    }
+                },
+                {
+                    clientReport: {
+                        storeId: filters.storeID
+                    }
+                },
+                {
+                    repositoryReport: {
+                        repositoryId: filters.repositoryID
+                    }
+                },
+                {
+                    branchReport: {
+                        branchId: filters.branchID
+                    }
+                },
+                {
+                    deliveryAgentReport: {
+                        deliveryAgentId: filters.deliveryAgentID
+                    }
+                },
+                {
+                    governorateReport: {
+                        governorate: filters.governorate
+                    }
+                },
+                {
+                    // TODO: fix this: Report type filter vs company filter
+                    companyReport: filters.companyID
+                        ? {
+                              companyId: filters.companyID
+                          }
+                        : undefined
+                },
+                {
+                    status: filters.status
+                },
+                {
+                    type: filters.type
+                },
+                {
+                    deleted: filters.deleted === "true"
+                },
+                {
+                    company: {
+                        id: filters.company
+                    }
+                }
+            ]
+        };
+
         const reports = await prisma.report.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [
-                    {
-                        OR: [
-                            {
-                                deliveryAgentReport: filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                clientReport: filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                repositoryReport: filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                branchReport: filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            }
-                        ]
-                    },
-                    {
-                        createdAt: {
-                            gte: filters.startDate
-                        }
-                    },
-                    {
-                        createdAt: {
-                            lte: filters.endDate
-                        }
-                    },
-                    {
-                        clientReport: {
-                            clientId: filters.clientID
-                        }
-                    },
-                    {
-                        clientReport: {
-                            storeId: filters.storeID
-                        }
-                    },
-                    {
-                        repositoryReport: {
-                            repositoryId: filters.repositoryID
-                        }
-                    },
-                    {
-                        branchReport: {
-                            branchId: filters.branchID
-                        }
-                    },
-                    {
-                        deliveryAgentReport: {
-                            deliveryAgentId: filters.deliveryAgentID
-                        }
-                    },
-                    {
-                        governorateReport: {
-                            governorate: filters.governorate
-                        }
-                    },
-                    {
-                        // TODO: fix this: Report type filter vs company filter
-                        companyReport: filters.companyID
-                            ? {
-                                  companyId: filters.companyID
-                              }
-                            : undefined
-                    },
-                    {
-                        status: filters.status
-                    },
-                    {
-                        type: filters.type
-                    },
-                    {
-                        deleted: filters.deleted === "true"
-                    },
-                    {
-                        company: {
-                            id: filters.company
-                        }
-                    }
-                ]
-            },
+            where: where,
             orderBy: {
                 [filters.sort.split(":")[0]]: filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: reportSelect
         });
+
+        const reportsMetaData = await prisma.report.aggregate({
+            where: where,
+            _count: {
+                id: true
+            },
+            _sum: {
+                totalCost: true,
+                paidAmount: true,
+                deliveryCost: true,
+                baghdadOrdersCount: true,
+                governoratesOrdersCount: true,
+                clientNet: true,
+                deliveryAgentNet: true,
+                companyNet: true
+            }
+        });
+
+        console.info(reportsMetaData);
+
         return reports.map((report) => reportReform(report));
     }
 
