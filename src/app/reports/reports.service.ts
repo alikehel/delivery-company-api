@@ -326,6 +326,7 @@ export class ReportService {
             deliveryAgentID: deliveryAgentID,
             governorate: governorate,
             companyID: companyID,
+            company: company,
             deleted: deleted
         });
 
