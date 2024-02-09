@@ -1,4 +1,4 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, Governorate } from "@prisma/client";
 import { loggedInUserType } from "../../types/user";
 import AppError from "../../utils/AppError.util";
 import catchAsync from "../../utils/catchAsync.util";
@@ -28,6 +28,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
+
+    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
     // Pagination
     const branchesCount = await branchModel.getBranchesCount({
@@ -59,7 +61,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
 
     // Query
     const branches = await branchModel.getAllBranches(skip, take, {
-        companyID: companyID
+        companyID: companyID,
+        governorate: governorate
     });
 
     // Response

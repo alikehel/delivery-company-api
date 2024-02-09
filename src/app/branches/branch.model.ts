@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Governorate, Prisma, PrismaClient } from "@prisma/client";
 import { BranchCreateType, BranchUpdateType } from "./branches.zod";
 
 const prisma = new PrismaClient();
@@ -66,6 +66,7 @@ export class BranchModel {
         take: number,
         filters: {
             companyID?: number;
+            governorate?: Governorate;
         }
     ) {
         const branches = await prisma.branch.findMany({
@@ -74,7 +75,8 @@ export class BranchModel {
             where: {
                 company: {
                     id: filters.companyID
-                }
+                },
+                governorate: filters.governorate
             },
             select: branchSelect
         });
