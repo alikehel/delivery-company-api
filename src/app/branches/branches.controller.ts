@@ -31,6 +31,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
 
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
+    const locationID = req.query.location_id ? +req.query.location_id : undefined;
+
     // Pagination
     const branchesCount = await branchModel.getBranchesCount({
         companyID: companyID
@@ -62,7 +64,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
     // Query
     const branches = await branchModel.getAllBranches(skip, take, {
         companyID: companyID,
-        governorate: governorate
+        governorate: governorate,
+        locationID: locationID
     });
 
     // Response

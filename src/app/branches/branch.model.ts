@@ -67,6 +67,7 @@ export class BranchModel {
         filters: {
             companyID?: number;
             governorate?: Governorate;
+            locationID?: number;
         }
     ) {
         const branches = await prisma.branch.findMany({
@@ -76,7 +77,12 @@ export class BranchModel {
                 company: {
                     id: filters.companyID
                 },
-                governorate: filters.governorate
+                governorate: filters.governorate,
+                locations: {
+                    some: {
+                        id: filters.locationID
+                    }
+                }
             },
             select: branchSelect
         });
