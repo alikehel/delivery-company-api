@@ -663,9 +663,26 @@ export class ReportModel {
             }
         });
 
-        console.info(reportsMetaData);
+        const reportsReformed = reports.map((report) => reportReform(report));
 
-        return reports.map((report) => reportReform(report));
+        const reportsMetaDataReformed = {
+            reportsCount: reportsMetaData._count.id,
+            totalCost: reportsMetaData._sum.totalCost,
+            paidAmount: reportsMetaData._sum.paidAmount,
+            deliveryCost: reportsMetaData._sum.deliveryCost,
+            baghdadOrdersCount: reportsMetaData._sum.baghdadOrdersCount,
+            governoratesOrdersCount: reportsMetaData._sum.governoratesOrdersCount,
+            clientNet: reportsMetaData._sum.clientNet,
+            deliveryAgentNet: reportsMetaData._sum.deliveryAgentNet,
+            companyNet: reportsMetaData._sum.companyNet
+        };
+
+        return {
+            reports: reportsReformed,
+            reportsMetaData: reportsMetaDataReformed
+        };
+
+        // return reports.map((report) => reportReform(report));
     }
 
     async getReport(data: { reportID: number }) {
