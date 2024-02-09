@@ -1370,6 +1370,13 @@ export class OrderModel {
                               id: data.orderData.branchID
                           }
                       }
+                    : undefined,
+                client: data.orderData.clientID
+                    ? {
+                          connect: {
+                              id: data.orderData.clientID
+                          }
+                      }
                     : undefined
             },
             select: orderSelect

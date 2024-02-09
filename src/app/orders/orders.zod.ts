@@ -93,7 +93,8 @@ export const OrderUpdateSchema = z
         details: z.string().optional(),
         repositoryID: z.coerce.number().optional(),
         branchID: z.coerce.number().optional(),
-        currentLocation: z.string().optional()
+        currentLocation: z.string().optional(),
+        clientID: z.coerce.number().optional()
     })
     .partial();
 
