@@ -264,11 +264,13 @@ export class ReportService {
             deliveryAgentID = undefined;
         }
 
+        const createdByID = data.queryString.created_by_id ? +data.queryString.created_by_id : undefined;
+
         const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
 
         const deleted = data.queryString.deleted?.toString() || "false";
 
-        const reportsCount = await reportModel.getReportsCount({
+        const filters = {
             sort: sort,
             startDate: startDate,
             endDate: endDate,
@@ -282,10 +284,12 @@ export class ReportService {
             deliveryAgentID: deliveryAgentID,
             governorate: governorate,
             companyID: companyID,
-            // TODO: fix this
             company: company,
+            createdByID: createdByID,
             deleted: deleted
-        });
+        };
+
+        const reportsCount = await reportModel.getReportsCount(filters);
         const size = data.queryString.size ? +data.queryString.size : 10;
         const pagesCount = Math.ceil(reportsCount / size);
 
@@ -312,25 +316,9 @@ export class ReportService {
         //     skip = 0;
         // }
 
-        const reports = await reportModel.getAllReports(skip, take, {
-            sort: sort,
-            startDate: startDate,
-            endDate: endDate,
-            status: status,
-            type: type,
-            branchID: branchID,
-            branch: branch,
-            clientID: clientID,
-            storeID: storeID,
-            repositoryID: repositoryID,
-            deliveryAgentID: deliveryAgentID,
-            governorate: governorate,
-            companyID: companyID,
-            company: company,
-            deleted: deleted
-        });
+        const { reports, reportsMetaData } = await reportModel.getAllReports(skip, take, filters);
 
-        return { page, pagesCount, reports };
+        return { page, pagesCount, reports, reportsMetaData };
     }
 
     async getReportPDF(data: { reportID: number }) {

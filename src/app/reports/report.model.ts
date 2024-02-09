@@ -364,6 +364,7 @@ export class ReportModel {
         status?: ReportStatus;
         type?: ReportType;
         deleted?: string;
+        createdByID?: number;
     }) {
         const reportsCount = await prisma.report.count({
             where: {
@@ -485,6 +486,11 @@ export class ReportModel {
                         company: {
                             id: filters.company
                         }
+                    },
+                    {
+                        createdBy: {
+                            id: filters.createdByID
+                        }
                     }
                 ]
             }
@@ -511,6 +517,7 @@ export class ReportModel {
             status?: ReportStatus;
             type?: ReportType;
             deleted?: string;
+            createdByID?: number;
         }
     ) {
         const where = {
@@ -631,6 +638,11 @@ export class ReportModel {
                 {
                     company: {
                         id: filters.company
+                    }
+                },
+                {
+                    createdBy: {
+                        id: filters.createdByID
                     }
                 }
             ]

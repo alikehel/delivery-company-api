@@ -44,7 +44,7 @@ export class ReportController {
         const queryString = req.query;
         const loggedInUser: loggedInUserType = res.locals.user;
 
-        const { page, pagesCount, reports } = await reportService.getAllReports({
+        const { page, pagesCount, reports, reportsMetaData } = await reportService.getAllReports({
             queryString: queryString,
             loggedInUser: loggedInUser
         });
@@ -54,7 +54,20 @@ export class ReportController {
                 status: "success",
                 page: 1,
                 pagesCount: 1,
-                data: []
+                data: {
+                    reports: [],
+                    reportsMetaData: {
+                        reportsCount: 0,
+                        totalCost: 0,
+                        paidAmount: 0,
+                        deliveryCost: 0,
+                        baghdadOrdersCount: 0,
+                        governoratesOrdersCount: 0,
+                        clientNet: 0,
+                        deliveryAgentNet: 0,
+                        companyNet: 0
+                    }
+                }
             });
             return;
         }
@@ -63,7 +76,10 @@ export class ReportController {
             status: "success",
             page: page,
             pagesCount: pagesCount,
-            data: reports
+            data: {
+                reports: reports,
+                reportsMetaData: reportsMetaData
+            }
         });
     });
 
