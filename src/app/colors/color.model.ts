@@ -61,18 +61,35 @@ export class ColorModel {
         take: number,
         filters: {
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            company: {
+                id: filters.companyID
+            }
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const colors = await prisma.color.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    title: true
+                }
+            });
+            return colors;
+        }
+
         const colors = await prisma.color.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            },
+            where: where,
             select: colorSelect
         });
+
         return colors;
     }
 

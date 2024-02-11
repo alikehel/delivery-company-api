@@ -35,6 +35,8 @@ export const getAllStores = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const deleted = (req.query.deleted as string) || "false";
 
     const storesCount = await storeModel.getStoresCount({
@@ -69,7 +71,8 @@ export const getAllStores = catchAsync(async (req, res) => {
 
     const stores = await storeModel.getAllStores(skip, take, {
         deleted: deleted,
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

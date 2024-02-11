@@ -144,46 +144,63 @@ export class LocationModel {
             governorate?: Governorate;
             deliveryAgentID?: number;
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            AND: [
+                {
+                    name: {
+                        contains: filters.search
+                    }
+                },
+                {
+                    branch: {
+                        id: filters.branchID
+                    }
+                },
+                {
+                    governorate: filters.governorate
+                },
+                {
+                    deliveryAgentsLocations: filters.deliveryAgentID
+                        ? {
+                              some: {
+                                  deliveryAgent: {
+                                      id: filters.deliveryAgentID
+                                  }
+                              }
+                          }
+                        : undefined
+                },
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                }
+            ]
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const locations = await prisma.location.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+            return locations;
+        }
+
         const locations = await prisma.location.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [
-                    {
-                        name: {
-                            contains: filters.search
-                        }
-                    },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        governorate: filters.governorate
-                    },
-                    {
-                        deliveryAgentsLocations: filters.deliveryAgentID
-                            ? {
-                                  some: {
-                                      deliveryAgent: {
-                                          id: filters.deliveryAgentID
-                                      }
-                                  }
-                              }
-                            : undefined
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            },
+            where: where,
             select: locationSelect
         });
+
         return locations.map(locationReform);
     }
 

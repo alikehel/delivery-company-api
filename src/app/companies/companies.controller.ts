@@ -27,6 +27,8 @@ export const getAllCompanies = catchAsync(async (req, res) => {
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(companiesCount / size);
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
@@ -50,7 +52,9 @@ export const getAllCompanies = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const companies = await companyModel.getAllCompanies(skip, take);
+    const companies = await companyModel.getAllCompanies(skip, take, {
+        onlyTitleAndID: onlyTitleAndID
+    });
 
     res.status(200).json({
         status: "success",

@@ -29,6 +29,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
     const locationID = req.query.location_id ? +req.query.location_id : undefined;
@@ -65,7 +67,8 @@ export const getAllBranches = catchAsync(async (req, res) => {
     const branches = await branchModel.getAllBranches(skip, take, {
         companyID: companyID,
         governorate: governorate,
-        locationID: locationID
+        locationID: locationID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     // Response

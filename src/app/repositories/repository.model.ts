@@ -64,18 +64,35 @@ export class RepositoryModel {
         take: number,
         filters: {
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            company: {
+                id: filters.companyID
+            }
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const repositories = await prisma.repository.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+            return repositories;
+        }
+
         const repositories = await prisma.repository.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            },
+            where: where,
             select: repositorySelect
         });
+
         return repositories;
     }
 

@@ -160,18 +160,42 @@ export class ClientModel {
         return clientsCount;
     }
 
-    async getAllClients(skip: number, take: number, filters: { deleted?: string; companyID?: number }) {
+    async getAllClients(
+        skip: number,
+        take: number,
+        filters: { deleted?: string; companyID?: number; onlyTitleAndID?: boolean }
+    ) {
+        const where = {
+            AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const clients = await prisma.client.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
+            return clients;
+        }
+
         const clients = await prisma.client.findMany({
             skip: skip,
             take: take,
             // orderBy: {
             //     name: "desc"
             // },
-            where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
-            },
+            where: where,
             select: clientSelect
         });
+
         return clients.map(clientReform);
     }
 

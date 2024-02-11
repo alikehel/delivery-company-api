@@ -29,6 +29,8 @@ export const getAllCategories = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const categoriesCount = await categoryModel.getCategoriesCount({
         companyID: companyID
     });
@@ -59,7 +61,8 @@ export const getAllCategories = catchAsync(async (req, res) => {
     // }
 
     const categories = await categoryModel.getAllCategories(skip, take, {
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

@@ -95,15 +95,35 @@ export class StoreModel {
         return storesCount;
     }
 
-    async getAllStores(skip: number, take: number, filters: { deleted?: string; companyID?: number }) {
+    async getAllStores(
+        skip: number,
+        take: number,
+        filters: { deleted?: string; companyID?: number; onlyTitleAndID?: boolean }
+    ) {
+        const where = {
+            AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const stores = await prisma.store.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+            return stores;
+        }
+
         const stores = await prisma.store.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
-            },
+            where: where,
             select: storeSelect
         });
+
         return stores.map(storeSelectReform);
     }
 

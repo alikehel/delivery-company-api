@@ -183,27 +183,44 @@ export class ProductModel {
         filters: {
             storeID?: number;
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            AND: [
+                {
+                    store: {
+                        id: filters.storeID
+                    }
+                },
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                }
+            ]
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const products = await prisma.product.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    title: true
+                }
+            });
+            return products;
+        }
+
         const products = await prisma.product.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [
-                    {
-                        store: {
-                            id: filters.storeID
-                        }
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            },
+            where: where,
             select: productSelect
         });
+
         return products;
     }
 

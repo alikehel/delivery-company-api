@@ -35,6 +35,9 @@ export const getAllProducts = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
+
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
     const productsCount = await productModel.getProductsCount({
@@ -69,7 +72,8 @@ export const getAllProducts = catchAsync(async (req, res) => {
 
     const products = await productModel.getAllProducts(skip, take, {
         storeID: storeID,
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

@@ -59,18 +59,35 @@ export class SizeModel {
         take: number,
         filters: {
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            company: {
+                id: filters.companyID
+            }
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const sizes = await prisma.size.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    title: true
+                }
+            });
+            return sizes;
+        }
+
         const sizes = await prisma.size.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            },
+            where: where,
             select: sizeSelect
         });
+
         return sizes;
     }
 

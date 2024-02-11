@@ -29,6 +29,8 @@ export const getAllSizes = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const sizesCount = await sizeModel.getSizesCount({
         companyID: companyID
     });
@@ -59,7 +61,8 @@ export const getAllSizes = catchAsync(async (req, res) => {
     // }
 
     const sizes = await sizeModel.getAllSizes(skip, take, {
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

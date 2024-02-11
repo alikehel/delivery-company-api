@@ -59,18 +59,35 @@ export class CategoryModel {
         take: number,
         filters: {
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            company: {
+                id: filters.companyID
+            }
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const categories = await prisma.category.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    title: true
+                }
+            });
+            return categories;
+        }
+
         const categories = await prisma.category.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            },
+            where: where,
             select: categorySelect
         });
+
         return categories;
     }
 

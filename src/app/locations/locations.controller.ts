@@ -28,6 +28,9 @@ export const getAllLocations = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
+
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const search = req.query.search as string;
 
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
@@ -74,7 +77,8 @@ export const getAllLocations = catchAsync(async (req, res) => {
         branchID: branchID,
         governorate: governorate,
         deliveryAgentID: deliveryAgentID,
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

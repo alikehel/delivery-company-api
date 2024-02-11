@@ -59,6 +59,9 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
+
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const roles = req.query.roles?.toString().toUpperCase().split(",") as EmployeeRole[];
 
     const role = req.query.role?.toString().toUpperCase() as EmployeeRole;
@@ -123,7 +126,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         deleted: deleted,
         ordersStartDate: ordersStartDate,
         ordersEndDate: ordersEndDate,
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

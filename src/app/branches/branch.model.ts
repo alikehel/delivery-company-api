@@ -68,24 +68,41 @@ export class BranchModel {
             companyID?: number;
             governorate?: Governorate;
             locationID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            company: {
+                id: filters.companyID
+            },
+            governorate: filters.governorate,
+            locations: {
+                some: {
+                    id: filters.locationID
+                }
+            }
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const branches = await prisma.branch.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+            return branches;
+        }
+
         const branches = await prisma.branch.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                },
-                governorate: filters.governorate,
-                locations: {
-                    some: {
-                        id: filters.locationID
-                    }
-                }
-            },
+            where: where,
             select: branchSelect
         });
+
         return branches;
     }
 

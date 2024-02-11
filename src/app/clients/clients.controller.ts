@@ -55,6 +55,8 @@ export const getAllClients = catchAsync(async (req, res) => {
     }
     const deleted = (req.query.deleted as string) || "false";
 
+    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
     const clientsCount = await clientModel.getClientsCount({
         companyID: companyID,
         deleted: deleted
@@ -87,7 +89,8 @@ export const getAllClients = catchAsync(async (req, res) => {
 
     const clients = await clientModel.getAllClients(skip, take, {
         deleted: deleted,
-        companyID: companyID
+        companyID: companyID,
+        onlyTitleAndID: onlyTitleAndID
     });
 
     res.status(200).json({

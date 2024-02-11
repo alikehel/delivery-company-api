@@ -182,43 +182,63 @@ export class EmployeeModel {
             ordersStartDate?: Date;
             ordersEndDate?: Date;
             companyID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
+        const where = {
+            AND: [
+                { role: { in: filters.roles } },
+                { role: filters.role },
+                {
+                    branch: {
+                        id: filters.branchID
+                    }
+                },
+                {
+                    deliveryAgentsLocations: filters.locationID
+                        ? filters.roles?.find((role) => {
+                              return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
+                          })
+                            ? {
+                                  some: {
+                                      location: {
+                                          id: filters.locationID
+                                      }
+                                  }
+                              }
+                            : undefined
+                        : undefined
+                },
+                { deleted: filters.deleted === "true" },
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                }
+            ]
+        };
+
+        if (filters.onlyTitleAndID === true) {
+            const employees = await prisma.employee.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
+            return employees;
+        }
+
         const employees = await prisma.employee.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [
-                    { role: { in: filters.roles } },
-                    { role: filters.role },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        deliveryAgentsLocations: filters.locationID
-                            ? filters.roles?.find((role) => {
-                                  return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
-                              })
-                                ? {
-                                      some: {
-                                          location: {
-                                              id: filters.locationID
-                                          }
-                                      }
-                                  }
-                                : undefined
-                            : undefined
-                    },
-                    { deleted: filters.deleted === "true" },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            },
+            where: where,
             // orderBy: {
             //     name: "desc"
             // },
@@ -239,6 +259,7 @@ export class EmployeeModel {
                 }
             }
         });
+
         return employees.map(employeeReform);
     }
 

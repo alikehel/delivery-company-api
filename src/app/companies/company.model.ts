@@ -67,12 +67,31 @@ export class CompanyModel {
         return companiesCount;
     }
 
-    async getAllCompanies(skip: number, take: number) {
+    async getAllCompanies(
+        skip: number,
+        take: number,
+        filters: {
+            onlyTitleAndID?: boolean;
+        }
+    ) {
+        if (filters.onlyTitleAndID === true) {
+            const companies = await prisma.company.findMany({
+                skip: skip,
+                take: take,
+                select: {
+                    id: true,
+                    name: true
+                }
+            });
+            return companies;
+        }
+
         const companies = await prisma.company.findMany({
             skip: skip,
             take: take,
             select: companySelect
         });
+
         return companies;
     }
 
