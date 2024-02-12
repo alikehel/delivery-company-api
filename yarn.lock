@@ -1157,6 +1157,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@total-typescript/ts-reset@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@total-typescript/ts-reset@npm:0.5.1"
+  checksum: 0339e975034ae648e83f08d0d408d9bda926fdb0cbaddf8efebd3105b378847be8bc9c2f1aa1435e2221f5958019bc2cb562211745a52fe076a109645c8a31f0
+  languageName: node
+  linkType: hard
+
 "@tsconfig/node10@npm:^1.0.7":
   version: 1.0.9
   resolution: "@tsconfig/node10@npm:1.0.9"
@@ -2013,6 +2020,7 @@ __metadata:
     "@faker-js/faker": "npm:^8.3.1"
     "@prisma/client": "npm:^5.8.0"
     "@scalar/express-api-reference": "npm:^0.2.9"
+    "@total-typescript/ts-reset": "npm:^0.5.1"
     "@types/bcrypt": "npm:^5.0.2"
     "@types/compression": "npm:^1"
     "@types/cookie-parser": "npm:^1.4.6"
