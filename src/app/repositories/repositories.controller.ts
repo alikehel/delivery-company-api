@@ -34,7 +34,10 @@ export const getAllRepositories = catchAsync(async (req, res) => {
     const repositoriesCount = await repositoryModel.getRepositoriesCount({
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(repositoriesCount / size);
 
     if (pagesCount === 0) {

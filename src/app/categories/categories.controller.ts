@@ -34,7 +34,10 @@ export const getAllCategories = catchAsync(async (req, res) => {
     const categoriesCount = await categoryModel.getCategoriesCount({
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(categoriesCount / size);
 
     if (pagesCount === 0) {

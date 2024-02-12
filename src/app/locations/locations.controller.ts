@@ -46,7 +46,10 @@ export const getAllLocations = catchAsync(async (req, res) => {
         deliveryAgentID: deliveryAgentID,
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(locationsCount / size);
 
     if (pagesCount === 0) {

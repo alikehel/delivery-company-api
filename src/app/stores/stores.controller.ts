@@ -43,7 +43,10 @@ export const getAllStores = catchAsync(async (req, res) => {
         deleted: deleted,
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(storesCount / size);
 
     if (pagesCount === 0) {

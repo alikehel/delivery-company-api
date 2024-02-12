@@ -23,11 +23,14 @@ export const createCompany = catchAsync(async (req, res) => {
 });
 
 export const getAllCompanies = catchAsync(async (req, res) => {
-    const companiesCount = await companyModel.getCompaniesCount();
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(companiesCount / size);
-
     const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+
+    const companiesCount = await companyModel.getCompaniesCount();
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
+    const pagesCount = Math.ceil(companiesCount / size);
 
     if (pagesCount === 0) {
         res.status(200).json({

@@ -34,7 +34,10 @@ export const getAllColors = catchAsync(async (req, res) => {
     const colorsCount = await colorModel.getColorsCount({
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && onlyTitleAndID !== true) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(colorsCount / size);
 
     if (pagesCount === 0) {
