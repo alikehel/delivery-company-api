@@ -183,7 +183,12 @@ export class ClientModel {
                     }
                 }
             });
-            return clients;
+            return clients.map((client) => {
+                return {
+                    id: client.id,
+                    name: client.user.name
+                };
+            });
         }
 
         const clients = await prisma.client.findMany({

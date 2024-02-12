@@ -232,7 +232,12 @@ export class EmployeeModel {
                     }
                 }
             });
-            return employees;
+            return employees.map((employee) => {
+                return {
+                    id: employee.id,
+                    name: employee.user.name
+                };
+            });
         }
 
         const employees = await prisma.employee.findMany({
