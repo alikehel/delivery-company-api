@@ -321,6 +321,14 @@ export class ReportService {
         return { page, pagesCount, reports, reportsMetaData };
     }
 
+    async getReport(data: { reportID: number }) {
+        const report = await reportModel.getReport({
+            reportID: data.reportID
+        });
+
+        return report;
+    }
+
     async getReportPDF(data: { reportID: number }) {
         const reportData = await reportModel.getReport({
             reportID: data.reportID

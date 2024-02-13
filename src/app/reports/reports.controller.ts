@@ -86,7 +86,7 @@ export class ReportController {
     getReport = catchAsync(async (req, res) => {
         const reportID = +req.params.reportID;
 
-        const report = await reportModel.getReport({
+        const report = await reportService.getReport({
             reportID: reportID
         });
 
