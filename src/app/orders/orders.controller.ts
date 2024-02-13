@@ -26,13 +26,13 @@ export const createOrder = catchAsync(async (req, res) => {
     let createdOrder: Order;
 
     if (Array.isArray(req.body)) {
-        const storeID = OrderCreateSchema.parse(req.body[0]).storeID;
-        const clientID = await orderModel.getClientIDByStoreID({ storeID });
-        if (!clientID) {
-            throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
-        }
         for (const order of req.body) {
             orderData = OrderCreateSchema.parse(order);
+            const storeID = orderData.storeID;
+            const clientID = await orderModel.getClientIDByStoreID({ storeID });
+            if (!clientID) {
+                throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+            }
             const createdOrder = await orderModel.createOrder(companyID, clientID, orderData);
             if (!createdOrder) {
                 throw new AppError("Failed to create order", 500);
