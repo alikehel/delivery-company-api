@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_EXPIRES_IN, JWT_SECRET, SECRET } from "../../config/config";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import sendNotification from "../notifications/helpers/sendNotification";
 import { UserModel } from "../users/user.model";
 import { AuthModel } from "./auth.model";

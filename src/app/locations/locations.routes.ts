@@ -1,10 +1,10 @@
 import { Router } from "express";
 
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import {
     createLocation,
     deleteLocation,

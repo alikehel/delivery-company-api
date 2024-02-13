@@ -1,5 +1,5 @@
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { NotificationModel } from "./notification.model";
 import { NotificationUpdateSchema } from "./notifications.zod";
 

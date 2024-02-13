@@ -1,4 +1,4 @@
-const handleArabicCharacters = (message: string) => {
+export const handleArabicCharacters = (message: string) => {
     let arabic = [];
     let english = [];
 
@@ -8,5 +8,3 @@ const handleArabicCharacters = (message: string) => {
     english = message.split(" ").filter((e) => !regex.test(e));
     return `${english.join(" ")} ${arabic.reverse().join("  ")}`;
 };
-
-export default handleArabicCharacters;

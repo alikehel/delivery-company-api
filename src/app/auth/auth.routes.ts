@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { signin } from "./auth.controller";
 
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
 
 const router = Router();
 

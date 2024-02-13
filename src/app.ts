@@ -9,13 +9,13 @@ import morganBody from "morgan-body";
 import shrinkRay from "shrink-ray-current";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
-import globalErrorcontroller from "./error/error.controller";
-import Logger from "./lib/logger";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
+import { Logger } from "./lib/logger";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
-import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
+import { AppError } from "./lib/AppError";
+import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
-import AppError from "./utils/AppError.util";
 
 const app = express();
 
@@ -144,7 +144,7 @@ app.all("*", (req, _res, next) => {
 
 // Global Error Handler
 
-app.use(globalErrorcontroller);
+app.use(globalErrorHandler);
 
 // Export App
 

@@ -1,5 +1,5 @@
 import { DeliveryType, EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
-import AppError from "../../utils/AppError.util";
+import { AppError } from "../../lib/AppError";
 import { OrderCreateType, OrderTimelineType, OrderUpdateType } from "./orders.zod";
 
 const prisma = new PrismaClient();

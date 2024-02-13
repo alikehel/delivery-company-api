@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config";
+import { AppError } from "../lib/AppError";
 import { loggedInUserType } from "../types/user";
-import AppError from "../utils/AppError.util";
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     try {

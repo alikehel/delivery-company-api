@@ -1,6 +1,6 @@
-// import AppError from "../../utils/AppError.util";
+// import { AppError } from "../../utils/AppError.util";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import catchAsync from "../../utils/catchAsync.util";
 import { ReportModel } from "./report.model";
 import { ReportService } from "./reports.service";
 import { ReportCreateSchema, ReportUpdateSchema } from "./reports.zod";

@@ -2,10 +2,10 @@
 import { createCanvas, loadImage } from "canvas";
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
-import Logger from "../../../lib/logger";
-import AppError from "../../../utils/AppError.util";
-import handleArabicCharacters from "../../../utils/handleArabicCharacters";
-import { localizeDeliveryType } from "../../../utils/localize.util";
+import { AppError } from "../../../lib/AppError";
+import { handleArabicCharacters } from "../../../lib/handleArabicCharacters";
+import { localizeDeliveryType } from "../../../lib/localize";
+import { Logger } from "../../../lib/logger";
 import { orderReform } from "../order.model";
 
 const getImage = async (url: string | Buffer) => {

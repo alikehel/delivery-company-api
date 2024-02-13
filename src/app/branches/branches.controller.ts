@@ -1,7 +1,7 @@
 import { AdminRole, Governorate } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { BranchModel } from "./branch.model";
 import { BranchCreateSchema, BranchUpdateSchema } from "./branches.zod";
 

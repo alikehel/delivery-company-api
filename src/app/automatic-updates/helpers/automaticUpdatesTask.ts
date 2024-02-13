@@ -1,6 +1,6 @@
 import { OrderStatus, PrismaClient } from "@prisma/client";
-import Logger from "../../../lib/logger";
-import { localizeOrderStatus } from "../../../utils/localize.util";
+import { localizeOrderStatus } from "../../../lib/localize";
+import { Logger } from "../../../lib/logger";
 import sendNotification from "../../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../../orders/orders.zod";
 

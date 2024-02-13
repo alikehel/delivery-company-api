@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../config/config";
-// import Logger from "../lib/logger";
+// import { Logger } from "../lib/logger";
 
 import companies from "./data/companies";
 import users from "./data/users";

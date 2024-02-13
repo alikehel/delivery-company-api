@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-import Logger from "../../../lib/logger";
+import { Logger } from "../../../lib/logger";
 import { NotificationModel } from "../notification.model";
 import { NotificationCreateType } from "../notifications.zod";
 

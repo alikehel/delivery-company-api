@@ -1,9 +1,9 @@
 import { AdminRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
 

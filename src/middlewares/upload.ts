@@ -1,5 +1,5 @@
 import multer from "multer";
-import AppError from "../utils/AppError.util";
+import { AppError } from "../lib/AppError";
 
 export const upload = multer({
     storage: multer.diskStorage({

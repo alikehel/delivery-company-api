@@ -1,7 +1,7 @@
 import { AdminRole } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { BannerModel } from "./banner.model";
 import { BannerCreateSchema, BannerUpdateSchema } from "./banners.zod";
 

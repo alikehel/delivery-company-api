@@ -3,8 +3,8 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { createBranch, deleteBranch, getAllBranches, getBranch, updateBranch } from "./branches.controller";
 
 const router = Router();

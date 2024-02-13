@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import Logger from "../lib/logger";
-import AppError from "../utils/AppError.util";
+import { AppError } from "../lib/AppError";
+import { Logger } from "../lib/logger";
 
 const handlePrismaConstraintError = (err: Prisma.PrismaClientKnownRequestError) => {
     // The .code property can be accessed in a type-safe manner

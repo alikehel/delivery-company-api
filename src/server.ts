@@ -1,7 +1,7 @@
 import app from "./app";
 import { PORT } from "./config/config";
-import Logger from "./lib/logger";
-import { automaticUpdatesCronJob } from "./cron/automaticUpdatesCronJob";
+import { automaticUpdatesCronJob } from "./cron-jobs/automaticUpdatesCronJob";
+import { Logger } from "./lib/logger";
 
 const address = `http://localhost:${PORT}`;
 

@@ -1,7 +1,7 @@
 import { AdminRole, EmployeeRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
 import { Request } from "express";
+import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
 import { EmployeeModel } from "../employees/employee.model";
 import sendNotification from "../notifications/helpers/sendNotification";
 import { OrderModel } from "../orders/order.model";
