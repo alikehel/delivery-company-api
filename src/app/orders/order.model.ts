@@ -975,12 +975,12 @@ export class OrderModel {
             recipientAddress?: string;
             notes?: string;
             deleted?: string;
-            clientReport: string;
-            repositoryReport: string;
-            branchReport: string;
-            deliveryAgentReport: string;
-            governorateReport: string;
-            companyReport: string;
+            clientReport?: string;
+            repositoryReport?: string;
+            branchReport?: string;
+            deliveryAgentReport?: string;
+            governorateReport?: string;
+            companyReport?: string;
             orderID?: number;
             companyID?: number;
         }

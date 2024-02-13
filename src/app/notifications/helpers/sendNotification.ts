@@ -31,17 +31,17 @@ const sendNotification = async (data: NotificationCreateType) => {
         token: user.fcm
     };
 
-    await admin.messaging().subscribeToTopic([user.fcm], "all");
+    // await admin.messaging().subscribeToTopic([user.fcm], "all");
 
-    await admin
-        .messaging()
-        .send(message)
-        .then((response) => {
-            Logger.info("Successfully sent message to tobic 'all':", response);
-        })
-        .catch((error) => {
-            Logger.error("Error sending message to tobic 'all':", error);
-        });
+    // await admin
+    //     .messaging()
+    //     .send(message)
+    //     .then((response) => {
+    //         Logger.info("Successfully sent message to tobic 'all':", response);
+    //     })
+    //     .catch((error) => {
+    //         Logger.error("Error sending message to tobic 'all':", error);
+    //     });
 
     await admin
         .messaging()
