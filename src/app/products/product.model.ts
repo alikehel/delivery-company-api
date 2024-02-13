@@ -208,7 +208,31 @@ export class ProductModel {
                 where: where,
                 select: {
                     id: true,
-                    title: true
+                    title: true,
+                    price: true,
+                    stock: true,
+                    productColors: {
+                        select: {
+                            quantity: true,
+                            color: {
+                                select: {
+                                    id: true,
+                                    title: true
+                                }
+                            }
+                        }
+                    },
+                    productSizes: {
+                        select: {
+                            quantity: true,
+                            size: {
+                                select: {
+                                    id: true,
+                                    title: true
+                                }
+                            }
+                        }
+                    }
                 }
             });
             return products;
