@@ -1408,6 +1408,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-cron@npm:^3":
+  version: 3.0.11
+  resolution: "@types/node-cron@npm:3.0.11"
+  checksum: 21cd0255988da2935bc8bf010da8b31624911ec10ef5d9a96a59c57193f60b27c1749b2e27c2a292a697d00195da5b8848a707345bb276abc39c96287ee82005
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^20.10.3, @types/node@npm:^20.10.5":
   version: 20.10.8
   resolution: "@types/node@npm:20.10.8"
@@ -2030,6 +2037,7 @@ __metadata:
     "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:^1.4.11"
     "@types/node": "npm:^20.10.5"
+    "@types/node-cron": "npm:^3"
     "@types/pdfmake": "npm:^0.2.8"
     "@types/swagger-ui-express": "npm:^4.1.6"
     "@typescript-eslint/eslint-plugin": "npm:^6.16.0"
@@ -2052,6 +2060,7 @@ __metadata:
     morgan: "npm:^1.10.0"
     morgan-body: "npm:^2.6.9"
     multer: "npm:^1.4.5-lts.1"
+    node-cron: "npm:^3.0.3"
     nodemon: "npm:^3.0.2"
     openapi3-ts: "npm:^4.2.1"
     pdfmake: "npm:^0.2.8"
@@ -6146,6 +6155,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-cron@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "node-cron@npm:3.0.3"
+  dependencies:
+    uuid: "npm:8.3.2"
+  checksum: e6e817c5bf28cca69f256ecc1a2cb737cf895cb0fe22f8ec58ce614cb74dcc22e93f495984a26ece51322473238ccc0ef53b4f373035697017b8c28bddacb9b9
+  languageName: node
+  linkType: hard
+
 "node-domexception@npm:1.0.0":
   version: 1.0.0
   resolution: "node-domexception@npm:1.0.0"
@@ -8368,7 +8386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0":
+"uuid@npm:8.3.2, uuid@npm:^8.0.0":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:

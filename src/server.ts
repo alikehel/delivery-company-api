@@ -1,15 +1,14 @@
 import app from "./app";
 import { PORT } from "./config/config";
 import Logger from "./lib/logger";
+import { automaticUpdatesCronJob } from "./cron/automaticUpdatesCronJob";
 
 const address = `http://localhost:${PORT}`;
 
 const server = app.listen(PORT, () => {
-    // if (NODE_ENV === "dev") {
-    // eslint-disable-next-line no-console
     console.info("------------------------------------------------------------");
     Logger.debug(`Starting APP On -> ${address}`);
-    // }
+    automaticUpdatesCronJob.start();
 });
 
 process.on("uncaughtException", (err) => {
