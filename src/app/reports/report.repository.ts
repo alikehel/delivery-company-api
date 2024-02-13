@@ -214,7 +214,7 @@ export const reportReform = (
 
 // const reportInclude: Prisma.ReportInclude = {};
 
-export class ReportModel {
+export class ReportRepository {
     async createReport(
         companyID: number,
         userID: number,

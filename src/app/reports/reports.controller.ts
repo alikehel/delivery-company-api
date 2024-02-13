@@ -1,11 +1,9 @@
 // import { AppError } from "../../utils/AppError.util";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { ReportModel } from "./report.model";
 import { ReportService } from "./reports.service";
 import { ReportCreateSchema, ReportUpdateSchema } from "./reports.zod";
 
-const reportModel = new ReportModel();
 const reportService = new ReportService();
 
 export class ReportController {
