@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { AutomaticUpdateCreateSchema, AutomaticUpdateUpdateSchema } from "./automaticUpdates.dto";
 import { AutomaticUpdatesService } from "./automaticUpdates.service";
@@ -6,7 +6,7 @@ import { AutomaticUpdatesService } from "./automaticUpdates.service";
 const automaticUpdatesService = new AutomaticUpdatesService();
 
 export class AutomaticUpdatesController {
-    async createAutomaticUpdate(req: Request, res: Response) {
+    createAutomaticUpdate = catchAsync(async (req, res) => {
         const automaticUpdateData = AutomaticUpdateCreateSchema.parse(req.body);
         const loggedInUser = res.locals.user as loggedInUserType;
 
@@ -19,9 +19,9 @@ export class AutomaticUpdatesController {
             status: "success",
             data: createdAutomaticUpdate
         });
-    }
+    });
 
-    async getAllAutomaticUpdates(req: Request, res: Response) {
+    getAllAutomaticUpdates = catchAsync(async (req, res) => {
         const loggedInUser = res.locals.user as loggedInUserType;
 
         const filters = {
@@ -42,9 +42,9 @@ export class AutomaticUpdatesController {
             pagesCount: automaticUpdatesMetaData.pagesCount,
             data: automaticUpdates
         });
-    }
+    });
 
-    async getAutomaticUpdate(req: Request, res: Response) {
+    getAutomaticUpdate = catchAsync(async (req, res) => {
         const params = {
             automaticUpdateID: +req.params.automaticUpdateID
         };
@@ -57,9 +57,9 @@ export class AutomaticUpdatesController {
             status: "success",
             data: automaticUpdate
         });
-    }
+    });
 
-    async updateAutomaticUpdate(req: Request, res: Response) {
+    updateAutomaticUpdate = catchAsync(async (req, res) => {
         const automaticUpdateData = AutomaticUpdateUpdateSchema.parse(req.body);
 
         const params = {
@@ -75,9 +75,9 @@ export class AutomaticUpdatesController {
             status: "success",
             data: automaticUpdate
         });
-    }
+    });
 
-    async deleteAutomaticUpdate(req: Request, res: Response) {
+    deleteAutomaticUpdate = catchAsync(async (req, res) => {
         const params = {
             automaticUpdateID: +req.params.automaticUpdateID
         };
@@ -89,5 +89,5 @@ export class AutomaticUpdatesController {
         res.status(200).json({
             status: "success"
         });
-    }
+    });
 }
