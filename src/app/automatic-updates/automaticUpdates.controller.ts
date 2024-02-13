@@ -1,115 +1,93 @@
-import { AdminRole } from "@prisma/client";
-import { AppError } from "../../lib/AppError";
-import { catchAsync } from "../../lib/catchAsync";
+import { Request, Response } from "express";
 import { loggedInUserType } from "../../types/user";
-import { AutomaticUpdateModel } from "./automaticUpdate.model";
-import { AutomaticUpdateCreateSchema, AutomaticUpdateUpdateSchema } from "./automaticUpdates.zod";
+import { AutomaticUpdateCreateSchema, AutomaticUpdateUpdateSchema } from "./automaticUpdates.dto";
+import { AutomaticUpdatesService } from "./automaticUpdates.service";
 
-const automaticUpdateModel = new AutomaticUpdateModel();
+const automaticUpdatesService = new AutomaticUpdatesService();
 
-export const createAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateData = AutomaticUpdateCreateSchema.parse(req.body);
-    const companyID = +res.locals.user.companyID;
+export class AutomaticUpdatesController {
+    async createAutomaticUpdate(req: Request, res: Response) {
+        const automaticUpdateData = AutomaticUpdateCreateSchema.parse(req.body);
+        const loggedInUser = res.locals.user as loggedInUserType;
 
-    const createdAutomaticUpdate = await automaticUpdateModel.createAutomaticUpdate(
-        companyID,
-        automaticUpdateData
-    );
+        const createdAutomaticUpdate = await automaticUpdatesService.createAutomaticUpdate({
+            loggedInUser,
+            automaticUpdateData
+        });
 
-    res.status(200).json({
-        status: "success",
-        data: createdAutomaticUpdate
-    });
-});
-
-export const getAllAutomaticUpdates = catchAsync(async (req, res) => {
-    // Filters
-    const loggedInUser = res.locals.user as loggedInUserType;
-    let companyID: number | undefined;
-    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        companyID = req.query.company_id ? +req.query.company_id : undefined;
-    } else if (loggedInUser.companyID) {
-        companyID = loggedInUser.companyID;
-    }
-
-    const automaticUpdatesCount = await automaticUpdateModel.getAutomaticUpdatesCount({
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(automaticUpdatesCount / size);
-
-    if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
+            data: createdAutomaticUpdate
         });
-        return;
     }
 
-    let page = 1;
-    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
-        page = +req.query.page;
+    async getAllAutomaticUpdates(req: Request, res: Response) {
+        const loggedInUser = res.locals.user as loggedInUserType;
+
+        const filters = {
+            companyID: req.query.company_id ? +req.query.company_id : undefined,
+            size: req.query.size ? +req.query.size : 10,
+            page: req.query.page ? +req.query.page : 1
+        };
+
+        const { automaticUpdates, automaticUpdatesMetaData } =
+            await automaticUpdatesService.getAllAutomaticUpdates({
+                loggedInUser: loggedInUser,
+                filters: filters
+            });
+
+        res.status(200).json({
+            status: "success",
+            page: automaticUpdatesMetaData.page,
+            pagesCount: automaticUpdatesMetaData.pagesCount,
+            data: automaticUpdates
+        });
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
+
+    async getAutomaticUpdate(req: Request, res: Response) {
+        const params = {
+            automaticUpdateID: +req.params.automaticUpdateID
+        };
+
+        const automaticUpdate = await automaticUpdatesService.getAutomaticUpdate({
+            params: params
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: automaticUpdate
+        });
     }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const automaticUpdates = await automaticUpdateModel.getAllAutomaticUpdates(skip, take, {
-        companyID: companyID
-    });
+    async updateAutomaticUpdate(req: Request, res: Response) {
+        const automaticUpdateData = AutomaticUpdateUpdateSchema.parse(req.body);
 
-    res.status(200).json({
-        status: "success",
-        page: page,
-        pagesCount: pagesCount,
-        data: automaticUpdates
-    });
-});
+        const params = {
+            automaticUpdateID: +req.params.automaticUpdateID
+        };
 
-export const getAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params.automaticUpdateID;
+        const automaticUpdate = await automaticUpdatesService.updateAutomaticUpdate({
+            params: params,
+            automaticUpdateData: automaticUpdateData
+        });
 
-    const automaticUpdate = await automaticUpdateModel.getAutomaticUpdate({
-        automaticUpdateID: automaticUpdateID
-    });
+        res.status(200).json({
+            status: "success",
+            data: automaticUpdate
+        });
+    }
 
-    res.status(200).json({
-        status: "success",
-        data: automaticUpdate
-    });
-});
+    async deleteAutomaticUpdate(req: Request, res: Response) {
+        const params = {
+            automaticUpdateID: +req.params.automaticUpdateID
+        };
 
-export const updateAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params.automaticUpdateID;
+        await automaticUpdatesService.deleteAutomaticUpdate({
+            params: params
+        });
 
-    const automaticUpdateData = AutomaticUpdateUpdateSchema.parse(req.body);
-
-    const automaticUpdate = await automaticUpdateModel.updateAutomaticUpdate({
-        automaticUpdateID: automaticUpdateID,
-        automaticUpdateData: automaticUpdateData
-    });
-
-    res.status(200).json({
-        status: "success",
-        data: automaticUpdate
-    });
-});
-
-export const deleteAutomaticUpdate = catchAsync(async (req, res) => {
-    const automaticUpdateID = +req.params.automaticUpdateID;
-
-    await automaticUpdateModel.deleteAutomaticUpdate({
-        automaticUpdateID: automaticUpdateID
-    });
-
-    res.status(200).json({
-        status: "success"
-    });
-});
+        res.status(200).json({
+            status: "success"
+        });
+    }
+}

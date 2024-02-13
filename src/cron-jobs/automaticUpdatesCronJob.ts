@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { automaticUpdatesTask } from "../app/automatic-updates/helpers/automaticUpdatesTask";
+import { automaticUpdatesTask } from "../app/automatic-updates/automaticUpdates.service";
 import { Logger } from "../lib/logger";
 
 export const automaticUpdatesCronJob = cron.schedule(

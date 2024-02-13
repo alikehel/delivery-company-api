@@ -111,7 +111,7 @@ import {
     AutomaticUpdateCreateOpenAPISchema,
     AutomaticUpdateUpdateMock,
     AutomaticUpdateUpdateOpenAPISchema
-} from "./../app/automatic-updates/automaticUpdates.zod";
+} from "./../app/automatic-updates/automaticUpdates.dto";
 
 const doc = {
     info: {

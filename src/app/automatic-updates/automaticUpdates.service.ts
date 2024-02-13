@@ -1,10 +1,141 @@
-import { OrderStatus, PrismaClient } from "@prisma/client";
-import { localizeOrderStatus } from "../../../lib/localize";
-import { Logger } from "../../../lib/logger";
-import sendNotification from "../../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../../orders/orders.zod";
+import { AdminRole, OrderStatus, PrismaClient } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
+import { localizeOrderStatus } from "../../lib/localize";
+import { Logger } from "../../lib/logger";
+import { loggedInUserType } from "../../types/user";
+import sendNotification from "../notifications/helpers/sendNotification";
+import { OrderTimelineType } from "../orders/orders.zod";
+import {
+    AutomaticUpdateCreateType,
+    AutomaticUpdateUpdateType,
+    automaticUpdateSelect
+} from "./automaticUpdates.dto";
 
 const prisma = new PrismaClient();
+
+export class AutomaticUpdatesService {
+    async createAutomaticUpdate(data: {
+        loggedInUser: loggedInUserType;
+        automaticUpdateData: AutomaticUpdateCreateType;
+    }) {
+        const createdAutomaticUpdate = await prisma.automaticUpdate.create({
+            data: {
+                orderStatus: data.automaticUpdateData.orderStatus,
+                governorate: data.automaticUpdateData.governorate,
+                returnCondition: data.automaticUpdateData.returnCondition,
+                updateAt: data.automaticUpdateData.updateAt,
+                checkAfter: data.automaticUpdateData.checkAfter,
+                company: {
+                    connect: {
+                        id: data.loggedInUser.companyID as number
+                    }
+                }
+            },
+            select: automaticUpdateSelect
+        });
+        return createdAutomaticUpdate;
+    }
+
+    async getAllAutomaticUpdates(data: {
+        loggedInUser: loggedInUserType;
+        filters: {
+            page: number;
+            size: number;
+            companyID: number | undefined;
+        };
+    }) {
+        let companyID: number | undefined;
+        if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
+            companyID = data.filters.companyID;
+        } else if (data.loggedInUser.companyID) {
+            companyID = data.loggedInUser.companyID;
+        }
+
+        const automaticUpdatesCount = await prisma.automaticUpdate.count({
+            where: {
+                company: {
+                    id: companyID
+                }
+            }
+        });
+        const pagesCount = Math.ceil(automaticUpdatesCount / data.filters.size);
+
+        if (pagesCount === 0) {
+            return {
+                automaticUpdates: [],
+                automaticUpdatesMetaData: {
+                    page: 1,
+                    pagesCount: 1
+                }
+            };
+        }
+
+        if (data.filters.page > pagesCount) {
+            throw new AppError("Page number out of range", 400);
+        }
+        const take = data.filters.page * data.filters.size;
+        const skip = (data.filters.page - 1) * data.filters.size;
+
+        const automaticUpdates = await prisma.automaticUpdate.findMany({
+            skip: skip,
+            take: take,
+            where: {
+                company: {
+                    id: companyID
+                }
+            },
+            select: automaticUpdateSelect
+        });
+
+        return {
+            automaticUpdates: automaticUpdates,
+            automaticUpdatesMetaData: {
+                page: data.filters.page,
+                pagesCount: pagesCount
+            }
+        };
+    }
+
+    async getAutomaticUpdate(data: { params: { automaticUpdateID: number } }) {
+        const automaticUpdate = await prisma.automaticUpdate.findUnique({
+            where: {
+                id: data.params.automaticUpdateID
+            },
+            select: automaticUpdateSelect
+        });
+
+        return automaticUpdate;
+    }
+
+    async updateAutomaticUpdate(data: {
+        params: { automaticUpdateID: number };
+        automaticUpdateData: AutomaticUpdateUpdateType;
+    }) {
+        const automaticUpdate = await prisma.automaticUpdate.update({
+            where: {
+                id: data.params.automaticUpdateID
+            },
+            data: {
+                orderStatus: data.automaticUpdateData.orderStatus,
+                governorate: data.automaticUpdateData.governorate,
+                returnCondition: data.automaticUpdateData.returnCondition,
+                updateAt: data.automaticUpdateData.updateAt,
+                checkAfter: data.automaticUpdateData.checkAfter
+            },
+            select: automaticUpdateSelect
+        });
+
+        return automaticUpdate;
+    }
+
+    async deleteAutomaticUpdate(data: { params: { automaticUpdateID: number } }) {
+        await prisma.automaticUpdate.delete({
+            where: {
+                id: data.params.automaticUpdateID
+            }
+        });
+    }
+}
 
 export const automaticUpdatesTask = async () => {
     try {

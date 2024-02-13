@@ -1,24 +1,17 @@
-import { Router } from "express";
-
-// import { Role } from "@prisma/client";
-// import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { AdminRole, EmployeeRole } from "@prisma/client";
+import { Router } from "express";
+import { catchAsync } from "../../lib/catchAsync";
 import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import {
-    createAutomaticUpdate,
-    deleteAutomaticUpdate,
-    getAllAutomaticUpdates,
-    getAutomaticUpdate,
-    updateAutomaticUpdate
-} from "./automaticUpdates.controller";
+import { AutomaticUpdatesController } from "./automaticUpdates.controller";
 
 const router = Router();
+const automaticUpdatesController = new AutomaticUpdatesController();
 
 router.route("/automatic-updates").post(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER]),
-    createAutomaticUpdate
+    catchAsync(automaticUpdatesController.createAutomaticUpdate)
     /*
         #swagger.tags = ['Automatic Updates Routes']
 
@@ -39,7 +32,7 @@ router.route("/automatic-updates").post(
 router.route("/automatic-updates").get(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    getAllAutomaticUpdates
+    catchAsync(automaticUpdatesController.getAllAutomaticUpdates)
     /*
         #swagger.tags = ['Automatic Updates Routes']
 
@@ -60,7 +53,7 @@ router.route("/automatic-updates").get(
 router.route("/automatic-updates/:automaticUpdateID").get(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    getAutomaticUpdate
+    catchAsync(automaticUpdatesController.getAutomaticUpdate)
     /*
         #swagger.tags = ['Automatic Updates Routes']
     */
@@ -69,7 +62,7 @@ router.route("/automatic-updates/:automaticUpdateID").get(
 router.route("/automatic-updates/:automaticUpdateID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    updateAutomaticUpdate
+    catchAsync(automaticUpdatesController.updateAutomaticUpdate)
     /*
         #swagger.tags = ['Automatic Updates Routes']
 
@@ -90,7 +83,7 @@ router.route("/automatic-updates/:automaticUpdateID").patch(
 router.route("/automatic-updates/:automaticUpdateID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteAutomaticUpdate
+    catchAsync(automaticUpdatesController.deleteAutomaticUpdate)
     /*
         #swagger.tags = ['Automatic Updates Routes']
     */
