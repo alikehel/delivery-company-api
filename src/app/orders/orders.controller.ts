@@ -100,6 +100,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
         deliveryAgentID = undefined;
     }
 
+    const automaticUpdateID = req.query.automatic_update_id ? +req.query.automatic_update_id : undefined;
+
     let clientID: number | undefined;
     if (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT") {
         clientID = +loggedInUser.id;
@@ -160,7 +162,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
         deliveryAgentReport: deliveryAgentReport,
         governorateReport: governorateReport,
         companyReport: companyReport,
-        companyID: companyID
+        companyID: companyID,
+        automaticUpdateID: automaticUpdateID
     });
     const size = req.query.size ? +req.query.size : 10;
     const pagesCount = Math.ceil(ordersCount / size);
@@ -217,7 +220,8 @@ export const getAllOrders = catchAsync(async (req, res) => {
         deliveryAgentReport: deliveryAgentReport,
         governorateReport: governorateReport,
         companyReport: companyReport,
-        companyID: companyID
+        companyID: companyID,
+        automaticUpdateID: automaticUpdateID
     });
 
     res.status(200).json({

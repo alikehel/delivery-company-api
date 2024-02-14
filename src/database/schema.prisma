@@ -403,10 +403,12 @@ model Order {
   repositoryId          Int?
   branchId              Int?
 
-  deleted     Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
-  deletedById Int?
+  deleted           Boolean          @default(false)
+  deletedAt         DateTime?
+  deletedBy         User?            @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById       Int?
+  automaticUpdate   AutomaticUpdate? @relation(fields: [automaticUpdateId], references: [id])
+  automaticUpdateId Int?
 }
 
 model Report {
@@ -619,6 +621,9 @@ model AutomaticUpdate {
   returnCondition AutomaticUpdateReturnCondition
   updateAt        Int                            @default(22) // 0 -> 24
   checkAfter      Int                            @default(24) // 0 -> infinity
+
+  orders  Order[]
+  enabled Boolean @default(true)
 
   @@unique([orderStatus, governorate, companyId])
 }

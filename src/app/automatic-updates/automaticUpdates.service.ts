@@ -41,7 +41,8 @@ export class AutomaticUpdatesService {
         filters: {
             page: number;
             size: number;
-            companyID: number | undefined;
+            companyID?: number;
+            onlyTitleAndID?: boolean;
         };
     }) {
         let companyID: number | undefined;
@@ -50,6 +51,17 @@ export class AutomaticUpdatesService {
         } else if (data.loggedInUser.companyID) {
             companyID = data.loggedInUser.companyID;
         }
+
+        let size: number;
+        if (data.filters.size > 50 && data.filters.onlyTitleAndID !== true) {
+            size = 10;
+        }
+
+        const where = {
+            company: {
+                id: companyID
+            }
+        };
 
         const automaticUpdatesCount = await prisma.automaticUpdate.count({
             where: {
@@ -75,6 +87,26 @@ export class AutomaticUpdatesService {
         }
         const take = data.filters.page * data.filters.size;
         const skip = (data.filters.page - 1) * data.filters.size;
+
+        if (data.filters.onlyTitleAndID === true) {
+            const automaticUpdates = await prisma.automaticUpdate.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true,
+                    orderStatus: true,
+                    governorate: true
+                }
+            });
+            return {
+                automaticUpdates: automaticUpdates,
+                automaticUpdatesMetaData: {
+                    page: data.filters.page,
+                    pagesCount: pagesCount
+                }
+            };
+        }
 
         const automaticUpdates = await prisma.automaticUpdate.findMany({
             skip: skip,
@@ -164,7 +196,8 @@ export const automaticUpdatesTask = async () => {
                     },
                     updateAt: {
                         equals: currentTime
-                    }
+                    },
+                    enabled: true
                 },
                 select: {
                     id: true,
@@ -210,7 +243,7 @@ export const automaticUpdatesTask = async () => {
                 }
 
                 for (const order of orders) {
-                    const lastUpdate = new Date(order.createdAt);
+                    const lastUpdate = new Date(order.updatedAt);
                     const difference = currentDate.getTime() - lastUpdate.getTime();
                     const hoursDifference = difference / (1000 * 3600);
                     if (hoursDifference < automaticUpdate.checkAfter) {
@@ -239,7 +272,12 @@ export const automaticUpdatesTask = async () => {
                         },
                         data: {
                             status: OrderStatus.DELIVERED,
-                            timeline: timeline
+                            timeline: timeline,
+                            automaticUpdate: {
+                                connect: {
+                                    id: automaticUpdate.id
+                                }
+                            }
                         }
                     });
 

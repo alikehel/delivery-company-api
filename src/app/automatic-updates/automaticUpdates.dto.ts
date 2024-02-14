@@ -10,7 +10,8 @@ export const AutomaticUpdateCreateSchema = z.object({
     governorate: z.nativeEnum(Governorate),
     returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition),
     updateAt: z.number().min(0).max(24),
-    checkAfter: z.number().min(0).max(480)
+    checkAfter: z.number().min(0).max(480),
+    enabled: z.boolean().default(true)
 });
 
 export type AutomaticUpdateCreateType = z.infer<typeof AutomaticUpdateCreateSchema>;
@@ -45,7 +46,8 @@ export const automaticUpdateSelect = {
     governorate: true,
     returnCondition: true,
     updateAt: true,
-    checkAfter: true
+    checkAfter: true,
+    enabled: true
 } satisfies Prisma.AutomaticUpdateSelect;
 
 // export const automaticUpdateReform = (automaticUpdate: any) => {

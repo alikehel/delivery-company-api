@@ -27,7 +27,8 @@ export class AutomaticUpdatesController {
         const filters = {
             companyID: req.query.company_id ? +req.query.company_id : undefined,
             size: req.query.size ? +req.query.size : 10,
-            page: req.query.page ? +req.query.page : 1
+            page: req.query.page ? +req.query.page : 1,
+            onlyTitleAndID: req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined
         };
 
         const { automaticUpdates, automaticUpdatesMetaData } =

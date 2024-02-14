@@ -656,6 +656,7 @@ export class OrderModel {
         companyReport: string;
         orderID?: number;
         companyID?: number;
+        automaticUpdateID?: number;
     }) {
         const ordersCount = await prisma.order.count({
             where: {
@@ -923,6 +924,12 @@ export class OrderModel {
                                 : filters.companyReport === "false"
                                   ? { is: null }
                                   : undefined
+                    },
+                    // Filter by automaticUpdateID
+                    {
+                        automaticUpdate: {
+                            id: filters.automaticUpdateID
+                        }
                     }
                 ]
             }
@@ -983,6 +990,7 @@ export class OrderModel {
             companyReport?: string;
             orderID?: number;
             companyID?: number;
+            automaticUpdateID?: number;
         }
     ) {
         const orders = await prisma.order.findMany({
@@ -1253,6 +1261,12 @@ export class OrderModel {
                                 : filters.companyReport === "false"
                                   ? { is: null }
                                   : undefined
+                    },
+                    // Filter by automaticUpdateID
+                    {
+                        automaticUpdate: {
+                            id: filters.automaticUpdateID
+                        }
                     }
                 ]
             },
