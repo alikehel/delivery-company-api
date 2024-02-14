@@ -39,7 +39,10 @@ export const getAllBanners = catchAsync(async (req, res) => {
     const bannersCount = await bannerModel.getBannersCount({
         companyID: companyID
     });
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(bannersCount / size);
     if (pagesCount === 0) {
         res.status(200).json({

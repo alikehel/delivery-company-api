@@ -13,7 +13,10 @@ export const getAllNotifications = catchAsync(async (req, res) => {
     }
 
     const notificationsCount = await notificationModel.getNotificationsCount(userID, seen);
-    const size = req.query.size ? +req.query.size : 10;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50) {
+        size = 10;
+    }
     const pagesCount = Math.ceil(notificationsCount / size);
 
     if (pagesCount === 0) {

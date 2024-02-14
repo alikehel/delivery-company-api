@@ -290,7 +290,10 @@ export class ReportService {
         };
 
         const reportsCount = await reportRepository.getReportsCount(filters);
-        const size = data.queryString.size ? +data.queryString.size : 10;
+        let size = data.queryString.size ? +data.queryString.size : 10;
+        if (size > 50) {
+            size = 10;
+        }
         const pagesCount = Math.ceil(reportsCount / size);
 
         if (pagesCount === 0) {
