@@ -899,6 +899,16 @@ export class OrderModel {
                         automaticUpdate: {
                             id: filters.automaticUpdateID
                         }
+                    },
+                    {
+                        branch: {
+                            id: filters.branchID
+                        }
+                    },
+                    {
+                        repository: {
+                            id: filters.repositoryID
+                        }
                     }
                 ]
             }
@@ -1181,6 +1191,16 @@ export class OrderModel {
                     {
                         automaticUpdate: {
                             id: filters.automaticUpdateID
+                        }
+                    },
+                    {
+                        branch: {
+                            id: filters.branchID
+                        }
+                    },
+                    {
+                        repository: {
+                            id: filters.repositoryID
                         }
                     }
                 ]
