@@ -37,7 +37,8 @@ export const reportSelect = {
                     user: {
                         select: {
                             id: true,
-                            name: true
+                            name: true,
+                            phone: true
                         }
                     }
                 }
