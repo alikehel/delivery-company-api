@@ -1,6 +1,6 @@
 import { DeliveryType, EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
-import { OrderCreateType, OrderTimelineType, OrderUpdateType } from "./orders.zod";
+import { OrderCreateType, OrderTimelineType, OrderUpdateType, OrdersFiltersType } from "./orders.zod";
 
 const prisma = new PrismaClient();
 
@@ -626,38 +626,7 @@ export class OrderModel {
         return orderReform(createdOrder);
     }
 
-    async getOrdersCount(filters: {
-        search?: string;
-        sort: string;
-        startDate?: Date;
-        endDate?: Date;
-        deliveryDate?: Date;
-        governorate?: Governorate;
-        statuses?: OrderStatus[];
-        status?: OrderStatus;
-        deliveryType?: DeliveryType;
-        deliveryAgentID?: number;
-        clientID?: number;
-        storeID?: number;
-        // repositoryID?: number;
-        productID?: number;
-        locationID?: number;
-        receiptNumber?: number;
-        recipientName?: string;
-        recipientPhone?: string;
-        recipientAddress?: string;
-        notes?: string;
-        deleted?: string;
-        clientReport: string;
-        repositoryReport: string;
-        branchReport: string;
-        deliveryAgentReport: string;
-        governorateReport: string;
-        companyReport: string;
-        orderID?: number;
-        companyID?: number;
-        automaticUpdateID?: number;
-    }) {
+    async getOrdersCount(filters: OrdersFiltersType) {
         const ordersCount = await prisma.order.count({
             where: {
                 AND: [
@@ -869,7 +838,7 @@ export class OrderModel {
                     },
                     // Filter by deleted
                     {
-                        deleted: filters.deleted === "true"
+                        deleted: filters.deleted
                     },
                     // Filter by clientReport
                     {
@@ -938,61 +907,7 @@ export class OrderModel {
         return ordersCount;
     }
 
-    // search: search,
-    //     sort: sort,
-    //     startDate: startDate,
-    //     endDate: endDate,
-    //     deliveryDate: deliveryDate,
-    //     governorate: governorate,
-    //     status: status,
-    //     deliveryType: deliveryType,
-    //     deliveryAgentID: deliveryAgentID,
-    //     clientID: clientID,
-    //     storeID: storeID,
-    //     repositoryID: repositoryID,
-    //     productID: productID,
-    //     locationID: locationID,
-    //     receiptNumber: receiptNumber,
-    //     recipientName: recipientName,
-    //     recipientPhone: recipientPhone,
-    //     notes: notes
-
-    async getAllOrders(
-        skip: number,
-        take: number,
-        filters: {
-            search?: string;
-            sort: string;
-            startDate?: Date;
-            endDate?: Date;
-            deliveryDate?: Date;
-            governorate?: Governorate;
-            statuses?: OrderStatus[];
-            status?: OrderStatus;
-            deliveryType?: DeliveryType;
-            deliveryAgentID?: number;
-            clientID?: number;
-            storeID?: number;
-            // repositoryID?: number;
-            productID?: number;
-            locationID?: number;
-            receiptNumber?: number;
-            recipientName?: string;
-            recipientPhone?: string;
-            recipientAddress?: string;
-            notes?: string;
-            deleted?: string;
-            clientReport?: string;
-            repositoryReport?: string;
-            branchReport?: string;
-            deliveryAgentReport?: string;
-            governorateReport?: string;
-            companyReport?: string;
-            orderID?: number;
-            companyID?: number;
-            automaticUpdateID?: number;
-        }
-    ) {
+    async getAllOrders(skip: number, take: number, filters: OrdersFiltersType) {
         const orders = await prisma.order.findMany({
             skip: skip,
             take: take,
@@ -1206,7 +1121,7 @@ export class OrderModel {
                     },
                     // Filter by deleted
                     {
-                        deleted: filters.deleted === "true"
+                        deleted: filters.deleted
                     },
                     // Filter by clientReport
                     {

@@ -20,6 +20,6 @@
 		"moduleResolution": "node16",
 		"noErrorTruncation": true
 	},
-	"include": ["./src"],
-	"exclude": ["node_modules", "spec", "build"]
+	"include": ["./src", "production"],
+	"exclude": ["node_modules", "spec", "build", "production"]
 }

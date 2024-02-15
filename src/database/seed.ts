@@ -3,8 +3,8 @@ import * as bcrypt from "bcrypt";
 import { SECRET } from "../config/config";
 // import { Logger } from "../lib/logger";
 
-import companies from "./data/companies";
-import users from "./data/users";
+import companies from "./data/mock/companies";
+import users from "./data/mock/users";
 
 const prisma = new PrismaClient();
 

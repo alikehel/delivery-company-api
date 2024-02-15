@@ -188,3 +188,47 @@ export type OrderChatNotificationCreateType = z.infer<typeof OrderChatNotificati
 // );
 
 // export const OrderChatNotificationCreateMock = generateMock(ChatNotificationCreateSchema);
+
+/* --------------------------------------------------------------- */
+
+export const OrdersFiltersSchema = z.object({
+    clientID: z.coerce.number().optional(),
+    deliveryAgentID: z.coerce.number().optional(),
+    companyID: z.coerce.number().optional(),
+    automaticUpdateID: z.coerce.number().optional(),
+    search: z.string().optional(),
+    sort: z.string().optional().default("id:asc"),
+    startDate: z.date().optional(),
+    endDate: z.date().optional(),
+    deliveryDate: z.date().optional(),
+    governorate: z.nativeEnum(Governorate).optional(),
+    statuses: z.array(z.nativeEnum(OrderStatus)).optional(),
+    status: z.nativeEnum(OrderStatus).optional(),
+    deliveryType: z.nativeEnum(DeliveryType).optional(),
+    storeID: z.coerce.number().optional(),
+    repositoryID: z.coerce.number().optional(),
+    branchID: z.coerce.number().optional(),
+    productID: z.coerce.number().optional(),
+    locationID: z.coerce.number().optional(),
+    receiptNumber: z.coerce.number().optional(),
+    recipientName: z.string().optional(),
+    recipientPhone: z.string().optional(),
+    recipientAddress: z.string().optional(),
+    clientReport: z.string().optional(),
+    repositoryReport: z.string().optional(),
+    branchReport: z.string().optional(),
+    deliveryAgentReport: z.string().optional(),
+    governorateReport: z.string().optional(),
+    companyReport: z.string().optional(),
+    notes: z.string().optional(),
+    deleted: z.coerce.boolean().default(false).optional(),
+    orderID: z.coerce.number().optional()
+});
+
+export type OrdersFiltersType = z.infer<typeof OrdersFiltersSchema>;
+
+export const OrdersFiltersOpenAPISchema = generateSchema(OrdersFiltersSchema);
+
+export const OrdersFiltersMock = generateMock(OrdersFiltersSchema);
+
+/* --------------------------------------------------------------- */

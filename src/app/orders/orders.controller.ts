@@ -13,6 +13,7 @@ import {
     OrderCreateType,
     OrderTimelineType,
     OrderUpdateSchema,
+    OrdersFiltersSchema,
     OrdersReceiptsCreateSchema
 } from "./orders.zod";
 
@@ -68,103 +69,51 @@ export const createOrder = catchAsync(async (req, res) => {
 });
 
 export const getAllOrders = catchAsync(async (req, res) => {
-    // Filters
     const loggedInUser = res.locals.user as loggedInUserType;
-    let companyID: number | undefined;
-    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        companyID = req.query.company_id ? +req.query.company_id : undefined;
-    } else if (loggedInUser.companyID) {
-        companyID = loggedInUser.companyID;
-    }
 
-    const search = req.query.search as string;
-
-    const sort = (req.query.sort as string) || "id:asc";
-
-    const startDate = req.query.start_date ? new Date(req.query.start_date as string) : undefined;
-    const endDate = req.query.end_date ? new Date(req.query.end_date as string) : undefined;
-    const deliveryDate = req.query.delivery_date ? new Date(req.query.delivery_date as string) : undefined;
-
-    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
-    const statuses = req.query.statuses?.toString().toUpperCase().split(",") as OrderStatus[] | undefined;
-    const status = req.query.status?.toString().toUpperCase() as OrderStatus | undefined;
-
-    const deliveryType = req.query.delivery_type?.toString().toUpperCase() as DeliveryType | undefined;
-
-    let deliveryAgentID: number | undefined;
-    if (loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
-        deliveryAgentID = +loggedInUser.id;
-    } else if (req.query.delivery_agent_id) {
-        deliveryAgentID = +req.query.delivery_agent_id;
-    } else {
-        deliveryAgentID = undefined;
-    }
-
-    const automaticUpdateID = req.query.automatic_update_id ? +req.query.automatic_update_id : undefined;
-
-    let clientID: number | undefined;
-    if (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT") {
-        clientID = +loggedInUser.id;
-    } else if (req.query.client_id) {
-        clientID = +req.query.client_id;
-    } else {
-        clientID = undefined;
-    }
-
-    const storeID = req.query.store_id ? +req.query.store_id : undefined;
-    // const repositoryID = req.query.repository_id as string;
-    const productID = req.query.product_id ? +req.query.product_id : undefined;
-    const locationID = req.query.location_id ? +req.query.location_id : undefined;
-
-    const receiptNumber = req.query.receipt_number ? +req.query.receipt_number : undefined;
-    const recipientName = req.query.recipient_name as string;
-    const recipientPhone = req.query.recipient_phone as string;
-    const recipientAddress = req.query.recipient_address as string;
-
-    const clientReport = req.query.client_report as string;
-    const repositoryReport = req.query.repository_report as string;
-    const branchReport = req.query.branch_report as string;
-    const deliveryAgentReport = req.query.delivery_agent_report as string;
-    const governorateReport = req.query.governorate_report as string;
-    const companyReport = req.query.company_report as string;
-
-    const notes = req.query.notes as string;
-    const deleted = (req.query.deleted as string) || "false";
-    const orderID = req.query.order_id ? +req.query.order_id : undefined;
+    const filters = OrdersFiltersSchema.parse({
+        clientID:
+            loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT"
+                ? loggedInUser.id
+                : req.query.client_id,
+        deliveryAgentID:
+            loggedInUser.role === EmployeeRole.DELIVERY_AGENT ? loggedInUser.id : req.query.delivery_agent_id,
+        companyID:
+            Object.keys(AdminRole).includes(loggedInUser.role) && req.query.company_id
+                ? req.query.company_id
+                : loggedInUser.companyID,
+        automaticUpdateID: req.query.automatic_update_id,
+        search: req.query.search,
+        sort: req.query.sort,
+        startDate: req.query.start_date,
+        endDate: req.query.end_date,
+        deliveryDate: req.query.delivery_date,
+        governorate: req.query.governorate,
+        statuses: req.query.statuses,
+        status: req.query.status,
+        deliveryType: req.query.delivery_type,
+        storeID: req.query.store_id,
+        repositoryID: req.query.repository_id,
+        branchID: req.query.branch_id,
+        productID: req.query.product_id,
+        locationID: req.query.location_id,
+        receiptNumber: req.query.receipt_number,
+        recipientName: req.query.recipient_name,
+        recipientPhone: req.query.recipient_phone,
+        recipientAddress: req.query.recipient_address,
+        clientReport: req.query.client_report,
+        repositoryReport: req.query.repository_report,
+        branchReport: req.query.branch_report,
+        deliveryAgentReport: req.query.delivery_agent_report,
+        governorateReport: req.query.governorate_report,
+        companyReport: req.query.company_report,
+        notes: req.query.notes,
+        deleted: req.query.deleted,
+        orderID: req.query.order_id
+    });
 
     // Pagination
-    const ordersCount = await orderModel.getOrdersCount({
-        orderID: orderID,
-        search: search,
-        sort: sort,
-        startDate: startDate,
-        endDate: endDate,
-        deliveryDate: deliveryDate,
-        governorate: governorate,
-        statuses: statuses,
-        status: status,
-        deliveryType: deliveryType,
-        deliveryAgentID: deliveryAgentID,
-        clientID: clientID,
-        storeID: storeID,
-        // repositoryID: repositoryID,
-        productID: productID,
-        locationID: locationID,
-        receiptNumber: receiptNumber,
-        recipientName: recipientName,
-        recipientPhone: recipientPhone,
-        recipientAddress: recipientAddress,
-        notes: notes,
-        deleted: deleted,
-        clientReport: clientReport,
-        repositoryReport: repositoryReport,
-        branchReport: branchReport,
-        deliveryAgentReport: deliveryAgentReport,
-        governorateReport: governorateReport,
-        companyReport: companyReport,
-        companyID: companyID,
-        automaticUpdateID: automaticUpdateID
-    });
+    const ordersCount = await orderModel.getOrdersCount(filters);
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50) {
         size = 10;
@@ -194,38 +143,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const orders = await orderModel.getAllOrders(skip, take, {
-        orderID: orderID,
-        search: search,
-        sort: sort,
-        startDate: startDate,
-        endDate: endDate,
-        deliveryDate: deliveryDate,
-        governorate: governorate,
-        statuses: statuses,
-        status: status,
-        deliveryType: deliveryType,
-        deliveryAgentID: deliveryAgentID,
-        clientID: clientID,
-        storeID: storeID,
-        // repositoryID: repositoryID,
-        productID: productID,
-        locationID: locationID,
-        receiptNumber: receiptNumber,
-        recipientName: recipientName,
-        recipientPhone: recipientPhone,
-        recipientAddress: recipientAddress,
-        notes: notes,
-        deleted: deleted,
-        clientReport: clientReport,
-        repositoryReport: repositoryReport,
-        branchReport: branchReport,
-        deliveryAgentReport: deliveryAgentReport,
-        governorateReport: governorateReport,
-        companyReport: companyReport,
-        companyID: companyID,
-        automaticUpdateID: automaticUpdateID
-    });
+    const orders = await orderModel.getAllOrders(skip, take, filters);
 
     res.status(200).json({
         status: "success",
@@ -446,27 +364,6 @@ export const createOrdersReceipts = catchAsync(async (req, res) => {
 
     pdf.end();
 });
-
-// TODO: Remove this
-// export const getAllOrdersStatuses = catchAsync(async (req, res) => {
-//     const ordersStatuses = await orderModel.getAllOrdersStatuses();
-
-//     res.status(200).json({
-//         status: "success",
-//         data: ordersStatuses
-//     });
-// });
-
-// TODO: Remove this
-// export const getTodayOrdersCountAndEarnings = catchAsync(async (req, res) => {
-//     const todayOrdersCountAndEarnings =
-//         await orderModel.getTodayOrdersCountAndEarnings();
-
-//     res.status(200).json({
-//         status: "success",
-//         data: todayOrdersCountAndEarnings
-//     });
-// });
 
 export const getOrdersStatistics = catchAsync(async (req, res) => {
     // Filters
