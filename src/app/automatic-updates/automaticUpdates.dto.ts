@@ -7,11 +7,13 @@ import { z } from "zod";
 
 export const AutomaticUpdateCreateSchema = z.object({
     orderStatus: z.nativeEnum(OrderStatus),
+    newOrderStatus: z.nativeEnum(OrderStatus),
     governorate: z.nativeEnum(Governorate),
-    returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition),
-    updateAt: z.number().min(0).max(24),
+    returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition).optional(),
+    // updateAt: z.number().min(0).max(24),
     checkAfter: z.number().min(0).max(480),
-    enabled: z.boolean().default(true)
+    enabled: z.boolean().default(true),
+    branchID: z.number()
 });
 
 export type AutomaticUpdateCreateType = z.infer<typeof AutomaticUpdateCreateSchema>;
@@ -44,8 +46,15 @@ export const automaticUpdateSelect = {
     },
     orderStatus: true,
     governorate: true,
-    returnCondition: true,
-    updateAt: true,
+    // returnCondition: true,
+    // updateAt: true,
+    branch: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
+    newOrderStatus: true,
     checkAfter: true,
     enabled: true
 } satisfies Prisma.AutomaticUpdateSelect;
@@ -65,6 +74,9 @@ export const AutomaticUpdatesFiltersSchema = z.object({
     companyID: z.coerce.number().optional(),
     orderStatus: z.nativeEnum(OrderStatus).optional(),
     governorate: z.nativeEnum(Governorate).optional(),
+    returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition).optional(),
+    newOrderStatus: z.nativeEnum(OrderStatus).optional(),
+    branchID: z.coerce.number().optional(),
     enabled: z.boolean().optional(),
     size: z.number().min(1).optional().default(10),
     page: z.number().min(1).optional().default(1),

@@ -255,16 +255,17 @@ model Branch {
   email     String?
   phone     String?
 
-  repositories  Repository[]
-  employees     Employee[]
-  governorate   Governorate?
-  locations     Location[]
+  repositories    Repository[]
+  employees       Employee[]
+  governorate     Governorate?
+  locations       Location[]
   // Order       Order[]
-  branchReports BranchReport[]
-  company       Company        @relation(fields: [companyId], references: [id])
-  companyId     Int
-  orders        Order[]
-  clients       Client[]
+  branchReports   BranchReport[]
+  company         Company           @relation(fields: [companyId], references: [id])
+  companyId       Int
+  orders          Order[]
+  clients         Client[]
+  automaticUpdate AutomaticUpdate[]
 }
 
 model Repository {
@@ -616,14 +617,19 @@ model AutomaticUpdate {
   company   Company @relation(fields: [companyId], references: [id])
   companyId Int
 
-  orderStatus     OrderStatus
+  orderStatus    OrderStatus
+  newOrderStatus OrderStatus @default(DELIVERED)
+
   governorate     Governorate
-  returnCondition AutomaticUpdateReturnCondition
-  updateAt        Int                            @default(22) // 0 -> 24
-  checkAfter      Int                            @default(24) // 0 -> infinity
+  returnCondition AutomaticUpdateReturnCondition?
+  // updateAt    Int         @default(22) // 0 -> 24
+  checkAfter      Int                             @default(24) // 0 -> infinity
 
   orders  Order[]
   enabled Boolean @default(true)
 
-  @@unique([orderStatus, governorate, companyId])
+  branch   Branch @relation(fields: [branchId], references: [id])
+  branchId Int
+
+  @@unique([orderStatus, governorate, branchId, companyId])
 }

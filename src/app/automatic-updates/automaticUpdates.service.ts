@@ -24,7 +24,13 @@ export class AutomaticUpdatesService {
                 orderStatus: data.automaticUpdateData.orderStatus,
                 governorate: data.automaticUpdateData.governorate,
                 returnCondition: data.automaticUpdateData.returnCondition,
-                updateAt: data.automaticUpdateData.updateAt,
+                newOrderStatus: data.automaticUpdateData.newOrderStatus,
+                branch: {
+                    connect: {
+                        id: data.automaticUpdateData.branchID
+                    }
+                },
+                // updateAt: data.automaticUpdateData.updateAt,
                 checkAfter: data.automaticUpdateData.checkAfter,
                 company: {
                     connect: {
@@ -59,7 +65,12 @@ export class AutomaticUpdatesService {
             },
             orderStatus: data.filters.orderStatus,
             governorate: data.filters.governorate,
-            enabled: data.filters.enabled
+            enabled: data.filters.enabled,
+            branch: {
+                id: data.filters.branchID
+            },
+            returnCondition: data.filters.returnCondition,
+            newOrderStatus: data.filters.newOrderStatus
         };
 
         const automaticUpdatesCount = await prisma.automaticUpdate.count({
@@ -91,7 +102,12 @@ export class AutomaticUpdatesService {
                 select: {
                     id: true,
                     orderStatus: true,
-                    governorate: true
+                    governorate: true,
+                    branch: {
+                        select: {
+                            id: true
+                        }
+                    }
                 }
             });
             return {
@@ -142,8 +158,15 @@ export class AutomaticUpdatesService {
                 orderStatus: data.automaticUpdateData.orderStatus,
                 governorate: data.automaticUpdateData.governorate,
                 returnCondition: data.automaticUpdateData.returnCondition,
-                updateAt: data.automaticUpdateData.updateAt,
-                checkAfter: data.automaticUpdateData.checkAfter
+                // updateAt: data.automaticUpdateData.updateAt,
+                checkAfter: data.automaticUpdateData.checkAfter,
+                newOrderStatus: data.automaticUpdateData.newOrderStatus,
+                branch: {
+                    connect: {
+                        id: data.automaticUpdateData.branchID
+                    }
+                },
+                enabled: data.automaticUpdateData.enabled
             },
             select: automaticUpdateSelect
         });
@@ -185,9 +208,9 @@ export const automaticUpdatesTask = async () => {
                     company: {
                         id: company.id
                     },
-                    updateAt: {
-                        equals: currentTime
-                    },
+                    // updateAt: {
+                    //     equals: currentTime
+                    // },
                     enabled: true
                 },
                 select: {
@@ -195,9 +218,15 @@ export const automaticUpdatesTask = async () => {
                     orderStatus: true,
                     // newStatus: true,
                     governorate: true,
+                    branch: {
+                        select: {
+                            id: true
+                        }
+                    },
                     checkAfter: true,
-                    updateAt: true,
-                    returnCondition: true
+                    // updateAt: true,
+                    returnCondition: true,
+                    newOrderStatus: true
                 }
             });
 
@@ -208,7 +237,10 @@ export const automaticUpdatesTask = async () => {
                             id: company.id
                         },
                         status: automaticUpdate.orderStatus,
-                        governorate: automaticUpdate.governorate
+                        governorate: automaticUpdate.governorate,
+                        branch: {
+                            id: automaticUpdate.branch.id
+                        }
                     },
                     select: {
                         id: true,
@@ -262,7 +294,7 @@ export const automaticUpdatesTask = async () => {
                             id: order.id
                         },
                         data: {
-                            status: OrderStatus.DELIVERED,
+                            status: automaticUpdate.newOrderStatus,
                             timeline: timeline,
                             automaticUpdate: {
                                 connect: {
@@ -277,7 +309,7 @@ export const automaticUpdatesTask = async () => {
                             userID: order.client.id,
                             title: "تم تغيير حالة الطلب",
                             content: `تم تغيير حالة الطلب رقم ${order.id} إلى ${localizeOrderStatus(
-                                order.status
+                                automaticUpdate.newOrderStatus
                             )}`
                         }));
 
@@ -286,7 +318,7 @@ export const automaticUpdatesTask = async () => {
                             userID: order.deliveryAgent.id,
                             title: "تم تغيير حالة الطلب",
                             content: `تم تغيير حالة الطلب رقم ${order.id} إلى ${localizeOrderStatus(
-                                order.status
+                                automaticUpdate.newOrderStatus
                             )}`
                         }));
 
