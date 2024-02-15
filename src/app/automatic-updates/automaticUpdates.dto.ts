@@ -77,9 +77,9 @@ export const AutomaticUpdatesFiltersSchema = z.object({
     returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition).optional(),
     newOrderStatus: z.nativeEnum(OrderStatus).optional(),
     branchID: z.coerce.number().optional(),
-    enabled: z.boolean().optional(),
-    size: z.number().min(1).optional().default(10),
-    page: z.number().min(1).optional().default(1),
+    enabled: z.coerce.boolean().optional(),
+    size: z.coerce.number().min(1).optional().default(10),
+    page: z.coerce.number().min(1).optional().default(1),
     minified: z.coerce.boolean().optional()
 });
 
