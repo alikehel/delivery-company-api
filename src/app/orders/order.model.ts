@@ -918,300 +918,354 @@ export class OrderModel {
     }
 
     async getAllOrders(skip: number, take: number, filters: OrdersFiltersType) {
+        const where = {
+            AND: [
+                // Search by receiptNumber, recipientName, recipientPhone, recipientAddress
+                {
+                    OR: [
+                        {
+                            receiptNumber: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            repositoryReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            branchReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            deliveryAgentReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            governorateReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            companyReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            clientReportId: filters.search
+                                ? Number.isNaN(+filters.search)
+                                    ? undefined
+                                    : filters.search.length > 9
+                                      ? undefined
+                                      : +filters.search
+                                : undefined
+                        },
+                        {
+                            recipientName: {
+                                contains: filters.search,
+                                mode: "insensitive"
+                            }
+                        },
+                        {
+                            recipientPhones: filters.search
+                                ? {
+                                      has: filters.search
+                                  }
+                                : undefined
+                        },
+                        {
+                            recipientAddress: {
+                                contains: filters.search,
+                                mode: "insensitive"
+                            }
+                        }
+                    ]
+                },
+                // Filter by companyID
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                },
+                // Filter by orderID
+                {
+                    id: filters.orderID
+                },
+                // Filter by status
+                {
+                    status: { in: filters.statuses }
+                },
+                {
+                    status: filters.status
+                },
+                // Filter by deliveryType
+                {
+                    deliveryType: filters.deliveryType
+                },
+                // Filter by deliveryDate
+                {
+                    // gte deliveryDate day start time (00:00:00) and lte deliveryDate day end time (23:59:59)
+                    deliveryDate: filters.deliveryDate
+                        ? {
+                              gte: new Date(new Date(filters.deliveryDate).setHours(0, 0, 0, 0)),
+                              lte: new Date(new Date(filters.deliveryDate).setHours(23, 59, 59, 999))
+                          }
+                        : undefined
+                },
+                // Filter by governorate
+                {
+                    governorate: filters.governorate
+                },
+                // Filter by deliveryAgentID
+                {
+                    deliveryAgent: {
+                        id: filters.deliveryAgentID
+                    }
+                },
+                // Filter by clientID
+                {
+                    client: {
+                        id: filters.clientID
+                    }
+                },
+                // Filter by storeID
+                {
+                    store: {
+                        id: filters.storeID
+                    }
+                },
+                // // Filter by repositoryID
+                // {
+                //     OrderProducts: {
+                //         some: {
+                //             product: {
+                //                 repository: {
+                //                     id: filters.repositoryID
+                //                 }
+                //             }
+                //         }
+                //     }
+                // },
+                // Filter by productID
+                {
+                    orderProducts: filters.productID
+                        ? {
+                              some: {
+                                  product: {
+                                      id: filters.productID
+                                  }
+                              }
+                          }
+                        : undefined
+                },
+                // Filter by locationID
+                {
+                    location: {
+                        id: filters.locationID
+                    }
+                },
+                // Filter by receiptNumber
+                {
+                    receiptNumber: filters.receiptNumber
+                },
+                // Filter by recipientName
+                {
+                    recipientName: filters.recipientName
+                },
+                // Filter by recipientPhone
+                {
+                    recipientPhones: filters.recipientPhone
+                        ? {
+                              has: filters.recipientPhone
+                          }
+                        : undefined
+                },
+                // Filter by recipientAddress
+                {
+                    recipientAddress: filters.recipientAddress
+                },
+                // Filter by notes
+                {
+                    notes: filters.notes
+                },
+                // Filter by startDate
+                {
+                    createdAt: {
+                        gte: filters.startDate
+                    }
+                },
+                // Filter by endDate
+                {
+                    createdAt: {
+                        lte: filters.endDate
+                    }
+                },
+                // Filter by deleted
+                {
+                    deleted: filters.deleted
+                },
+                // Filter by clientReport
+                {
+                    clientReport:
+                        filters.clientReport === "true"
+                            ? { isNot: null }
+                            : filters.clientReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by repositoryReport
+                {
+                    repositoryReport:
+                        filters.repositoryReport === "true"
+                            ? { isNot: null }
+                            : filters.repositoryReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by branchReport
+                {
+                    branchReport:
+                        filters.branchReport === "true"
+                            ? { isNot: null }
+                            : filters.branchReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by deliveryAgentReport
+                {
+                    deliveryAgentReport:
+                        filters.deliveryAgentReport === "true"
+                            ? { isNot: null }
+                            : filters.deliveryAgentReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by governorateReport
+                {
+                    governorateReport:
+                        filters.governorateReport === "true"
+                            ? { isNot: null }
+                            : filters.governorateReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by companyReport
+                {
+                    companyReport:
+                        filters.companyReport === "true"
+                            ? { isNot: null }
+                            : filters.companyReport === "false"
+                              ? { is: null }
+                              : undefined
+                },
+                // Filter by automaticUpdateID
+                {
+                    automaticUpdate: {
+                        id: filters.automaticUpdateID
+                    }
+                },
+                {
+                    branch: {
+                        id: filters.branchID
+                    }
+                },
+                {
+                    repository: {
+                        id: filters.repositoryID
+                    }
+                }
+            ]
+        } satisfies Prisma.OrderWhereInput;
+
         const orders = await prisma.order.findMany({
             skip: skip,
             take: take,
-            where: {
-                AND: [
-                    // Search by receiptNumber, recipientName, recipientPhone, recipientAddress
-                    {
-                        OR: [
-                            {
-                                receiptNumber: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                repositoryReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                branchReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                deliveryAgentReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                governorateReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                companyReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                clientReportId: filters.search
-                                    ? Number.isNaN(+filters.search)
-                                        ? undefined
-                                        : filters.search.length > 9
-                                          ? undefined
-                                          : +filters.search
-                                    : undefined
-                            },
-                            {
-                                recipientName: {
-                                    contains: filters.search,
-                                    mode: "insensitive"
-                                }
-                            },
-                            {
-                                recipientPhones: filters.search
-                                    ? {
-                                          has: filters.search
-                                      }
-                                    : undefined
-                            },
-                            {
-                                recipientAddress: {
-                                    contains: filters.search,
-                                    mode: "insensitive"
-                                }
-                            }
-                        ]
-                    },
-                    // Filter by companyID
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    },
-                    // Filter by orderID
-                    {
-                        id: filters.orderID
-                    },
-                    // Filter by status
-                    {
-                        status: { in: filters.statuses }
-                    },
-                    {
-                        status: filters.status
-                    },
-                    // Filter by deliveryType
-                    {
-                        deliveryType: filters.deliveryType
-                    },
-                    // Filter by deliveryDate
-                    {
-                        // gte deliveryDate day start time (00:00:00) and lte deliveryDate day end time (23:59:59)
-                        deliveryDate: filters.deliveryDate
-                            ? {
-                                  gte: new Date(new Date(filters.deliveryDate).setHours(0, 0, 0, 0)),
-                                  lte: new Date(new Date(filters.deliveryDate).setHours(23, 59, 59, 999))
-                              }
-                            : undefined
-                    },
-                    // Filter by governorate
-                    {
-                        governorate: filters.governorate
-                    },
-                    // Filter by deliveryAgentID
-                    {
-                        deliveryAgent: {
-                            id: filters.deliveryAgentID
-                        }
-                    },
-                    // Filter by clientID
-                    {
-                        client: {
-                            id: filters.clientID
-                        }
-                    },
-                    // Filter by storeID
-                    {
-                        store: {
-                            id: filters.storeID
-                        }
-                    },
-                    // // Filter by repositoryID
-                    // {
-                    //     OrderProducts: {
-                    //         some: {
-                    //             product: {
-                    //                 repository: {
-                    //                     id: filters.repositoryID
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // },
-                    // Filter by productID
-                    {
-                        orderProducts: filters.productID
-                            ? {
-                                  some: {
-                                      product: {
-                                          id: filters.productID
-                                      }
-                                  }
-                              }
-                            : undefined
-                    },
-                    // Filter by locationID
-                    {
-                        location: {
-                            id: filters.locationID
-                        }
-                    },
-                    // Filter by receiptNumber
-                    {
-                        receiptNumber: filters.receiptNumber
-                    },
-                    // Filter by recipientName
-                    {
-                        recipientName: filters.recipientName
-                    },
-                    // Filter by recipientPhone
-                    {
-                        recipientPhones: filters.recipientPhone
-                            ? {
-                                  has: filters.recipientPhone
-                              }
-                            : undefined
-                    },
-                    // Filter by recipientAddress
-                    {
-                        recipientAddress: filters.recipientAddress
-                    },
-                    // Filter by notes
-                    {
-                        notes: filters.notes
-                    },
-                    // Filter by startDate
-                    {
-                        createdAt: {
-                            gte: filters.startDate
-                        }
-                    },
-                    // Filter by endDate
-                    {
-                        createdAt: {
-                            lte: filters.endDate
-                        }
-                    },
-                    // Filter by deleted
-                    {
-                        deleted: filters.deleted
-                    },
-                    // Filter by clientReport
-                    {
-                        clientReport:
-                            filters.clientReport === "true"
-                                ? { isNot: null }
-                                : filters.clientReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by repositoryReport
-                    {
-                        repositoryReport:
-                            filters.repositoryReport === "true"
-                                ? { isNot: null }
-                                : filters.repositoryReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by branchReport
-                    {
-                        branchReport:
-                            filters.branchReport === "true"
-                                ? { isNot: null }
-                                : filters.branchReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by deliveryAgentReport
-                    {
-                        deliveryAgentReport:
-                            filters.deliveryAgentReport === "true"
-                                ? { isNot: null }
-                                : filters.deliveryAgentReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by governorateReport
-                    {
-                        governorateReport:
-                            filters.governorateReport === "true"
-                                ? { isNot: null }
-                                : filters.governorateReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by companyReport
-                    {
-                        companyReport:
-                            filters.companyReport === "true"
-                                ? { isNot: null }
-                                : filters.companyReport === "false"
-                                  ? { is: null }
-                                  : undefined
-                    },
-                    // Filter by automaticUpdateID
-                    {
-                        automaticUpdate: {
-                            id: filters.automaticUpdateID
-                        }
-                    },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        repository: {
-                            id: filters.repositoryID
-                        }
-                    }
-                ]
-            },
+            where: where,
             orderBy: {
                 [filters.sort.split(":")[0]]: filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: orderSelect
         });
 
-        return orders.map(orderReform);
+        const ordersMetaDataAggregate = await prisma.order.aggregate({
+            where: where,
+            _count: {
+                id: true
+            },
+            _sum: {
+                totalCost: true,
+                paidAmount: true,
+                clientNet: true,
+                deliveryAgentNet: true,
+                companyNet: true,
+                deliveryCost: true
+            }
+        });
+
+        const ordersMetaDataGroupByStatus = await prisma.order.groupBy({
+            where: where,
+            by: ["status"],
+            _count: {
+                status: true
+            }
+        });
+
+        const ordersReformed = orders.map(orderReform);
+
+        const ordersMetaDataGroupByStatusReformed = (
+            Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
+        ).map((status) => {
+            const statusCount = ordersMetaDataGroupByStatus.find((orderStatus: { status: string }) => {
+                return orderStatus.status === status;
+            });
+
+            return {
+                status: status,
+                count: statusCount?._count?.status || 0
+            };
+        });
+
+        const ordersMetaDataReformed = {
+            count: ordersMetaDataAggregate._count.id,
+            totalCost: ordersMetaDataAggregate._sum.totalCost || 0,
+            paidAmount: ordersMetaDataAggregate._sum.paidAmount || 0,
+            clientNet: ordersMetaDataAggregate._sum.clientNet || 0,
+            deliveryAgentNet: ordersMetaDataAggregate._sum.deliveryAgentNet || 0,
+            companyNet: ordersMetaDataAggregate._sum.companyNet || 0,
+            deliveryCost: ordersMetaDataAggregate._sum.deliveryCost || 0,
+            countByStatus: ordersMetaDataGroupByStatusReformed
+        };
+
+        return {
+            orders: ordersReformed,
+            ordersMetaData: ordersMetaDataReformed
+        };
     }
     // eslint-disable-next-line no-unused-vars
     async getOrdersByIDs(data: { ordersIDs: number[] }) {
