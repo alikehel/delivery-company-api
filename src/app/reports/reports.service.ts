@@ -4,14 +4,14 @@ import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
 import sendNotification from "../notifications/helpers/sendNotification";
-import { OrderModel } from "../orders/order.model";
+import { OrdersModel } from "../orders/orders.model";
 import { OrderTimelineType } from "../orders/orders.zod";
 import { generateReport } from "./helpers/generateReportTemp";
-import { ReportRepository } from "./report.repository";
+import { ReportsRepository } from "./reports.repository";
 import { ReportCreateType } from "./reports.zod";
 
-const reportRepository = new ReportRepository();
-const orderModel = new OrderModel();
+const reportsRepository = new ReportsRepository();
+const ordersModel = new OrdersModel();
 const employeeModel = new EmployeeModel();
 
 export class ReportService {
@@ -26,7 +26,7 @@ export class ReportService {
             reportData: ReportCreateType;
         }
     ) {
-        const orders = await orderModel.getOrdersByIDs(data.reportData);
+        const orders = await ordersModel.getOrdersByIDs(data.reportData);
 
         if (!orders) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
@@ -139,7 +139,7 @@ export class ReportService {
             }
         }
 
-        const report = await reportRepository.createReport(
+        const report = await reportsRepository.createReport(
             companyID,
             data.loggedInUser.id,
             data.reportData,
@@ -150,7 +150,7 @@ export class ReportService {
             throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
         }
 
-        const reportData = await reportRepository.getReport({
+        const reportData = await reportsRepository.getReport({
             reportID: report.id
         });
 
@@ -176,7 +176,7 @@ export class ReportService {
         for (const order of orders) {
             // @ts-expect-error Fix later
             const oldTimeline: OrderTimelineType = order?.timeline;
-            await orderModel.updateOrderTimeline({
+            await ordersModel.updateOrderTimeline({
                 // @ts-expect-error Fix later
                 orderID: order.id,
                 timeline: [
@@ -202,7 +202,7 @@ export class ReportService {
         // TODO
         const pdf = await generateReport(data.reportData.type, reportData, orders);
         // const pdf = await generateReport(
-        //     await orderModel.getAllOrders(0, 100, {
+        //     await ordersModel.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
         //     })
         // );
@@ -289,7 +289,7 @@ export class ReportService {
             deleted: deleted
         };
 
-        const reportsCount = await reportRepository.getReportsCount(filters);
+        const reportsCount = await reportsRepository.getReportsCount(filters);
         let size = data.queryString.size ? +data.queryString.size : 10;
         if (size > 50) {
             size = 10;
@@ -319,13 +319,13 @@ export class ReportService {
         //     skip = 0;
         // }
 
-        const { reports, reportsMetaData } = await reportRepository.getAllReports(skip, take, filters);
+        const { reports, reportsMetaData } = await reportsRepository.getAllReports(skip, take, filters);
 
         return { page, pagesCount, reports, reportsMetaData };
     }
 
     async getReport(data: { reportID: number }) {
-        const report = await reportRepository.getReport({
+        const report = await reportsRepository.getReport({
             reportID: data.reportID
         });
 
@@ -333,7 +333,7 @@ export class ReportService {
     }
 
     async getReportPDF(data: { reportID: number }) {
-        const reportData = await reportRepository.getReport({
+        const reportData = await reportsRepository.getReport({
             reportID: data.reportID
         });
 
@@ -361,7 +361,7 @@ export class ReportService {
 
         const ordersIDs = orders.map((order) => order.id);
 
-        const ordersData = await orderModel.getOrdersByIDs({
+        const ordersData = await ordersModel.getOrdersByIDs({
             ordersIDs: ordersIDs
         });
 
@@ -387,7 +387,7 @@ export class ReportService {
     //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
     //     }
 
-    //     const report = await reportRepository.updateReport({
+    //     const report = await reportsRepository.updateReport({
     //         reportID: reportID,
     //         reportData: reportData
     //     });
@@ -422,7 +422,7 @@ export class ReportService {
             throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
         }
 
-        const report = await reportRepository.updateReport({
+        const report = await reportsRepository.updateReport({
             reportID: reportID,
             reportData: reportData
         });
@@ -431,20 +431,20 @@ export class ReportService {
     }
 
     async deleteReport(reportID: number) {
-        await reportRepository.deleteReport({
+        await reportsRepository.deleteReport({
             reportID: reportID
         });
     }
 
     async deactivateReport(reportID: number, loggedInUserID: number) {
-        await reportRepository.deactivateReport({
+        await reportsRepository.deactivateReport({
             reportID: reportID,
             deletedByID: loggedInUserID
         });
     }
 
     async reactivateReport(reportID: number) {
-        await reportRepository.reactivateReport({
+        await reportsRepository.reactivateReport({
             reportID: reportID
         });
     }

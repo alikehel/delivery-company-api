@@ -8,8 +8,8 @@ import { AppError } from "../../../lib/AppError";
 import { handleArabicCharacters } from "../../../lib/handleArabicCharacters";
 import { localizeGovernorate, localizeOrderStatus, localizeReportType } from "../../../lib/localize";
 import { Logger } from "../../../lib/logger";
-import { orderReform } from "../../orders/order.model";
-import { reportReform } from "../report.repository";
+import { orderReform } from "../../orders/orders.model";
+import { reportReform } from "../reports.repository";
 
 const getImage = async (url: string | Buffer) => {
     try {

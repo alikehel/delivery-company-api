@@ -324,7 +324,7 @@ const statisticsReformed = (statistics: {
 //     return todayOrdersCountAndEarningsReformed;
 // };
 
-export class OrderModel {
+export class OrdersModel {
     async createOrder(companyID: number, clientID: number, data: OrderCreateType) {
         let totalCost = 0;
         let quantity = 0;
