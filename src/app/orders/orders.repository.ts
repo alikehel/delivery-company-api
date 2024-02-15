@@ -1203,6 +1203,18 @@ export class OrdersRepository {
             ]
         } satisfies Prisma.OrderWhereInput;
 
+        if (filters.onlyTitleAndID === true) {
+            const orders = await prisma.order.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true
+                }
+            });
+            return { orders: orders };
+        }
+
         const orders = await prisma.order.findMany({
             skip: skip,
             take: take,

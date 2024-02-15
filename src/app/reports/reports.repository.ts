@@ -519,6 +519,7 @@ export class ReportsRepository {
             type?: ReportType;
             deleted?: string;
             createdByID?: number;
+            onlyTitleAndID?: boolean;
         }
     ) {
         const where = {
@@ -648,6 +649,20 @@ export class ReportsRepository {
                 }
             ]
         };
+
+        if (filters.onlyTitleAndID === true) {
+            const reports = await prisma.report.findMany({
+                skip: skip,
+                take: take,
+                where: where,
+                select: {
+                    id: true
+                }
+            });
+            return {
+                reports: reports
+            };
+        }
 
         const reports = await prisma.report.findMany({
             skip: skip,
