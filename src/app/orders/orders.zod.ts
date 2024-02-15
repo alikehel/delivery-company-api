@@ -198,11 +198,16 @@ export const OrdersFiltersSchema = z.object({
     automaticUpdateID: z.coerce.number().optional(),
     search: z.string().optional(),
     sort: z.string().optional().default("id:asc"),
-    startDate: z.date().optional(),
-    endDate: z.date().optional(),
-    deliveryDate: z.date().optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional(),
+    deliveryDate: z.coerce.date().optional(),
     governorate: z.nativeEnum(Governorate).optional(),
-    statuses: z.array(z.nativeEnum(OrderStatus)).optional(),
+    statuses: z.preprocess((val) => {
+        if (typeof val === "string") {
+            return val.split(",");
+        }
+        return val;
+    }, z.array(z.nativeEnum(OrderStatus)).optional()),
     status: z.nativeEnum(OrderStatus).optional(),
     deliveryType: z.nativeEnum(DeliveryType).optional(),
     storeID: z.coerce.number().optional(),
