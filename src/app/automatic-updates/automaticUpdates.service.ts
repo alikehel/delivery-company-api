@@ -8,6 +8,7 @@ import { OrderTimelineType } from "../orders/orders.zod";
 import {
     AutomaticUpdateCreateType,
     AutomaticUpdateUpdateType,
+    AutomaticUpdatesFiltersType,
     automaticUpdateSelect
 } from "./automaticUpdates.dto";
 
@@ -38,12 +39,7 @@ export class AutomaticUpdatesService {
 
     async getAllAutomaticUpdates(data: {
         loggedInUser: loggedInUserType;
-        filters: {
-            page: number;
-            size: number;
-            companyID?: number;
-            onlyTitleAndID?: boolean;
-        };
+        filters: AutomaticUpdatesFiltersType;
     }) {
         let companyID: number | undefined;
         if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
@@ -60,15 +56,14 @@ export class AutomaticUpdatesService {
         const where = {
             company: {
                 id: companyID
-            }
+            },
+            orderStatus: data.filters.orderStatus,
+            governorate: data.filters.governorate,
+            enabled: data.filters.enabled
         };
 
         const automaticUpdatesCount = await prisma.automaticUpdate.count({
-            where: {
-                company: {
-                    id: companyID
-                }
-            }
+            where: where
         });
         const pagesCount = Math.ceil(automaticUpdatesCount / data.filters.size);
 
@@ -111,11 +106,7 @@ export class AutomaticUpdatesService {
         const automaticUpdates = await prisma.automaticUpdate.findMany({
             skip: skip,
             take: take,
-            where: {
-                company: {
-                    id: companyID
-                }
-            },
+            where: where,
             select: automaticUpdateSelect
         });
 

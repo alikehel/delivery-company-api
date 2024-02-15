@@ -60,3 +60,21 @@ export const automaticUpdateSelect = {
 // };
 
 /* --------------------------------------------------------------- */
+
+export const AutomaticUpdatesFiltersSchema = z.object({
+    companyID: z.coerce.number().optional(),
+    orderStatus: z.nativeEnum(OrderStatus).optional(),
+    governorate: z.nativeEnum(Governorate).optional(),
+    enabled: z.boolean().optional(),
+    size: z.number().min(1).optional().default(10),
+    page: z.number().min(1).optional().default(1),
+    onlyTitleAndID: z.boolean().optional()
+});
+
+export type AutomaticUpdatesFiltersType = z.infer<typeof AutomaticUpdatesFiltersSchema>;
+
+export const AutomaticUpdatesFiltersOpenAPISchema = generateSchema(AutomaticUpdatesFiltersSchema);
+
+export const AutomaticUpdatesFiltersMock = generateMock(AutomaticUpdatesFiltersSchema);
+
+/* --------------------------------------------------------------- */

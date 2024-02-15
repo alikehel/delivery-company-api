@@ -1,6 +1,10 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { AutomaticUpdateCreateSchema, AutomaticUpdateUpdateSchema } from "./automaticUpdates.dto";
+import {
+    AutomaticUpdateCreateSchema,
+    AutomaticUpdateUpdateSchema,
+    AutomaticUpdatesFiltersSchema
+} from "./automaticUpdates.dto";
 import { AutomaticUpdatesService } from "./automaticUpdates.service";
 
 const automaticUpdatesService = new AutomaticUpdatesService();
@@ -24,12 +28,15 @@ export class AutomaticUpdatesController {
     getAllAutomaticUpdates = catchAsync(async (req, res) => {
         const loggedInUser = res.locals.user as loggedInUserType;
 
-        const filters = {
-            companyID: req.query.company_id ? +req.query.company_id : undefined,
-            size: req.query.size ? +req.query.size : 10,
-            page: req.query.page ? +req.query.page : 1,
-            onlyTitleAndID: req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined
-        };
+        const filters = AutomaticUpdatesFiltersSchema.parse({
+            companyID: req.query.company_id,
+            size: req.query.size,
+            page: req.query.page,
+            onlyTitleAndID: req.query.only_title_and_id,
+            enabled: req.query.enabled,
+            orderStatus: req.query.order_status,
+            governorate: req.query.governorate
+        });
 
         const { automaticUpdates, automaticUpdatesMetaData } =
             await automaticUpdatesService.getAllAutomaticUpdates({
