@@ -144,7 +144,7 @@ export class LocationModel {
             governorate?: Governorate;
             deliveryAgentID?: number;
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -181,7 +181,7 @@ export class LocationModel {
             ]
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const locations = await prisma.location.findMany({
                 skip: skip,
                 take: take,

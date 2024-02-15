@@ -23,11 +23,11 @@ export const createCompany = catchAsync(async (req, res) => {
 });
 
 export const getAllCompanies = catchAsync(async (req, res) => {
-    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const companiesCount = await companyModel.getCompaniesCount();
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && onlyTitleAndID !== true) {
+    if (size > 50 && minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(companiesCount / size);
@@ -56,7 +56,7 @@ export const getAllCompanies = catchAsync(async (req, res) => {
     // }
 
     const companies = await companyModel.getAllCompanies(skip, take, {
-        onlyTitleAndID: onlyTitleAndID
+        minified: minified
     });
 
     res.status(200).json({

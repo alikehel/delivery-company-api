@@ -49,7 +49,7 @@ export class AutomaticUpdatesService {
         }
 
         let size: number;
-        if (data.filters.size > 50 && data.filters.onlyTitleAndID !== true) {
+        if (data.filters.size > 50 && data.filters.minified !== true) {
             size = 10;
         }
 
@@ -83,7 +83,7 @@ export class AutomaticUpdatesService {
         const take = data.filters.page * data.filters.size;
         const skip = (data.filters.page - 1) * data.filters.size;
 
-        if (data.filters.onlyTitleAndID === true) {
+        if (data.filters.minified === true) {
             const automaticUpdates = await prisma.automaticUpdate.findMany({
                 skip: skip,
                 take: take,

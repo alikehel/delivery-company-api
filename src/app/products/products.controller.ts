@@ -36,7 +36,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
-    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
@@ -45,7 +45,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
         storeID: storeID
     });
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && onlyTitleAndID !== true) {
+    if (size > 50 && minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(productsCount / size);
@@ -76,7 +76,7 @@ export const getAllProducts = catchAsync(async (req, res) => {
     const products = await productModel.getAllProducts(skip, take, {
         storeID: storeID,
         companyID: companyID,
-        onlyTitleAndID: onlyTitleAndID
+        minified: minified
     });
 
     res.status(200).json({

@@ -29,7 +29,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
-    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const search = req.query.search as string;
 
@@ -47,7 +47,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
         companyID: companyID
     });
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && onlyTitleAndID !== true) {
+    if (size > 50 && minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(locationsCount / size);
@@ -81,7 +81,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
         governorate: governorate,
         deliveryAgentID: deliveryAgentID,
         companyID: companyID,
-        onlyTitleAndID: onlyTitleAndID
+        minified: minified
     });
 
     res.status(200).json({

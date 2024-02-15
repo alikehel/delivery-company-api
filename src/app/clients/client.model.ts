@@ -163,13 +163,13 @@ export class ClientModel {
     async getAllClients(
         skip: number,
         take: number,
-        filters: { deleted?: string; companyID?: number; onlyTitleAndID?: boolean }
+        filters: { deleted?: string; companyID?: number; minified?: boolean }
     ) {
         const where = {
             AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const clients = await prisma.client.findMany({
                 skip: skip,
                 take: take,

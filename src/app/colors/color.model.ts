@@ -61,7 +61,7 @@ export class ColorModel {
         take: number,
         filters: {
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -70,7 +70,7 @@ export class ColorModel {
             }
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const colors = await prisma.color.findMany({
                 skip: skip,
                 take: take,

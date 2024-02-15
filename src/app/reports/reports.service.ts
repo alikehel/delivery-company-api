@@ -270,7 +270,7 @@ export class ReportService {
 
         const deleted = data.queryString.deleted?.toString() || "false";
 
-        const onlyTitleAndID = data.queryString.only_title_and_id === "true" || undefined;
+        const minified = data.queryString.minified === "true" || undefined;
 
         const filters = {
             sort: sort,
@@ -289,12 +289,12 @@ export class ReportService {
             company: company,
             createdByID: createdByID,
             deleted: deleted,
-            onlyTitleAndID: onlyTitleAndID
+            minified: minified
         };
 
         const reportsCount = await reportsRepository.getReportsCount(filters);
         let size = data.queryString.size ? +data.queryString.size : 10;
-        if (size > 50 && filters.onlyTitleAndID !== true) {
+        if (size > 50 && filters.minified !== true) {
             size = 10;
         }
         const pagesCount = Math.ceil(reportsCount / size);

@@ -64,7 +64,7 @@ export class RepositoryModel {
         take: number,
         filters: {
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -73,7 +73,7 @@ export class RepositoryModel {
             }
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const repositories = await prisma.repository.findMany({
                 skip: skip,
                 take: take,

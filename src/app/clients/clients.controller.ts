@@ -55,14 +55,14 @@ export const getAllClients = catchAsync(async (req, res) => {
     }
     const deleted = (req.query.deleted as string) || "false";
 
-    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const clientsCount = await clientModel.getClientsCount({
         companyID: companyID,
         deleted: deleted
     });
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && onlyTitleAndID !== true) {
+    if (size > 50 && minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(clientsCount / size);
@@ -93,7 +93,7 @@ export const getAllClients = catchAsync(async (req, res) => {
     const clients = await clientModel.getAllClients(skip, take, {
         deleted: deleted,
         companyID: companyID,
-        onlyTitleAndID: onlyTitleAndID
+        minified: minified
     });
 
     res.status(200).json({

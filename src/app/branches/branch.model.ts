@@ -68,7 +68,7 @@ export class BranchModel {
             companyID?: number;
             governorate?: Governorate;
             locationID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -83,7 +83,7 @@ export class BranchModel {
             }
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const branches = await prisma.branch.findMany({
                 skip: skip,
                 take: take,

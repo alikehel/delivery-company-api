@@ -110,13 +110,13 @@ export const getAllOrders = catchAsync(async (req, res) => {
         notes: req.query.notes,
         deleted: req.query.deleted,
         orderID: req.query.order_id,
-        onlyTitleAndID: req.query.only_title_and_id
+        minified: req.query.minified
     });
 
     // Pagination
     const ordersCount = await ordersRepository.getOrdersCount(filters);
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && filters.onlyTitleAndID !== true) {
+    if (size > 50 && filters.minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(ordersCount / size);

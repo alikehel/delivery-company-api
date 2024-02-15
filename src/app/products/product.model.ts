@@ -183,7 +183,7 @@ export class ProductModel {
         filters: {
             storeID?: number;
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -201,7 +201,7 @@ export class ProductModel {
             ]
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const products = await prisma.product.findMany({
                 skip: skip,
                 take: take,

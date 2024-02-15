@@ -68,7 +68,7 @@ export const AutomaticUpdatesFiltersSchema = z.object({
     enabled: z.boolean().optional(),
     size: z.number().min(1).optional().default(10),
     page: z.number().min(1).optional().default(1),
-    onlyTitleAndID: z.coerce.boolean().optional()
+    minified: z.coerce.boolean().optional()
 });
 
 export type AutomaticUpdatesFiltersType = z.infer<typeof AutomaticUpdatesFiltersSchema>;

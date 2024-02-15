@@ -228,7 +228,7 @@ export const OrdersFiltersSchema = z.object({
     notes: z.string().optional(),
     deleted: z.coerce.boolean().default(false).optional(),
     orderID: z.coerce.number().optional(),
-    onlyTitleAndID: z.coerce.boolean().optional()
+    minified: z.coerce.boolean().optional()
 });
 
 export type OrdersFiltersType = z.infer<typeof OrdersFiltersSchema>;

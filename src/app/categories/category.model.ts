@@ -59,7 +59,7 @@ export class CategoryModel {
         take: number,
         filters: {
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -68,7 +68,7 @@ export class CategoryModel {
             }
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const categories = await prisma.category.findMany({
                 skip: skip,
                 take: take,

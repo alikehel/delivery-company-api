@@ -71,10 +71,10 @@ export class CompanyModel {
         skip: number,
         take: number,
         filters: {
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const companies = await prisma.company.findMany({
                 skip: skip,
                 take: take,

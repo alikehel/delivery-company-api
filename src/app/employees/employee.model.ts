@@ -182,7 +182,7 @@ export class EmployeeModel {
             ordersStartDate?: Date;
             ordersEndDate?: Date;
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -218,7 +218,7 @@ export class EmployeeModel {
             ]
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const employees = await prisma.employee.findMany({
                 skip: skip,
                 take: take,

@@ -1203,7 +1203,7 @@ export class OrdersRepository {
             ]
         } satisfies Prisma.OrderWhereInput;
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const orders = await prisma.order.findMany({
                 skip: skip,
                 take: take,

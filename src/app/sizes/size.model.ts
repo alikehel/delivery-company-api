@@ -59,7 +59,7 @@ export class SizeModel {
         take: number,
         filters: {
             companyID?: number;
-            onlyTitleAndID?: boolean;
+            minified?: boolean;
         }
     ) {
         const where = {
@@ -68,7 +68,7 @@ export class SizeModel {
             }
         };
 
-        if (filters.onlyTitleAndID === true) {
+        if (filters.minified === true) {
             const sizes = await prisma.size.findMany({
                 skip: skip,
                 take: take,

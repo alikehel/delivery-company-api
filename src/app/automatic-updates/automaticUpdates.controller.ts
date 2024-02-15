@@ -32,7 +32,7 @@ export class AutomaticUpdatesController {
             companyID: req.query.company_id,
             size: req.query.size,
             page: req.query.page,
-            onlyTitleAndID: req.query.only_title_and_id,
+            minified: req.query.minified,
             enabled: req.query.enabled,
             orderStatus: req.query.order_status,
             governorate: req.query.governorate

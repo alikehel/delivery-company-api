@@ -29,7 +29,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
-    const onlyTitleAndID = req.query.only_title_and_id ? req.query.only_title_and_id === "true" : undefined;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
@@ -40,7 +40,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
         companyID: companyID
     });
     let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && onlyTitleAndID !== true) {
+    if (size > 50 && minified !== true) {
         size = 10;
     }
     const pagesCount = Math.ceil(branchesCount / size);
@@ -71,7 +71,7 @@ export const getAllBranches = catchAsync(async (req, res) => {
         companyID: companyID,
         governorate: governorate,
         locationID: locationID,
-        onlyTitleAndID: onlyTitleAndID
+        minified: minified
     });
 
     // Response
