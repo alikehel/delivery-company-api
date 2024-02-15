@@ -121,12 +121,74 @@ export const getAllOrders = catchAsync(async (req, res) => {
     }
     const pagesCount = Math.ceil(ordersCount / size);
 
+    // TODO: Fix this hard coded code
     if (pagesCount === 0) {
         res.status(200).json({
             status: "success",
             page: 1,
             pagesCount: 1,
-            data: []
+            data: {
+                orders: [],
+                ordersMetaData: {
+                    count: 0,
+                    totalCost: 0,
+                    paidAmount: 0,
+                    clientNet: 0,
+                    deliveryAgentNet: 0,
+                    companyNet: 0,
+                    deliveryCost: 0,
+                    countByStatus: [
+                        {
+                            status: "REGISTERED",
+                            count: 0
+                        },
+                        {
+                            status: "READY_TO_SEND",
+                            count: 0
+                        },
+                        {
+                            status: "WITH_DELIVERY_AGENT",
+                            count: 0
+                        },
+                        {
+                            status: "DELIVERED",
+                            count: 0
+                        },
+                        {
+                            status: "REPLACED",
+                            count: 0
+                        },
+                        {
+                            status: "PARTIALLY_RETURNED",
+                            count: 0
+                        },
+                        {
+                            status: "RETURNED",
+                            count: 0
+                        },
+                        {
+                            status: "POSTPONED",
+                            count: 0
+                        },
+                        {
+                            status: "CHANGE_ADDRESS",
+                            count: 0
+                        },
+                        {
+                            status: "RESEND",
+                            count: 0
+                        },
+                        {
+                            status: "WITH_RECEIVING_AGENT",
+                            count: 0
+                        },
+                        {
+                            status: "PROCESSING",
+                            count: 0
+                        }
+                    ]
+                }
+            }
         });
         return;
     }

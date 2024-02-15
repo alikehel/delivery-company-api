@@ -71,8 +71,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.clientReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.id}`,
                         400
                     );
                 }
@@ -91,8 +90,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.repositoryReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.id}`,
                         400
                     );
                 }
@@ -101,8 +99,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.branchReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.id}`,
                         400
                     );
                 }
@@ -111,8 +108,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.governorateReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.id}`,
                         400
                     );
                 }
@@ -121,8 +117,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.deliveryAgentReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.id}`,
                         400
                     );
                 }
@@ -131,8 +126,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.companyReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.id}`,
                         400
                     );
                 }
