@@ -55,11 +55,14 @@ export const getAllClients = catchAsync(async (req, res) => {
     }
     const deleted = (req.query.deleted as string) || "false";
 
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
+
     const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const clientsCount = await clientModel.getClientsCount({
         companyID: companyID,
-        deleted: deleted
+        deleted: deleted,
+        storeID: storeID
     });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
@@ -93,7 +96,8 @@ export const getAllClients = catchAsync(async (req, res) => {
     const clients = await clientModel.getAllClients(skip, take, {
         deleted: deleted,
         companyID: companyID,
-        minified: minified
+        minified: minified,
+        storeID: storeID
     });
 
     res.status(200).json({

@@ -656,7 +656,8 @@ export class ReportsRepository {
                 take: take,
                 where: where,
                 select: {
-                    id: true
+                    id: true,
+                    
                 }
             });
             return {

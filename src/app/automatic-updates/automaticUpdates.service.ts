@@ -105,7 +105,8 @@ export class AutomaticUpdatesService {
                     governorate: true,
                     branch: {
                         select: {
-                            id: true
+                            id: true,
+                            name: true
                         }
                     }
                 }

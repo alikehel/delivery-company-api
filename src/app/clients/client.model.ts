@@ -148,12 +148,18 @@ export class ClientModel {
     async getClientsCount(filters: {
         deleted?: string;
         companyID?: number;
+        storeID?: number;
     }) {
         const clientsCount = await prisma.client.count({
             where: {
                 deleted: filters.deleted === "true",
                 company: {
                     id: filters.companyID
+                },
+                stores: {
+                    some: {
+                        id: filters.storeID
+                    }
                 }
             }
         });
@@ -163,10 +169,14 @@ export class ClientModel {
     async getAllClients(
         skip: number,
         take: number,
-        filters: { deleted?: string; companyID?: number; minified?: boolean }
+        filters: { deleted?: string; companyID?: number; minified?: boolean; storeID?: number }
     ) {
         const where = {
-            AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+            AND: [
+                { deleted: filters.deleted === "true" },
+                { company: { id: filters.companyID } },
+                { stores: { some: { id: filters.storeID } } }
+            ]
         };
 
         if (filters.minified === true) {
