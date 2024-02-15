@@ -6,7 +6,6 @@ import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import sendNotification from "../notifications/helpers/sendNotification";
 import { generateReceipts } from "./helpers/generateReceipts";
-import { OrdersModel } from "./orders.model";
 import {
     OrderChatNotificationCreateSchema,
     OrderCreateSchema,
@@ -15,9 +14,10 @@ import {
     OrderUpdateSchema,
     OrdersFiltersSchema,
     OrdersReceiptsCreateSchema
-} from "./orders.zod";
+} from "./orders.dto";
+import { OrdersRepository } from "./orders.repository";
 
-const ordersModel = new OrdersModel();
+const ordersRepository = new OrdersRepository();
 
 export const createOrder = catchAsync(async (req, res) => {
     // const orderData = OrderCreateSchema.parse(req.body);
@@ -30,11 +30,11 @@ export const createOrder = catchAsync(async (req, res) => {
         for (const order of req.body) {
             orderData = OrderCreateSchema.parse(order);
             const storeID = orderData.storeID;
-            const clientID = await ordersModel.getClientIDByStoreID({ storeID });
+            const clientID = await ordersRepository.getClientIDByStoreID({ storeID });
             if (!clientID) {
                 throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
             }
-            const createdOrder = await ordersModel.createOrder(companyID, clientID, orderData);
+            const createdOrder = await ordersRepository.createOrder(companyID, clientID, orderData);
             if (!createdOrder) {
                 throw new AppError("Failed to create order", 500);
             }
@@ -49,19 +49,19 @@ export const createOrder = catchAsync(async (req, res) => {
     } else {
         orderData = OrderCreateSchema.parse(req.body);
         const storeID = orderData.storeID;
-        const clientID = await ordersModel.getClientIDByStoreID({ storeID });
+        const clientID = await ordersRepository.getClientIDByStoreID({ storeID });
         if (!clientID) {
             throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
         }
         // @ts-expect-error Fix later
-        createdOrder = await ordersModel.createOrder(companyID, clientID, orderData);
+        createdOrder = await ordersRepository.createOrder(companyID, clientID, orderData);
 
         res.status(200).json({
             status: "success",
             data: createdOrder
         });
     }
-    // const createdOrder = await ordersModel.createOrder(
+    // const createdOrder = await ordersRepository.createOrder(
     //     companyID,
     //     clientID,
     //     orderData
@@ -113,7 +113,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     });
 
     // Pagination
-    const ordersCount = await ordersModel.getOrdersCount(filters);
+    const ordersCount = await ordersRepository.getOrdersCount(filters);
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50) {
         size = 10;
@@ -143,7 +143,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
     //     skip = 0;
     // }
 
-    const orders = await ordersModel.getAllOrders(skip, take, filters);
+    const orders = await ordersRepository.getAllOrders(skip, take, filters);
 
     res.status(200).json({
         status: "success",
@@ -156,7 +156,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
 export const getOrder = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
 
-    const order = await ordersModel.getOrder({
+    const order = await ordersRepository.getOrder({
         orderID: orderID
     });
 
@@ -172,11 +172,11 @@ export const updateOrder = catchAsync(async (req, res) => {
 
     const orderData = OrderUpdateSchema.parse(req.body);
 
-    const oldOrderData = await ordersModel.getOrder({
+    const oldOrderData = await ordersRepository.getOrder({
         orderID: orderID
     });
 
-    const newOrder = await ordersModel.updateOrder({
+    const newOrder = await ordersRepository.updateOrder({
         orderID: orderID,
         orderData: orderData
     });
@@ -321,7 +321,7 @@ export const updateOrder = catchAsync(async (req, res) => {
             });
         }
 
-        await ordersModel.updateOrderTimeline({
+        await ordersRepository.updateOrderTimeline({
             orderID: orderID,
             timeline: timeline
         });
@@ -333,7 +333,7 @@ export const updateOrder = catchAsync(async (req, res) => {
 export const deleteOrder = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
 
-    await ordersModel.deleteOrder({
+    await ordersRepository.deleteOrder({
         orderID: orderID
     });
 
@@ -345,7 +345,7 @@ export const deleteOrder = catchAsync(async (req, res) => {
 export const createOrdersReceipts = catchAsync(async (req, res) => {
     const ordersIDs = OrdersReceiptsCreateSchema.parse(req.body);
 
-    const orders = await ordersModel.getOrdersByIDs(ordersIDs);
+    const orders = await ordersRepository.getOrdersByIDs(ordersIDs);
 
     const pdf = await generateReceipts(orders);
 
@@ -444,7 +444,7 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
-    const statistics = await ordersModel.getOrdersStatistics({
+    const statistics = await ordersRepository.getOrdersStatistics({
         storeID: storeID,
         companyID: companyID,
         clientReport: clientReport,
@@ -472,7 +472,7 @@ export const getOrdersStatistics = catchAsync(async (req, res) => {
 export const getOrderTimeline = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
 
-    const orderTimeline = await ordersModel.getOrderTimeline({
+    const orderTimeline = await ordersRepository.getOrderTimeline({
         orderID: orderID
     });
 
@@ -485,7 +485,7 @@ export const getOrderTimeline = catchAsync(async (req, res) => {
 export const getOrderChatMembers = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
 
-    const orderChatMembers = await ordersModel.getOrderChatMembers({
+    const orderChatMembers = await ordersRepository.getOrderChatMembers({
         orderID: orderID
     });
 
@@ -499,7 +499,7 @@ export const deactivateOrder = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
     const loggedInUserID = +res.locals.user.id;
 
-    await ordersModel.deactivateOrder({
+    await ordersRepository.deactivateOrder({
         orderID: orderID,
         deletedByID: loggedInUserID
     });
@@ -512,7 +512,7 @@ export const deactivateOrder = catchAsync(async (req, res) => {
 export const reactivateOrder = catchAsync(async (req, res) => {
     const orderID = +req.params.orderID;
 
-    await ordersModel.reactivateOrder({
+    await ordersRepository.reactivateOrder({
         orderID: orderID
     });
 
@@ -527,7 +527,7 @@ export const sendNotificationToOrderChatMembers = catchAsync(async (req, res) =>
 
     const notificationData = OrderChatNotificationCreateSchema.parse(req.body);
 
-    const orderChatMembers = await ordersModel.getOrderChatMembers({
+    const orderChatMembers = await ordersRepository.getOrderChatMembers({
         orderID: orderID
     });
 

@@ -1,6 +1,6 @@
 import { DeliveryType, EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
-import { OrderCreateType, OrderTimelineType, OrderUpdateType, OrdersFiltersType } from "./orders.zod";
+import { OrderCreateType, OrderTimelineType, OrderUpdateType, OrdersFiltersType } from "./orders.dto";
 
 const prisma = new PrismaClient();
 
@@ -324,7 +324,7 @@ const statisticsReformed = (statistics: {
 //     return todayOrdersCountAndEarningsReformed;
 // };
 
-export class OrdersModel {
+export class OrdersRepository {
     async createOrder(companyID: number, clientID: number, data: OrderCreateType) {
         let totalCost = 0;
         let quantity = 0;

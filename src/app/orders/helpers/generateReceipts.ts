@@ -6,7 +6,7 @@ import { AppError } from "../../../lib/AppError";
 import { handleArabicCharacters } from "../../../lib/handleArabicCharacters";
 import { localizeDeliveryType } from "../../../lib/localize";
 import { Logger } from "../../../lib/logger";
-import { orderReform } from "../orders.model";
+import { orderReform } from "../orders.repository";
 
 const getImage = async (url: string | Buffer) => {
     try {

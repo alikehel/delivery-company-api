@@ -4,14 +4,14 @@ import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
 import sendNotification from "../notifications/helpers/sendNotification";
-import { OrdersModel } from "../orders/orders.model";
-import { OrderTimelineType } from "../orders/orders.zod";
+import { OrderTimelineType } from "../orders/orders.dto";
+import { OrdersRepository } from "../orders/orders.repository";
 import { generateReport } from "./helpers/generateReportTemp";
+import { ReportCreateType } from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
-import { ReportCreateType } from "./reports.zod";
 
 const reportsRepository = new ReportsRepository();
-const ordersModel = new OrdersModel();
+const ordersRepository = new OrdersRepository();
 const employeeModel = new EmployeeModel();
 
 export class ReportService {
@@ -26,7 +26,7 @@ export class ReportService {
             reportData: ReportCreateType;
         }
     ) {
-        const orders = await ordersModel.getOrdersByIDs(data.reportData);
+        const orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
         if (!orders) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
@@ -176,7 +176,7 @@ export class ReportService {
         for (const order of orders) {
             // @ts-expect-error Fix later
             const oldTimeline: OrderTimelineType = order?.timeline;
-            await ordersModel.updateOrderTimeline({
+            await ordersRepository.updateOrderTimeline({
                 // @ts-expect-error Fix later
                 orderID: order.id,
                 timeline: [
@@ -202,7 +202,7 @@ export class ReportService {
         // TODO
         const pdf = await generateReport(data.reportData.type, reportData, orders);
         // const pdf = await generateReport(
-        //     await ordersModel.getAllOrders(0, 100, {
+        //     await ordersRepository.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
         //     })
         // );
@@ -361,7 +361,7 @@ export class ReportService {
 
         const ordersIDs = orders.map((order) => order.id);
 
-        const ordersData = await ordersModel.getOrdersByIDs({
+        const ordersData = await ordersRepository.getOrdersByIDs({
             ordersIDs: ordersIDs
         });
 

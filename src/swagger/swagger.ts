@@ -50,7 +50,7 @@ import {
     OrderUpdateOpenAPISchema,
     OrdersReceiptsCreateMock,
     OrdersReceiptsCreateOpenAPISchema
-} from "./../app/orders/orders.zod";
+} from "../app/orders/orders.dto";
 
 import {
     ProductCreateMock,
@@ -104,7 +104,7 @@ import {
     ReportCreateOpenAPISchema,
     ReportUpdateMock,
     ReportUpdateOpenAPISchema
-} from "./../app/reports/reports.zod";
+} from "../app/reports/reports.dto";
 
 import {
     AutomaticUpdateCreateMock,

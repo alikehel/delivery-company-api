@@ -1,5 +1,5 @@
 import { Governorate, Prisma, PrismaClient, ReportStatus, ReportType } from "@prisma/client";
-import { ReportCreateType, ReportUpdateType } from "./reports.zod";
+import { ReportCreateType, ReportUpdateType } from "./reports.dto";
 
 const prisma = new PrismaClient();
 

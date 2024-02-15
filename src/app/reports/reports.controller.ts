@@ -2,7 +2,7 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { ReportService } from "./reports.service";
-import { ReportCreateSchema, ReportUpdateSchema } from "./reports.zod";
+import { ReportCreateSchema, ReportUpdateSchema } from "./reports.dto";
 
 const reportService = new ReportService();
 

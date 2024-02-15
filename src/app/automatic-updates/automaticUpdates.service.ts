@@ -4,7 +4,7 @@ import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import sendNotification from "../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../orders/orders.zod";
+import { OrderTimelineType } from "../orders/orders.dto";
 import {
     AutomaticUpdateCreateType,
     AutomaticUpdateUpdateType,
