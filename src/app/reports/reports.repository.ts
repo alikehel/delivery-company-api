@@ -53,7 +53,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    clientReportId: true
+                    clientReportId: true,
+                    timeline: true
                 }
             }
         }
@@ -71,7 +72,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    repositoryReportId: true
+                    repositoryReportId: true,
+                    timeline: true
                 }
             }
         }
@@ -89,7 +91,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    branchReportId: true
+                    branchReportId: true,
+                    timeline: true
                 }
             }
         }
@@ -102,7 +105,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    governorateReportId: true
+                    governorateReportId: true,
+                    timeline: true
                 }
             }
         }
@@ -124,7 +128,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    deliveryAgentReportId: true
+                    deliveryAgentReportId: true,
+                    timeline: true
                 }
             }
         }
@@ -142,7 +147,8 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    companyReportId: true
+                    companyReportId: true,
+                    timeline: true
                 }
             }
         }
