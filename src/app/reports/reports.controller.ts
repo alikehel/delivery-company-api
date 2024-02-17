@@ -1,8 +1,8 @@
 // import { AppError } from "../../utils/AppError.util";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { ReportService } from "./reports.service";
 import { ReportCreateSchema, ReportUpdateSchema } from "./reports.dto";
+import { ReportService } from "./reports.service";
 
 const reportService = new ReportService();
 
@@ -147,9 +147,9 @@ export class ReportController {
 
     deactivateReport = catchAsync(async (req, res) => {
         const reportID = +req.params.reportID;
-        const loggedInUserID = +res.locals.user.id;
+        const loggedInUser = res.locals.user as loggedInUserType;
 
-        await reportService.deactivateReport(reportID, loggedInUserID);
+        await reportService.deactivateReport(reportID, loggedInUser);
 
         res.status(200).json({
             status: "success"

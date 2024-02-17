@@ -433,11 +433,51 @@ export class ReportService {
         });
     }
 
-    async deactivateReport(reportID: number, loggedInUserID: number) {
-        await reportsRepository.deactivateReport({
+    async deactivateReport(reportID: number, loggedInUser: loggedInUserType) {
+        const report = await reportsRepository.deactivateReport({
             reportID: reportID,
-            deletedByID: loggedInUserID
+            deletedByID: loggedInUser.id
         });
+
+        const orders =
+            report.type === ReportType.CLIENT
+                ? report.clientReport?.orders
+                : report.type === ReportType.REPOSITORY
+                  ? report.repositoryReport?.orders
+                  : report.type === ReportType.BRANCH
+                      ? report.branchReport?.orders
+                      : report.type === ReportType.GOVERNORATE
+                          ? report.governorateReport?.orders
+                          : report.type === ReportType.DELIVERY_AGENT
+                              ? report.deliveryAgentReport?.orders
+                              : report.type === ReportType.COMPANY
+                                  ? report.companyReport?.orders
+                                  : [];
+
+        if (orders) {
+            for (const order of orders) {
+                // @ts-expect-error Fix later
+                const oldTimeline: OrderTimelineType = order?.timeline;
+                await ordersRepository.updateOrderTimeline({
+                    orderID: order.id,
+                    timeline: [
+                        // @ts-expect-error Fix later
+                        ...oldTimeline,
+                        {
+                            type: "REPORT_DELETE",
+                            reportType: report.type,
+                            date: new Date(),
+                            by: {
+                                id: loggedInUser.id,
+                                name: loggedInUser.name,
+                                // @ts-expect-error Fix later
+                                role: loggedInUser.role
+                            }
+                        }
+                    ]
+                });
+            }
+        }
     }
 
     async reactivateReport(reportID: number) {

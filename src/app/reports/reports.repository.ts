@@ -657,7 +657,7 @@ export class ReportsRepository {
                 where: where,
                 select: {
                     id: true,
-                    
+
                 }
             });
             return {
@@ -763,7 +763,8 @@ export class ReportsRepository {
                         id: data.deletedByID
                     }
                 }
-            }
+            },
+            select: reportSelect
         });
         return deletedReport;
     }
