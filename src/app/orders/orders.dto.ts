@@ -29,17 +29,6 @@ export const OrderCreateBaseSchema = z.object({
     repositoryID: z.coerce.number().optional(),
     branchID: z.coerce.number().optional(),
     clientID: z.coerce.number().optional()
-    // paidAmount: z.number(),
-    // totalCostInUSD: z.number(),
-    // paidAmountInUSD: z.number(),
-    // discount: z.number(),
-    // receiptNumber: z.number(),
-    // status: z.nativeEnum(OrderStatus),
-    // clientID: z.coerce.number(),
-    // deliveryAgentID: z.coerce.number(),
-    // deliveryDate: z.date().optional(),
-    // // repositoryID: z.coerce.number().optional(),
-    // // branchID: z.coerce.number().optional(),
 });
 
 export const OrderCreateSchema = z
@@ -197,7 +186,7 @@ export const OrdersFiltersSchema = z.object({
     companyID: z.coerce.number().optional(),
     automaticUpdateID: z.coerce.number().optional(),
     search: z.string().optional(),
-    sort: z.string().optional().default("id:asc"),
+    sort: z.string().optional().default("id:desc"),
     startDate: z.coerce.date().optional(),
     endDate: z.coerce.date().optional(),
     deliveryDate: z.coerce.date().optional(),
