@@ -196,33 +196,33 @@ export const orderReform = (
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
         deletedAt: order.deletedAt?.toISOString(),
-        clientReport: {
+        clientReport: order.clientReport && {
             id: order.clientReport?.id,
             clientId: order.clientReport?.clientId,
             storeId: order.clientReport?.storeId,
             deleted: order.clientReport?.report.deleted
         },
-        repositoryReport: {
+        repositoryReport: order.repositoryReport && {
             id: order.repositoryReport?.id,
             repositoryId: order.repositoryReport?.repositoryId,
             deleted: order.repositoryReport?.report.deleted
         },
-        branchReport: {
+        branchReport: order.branchReport && {
             id: order.branchReport?.id,
             branchId: order.branchReport?.branchId,
             deleted: order.branchReport?.report.deleted
         },
-        deliveryAgentReport: {
+        deliveryAgentReport: order.deliveryAgentReport && {
             id: order.deliveryAgentReport?.id,
             deliveryAgentId: order.deliveryAgentReport?.deliveryAgentId,
             deleted: order.deliveryAgentReport?.report.deleted
         },
-        governorateReport: {
+        governorateReport: order.governorateReport && {
             id: order.governorateReport?.id,
             governorate: order.governorateReport?.governorate,
             deleted: order.governorateReport?.report.deleted
         },
-        companyReport: {
+        companyReport: order.companyReport && {
             id: order.companyReport?.id,
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
