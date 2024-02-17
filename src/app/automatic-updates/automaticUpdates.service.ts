@@ -30,7 +30,7 @@ export class AutomaticUpdatesService {
                         id: data.automaticUpdateData.branchID
                     }
                 },
-                // updateAt: data.automaticUpdateData.updateAt,
+                updateAt: data.automaticUpdateData.updateAt,
                 checkAfter: data.automaticUpdateData.checkAfter,
                 company: {
                     connect: {
@@ -159,7 +159,7 @@ export class AutomaticUpdatesService {
                 orderStatus: data.automaticUpdateData.orderStatus,
                 governorate: data.automaticUpdateData.governorate,
                 returnCondition: data.automaticUpdateData.returnCondition,
-                // updateAt: data.automaticUpdateData.updateAt,
+                updateAt: data.automaticUpdateData.updateAt,
                 checkAfter: data.automaticUpdateData.checkAfter,
                 newOrderStatus: data.automaticUpdateData.newOrderStatus,
                 branch: data.automaticUpdateData.branchID
