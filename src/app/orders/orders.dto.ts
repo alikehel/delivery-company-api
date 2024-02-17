@@ -226,9 +226,17 @@ export const OrdersFiltersSchema = z.object({
     governorateReport: z.string().optional(),
     companyReport: z.string().optional(),
     notes: z.string().optional(),
-    deleted: z.coerce.boolean().default(false).optional(),
+    deleted: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().default(false).optional()),
     orderID: z.coerce.number().optional(),
-    minified: z.coerce.boolean().optional()
+    minified: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional())
 });
 
 export type OrdersFiltersType = z.infer<typeof OrdersFiltersSchema>;

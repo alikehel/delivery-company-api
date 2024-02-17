@@ -77,10 +77,18 @@ export const AutomaticUpdatesFiltersSchema = z.object({
     returnCondition: z.nativeEnum(AutomaticUpdateReturnCondition).optional(),
     newOrderStatus: z.nativeEnum(OrderStatus).optional(),
     branchID: z.coerce.number().optional(),
-    enabled: z.coerce.boolean().optional(),
+    enabled: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
     size: z.coerce.number().min(1).optional().default(10),
     page: z.coerce.number().min(1).optional().default(1),
-    minified: z.coerce.boolean().optional()
+    minified: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional())
 });
 
 export type AutomaticUpdatesFiltersType = z.infer<typeof AutomaticUpdatesFiltersSchema>;
