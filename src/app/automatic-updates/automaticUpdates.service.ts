@@ -162,11 +162,13 @@ export class AutomaticUpdatesService {
                 // updateAt: data.automaticUpdateData.updateAt,
                 checkAfter: data.automaticUpdateData.checkAfter,
                 newOrderStatus: data.automaticUpdateData.newOrderStatus,
-                branch: {
-                    connect: {
-                        id: data.automaticUpdateData.branchID
-                    }
-                },
+                branch: data.automaticUpdateData.branchID
+                    ? {
+                          connect: {
+                              id: data.automaticUpdateData.branchID
+                          }
+                      }
+                    : undefined,
                 enabled: data.automaticUpdateData.enabled
             },
             select: automaticUpdateSelect
