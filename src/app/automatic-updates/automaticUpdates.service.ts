@@ -211,9 +211,9 @@ export const automaticUpdatesTask = async () => {
                     company: {
                         id: company.id
                     },
-                    // updateAt: {
-                    //     equals: currentTime
-                    // },
+                    updateAt: {
+                        equals: currentTime
+                    },
                     enabled: true
                 },
                 select: {

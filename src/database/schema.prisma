@@ -622,7 +622,7 @@ model AutomaticUpdate {
 
   governorate     Governorate
   returnCondition AutomaticUpdateReturnCondition?
-  // updateAt    Int         @default(22) // 0 -> 24
+  updateAt        Int                             @default(22) // 0 -> 24
   checkAfter      Int                             @default(24) // 0 -> infinity
 
   orders  Order[]
