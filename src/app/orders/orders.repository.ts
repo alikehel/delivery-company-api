@@ -72,12 +72,73 @@ export const orderSelect = {
             name: true
         }
     },
-    clientReport: true,
-    repositoryReport: true,
-    branchReport: true,
-    deliveryAgentReport: true,
-    governorateReport: true,
-    companyReport: true,
+    clientReport: {
+        select: {
+            id: true,
+            clientId: true,
+            storeId: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
+    repositoryReport: {
+        select: {
+            id: true,
+            repositoryId: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
+    branchReport: {
+        select: {
+            id: true,
+            branchId: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
+    deliveryAgentReport: {
+        select: {
+            id: true,
+            deliveryAgentId: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
+    governorateReport: {
+        select: {
+            id: true,
+            governorate: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
+    companyReport: {
+        select: {
+            id: true,
+            companyId: true,
+            report: {
+                select: {
+                    deleted: true
+                }
+            }
+        }
+    },
     company: {
         select: {
             id: true,
@@ -134,7 +195,38 @@ export const orderReform = (
             : undefined,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
-        deletedAt: order.deletedAt?.toISOString()
+        deletedAt: order.deletedAt?.toISOString(),
+        clientReport: {
+            id: order.clientReport?.id,
+            clientId: order.clientReport?.clientId,
+            storeId: order.clientReport?.storeId,
+            deleted: order.clientReport?.report.deleted
+        },
+        repositoryReport: {
+            id: order.repositoryReport?.id,
+            repositoryId: order.repositoryReport?.repositoryId,
+            deleted: order.repositoryReport?.report.deleted
+        },
+        branchReport: {
+            id: order.branchReport?.id,
+            branchId: order.branchReport?.branchId,
+            deleted: order.branchReport?.report.deleted
+        },
+        deliveryAgentReport: {
+            id: order.deliveryAgentReport?.id,
+            deliveryAgentId: order.deliveryAgentReport?.deliveryAgentId,
+            deleted: order.deliveryAgentReport?.report.deleted
+        },
+        governorateReport: {
+            id: order.governorateReport?.id,
+            governorate: order.governorateReport?.governorate,
+            deleted: order.governorateReport?.report.deleted
+        },
+        companyReport: {
+            id: order.companyReport?.id,
+            companyId: order.companyReport?.companyId,
+            deleted: order.companyReport?.report.deleted
+        }
     };
 };
 
