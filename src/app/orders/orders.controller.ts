@@ -4,7 +4,7 @@ import { catchAsync } from "../../lib/catchAsync";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
-import sendNotification from "../notifications/helpers/sendNotification";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { generateReceipts } from "./helpers/generateReceipts";
 import {
     OrderChatNotificationCreateSchema,
