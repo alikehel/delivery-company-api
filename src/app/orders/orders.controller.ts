@@ -1,4 +1,4 @@
-import { AdminRole, DeliveryType, EmployeeRole, Governorate, Order, OrderStatus } from "@prisma/client";
+import { AdminRole, EmployeeRole, Order } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { localizeOrderStatus } from "../../lib/localize";
@@ -13,7 +13,8 @@ import {
     OrderTimelineType,
     OrderUpdateSchema,
     OrdersFiltersSchema,
-    OrdersReceiptsCreateSchema
+    OrdersReceiptsCreateSchema,
+    OrdersStatisticsFiltersSchema
 } from "./orders.dto";
 import { OrdersRepository } from "./orders.repository";
 
@@ -432,113 +433,38 @@ export class OrdersController {
     });
 
     getOrdersStatistics = catchAsync(async (req, res) => {
-        // Filters
         const loggedInUser = res.locals.user as loggedInUserType;
-        let companyID: number | undefined;
-        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-            companyID = req.query.company_id ? +req.query.company_id : undefined;
-        } else if (loggedInUser.companyID) {
-            companyID = loggedInUser.companyID;
-        }
 
-        const storeID = req.query.store_id ? +req.query.store_id : undefined;
-
-        let clientID: number | undefined;
-        if (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT") {
-            clientID = +loggedInUser.id;
-        } else if (req.query.client_id) {
-            clientID = +req.query.client_id;
-        } else {
-            clientID = undefined;
-        }
-
-        let deliveryAgentID: number | undefined;
-        if (loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
-            deliveryAgentID = +loggedInUser.id;
-        } else if (req.query.delivery_agent_id) {
-            deliveryAgentID = +req.query.delivery_agent_id;
-        } else {
-            deliveryAgentID = undefined;
-        }
-
-        // TODO: Fix this
-        const clientReport = (
-            req.query.client_report === "true"
-                ? true
-                : req.query.client_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const branchReport = (
-            req.query.branch_report === "true"
-                ? true
-                : req.query.branch_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const repositoryReport = (
-            req.query.repository_report === "true"
-                ? true
-                : req.query.repository_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const deliveryAgentReport = (
-            req.query.delivery_agent_report === "true"
-                ? true
-                : req.query.delivery_agent_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const governorateReport = (
-            req.query.governorate_report === "true"
-                ? true
-                : req.query.governorate_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const companyReport = (
-            req.query.company_report === "true"
-                ? true
-                : req.query.company_report === "false"
-                  ? false
-                  : undefined
-        ) as boolean | undefined;
-
-        const statuses = req.query.statuses?.toString().toUpperCase().split(",") as OrderStatus[] | undefined;
-
-        const deliveryType = req.query.delivery_type?.toString().toUpperCase() as DeliveryType | undefined;
-
-        const locationID = req.query.location_id ? +req.query.location_id : undefined;
-
-        const startDate = req.query.start_date ? new Date(req.query.start_date as string) : undefined;
-
-        const endDate = req.query.end_date ? new Date(req.query.end_date as string) : undefined;
-
-        const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
+        const filters = OrdersStatisticsFiltersSchema.parse({
+            clientID:
+                loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT"
+                    ? loggedInUser.id
+                    : req.query.client_id,
+            deliveryAgentID:
+                loggedInUser.role === EmployeeRole.DELIVERY_AGENT
+                    ? loggedInUser.id
+                    : req.query.delivery_agent_id,
+            companyID:
+                Object.keys(AdminRole).includes(loggedInUser.role) && req.query.company_id
+                    ? req.query.company_id
+                    : loggedInUser.companyID,
+            startDate: req.query.start_date,
+            endDate: req.query.end_date,
+            governorate: req.query.governorate,
+            statuses: req.query.statuses,
+            deliveryType: req.query.delivery_type,
+            storeID: req.query.store_id,
+            locationID: req.query.location_id,
+            clientReport: req.query.client_report,
+            repositoryReport: req.query.repository_report,
+            branchReport: req.query.branch_report,
+            deliveryAgentReport: req.query.delivery_agent_report,
+            governorateReport: req.query.governorate_report,
+            companyReport: req.query.company_report
+        });
 
         const statistics = await ordersRepository.getOrdersStatistics({
-            storeID: storeID,
-            companyID: companyID,
-            clientReport: clientReport,
-            governorate: governorate,
-            startDate: startDate,
-            deliveryAgentID: deliveryAgentID,
-            endDate: endDate,
-            clientID: clientID,
-            branchReport: branchReport,
-            repositoryReport: repositoryReport,
-            deliveryAgentReport: deliveryAgentReport,
-            governorateReport: governorateReport,
-            companyReport: companyReport,
-            statuses: statuses,
-            deliveryType: deliveryType,
-            locationID: locationID
+            filters: filters
         });
 
         res.status(200).json({

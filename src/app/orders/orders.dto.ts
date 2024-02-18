@@ -237,6 +237,62 @@ export const OrdersFiltersMock = generateMock(OrdersFiltersSchema);
 
 /* --------------------------------------------------------------- */
 
+export const OrdersStatisticsFiltersSchema = z.object({
+    clientID: z.coerce.number().optional(),
+    deliveryAgentID: z.coerce.number().optional(),
+    companyID: z.coerce.number().optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional(),
+    governorate: z.nativeEnum(Governorate).optional(),
+    statuses: z.preprocess((val) => {
+        if (typeof val === "string") {
+            return val.split(",");
+        }
+        return val;
+    }, z.array(z.nativeEnum(OrderStatus)).optional()),
+    deliveryType: z.nativeEnum(DeliveryType).optional(),
+    storeID: z.coerce.number().optional(),
+    locationID: z.coerce.number().optional(),
+    clientReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    repositoryReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    branchReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    deliveryAgentReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    governorateReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    companyReport: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional())
+});
+
+export type OrdersStatisticsFiltersType = z.infer<typeof OrdersStatisticsFiltersSchema>;
+
+export const OrdersStatisticsFiltersOpenAPISchema = generateSchema(OrdersStatisticsFiltersSchema);
+
+export const OrdersStatisticsFiltersMock = generateMock(OrdersStatisticsFiltersSchema);
+
+/* --------------------------------------------------------------- */
+
 export const orderSelect = {
     id: true,
     totalCost: true,

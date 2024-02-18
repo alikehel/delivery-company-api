@@ -1,10 +1,11 @@
-import { DeliveryType, EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
+import { EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import {
     OrderCreateType,
     OrderTimelineType,
     OrderUpdateType,
     OrdersFiltersType,
+    OrdersStatisticsFiltersType,
     orderReform,
     orderSelect,
     statisticsReformed
@@ -967,7 +968,7 @@ export class OrdersRepository {
             ordersMetaData: ordersMetaDataReformed
         };
     }
-    // eslint-disable-next-line no-unused-vars
+
     async getOrdersByIDs(data: { ordersIDs: number[] }) {
         const orders = await prisma.order.findMany({
             where: {
@@ -1126,114 +1127,93 @@ export class OrdersRepository {
         return deletedOrder;
     }
 
-    async getOrdersStatistics(filters: {
-        companyID?: number;
-        storeID?: number;
-        clientReport?: boolean;
-        governorateReport?: boolean;
-        branchReport?: boolean;
-        deliveryAgentReport?: boolean;
-        repositoryReport?: boolean;
-        companyReport?: boolean;
-        statuses?: OrderStatus[];
-        deliveryAgentID?: number;
-        governorate?: Governorate;
-        startDate?: Date;
-        endDate?: Date;
-        clientID?: number;
-        deliveryType?: DeliveryType;
-        locationID?: number;
+    async getOrdersStatistics(data: {
+        filters: OrdersStatisticsFiltersType;
     }) {
         const filtersReformed = {
             AND: [
                 {
                     company: {
-                        id: filters.companyID
+                        id: data.filters.companyID
                     }
                 },
                 {
-                    storeId: filters.storeID
+                    storeId: data.filters.storeID
                 },
                 {
-                    clientReport:
-                        filters.clientReport === true
-                            ? { isNot: null }
-                            : filters.clientReport === false
-                              ? { is: null }
-                              : undefined
+                    clientReport: data.filters.clientReport
+                        ? { isNot: null }
+                        : data.filters.clientReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    governorateReport:
-                        filters.governorateReport === true
-                            ? { isNot: null }
-                            : filters.governorateReport === false
-                              ? { is: null }
-                              : undefined
+                    governorateReport: data.filters.governorateReport
+                        ? { isNot: null }
+                        : data.filters.governorateReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    branchReport:
-                        filters.branchReport === true
-                            ? { isNot: null }
-                            : filters.branchReport === false
-                              ? { is: null }
-                              : undefined
+                    branchReport: data.filters.branchReport
+                        ? { isNot: null }
+                        : data.filters.branchReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    deliveryAgentReport:
-                        filters.deliveryAgentReport === true
-                            ? { isNot: null }
-                            : filters.deliveryAgentReport === false
-                              ? { is: null }
-                              : undefined
+                    deliveryAgentReport: data.filters.deliveryAgentReport
+                        ? { isNot: null }
+                        : data.filters.deliveryAgentReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    repositoryReport:
-                        filters.repositoryReport === true
-                            ? { isNot: null }
-                            : filters.repositoryReport === false
-                              ? { is: null }
-                              : undefined
+                    repositoryReport: data.filters.repositoryReport
+                        ? { isNot: null }
+                        : data.filters.repositoryReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    companyReport:
-                        filters.companyReport === true
-                            ? { isNot: null }
-                            : filters.companyReport === false
-                              ? { is: null }
-                              : undefined
+                    companyReport: data.filters.companyReport
+                        ? { isNot: null }
+                        : data.filters.companyReport
+                          ? { is: null }
+                          : undefined
                 },
                 {
-                    status: { in: filters.statuses }
+                    status: { in: data.filters.statuses }
                 },
                 {
-                    governorate: filters.governorate
+                    governorate: data.filters.governorate
                 },
                 {
                     createdAt: {
-                        gte: filters.startDate
+                        gte: data.filters.startDate
                     }
                 },
                 {
                     createdAt: {
-                        lte: filters.endDate
+                        lte: data.filters.endDate
                     }
                 },
                 {
                     client: {
-                        id: filters.clientID
+                        id: data.filters.clientID
                     }
                 },
                 {
-                    deliveryType: filters.deliveryType
+                    deliveryType: data.filters.deliveryType
                 },
                 {
                     location: {
-                        id: filters.locationID
+                        id: data.filters.locationID
                     }
                 },
                 {
                     deliveryAgent: {
-                        id: filters.deliveryAgentID
+                        id: data.filters.deliveryAgentID
                     }
                 }
             ]
