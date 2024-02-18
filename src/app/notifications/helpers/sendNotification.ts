@@ -14,7 +14,7 @@ admin.initializeApp({
 
 const notificationModel = new NotificationModel();
 
-const sendNotification = async (data: NotificationCreateType) => {
+export const sendNotification = async (data: NotificationCreateType) => {
     const createdNotification = await notificationModel.createNotification(data);
 
     const user = createdNotification?.user;
@@ -53,5 +53,3 @@ const sendNotification = async (data: NotificationCreateType) => {
             Logger.error("Error sending message to token:", error);
         });
 };
-
-export default sendNotification;
