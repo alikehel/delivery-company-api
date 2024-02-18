@@ -4,22 +4,10 @@ import { Router } from "express";
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import {
-    createOrder,
-    createOrdersReceipts,
-    deactivateOrder,
-    deleteOrder,
-    getAllOrders,
-    getOrder,
-    getOrderChatMembers,
-    getOrderTimeline,
-    getOrdersStatistics,
-    reactivateOrder,
-    sendNotificationToOrderChatMembers,
-    updateOrder
-} from "./orders.controller";
+import { OrdersController } from "./orders.controller";
 
 const router = Router();
+const ordersController = new OrdersController();
 
 router.route("/orders").post(
     isLoggedIn,
@@ -33,7 +21,7 @@ router.route("/orders").post(
         ],
         [Permission.ADD_ORDER]
     ),
-    createOrder
+    ordersController.createOrder
     /*
         #swagger.tags = ['Orders Routes']
 
@@ -54,7 +42,7 @@ router.route("/orders").post(
 router.route("/orders").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    getAllOrders
+    ordersController.getAllOrders
     /*
         #swagger.tags = ['Orders Routes']
 
@@ -212,7 +200,7 @@ router.route("/orders/statistics").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getOrdersStatistics
+    ordersController.getOrdersStatistics
     /*
         #swagger.tags = ['Orders Routes']
 
@@ -311,7 +299,7 @@ router.route("/orders/statistics").get(
 router.route("/orders/:orderID").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    getOrder
+    ordersController.getOrder
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -320,7 +308,7 @@ router.route("/orders/:orderID").get(
 router.route("/orders/:orderID/timeline").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    getOrderTimeline
+    ordersController.getOrderTimeline
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -329,7 +317,7 @@ router.route("/orders/:orderID/timeline").get(
 router.route("/orders/:orderID/chat-members").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    getOrderChatMembers
+    ordersController.getOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -338,7 +326,7 @@ router.route("/orders/:orderID/chat-members").get(
 router.route("/orders/:orderID/chat").post(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    sendNotificationToOrderChatMembers
+    ordersController.sendNotificationToOrderChatMembers
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -347,7 +335,7 @@ router.route("/orders/:orderID/chat").post(
 router.route("/orders/receipts").post(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-    createOrdersReceipts
+    ordersController.createOrdersReceipts
     /*
         #swagger.tags = ['Orders Routes']
 
@@ -380,7 +368,7 @@ router.route("/orders/:orderID").patch(
             Permission.LOCK_ORDER_STATUS
         ]
     ),
-    updateOrder
+    ordersController.updateOrder
     /*
         #swagger.tags = ['Orders Routes']
 
@@ -401,7 +389,7 @@ router.route("/orders/:orderID").patch(
 router.route("/orders/:orderID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteOrder
+    ordersController.deleteOrder
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -413,7 +401,7 @@ router.route("/orders/:orderID/deactivate").patch(
         [EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT],
         [Permission.DELETE_ORDER]
     ),
-    deactivateOrder
+    ordersController.deactivateOrder
     /*
         #swagger.tags = ['Orders Routes']
     */
@@ -422,7 +410,7 @@ router.route("/orders/:orderID/deactivate").patch(
 router.route("/orders/:orderID/reactivate").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    reactivateOrder
+    ordersController.reactivateOrder
     /*
         #swagger.tags = ['Orders Routes']
     */
