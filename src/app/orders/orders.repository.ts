@@ -230,54 +230,6 @@ export const orderReform = (
     };
 };
 
-// TODO: Remove this
-// const ordersStatusesReformed = (
-//     ordersStatuses: (Prisma.PickEnumerable<
-//         Prisma.OrderGroupByOutputType,
-//         "status"[]
-//     > & {
-//         _count: {
-//             status: number;
-//         };
-//     })[]
-// ) => {
-//     const ordersStatusesReformed = (
-//         Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
-//     ).map((status) => {
-//         const statusCount = ordersStatuses.find(
-//             (orderStatus: { status: string }) => {
-//                 return orderStatus.status === status;
-//             }
-//         );
-
-//         return {
-//             status: status,
-//             count: statusCount?._count?.status || 0
-//         };
-//     });
-
-//     const sortingOrder = [
-//         "WITH_DELIVERY_AGENT",
-//         "POSTPONED",
-//         "RESEND",
-//         "PROCESSING",
-//         "DELIVERED",
-//         "PARTIALLY_RETURNED",
-//         "REPLACED",
-//         "CHANGE_ADDRESS",
-//         "RETURNED",
-//         "REGISTERED",
-//         "WITH_RECEIVING_AGENT",
-//         "READY_TO_SEND"
-//     ];
-
-//     ordersStatusesReformed.sort((a, b) => {
-//         return sortingOrder.indexOf(a.status) - sortingOrder.indexOf(b.status);
-//     });
-
-//     return ordersStatusesReformed;
-// };
-
 const statisticsReformed = (statistics: {
     ordersStatisticsByStatus: (Prisma.PickEnumerable<Prisma.OrderGroupByOutputType, "status"[]> & {
         _count: {
@@ -390,31 +342,6 @@ const statisticsReformed = (statistics: {
 
     return statisticsReformed;
 };
-
-// TODO: Remove this
-// const todayOrdersCountAndEarningsReformed = (
-//     todayOrdersCountAndEarnings: Prisma.GetOrderAggregateType<{
-//         _sum: {
-//             totalCost: true;
-//             paidAmount: true;
-//         };
-//         _count: {
-//             id: true;
-//         };
-//         where: {
-//             createdAt: {
-//                 gte: Date;
-//             };
-//         };
-//     }>
-// ) => {
-//     const todayOrdersCountAndEarningsReformed = {
-//         count: todayOrdersCountAndEarnings._count.id,
-//         totalCost: todayOrdersCountAndEarnings._sum.totalCost || 0
-//     };
-
-//     return todayOrdersCountAndEarningsReformed;
-// };
 
 export class OrdersRepository {
     async createOrder(companyID: number, clientID: number, data: OrderCreateType) {
@@ -1529,34 +1456,6 @@ export class OrdersRepository {
         });
         return deletedOrder;
     }
-
-    // async getAllOrdersStatuses() {
-    //     const ordersStatuses = await prisma.order.groupBy({
-    //         by: ["status"],
-    //         _count: {
-    //             status: true
-    //         }
-    //     });
-    //     return ordersStatusesReformed(ordersStatuses);
-    // }
-
-    // async getTodayOrdersCountAndEarnings() {
-    //     const todayOrdersCountAndEarnings = await prisma.order.aggregate({
-    //         _sum: {
-    //             totalCost: true,
-    //             paidAmount: true
-    //         },
-    //         _count: {
-    //             id: true
-    //         },
-    //         where: {
-    //             createdAt: {
-    //                 gte: new Date(new Date().setHours(0, 0, 0, 0))
-    //             }
-    //         }
-    //     });
-    //     return todayOrdersCountAndEarningsReformed(todayOrdersCountAndEarnings);
-    // }
 
     async getOrdersStatistics(filters: {
         companyID?: number;
