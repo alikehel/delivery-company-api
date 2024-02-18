@@ -1,231 +1,20 @@
-import { Governorate, Prisma, PrismaClient, ReportStatus, ReportType } from "@prisma/client";
-import { ReportCreateType, ReportUpdateType } from "./reports.dto";
+import { PrismaClient, ReportType } from "@prisma/client";
+import { loggedInUserType } from "../../types/user";
+import {
+    ReportCreateType,
+    ReportUpdateType,
+    ReportsFiltersType,
+    reportReform,
+    reportSelect
+} from "./reports.dto";
 
 const prisma = new PrismaClient();
 
-export const reportSelect = {
-    id: true,
-    status: true,
-    confirmed: true,
-    createdBy: {
-        select: {
-            id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
-        }
-    },
-    baghdadOrdersCount: true,
-    governoratesOrdersCount: true,
-    totalCost: true,
-    paidAmount: true,
-    deliveryCost: true,
-    clientNet: true,
-    deliveryAgentNet: true,
-    companyNet: true,
-    type: true,
-    createdAt: true,
-    updatedAt: true,
-    clientReport: {
-        select: {
-            id: true,
-            client: {
-                select: {
-                    user: {
-                        select: {
-                            id: true,
-                            name: true,
-                            phone: true
-                        }
-                    }
-                }
-            },
-            store: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            },
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    clientReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    repositoryReport: {
-        select: {
-            id: true,
-            repository: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            },
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    repositoryReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    branchReport: {
-        select: {
-            id: true,
-            branch: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            },
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    branchReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    governorateReport: {
-        select: {
-            id: true,
-            governorate: true,
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    governorateReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    deliveryAgentReport: {
-        select: {
-            id: true,
-            deliveryAgent: {
-                select: {
-                    user: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    }
-                }
-            },
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    deliveryAgentReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    companyReport: {
-        select: {
-            id: true,
-            company: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            },
-            orders: {
-                select: {
-                    id: true,
-                    receiptNumber: true,
-                    companyReportId: true,
-                    timeline: true
-                }
-            }
-        }
-    },
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    },
-    deleted: true,
-    deletedAt: true,
-    deletedBy: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.ReportSelect;
-
-export const reportReform = (
-    report: Prisma.ReportGetPayload<{
-        select: typeof reportSelect;
-    }> | null
-) => {
-    if (!report) {
-        return null;
-    }
-    const reportData = {
-        ...report,
-        createdBy: report.createdBy.user,
-        clientReport: report.clientReport && {
-            reportNumber: report.clientReport.id,
-            clientReportOrders: report.clientReport.orders,
-            client: report.clientReport.client.user,
-            store: report.clientReport.store
-        },
-        repositoryReport: report.repositoryReport && {
-            reportNumber: report.repositoryReport.id,
-            repositoryReportOrders: report.repositoryReport.orders,
-            repository: report.repositoryReport.repository
-        },
-        branchReport: report.branchReport && {
-            reportNumber: report.branchReport.id,
-            branchReportOrders: report.branchReport.orders,
-            branch: report.branchReport.branch
-        },
-        governorateReport: report.governorateReport && {
-            reportNumber: report.governorateReport.id,
-            governorateReportOrders: report.governorateReport.orders,
-            governorate: report.governorateReport.governorate
-        },
-        deliveryAgentReport: report.deliveryAgentReport && {
-            reportNumber: report.deliveryAgentReport.id,
-            deliveryAgentReportOrders: report.deliveryAgentReport.orders,
-            deliveryAgent: report.deliveryAgentReport.deliveryAgent.user
-        },
-        companyReport: report.companyReport && {
-            reportNumber: report.companyReport.id,
-            companyReportOrders: report.companyReport.orders,
-            company: report.companyReport.company
-        },
-        company: report.company,
-        deleted: report.deleted,
-        deletedBy: report.deleted && report.deletedBy,
-        deletedAt: report.deletedAt?.toISOString()
-    };
-    return reportData;
-};
-
-// const reportInclude: Prisma.ReportInclude = {};
-
 export class ReportsRepository {
-    async createReport(
-        companyID: number,
-        userID: number,
-        data: ReportCreateType,
+    async createReport(data: {
+        loggedInUser: loggedInUserType;
+        reportData: ReportCreateType;
+        // TODO: Make reportMetaData a type
         reportMetaData: {
             totalCost: number;
             paidAmount: number;
@@ -235,10 +24,10 @@ export class ReportsRepository {
             clientNet: number;
             deliveryAgentNet: number;
             companyNet: number;
-        }
-    ) {
+        };
+    }) {
         const orders = {
-            connect: data.ordersIDs.map((orderID) => {
+            connect: data.reportData.ordersIDs.map((orderID) => {
                 return {
                     id: orderID
                 };
@@ -246,39 +35,40 @@ export class ReportsRepository {
         };
         const report = {
             create: {
-                type: data.type,
+                type: data.reportData.type,
                 createdBy: {
                     connect: {
-                        id: userID
+                        id: data.loggedInUser.id
                     }
                 },
                 company: {
                     connect: {
-                        id: companyID
+                        // TODO: Is it always number ?
+                        id: data.loggedInUser.companyID as number
                     }
                 },
-                baghdadOrdersCount: reportMetaData.baghdadOrdersCount,
-                governoratesOrdersCount: reportMetaData.governoratesOrdersCount,
-                totalCost: reportMetaData.totalCost,
-                paidAmount: reportMetaData.paidAmount,
-                deliveryCost: reportMetaData.deliveryCost,
-                clientNet: reportMetaData.clientNet,
-                deliveryAgentNet: reportMetaData.deliveryAgentNet,
-                companyNet: reportMetaData.companyNet
+                baghdadOrdersCount: data.reportMetaData.baghdadOrdersCount,
+                governoratesOrdersCount: data.reportMetaData.governoratesOrdersCount,
+                totalCost: data.reportMetaData.totalCost,
+                paidAmount: data.reportMetaData.paidAmount,
+                deliveryCost: data.reportMetaData.deliveryCost,
+                clientNet: data.reportMetaData.clientNet,
+                deliveryAgentNet: data.reportMetaData.deliveryAgentNet,
+                companyNet: data.reportMetaData.companyNet
             }
         };
-        if (data.type === ReportType.CLIENT) {
+        if (data.reportData.type === ReportType.CLIENT) {
             const createdReport = await prisma.clientReport.create({
                 data: {
                     client: {
                         connect: {
-                            id: data.clientID
+                            id: data.reportData.clientID
                         }
                     },
                     // TODO
                     store: {
                         connect: {
-                            id: data.storeID
+                            id: data.reportData.storeID
                         }
                     },
                     orders: orders,
@@ -287,12 +77,12 @@ export class ReportsRepository {
             });
             return createdReport;
         }
-        if (data.type === ReportType.REPOSITORY) {
+        if (data.reportData.type === ReportType.REPOSITORY) {
             const createdReport = await prisma.repositoryReport.create({
                 data: {
                     repository: {
                         connect: {
-                            id: data.repositoryID
+                            id: data.reportData.repositoryID
                         }
                     },
                     orders: orders,
@@ -301,12 +91,12 @@ export class ReportsRepository {
             });
             return createdReport;
         }
-        if (data.type === ReportType.BRANCH) {
+        if (data.reportData.type === ReportType.BRANCH) {
             const createdReport = await prisma.branchReport.create({
                 data: {
                     branch: {
                         connect: {
-                            id: data.branchID
+                            id: data.reportData.branchID
                         }
                     },
                     orders: orders,
@@ -315,12 +105,12 @@ export class ReportsRepository {
             });
             return createdReport;
         }
-        if (data.type === ReportType.DELIVERY_AGENT) {
+        if (data.reportData.type === ReportType.DELIVERY_AGENT) {
             const createdReport = await prisma.deliveryAgentReport.create({
                 data: {
                     deliveryAgent: {
                         connect: {
-                            id: data.deliveryAgentID
+                            id: data.reportData.deliveryAgentID
                         }
                     },
                     orders: orders,
@@ -329,22 +119,22 @@ export class ReportsRepository {
             });
             return createdReport;
         }
-        if (data.type === ReportType.GOVERNORATE) {
+        if (data.reportData.type === ReportType.GOVERNORATE) {
             const createdReport = await prisma.governorateReport.create({
                 data: {
-                    governorate: data.governorate,
+                    governorate: data.reportData.governorate,
                     orders: orders,
                     report: report
                 }
             });
             return createdReport;
         }
-        if (data.type === ReportType.COMPANY) {
+        if (data.reportData.type === ReportType.COMPANY) {
             const createdReport = await prisma.companyReport.create({
                 data: {
                     company: {
                         connect: {
-                            id: data.companyID
+                            id: data.reportData.companyID
                         }
                     },
                     orders: orders,
@@ -355,36 +145,19 @@ export class ReportsRepository {
         }
     }
 
-    async getReportsCount(filters: {
-        sort: string;
-        startDate?: Date;
-        endDate?: Date;
-        clientID?: number;
-        storeID?: number;
-        repositoryID?: number;
-        branchID?: number;
-        branch?: number;
-        deliveryAgentID?: number;
-        governorate?: Governorate;
-        companyID?: number;
-        company?: number;
-        status?: ReportStatus;
-        type?: ReportType;
-        deleted?: string;
-        createdByID?: number;
-    }) {
+    async getReportsCount(data: { filters: ReportsFiltersType }) {
         const reportsCount = await prisma.report.count({
             where: {
                 AND: [
                     {
                         OR: [
                             {
-                                deliveryAgentReport: filters.branch
+                                deliveryAgentReport: data.filters.branch
                                     ? {
                                           orders: {
                                               some: {
                                                   branch: {
-                                                      id: filters.branch
+                                                      id: data.filters.branch
                                                   }
                                               }
                                           }
@@ -392,12 +165,12 @@ export class ReportsRepository {
                                     : undefined
                             },
                             {
-                                clientReport: filters.branch
+                                clientReport: data.filters.branch
                                     ? {
                                           orders: {
                                               some: {
                                                   branch: {
-                                                      id: filters.branch
+                                                      id: data.filters.branch
                                                   }
                                               }
                                           }
@@ -405,12 +178,12 @@ export class ReportsRepository {
                                     : undefined
                             },
                             {
-                                repositoryReport: filters.branch
+                                repositoryReport: data.filters.branch
                                     ? {
                                           orders: {
                                               some: {
                                                   branch: {
-                                                      id: filters.branch
+                                                      id: data.filters.branch
                                                   }
                                               }
                                           }
@@ -418,12 +191,12 @@ export class ReportsRepository {
                                     : undefined
                             },
                             {
-                                branchReport: filters.branch
+                                branchReport: data.filters.branch
                                     ? {
                                           orders: {
                                               some: {
                                                   branch: {
-                                                      id: filters.branch
+                                                      id: data.filters.branch
                                                   }
                                               }
                                           }
@@ -434,69 +207,69 @@ export class ReportsRepository {
                     },
                     {
                         createdAt: {
-                            gte: filters.startDate
+                            gte: data.filters.startDate
                         }
                     },
                     {
                         createdAt: {
-                            lte: filters.endDate
+                            lte: data.filters.endDate
                         }
                     },
                     {
                         clientReport: {
-                            clientId: filters.clientID
+                            clientId: data.filters.clientID
                         }
                     },
                     {
                         clientReport: {
-                            storeId: filters.storeID
+                            storeId: data.filters.storeID
                         }
                     },
                     {
                         repositoryReport: {
-                            repositoryId: filters.repositoryID
+                            repositoryId: data.filters.repositoryID
                         }
                     },
                     {
                         branchReport: {
-                            branchId: filters.branchID
+                            branchId: data.filters.branchID
                         }
                     },
                     {
                         deliveryAgentReport: {
-                            deliveryAgentId: filters.deliveryAgentID
+                            deliveryAgentId: data.filters.deliveryAgentID
                         }
                     },
                     {
                         governorateReport: {
-                            governorate: filters.governorate
+                            governorate: data.filters.governorate
                         }
                     },
                     {
                         // TODO: fix this: Report type filter vs company filter
-                        companyReport: filters.companyID
+                        companyReport: data.filters.companyID
                             ? {
-                                  companyId: filters.companyID
+                                  companyId: data.filters.companyID
                               }
                             : undefined
                     },
                     {
-                        status: filters.status
+                        status: data.filters.status
                     },
                     {
-                        type: filters.type
+                        type: data.filters.type
                     },
                     {
-                        deleted: filters.deleted === "true"
+                        deleted: data.filters.deleted
                     },
                     {
                         company: {
-                            id: filters.company
+                            id: data.filters.company
                         }
                     },
                     {
                         createdBy: {
-                            id: filters.createdByID
+                            id: data.filters.createdByID
                         }
                     }
                 ]
@@ -505,40 +278,18 @@ export class ReportsRepository {
         return reportsCount;
     }
 
-    async getAllReports(
-        skip: number,
-        take: number,
-        filters: {
-            sort: string;
-            startDate?: Date;
-            endDate?: Date;
-            clientID?: number;
-            storeID?: number;
-            repositoryID?: number;
-            branchID?: number;
-            branch?: number;
-            deliveryAgentID?: number;
-            governorate?: Governorate;
-            companyID?: number;
-            company?: number;
-            status?: ReportStatus;
-            type?: ReportType;
-            deleted?: string;
-            createdByID?: number;
-            minified?: boolean;
-        }
-    ) {
+    async getAllReports(data: { skip: number; take: number; filters: ReportsFiltersType }) {
         const where = {
             AND: [
                 {
                     OR: [
                         {
-                            deliveryAgentReport: filters.branch
+                            deliveryAgentReport: data.filters.branch
                                 ? {
                                       orders: {
                                           some: {
                                               branch: {
-                                                  id: filters.branch
+                                                  id: data.filters.branch
                                               }
                                           }
                                       }
@@ -546,12 +297,12 @@ export class ReportsRepository {
                                 : undefined
                         },
                         {
-                            clientReport: filters.branch
+                            clientReport: data.filters.branch
                                 ? {
                                       orders: {
                                           some: {
                                               branch: {
-                                                  id: filters.branch
+                                                  id: data.filters.branch
                                               }
                                           }
                                       }
@@ -559,12 +310,12 @@ export class ReportsRepository {
                                 : undefined
                         },
                         {
-                            repositoryReport: filters.branch
+                            repositoryReport: data.filters.branch
                                 ? {
                                       orders: {
                                           some: {
                                               branch: {
-                                                  id: filters.branch
+                                                  id: data.filters.branch
                                               }
                                           }
                                       }
@@ -572,12 +323,12 @@ export class ReportsRepository {
                                 : undefined
                         },
                         {
-                            branchReport: filters.branch
+                            branchReport: data.filters.branch
                                 ? {
                                       orders: {
                                           some: {
                                               branch: {
-                                                  id: filters.branch
+                                                  id: data.filters.branch
                                               }
                                           }
                                       }
@@ -588,82 +339,81 @@ export class ReportsRepository {
                 },
                 {
                     createdAt: {
-                        gte: filters.startDate
+                        gte: data.filters.startDate
                     }
                 },
                 {
                     createdAt: {
-                        lte: filters.endDate
+                        lte: data.filters.endDate
                     }
                 },
                 {
                     clientReport: {
-                        clientId: filters.clientID
+                        clientId: data.filters.clientID
                     }
                 },
                 {
                     clientReport: {
-                        storeId: filters.storeID
+                        storeId: data.filters.storeID
                     }
                 },
                 {
                     repositoryReport: {
-                        repositoryId: filters.repositoryID
+                        repositoryId: data.filters.repositoryID
                     }
                 },
                 {
                     branchReport: {
-                        branchId: filters.branchID
+                        branchId: data.filters.branchID
                     }
                 },
                 {
                     deliveryAgentReport: {
-                        deliveryAgentId: filters.deliveryAgentID
+                        deliveryAgentId: data.filters.deliveryAgentID
                     }
                 },
                 {
                     governorateReport: {
-                        governorate: filters.governorate
+                        governorate: data.filters.governorate
                     }
                 },
                 {
                     // TODO: fix this: Report type filter vs company filter
-                    companyReport: filters.companyID
+                    companyReport: data.filters.companyID
                         ? {
-                              companyId: filters.companyID
+                              companyId: data.filters.companyID
                           }
                         : undefined
                 },
                 {
-                    status: filters.status
+                    status: data.filters.status
                 },
                 {
-                    type: filters.type
+                    type: data.filters.type
                 },
                 {
-                    deleted: filters.deleted === "true"
+                    deleted: data.filters.deleted
                 },
                 {
                     company: {
-                        id: filters.company
+                        id: data.filters.company
                     }
                 },
                 {
                     createdBy: {
-                        id: filters.createdByID
+                        id: data.filters.createdByID
                     }
                 }
             ]
         };
 
-        if (filters.minified === true) {
+        if (data.filters.minified === true) {
             const reports = await prisma.report.findMany({
-                skip: skip,
-                take: take,
+                skip: data.skip,
+                take: data.take,
                 where: where,
                 select: {
-                    id: true,
-
+                    id: true
                 }
             });
             return {
@@ -672,11 +422,11 @@ export class ReportsRepository {
         }
 
         const reports = await prisma.report.findMany({
-            skip: skip,
-            take: take,
+            skip: data.skip,
+            take: data.take,
             where: where,
             orderBy: {
-                [filters.sort.split(":")[0]]: filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+                [data.filters.sort.split(":")[0]]: data.filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
             },
             select: reportSelect
         });

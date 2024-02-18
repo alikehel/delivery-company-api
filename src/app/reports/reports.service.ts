@@ -1,31 +1,23 @@
-import { AdminRole, EmployeeRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
-import { Request } from "express";
+import { AdminRole, EmployeeRole, Order, ReportStatus, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
-import sendNotification from "../notifications/helpers/sendNotification";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
 import { generateReport } from "./helpers/generateReportTemp";
-import { ReportCreateType } from "./reports.dto";
+import { ReportCreateType, ReportsFiltersType } from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
 
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
 const employeeModel = new EmployeeModel();
 
-export class ReportService {
-    async createReport(
-        companyID: number,
-        data: {
-            loggedInUser: {
-                id: number;
-                name: string;
-                role: string;
-            };
-            reportData: ReportCreateType;
-        }
-    ) {
+export class ReportsService {
+    async createReport(data: {
+        loggedInUser: loggedInUserType;
+        reportData: ReportCreateType;
+    }) {
         const orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
         if (!orders) {
@@ -133,12 +125,11 @@ export class ReportService {
             }
         }
 
-        const report = await reportsRepository.createReport(
-            companyID,
-            data.loggedInUser.id,
-            data.reportData,
-            reportMetaData
-        );
+        const report = await reportsRepository.createReport({
+            loggedInUser: data.loggedInUser,
+            reportData: data.reportData,
+            reportMetaData: reportMetaData
+        });
 
         if (!report) {
             throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
@@ -205,33 +196,22 @@ export class ReportService {
     }
 
     async getAllReports(data: {
-        queryString: Request["query"];
         loggedInUser: loggedInUserType;
+        filters: ReportsFiltersType;
     }) {
-        // Filters
         let company: number | undefined;
         if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
-            company = data.queryString.company ? +data.queryString.company : undefined;
+            company = data.filters.company ? +data.filters.company : undefined;
         } else if (data.loggedInUser.companyID) {
             company = data.loggedInUser.companyID;
         }
-
-        const sort = (data.queryString.sort as string) || "id:asc";
-
-        const startDate = data.queryString.start_date
-            ? new Date(data.queryString.start_date as string)
-            : undefined;
-        const endDate = data.queryString.end_date ? new Date(data.queryString.end_date as string) : undefined;
-
-        const status = data.queryString.status?.toString().toUpperCase() as ReportStatus | undefined;
-        const type = data.queryString.type?.toString().toUpperCase() as ReportType | undefined;
 
         let branch: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
             const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
             branch = employee?.branch?.id;
-        } else if (data.queryString.branch) {
-            branch = +data.queryString.branch;
+        } else if (data.filters.branch) {
+            branch = +data.filters.branch;
         } else {
             branch = undefined;
         }
@@ -239,56 +219,24 @@ export class ReportService {
         let clientID: number | undefined;
         if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
             clientID = +data.loggedInUser.id;
-        } else if (data.queryString.client_id) {
-            clientID = +data.queryString.client_id;
+        } else if (data.filters.clientID) {
+            clientID = +data.filters.clientID;
         } else {
             clientID = undefined;
         }
-        const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
-        const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
-        const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
-        const branchID = data.queryString.branch_id ? +data.queryString.branch_id : undefined;
 
         let deliveryAgentID: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
             deliveryAgentID = +data.loggedInUser.id;
-        } else if (data.queryString.delivery_agent_id) {
-            deliveryAgentID = +data.queryString.delivery_agent_id;
+        } else if (data.filters.deliveryAgentID) {
+            deliveryAgentID = +data.filters.deliveryAgentID;
         } else {
             deliveryAgentID = undefined;
         }
 
-        const createdByID = data.queryString.created_by_id ? +data.queryString.created_by_id : undefined;
-
-        const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
-
-        const deleted = data.queryString.deleted?.toString() || "false";
-
-        const minified = data.queryString.minified === "true" || undefined;
-
-        const filters = {
-            sort: sort,
-            startDate: startDate,
-            endDate: endDate,
-            status: status,
-            type: type,
-            branchID: branchID,
-            branch: branch,
-            clientID: clientID,
-            storeID: storeID,
-            repositoryID: repositoryID,
-            deliveryAgentID: deliveryAgentID,
-            governorate: governorate,
-            companyID: companyID,
-            company: company,
-            createdByID: createdByID,
-            deleted: deleted,
-            minified: minified
-        };
-
-        const reportsCount = await reportsRepository.getReportsCount(filters);
-        let size = data.queryString.size ? +data.queryString.size : 10;
-        if (size > 50 && filters.minified !== true) {
+        const reportsCount = await reportsRepository.getReportsCount({ filters: data.filters });
+        let size = data.filters.size ? +data.filters.size : 10;
+        if (size > 50 && data.filters.minified !== true) {
             size = 10;
         }
         const pagesCount = Math.ceil(reportsCount / size);
@@ -304,34 +252,35 @@ export class ReportService {
         }
 
         let page = 1;
-        if (data.queryString.page && !Number.isNaN(+data.queryString.page) && +data.queryString.page > 0) {
-            page = +data.queryString.page;
+        if (data.filters.page && !Number.isNaN(+data.filters.page) && +data.filters.page > 0) {
+            page = +data.filters.page;
         }
         if (page > pagesCount) {
             throw new AppError("Page number out of range", 400);
         }
         const take = page * size;
         const skip = (page - 1) * size;
-        // if (Number.isNaN(offset)) {
-        //     skip = 0;
-        // }
 
-        const { reports, reportsMetaData } = await reportsRepository.getAllReports(skip, take, filters);
+        const { reports, reportsMetaData } = await reportsRepository.getAllReports({
+            skip,
+            take,
+            filters: data.filters
+        });
 
         return { page, pagesCount, reports, reportsMetaData };
     }
 
-    async getReport(data: { reportID: number }) {
+    async getReport(data: { params: { reportID: number } }) {
         const report = await reportsRepository.getReport({
-            reportID: data.reportID
+            reportID: data.params.reportID
         });
 
         return report;
     }
 
-    async getReportPDF(data: { reportID: number }) {
+    async getReportPDF(data: { params: { reportID: number } }) {
         const reportData = await reportsRepository.getReport({
-            reportID: data.reportID
+            reportID: data.params.reportID
         });
 
         // TODO: fix this
@@ -371,72 +320,39 @@ export class ReportService {
         return pdf;
     }
 
-    // updateReport = catchAsync(async (req, res) => {
-    //     const reportID = +req.params["reportID"];
-    //    const loggedInUser: loggedInUserType = res.locals.user;
-
-    //     const reportData = ReportUpdateSchema.parse(req.body);
-
-    //     if (
-    //         reportData.confirmed === false &&
-    //         loggedInUser.role !== "ADMIN"
-    //     ) {
-    //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
-    //     }
-
-    //     const report = await reportsRepository.updateReport({
-    //         reportID: reportID,
-    //         reportData: reportData
-    //     });
-
-    //     res.status(200).json({
-    //         status: "success",
-    //         data: report
-    //     });
-    // });
-
     async updateReport(data: {
-        reportID: number;
-        loggedInUser: {
-            id: number;
-            name: string;
-            role: string;
-        };
+        params: { reportID: number };
+        loggedInUser: loggedInUserType;
         reportData: {
             status: ReportStatus;
             confirmed?: boolean;
         };
     }) {
-        const reportID = data.reportID;
-        const loggedInUser = data.loggedInUser;
-
-        const reportData = data.reportData;
-
         if (
-            reportData.confirmed === false &&
-            (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT")
+            data.reportData.confirmed === false &&
+            (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT")
         ) {
             throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
         }
 
         const report = await reportsRepository.updateReport({
-            reportID: reportID,
-            reportData: reportData
+            reportID: data.params.reportID,
+            reportData: data.reportData
         });
 
         return report;
     }
 
-    async deleteReport(reportID: number) {
+    async deleteReport(data: { params: { reportID: number } }) {
         await reportsRepository.deleteReport({
-            reportID: reportID
+            reportID: data.params.reportID
         });
     }
 
-    async deactivateReport(reportID: number, loggedInUser: loggedInUserType) {
+    async deactivateReport(data: { params: { reportID: number }; loggedInUser: loggedInUserType }) {
         const report = await reportsRepository.deactivateReport({
-            reportID: reportID,
-            deletedByID: loggedInUser.id
+            reportID: data.params.reportID,
+            deletedByID: data.loggedInUser.id
         });
 
         const orders =
@@ -468,10 +384,10 @@ export class ReportService {
                             reportType: report.type,
                             date: new Date(),
                             by: {
-                                id: loggedInUser.id,
-                                name: loggedInUser.name,
+                                id: data.loggedInUser.id,
+                                name: data.loggedInUser.name,
                                 // @ts-expect-error Fix later
-                                role: loggedInUser.role
+                                role: data.loggedInUser.role
                             }
                         }
                     ]
@@ -480,9 +396,9 @@ export class ReportService {
         }
     }
 
-    async reactivateReport(reportID: number) {
+    async reactivateReport(data: { params: { reportID: number } }) {
         await reportsRepository.reactivateReport({
-            reportID: reportID
+            reportID: data.params.reportID
         });
     }
 }

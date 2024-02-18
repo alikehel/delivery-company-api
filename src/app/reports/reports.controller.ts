@@ -1,18 +1,16 @@
-// import { AppError } from "../../utils/AppError.util";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { ReportCreateSchema, ReportUpdateSchema } from "./reports.dto";
-import { ReportService } from "./reports.service";
+import { ReportCreateSchema, ReportUpdateSchema, ReportsFiltersSchema } from "./reports.dto";
+import { ReportsService } from "./reports.service";
 
-const reportService = new ReportService();
+const reportsService = new ReportsService();
 
 export class ReportController {
     createReport = catchAsync(async (req, res) => {
         const reportData = ReportCreateSchema.parse(req.body);
-        const companyID = +res.locals.user.companyID;
-        const loggedInUser = res.locals.user;
+        const loggedInUser = res.locals.user as loggedInUserType;
 
-        const pdf = await reportService.createReport(companyID, {
+        const pdf = await reportsService.createReport({
             loggedInUser,
             reportData
         });
@@ -39,12 +37,33 @@ export class ReportController {
     });
 
     getAllReports = catchAsync(async (req, res) => {
-        const queryString = req.query;
         const loggedInUser: loggedInUserType = res.locals.user;
 
-        const { page, pagesCount, reports, reportsMetaData } = await reportService.getAllReports({
-            queryString: queryString,
-            loggedInUser: loggedInUser
+        const filters = ReportsFiltersSchema.parse({
+            page: req.query.page,
+            size: req.query.size,
+            company: req.query.company,
+            branch: req.query.branch,
+            sort: req.query.sort,
+            startDate: req.query.start_date,
+            endDate: req.query.end_date,
+            governorate: req.query.governorate,
+            status: req.query.status,
+            type: req.query.type,
+            storeID: req.query.store_id,
+            repositoryID: req.query.repository_id,
+            branchID: req.query.branch_id,
+            deliveryAgentID: req.query.delivery_agent_id,
+            companyID: req.query.company_id,
+            clientID: req.query.client_id,
+            createdByID: req.query.created_by_id,
+            deleted: req.query.deleted,
+            minified: req.query.minified
+        });
+
+        const { page, pagesCount, reports, reportsMetaData } = await reportsService.getAllReports({
+            loggedInUser: loggedInUser,
+            filters: filters
         });
 
         if (pagesCount === 0) {
@@ -82,10 +101,10 @@ export class ReportController {
     });
 
     getReport = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
+        const params = { reportID: +req.params.reportID };
 
-        const report = await reportService.getReport({
-            reportID: reportID
+        const report = await reportsService.getReport({
+            params: params
         });
 
         res.status(200).json({
@@ -95,10 +114,10 @@ export class ReportController {
     });
 
     getReportPDF = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
+        const params = { reportID: +req.params.reportID };
 
-        const pdf = await reportService.getReportPDF({
-            reportID: reportID
+        const pdf = await reportsService.getReportPDF({
+            params: params
         });
 
         const chunks: Uint8Array[] = [];
@@ -118,13 +137,12 @@ export class ReportController {
     });
 
     updateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
-        const loggedInUser = res.locals.user;
-
+        const loggedInUser = res.locals.user as loggedInUserType;
         const reportData = ReportUpdateSchema.parse(req.body);
+        const params = { reportID: +req.params.reportID };
 
-        const report = await reportService.updateReport({
-            reportID: reportID,
+        const report = await reportsService.updateReport({
+            params: params,
             reportData: reportData,
             loggedInUser: loggedInUser
         });
@@ -136,9 +154,9 @@ export class ReportController {
     });
 
     deleteReport = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
+        const params = { reportID: +req.params.reportID };
 
-        await reportService.deleteReport(reportID);
+        await reportsService.deleteReport({ params });
 
         res.status(200).json({
             status: "success"
@@ -146,10 +164,10 @@ export class ReportController {
     });
 
     deactivateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
+        const params = { reportID: +req.params.reportID };
         const loggedInUser = res.locals.user as loggedInUserType;
 
-        await reportService.deactivateReport(reportID, loggedInUser);
+        await reportsService.deactivateReport({ params: params, loggedInUser });
 
         res.status(200).json({
             status: "success"
@@ -157,9 +175,9 @@ export class ReportController {
     });
 
     reactivateReport = catchAsync(async (req, res) => {
-        const reportID = +req.params.reportID;
+        const params = { reportID: +req.params.reportID };
 
-        await reportService.reactivateReport(reportID);
+        await reportsService.reactivateReport({ params: params });
 
         res.status(200).json({
             status: "success"
