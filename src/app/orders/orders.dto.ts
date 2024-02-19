@@ -188,6 +188,8 @@ export const OrdersFiltersSchema = z.object({
     automaticUpdateID: z.coerce.number().optional(),
     search: z.string().optional(),
     sort: z.string().optional().default("id:desc"),
+    page: z.coerce.number().optional().default(1),
+    size: z.coerce.number().optional().default(10),
     startDate: z.coerce.date().optional(),
     endDate: z.coerce.date().optional(),
     deliveryDate: z.coerce.date().optional(),
