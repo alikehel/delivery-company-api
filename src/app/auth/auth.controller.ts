@@ -4,7 +4,7 @@ import { JWT_EXPIRES_IN, JWT_SECRET, SECRET } from "../../config/config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import sendNotification from "../notifications/helpers/sendNotification";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { UserModel } from "../users/user.model";
 import { AuthModel } from "./auth.model";
 import { UserSigninSchema } from "./auth.zod";
