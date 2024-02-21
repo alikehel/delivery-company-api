@@ -1192,6 +1192,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/apicache@npm:^1":
+  version: 1.6.6
+  resolution: "@types/apicache@npm:1.6.6"
+  dependencies:
+    "@types/express": "npm:*"
+    "@types/redis": "npm:^2.8.0"
+  checksum: 2d8c399ad9f31f452f473a2011717804817b22df48164b83c88bdd24b9fd66c13bf6f62f2207e12377f942939b85e51d793b0e8488209eeaf9b55d7bb00b5fe7
+  languageName: node
+  linkType: hard
+
 "@types/bcrypt@npm:^5.0.2":
   version: 5.0.2
   resolution: "@types/bcrypt@npm:5.0.2"
@@ -1463,6 +1473,15 @@ __metadata:
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
   checksum: 361bb3e964ec5133fa40644a0b942279ed5df1949f21321d77de79f48b728d39253e5ce0408c9c17e4e0fd95ca7899da36841686393b9f7a1e209916e9381a3c
+  languageName: node
+  linkType: hard
+
+"@types/redis@npm:^2.8.0":
+  version: 2.8.32
+  resolution: "@types/redis@npm:2.8.32"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 99fd52ffc1f4c2cbe3f1ec7a38f9a85a128a430fcbf8e241914d8687ea53555e90dc7b66b3ff1a0c9b74afa1c677551ee405b1f73926c944dadc6026e5e6a80a
   languageName: node
   linkType: hard
 
@@ -2028,6 +2047,7 @@ __metadata:
     "@prisma/client": "npm:^5.8.0"
     "@scalar/express-api-reference": "npm:^0.2.9"
     "@total-typescript/ts-reset": "npm:^0.5.1"
+    "@types/apicache": "npm:^1"
     "@types/bcrypt": "npm:^5.0.2"
     "@types/compression": "npm:^1"
     "@types/cookie-parser": "npm:^1.4.6"
@@ -2042,6 +2062,7 @@ __metadata:
     "@types/swagger-ui-express": "npm:^4.1.6"
     "@typescript-eslint/eslint-plugin": "npm:^6.16.0"
     "@typescript-eslint/parser": "npm:^6.16.0"
+    apicache: "npm:^1.6.3"
     bcrypt: "npm:^5.1.1"
     body-parser: "npm:^1.20.2"
     canvas: "npm:^2.11.2"
@@ -2124,6 +2145,13 @@ __metadata:
     normalize-path: "npm:^3.0.0"
     picomatch: "npm:^2.0.4"
   checksum: 57b06ae984bc32a0d22592c87384cd88fe4511b1dd7581497831c56d41939c8a001b28e7b853e1450f2bf61992dfcaa8ae2d0d161a0a90c4fb631ef07098fbac
+  languageName: node
+  linkType: hard
+
+"apicache@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "apicache@npm:1.6.3"
+  checksum: 244f5db2bdef55e99cd3e5e86fe816f3e007607fc6f5caefd0c1790d24ca4f94ffceefca2810f42f6163125ff5ce40bfcf868edfe1f05ccc958c6887a018f520
   languageName: node
   linkType: hard
 

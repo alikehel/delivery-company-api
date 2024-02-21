@@ -1,6 +1,6 @@
-import { Router } from "express";
-
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import apicache from "apicache";
+import { Router } from "express";
 import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
@@ -15,6 +15,7 @@ import {
 } from "./locations.controller";
 
 const router = Router();
+const cache = apicache.middleware;
 
 router.route("/locations").post(
     isLoggedIn,
@@ -27,6 +28,10 @@ router.route("/locations").post(
         ],
         [Permission.ADD_LOCATION]
     ),
+    (req, res, next) => {
+        apicache.clear("locations");
+        next();
+    },
     createLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -45,9 +50,16 @@ router.route("/locations").post(
     */
 );
 
+// TODO: Remove later
 router.route("/public/locations").get(
     // isLoggedIn,
     // isAutherized([Role.ADMIN]),
+    cache("1 hour"),
+    (req, res, next) => {
+        // @ts-expect-error
+        req.apicacheGroup = "locations";
+        next();
+    },
     publicGetAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -67,6 +79,12 @@ router.route("/locations").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
+    cache("1 hour"),
+    (req, res, next) => {
+        // @ts-expect-error
+        req.apicacheGroup = "locations";
+        next();
+    },
     getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -95,6 +113,12 @@ router.route("/locations/:locationID").get(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
+    cache("1 hour"),
+    (req, res, next) => {
+        // @ts-expect-error
+        req.apicacheGroup = "locations";
+        next();
+    },
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -111,6 +135,10 @@ router.route("/locations/:locationID").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
+    (req, res, next) => {
+        apicache.clear("locations");
+        next();
+    },
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -139,6 +167,10 @@ router.route("/locations/:locationID").delete(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
+    (req, res, next) => {
+        apicache.clear("locations");
+        next();
+    },
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']
