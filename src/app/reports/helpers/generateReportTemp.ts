@@ -178,7 +178,7 @@ export const generateReport = async (
                                     // TODO
                                     text: reportData.clientReport?.store
                                         ? handleArabicCharacters(
-                                              `الصفحة: ${reportData.clientReport.store.name}}`
+                                              `الصفحة: ${reportData.clientReport.store.name}`
                                           )
                                         : ""
                                 },
