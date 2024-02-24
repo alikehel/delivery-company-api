@@ -25,7 +25,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 
 # Install dependencies, including 'puppeteer'
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy the rest of your application's code into the container
 COPY . .
