@@ -31,7 +31,12 @@ RUN yarn install
 COPY . .
 
 # Build project
-# RUN yarn run build
+RUN yarn run build
+
+# Prisma
+COPY --from=deps /app/node_modules ./node_modules
+COPY prisma ./prisma
+RUN npx prisma generate
 
 # Expose the port your app runs on
 EXPOSE 3000
