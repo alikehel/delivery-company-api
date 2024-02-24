@@ -7,7 +7,6 @@ import { Logger } from "./logger";
 export const generatePDF = async (html: string, css?: string) => {
     try {
         const browser = await puppeteer.launch({
-            headless: "shell",
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             ignoreDefaultArgs: ["--disable-extensions"]
         });
@@ -18,7 +17,7 @@ export const generatePDF = async (html: string, css?: string) => {
         css && (await page.addStyleTag({ content: css }));
 
         const pdf = await page.pdf({
-            format: "A4",
+            format: "a4",
             landscape: true,
             printBackground: true,
             margin: { top: "20px", right: "20px", bottom: "20px", left: "20px" }
