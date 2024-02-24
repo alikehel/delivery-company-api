@@ -1,8 +1,8 @@
-import { sendNotification } from "@/app/notifications/helpers/sendNotification";
-import { OrderTimelineType } from "@/app/orders/orders.dto";
-import { localizeOrderStatus } from "@/lib/localize";
-import { Logger } from "@/lib/logger";
 import { OrderStatus, PrismaClient } from "@prisma/client";
+import { localizeOrderStatus } from "../../../lib/localize";
+import { Logger } from "../../../lib/logger";
+import { sendNotification } from "../../notifications/helpers/sendNotification";
+import { OrderTimelineType } from "../../orders/orders.dto";
 
 const prisma = new PrismaClient();
 
