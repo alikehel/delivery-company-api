@@ -7,7 +7,7 @@ import { Logger } from "./logger";
 export const generatePDF = async (html: string, css?: string) => {
     try {
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: "shell",
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             ignoreDefaultArgs: ["--disable-extensions"]
         });
