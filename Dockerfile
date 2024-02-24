@@ -1,5 +1,5 @@
 # Use the official Node.js 20 image as a base
-FROM node:20.9.0
+FROM node:20.8.0
 
 # Set environment variables to optimize the container
 ENV NODE_ENV production
@@ -22,18 +22,20 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
+COPY yarn.lock ./
 
 # Install dependencies, including 'puppeteer'
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
 # Copy the rest of your application's code into the container
 COPY . .
 
-# Build Next.js project
-RUN npm run build
+# Build project
+# RUN yarn run build
 
 # Expose the port your app runs on
 EXPOSE 3000
+EXPOSE 7700
 
 # Specify the command to run your app
-CMD ["npm", "run", "production"]
+CMD ["yarn", "run", "start"]
