@@ -5,7 +5,7 @@ import { EmployeeModel } from "../employees/employee.model";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
-import { generateReport } from "./helpers/generateReportTemp";
+import { generateReport } from "./helpers/generateReport";
 import { ReportCreateType, ReportsFiltersType } from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
 

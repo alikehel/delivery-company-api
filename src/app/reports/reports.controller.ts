@@ -15,20 +15,23 @@ export class ReportController {
             reportData
         });
 
-        const chunks: Uint8Array[] = [];
-        let result: Buffer;
+        res.contentType("application/pdf");
+        res.send(pdf);
 
-        pdf.on("data", (chunk) => {
-            chunks.push(chunk);
-        });
+        // const chunks: Uint8Array[] = [];
+        // let result: Buffer;
 
-        pdf.on("end", () => {
-            result = Buffer.concat(chunks);
-            res.contentType("application/pdf");
-            res.send(result);
-        });
+        // pdf.on("data", (chunk) => {
+        //     chunks.push(chunk);
+        // });
 
-        pdf.end();
+        // pdf.on("end", () => {
+        //     result = Buffer.concat(chunks);
+        //     res.contentType("application/pdf");
+        //     res.send(result);
+        // });
+
+        // pdf.end();
 
         // res.status(200).json({
         //     status: "success",
@@ -120,20 +123,23 @@ export class ReportController {
             params: params
         });
 
-        const chunks: Uint8Array[] = [];
-        let result: Buffer;
+        res.contentType("application/pdf");
+        res.send(pdf);
 
-        pdf.on("data", (chunk) => {
-            chunks.push(chunk);
-        });
+        // const chunks: Uint8Array[] = [];
+        // let result: Buffer;
 
-        pdf.on("end", () => {
-            result = Buffer.concat(chunks);
-            res.contentType("application/pdf");
-            res.send(result);
-        });
+        // pdf.on("data", (chunk) => {
+        //     chunks.push(chunk);
+        // });
 
-        pdf.end();
+        // pdf.on("end", () => {
+        //     result = Buffer.concat(chunks);
+        //     res.contentType("application/pdf");
+        //     res.send(result);
+        // });
+
+        // pdf.end();
     });
 
     updateReport = catchAsync(async (req, res) => {
