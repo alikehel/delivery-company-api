@@ -8,13 +8,14 @@ export const generatePDF = async (html: string, css?: string) => {
     try {
         const browser = await puppeteer.launch({
             headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            ignoreDefaultArgs: ["--disable-extensions"]
         });
         const page = await browser.newPage();
 
         await page.emulateMediaType("print");
         await page.setContent(html);
-        css && await page.addStyleTag({ content: css });
+        css && (await page.addStyleTag({ content: css }));
 
         const pdf = await page.pdf({
             format: "A4",
