@@ -24,6 +24,6 @@
 			// "@/*": ["*"]
 		}
 	},
-	"include": ["./src", "production"],
+	"include": ["./src"],
 	"exclude": ["node_modules", "spec", "build", "production"]
 }

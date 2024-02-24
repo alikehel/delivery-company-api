@@ -24,7 +24,7 @@ const app = express();
 const swaggerTheme = new SwaggerTheme("v3");
 const swaggerOptionsV1 = {
     explorer: true,
-    customCss: swaggerTheme.getBuffer("dark")
+    // customCss: swaggerTheme.getBuffer("dark"),
 };
 
 app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptionsV1));

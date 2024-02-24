@@ -30,13 +30,13 @@ RUN yarn install
 # Copy the rest of your application's code into the container
 COPY . .
 
-# Build project
-RUN yarn run build
-
 # Prisma
 # COPY --from=deps /app/node_modules ./node_modules
-# COPY prisma ./prisma
+COPY src/database/schema.prisma ./prisma/
 RUN npx prisma generate
+
+# Build project
+# RUN yarn run build
 
 # Expose the port your app runs on
 EXPOSE 3000
