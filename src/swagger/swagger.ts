@@ -1,115 +1,45 @@
 import swaggerAutogen from "swagger-autogen";
-import {
-    EmployeeCreateMock,
-    EmployeeCreateOpenAPISchema,
-    EmployeeUpdateMock,
-    EmployeeUpdateOpenAPISchema
-} from "../app/employees/employees.zod";
+import { EmployeeCreateOpenAPISchema, EmployeeUpdateOpenAPISchema } from "../app/employees/employees.zod";
 
-import { UserSigninMock, UserSigninOpenAPISchema } from "./../app/auth/auth.zod";
+import { UserSigninOpenAPISchema } from "./../app/auth/auth.zod";
 
 import {
-    RepositoryCreateMock,
     RepositoryCreateOpenAPISchema,
-    RepositoryUpdateMock,
     RepositoryUpdateOpenAPISchema
 } from "./../app/repositories/repositories.zod";
 
-import {
-    LocationCreateMock,
-    LocationCreateOpenAPISchema,
-    LocationUpdateMock,
-    LocationUpdateOpenAPISchema
-} from "./../app/locations/locations.zod";
+import { LocationCreateOpenAPISchema, LocationUpdateOpenAPISchema } from "./../app/locations/locations.zod";
+
+import { ClientCreateOpenAPISchema, ClientUpdateOpenAPISchema } from "./../app/clients/clients.zod";
+
+import { BranchCreateOpenAPISchema, BranchUpdateOpenAPISchema } from "./../app/branches/branches.zod";
+
+import { CompanyCreateOpenAPISchema, CompanyUpdateOpenAPISchema } from "../app/companies/companies.zod";
 
 import {
-    ClientCreateMock,
-    ClientCreateOpenAPISchema,
-    ClientUpdateMock,
-    ClientUpdateOpenAPISchema
-} from "./../app/clients/clients.zod";
-
-import {
-    BranchCreateMock,
-    BranchCreateOpenAPISchema,
-    BranchUpdateMock,
-    BranchUpdateOpenAPISchema
-} from "./../app/branches/branches.zod";
-
-import {
-    CompanyCreateMock,
-    CompanyCreateOpenAPISchema,
-    CompanyUpdateMock,
-    CompanyUpdateOpenAPISchema
-} from "../app/companies/companies.zod";
-
-import {
-    OrderCreateMock,
     OrderCreateOpenAPISchema,
-    OrderUpdateMock,
     OrderUpdateOpenAPISchema,
-    OrdersReceiptsCreateMock,
     OrdersReceiptsCreateOpenAPISchema
 } from "../app/orders/orders.dto";
 
-import {
-    ProductCreateMock,
-    ProductCreateOpenAPISchema,
-    ProductUpdateMock,
-    ProductUpdateOpenAPISchema
-} from "./../app/products/products.zod";
+import { ProductCreateOpenAPISchema, ProductUpdateOpenAPISchema } from "./../app/products/products.zod";
+
+import { NotificationUpdateOpenAPISchema } from "./../app/notifications/notifications.zod";
+
+import { CategoryCreateOpenAPISchema, CategoryUpdateOpenAPISchema } from "./../app/categories/categories.zod";
+
+import { ColorCreateOpenAPISchema, ColorUpdateOpenAPISchema } from "./../app/colors/colors.zod";
+
+import { SizeCreateOpenAPISchema, SizeUpdateOpenAPISchema } from "./../app/sizes/sizes.zod";
+
+import { StoreCreateOpenAPISchema, StoreUpdateOpenAPISchema } from "./../app/stores/stores.zod";
+
+import { BannerCreateOpenAPISchema, BannerUpdateOpenAPISchema } from "./../app/banners/banners.zod";
+
+import { ReportCreateOpenAPISchema, ReportUpdateOpenAPISchema } from "../app/reports/reports.dto";
 
 import {
-    NotificationUpdateMock,
-    NotificationUpdateOpenAPISchema
-} from "./../app/notifications/notifications.zod";
-
-import {
-    CategoryCreateMock,
-    CategoryCreateOpenAPISchema,
-    CategoryUpdateMock,
-    CategoryUpdateOpenAPISchema
-} from "./../app/categories/categories.zod";
-
-import {
-    ColorCreateMock,
-    ColorCreateOpenAPISchema,
-    ColorUpdateMock,
-    ColorUpdateOpenAPISchema
-} from "./../app/colors/colors.zod";
-
-import {
-    SizeCreateMock,
-    SizeCreateOpenAPISchema,
-    SizeUpdateMock,
-    SizeUpdateOpenAPISchema
-} from "./../app/sizes/sizes.zod";
-
-import {
-    StoreCreateMock,
-    StoreCreateOpenAPISchema,
-    StoreUpdateMock,
-    StoreUpdateOpenAPISchema
-} from "./../app/stores/stores.zod";
-
-import {
-    BannerCreateMock,
-    BannerCreateOpenAPISchema,
-    BannerUpdateMock,
-    BannerUpdateOpenAPISchema
-} from "./../app/banners/banners.zod";
-
-import {
-    ReportCreateMock,
-    ReportCreateOpenAPISchema,
-    ReportUpdateMock,
-    ReportUpdateOpenAPISchema
-} from "../app/reports/reports.dto";
-
-import {
-    AutomaticUpdateCreateMock,
     AutomaticUpdateCreateOpenAPISchema,
-    AutomaticUpdateUpdateMock,
     AutomaticUpdateUpdateOpenAPISchema
 } from "./../app/automatic-updates/automaticUpdates.dto";
 
@@ -134,43 +64,43 @@ const doc = {
     },
     components: {
         examples: {
-            EmployeeCreateExample: { value: EmployeeCreateMock },
-            UserSigninExample: { value: UserSigninMock },
-            RepositoryCreateExample: { value: RepositoryCreateMock },
-            EmployeeUpdateExample: { value: EmployeeUpdateMock },
-            RepositoryUpdateExample: { value: RepositoryUpdateMock },
-            LocationCreateExample: { value: LocationCreateMock },
-            LocationUpdateExample: { value: LocationUpdateMock },
-            ClientCreateExample: { value: ClientCreateMock },
-            ClientUpdateExample: { value: ClientUpdateMock },
-            BranchCreateExample: { value: BranchCreateMock },
-            BranchUpdateExample: { value: BranchUpdateMock },
-            CompanyCreateExample: { value: CompanyCreateMock },
-            CompanyUpdateExample: { value: CompanyUpdateMock },
-            OrderCreateExample: { value: OrderCreateMock },
-            OrderUpdateExample: { value: OrderUpdateMock },
-            ProductCreateExample: { value: ProductCreateMock },
-            ProductUpdateExample: { value: ProductUpdateMock },
-            NotificationUpdateExample: { value: NotificationUpdateMock },
-            CategoryUpdateExample: { value: CategoryUpdateMock },
-            CategoryCreateExample: { value: CategoryCreateMock },
-            ColorCreateExample: { value: ColorCreateMock },
-            ColorUpdateExample: { value: ColorUpdateMock },
-            SizeCreateExample: { value: SizeCreateMock },
-            SizeUpdateExample: { value: SizeUpdateMock },
-            StoreCreateExample: { value: StoreCreateMock },
-            StoreUpdateExample: { value: StoreUpdateMock },
-            BannerCreateExample: { value: BannerCreateMock },
-            BannerUpdateExample: { value: BannerUpdateMock },
-            ReportCreateExample: { value: ReportCreateMock },
-            ReportUpdateExample: { value: ReportUpdateMock },
-            OrdersReceiptsCreateExample: { value: OrdersReceiptsCreateMock },
-            AutomaticUpdateCreateExample: {
-                value: AutomaticUpdateCreateMock
-            },
-            AutomaticUpdateUpdateExample: {
-                value: AutomaticUpdateUpdateMock
-            }
+            // EmployeeCreateExample: { value: EmployeeCreateMock },
+            // UserSigninExample: { value: UserSigninMock },
+            // RepositoryCreateExample: { value: RepositoryCreateMock },
+            // EmployeeUpdateExample: { value: EmployeeUpdateMock },
+            // RepositoryUpdateExample: { value: RepositoryUpdateMock },
+            // LocationCreateExample: { value: LocationCreateMock },
+            // LocationUpdateExample: { value: LocationUpdateMock },
+            // ClientCreateExample: { value: ClientCreateMock },
+            // ClientUpdateExample: { value: ClientUpdateMock },
+            // BranchCreateExample: { value: BranchCreateMock },
+            // BranchUpdateExample: { value: BranchUpdateMock },
+            // CompanyCreateExample: { value: CompanyCreateMock },
+            // CompanyUpdateExample: { value: CompanyUpdateMock },
+            // OrderCreateExample: { value: OrderCreateMock },
+            // OrderUpdateExample: { value: OrderUpdateMock },
+            // ProductCreateExample: { value: ProductCreateMock },
+            // ProductUpdateExample: { value: ProductUpdateMock },
+            // NotificationUpdateExample: { value: NotificationUpdateMock },
+            // CategoryUpdateExample: { value: CategoryUpdateMock },
+            // CategoryCreateExample: { value: CategoryCreateMock },
+            // ColorCreateExample: { value: ColorCreateMock },
+            // ColorUpdateExample: { value: ColorUpdateMock },
+            // SizeCreateExample: { value: SizeCreateMock },
+            // SizeUpdateExample: { value: SizeUpdateMock },
+            // StoreCreateExample: { value: StoreCreateMock },
+            // StoreUpdateExample: { value: StoreUpdateMock },
+            // BannerCreateExample: { value: BannerCreateMock },
+            // BannerUpdateExample: { value: BannerUpdateMock },
+            // ReportCreateExample: { value: ReportCreateMock },
+            // ReportUpdateExample: { value: ReportUpdateMock },
+            // OrdersReceiptsCreateExample: { value: OrdersReceiptsCreateMock },
+            // AutomaticUpdateCreateExample: {
+            //     value: AutomaticUpdateCreateMock
+            // },
+            // AutomaticUpdateUpdateExample: {
+            //     value: AutomaticUpdateUpdateMock
+            // }
         },
         "@schemas": {
             SuccessResponseSchema: {
