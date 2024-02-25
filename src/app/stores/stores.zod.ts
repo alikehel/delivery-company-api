@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -13,7 +13,7 @@ export type StoreCreateType = z.infer<typeof StoreCreateSchema>;
 
 export const StoreCreateOpenAPISchema = generateSchema(StoreCreateSchema);
 
-export const StoreCreateMock = generateMock(StoreCreateSchema);
+// export const StoreCreateMock = generateMock(StoreCreateSchema);
 
 export const StoreUpdateSchema = StoreCreateSchema.partial();
 
@@ -21,4 +21,4 @@ export type StoreUpdateType = z.infer<typeof StoreUpdateSchema>;
 
 export const StoreUpdateOpenAPISchema = generateSchema(StoreUpdateSchema);
 
-export const StoreUpdateMock = generateMock(StoreUpdateSchema);
+// export const StoreUpdateMock = generateMock(StoreUpdateSchema);

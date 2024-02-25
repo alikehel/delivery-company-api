@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { AutomaticUpdateReturnCondition, Governorate, OrderStatus, Prisma } from "@prisma/client";
 import { z } from "zod";
@@ -20,7 +20,7 @@ export type AutomaticUpdateCreateType = z.infer<typeof AutomaticUpdateCreateSche
 
 export const AutomaticUpdateCreateOpenAPISchema = generateSchema(AutomaticUpdateCreateSchema);
 
-export const AutomaticUpdateCreateMock = generateMock(AutomaticUpdateCreateSchema);
+// export const AutomaticUpdateCreateMock = generateMock(AutomaticUpdateCreateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -30,7 +30,7 @@ export type AutomaticUpdateUpdateType = z.infer<typeof AutomaticUpdateUpdateSche
 
 export const AutomaticUpdateUpdateOpenAPISchema = generateSchema(AutomaticUpdateUpdateSchema);
 
-export const AutomaticUpdateUpdateMock = generateMock(AutomaticUpdateUpdateSchema);
+// export const AutomaticUpdateUpdateMock = generateMock(AutomaticUpdateUpdateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -95,6 +95,6 @@ export type AutomaticUpdatesFiltersType = z.infer<typeof AutomaticUpdatesFilters
 
 export const AutomaticUpdatesFiltersOpenAPISchema = generateSchema(AutomaticUpdatesFiltersSchema);
 
-export const AutomaticUpdatesFiltersMock = generateMock(AutomaticUpdatesFiltersSchema);
+// export const AutomaticUpdatesFiltersMock = generateMock(AutomaticUpdatesFiltersSchema);
 
 /* --------------------------------------------------------------- */

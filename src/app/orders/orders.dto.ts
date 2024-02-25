@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import {
     AdminRole,
@@ -58,7 +58,7 @@ export type OrderCreateType = z.infer<typeof OrderCreateSchema>;
 
 export const OrderCreateOpenAPISchema = generateSchema(OrderCreateSchema);
 
-export const OrderCreateMock = generateMock(OrderCreateSchema);
+// export const OrderCreateMock = generateMock(OrderCreateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -92,7 +92,7 @@ export type OrderUpdateType = z.infer<typeof OrderUpdateSchema>;
 
 export const OrderUpdateOpenAPISchema = generateSchema(OrderUpdateSchema);
 
-export const OrderUpdateMock = generateMock(OrderUpdateSchema);
+// export const OrderUpdateMock = generateMock(OrderUpdateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -104,7 +104,7 @@ export type OrdersReceiptsCreateType = z.infer<typeof OrdersReceiptsCreateSchema
 
 export const OrdersReceiptsCreateOpenAPISchema = generateSchema(OrdersReceiptsCreateSchema);
 
-export const OrdersReceiptsCreateMock = generateMock(OrdersReceiptsCreateSchema);
+// export const OrdersReceiptsCreateMock = generateMock(OrdersReceiptsCreateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -235,7 +235,7 @@ export type OrdersFiltersType = z.infer<typeof OrdersFiltersSchema>;
 
 export const OrdersFiltersOpenAPISchema = generateSchema(OrdersFiltersSchema);
 
-export const OrdersFiltersMock = generateMock(OrdersFiltersSchema);
+// export const OrdersFiltersMock = generateMock(OrdersFiltersSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -291,7 +291,7 @@ export type OrdersStatisticsFiltersType = z.infer<typeof OrdersStatisticsFilters
 
 export const OrdersStatisticsFiltersOpenAPISchema = generateSchema(OrdersStatisticsFiltersSchema);
 
-export const OrdersStatisticsFiltersMock = generateMock(OrdersStatisticsFiltersSchema);
+// export const OrdersStatisticsFiltersMock = generateMock(OrdersStatisticsFiltersSchema);
 
 /* --------------------------------------------------------------- */
 

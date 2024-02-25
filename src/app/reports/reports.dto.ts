@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { Governorate, Prisma, ReportStatus, ReportType } from "@prisma/client";
 import { z } from "zod";
@@ -41,7 +41,7 @@ export type ReportCreateType = z.infer<typeof ReportCreateSchema>;
 
 export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 
-export const ReportCreateMock = generateMock(ReportCreateSchema);
+// export const ReportCreateMock = generateMock(ReportCreateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -54,7 +54,7 @@ export type ReportUpdateType = z.infer<typeof ReportUpdateSchema>;
 
 export const ReportUpdateOpenAPISchema = generateSchema(ReportUpdateSchema);
 
-export const ReportUpdateMock = generateMock(ReportUpdateSchema);
+// export const ReportUpdateMock = generateMock(ReportUpdateSchema);
 
 /* --------------------------------------------------------------- */
 
@@ -93,7 +93,7 @@ export type ReportsFiltersType = z.infer<typeof ReportsFiltersSchema>;
 
 export const ReportsFiltersOpenAPISchema = generateSchema(ReportsFiltersSchema);
 
-export const ReportsFiltersMock = generateMock(ReportsFiltersSchema);
+// export const ReportsFiltersMock = generateMock(ReportsFiltersSchema);
 
 /* --------------------------------------------------------------- */
 

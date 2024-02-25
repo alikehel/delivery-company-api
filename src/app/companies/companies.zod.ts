@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -22,7 +22,7 @@ export type CompanyCreateType = z.infer<typeof CompanyCreateSchema>;
 
 export const CompanyCreateOpenAPISchema = generateSchema(CompanyCreateSchema);
 
-export const CompanyCreateMock = generateMock(CompanyCreateSchema);
+// export const CompanyCreateMock = generateMock(CompanyCreateSchema);
 
 export const CompanyUpdateSchema = CompanyCreateSchema.partial();
 
@@ -30,4 +30,4 @@ export type CompanyUpdateType = z.infer<typeof CompanyUpdateSchema>;
 
 export const CompanyUpdateOpenAPISchema = generateSchema(CompanyUpdateSchema);
 
-export const CompanyUpdateMock = generateMock(CompanyUpdateSchema);
+// export const CompanyUpdateMock = generateMock(CompanyUpdateSchema);

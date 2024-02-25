@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -12,4 +12,4 @@ export type UserSigninType = z.infer<typeof UserSigninSchema>;
 
 export const UserSigninOpenAPISchema = generateSchema(UserSigninSchema);
 
-export const UserSigninMock = generateMock(UserSigninSchema);
+// export const UserSigninMock = generateMock(UserSigninSchema);

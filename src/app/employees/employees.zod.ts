@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { EmployeeRole, Permission } from "@prisma/client";
 import { z } from "zod";
@@ -33,7 +33,7 @@ export type EmployeeCreateType = z.infer<typeof EmployeeCreateSchema>;
 
 export const EmployeeCreateOpenAPISchema = generateSchema(EmployeeCreateSchema);
 
-export const EmployeeCreateMock = generateMock(EmployeeCreateSchema);
+// export const EmployeeCreateMock = generateMock(EmployeeCreateSchema);
 
 export const EmployeeUpdateSchema = EmployeeCreateSchema.partial();
 
@@ -41,4 +41,4 @@ export type EmployeeUpdateType = z.infer<typeof EmployeeUpdateSchema>;
 
 export const EmployeeUpdateOpenAPISchema = generateSchema(EmployeeUpdateSchema);
 
-export const EmployeeUpdateMock = generateMock(EmployeeUpdateSchema);
+// export const EmployeeUpdateMock = generateMock(EmployeeUpdateSchema);
