@@ -72,6 +72,9 @@ COPY .yarnrc.yml ./
 # Copy the rest of your application's code into the container
 COPY --from=build /app/build ./build
 
+# Copy static files
+COPY static ./static
+
 # Install corepack
 RUN npm install -g corepack@0.24.1
 RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.0.2
