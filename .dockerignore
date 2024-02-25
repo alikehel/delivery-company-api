@@ -5,3 +5,6 @@ logs
 production
 uploads
 .git
+Dockerfile
+.dockerignore
+.gitignore

@@ -1,3 +1,42 @@
+##############################################
+#### FISRT STAGE: BUILD THE APPLICATION ######
+##############################################
+
+# Use the official Node.js 20 image as a base
+FROM node:20.8.0 AS build
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+COPY yarn.lock ./
+
+# Copy yarnrc file
+COPY .yarnrc.yml ./
+
+# Install corepack
+RUN npm install -g corepack@0.24.1
+RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.0.2
+
+# Install dependencies, including 'puppeteer'
+RUN yarn install --check-cache
+
+# Copy the rest of your application's code into the container
+COPY . .
+
+# Prisma
+# COPY --from=deps /app/node_modules ./node_modules
+# COPY src/database/schema.prisma ./prisma/
+# RUN npx prisma generate
+
+# Build project
+RUN yarn run build
+
+##############################################
+#### SECOND STAGE: RUN THE APPLICATION #######
+##############################################
+
 # Use the official Node.js 20 image as a base
 FROM node:20.8.0
 
@@ -24,19 +63,25 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Install dependencies, including 'puppeteer'
-RUN yarn install
+# Copy yarnrc file
+COPY .yarnrc.yml ./
 
 # Copy the rest of your application's code into the container
-COPY . .
+COPY --from=build /app/build ./build
+
+# Copy environment variables
+COPY .env ./
+
+# Install corepack
+RUN npm install -g corepack@0.24.1
+RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.0.2
+
+# Install dependencies, including 'puppeteer'
+RUN yarn install --check-cache
 
 # Prisma
-# COPY --from=deps /app/node_modules ./node_modules
-COPY src/database/schema.prisma ./prisma/
-RUN npx prisma generate
-
-# Build project
-# RUN yarn run build
+# COPY prisma ./prisma
+COPY --from=build /app/node_modules/.prisma/client ./node_modules/.prisma/client
 
 # Expose the port your app runs on
 EXPOSE 3000
