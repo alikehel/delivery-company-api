@@ -1,4 +1,4 @@
-import { apiReference } from "@scalar/express-api-reference";
+// import { apiReference } from "@scalar/express-api-reference";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -6,10 +6,11 @@ import express from "express";
 import helmet from "helmet";
 // import { Role } from "@prisma/client";
 import morganBody from "morgan-body";
-import shrinkRay from "shrink-ray-current";
+// import shrinkRay from "shrink-ray-current";
 import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
+import compression from "compression";
 import { AppError } from "./lib/AppError";
 import { Logger } from "./lib/logger";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
@@ -23,20 +24,20 @@ const app = express();
 
 const swaggerTheme = new SwaggerTheme("v3");
 const swaggerOptionsV1 = {
-    explorer: true,
+    explorer: true
     // customCss: swaggerTheme.getBuffer("dark"),
 };
 
 app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptionsV1));
 
-app.use(
-    "/api-docs-scalar",
-    apiReference({
-        spec: {
-            content: swaggerDocument
-        }
-    })
-);
+// app.use(
+//     "/api-docs-scalar",
+//     apiReference({
+//         spec: {
+//             content: swaggerDocument
+//         }
+//     })
+// );
 
 // Middlewares
 
@@ -54,33 +55,34 @@ app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an
 app.use(helmet()); // Set security HTTP headers
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
-// app.use(
-//     compression({
-//         filter: (req, res) => {
-//             if (req.headers["x-no-compression"]) {
-//                 return false;
-//             }
-//             return compression.filter(req, res);
-//         },
-//         threshold: 0
-//     })
-// );
 app.use(
-    shrinkRay({
-        brotli: {
-            quality: 11
-        },
-        zlib: {
-            level: 9
-        },
+    compression({
         filter: (req, res) => {
             if (req.headers["x-no-compression"]) {
                 return false;
             }
-            return shrinkRay.filter(req, res);
-        }
+            return compression.filter(req, res);
+        },
+        threshold: 0
     })
 );
+// app.use(
+//     shrinkRay({
+//         brotli: {
+//             quality: 11
+//         },
+//         zlib: {
+//             level: 9
+//         },
+//         useZopfliForGzip: false,
+//         filter: (req, res) => {
+//             if (req.headers["x-no-compression"]) {
+//                 return false;
+//             }
+//             return shrinkRay.filter(req, res);
+//         }
+//     })
+// );
 
 // Function to serve all static files
 app.use("/uploads", express.static("uploads"));
