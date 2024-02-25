@@ -5,6 +5,9 @@
 # Use the official Node.js 20 image as a base
 FROM node:20.8.0 AS build
 
+# Environment variables
+ARG DATABASE_URL_POSTGRESQL_PROD
+
 # Set working directory inside the container
 WORKDIR /app
 
