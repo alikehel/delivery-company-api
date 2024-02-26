@@ -3,10 +3,16 @@
 ##############################################
 
 # Use the official Node.js 20 image as a base
-FROM node:20.8.0 AS build
+# FROM node:20.8.0 AS build
+FROM node:20.11.1-bookworm-slim AS build
 
 # Environment variables
 ARG DATABASE_URL_POSTGRESQL_PROD
+ENV YARN_VERSION 4.1.0
+
+# Install necessary dependencies for Prisma
+RUN apt-get update -y && \
+    apt-get install -y openssl
 
 # Set working directory inside the container
 WORKDIR /app
@@ -18,9 +24,11 @@ COPY yarn.lock ./
 # Copy yarnrc file
 COPY .yarnrc.yml ./
 
-# Install corepack
-RUN npm install -g corepack@0.24.1
-RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.0.2
+# Yarn - Install corepack
+# RUN npm install -g corepack@0.24.1
+# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.1.0
+RUN yarn policies set-version $YARN_VERSION
+RUN corepack enable
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
@@ -41,12 +49,14 @@ RUN yarn run build
 ##############################################
 
 # Use the official Node.js 20 image as a base
-FROM node:20.8.0
+# FROM node:20.8.0
+FROM node:20.11.1-bookworm-slim AS production
 
 # Set environment variables to optimize the container
 ENV NODE_ENV production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH "/usr/bin/google-chrome-stable"
+ENV YARN_VERSION 4.1.0
 
 # Install necessary dependencies for Puppeteer's Chrome
 # These dependencies are required to run Puppeteer/Chrome in a headless environment
@@ -58,6 +68,10 @@ RUN apt-get update && \
     apt-get install -y google-chrome-stable --no-install-recommends && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
+
+# Install necessary dependencies for Prisma
+RUN apt-get update -y && \
+    apt-get install -y openssl
 
 # Set working directory inside the container
 WORKDIR /app
@@ -75,9 +89,11 @@ COPY --from=build /app/build ./build
 # Copy static files
 COPY static ./static
 
-# Install corepack
-RUN npm install -g corepack@0.24.1
-RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.0.2
+# Yarn - Install corepack
+# RUN npm install -g corepack@0.24.1
+# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.1.0
+RUN yarn policies set-version $YARN_VERSION
+RUN corepack enable
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
