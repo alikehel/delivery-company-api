@@ -8,3 +8,7 @@ uploads
 Dockerfile
 .dockerignore
 .gitignore
+.env.*
+.env
+docker-volume
+docker-compose.yml
