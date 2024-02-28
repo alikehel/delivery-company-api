@@ -54,8 +54,16 @@
 					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
 					<td>{{arabicNumber receiptNumber}}</td>
 					<td>{{date createdAt}}</td>
-					<td>{{arabicNumber store.name}}</td>
+					{{#if store}}
+					<td>{{arabicNumber store.name}}</td>\
+					{{else}}
+					<td></td>
+					{{/if}}
+					{{#if deliveryAgent}}
 					<td>{{arabicNumber deliveryAgent.name}}</td>
+					{{else}}
+					<td></td>
+					{{/if}}
 					<td>{{arabicNumber (mapPhones recipientPhones)}}</td>
 					<td>{{arabicNumber recipientAddress}}</td>
 					<td>{{currency totalCost}}</td>
