@@ -332,26 +332,26 @@ router.route("/orders/:orderID/chat").post(
     */
 );
 
-// router.route("/orders/receipts").post(
-//     isLoggedIn,
-//     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
-//     ordersController.createOrdersReceipts
-//     /*
-//         #swagger.tags = ['Orders Routes']
+router.route("/orders/receipts").post(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    ordersController.createOrdersReceipts
+    /*
+        #swagger.tags = ['Orders Routes']
 
-//         #swagger.requestBody = {
-//             required: true,
-//             content: {
-//                 "application/json": {
-//                     "schema": { $ref: "#/components/schemas/OrdersReceiptsCreateSchema" },
-//                     "examples": {
-//                         "OrderCreateExample": { $ref: "#/components/examples/OrdersReceiptsCreateExample" }
-//                     }
-//                 }
-//             }
-//         }
-//     */
-// );
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    "schema": { $ref: "#/components/schemas/OrdersReceiptsCreateSchema" },
+                    "examples": {
+                        "OrderCreateExample": { $ref: "#/components/examples/OrdersReceiptsCreateExample" }
+                    }
+                }
+            }
+        }
+    */
+);
 
 router.route("/orders/:orderID").patch(
     isLoggedIn,

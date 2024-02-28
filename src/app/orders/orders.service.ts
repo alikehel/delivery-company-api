@@ -5,12 +5,14 @@ import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 // import { generateReceipts } from "./helpers/generateReceipts";
+import { generateReceipts } from "./helpers/generateReceipts";
 import {
     OrderChatNotificationCreateType,
     OrderCreateType,
     OrderTimelineType,
     OrderUpdateType,
     OrdersFiltersType,
+    OrdersReceiptsCreateType,
     // OrdersReceiptsCreateType,
     OrdersStatisticsFiltersType
 } from "./orders.dto";
@@ -361,15 +363,15 @@ export class OrdersService {
         });
     };
 
-    // createOrdersReceipts = async (data: {
-    //     ordersIDs: OrdersReceiptsCreateType;
-    // }) => {
-    //     const orders = await ordersRepository.getOrdersByIDs(data.ordersIDs);
+    createOrdersReceipts = async (data: {
+        ordersIDs: OrdersReceiptsCreateType;
+    }) => {
+        const orders = await ordersRepository.getOrdersByIDs(data.ordersIDs);
 
-    //     const pdf = await generateReceipts(orders);
+        const pdf = await generateReceipts(orders);
 
-    //     return pdf;
-    // };
+        return pdf;
+    };
 
     getOrdersStatistics = async (data: {
         filters: OrdersStatisticsFiltersType;

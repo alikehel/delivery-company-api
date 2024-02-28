@@ -7,6 +7,7 @@ import {
     OrderCreateType,
     OrderUpdateSchema,
     OrdersFiltersSchema,
+    OrdersReceiptsCreateSchema,
     // OrdersReceiptsCreateSchema,
     OrdersStatisticsFiltersSchema
 } from "./orders.dto";
@@ -137,26 +138,14 @@ export class OrdersController {
         });
     });
 
-    // createOrdersReceipts = catchAsync(async (req, res) => {
-    //     const ordersIDs = OrdersReceiptsCreateSchema.parse(req.body);
+    createOrdersReceipts = catchAsync(async (req, res) => {
+        const ordersIDs = OrdersReceiptsCreateSchema.parse(req.body);
 
-    //     const pdf = await ordersService.createOrdersReceipts({ ordersIDs });
+        const pdf = await ordersService.createOrdersReceipts({ ordersIDs });
 
-    //     const chunks: Uint8Array[] = [];
-    //     let result: Buffer;
-
-    //     pdf.on("data", (chunk) => {
-    //         chunks.push(chunk);
-    //     });
-
-    //     pdf.on("end", () => {
-    //         result = Buffer.concat(chunks);
-    //         res.contentType("application/pdf");
-    //         res.send(result);
-    //     });
-
-    //     pdf.end();
-    // });
+        res.contentType("application/pdf");
+        res.send(pdf);
+    });
 
     getOrdersStatistics = catchAsync(async (req, res) => {
         const loggedInUser = res.locals.user as loggedInUserType;
