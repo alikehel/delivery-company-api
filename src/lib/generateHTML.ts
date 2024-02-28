@@ -1,6 +1,7 @@
 import handlebars from "handlebars";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
+import { localizeOrderStatus } from "./localize";
 
 export const generateHTML = async (template: string, data: object) => {
     try {
@@ -11,7 +12,7 @@ export const generateHTML = async (template: string, data: object) => {
             return phones.join("\n");
         });
         handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
-        handlebars.registerHelper("add", (v1, v2) => parseInt(v1) + parseInt(v2));
+        handlebars.registerHelper("add", (v1, v2) => parseInt(v1) || 0 + parseInt(v2) || 0);
         handlebars.registerHelper("currency", (value) => {
             return Number(value || 0).toLocaleString("ar-IQ", { style: "currency", currency: "IQD" });
         });
@@ -20,6 +21,9 @@ export const generateHTML = async (template: string, data: object) => {
             if (!value) return "";
             if (typeof value === "string") return value.replace(/[0-9]/g, (w) => arabicNumbers[+w]);
             return value.toString().replace(/[0-9]/g, (w: string) => arabicNumbers[+w]);
+        });
+        handlebars.registerHelper("localizeOrderStatus", (status) => {
+            return localizeOrderStatus(status);
         });
 
         const compiledTemplate = handlebars.compile(template, { strict: true });
