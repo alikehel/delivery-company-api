@@ -74,6 +74,7 @@
 					</tr>
 				</tbody>
 			</table>
+			{{#if orderProducts}}
 			<table>
 				<thead>
 					<tr>
@@ -88,14 +89,23 @@
 					{{#each orderProducts}}
 					<tr>
 						<td>{{arabicNumber product.title}}</td>
+						{{#if color}}
 						<td>{{arabicNumber color.title}}</td>
+						{{else}}
+						<td></td>
+						{{/if}}
+						{{#if size}}
 						<td>{{arabicNumber size.title}}</td>
+						{{else}}
+						<td></td>
+						{{/if}}
 						<td>{{arabicNumber quantity}}</td>
 						<td>{{currency product.price}}</td>
 					</tr>
 					{{/each}}
 				</tbody>
 			</table>
+			{{/if}}
 		</main>
 		<footer>
 			<section>
