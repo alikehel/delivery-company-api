@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 import { AppError } from "../../..//lib/AppError";
 import { generateHTML } from "../../..//lib/generateHTML";
@@ -10,9 +10,8 @@ export const generateReceipts = async (orders: ReturnType<typeof orderReform>[])
     try {
         const templatePath = path.join(__dirname, "../../../../static/templates/receipt.hbs");
 
-        // TODO: replace with async
-        const template = fs.readFileSync(templatePath, "utf8");
-        const css = fs.readFileSync(
+        const template = await fs.readFile(templatePath, "utf8");
+        const css = await fs.readFile(
             path.join(__dirname, "../../../../static/styles/receiptStyle.css"),
             "utf8"
         );
