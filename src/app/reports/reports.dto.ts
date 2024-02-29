@@ -4,7 +4,7 @@ import { Governorate, ReportStatus, ReportType } from "@prisma/client";
 import { z } from "zod";
 
 export const ReportCreateBaseSchema = z.object({
-    ordersIDs: z.array(z.coerce.number()).min(1)
+    ordersIDs: z.array(z.coerce.number()).min(1).or(z.literal("*"))
 });
 
 export const ReportCreateSchema = z

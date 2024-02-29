@@ -1,3 +1,4 @@
+import { OrdersFiltersSchema } from "app/orders/orders.dto";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { ReportCreateSchema, ReportUpdateSchema, ReportsFiltersSchema } from "./reports.dto";
@@ -10,9 +11,33 @@ export class ReportController {
         const reportData = ReportCreateSchema.parse(req.body);
         const loggedInUser = res.locals.user as loggedInUserType;
 
+        const ordersFilters = OrdersFiltersSchema.parse({
+            clientID: req.query.client_id,
+            deliveryAgentID: req.query.delivery_agent_id,
+            companyID: req.query.company_id,
+            sort: "receiptNumber:asc",
+            startDate: req.query.start_date,
+            endDate: req.query.end_date,
+            governorate: req.query.governorate,
+            statuses: req.query.statuses,
+            status: req.query.status,
+            deliveryType: req.query.delivery_type,
+            storeID: req.query.store_id,
+            repositoryID: req.query.repository_id,
+            branchID: req.query.branch_id,
+            clientReport: req.query.client_report,
+            repositoryReport: req.query.repository_report,
+            branchReport: req.query.branch_report,
+            deliveryAgentReport: req.query.delivery_agent_report,
+            governorateReport: req.query.governorate_report,
+            companyReport: req.query.company_report,
+            minified: false
+        });
+
         const pdf = await reportsService.createReport({
             loggedInUser,
-            reportData
+            reportData,
+            ordersFilters
         });
 
         res.contentType("application/pdf");

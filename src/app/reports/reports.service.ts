@@ -1,9 +1,10 @@
 import { AdminRole, EmployeeRole, Order, ReportStatus, ReportType } from "@prisma/client";
+import { orderReform } from "app/orders/orders.responses";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../orders/orders.dto";
+import { OrderTimelineType, OrdersFiltersType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
 import { generateReport } from "./helpers/generateReport";
 import { ReportCreateType, ReportsFiltersType } from "./reports.dto";
@@ -17,8 +18,21 @@ export class ReportsService {
     async createReport(data: {
         loggedInUser: loggedInUserType;
         reportData: ReportCreateType;
+        ordersFilters: OrdersFiltersType;
     }) {
-        const orders = await ordersRepository.getOrdersByIDs(data.reportData);
+        let orders: ReturnType<typeof orderReform>[];
+        if (data.reportData.ordersIDs === "*") {
+            orders = (
+                await ordersRepository.getAllOrders({
+                    take: 2000,
+                    skip: 0,
+                    filters: data.ordersFilters
+                })
+            ).orders as ReturnType<typeof orderReform>[];
+        } else {
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs: data.reportData.ordersIDs });
+        }
+        //  orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
         if (!orders) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
