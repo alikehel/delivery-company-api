@@ -1,12 +1,7 @@
 import { PrismaClient, ReportType } from "@prisma/client";
 import { loggedInUserType } from "../../types/user";
-import {
-    ReportCreateType,
-    ReportUpdateType,
-    ReportsFiltersType,
-    reportReform,
-    reportSelect
-} from "./reports.dto";
+import { ReportCreateType, ReportUpdateType, ReportsFiltersType } from "./reports.dto";
+import { reportReform, reportSelect } from "./reports.responses";
 
 const prisma = new PrismaClient();
 

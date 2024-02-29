@@ -4,9 +4,9 @@ import { loggedInUserType } from "../../types/user";
 import {
     AutomaticUpdateCreateType,
     AutomaticUpdateUpdateType,
-    AutomaticUpdatesFiltersType,
-    automaticUpdateSelect
+    AutomaticUpdatesFiltersType
 } from "./automaticUpdates.dto";
+import { automaticUpdateSelect } from "./automaticUpdates.responses";
 
 const prisma = new PrismaClient();
 

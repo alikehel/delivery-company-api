@@ -5,11 +5,9 @@ import {
     OrderTimelineType,
     OrderUpdateType,
     OrdersFiltersType,
-    OrdersStatisticsFiltersType,
-    orderReform,
-    orderSelect,
-    statisticsReformed
+    OrdersStatisticsFiltersType
 } from "./orders.dto";
+import { orderReform, orderSelect, statisticsReformed } from "./orders.responses";
 
 const prisma = new PrismaClient();
 

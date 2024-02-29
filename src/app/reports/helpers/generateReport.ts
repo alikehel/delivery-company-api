@@ -4,9 +4,9 @@ import path from "path";
 import { AppError } from "../../..//lib/AppError";
 import { generateHTML } from "../../..//lib/generateHTML";
 import { generatePDF } from "../../..//lib/generatePDF";
-import { orderReform } from "../../../app/orders/orders.dto";
+import { orderReform } from "../../../app/orders/orders.responses";
 import { Logger } from "../../../lib/logger";
-import { reportReform } from "../reports.dto";
+import { reportReform } from "../reports.responses";
 
 export const generateReport = async (
     reportType: ReportType,
