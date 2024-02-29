@@ -21,6 +21,7 @@ export class ReportsService {
         ordersFilters: OrdersFiltersType;
     }) {
         let orders: ReturnType<typeof orderReform>[];
+        let ordersIDs: number[] = [];
         if (data.reportData.ordersIDs === "*") {
             orders = (
                 await ordersRepository.getAllOrders({
@@ -29,8 +30,15 @@ export class ReportsService {
                     filters: data.ordersFilters
                 })
             ).orders as ReturnType<typeof orderReform>[];
+
+            for (const order of orders) {
+                if (order) {
+                    ordersIDs.push(order.id);
+                }
+            }
         } else {
             orders = await ordersRepository.getOrdersByIDs({ ordersIDs: data.reportData.ordersIDs });
+            ordersIDs = data.reportData.ordersIDs;
         }
         //  orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
@@ -141,7 +149,7 @@ export class ReportsService {
 
         const report = await reportsRepository.createReport({
             loggedInUser: data.loggedInUser,
-            reportData: data.reportData,
+            reportData: { ...data.reportData, ordersIDs },
             reportMetaData: reportMetaData
         });
 

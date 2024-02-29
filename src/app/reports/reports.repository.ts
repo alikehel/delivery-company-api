@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export class ReportsRepository {
     async createReport(data: {
         loggedInUser: loggedInUserType;
-        reportData: ReportCreateType;
+        reportData: ReportCreateType & { ordersIDs: number[] };
         // TODO: Make reportMetaData a type
         reportMetaData: {
             totalCost: number;
