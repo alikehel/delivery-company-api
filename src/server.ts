@@ -1,4 +1,3 @@
-import "module-alias/register";
 import app from "./app";
 import { PORT } from "./config/config";
 import { automaticUpdatesCronJob } from "./cron-jobs/automaticUpdatesCronJob";

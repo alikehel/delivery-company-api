@@ -762,13 +762,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/module-alias@npm:^2":
-  version: 2.0.4
-  resolution: "@types/module-alias@npm:2.0.4"
-  checksum: 10c0/73e0993763526093d9e0993923e93a43186fac9b73e6ee6f785a34a79db6130468b2c9d9798c092ae5d50e8a2e6f7ab51a7f638ee7671037c15b5dde15dc5787
-  languageName: node
-  linkType: hard
-
 "@types/morgan@npm:^1.9.9":
   version: 1.9.9
   resolution: "@types/morgan@npm:1.9.9"
@@ -1007,7 +1000,6 @@ __metadata:
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.21"
     "@types/jsonwebtoken": "npm:^9.0.5"
-    "@types/module-alias": "npm:^2"
     "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:^1.4.11"
     "@types/node": "npm:^20.10.5"
@@ -1026,7 +1018,6 @@ __metadata:
     handlebars: "npm:^4.7.8"
     helmet: "npm:^7.1.0"
     jsonwebtoken: "npm:^9.0.2"
-    module-alias: "npm:^2.2.3"
     morgan: "npm:^1.10.0"
     morgan-body: "npm:^2.6.9"
     multer: "npm:^1.4.5-lts.1"
@@ -3428,13 +3419,6 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
-  languageName: node
-  linkType: hard
-
-"module-alias@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "module-alias@npm:2.2.3"
-  checksum: 10c0/47dc5b6d04f6e7df0ff330ca9b2a37c688a682ed661e9432b0b327e1e6c43eedad052151b8d50d6beea8b924828d2a92fa4625c18d651bf2d93d8f03aa0172fa
   languageName: node
   linkType: hard
 
