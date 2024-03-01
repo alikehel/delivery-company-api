@@ -369,7 +369,7 @@ export class ReportsService {
             reportsIDs = data.reportsData.reportsIDs;
         }
 
-        if (!reports) {
+        if (!reports || reports.length === 0) {
             throw new AppError("لا يوجد كشوفات لعمل التقرير", 400);
         }
 

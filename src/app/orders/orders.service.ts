@@ -5,6 +5,7 @@ import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 // import { generateReceipts } from "./helpers/generateReceipts";
+import { generateOrdersReport } from "./helpers/generateOrdersReport";
 import { generateReceipts } from "./helpers/generateReceipts";
 import {
     OrderChatNotificationCreateType,
@@ -13,10 +14,12 @@ import {
     OrderUpdateType,
     OrdersFiltersType,
     OrdersReceiptsCreateType,
+    OrdersReportPDFCreateType,
     // OrdersReceiptsCreateType,
     OrdersStatisticsFiltersType
 } from "./orders.dto";
 import { OrdersRepository } from "./orders.repository";
+import { orderReform } from "./orders.responses";
 
 const ordersRepository = new OrdersRepository();
 
@@ -372,6 +375,55 @@ export class OrdersService {
 
         return pdf;
     };
+
+    async getOrdersReportPDF(data: {
+        ordersData: OrdersReportPDFCreateType;
+        ordersFilters: OrdersFiltersType;
+    }) {
+        let orders: ReturnType<typeof orderReform>[];
+        let ordersIDs: number[] = [];
+        if (data.ordersData.ordersIDs === "*") {
+            orders = (
+                await ordersRepository.getAllOrders({
+                    take: 2000,
+                    skip: 0,
+                    filters: { ...data.ordersFilters }
+                })
+            ).orders as ReturnType<typeof orderReform>[];
+
+            for (const order of orders) {
+                if (order) {
+                    ordersIDs.push(order.id);
+                }
+            }
+        } else {
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs: data.ordersData.ordersIDs });
+            ordersIDs = data.ordersData.ordersIDs;
+        }
+
+        if (!orders || orders.length === 0) {
+            throw new AppError("لا يوجد طلبات لعمل التقرير", 400);
+        }
+
+        let ordersData: object;
+        if (data.ordersData.type === "DELIVERY_AGENT_MANIFEST") {
+            ordersData = {
+                deliveryAgent: orders[0]?.deliveryAgent,
+                date: new Date(),
+                count: orders.length,
+                company: orders[0]?.company
+            };
+        } else {
+            ordersData = {
+                date: new Date(),
+                count: orders.length,
+                company: orders[0]?.company
+            };
+        }
+
+        const pdf = await generateOrdersReport(data.ordersData.type, ordersData, orders);
+        return pdf;
+    }
 
     getOrdersStatistics = async (data: {
         filters: OrdersStatisticsFiltersType;

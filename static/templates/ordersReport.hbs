@@ -4,30 +4,26 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>منفيست مندوب</title>
+	<title>تقرير طلبات</title>
 </head>
 
 <body class="px-20">
 	<header>
 		<table>
 			<tr>
-				{{#if ordersData.deliveryAgent}}
-				<td style="width: 33%;">اسم المندوب: <span>{{ordersData.deliveryAgent.name}}</span></td>
-				{{else}}
-				<td style="width: 33%;">اسم المندوب: <span>.....</span></td>
-				{{/if}}
-				<td style="width: 33%;">الواصل: <span>.....</span></td>
+				<td style="width: 33%;"></td>
+				<td style="width: 33%;"></td>
 				{{!-- <td class="title">منفيست مندوب</td> --}}
 				<td style="width: 33%;" rowspan="3"><img src="{{ordersData.company.logo}}" /></td>
 			</tr>
 			<tr>
 				<td style="width: 33%;">عدد الطلبيات: <span>{{arabicNumber ordersData.count}}</span></td>
-				<td style="width: 33%;">الراجع: <span>.....</span></td>
+				<td style="width: 33%;"></td>
 				<td style="width: 33%;"></td>
 			</tr>
 			<tr>
 				<td style="width: 33%;">التاريخ: <span>{{date ordersData.date}}</span></td>
-				<td style="width: 33%;">المؤجل: <span>.....</span></td>
+				<td style="width: 33%;"></td>
 				<td style="width: 33%;"></td>
 			</tr>
 		</table>

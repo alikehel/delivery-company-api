@@ -8,6 +8,7 @@ import {
     OrderUpdateSchema,
     OrdersFiltersSchema,
     OrdersReceiptsCreateSchema,
+    OrdersReportPDFCreateSchema,
     // OrdersReceiptsCreateSchema,
     OrdersStatisticsFiltersSchema
 } from "./orders.dto";
@@ -142,6 +143,41 @@ export class OrdersController {
         const ordersIDs = OrdersReceiptsCreateSchema.parse(req.body);
 
         const pdf = await ordersService.createOrdersReceipts({ ordersIDs });
+
+        res.contentType("application/pdf");
+        res.send(pdf);
+    });
+
+    getOrdersReportPDF = catchAsync(async (req, res) => {
+        const ordersData = OrdersReportPDFCreateSchema.parse(req.body);
+
+        const filters = OrdersFiltersSchema.parse({
+            clientID: req.query.client_id,
+            deliveryAgentID: req.query.delivery_agent_id,
+            companyID: req.query.company_id,
+            sort: "receiptNumber:asc",
+            startDate: req.query.start_date,
+            endDate: req.query.end_date,
+            governorate: req.query.governorate,
+            statuses: req.query.statuses,
+            status: req.query.status,
+            deliveryType: req.query.delivery_type,
+            storeID: req.query.store_id,
+            repositoryID: req.query.repository_id,
+            branchID: req.query.branch_id,
+            clientReport: req.query.client_report,
+            repositoryReport: req.query.repository_report,
+            branchReport: req.query.branch_report,
+            deliveryAgentReport: req.query.delivery_agent_report,
+            governorateReport: req.query.governorate_report,
+            companyReport: req.query.company_report,
+            minified: false
+        });
+
+        const pdf = await ordersService.getOrdersReportPDF({
+            ordersData: ordersData,
+            ordersFilters: filters
+        });
 
         res.contentType("application/pdf");
         res.send(pdf);

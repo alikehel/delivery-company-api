@@ -296,6 +296,15 @@ router.route("/orders/statistics").get(
     */
 );
 
+router.route("/orders/pdf").post(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    ordersController.getOrdersReportPDF
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
 router.route("/orders/:orderID").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),

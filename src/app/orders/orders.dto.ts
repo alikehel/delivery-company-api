@@ -293,3 +293,10 @@ export const OrdersStatisticsFiltersOpenAPISchema = generateSchema(OrdersStatist
 // export const OrdersStatisticsFiltersMock = generateMock(OrdersStatisticsFiltersSchema);
 
 /* --------------------------------------------------------------- */
+
+export const OrdersReportPDFCreateSchema = z.object({
+    ordersIDs: z.array(z.coerce.number()).min(1).or(z.literal("*")),
+    type: z.literal("GENERAL").or(z.literal("DELIVERY_AGENT_MANIFEST"))
+});
+
+export type OrdersReportPDFCreateType = z.infer<typeof OrdersReportPDFCreateSchema>;
