@@ -465,6 +465,21 @@ export class ReportsRepository {
         // return reports.map((report) => reportReform(report));
     }
 
+    async getReportsByIDs(data: { reportsIDs: number[] }) {
+        const reports = await prisma.report.findMany({
+            where: {
+                id: {
+                    in: data.reportsIDs
+                }
+            },
+            orderBy: {
+                id: "asc"
+            },
+            select: reportSelect
+        });
+        return reports.map(reportReform);
+    }
+
     async getReport(data: { reportID: number }) {
         const report = await prisma.report.findUnique({
             where: {

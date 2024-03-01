@@ -1,7 +1,12 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { OrdersFiltersSchema } from "../orders/orders.dto";
-import { ReportCreateSchema, ReportUpdateSchema, ReportsFiltersSchema } from "./reports.dto";
+import {
+    ReportCreateSchema,
+    ReportUpdateSchema,
+    ReportsFiltersSchema,
+    ReportsReportPDFCreateSchema
+} from "./reports.dto";
 import { ReportsService } from "./reports.service";
 
 const reportsService = new ReportsService();
@@ -165,6 +170,40 @@ export class ReportController {
         // });
 
         // pdf.end();
+    });
+
+    getReportsReportPDF = catchAsync(async (req, res) => {
+        const reportsData = ReportsReportPDFCreateSchema.parse(req.body);
+
+        const filters = ReportsFiltersSchema.parse({
+            page: req.query.page,
+            size: req.query.size,
+            company: req.query.company,
+            branch: req.query.branch,
+            sort: "id:asc",
+            startDate: req.query.start_date,
+            endDate: req.query.end_date,
+            governorate: req.query.governorate,
+            status: req.query.status,
+            type: req.query.type,
+            storeID: req.query.store_id,
+            repositoryID: req.query.repository_id,
+            branchID: req.query.branch_id,
+            deliveryAgentID: req.query.delivery_agent_id,
+            companyID: req.query.company_id,
+            clientID: req.query.client_id,
+            createdByID: req.query.created_by_id,
+            deleted: req.query.deleted,
+            minified: false
+        });
+
+        const pdf = await reportsService.getReportsReportPDF({
+            reportsData: reportsData,
+            reportsFilters: filters
+        });
+
+        res.contentType("application/pdf");
+        res.send(pdf);
     });
 
     updateReport = catchAsync(async (req, res) => {

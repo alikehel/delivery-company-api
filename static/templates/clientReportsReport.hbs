@@ -11,19 +11,19 @@
 	<header>
 		<table>
 			<tr>
-				<td>الشركة: <span>{{}}</span></td>
-				<td class="title">تقرير كشوفات عميل</td>
-				<td rowspan="3"><img src="{{company.logo}}" /></td>
+				<td style="width: 33%;">الشركة: <span>{{reportsData.company.name}}</span></td>
+				<td style="width: 33%;" class="title">تقرير كشوفات عميل</td>
+				<td style="width: 33%;" rowspan="3"><img src="{{reportsData.company.logo}}" /></td>
 			</tr>
 			<tr>
-				<td>صافي الشركة: <span>{{}}</span></td>
-				<td>عدد الكشوفات: <span>{{}}</span></td>
-				<td></td>
+				<td style="width: 33%;">صافي الشركة: <span>{{currency reportsData.companyNet}}</span></td>
+				<td style="width: 33%;">عدد الكشوفات: <span>{{arabicNumber reportsData.count}}</span></td>
+				<td style="width: 33%;"></td>
 			</tr>
 			<tr>
-				<td>صافي العميل: <span>{{}}</span></td>
-				<td>التاريخ: <span>{{}}</span></td>
-				<td></td>
+				<td style="width: 33%;">صافي العميل: <span>{{currency reportsData.clientNet}}</span></td>
+				<td style="width: 33%;">التاريخ: <span>{{date reportsData.date}}</span></td>
+				<td style="width: 33%;"></td>
 			</tr>
 		</table>
 	</header>
@@ -48,23 +48,23 @@
 				{{#each reports}}
 				<tr>
 					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
+					<td>{{arabicNumber id}}</td>
+					<td>{{arabicNumber clientReport.client.name}}</td>
+					<td>{{arabicNumber clientReport.store.name}}</td>
+					<td>{{arabicNumber clientReport.client.phone}}</td>
+					<td>{{arabicNumber المحاسب}}</td>
+					<td>{{currency clientNet}}</td>
+					<td>{{currency companyNet}}</td>
+					<td>{{arabicNumber baghdadOrdersCount}}</td>
+					<td>{{arabicNumber governoratesOrdersCount}}</td>
+					<td>{{date createdAt}}</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>
-	<section class="watermark">{{arabicNumber reportData.company.name}}</section>
+	<section class="watermark">{{arabicNumber reportsData.company.name}}</section>
 </body>
 
 </html>

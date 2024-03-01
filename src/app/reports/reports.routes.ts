@@ -151,6 +151,15 @@ router.route("/reports/:reportID/pdf").get(
     */
 );
 
+router.route("/reports/pdf").post(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    reportController.getReportsReportPDF
+    /*
+        #swagger.tags = ['Reports Routes']
+    */
+);
+
 router.route("/reports/:reportID").patch(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),

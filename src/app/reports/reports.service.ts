@@ -7,8 +7,10 @@ import { OrderTimelineType, OrdersFiltersType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
 import { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
-import { ReportCreateType, ReportsFiltersType } from "./reports.dto";
+import { generateReportsReport } from "./helpers/generateReportsReport";
+import { ReportCreateType, ReportsFiltersType, ReportsReportPDFCreateType } from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
+import { reportReform } from "./reports.responses";
 
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
@@ -340,6 +342,60 @@ export class ReportsService {
             ordersData
         );
         return pdf;
+    }
+
+    async getReportsReportPDF(data: {
+        reportsData: ReportsReportPDFCreateType;
+        reportsFilters: ReportsFiltersType;
+    }) {
+        let reports: ReturnType<typeof reportReform>[];
+        let reportsIDs: number[] = [];
+        if (data.reportsData.reportsIDs === "*") {
+            reports = (
+                await reportsRepository.getAllReports({
+                    take: 2000,
+                    skip: 0,
+                    filters: { ...data.reportsFilters, type: data.reportsData.type }
+                })
+            ).reports as ReturnType<typeof reportReform>[];
+
+            for (const report of reports) {
+                if (report) {
+                    reportsIDs.push(report.id);
+                }
+            }
+        } else {
+            reports = await reportsRepository.getReportsByIDs({ reportsIDs: data.reportsData.reportsIDs });
+            reportsIDs = data.reportsData.reportsIDs;
+        }
+
+        if (!reports) {
+            throw new AppError("لا يوجد كشوفات لعمل التقرير", 400);
+        }
+
+        if (data.reportsData.type === "CLIENT") {
+            const reportsData = {
+                company: reports[0]?.company,
+                companyNet: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + report.companyNet;
+                    }
+                    return acc;
+                }, 0),
+                clientNet: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + report.clientNet;
+                    }
+                    return acc;
+                }, 0),
+                date: new Date(),
+                count: reports.length
+            };
+            const pdf = await generateReportsReport(data.reportsData.type, reportsData, reports);
+            return pdf;
+        }
+
+        throw new AppError("لا يمكن عمل تقرير لهذا النوع من التقارير", 400);
     }
 
     async updateReport(data: {

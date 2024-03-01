@@ -96,3 +96,10 @@ export const ReportsFiltersOpenAPISchema = generateSchema(ReportsFiltersSchema);
 // export const ReportsFiltersMock = generateMock(ReportsFiltersSchema);
 
 /* --------------------------------------------------------------- */
+
+export const ReportsReportPDFCreateSchema = z.object({
+    reportsIDs: z.array(z.coerce.number()).min(1).or(z.literal("*")),
+    type: z.nativeEnum(ReportType)
+});
+
+export type ReportsReportPDFCreateType = z.infer<typeof ReportsReportPDFCreateSchema>;
