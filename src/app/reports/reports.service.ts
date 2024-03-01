@@ -44,7 +44,7 @@ export class ReportsService {
         }
         //  orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
-        if (!orders) {
+        if (!orders || orders.length === 0) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
         }
 
