@@ -1,6 +1,6 @@
-import { OrdersFiltersSchema } from "app/orders/orders.dto";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { OrdersFiltersSchema } from "../orders/orders.dto";
 import { ReportCreateSchema, ReportUpdateSchema, ReportsFiltersSchema } from "./reports.dto";
 import { ReportsService } from "./reports.service";
 
