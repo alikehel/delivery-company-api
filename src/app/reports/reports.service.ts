@@ -327,11 +327,7 @@ export class ReportsService {
                                   reportData?.companyReport.companyReportOrders
                               : [];
 
-        const ordersIDs = orders
-            .map((order) => order.id)
-            .sort((a, b) => {
-                return b - a;
-            });
+        const ordersIDs = orders.map((order) => order.id);
 
         const ordersData = await ordersRepository.getOrdersByIDs({
             ordersIDs: ordersIDs

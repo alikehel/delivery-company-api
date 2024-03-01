@@ -974,6 +974,9 @@ export class OrdersRepository {
                     in: data.ordersIDs
                 }
             },
+            orderBy: {
+                id: "asc"
+            },
             select: orderSelect
         });
         return orders.map(orderReform);
