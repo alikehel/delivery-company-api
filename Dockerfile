@@ -15,7 +15,7 @@ RUN apt-get update -y && \
     apt-get install -y openssl
 
 # Set working directory inside the container
-WORKDIR /appp
+WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -74,7 +74,7 @@ RUN apt-get update -y && \
     apt-get install -y openssl
 
 # Set working directory inside the container
-WORKDIR /appp
+WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
