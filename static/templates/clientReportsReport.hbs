@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>تقرير كشوفات عميل</title>
+</head>
+
+<body class="px-20">
+	<header>
+		<table>
+			<tr>
+				<td>الشركة: <span>{{}}</span></td>
+				<td class="title">تقرير كشوفات عميل</td>
+				<td rowspan="3"><img src="{{company.logo}}" /></td>
+			</tr>
+			<tr>
+				<td>صافي الشركة: <span>{{}}</span></td>
+				<td>عدد الكشوفات: <span>{{}}</span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>صافي العميل: <span>{{}}</span></td>
+				<td>التاريخ: <span>{{}}</span></td>
+				<td></td>
+			</tr>
+		</table>
+	</header>
+	<main>
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>رقم الكشف</th>
+					<th>العميل</th>
+					<th>الصفحة</th>
+					<th>رقم الهاتف</th>
+					<th>المحاسب</th>
+					<th>صافي العميل</th>
+					<th>صافي الشركة</th>
+					<th>طلبيات بغداد</th>
+					<th>طلبيات المحافظات</th>
+					<th>التاريخ</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each reports}}
+				<tr>
+					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</main>
+	<footer>التوقيع: <span class="light">______________________________________________</span></footer>
+	<section class="watermark">{{arabicNumber reportData.company.name}}</section>
+</body>
+
+</html>
