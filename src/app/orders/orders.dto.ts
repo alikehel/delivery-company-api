@@ -220,7 +220,7 @@ export const OrdersFiltersSchema = z.object({
     deleted: z.preprocess((val) => {
         if (val === "true") return true;
         if (val === "false") return false;
-        return val;
+        return false;
     }, z.boolean().default(false).optional()),
     orderID: z.coerce.number().optional(),
     minified: z.preprocess((val) => {

@@ -80,7 +80,7 @@ export const ReportsFiltersSchema = z.object({
     deleted: z.preprocess((val) => {
         if (val === "true") return true;
         if (val === "false") return false;
-        return val;
+        return false;
     }, z.boolean().default(false).optional()),
     minified: z.preprocess((val) => {
         if (val === "true") return true;
