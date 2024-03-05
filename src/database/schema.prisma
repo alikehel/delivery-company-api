@@ -106,6 +106,12 @@ enum AutomaticUpdateReturnCondition {
   IN_REPOSITORY
 }
 
+enum SecondaryStatus {
+  WITH_CLIENT
+  WITH_AGENT
+  IN_REPOSITORY
+}
+
 enum DeliveryType {
   NORMAL
   REPLACEMENT
@@ -370,6 +376,7 @@ model Order {
   details               String?
   notes                 String?
   status                OrderStatus          @default(REGISTERED)
+  secondaryStatus       SecondaryStatus?
   deliveryType          DeliveryType         @default(NORMAL)
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
