@@ -227,6 +227,7 @@ export class OrdersRepository {
                         id: data.clientID
                     }
                 },
+                confirmed: data.orderData.confirmed,
                 orderProducts:
                     data.orderData.withProducts === false
                         ? undefined
@@ -700,6 +701,9 @@ export class OrdersRepository {
                         id: data.filters.companyID
                     }
                 },
+                {
+                    confirmed: data.filters.confirmed
+                },
                 // Filter by orderID
                 {
                     id: data.filters.orderID
@@ -1054,6 +1058,7 @@ export class OrdersRepository {
                 currentLocation: data.orderData.currentLocation,
                 status: data.orderData.status,
                 secondaryStatus: data.orderData.secondaryStatus,
+                confirmed: data.orderData.confirmed,
                 details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
                 deliveryAgent: data.orderData.deliveryAgentID

@@ -15,6 +15,7 @@ import { z } from "zod";
 export const OrderCreateBaseSchema = z.object({
     receiptNumber: z.number().optional(),
     recipientName: z.string(),
+    confirmed: z.boolean().optional(),
     recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
     recipientPhone: z
         .string()
@@ -68,6 +69,7 @@ export const OrderUpdateSchema = z
     .object({
         paidAmount: z.number(),
         receiptNumber: z.number().optional(),
+        confirmed: z.boolean().optional(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
         secondaryStatus: z.nativeEnum(SecondaryStatus).optional(),
@@ -183,6 +185,7 @@ export type OrderChatNotificationCreateType = z.infer<typeof OrderChatNotificati
 /* --------------------------------------------------------------- */
 
 export const OrdersFiltersSchema = z.object({
+    confirmed: z.boolean().optional(),
     clientID: z.coerce.number().optional(),
     deliveryAgentID: z.coerce.number().optional(),
     companyID: z.coerce.number().optional(),

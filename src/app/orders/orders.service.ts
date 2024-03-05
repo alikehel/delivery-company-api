@@ -28,6 +28,13 @@ export class OrdersService {
         loggedInUser: loggedInUserType;
         orderOrOrdersData: OrderCreateType | OrderCreateType[];
     }) => {
+        let confirmed: boolean;
+        if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
+            confirmed = false;
+        } else {
+            confirmed = true;
+        }
+
         if (Array.isArray(data.orderOrOrdersData)) {
             const createdOrders: Order[] = [];
             for (const order of data.orderOrOrdersData) {
@@ -39,7 +46,7 @@ export class OrdersService {
                 const createdOrder = await ordersRepository.createOrder({
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
-                    orderData: order
+                    orderData: {...order, confirmed}
                 });
                 if (!createdOrder) {
                     throw new AppError("Failed to create order", 500);
@@ -58,7 +65,7 @@ export class OrdersService {
         const createdOrder = await ordersRepository.createOrder({
             companyID: data.loggedInUser.companyID as number,
             clientID,
-            orderData: data.orderOrOrdersData
+            orderData: {...data.orderOrOrdersData, confirmed}
         });
         return createdOrder;
     };

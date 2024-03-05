@@ -19,6 +19,7 @@ export const orderSelect = {
     details: true,
     status: true,
     secondaryStatus: true,
+    confirmed: true,
     deliveryType: true,
     deliveryDate: true,
     currentLocation: true,
