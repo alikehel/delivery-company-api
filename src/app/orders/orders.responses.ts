@@ -18,6 +18,7 @@ export const orderSelect = {
     notes: true,
     details: true,
     status: true,
+    secondaryStatus: true,
     deliveryType: true,
     deliveryDate: true,
     currentLocation: true,

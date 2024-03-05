@@ -1053,6 +1053,7 @@ export class OrdersRepository {
                 notes: data.orderData.notes,
                 currentLocation: data.orderData.currentLocation,
                 status: data.orderData.status,
+                secondaryStatus: data.orderData.secondaryStatus,
                 details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
                 deliveryAgent: data.orderData.deliveryAgentID

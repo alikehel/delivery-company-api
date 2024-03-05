@@ -7,7 +7,8 @@ import {
     EmployeeRole,
     Governorate,
     OrderStatus,
-    ReportType
+    ReportType,
+    SecondaryStatus
 } from "@prisma/client";
 import { z } from "zod";
 
@@ -69,6 +70,7 @@ export const OrderUpdateSchema = z
         receiptNumber: z.number().optional(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
+        secondaryStatus: z.nativeEnum(SecondaryStatus).optional(),
         deliveryAgentID: z.coerce.number(),
         deliveryDate: z.coerce.date().optional(),
         recipientName: z.string(),
@@ -199,6 +201,13 @@ export const OrdersFiltersSchema = z.object({
         }
         return val;
     }, z.array(z.nativeEnum(OrderStatus)).optional()),
+    // secondaryStatuses: z.preprocess((val) => {
+    //     if (typeof val === "string") {
+    //         return val.split(",");
+    //     }
+    //     return val;
+    // }, z.array(z.nativeEnum(SecondaryStatus)).optional()),
+    // secondaryStatus: z.nativeEnum(SecondaryStatus).optional(),
     status: z.nativeEnum(OrderStatus).optional(),
     deliveryType: z.nativeEnum(DeliveryType).optional(),
     storeID: z.coerce.number().optional(),
