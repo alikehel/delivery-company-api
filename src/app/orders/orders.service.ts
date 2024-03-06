@@ -1,4 +1,4 @@
-import { AdminRole, EmployeeRole, Order } from "@prisma/client";
+import { EmployeeRole, Order } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
@@ -46,7 +46,7 @@ export class OrdersService {
                 const createdOrder = await ordersRepository.createOrder({
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
-                    orderData: {...order, confirmed}
+                    orderData: { ...order, confirmed }
                 });
                 if (!createdOrder) {
                     throw new AppError("Failed to create order", 500);
@@ -65,7 +65,7 @@ export class OrdersService {
         const createdOrder = await ordersRepository.createOrder({
             companyID: data.loggedInUser.companyID as number,
             clientID,
-            orderData: {...data.orderOrOrdersData, confirmed}
+            orderData: { ...data.orderOrOrdersData, confirmed }
         });
         return createdOrder;
     };
@@ -82,10 +82,14 @@ export class OrdersService {
             data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT
                 ? data.loggedInUser.id
                 : data.filters.deliveryAgentID;
-        const companyID =
-            Object.keys(AdminRole).includes(data.loggedInUser.role) && data.filters.companyID
-                ? data.filters.companyID
-                : data.loggedInUser.companyID || undefined;
+        // const companyID =
+        //     Object.keys(AdminRole).includes(data.loggedInUser.role) && data.filters.companyID
+        //         ? data.filters.companyID
+        //         : data.loggedInUser.companyID || undefined;\
+
+        const companyID = data.filters.companyID
+            ? data.filters.companyID
+            : data.loggedInUser.companyID || undefined;
 
         // Pagination
         const ordersCount = await ordersRepository.getOrdersCount({ filters: data.filters });
