@@ -15,10 +15,7 @@ import { z } from "zod";
 export const OrderCreateBaseSchema = z.object({
     receiptNumber: z.number().optional(),
     recipientName: z.string(),
-    confirmed: z.preprocess((val) => {
-        if (val === "true") return true;
-        if (val === "false") return false;
-    }, z.boolean().optional()),
+    confirmed: z.boolean().optional(),
     recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
     recipientPhone: z
         .string()
@@ -72,10 +69,7 @@ export const OrderUpdateSchema = z
     .object({
         paidAmount: z.number(),
         receiptNumber: z.number().optional(),
-        confirmed: z.preprocess((val) => {
-            if (val === "true") return true;
-            if (val === "false") return false;
-        }, z.boolean().optional()),
+        confirmed: z.boolean().optional(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
         secondaryStatus: z.nativeEnum(SecondaryStatus).optional(),
