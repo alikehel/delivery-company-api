@@ -191,7 +191,10 @@ export type OrderChatNotificationCreateType = z.infer<typeof OrderChatNotificati
 /* --------------------------------------------------------------- */
 
 export const OrdersFiltersSchema = z.object({
-    confirmed: z.boolean().optional(),
+    confirmed: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+    }, z.boolean().optional()),
     clientID: z.coerce.number().optional(),
     deliveryAgentID: z.coerce.number().optional(),
     companyID: z.coerce.number().optional(),
