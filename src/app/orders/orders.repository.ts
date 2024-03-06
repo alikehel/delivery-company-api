@@ -458,7 +458,12 @@ export class OrdersRepository {
                             id: data.filters.storeID
                         }
                     },
-                    // // Filter by repositoryID
+                    // Filter by repositoryID
+                    {
+                        repository: {
+                            id: data.filters.repositoryID
+                        }
+                    },
                     // {
                     //     OrderProducts: {
                     //         some: {
@@ -751,7 +756,12 @@ export class OrdersRepository {
                         id: data.filters.storeID
                     }
                 },
-                // // Filter by repositoryID
+                // Filter by repositoryID
+                {
+                    repository: {
+                        id: data.filters.repositoryID
+                    }
+                },
                 // {
                 //     OrderProducts: {
                 //         some: {
