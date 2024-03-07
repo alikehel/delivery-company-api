@@ -257,7 +257,8 @@ export class EmployeeModel {
                                     gte: filters.ordersStartDate,
                                     lte: filters.ordersEndDate
                                 },
-                                confirmed: true
+                                confirmed: true,
+                                deleted: false
                             }
                         }
                         // deliveryAgentsLocations: true
