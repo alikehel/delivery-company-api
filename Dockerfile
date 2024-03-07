@@ -7,7 +7,7 @@
 FROM node:20.11.1-bookworm-slim AS build
 
 # Environment variables
-ARG DATABASE_URL_POSTGRESQL_PROD
+ARG DATABASE_URL
 ENV YARN_VERSION 4.1.0
 
 # Install necessary dependencies for Prisma
