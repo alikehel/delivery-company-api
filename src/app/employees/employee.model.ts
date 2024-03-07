@@ -1,4 +1,4 @@
-import { EmployeeRole, Prisma, PrismaClient } from "@prisma/client";
+import { EmployeeRole, Permission, Prisma, PrismaClient } from "@prisma/client";
 import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
 
 const prisma = new PrismaClient();
@@ -132,10 +132,16 @@ export class EmployeeModel {
         ordersStartDate?: Date;
         ordersEndDate?: Date;
         companyID?: number;
+        permissions?: Permission[];
     }) {
         const employeesCount = await prisma.employee.count({
             where: {
                 AND: [
+                    {
+                        permissions: {
+                            hasEvery: filters.permissions
+                        }
+                    },
                     { role: { in: filters.roles } },
                     { role: filters.role },
                     {
@@ -183,10 +189,12 @@ export class EmployeeModel {
             ordersEndDate?: Date;
             companyID?: number;
             minified?: boolean;
+            permissions?: Permission[];
         }
     ) {
         const where = {
             AND: [
+                { permissions: { hasEvery: filters.permissions } },
                 { role: { in: filters.roles } },
                 { role: filters.role },
                 {

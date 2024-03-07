@@ -1,4 +1,4 @@
-import { AdminRole, EmployeeRole } from "@prisma/client";
+import { AdminRole, EmployeeRole, Permission } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
 import { AppError } from "../../lib/AppError";
@@ -64,6 +64,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
 
     const roles = req.query.roles?.toString().toUpperCase().split(",") as EmployeeRole[];
 
+    const permissions = req.query.permissions?.toString().toUpperCase().split(",") as Permission[];
+
     const role = req.query.role?.toString().toUpperCase() as EmployeeRole;
 
     const locationID = req.query.location_id ? +req.query.location_id : undefined;
@@ -88,7 +90,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         deleted: deleted,
         ordersStartDate: ordersStartDate,
         ordersEndDate: ordersEndDate,
-        companyID: companyID
+        companyID: companyID,
+        permissions: permissions
     });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
@@ -130,7 +133,8 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         ordersStartDate: ordersStartDate,
         ordersEndDate: ordersEndDate,
         companyID: companyID,
-        minified: minified
+        minified: minified,
+        permissions: permissions
     });
 
     res.status(200).json({
