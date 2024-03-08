@@ -1,11 +1,11 @@
 import { AdminRole } from "@prisma/client";
-import { sendNotification } from "app/notifications/helpers/sendNotification";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
 
