@@ -1,13 +1,16 @@
 import { AdminRole } from "@prisma/client";
+import { sendNotification } from "app/notifications/helpers/sendNotification";
 import * as bcrypt from "bcrypt";
 import { SECRET } from "../../config/config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { EmployeeModel } from "../employees/employee.model";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
 
 const clientModel = new ClientModel();
+const employeeModel = new EmployeeModel();
 
 export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
@@ -143,6 +146,20 @@ export const updateClient = catchAsync(async (req, res) => {
             avatar
         }
     });
+
+    // Send notification to the company manager if the client name is updated
+    if (clientData.name && clientData.name !== updatedClient?.name) {
+        // get the company manager id
+        const companyManager = await employeeModel.getCompanyManager({
+            companyID: companyID
+        });
+
+        await sendNotification({
+            userID: companyManager?.id as number,
+            title: "تغيير اسم عميل",
+            content: `تم تغيير اسم العميل ${clientData.name} إلى ${updatedClient?.name}`
+        });
+    }
 
     res.status(200).json({
         status: "success",

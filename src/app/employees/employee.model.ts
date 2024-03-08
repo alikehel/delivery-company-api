@@ -377,4 +377,27 @@ export class EmployeeModel {
         });
         return deletedEmployee;
     }
+
+    async getCompanyManager(data: { companyID: number }) {
+        const companyManager = await prisma.employee.findFirst({
+            where: {
+                role: "COMPANY_MANAGER",
+                company: {
+                    id: data.companyID
+                }
+            },
+            select: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        });
+        return {
+            id: companyManager?.user.id,
+            name: companyManager?.user.name
+        };
+    }
 }
