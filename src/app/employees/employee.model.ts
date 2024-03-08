@@ -138,9 +138,11 @@ export class EmployeeModel {
             where: {
                 AND: [
                     {
-                        permissions: {
-                            hasEvery: filters.permissions
-                        }
+                        permissions: filters.permissions
+                            ? {
+                                  hasEvery: filters.permissions
+                              }
+                            : undefined
                     },
                     { role: { in: filters.roles } },
                     { role: filters.role },
@@ -194,7 +196,7 @@ export class EmployeeModel {
     ) {
         const where = {
             AND: [
-                { permissions: { hasEvery: filters.permissions } },
+                { permissions: filters.permissions ? { hasEvery: filters.permissions } : undefined },
                 { role: { in: filters.roles } },
                 { role: filters.role },
                 {
