@@ -4,6 +4,7 @@ import { SECRET } from "../../config/config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { EmployeeModel } from "./employee.model";
 import { EmployeeCreateSchema, EmployeeUpdateSchema } from "./employees.zod";
 
@@ -163,6 +164,10 @@ export const updateEmployee = catchAsync(async (req, res) => {
     const employeeID = +req.params.employeeID;
     const companyID = +res.locals.user.companyID;
 
+    const oldEmployee = await employeeModel.getEmployee({
+        employeeID: employeeID
+    });
+
     if (req.file) {
         employeeData.avatar = req.file
             ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
@@ -179,6 +184,24 @@ export const updateEmployee = catchAsync(async (req, res) => {
         companyID: companyID,
         employeeData
     });
+
+    // Send notification to the company manager if the delviery agent name is updated
+    if (
+        employeeData.name &&
+        (updatedEmployee?.role === "DELIVERY_AGENT" || updatedEmployee?.role === "RECEIVING_AGENT") &&
+        oldEmployee?.name !== updatedEmployee?.name
+    ) {
+        // get the company manager id
+        const companyManager = await employeeModel.getCompanyManager({
+            companyID: companyID
+        });
+
+        await sendNotification({
+            userID: companyManager?.id as number,
+            title: "تغيير اسم مندوب",
+            content: `تم تغيير اسم المندوب ${oldEmployee?.name} إلى ${updatedEmployee?.name}`
+        });
+    }
 
     res.status(200).json({
         status: "success",
