@@ -132,6 +132,10 @@ export const updateClient = catchAsync(async (req, res) => {
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
+    const oldClient = await clientModel.getClient({
+        clientID: clientID
+    });
+
     const { password, ...rest } = clientData;
 
     // hash the password
@@ -148,7 +152,7 @@ export const updateClient = catchAsync(async (req, res) => {
     });
 
     // Send notification to the company manager if the client name is updated
-    if (clientData.name && clientData.name !== updatedClient?.name) {
+    if (clientData.name && oldClient?.name !== updatedClient?.name) {
         // get the company manager id
         const companyManager = await employeeModel.getCompanyManager({
             companyID: companyID
@@ -157,7 +161,7 @@ export const updateClient = catchAsync(async (req, res) => {
         await sendNotification({
             userID: companyManager?.id as number,
             title: "تغيير اسم عميل",
-            content: `تم تغيير اسم العميل ${clientData.name} إلى ${updatedClient?.name}`
+            content: `تم تغيير اسم العميل ${oldClient?.name} إلى ${updatedClient?.name}`
         });
     }
 
