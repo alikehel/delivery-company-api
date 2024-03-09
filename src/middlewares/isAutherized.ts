@@ -7,7 +7,7 @@ export const isAutherized = (
     allowedRoles: (AdminRole | EmployeeRole | ClientRole)[],
     allowedPermissions?: Permission[]
 ) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (_req: Request, res: Response, next: NextFunction) => {
         const { role, permissions } = res.locals.user as loggedInUserType;
         if (res.locals.user && allowedRoles.includes(role)) {
             return next();

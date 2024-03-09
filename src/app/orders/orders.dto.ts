@@ -188,6 +188,7 @@ export const OrdersFiltersSchema = z.object({
     confirmed: z.preprocess((val) => {
         if (val === "true") return true;
         if (val === "false") return false;
+        return val;
     }, z.boolean().optional()),
     clientID: z.coerce.number().optional(),
     deliveryAgentID: z.coerce.number().optional(),

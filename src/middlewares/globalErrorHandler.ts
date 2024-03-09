@@ -25,7 +25,7 @@ const handlePrismaDependencyError = (err: Prisma.PrismaClientKnownRequestError) 
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const handleJWTError = (err: Error) => {
+const handleJWTError = (_err: Error) => {
     // const message = err.message;
     const message = "الرجاء تسجيل الدخول مرة أخرى";
     return new AppError(message, 401);

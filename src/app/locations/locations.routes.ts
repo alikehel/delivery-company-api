@@ -28,7 +28,7 @@ router.route("/locations").post(
         ],
         [Permission.ADD_LOCATION]
     ),
-    (req, res, next) => {
+    (_req, _res, next) => {
         apicache.clear("locations");
         next();
     },
@@ -55,7 +55,7 @@ router.route("/public/locations").get(
     // isLoggedIn,
     // isAutherized([Role.ADMIN]),
     cache("1 hour"),
-    (req, res, next) => {
+    (req, _res, next) => {
         // @ts-expect-error
         req.apicacheGroup = "locations";
         next();
@@ -80,7 +80,7 @@ router.route("/locations").get(
         ...Object.values(ClientRole)
     ]),
     cache("1 hour"),
-    (req, res, next) => {
+    (req, _res, next) => {
         // @ts-expect-error
         req.apicacheGroup = "locations";
         next();
@@ -114,7 +114,7 @@ router.route("/locations/:locationID").get(
         EmployeeRole.BRANCH_MANAGER
     ]),
     cache("1 hour"),
-    (req, res, next) => {
+    (req, _res, next) => {
         // @ts-expect-error
         req.apicacheGroup = "locations";
         next();
@@ -135,7 +135,7 @@ router.route("/locations/:locationID").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    (req, res, next) => {
+    (_req, _res, next) => {
         apicache.clear("locations");
         next();
     },
@@ -167,7 +167,7 @@ router.route("/locations/:locationID").delete(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    (req, res, next) => {
+    (_req, _res, next) => {
         apicache.clear("locations");
         next();
     },

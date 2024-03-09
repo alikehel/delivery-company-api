@@ -7,7 +7,7 @@ import helmet from "helmet";
 // import { Role } from "@prisma/client";
 import morganBody from "morgan-body";
 // import shrinkRay from "shrink-ray-current";
-import { SwaggerTheme } from "swagger-themes";
+// import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
 import compression from "compression";
@@ -22,7 +22,7 @@ const app = express();
 
 // Swagger
 
-const swaggerTheme = new SwaggerTheme("v3");
+// const swaggerTheme = new SwaggerTheme("v3");
 const swaggerOptionsV1 = {
     explorer: true
     // customCss: swaggerTheme.getBuffer("dark"),

@@ -258,7 +258,9 @@ export class ReportsService {
             deliveryAgentID = undefined;
         }
 
-        const reportsCount = await reportsRepository.getReportsCount({ filters: data.filters });
+        const reportsCount = await reportsRepository.getReportsCount({
+            filters: { ...data.filters, company, branch, clientID, deliveryAgentID }
+        });
         let size = data.filters.size ? +data.filters.size : 10;
         if (size > 50 && data.filters.minified !== true) {
             size = 10;
@@ -288,7 +290,7 @@ export class ReportsService {
         const { reports, reportsMetaData } = await reportsRepository.getAllReports({
             skip,
             take,
-            filters: data.filters
+            filters: { ...data.filters, company, branch, clientID, deliveryAgentID }
         });
 
         return { page, pagesCount, reports, reportsMetaData };

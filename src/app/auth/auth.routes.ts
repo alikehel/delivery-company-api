@@ -35,7 +35,7 @@ router.route("/auth/signin").post(
 
 router.route("/auth/validate-token").post(
     isLoggedIn,
-    (req, res) => {
+    (_req, res) => {
         res.status(200).json({
             status: "valid"
         });

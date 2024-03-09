@@ -1,4 +1,5 @@
 import { PrismaClient, ReportType } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { ReportCreateType, ReportUpdateType, ReportsFiltersType } from "./reports.dto";
 import { reportReform, reportSelect } from "./reports.responses";
@@ -138,6 +139,7 @@ export class ReportsRepository {
             });
             return createdReport;
         }
+        throw new AppError("Invalid report type", 400);
     }
 
     async getReportsCount(data: { filters: ReportsFiltersType }) {

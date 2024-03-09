@@ -133,7 +133,7 @@ export const deleteLocation = catchAsync(async (req, res) => {
     });
 });
 
-export const publicGetAllLocations = catchAsync(async (req, res) => {
+export const publicGetAllLocations = catchAsync(async (_req, res) => {
     const locations = await locationModel.publicGetAllLocations();
 
     res.status(200).json(locations);

@@ -50,10 +50,10 @@ export class AutomaticUpdatesService {
             companyID = data.loggedInUser.companyID;
         }
 
-        let size: number;
-        if (data.filters.size > 50 && data.filters.minified !== true) {
-            size = 10;
-        }
+        // let size: number;
+        // if (data.filters.size > 50 && data.filters.minified !== true) {
+        //     size = 10;
+        // }
 
         const where = {
             company: {

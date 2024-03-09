@@ -3,7 +3,7 @@ export class AppError extends Error {
     status: string;
     isOperational: boolean;
     code!: string;
-    message: string;
+    override message: string;
 
     constructor(message: string, statusCode: number) {
         super();
