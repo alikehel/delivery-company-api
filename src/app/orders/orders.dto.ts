@@ -139,6 +139,17 @@ export const OrderTimelinePieceSchema = z
             })
         }),
         z.object({
+            type: z.literal("CLIENT_CHANGE"),
+            old: z.object({
+                id: z.coerce.number(),
+                name: z.string()
+            }),
+            new: z.object({
+                id: z.coerce.number(),
+                name: z.string()
+            })
+        }),
+        z.object({
             type: z.literal("CURRENT_LOCATION_CHANGE"),
             old: z.string(),
             new: z.string()

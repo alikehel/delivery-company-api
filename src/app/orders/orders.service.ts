@@ -287,6 +287,37 @@ export class OrdersService {
                 });
             }
 
+            // Update CLIENT
+            if (
+                data.orderData.deliveryAgentID &&
+                // @ts-expect-error Fix later
+                oldOrderData.deliveryAgent?.id !== newOrder.deliveryAgent.id
+            ) {
+                timeline.push({
+                    type: "CLIENT_CHANGE",
+                    old: {
+                        // @ts-expect-error Fix later
+                        id: oldOrderData?.client?.id,
+                        // @ts-expect-error Fix later
+                        name: oldOrderData?.client?.name
+                    },
+                    new: {
+                        // @ts-expect-error Fix later
+                        id: newOrder?.client.id,
+                        // @ts-expect-error Fix later
+                        name: newOrder?.client.name
+                    },
+                    // @ts-expect-error Fix later
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: data.loggedInUser.id,
+                        name: data.loggedInUser.name,
+                        // @ts-expect-error Fix later
+                        role: data.loggedInUser.role
+                    }
+                });
+            }
+
             // // Update current location
             if (
                 data.orderData.currentLocation &&
