@@ -9,7 +9,7 @@ const levels = {
 };
 
 // const level = () => {
-//     const env = process.env.NODE_ENV || "dev";
+//     const env = env.NODE_ENV || "dev";
 //     const isDevelopment = env === "dev";
 //     return isDevelopment ? "debug" : "warn";
 // };

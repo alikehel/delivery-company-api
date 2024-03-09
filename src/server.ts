@@ -1,11 +1,11 @@
 import app from "./app";
-import { PORT } from "./config/config";
+import { env } from "./config";
 import { automaticUpdatesCronJob } from "./cron-jobs/automaticUpdatesCronJob";
 import { Logger } from "./lib/logger";
 
-const address = `http://localhost:${PORT}`;
+const address = `http://localhost:${env.PORT}`;
 
-const server = app.listen(PORT, () => {
+const server = app.listen(env.PORT, () => {
     console.info("------------------------------------------------------------");
     Logger.debug(`Starting APP On -> ${address}`);
     automaticUpdatesCronJob.start();

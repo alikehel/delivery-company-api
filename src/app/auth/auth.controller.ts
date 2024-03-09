@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { JWT_EXPIRES_IN, JWT_SECRET, SECRET } from "../../config/config";
+import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
@@ -21,7 +21,7 @@ export const signin = catchAsync(async (req, res) => {
         throw new AppError("User not found", 400);
     }
 
-    const isValidPassword = bcrypt.compareSync(user.password + (SECRET as string), returnedUser.password);
+    const isValidPassword = bcrypt.compareSync(user.password + (env.SECRET as string), returnedUser.password);
 
     if (!isValidPassword) {
         throw new AppError("كلمة المرور غير صحيحة", 400);
@@ -37,8 +37,8 @@ export const signin = catchAsync(async (req, res) => {
             companyID: returnedUser.companyID,
             companyName: returnedUser.companyName
         } as loggedInUserType,
-        JWT_SECRET as string,
-        { expiresIn: JWT_EXPIRES_IN }
+        env.JWT_SECRET as string,
+        { expiresIn: env.JWT_EXPIRES_IN }
     );
     res.cookie("jwt", token, {
         httpOnly: true,

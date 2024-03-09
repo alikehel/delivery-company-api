@@ -1,6 +1,6 @@
 import { AdminRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
-import { SECRET } from "../../config/config";
+import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
@@ -32,7 +32,7 @@ export const createClient = catchAsync(async (req, res) => {
     }
 
     // hash the password
-    const hashedPassword = bcrypt.hashSync(password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(password + (env.SECRET as string), 12);
 
     const createdClient = await clientModel.createClient(companyID, {
         ...rest,
@@ -139,7 +139,7 @@ export const updateClient = catchAsync(async (req, res) => {
     const { password, ...rest } = clientData;
 
     // hash the password
-    const hashedPassword = bcrypt.hashSync(password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(password + (env.SECRET as string), 12);
 
     const updatedClient = await clientModel.updateClient({
         clientID: clientID,

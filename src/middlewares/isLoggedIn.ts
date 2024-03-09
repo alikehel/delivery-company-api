@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/config";
+import { env } from "../config";
 import { AppError } from "../lib/AppError";
 import { loggedInUserType } from "../types/user";
 
@@ -19,7 +19,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         // IS TOKEN VALID
         const { id, name, username, role, permissions, companyID, companyName } = jwt.verify(
             token,
-            JWT_SECRET as string
+            env.JWT_SECRET as string
         ) as loggedInUserType;
 
         // TODO: Check if user still exists

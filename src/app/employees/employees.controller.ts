@@ -1,6 +1,6 @@
 import { AdminRole, EmployeeRole, Permission } from "@prisma/client";
 import * as bcrypt from "bcrypt";
-import { SECRET } from "../../config/config";
+import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
@@ -37,7 +37,7 @@ export const createEmployee = catchAsync(async (req, res) => {
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
-    const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(employeeData.password + (env.SECRET as string), 12);
 
     const createdEmployee = await employeeModel.createEmployee(companyID, {
         ...employeeData,
@@ -175,7 +175,7 @@ export const updateEmployee = catchAsync(async (req, res) => {
     }
 
     if (employeeData.password) {
-        const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
+        const hashedPassword = bcrypt.hashSync(employeeData.password + (env.SECRET as string), 12);
         employeeData.password = hashedPassword;
     }
 

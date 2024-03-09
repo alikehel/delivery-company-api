@@ -1,14 +1,14 @@
 import admin from "firebase-admin";
-
+import { env } from "../../../config";
 import { Logger } from "../../../lib/logger";
 import { NotificationModel } from "../notification.model";
 import { NotificationCreateType } from "../notifications.zod";
 
 admin.initializeApp({
     credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+        projectId: env.FIREBASE_PROJECT_ID,
+        privateKey: env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+        clientEmail: env.FIREBASE_CLIENT_EMAIL
     })
 });
 
