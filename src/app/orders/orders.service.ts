@@ -223,7 +223,7 @@ export class OrdersService {
 
             // Update status
             // @ts-expect-error Fix later
-            if (orderData.status && oldOrderData.status !== newOrder.status) {
+            if (data.orderData.status && oldOrderData.status !== newOrder.status) {
                 // send notification to client
                 await sendNotification({
                     // @ts-expect-error Fix later
