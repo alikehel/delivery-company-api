@@ -318,14 +318,18 @@ export class OrdersService {
                 });
             }
 
-            // Update CLIENT
+            console.log(data.orderData.repositoryID);
+            console.log(oldOrderData?.repository?.id);
+            console.log(newOrder.repository.id);
+
+            // Update Repository
             if (
                 data.orderData.repositoryID &&
                 // @ts-expect-error Fix later
                 oldOrderData?.repository?.id !== newOrder.repository.id
             ) {
                 timeline.push({
-                    type: "CLIENT_CHANGE",
+                    type: "REPOSITORY_CHANGE",
                     old: {
                         // @ts-expect-error Fix later
                         id: oldOrderData?.repository?.id,
@@ -347,6 +351,7 @@ export class OrdersService {
                         role: data.loggedInUser.role
                     }
                 });
+                console.log(timeline);
             }
 
             // // Update current location
