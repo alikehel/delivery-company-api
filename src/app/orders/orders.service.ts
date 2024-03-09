@@ -349,6 +349,37 @@ export class OrdersService {
                 });
             }
 
+            // Update Branch
+            if (
+                data.orderData.branchID &&
+                // @ts-expect-error Fix later
+                oldOrderData?.branch?.id !== newOrder.branch.id
+            ) {
+                timeline.push({
+                    type: "BRANCH_CHANGE",
+                    old: {
+                        // @ts-expect-error Fix later
+                        id: oldOrderData?.branch?.id,
+                        // @ts-expect-error Fix later
+                        name: oldOrderData?.branch?.name
+                    },
+                    new: {
+                        // @ts-expect-error Fix later
+                        id: newOrder?.branch.id,
+                        // @ts-expect-error Fix later
+                        name: newOrder?.branch.name
+                    },
+                    // @ts-expect-error Fix later
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: data.loggedInUser.id,
+                        name: data.loggedInUser.name,
+                        // @ts-expect-error Fix later
+                        role: data.loggedInUser.role
+                    }
+                });
+            }
+
             // // Update current location
             if (
                 data.orderData.currentLocation &&
