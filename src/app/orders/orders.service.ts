@@ -289,9 +289,9 @@ export class OrdersService {
 
             // Update CLIENT
             if (
-                data.orderData.deliveryAgentID &&
+                data.orderData.clientID &&
                 // @ts-expect-error Fix later
-                oldOrderData.deliveryAgent?.id !== newOrder.deliveryAgent.id
+                oldOrderData.client?.id !== newOrder.client.id
             ) {
                 timeline.push({
                     type: "CLIENT_CHANGE",
@@ -306,6 +306,37 @@ export class OrdersService {
                         id: newOrder?.client.id,
                         // @ts-expect-error Fix later
                         name: newOrder?.client.name
+                    },
+                    // @ts-expect-error Fix later
+                    date: newOrder?.updatedAt,
+                    by: {
+                        id: data.loggedInUser.id,
+                        name: data.loggedInUser.name,
+                        // @ts-expect-error Fix later
+                        role: data.loggedInUser.role
+                    }
+                });
+            }
+
+            // Update CLIENT
+            if (
+                data.orderData.repositoryID &&
+                // @ts-expect-error Fix later
+                oldOrderData?.repository?.id !== newOrder.repository.id
+            ) {
+                timeline.push({
+                    type: "CLIENT_CHANGE",
+                    old: {
+                        // @ts-expect-error Fix later
+                        id: oldOrderData?.repository?.id,
+                        // @ts-expect-error Fix later
+                        name: oldOrderData?.repository?.name
+                    },
+                    new: {
+                        // @ts-expect-error Fix later
+                        id: newOrder?.repository.id,
+                        // @ts-expect-error Fix later
+                        name: newOrder?.repository.name
                     },
                     // @ts-expect-error Fix later
                     date: newOrder?.updatedAt,
