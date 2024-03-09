@@ -318,10 +318,6 @@ export class OrdersService {
                 });
             }
 
-            console.log(data.orderData.repositoryID);
-            console.log(oldOrderData?.repository?.id);
-            console.log(newOrder.repository.id);
-
             // Update Repository
             if (
                 data.orderData.repositoryID &&
@@ -351,7 +347,6 @@ export class OrdersService {
                         role: data.loggedInUser.role
                     }
                 });
-                console.log(timeline);
             }
 
             // // Update current location
