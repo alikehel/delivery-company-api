@@ -33,9 +33,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{arabicNumber receiptNumber}}</td>
-						<td>{{arabicNumber client.name}}</td>
-						<td>{{arabicNumber client.phone}}</td>
+						<td>{{receiptNumber}}</td>
+						<td>{{client.name}}</td>
+						<td>{{client.phone}}</td>
 						<td>{{date createdAt}}</td>
 					</tr>
 				</tbody>
@@ -50,9 +50,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{arabicNumber recipientName}}</td>
-						<td>{{arabicNumber recipientPhone}}</td>
-						<td>{{arabicNumber recipientAddress}}</td>
+						<td>{{recipientName}}</td>
+						<td>{{recipientPhone}}</td>
+						<td>{{recipientAddress}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -67,10 +67,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{arabicNumber quantity}}</td>
+						<td>{{quantity}}</td>
 						<td></td>
-						<td>{{arabicNumber (add totalCost deliveryCost)}}</td>
-						<td>{{arabicNumber notes}}</td>
+						<td>{{add totalCost deliveryCost}}</td>
+						<td>{{notes}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -88,18 +88,18 @@
 				<tbody>
 					{{#each orderProducts}}
 					<tr>
-						<td>{{arabicNumber product.title}}</td>
+						<td>{{product.title}}</td>
 						{{#if color}}
-						<td>{{arabicNumber color.title}}</td>
+						<td>{{color.title}}</td>
 						{{else}}
 						<td></td>
 						{{/if}}
 						{{#if size}}
-						<td>{{arabicNumber size.title}}</td>
+						<td>{{size.title}}</td>
 						{{else}}
 						<td></td>
 						{{/if}}
-						<td>{{arabicNumber quantity}}</td>
+						<td>{{quantity}}</td>
 						<td>{{currency product.price}}</td>
 					</tr>
 					{{/each}}
@@ -115,7 +115,7 @@
 				{{company.registrationText}}
 			</section>
 		</footer>
-		<section class="watermark">{{arabicNumber company.name}}</section>
+		<section class="watermark">{{company.name}}</section>
 	</section>
 	{{/each}}
 </body>

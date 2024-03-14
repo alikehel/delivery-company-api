@@ -21,7 +21,7 @@
 				<td style="width: 33%;" rowspan="3"><img src="{{ordersData.company.logo}}" /></td>
 			</tr>
 			<tr>
-				<td style="width: 33%;">عدد الطلبيات: <span>{{arabicNumber ordersData.count}}</span></td>
+				<td style="width: 33%;">عدد الطلبيات: <span>{{ordersData.count}}</span></td>
 				<td style="width: 33%;">الراجع: <span>.....</span></td>
 				<td style="width: 33%;"></td>
 			</tr>
@@ -49,25 +49,25 @@
 			<tbody>
 				{{#each orders}}
 				<tr>
-					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
-					<td>{{arabicNumber receiptNumber}}</td>
+					<td class="nowrap">{{inc @index}}</td>
+					<td>{{receiptNumber}}</td>
 					<td>{{date createdAt}}</td>
 					{{#if store}}
-					<td>{{arabicNumber store.name}}</td>
+					<td>{{store.name}}</td>
 					{{else}}
 					<td></td>
 					{{/if}}
-					<td>{{arabicNumber (mapPhones recipientPhones)}}</td>
-					<td>{{arabicNumber recipientAddress}}</td>
+					<td>{{mapPhones recipientPhones}}</td>
+					<td>{{recipientAddress}}</td>
 					<td>{{currency totalCost}}</td>
-					<td>{{arabicNumber notes}}</td>
+					<td>{{notes}}</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>
-	<section class="watermark">{{arabicNumber ordersData.company.name}}</section>
+	<section class="watermark">{{ordersData.company.name}}</section>
 </body>
 
 </html>

@@ -11,20 +11,21 @@
 	<header>
 		<table>
 			<tr>
-				<td>رقم الكشف: <span>{{arabicNumber reportData.id}}</span></td>
+				<td>رقم الكشف: <span>{{reportData.id}}</span></td>
 				<td class="title">كشف عميل</td>
-				<td>عدد الطلبيات: <span>{{arabicNumber (add reportData.baghdadOrdersCount reportData.governoratesOrdersCount)}}</span></td>
+				<td>عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
+						reportData.governoratesOrdersCount}}</span></td>
 				<td rowspan="3"><img src="{{reportData.company.logo}}" /></td>
 			</tr>
 			<tr>
 				<td>التاريخ: <span>{{date reportData.createdAt}}</span></td>
-				<td>العميل: <span>{{arabicNumber reportData.clientReport.client.name}}</span></td>
-				<td>عدد طلبيات بغداد: <span>{{arabicNumber reportData.baghdadOrdersCount}}</span></td>
+				<td>العميل: <span>{{reportData.clientReport.client.name}}</span></td>
+				<td>عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
 			</tr>
 			<tr>
 				<td>صافي العميل: <span>{{currency reportData.clientNet}}</span></td>
-				<td>الصفحة: <span>{{arabicNumber reportData.clientReport.store.name}}</span></td>
-				<td>عدد طلبيات المحافظات: <span>{{arabicNumber reportData.governoratesOrdersCount}}</span></td>
+				<td>الصفحة: <span>{{reportData.clientReport.store.name}}</span></td>
+				<td>عدد طلبيات المحافظات: <span>{{reportData.governoratesOrdersCount}}</span></td>
 			</tr>
 		</table>
 	</header>
@@ -47,23 +48,23 @@
 			<tbody>
 				{{#each orders}}
 				<tr>
-					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
-					<td>{{arabicNumber receiptNumber}}</td>
+					<td class="nowrap">{{inc @index}}</td>
+					<td>{{receiptNumber}}</td>
 					<td>{{date createdAt}}</td>
-					<td>{{arabicNumber (mapPhones recipientPhones)}}</td>
-					<td>{{arabicNumber recipientAddress}}</td>
+					<td>{{mapPhones recipientPhones}}</td>
+					<td>{{recipientAddress}}</td>
 					<td>{{currency totalCost}}</td>
 					<td>{{currency paidAmount}}</td>
 					<td>{{currency deliveryCost}}</td>
 					<td>{{currency clientNet}}</td>
-					<td>{{arabicNumber notes}}</td>
+					<td>{{notes}}</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>
-	<section class="watermark">{{arabicNumber reportData.company.name}}</section>
+	<section class="watermark">{{reportData.company.name}}</section>
 </body>
 
 </html>

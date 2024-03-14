@@ -5,7 +5,7 @@ import { localizeOrderStatus } from "./localize";
 
 export const generateHTML = async (template: string, data: object) => {
     try {
-        handlebars.registerHelper("date", (date) => new Date(date).toLocaleDateString("ar-IQ"));
+        handlebars.registerHelper("date", (date) => new Date(date).toLocaleDateString("en-GB"));
         handlebars.registerHelper("mapPhones", (phones) => {
             if (!phones) return "";
             if (typeof phones === "string") return phones;
@@ -14,17 +14,17 @@ export const generateHTML = async (template: string, data: object) => {
         handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
         handlebars.registerHelper("add", (v1, v2) => parseInt(v1) || 0 + parseInt(v2) || 0);
         handlebars.registerHelper("currency", (value) => {
-            return Number(value || 0).toLocaleString("ar-IQ", { style: "currency", currency: "IQD" });
+            return Number(value || 0).toLocaleString("en-GB");
         });
-        handlebars.registerHelper("arabicNumber", (value) => {
-            const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-            if (value === 0) {
-                return "٠";
-            }
-            if (!value) return "";
-            if (typeof value === "string") return value.replace(/[0-9]/g, (w) => arabicNumbers[+w]);
-            return value.toString().replace(/[0-9]/g, (w: string) => arabicNumbers[+w]);
-        });
+        // handlebars.registerHelper("arabicNumber", (value) => {
+        //     const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+        //     if (value === 0) {
+        //         return "٠";
+        //     }
+        //     if (!value) return "";
+        //     if (typeof value === "string") return value.replace(/[0-9]/g, (w) => arabicNumbers[+w]);
+        //     return value.toString().replace(/[0-9]/g, (w: string) => arabicNumbers[+w]);
+        // });
         handlebars.registerHelper("localizeOrderStatus", (status) => {
             return localizeOrderStatus(status);
         });

@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td style="width: 33%;">صافي الشركة: <span>{{currency reportsData.companyNet}}</span></td>
-				<td style="width: 33%;">عدد الكشوفات: <span>{{arabicNumber reportsData.count}}</span></td>
+				<td style="width: 33%;">عدد الكشوفات: <span>{{reportsData.count}}</span></td>
 				<td style="width: 33%;"></td>
 			</tr>
 			<tr>
@@ -47,16 +47,16 @@
 			<tbody>
 				{{#each reports}}
 				<tr>
-					<td class="nowrap">{{arabicNumber (inc @index)}}</td>
-					<td>{{arabicNumber id}}</td>
-					<td>{{arabicNumber clientReport.client.name}}</td>
-					<td>{{arabicNumber clientReport.store.name}}</td>
-					<td>{{arabicNumber clientReport.client.phone}}</td>
-					<td>{{arabicNumber المحاسب}}</td>
+					<td class="nowrap">{{inc @index}}</td>
+					<td>{{id}}</td>
+					<td>{{clientReport.client.name}}</td>
+					<td>{{clientReport.store.name}}</td>
+					<td>{{clientReport.client.phone}}</td>
+					<td>{{المحاسب}}</td>
 					<td>{{currency clientNet}}</td>
 					<td>{{currency companyNet}}</td>
-					<td>{{arabicNumber baghdadOrdersCount}}</td>
-					<td>{{arabicNumber governoratesOrdersCount}}</td>
+					<td>{{baghdadOrdersCount}}</td>
+					<td>{{governoratesOrdersCount}}</td>
 					<td>{{date createdAt}}</td>
 				</tr>
 				{{/each}}
@@ -64,7 +64,7 @@
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>
-	<section class="watermark">{{arabicNumber reportsData.company.name}}</section>
+	<section class="watermark">{{reportsData.company.name}}</section>
 </body>
 
 </html>
