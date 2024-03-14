@@ -502,7 +502,14 @@ export class ReportsRepository {
             },
             data: {
                 status: data.reportData.status,
-                confirmed: data.reportData.confirmed
+                confirmed: data.reportData.confirmed,
+                repositoryReport: data.reportData.repositoryID
+                    ? {
+                          update: {
+                              repositoryId: data.reportData.repositoryID
+                          }
+                      }
+                    : undefined
             },
             select: reportSelect
         });

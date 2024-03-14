@@ -46,8 +46,9 @@ export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 /* --------------------------------------------------------------- */
 
 export const ReportUpdateSchema = z.object({
-    status: z.nativeEnum(ReportStatus),
-    confirmed: z.boolean().optional()
+    status: z.nativeEnum(ReportStatus).optional(),
+    confirmed: z.boolean().optional(),
+    repositoryID: z.coerce.number().optional(),
 });
 
 export type ReportUpdateType = z.infer<typeof ReportUpdateSchema>;

@@ -1,4 +1,4 @@
-import { AdminRole, EmployeeRole, Order, ReportStatus, ReportType } from "@prisma/client";
+import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { EmployeeModel } from "../employees/employee.model";
@@ -8,7 +8,12 @@ import { OrdersRepository } from "../orders/orders.repository";
 import { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
 import { generateReportsReport } from "./helpers/generateReportsReport";
-import { ReportCreateType, ReportsFiltersType, ReportsReportPDFCreateType } from "./reports.dto";
+import {
+    ReportCreateType,
+    ReportUpdateType,
+    ReportsFiltersType,
+    ReportsReportPDFCreateType
+} from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
 import { reportReform } from "./reports.responses";
 
@@ -403,10 +408,7 @@ export class ReportsService {
     async updateReport(data: {
         params: { reportID: number };
         loggedInUser: loggedInUserType;
-        reportData: {
-            status: ReportStatus;
-            confirmed?: boolean;
-        };
+        reportData: ReportUpdateType;
     }) {
         if (
             data.reportData.confirmed === false &&
