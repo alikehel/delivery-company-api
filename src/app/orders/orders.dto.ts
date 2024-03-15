@@ -30,7 +30,8 @@ export const OrderCreateBaseSchema = z.object({
     storeID: z.coerce.number(),
     repositoryID: z.coerce.number().optional(),
     branchID: z.coerce.number().optional(),
-    clientID: z.coerce.number().optional()
+    clientID: z.coerce.number().optional(),
+    inquiryEmployeesIDs: z.array(z.coerce.number()).optional()
 });
 
 export const OrderCreateSchema = z
@@ -87,7 +88,8 @@ export const OrderUpdateSchema = z
         repositoryID: z.coerce.number().optional(),
         branchID: z.coerce.number().optional(),
         currentLocation: z.string().optional(),
-        clientID: z.coerce.number().optional()
+        clientID: z.coerce.number().optional(),
+        inquiryEmployeesIDs: z.array(z.coerce.number()).optional()
     })
     .partial();
 

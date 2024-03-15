@@ -1,4 +1,4 @@
-import { EmployeeRole, Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
+import { Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import {
     OrderCreateType,
@@ -227,6 +227,19 @@ export class OrdersRepository {
                         id: data.clientID
                     }
                 },
+                ordersInquiryEmployees: data.orderData.inquiryEmployeesIDs
+                    ? {
+                          create: data.orderData.inquiryEmployeesIDs?.map((id) => {
+                              return {
+                                  inquiryEmployee: {
+                                      connect: {
+                                          id: id
+                                      }
+                                  }
+                              };
+                          })
+                      }
+                    : undefined,
                 confirmed: data.orderData.confirmed,
                 orderProducts:
                     data.orderData.withProducts === false
@@ -1098,6 +1111,22 @@ export class OrdersRepository {
                               id: data.orderData.clientID
                           }
                       }
+                    : undefined,
+                ordersInquiryEmployees: data.orderData.inquiryEmployeesIDs
+                    ? {
+                          deleteMany: {
+                              orderId: data.orderID
+                          },
+                          create: data.orderData.inquiryEmployeesIDs?.map((id) => {
+                              return {
+                                  inquiryEmployee: {
+                                      connect: {
+                                          id: id
+                                      }
+                                  }
+                              };
+                          })
+                      }
                     : undefined
             },
             select: orderSelect
@@ -1383,11 +1412,10 @@ export class OrdersRepository {
                         }
                     }
                 },
-                branch: {
+                ordersInquiryEmployees: {
                     select: {
-                        employees: {
+                        inquiryEmployee: {
                             select: {
-                                role: true,
                                 user: {
                                     select: {
                                         id: true,
@@ -1395,11 +1423,6 @@ export class OrdersRepository {
                                         phone: true,
                                         avatar: true
                                     }
-                                }
-                            },
-                            where: {
-                                role: {
-                                    in: [EmployeeRole.BRANCH_MANAGER, EmployeeRole.INQUIRY_EMPLOYEE]
                                 }
                             }
                         }
@@ -1429,13 +1452,12 @@ export class OrdersRepository {
                 avatar: orderChatMembers?.deliveryAgent?.user?.avatar,
                 role: orderChatMembers?.deliveryAgent?.role
             },
-            ...(orderChatMembers?.branch?.employees?.map((employee) => {
+            ...(orderChatMembers?.ordersInquiryEmployees?.map((orderInquiryEmployee) => {
                 return {
-                    id: employee.user?.id ?? null,
-                    name: employee.user?.name ?? null,
-                    phone: employee.user?.phone ?? null,
-                    avatar: employee.user?.avatar ?? null,
-                    role: employee.role ?? null
+                    id: orderInquiryEmployee.inquiryEmployee.user?.id ?? null,
+                    name: orderInquiryEmployee.inquiryEmployee.user?.name ?? null,
+                    phone: orderInquiryEmployee.inquiryEmployee.user?.phone ?? null,
+                    avatar: orderInquiryEmployee.inquiryEmployee.user?.avatar ?? null
                 };
             }) ?? [])
         ].filter((chatMember) => {

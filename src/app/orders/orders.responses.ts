@@ -57,6 +57,22 @@ export const orderSelect = {
             size: true
         }
     },
+    ordersInquiryEmployees: {
+        select: {
+            inquiryEmployee: {
+                select: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            phone: true,
+                            avatar: true
+                        }
+                    }
+                }
+            }
+        }
+    },
     governorate: true,
     location: {
         select: {
@@ -224,7 +240,15 @@ export const orderReform = (
             id: order.companyReport?.id,
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
-        }
+        },
+        inquiryEmployees: order.ordersInquiryEmployees.map((orderInquiryEmployee) => {
+            return {
+                id: orderInquiryEmployee.inquiryEmployee.user.id,
+                name: orderInquiryEmployee.inquiryEmployee.user.name,
+                phone: orderInquiryEmployee.inquiryEmployee.user.phone,
+                avatar: orderInquiryEmployee.inquiryEmployee.user.avatar
+            };
+        })
     };
 };
 

@@ -191,11 +191,15 @@ model Employee {
   company                 Company                   @relation(fields: [companyId], references: [id])
   companyId               Int
   deliveryAgentsLocations DeliveryAgentsLocations[]
+  // inquiryEmployeesLocations InquiryEmployeesLocations[]
 
-  deleted     Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
-  deletedById Int?
+  deleted                Boolean                  @default(false)
+  deletedAt              DateTime?
+  deletedBy              User?                    @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById            Int?
+  // Order       Order?    @relation("inquiryEmployees", fields: [orderId], references: [id])
+  // orderId     Int?
+  ordersInquiryEmployees OrdersInquiryEmployees[]
 }
 
 model Client {
@@ -305,6 +309,7 @@ model Location {
   company                 Company                   @relation(fields: [companyId], references: [id])
   companyId               Int
   deliveryAgentsLocations DeliveryAgentsLocations[]
+  // inquiryEmployeesLocations InquiryEmployeesLocations[]
 }
 
 model DeliveryAgentsLocations {
@@ -316,6 +321,16 @@ model DeliveryAgentsLocations {
 
   @@id([deliveryAgentId, locationId])
 }
+
+// model InquiryEmployeesLocations {
+//   inquiryEmployee Employee @relation(fields: [inquiryEmployeeId], references: [id])
+//   location        Location @relation(fields: [locationId], references: [id])
+
+//   inquiryEmployeeId Int
+//   locationId        Int
+
+//   @@id([inquiryEmployeeId, locationId])
+// }
 
 model Company {
   id                                      Int               @id @default(autoincrement())
@@ -383,6 +398,7 @@ model Order {
   updatedAt             DateTime             @updatedAt
   client                Client?              @relation(fields: [clientId], references: [id])
   deliveryAgent         Employee?            @relation(fields: [deliveryAgentId], references: [id])
+  // inquiryEmployees      Employee[]           @relation("inquiryEmployees")
   deliveryDate          DateTime?
   clientId              Int?
   deliveryAgentId       Int?
@@ -413,12 +429,22 @@ model Order {
   repositoryId          Int?
   branchId              Int?
 
-  deleted           Boolean          @default(false)
-  deletedAt         DateTime?
-  deletedBy         User?            @relation("deletedBy", fields: [deletedById], references: [id])
-  deletedById       Int?
-  automaticUpdate   AutomaticUpdate? @relation(fields: [automaticUpdateId], references: [id])
-  automaticUpdateId Int?
+  deleted                Boolean                  @default(false)
+  deletedAt              DateTime?
+  deletedBy              User?                    @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedById            Int?
+  automaticUpdate        AutomaticUpdate?         @relation(fields: [automaticUpdateId], references: [id])
+  automaticUpdateId      Int?
+  ordersInquiryEmployees OrdersInquiryEmployees[]
+}
+
+model OrdersInquiryEmployees {
+  order             Order    @relation(fields: [orderId], references: [id])
+  orderId           Int
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
+  inquiryEmployeeId Int
+
+  @@id([orderId, inquiryEmployeeId])
 }
 
 model Report {
