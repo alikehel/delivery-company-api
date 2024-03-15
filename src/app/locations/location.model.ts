@@ -234,6 +234,9 @@ export class LocationModel {
                     : undefined,
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
+                          deleteMany: {
+                              locationId: data.locationID
+                          },
                           create: data.locationData.deliveryAgentsIDs?.map((id) => {
                               return {
                                   deliveryAgent: {
