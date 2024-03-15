@@ -14,7 +14,7 @@ import { z } from "zod";
 
 export const OrderCreateBaseSchema = z.object({
     receiptNumber: z.number().optional(),
-    recipientName: z.string(),
+    recipientName: z.string().optional().default("غير معرف"),
     confirmed: z.boolean().optional(),
     recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
     recipientPhone: z
