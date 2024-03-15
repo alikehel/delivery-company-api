@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Company" ADD COLUMN     "treasury" DOUBLE PRECISION NOT NULL DEFAULT 0;

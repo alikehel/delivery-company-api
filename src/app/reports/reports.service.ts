@@ -1,6 +1,7 @@
 import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
+import { CompanyModel } from "../companies/company.model";
 import { EmployeeModel } from "../employees/employee.model";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType, OrdersFiltersType } from "../orders/orders.dto";
@@ -20,6 +21,7 @@ import { reportReform } from "./reports.responses";
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
 const employeeModel = new EmployeeModel();
+const companyModel = new CompanyModel();
 
 export class ReportsService {
     async createReport(data: {
@@ -162,6 +164,31 @@ export class ReportsService {
 
         if (!report) {
             throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
+        }
+
+        // Update company treasury
+        if (
+            data.reportData.type === ReportType.GOVERNORATE ||
+            data.reportData.type === ReportType.BRANCH ||
+            data.reportData.type === ReportType.DELIVERY_AGENT ||
+            data.reportData.type === ReportType.COMPANY
+        ) {
+            await companyModel.updateCompanyTreasury({
+                companyID: data.loggedInUser.companyID as number,
+                treasury: {
+                    increment: reportMetaData.companyNet
+                }
+            });
+        } else if (
+            data.reportData.type === ReportType.CLIENT ||
+            data.reportData.type === ReportType.REPOSITORY
+        ) {
+            await companyModel.updateCompanyTreasury({
+                companyID: data.loggedInUser.companyID as number,
+                treasury: {
+                    decrement: reportMetaData.clientNet
+                }
+            });
         }
 
         const reportData = await reportsRepository.getReport({

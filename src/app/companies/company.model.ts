@@ -17,7 +17,8 @@ const companySelect = {
     additionalPriceForEvery500000IraqiDinar: true,
     additionalPriceForEveryKilogram: true,
     additionalPriceForRemoteAreas: true,
-    orderStatusAutomaticUpdate: true
+    orderStatusAutomaticUpdate: true,
+    treasury: true
 } satisfies Prisma.CompanySelect;
 
 // const companyReform = (company: any) => {
@@ -132,6 +133,27 @@ export class CompanyModel {
             select: companySelect
         });
         return company;
+    }
+
+    // add or substract money from company treasury
+    async updateCompanyTreasury(data: {
+        companyID: number;
+        treasury: {
+            increment?: number;
+            decrement?: number;
+        };
+    }) {
+        await prisma.company.update({
+            where: {
+                id: data.companyID
+            },
+            data: {
+                treasury: {
+                    increment: data.treasury.increment || 0,
+                    decrement: data.treasury.decrement || 0
+                }
+            }
+        });
     }
 
     async deleteCompany(data: { companyID: number }) {
