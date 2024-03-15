@@ -148,10 +148,13 @@ export class CompanyModel {
                 id: data.companyID
             },
             data: {
-                treasury: {
-                    increment: data.treasury.increment || 0,
-                    decrement: data.treasury.decrement || 0
-                }
+                treasury: data.treasury.increment
+                    ? {
+                          increment: data.treasury.increment
+                      }
+                    : {
+                          decrement: data.treasury.decrement
+                      }
             }
         });
     }
