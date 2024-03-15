@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td>التاريخ: <span>{{date reportData.createdAt}}</span></td>
-				<td>المحافظة: <span>{{reportData.governorateReport.governorate.name}}</span></td>
+				<td>المحافظة: <span>{{localizeGovernorate reportData.governorateReport.governorate}}</span></td>
 				<td>عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
 				<td></td>
 			</tr>
@@ -55,7 +55,7 @@
 					<td>{{receiptNumber}}</td>
 					<td>{{date createdAt}}</td>
 					{{#if store}}
-					<td>{{store.name}}</td>\
+					<td>{{store.name}}</td>
 					{{else}}
 					<td></td>
 					{{/if}}

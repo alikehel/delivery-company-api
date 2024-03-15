@@ -1,7 +1,7 @@
 import handlebars from "handlebars";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
-import { localizeOrderStatus } from "./localize";
+import { localizeGovernorate, localizeOrderStatus } from "./localize";
 
 export const generateHTML = async (template: string, data: object) => {
     try {
@@ -27,6 +27,9 @@ export const generateHTML = async (template: string, data: object) => {
         // });
         handlebars.registerHelper("localizeOrderStatus", (status) => {
             return localizeOrderStatus(status);
+        });
+        handlebars.registerHelper("localizeGovernorate", (status) => {
+            return localizeGovernorate(status);
         });
 
         const compiledTemplate = handlebars.compile(template, { strict: true });
