@@ -511,16 +511,23 @@ export class OrdersService {
 
         let ordersData: object;
         if (data.ordersData.type === "DELIVERY_AGENT_MANIFEST") {
+            if (!data.ordersFilters.deliveryAgentID) {
+                throw new AppError("يجب تحديد مندوب التوصيل لعمل التقرير", 400);
+            }
             ordersData = {
                 deliveryAgent: orders[0]?.deliveryAgent,
                 date: new Date(),
                 count: orders.length,
+                baghdadCount: orders.filter((order) => order?.governorate === "BAGHDAD").length,
+                governoratesCount: orders.filter((order) => order?.governorate !== "BAGHDAD").length,
                 company: orders[0]?.company
             };
         } else {
             ordersData = {
                 date: new Date(),
                 count: orders.length,
+                baghdadCount: orders.filter((order) => order?.governorate === "BAGHDAD").length,
+                governoratesCount: orders.filter((order) => order?.governorate !== "BAGHDAD").length,
                 company: orders[0]?.company
             };
         }
