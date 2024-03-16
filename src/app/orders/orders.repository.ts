@@ -1261,6 +1261,9 @@ export class OrdersRepository {
                     deliveryAgent: {
                         id: data.filters.deliveryAgentID
                     }
+                },
+                {
+                    deleted: false
                 }
             ]
         } satisfies Prisma.OrderWhereInput;
@@ -1327,6 +1330,7 @@ export class OrdersRepository {
             },
             where: {
                 ...filtersReformed,
+                // deleted: false,
                 createdAt: {
                     gte: new Date(new Date().setHours(0, 0, 0, 0))
                 }
