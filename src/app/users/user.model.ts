@@ -8,18 +8,34 @@ const userSelect = {
     avatar: true,
     name: true,
     username: true,
-    // phone: true
+    employee: {
+        select: {
+            phone: true
+        }
+    },
+    client: {
+        select: {
+            phone: true
+        }
+    }
 } satisfies Prisma.UserSelect;
 
-// const userSelectReform = (user: any) => {
-//     return {
-//         id: user.id,
-//         avatar: user.avatar,
-//         name: user.name,
-//         username: user.username,
-//         phone: user.phone
-//     };
-// };
+const userSelectReform = (
+    user: Prisma.UserGetPayload<{
+        select: typeof userSelect;
+    }> | null
+) => {
+    if (!user) {
+        throw new Error("لم يتم العثور على المستخدم");
+    }
+    return {
+        id: user.id,
+        avatar: user.avatar || "",
+        name: user.name,
+        username: user.username,
+        phone: user.employee?.phone || user.client?.phone || ""
+    };
+};
 
 export class UserModel {
     // async createUser(data: UserCreateType) {
@@ -105,7 +121,7 @@ export class UserModel {
             },
             select: userSelect
         });
-        return user;
+        return userSelectReform(user);
     }
 
     async updateUser(data: { userID: number; userData: { fcm: string } }) {
@@ -118,7 +134,7 @@ export class UserModel {
             },
             select: userSelect
         });
-        return user;
+        return userSelectReform(user);
     }
 
     // async deleteUser(data: { userID: number }) {
