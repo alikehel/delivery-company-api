@@ -91,7 +91,9 @@ router.route("/clients/:clientID").get(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.ACCOUNTANT,
         EmployeeRole.DATA_ENTRY,
-        EmployeeRole.BRANCH_MANAGER
+        EmployeeRole.BRANCH_MANAGER,
+        ClientRole.CLIENT,
+        ClientRole.CLIENT_ASSISTANT
     ]),
     getClient
     /*

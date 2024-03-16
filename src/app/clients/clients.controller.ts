@@ -1,4 +1,4 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, ClientRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
@@ -113,6 +113,13 @@ export const getAllClients = catchAsync(async (req, res) => {
 
 export const getClient = catchAsync(async (req, res) => {
     const clientID = +req.params.clientID;
+    const loggedInUser = res.locals.user as loggedInUserType;
+
+    if (loggedInUser.role === ClientRole.CLIENT || loggedInUser.role === ClientRole.CLIENT_ASSISTANT) {
+        if (clientID !== loggedInUser.id) {
+            throw new AppError("غير مصرح لك الاطلاع علي بيانات عميل اخر", 403);
+        }
+    }
 
     const client = await clientModel.getClient({
         clientID: clientID
