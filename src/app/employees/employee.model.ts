@@ -15,12 +15,13 @@ const employeeSelect = {
             id: true,
             name: true,
             username: true,
-            phone: true,
+            // phone: true,
             avatar: true,
             createdAt: true,
             updatedAt: true
         }
     },
+    phone: true,
     company: {
         select: {
             id: true,
@@ -58,7 +59,7 @@ const employeeReform = (
         id: employee.user.id,
         name: employee.user.name,
         username: employee.user.username,
-        phone: employee.user.phone,
+        phone: employee.phone,
         avatar: employee.user.avatar,
         salary: employee.salary,
         role: employee.role,
@@ -86,11 +87,12 @@ export class EmployeeModel {
                         name: data.name,
                         username: data.username,
                         password: data.password,
-                        phone: data.phone,
+                        // phone: data.phone,
                         fcm: data.fcm,
                         avatar: data.avatar
                     }
                 },
+                phone: data.phone,
                 salary: data.salary,
                 role: data.role,
                 company: {
@@ -305,11 +307,12 @@ export class EmployeeModel {
                         name: data.employeeData.name,
                         username: data.employeeData.username,
                         password: data.employeeData.password,
-                        phone: data.employeeData.phone,
+                        // phone: data.employeeData.phone,
                         fcm: data.employeeData.fcm,
                         avatar: data.employeeData.avatar
                     }
                 },
+                phone: data.employeeData.phone,
                 salary: data.employeeData.salary,
                 role: data.employeeData.role,
                 company: {

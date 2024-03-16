@@ -1389,11 +1389,12 @@ export class OrdersRepository {
                 client: {
                     select: {
                         role: true,
+                        phone: true,
                         user: {
                             select: {
                                 id: true,
                                 name: true,
-                                phone: true,
+                                // phone: true,
                                 avatar: true
                             }
                         }
@@ -1402,11 +1403,12 @@ export class OrdersRepository {
                 deliveryAgent: {
                     select: {
                         role: true,
+                        phone: true,
                         user: {
                             select: {
                                 id: true,
                                 name: true,
-                                phone: true,
+                                // phone: true,
                                 avatar: true
                             }
                         }
@@ -1416,11 +1418,12 @@ export class OrdersRepository {
                     select: {
                         inquiryEmployee: {
                             select: {
+                                phone: true,
                                 user: {
                                     select: {
                                         id: true,
                                         name: true,
-                                        phone: true,
+                                        // phone: true,
                                         avatar: true
                                     }
                                 }
@@ -1441,14 +1444,14 @@ export class OrdersRepository {
             orderChatMembers?.client && {
                 id: orderChatMembers?.client?.user?.id,
                 name: orderChatMembers?.client?.user?.name,
-                phone: orderChatMembers?.client?.user?.phone,
+                phone: orderChatMembers?.client?.phone,
                 avatar: orderChatMembers?.client?.user?.avatar,
                 role: orderChatMembers?.client?.role
             },
             orderChatMembers?.deliveryAgent && {
                 id: orderChatMembers?.deliveryAgent?.user?.id,
                 name: orderChatMembers?.deliveryAgent?.user?.name,
-                phone: orderChatMembers?.deliveryAgent?.user?.phone,
+                phone: orderChatMembers?.deliveryAgent?.phone,
                 avatar: orderChatMembers?.deliveryAgent?.user?.avatar,
                 role: orderChatMembers?.deliveryAgent?.role
             },
@@ -1456,7 +1459,7 @@ export class OrdersRepository {
                 return {
                     id: orderInquiryEmployee.inquiryEmployee.user?.id ?? null,
                     name: orderInquiryEmployee.inquiryEmployee.user?.name ?? null,
-                    phone: orderInquiryEmployee.inquiryEmployee.user?.phone ?? null,
+                    phone: orderInquiryEmployee.inquiryEmployee?.phone ?? null,
                     avatar: orderInquiryEmployee.inquiryEmployee.user?.avatar ?? null
                 };
             }) ?? [])

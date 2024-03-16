@@ -9,10 +9,11 @@ const clientSelect = {
             id: true,
             name: true,
             username: true,
-            phone: true,
+            // phone: true,
             avatar: true
         }
     },
+    phone: true,
     role: true,
     governoratesDeliveryCosts: true,
     createdBy: {
@@ -69,7 +70,7 @@ const clientReform = (
         id: client.user.id,
         name: client.user.name,
         username: client.user.username,
-        phone: client.user.phone,
+        phone: client.phone,
         avatar: client.user.avatar,
         role: client.role,
         company: client.company,
@@ -95,7 +96,7 @@ export class ClientModel {
                 name: data.name,
                 username: data.username,
                 password: data.password,
-                phone: data.phone,
+                // phone: data.phone,
                 fcm: data.fcm,
                 avatar: data.avatar
             },
@@ -118,6 +119,7 @@ export class ClientModel {
                     }
                 },
                 role: data.role,
+                phone: data.phone,
                 token: data.token,
                 branch: data.branchID
                     ? {
@@ -239,7 +241,7 @@ export class ClientModel {
                         name: data.clientData.name,
                         username: data.clientData.username,
                         password: data.clientData.password,
-                        phone: data.clientData.phone,
+                        // phone: data.clientData.phone,
                         fcm: data.clientData.fcm,
                         avatar: data.clientData.avatar
                     }
@@ -251,6 +253,7 @@ export class ClientModel {
                           }
                       }
                     : undefined,
+                phone: data.clientData.phone,
                 role: data.clientData.role,
                 token: data.clientData.token,
                 branch: data.clientData.branchID

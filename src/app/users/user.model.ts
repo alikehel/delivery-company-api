@@ -8,7 +8,7 @@ const userSelect = {
     avatar: true,
     name: true,
     username: true,
-    phone: true
+    // phone: true
 } satisfies Prisma.UserSelect;
 
 // const userSelectReform = (user: any) => {
@@ -103,13 +103,7 @@ export class UserModel {
             where: {
                 id: data.userID
             },
-            select: {
-                id: true,
-                avatar: true,
-                name: true,
-                username: true,
-                phone: true
-            }
+            select: userSelect
         });
         return user;
     }

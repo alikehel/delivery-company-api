@@ -160,6 +160,8 @@ model Admin {
   id Int @id
   // userId Int @unique
 
+  // phone String?
+
   role AdminRole
 
   user User @relation(fields: [id], references: [id])
@@ -168,6 +170,8 @@ model Admin {
 model Employee {
   id Int @id
   // userId Int @unique
+
+  phone String?
 
   salary       Float? @default(0)
   deliveryCost Float? @default(0)
@@ -200,10 +204,14 @@ model Employee {
   // Order       Order?    @relation("inquiryEmployees", fields: [orderId], references: [id])
   // orderId     Int?
   ordersInquiryEmployees OrdersInquiryEmployees[]
+
+  @@unique([companyId, phone])
 }
 
 model Client {
   id Int @id
+
+  phone String?
 
   token        String?
   employeeId   Int
@@ -234,6 +242,8 @@ model Client {
   deletedById Int?
   branchId    Int?
   products    Product[]
+
+  @@unique([companyId, phone])
 }
 
 model Store {
