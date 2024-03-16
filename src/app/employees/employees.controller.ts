@@ -26,9 +26,9 @@ export const createEmployee = catchAsync(async (req, res) => {
 
     if (
         employeeData.role !== EmployeeRole.DELIVERY_AGENT &&
-        (loggedInUser.role !== EmployeeRole.COMPANY_MANAGER ||
-            loggedInUser.role !== AdminRole.ADMIN ||
-            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT)
+        loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+        loggedInUser.role !== AdminRole.ADMIN &&
+        loggedInUser.role !== AdminRole.ADMIN_ASSISTANT
     ) {
         throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
     }
