@@ -191,7 +191,7 @@ export const orderReform = (
     if (!order) {
         return null;
     }
-    return {
+    const { ordersInquiryEmployees, ...orderReformed } = {
         ...order,
         // TODO
         client: {
@@ -250,6 +250,7 @@ export const orderReform = (
             };
         })
     };
+    return orderReformed;
 };
 
 /* --------------------------------------------------------------- */
