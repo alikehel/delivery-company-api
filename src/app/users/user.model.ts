@@ -10,12 +10,36 @@ const userSelect = {
     username: true,
     employee: {
         select: {
-            phone: true
+            phone: true,
+            role: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    color: true
+                }
+            }
         }
     },
     client: {
         select: {
-            phone: true
+            phone: true,
+            role: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    color: true
+                }
+            }
+        }
+    },
+    admin: {
+        select: {
+            // phone: true,
+            role: true
         }
     }
 } satisfies Prisma.UserSelect;
@@ -33,7 +57,9 @@ const userSelectReform = (
         avatar: user.avatar || "",
         name: user.name,
         username: user.username,
-        phone: user.employee?.phone || user.client?.phone || ""
+        phone: user.employee?.phone || user.client?.phone || "",
+        role: user.employee?.role || user.client?.role || user.admin?.role || "",
+        company: user.employee?.company || user.client?.company || null
     };
 };
 
