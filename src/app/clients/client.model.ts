@@ -152,18 +152,16 @@ export class ClientModel {
         companyID?: number;
         storeID?: number;
     }) {
+        const where = {
+            AND: [
+                { deleted: filters.deleted === "true" },
+                { company: { id: filters.companyID } },
+                // TODO
+                { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
+            ]
+        };
         const clientsCount = await prisma.client.count({
-            where: {
-                deleted: filters.deleted === "true",
-                company: {
-                    id: filters.companyID
-                },
-                stores: {
-                    some: {
-                        id: filters.storeID
-                    }
-                }
-            }
+            where: where
         });
         return clientsCount;
     }
