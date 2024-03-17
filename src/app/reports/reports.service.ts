@@ -176,7 +176,8 @@ export class ReportsService {
             await companyModel.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
-                    increment: reportMetaData.companyNet || 0
+                    amount: reportMetaData.companyNet || 0,
+                    type: "increment"
                 }
             });
         } else if (
@@ -186,7 +187,8 @@ export class ReportsService {
             await companyModel.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
-                    decrement: reportMetaData.clientNet || 0
+                    amount: reportMetaData.clientNet || 0,
+                    type: "decrement"
                 }
             });
         }

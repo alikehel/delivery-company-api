@@ -139,8 +139,8 @@ export class CompanyModel {
     async updateCompanyTreasury(data: {
         companyID: number;
         treasury: {
-            increment?: number;
-            decrement?: number;
+            amount?: number;
+            type?: "increment" | "decrement";
         };
     }) {
         await prisma.company.update({
@@ -148,13 +148,14 @@ export class CompanyModel {
                 id: data.companyID
             },
             data: {
-                treasury: data.treasury.increment
-                    ? {
-                          increment: data.treasury.increment
-                      }
-                    : {
-                          decrement: data.treasury.decrement
-                      }
+                treasury:
+                    data.treasury.type === "increment"
+                        ? {
+                              increment: data.treasury.amount
+                          }
+                        : {
+                              decrement: data.treasury.amount
+                          }
             }
         });
     }
