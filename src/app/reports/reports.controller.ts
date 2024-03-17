@@ -83,6 +83,7 @@ export class ReportController {
             governorate: req.query.governorate,
             status: req.query.status,
             type: req.query.type,
+            types: req.query.types,
             storeID: req.query.store_id,
             repositoryID: req.query.repository_id,
             branchID: req.query.branch_id,

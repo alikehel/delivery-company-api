@@ -71,6 +71,12 @@ export const ReportsFiltersSchema = z.object({
     governorate: z.nativeEnum(Governorate).optional(),
     status: z.nativeEnum(ReportStatus).optional(),
     type: z.nativeEnum(ReportType).optional(),
+    types: z.preprocess((val) => {
+        if (typeof val === "string") {
+            return val.split(",");
+        }
+        return val;
+    }, z.array(z.nativeEnum(ReportType)).optional()),
     storeID: z.coerce.number().optional(),
     repositoryID: z.coerce.number().optional(),
     branchID: z.coerce.number().optional(),

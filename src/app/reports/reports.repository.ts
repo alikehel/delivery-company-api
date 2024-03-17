@@ -257,6 +257,9 @@ export class ReportsRepository {
                         type: data.filters.type
                     },
                     {
+                        type: { in: data.filters.types }
+                    },
+                    {
                         deleted: data.filters.deleted
                     },
                     {
@@ -387,6 +390,9 @@ export class ReportsRepository {
                 },
                 {
                     type: data.filters.type
+                },
+                {
+                    type: { in: data.filters.types }
                 },
                 {
                     deleted: data.filters.deleted
