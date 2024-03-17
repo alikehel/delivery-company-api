@@ -177,7 +177,8 @@ export class ClientModel {
             AND: [
                 { deleted: filters.deleted === "true" },
                 { company: { id: filters.companyID } },
-                { stores: { some: { id: filters.storeID } } }
+                // TODO
+                { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
             ]
         };
 
