@@ -72,7 +72,7 @@ const productSelect = {
 // };
 
 export class ProductModel {
-    async createProduct(companyID: number, loggedInUserID: number, data: ProductCreateType) {
+    async createProduct(companyID: number, clientID: number, data: ProductCreateType) {
         const createdProduct = await prisma.product.create({
             data: {
                 title: data.title,
@@ -86,7 +86,7 @@ export class ProductModel {
                 },
                 client: {
                     connect: {
-                        id: loggedInUserID
+                        id: clientID
                     }
                 },
                 category: {

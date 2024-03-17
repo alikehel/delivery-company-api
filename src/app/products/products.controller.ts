@@ -2,20 +2,28 @@ import { AdminRole } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { OrdersRepository } from "../orders/orders.repository";
 import { ProductModel } from "./product.model";
 import { ProductCreateSchema, ProductUpdateSchema } from "./products.zod";
 
 const productModel = new ProductModel();
+const ordersRepository = new OrdersRepository();
 
 export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
-    const loggedInUserID = +res.locals.user.id;
+    // const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
     const image = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
-    const createdProduct = await productModel.createProduct(companyID, loggedInUserID, {
+    // Get the clientID
+    const clientID = await ordersRepository.getClientIDByStoreID({ storeID: productData.storeID });
+    if (!clientID) {
+        throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+    }
+
+    const createdProduct = await productModel.createProduct(companyID, clientID, {
         ...productData,
         image
     });
