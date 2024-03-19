@@ -407,7 +407,13 @@ router.route("/orders/:orderID").delete(
 router.route("/orders/:orderID/deactivate").patch(
     isLoggedIn,
     isAutherized(
-        [EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT],
+        [
+            EmployeeRole.COMPANY_MANAGER,
+            AdminRole.ADMIN,
+            AdminRole.ADMIN_ASSISTANT,
+            ClientRole.CLIENT,
+            ClientRole.CLIENT_ASSISTANT
+        ],
         [Permission.DELETE_ORDER]
     ),
     ordersController.deactivateOrder
