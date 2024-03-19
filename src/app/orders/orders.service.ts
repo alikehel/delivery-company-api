@@ -206,6 +206,10 @@ export class OrdersService {
         loggedInUser: loggedInUserType;
         orderData: OrderUpdateType;
     }) => {
+        if (data.orderData.confirmed && data.loggedInUser.role !== "COMPANY_MANAGER") {
+            throw new AppError("ليس لديك صلاحية تأكيد الطلب", 403);
+        }
+
         const oldOrderData = await ordersRepository.getOrder({
             orderID: data.params.orderID
         });

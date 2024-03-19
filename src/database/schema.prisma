@@ -39,6 +39,7 @@ enum Permission {
 
   ADD_ORDER // اضافة طلبية
   DELETE_ORDER // مسح طلبية
+  CONFIRM_ORDER // تأكيد طلبية
 
   CHANGE_ORDER_STATUS // تغيير حالة طلبية
   CHANGE_CLOSED_ORDER_STATUS // تغيير حالة طلبية مغلقة
