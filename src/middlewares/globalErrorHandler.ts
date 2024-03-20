@@ -73,7 +73,7 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
         default: {
             // handling all other errors
 
-            return new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${err.code}]`, 500);
+            return new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${err.code || "غير معروف"}]`, 500);
         }
     }
 };
