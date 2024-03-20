@@ -64,6 +64,10 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
                 );
             }
 
+            if (errTarget && typeof errTarget === "string") {
+                return new AppError(`الرجاء التأكد من صحة البيانات المدخلة في حقل (${errTarget})`, 400);
+            }
+
             return new AppError("الرجاء التأكد من صحة البيانات المدخلة", 400);
         }
         default: {
