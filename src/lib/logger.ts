@@ -25,11 +25,15 @@ const colors = {
 winston.addColors(colors);
 
 const format = winston.format.combine(
+    // stack true
+    winston.format.errors({ stack: true }),
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
     winston.format.colorize({ all: true }),
     winston.format.printf(
         (info) =>
-            `${info.timestamp} ${info.level}: ${info.message}\n------------------------------------------------------------`
+            `${info.timestamp} ${info.level}: ${info.message}${
+                info.stack ? `\n------------------------------\n${info.stack}` : ""
+            }\n------------------------------------------------------------`
     )
 );
 

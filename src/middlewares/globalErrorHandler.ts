@@ -5,23 +5,73 @@ import { env } from "../config";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
 
-const handlePrismaConstraintError = (err: Prisma.PrismaClientKnownRequestError) => {
-    // The .code property can be accessed in a type-safe manner
-    const errMeta = err.meta as unknown as { target: string };
-    const errTarget = errMeta.target[0] as string;
-    // return new AppError(
-    //     `Unique constraint failed on the (${errTarget}) field (already exists)`,
-    //     400
-    // );
-    return new AppError(`القيمة في حقل (${errTarget}) موجودة مسبقاً`, 400);
-};
+const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
+    const errMeta = err.meta;
+    const errTarget = errMeta?.target;
+    // const errCause = errMeta?.cause;
 
-const handlePrismaDependencyError = (err: Prisma.PrismaClientKnownRequestError) => {
-    const errMeta = err.meta as unknown as { cause: string };
-    const errCause = errMeta.cause as string;
-    // Arabic
-    const message = `الرجاء التأكد من عدم وجود عناصر مرتبطة بهذا العنصر (${errCause})`;
-    return new AppError(message, 400);
+    switch (err.code) {
+        case "P2002": {
+            // handling duplicate key errors
+
+            if (errTarget && Array.isArray(errTarget)) {
+                const errTargetString = errTarget.join(", ");
+                return new AppError(`القيمة في حقول (${errTargetString}) موجودة مسبقاً`, 400);
+            }
+
+            if (errTarget && typeof errTarget === "string") {
+                return new AppError(`القيمة في حقل (${errTarget}) موجودة مسبقاً`, 400);
+            }
+
+            return new AppError("تم إدخال قيمة موجودة مسبقاً", 400);
+        }
+        // case "P2025": {
+        //     // handling foreign key constraint errors
+
+        //     if (errCause && Array.isArray(errCause)) {
+        //         const errCauseString = errCause.join(", ");
+        //         return new AppError(`${errCauseString})`, 400);
+        //     }
+
+        //     if (errCause && typeof errCause === "string") {
+        //         return new AppError(`${errCause})`, 400);
+        //     }
+
+        //     return new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${err.code}]`, 500);
+        // }
+        // case "P2014": {
+        //     // handling invalid id errors
+
+        //     if (errTarget && Array.isArray(errTarget)) {
+        //         const errTargetString = errTarget.join(", ");
+        //         return new AppError(`الرجاء التأكد من صحة القيمة المدخلة في حقول (${errTargetString})`, 400);
+        //     }
+
+        //     if (errTarget && typeof errTarget === "string") {
+        //         return new AppError(`الرجاء التأكد من صحة القيمة المدخلة في حقل (${errTarget})`, 400);
+        //     }
+
+        //     return new AppError("الرجاء التأكد من صحة القيمة المدخلة", 400);
+        // }
+        case "P2003": {
+            // handling invalid data errors
+
+            if (errTarget && Array.isArray(errTarget)) {
+                const errTargetString = errTarget.join(", ");
+                return new AppError(
+                    `الرجاء التأكد من صحة البيانات المدخلة في حقول (${errTargetString})`,
+                    400
+                );
+            }
+
+            return new AppError("الرجاء التأكد من صحة البيانات المدخلة", 400);
+        }
+        default: {
+            // handling all other errors
+
+            return new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${err.code}]`, 500);
+        }
+    }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -109,32 +159,30 @@ export default (
         let error = { ...err };
         // console.log(error);
 
-        if (error.name === "JsonWebTokenError") {
-            error = handleJWTError(error);
+        if (err.name === "JsonWebTokenError") {
+            error = handleJWTError(err);
         }
 
-        if (error.name === "ZodError") {
-            error = handleZODError(error as unknown as ZodError);
+        if (err.name === "ZodError") {
+            error = handleZODError(err as unknown as ZodError);
         }
 
-        if (error.code === "P2002") {
-            error = handlePrismaConstraintError(error as unknown as Prisma.PrismaClientKnownRequestError);
-        } else if (error.code === "P2025") {
-            error = handlePrismaDependencyError(error as unknown as Prisma.PrismaClientKnownRequestError);
-        } else if (error.code?.startsWith("P")) {
-            // console.log(error);
-            // error = new AppError(
-            //     `حدث خطأ ما في قاعدة البيانات [رمز الخطأ: ${error.code}]`,
-            //     500
-            // );
-            error = new AppError(`حدث خطأ ما بقاعدة البيانات [رمز الخطأ: ${error.code}]`, 500);
-        } else if (error.name === "MulterError") {
-            error = handleMulterError(error);
+        if (
+            err instanceof Prisma.PrismaClientKnownRequestError ||
+            err instanceof Prisma.PrismaClientUnknownRequestError ||
+            err instanceof Prisma.PrismaClientValidationError ||
+            err instanceof Prisma.PrismaClientInitializationError ||
+            err instanceof Prisma.PrismaClientRustPanicError
+        ) {
+            error = handlePrismaError(err);
+        }
+
+        if (err.name === "MulterError") {
+            error = handleMulterError(err);
         }
 
         sendErrorProd(error, res);
     }
 
-    Logger.error(err.message);
-    console.error(err);
+    Logger.error(err.message, { stack: err.stack });
 };
