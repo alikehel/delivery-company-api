@@ -68,28 +68,29 @@ export const OrderCreateOpenAPISchema = generateSchema(OrderCreateSchema);
 
 export const OrderUpdateSchema = z
     .object({
+        quantity: z.number(),
         paidAmount: z.number(),
-        receiptNumber: z.number().optional(),
-        confirmed: z.boolean().optional(),
+        receiptNumber: z.number(),
+        confirmed: z.boolean(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
-        secondaryStatus: z.nativeEnum(SecondaryStatus).optional(),
+        secondaryStatus: z.nativeEnum(SecondaryStatus),
         deliveryAgentID: z.coerce.number(),
-        deliveryDate: z.coerce.date().optional(),
+        deliveryDate: z.coerce.date(),
         recipientName: z.string(),
-        recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
+        recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)),
         recipientPhone: z
             .string()
             .regex(/^07[3-9][0-9]{8}$/)
-            .optional(),
+            ,
         recipientAddress: z.string(),
-        notes: z.string().optional(),
-        details: z.string().optional(),
-        repositoryID: z.coerce.number().optional(),
-        branchID: z.coerce.number().optional(),
-        currentLocation: z.string().optional(),
-        clientID: z.coerce.number().optional(),
-        inquiryEmployeesIDs: z.array(z.coerce.number()).optional()
+        notes: z.string(),
+        details: z.string(),
+        repositoryID: z.coerce.number(),
+        branchID: z.coerce.number(),
+        currentLocation: z.string(),
+        clientID: z.coerce.number(),
+        inquiryEmployeesIDs: z.array(z.coerce.number())
     })
     .partial();
 

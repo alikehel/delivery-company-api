@@ -1065,6 +1065,7 @@ export class OrdersRepository {
                 id: data.orderID
             },
             data: {
+                quantity: data.orderData.quantity,
                 paidAmount: data.orderData.paidAmount,
                 clientNet: clientNet,
                 deliveryAgentNet: deliveryAgentCost,
