@@ -134,7 +134,7 @@ export const getClient = catchAsync(async (req, res) => {
 export const updateClient = catchAsync(async (req, res) => {
     const clientData = ClientUpdateSchema.parse(req.body);
     const clientID = +req.params.clientID;
-    const companyID = +res.locals.user.companyID;
+    // const companyID = +res.locals.user.companyID;
     const avatar = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
@@ -150,7 +150,7 @@ export const updateClient = catchAsync(async (req, res) => {
 
     const updatedClient = await clientModel.updateClient({
         clientID: clientID,
-        companyID: companyID,
+        // companyID: companyID,
         clientData: {
             ...rest,
             password: hashedPassword,
@@ -162,7 +162,7 @@ export const updateClient = catchAsync(async (req, res) => {
     if (clientData.name && oldClient?.name !== updatedClient?.name) {
         // get the company manager id
         const companyManager = await employeeModel.getCompanyManager({
-            companyID: companyID
+            companyID: updatedClient?.company.id as number
         });
 
         await sendNotification({

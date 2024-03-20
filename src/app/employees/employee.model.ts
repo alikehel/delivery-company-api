@@ -294,7 +294,7 @@ export class EmployeeModel {
 
     async updateEmployee(data: {
         employeeID: number;
-        companyID: number;
+        // companyID: number;
         employeeData: EmployeeUpdateType;
     }) {
         const employee = await prisma.employee.update({
@@ -315,11 +315,13 @@ export class EmployeeModel {
                 phone: data.employeeData.phone,
                 salary: data.employeeData.salary,
                 role: data.employeeData.role,
-                company: {
-                    connect: {
-                        id: data.companyID
-                    }
-                },
+                // company: data.employeeData.companyID
+                //     ? {
+                //           connect: {
+                //               id: data.employeeData.companyID
+                //           }
+                //       }
+                //     : undefined,
                 permissions: data.employeeData.permissions,
                 branch: data.employeeData.branchID
                     ? {

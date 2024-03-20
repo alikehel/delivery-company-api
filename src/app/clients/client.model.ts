@@ -227,7 +227,7 @@ export class ClientModel {
 
     async updateClient(data: {
         clientID: number;
-        companyID: number;
+        // companyID: number;
         clientData: ClientUpdateType;
     }) {
         const client = await prisma.client.update({
@@ -245,13 +245,13 @@ export class ClientModel {
                         avatar: data.clientData.avatar
                     }
                 },
-                company: data.companyID
-                    ? {
-                          connect: {
-                              id: data.companyID
-                          }
-                      }
-                    : undefined,
+                // company: data.clientData.companyID
+                //     ? {
+                //           connect: {
+                //               id: data.clientData.companyID
+                //           }
+                //       }
+                //     : undefined,
                 phone: data.clientData.phone,
                 role: data.clientData.role,
                 token: data.clientData.token,

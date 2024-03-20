@@ -162,7 +162,6 @@ export const getEmployee = catchAsync(async (req, res) => {
 export const updateEmployee = catchAsync(async (req, res) => {
     const employeeData = EmployeeUpdateSchema.parse(req.body);
     const employeeID = +req.params.employeeID;
-    const companyID = +res.locals.user.companyID;
 
     const oldEmployee = await employeeModel.getEmployee({
         employeeID: employeeID
@@ -181,7 +180,7 @@ export const updateEmployee = catchAsync(async (req, res) => {
 
     const updatedEmployee = await employeeModel.updateEmployee({
         employeeID: employeeID,
-        companyID: companyID,
+        // companyID: companyID,
         employeeData
     });
 
@@ -193,7 +192,7 @@ export const updateEmployee = catchAsync(async (req, res) => {
     ) {
         // get the company manager id
         const companyManager = await employeeModel.getCompanyManager({
-            companyID: companyID
+            companyID: updatedEmployee.company.id
         });
 
         await sendNotification({
