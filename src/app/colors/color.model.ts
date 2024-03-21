@@ -87,6 +87,9 @@ export class ColorModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                id: "desc"
+            },
             select: colorSelect
         });
 

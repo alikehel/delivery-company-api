@@ -120,6 +120,13 @@ export class AutomaticUpdatesService {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                orderStatus: "asc",
+                governorate: "asc",
+                branch: {
+                    name: "asc"
+                }
+            },
             select: automaticUpdateSelect
         });
 

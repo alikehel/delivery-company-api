@@ -121,6 +121,9 @@ export class StoreModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                id: "desc"
+            },
             select: storeSelect
         });
 

@@ -242,6 +242,9 @@ export class ProductModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                id: "desc"
+            },
             select: productSelect
         });
 

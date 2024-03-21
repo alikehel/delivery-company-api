@@ -77,6 +77,9 @@ export class BannerModel {
                     id: filters.companyID
                 }
             },
+            orderBy: {
+                id: "desc"
+            },
             select: bannerSelect
         });
         return banners;

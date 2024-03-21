@@ -85,6 +85,9 @@ export class CategoryModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                title: "asc"
+            },
             select: categorySelect
         });
 

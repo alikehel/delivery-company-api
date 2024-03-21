@@ -90,6 +90,9 @@ export class CompanyModel {
         const companies = await prisma.company.findMany({
             skip: skip,
             take: take,
+            orderBy: {
+                name: "asc"
+            },
             select: companySelect
         });
 

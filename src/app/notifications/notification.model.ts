@@ -96,7 +96,7 @@ export class NotificationModel {
             skip: skip,
             take: take,
             orderBy: {
-                createdAt: "desc"
+                id: "desc"
             },
             select: notificationSelect
         });

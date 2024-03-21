@@ -90,6 +90,9 @@ export class RepositoryModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                name: "asc"
+            },
             select: repositorySelect
         });
 

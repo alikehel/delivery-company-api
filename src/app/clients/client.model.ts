@@ -205,9 +205,9 @@ export class ClientModel {
         const clients = await prisma.client.findMany({
             skip: skip,
             take: take,
-            // orderBy: {
-            //     name: "desc"
-            // },
+            orderBy: {
+                id: "desc"
+            },
             where: where,
             select: clientSelect
         });

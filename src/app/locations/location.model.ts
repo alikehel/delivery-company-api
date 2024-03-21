@@ -199,6 +199,9 @@ export class LocationModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                id: "desc"
+            },
             select: locationSelect
         });
 

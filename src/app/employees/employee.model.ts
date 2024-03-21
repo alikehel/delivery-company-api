@@ -256,9 +256,9 @@ export class EmployeeModel {
             skip: skip,
             take: take,
             where: where,
-            // orderBy: {
-            //     name: "desc"
-            // },
+            orderBy: {
+                id: "desc"
+            },
             select: {
                 ...employeeSelect,
                 _count: {

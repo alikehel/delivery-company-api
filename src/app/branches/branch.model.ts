@@ -115,6 +115,9 @@ export class BranchModel {
             skip: skip,
             take: take,
             where: where,
+            orderBy: {
+                name: "asc"
+            },
             select: branchSelect
         });
 
