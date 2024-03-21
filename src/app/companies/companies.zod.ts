@@ -28,7 +28,7 @@ export const CompanyCreateSchema = z
             avatar: z.string().optional()
         })
     })
-    .refine((data) => JSON.stringify(data));
+    .refine((data) => JSON.parse(data as unknown as string));
 
 export type CompanyCreateType = z.infer<typeof CompanyCreateSchema>;
 
