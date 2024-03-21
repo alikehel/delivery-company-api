@@ -44,19 +44,34 @@ export class CompanyModel {
     async createCompany(data: CompanyCreateType) {
         const createdCompany = await prisma.company.create({
             data: {
-                name: data.name,
-                phone: data.phone,
-                website: data.website,
-                logo: data.logo,
-                color: data.color,
-                registrationText: data.registrationText,
-                governoratePrice: data.governoratePrice,
-                deliveryAgentFee: data.deliveryAgentFee,
-                baghdadPrice: data.baghdadPrice,
-                additionalPriceForEvery500000IraqiDinar: data.additionalPriceForEvery500000IraqiDinar,
-                additionalPriceForEveryKilogram: data.additionalPriceForEveryKilogram,
-                additionalPriceForRemoteAreas: data.additionalPriceForRemoteAreas,
-                orderStatusAutomaticUpdate: data.orderStatusAutomaticUpdate
+                name: data.companyData.name,
+                phone: data.companyData.phone,
+                website: data.companyData.website,
+                logo: data.companyData.logo,
+                color: data.companyData.color,
+                registrationText: data.companyData.registrationText,
+                governoratePrice: data.companyData.governoratePrice,
+                deliveryAgentFee: data.companyData.deliveryAgentFee,
+                baghdadPrice: data.companyData.baghdadPrice,
+                additionalPriceForEvery500000IraqiDinar:
+                    data.companyData.additionalPriceForEvery500000IraqiDinar,
+                additionalPriceForEveryKilogram: data.companyData.additionalPriceForEveryKilogram,
+                additionalPriceForRemoteAreas: data.companyData.additionalPriceForRemoteAreas,
+                orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate,
+                employees: {
+                    create: {
+                        user:{
+                            create: {
+                                username: data.companyManager.username,
+                                name: data.companyManager.name,
+                                password: data.companyManager.password,
+                                phone: data.companyManager.phone,
+                            }
+                        },
+                        phone: data.companyManager.phone,
+                        role: "COMPANY_MANAGER"
+                    }
+                }
             },
             select: companySelect
         });
