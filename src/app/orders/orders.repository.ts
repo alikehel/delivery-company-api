@@ -1132,10 +1132,10 @@ export class OrdersRepository {
 
             // Calculate orders costs
             const ordersCosts = orders.map((order) => {
-                const companyNet = (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0);
+                const companyNet = (order.paidAmount || 0) - (data.costs.deliveryAgentDeliveryCost || 0);
                 return {
                     id: order.id,
-                    deliveryCost: data.costs.governoratesDeliveryCost || 0,
+                    deliveryCost: data.costs.deliveryAgentDeliveryCost || 0,
                     deliveryAgentNet: data.costs.deliveryAgentDeliveryCost || 0,
                     companyNet: companyNet
                 };
