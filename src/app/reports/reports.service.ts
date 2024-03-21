@@ -100,10 +100,7 @@ export class ReportsService {
             // @ts-expect-error Fix later
             reportMetaData.clientNet += +order.clientNet;
             // @ts-expect-error Fix later
-            reportMetaData.deliveryAgentNet += order.deliveryAgent
-                ? // @ts-expect-error Fix later
-                  +order.deliveryAgent.deliveryCost
-                : 0;
+            reportMetaData.deliveryAgentNet += order.deliveryAgentNet;
             // @ts-expect-error Fix later
             reportMetaData.companyNet += +order.companyNet;
             // @ts-expect-error Fix later

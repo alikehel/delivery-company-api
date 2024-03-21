@@ -6,7 +6,7 @@ export const orderSelect = {
     paidAmount: true,
     deliveryCost: true,
     clientNet: true,
-    // deliveryAgentNet: true,
+    deliveryAgentNet: true,
     companyNet: true,
     discount: true,
     receiptNumber: true,

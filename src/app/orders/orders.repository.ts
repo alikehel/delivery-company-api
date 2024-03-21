@@ -1048,12 +1048,10 @@ export class OrdersRepository {
             // Calculate Baghdad orders costs
             const baghdadOrdersCosts = baghdadOrders.map((order) => {
                 const clientNet = (order.paidAmount || 0) - (data.costs.baghdadDeliveryCost || 0);
-                const companyNet = (order.paidAmount || 0) - (data.costs.baghdadDeliveryCost || 0);
                 return {
                     id: order.id,
                     deliveryCost: data.costs.baghdadDeliveryCost || 0,
-                    clientNet: clientNet,
-                    companyNet: companyNet
+                    clientNet: clientNet
                 };
             });
 
@@ -1065,8 +1063,7 @@ export class OrdersRepository {
                     },
                     data: {
                         deliveryCost: orderCost.deliveryCost,
-                        clientNet: orderCost.clientNet,
-                        companyNet: orderCost.companyNet
+                        clientNet: orderCost.clientNet
                     }
                 });
             }
@@ -1087,20 +1084,17 @@ export class OrdersRepository {
                     id: true,
                     paidAmount: true,
                     deliveryCost: true,
-                    clientNet: true,
-                    companyNet: true
+                    clientNet: true
                 }
             });
 
             // Calculate governorates orders costs
             const governoratesOrdersCosts = governoratesOrders.map((order) => {
                 const clientNet = (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0);
-                const companyNet = (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0);
                 return {
                     id: order.id,
                     deliveryCost: data.costs.governoratesDeliveryCost || 0,
-                    clientNet: clientNet,
-                    companyNet: companyNet
+                    clientNet: clientNet
                 };
             });
 
@@ -1112,8 +1106,7 @@ export class OrdersRepository {
                     },
                     data: {
                         deliveryCost: orderCost.deliveryCost,
-                        clientNet: orderCost.clientNet,
-                        companyNet: orderCost.companyNet
+                        clientNet: orderCost.clientNet
                     }
                 });
             }
@@ -1121,17 +1114,46 @@ export class OrdersRepository {
 
         // Update delivery agent delivery cost
         if (data.costs.deliveryAgentDeliveryCost) {
-            await prisma.order.updateMany({
+            // get orders
+            const orders = await prisma.order.findMany({
                 where: {
                     id: {
                         in: data.ordersIDs
                     }
                 },
-                data: {
-                    deliveryAgentNet: data.costs.deliveryAgentDeliveryCost,
-                    deliveryCost: data.costs.deliveryAgentDeliveryCost
+                select: {
+                    id: true,
+                    paidAmount: true,
+                    deliveryCost: true,
+                    deliveryAgentNet: true,
+                    companyNet: true
                 }
             });
+
+            // Calculate orders costs
+            const ordersCosts = orders.map((order) => {
+                const companyNet = (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0);
+                return {
+                    id: order.id,
+                    deliveryCost: data.costs.governoratesDeliveryCost || 0,
+                    deliveryAgentNet: data.costs.deliveryAgentDeliveryCost || 0,
+                    companyNet: companyNet
+                };
+            });
+
+            // Update governorates orders costs
+            for (const orderCost of ordersCosts) {
+                await prisma.order.update({
+                    where: {
+                        id: orderCost.id
+                    },
+                    data: {
+                        deliveryCost: orderCost.deliveryCost,
+                        deliveryAgentNet: orderCost.deliveryAgentNet,
+                        companyNet: orderCost.companyNet
+                    }
+                });
+            }
         }
     }
 
