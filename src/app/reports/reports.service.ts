@@ -64,6 +64,8 @@ export class ReportsService {
                     governoratesDeliveryCost: data.reportData.governoratesDeliveryCost
                 }
             });
+
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs });
         }
 
         if (data.reportData.type === ReportType.DELIVERY_AGENT) {
@@ -73,6 +75,8 @@ export class ReportsService {
                     deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost
                 }
             });
+
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs });
         }
 
         const reportMetaData = {
