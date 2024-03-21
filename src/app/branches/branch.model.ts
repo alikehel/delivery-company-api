@@ -50,13 +50,26 @@ export class BranchModel {
 
     async getBranchesCount(filters: {
         companyID?: number;
+        governorate?: Governorate;
+        locationID?: number;
+        minified?: boolean;
     }) {
+        const where = {
+            company: {
+                id: filters.companyID
+            },
+            governorate: filters.governorate,
+            locations: filters.locationID
+                ? {
+                      some: {
+                          id: filters.locationID
+                      }
+                  }
+                : undefined
+        };
+
         const branchesCount = await prisma.branch.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
+            where: where
         });
         return branchesCount;
     }
@@ -76,11 +89,13 @@ export class BranchModel {
                 id: filters.companyID
             },
             governorate: filters.governorate,
-            locations: {
-                some: {
-                    id: filters.locationID
-                }
-            }
+            locations: filters.locationID
+                ? {
+                      some: {
+                          id: filters.locationID
+                      }
+                  }
+                : undefined
         };
 
         if (filters.minified === true) {
