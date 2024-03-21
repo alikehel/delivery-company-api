@@ -3,10 +3,16 @@ import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
 export const CompanyCreateSchema = z.preprocess(
-    (data) => JSON.parse(JSON.stringify(data)),
+    (data) => {
+        console.info(data);
+        return JSON.parse(data as string);
+    },
     z.object({
         companyData: z.preprocess(
-            (data) => JSON.parse(JSON.stringify(data)),
+            (data) => {
+                console.info(data);
+                // JSON.parse(data as string);
+            },
             z.object({
                 name: z.string().min(3),
                 phone: z.string().regex(/^07[3-9][0-9]{8}$/),
@@ -24,7 +30,10 @@ export const CompanyCreateSchema = z.preprocess(
             })
         ),
         companyManager: z.preprocess(
-            (data) => JSON.parse(JSON.stringify(data)),
+            (data) => {
+                console.info(data);
+                // JSON.parse(data as string);
+            },
             z.object({
                 username: z.string().min(3),
                 name: z.string().min(3),
