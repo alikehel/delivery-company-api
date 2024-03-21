@@ -1019,12 +1019,123 @@ export class OrdersRepository {
         return orderReform(order);
     }
 
+    async updateOrdersCosts(data: {
+        ordersIDs: number[];
+        costs: {
+            baghdadDeliveryCost?: number;
+            governoratesDeliveryCost?: number;
+            deliveryAgentDeliveryCost?: number;
+        };
+    }) {
+        // Get Baghdad orders
+        const baghdadOrders = await prisma.order.findMany({
+            where: {
+                id: {
+                    in: data.ordersIDs
+                },
+                governorate: Governorate.BAGHDAD
+            },
+            select: {
+                id: true,
+                paidAmount: true,
+                deliveryCost: true,
+                clientNet: true,
+                companyNet: true
+            }
+        });
+
+        // get governorates orders
+        const governoratesOrders = await prisma.order.findMany({
+            where: {
+                id: {
+                    in: data.ordersIDs
+                },
+                governorate: {
+                    not: Governorate.BAGHDAD
+                }
+            },
+            select: {
+                id: true,
+                paidAmount: true,
+                deliveryCost: true,
+                clientNet: true,
+                companyNet: true
+            }
+        });
+
+        // Calculate Baghdad orders costs
+        const baghdadOrdersCosts = baghdadOrders.map((order) => {
+            const clientNet = order.paidAmount || 0 - (data.costs.baghdadDeliveryCost || 0);
+            const companyNet = order.paidAmount || 0 - (data.costs.baghdadDeliveryCost || 0);
+            return {
+                id: order.id,
+                deliveryCost: data.costs.baghdadDeliveryCost || 0,
+                clientNet: clientNet,
+                companyNet: companyNet
+            };
+        });
+
+        // Calculate governorates orders costs
+        const governoratesOrdersCosts = governoratesOrders.map((order) => {
+            const clientNet = order.paidAmount || 0 - (data.costs.governoratesDeliveryCost || 0);
+            const companyNet = order.paidAmount || 0 - (data.costs.governoratesDeliveryCost || 0);
+            return {
+                id: order.id,
+                deliveryCost: data.costs.governoratesDeliveryCost || 0,
+                clientNet: clientNet,
+                companyNet: companyNet
+            };
+        });
+
+        // Update Baghdad orders costs
+        for (const orderCost of baghdadOrdersCosts) {
+            await prisma.order.update({
+                where: {
+                    id: orderCost.id
+                },
+                data: {
+                    deliveryCost: orderCost.deliveryCost,
+                    clientNet: orderCost.clientNet,
+                    companyNet: orderCost.companyNet
+                }
+            });
+        }
+
+        // Update governorates orders costs
+        for (const orderCost of governoratesOrdersCosts) {
+            await prisma.order.update({
+                where: {
+                    id: orderCost.id
+                },
+                data: {
+                    deliveryCost: orderCost.deliveryCost,
+                    clientNet: orderCost.clientNet,
+                    companyNet: orderCost.companyNet
+                }
+            });
+        }
+
+        // Update delivery agent delivery cost
+        if (data.costs.deliveryAgentDeliveryCost) {
+            await prisma.order.updateMany({
+                where: {
+                    id: {
+                        in: data.ordersIDs
+                    }
+                },
+                data: {
+                    deliveryAgentNet: data.costs.deliveryAgentDeliveryCost
+                }
+            });
+        }
+    }
+
     async updateOrder(data: { orderID: number; orderData: OrderUpdateType }) {
+        // Calculate order costs
         let deliveryAgentCost = 0;
         let companyNet = 0;
         let clientNet = 0;
         if (data.orderData.paidAmount) {
-            // calculate client net
             const orderData = await prisma.order.findUnique({
                 where: {
                     id: data.orderID
@@ -1038,6 +1149,8 @@ export class OrdersRepository {
                     }
                 }
             });
+
+            // calculate client net
             const deliveryCost = (orderData?.deliveryCost || 0) as number;
             clientNet = data.orderData.paidAmount - deliveryCost;
 
@@ -1052,7 +1165,6 @@ export class OrdersRepository {
                     }
                 });
                 deliveryAgentCost = (orderDeliveryAgent?.deliveryCost || 0) as number;
-
                 companyNet = data.orderData.paidAmount - deliveryAgentCost;
             } else if (orderData?.deliveryAgent) {
                 deliveryAgentCost = (orderData?.deliveryAgent?.deliveryCost || 0) as number;

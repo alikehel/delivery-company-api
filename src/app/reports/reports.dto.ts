@@ -11,11 +11,14 @@ export const ReportCreateSchema = z
     .discriminatedUnion("type", [
         z.object({
             type: z.literal(ReportType.COMPANY),
-            companyID: z.coerce.number()
+            companyID: z.coerce.number(),
+            baghdadDeliveryCost: z.coerce.number().optional(),
+            governoratesDeliveryCost: z.coerce.number().optional()
         }),
         z.object({
             type: z.literal(ReportType.DELIVERY_AGENT),
-            deliveryAgentID: z.coerce.number()
+            deliveryAgentID: z.coerce.number(),
+            deliveryAgentDeliveryCost: z.coerce.number().optional()
         }),
         z.object({
             type: z.literal(ReportType.GOVERNORATE),
@@ -28,7 +31,9 @@ export const ReportCreateSchema = z
         z.object({
             type: z.literal(ReportType.CLIENT),
             clientID: z.coerce.number(),
-            storeID: z.coerce.number()
+            storeID: z.coerce.number(),
+            baghdadDeliveryCost: z.coerce.number().optional(),
+            governoratesDeliveryCost: z.coerce.number().optional()
         }),
         z.object({
             type: z.literal(ReportType.REPOSITORY),
@@ -48,7 +53,7 @@ export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 export const ReportUpdateSchema = z.object({
     status: z.nativeEnum(ReportStatus).optional(),
     confirmed: z.boolean().optional(),
-    repositoryID: z.coerce.number().optional(),
+    repositoryID: z.coerce.number().optional()
 });
 
 export type ReportUpdateType = z.infer<typeof ReportUpdateSchema>;

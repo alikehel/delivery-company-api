@@ -55,6 +55,26 @@ export class ReportsService {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
         }
 
+        // Change orders costs reportData contains new costs
+        if (data.reportData.type === ReportType.CLIENT || data.reportData.type === ReportType.COMPANY) {
+            await ordersRepository.updateOrdersCosts({
+                ordersIDs,
+                costs: {
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost
+                }
+            });
+        }
+
+        if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+            await ordersRepository.updateOrdersCosts({
+                ordersIDs,
+                costs: {
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost
+                }
+            });
+        }
+
         const reportMetaData = {
             baghdadOrdersCount: 0,
             governoratesOrdersCount: 0,
