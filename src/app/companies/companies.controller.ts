@@ -8,18 +8,6 @@ import { CompanyModel } from "./company.model";
 const companyModel = new CompanyModel();
 
 export const createCompany = catchAsync(async (req, res) => {
-    console.info({
-        body: req.body
-    });
-
-    console.info({
-        stringify: JSON.stringify(req.body)
-    });
-
-    console.info({ parse: JSON.parse(req.body) });
-
-    console.info({ parseStringified: JSON.parse(JSON.stringify(req.body)) });
-
     const companyData = CompanyCreateSchema.parse(req.body);
     const logo = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
