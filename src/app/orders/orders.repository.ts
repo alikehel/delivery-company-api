@@ -1038,32 +1038,19 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true,
-                    deliveryCost: true,
-                    clientNet: true,
-                    companyNet: true
+                    paidAmount: true
                 }
             });
 
-            // Calculate Baghdad orders costs
-            const baghdadOrdersCosts = baghdadOrders.map((order) => {
-                const clientNet = (order.paidAmount || 0) - (data.costs.baghdadDeliveryCost || 0);
-                return {
-                    id: order.id,
-                    deliveryCost: data.costs.baghdadDeliveryCost || 0,
-                    clientNet: clientNet
-                };
-            });
-
             // Update Baghdad orders costs
-            for (const orderCost of baghdadOrdersCosts) {
+            for (const order of baghdadOrders) {
                 await prisma.order.update({
                     where: {
-                        id: orderCost.id
+                        id: order.id
                     },
                     data: {
-                        deliveryCost: orderCost.deliveryCost,
-                        clientNet: orderCost.clientNet
+                        deliveryCost: data.costs.baghdadDeliveryCost || 0,
+                        clientNet: (order.paidAmount || 0) - (data.costs.baghdadDeliveryCost || 0)
                     }
                 });
             }
@@ -1082,31 +1069,19 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true,
-                    deliveryCost: true,
-                    clientNet: true
+                    paidAmount: true
                 }
             });
 
-            // Calculate governorates orders costs
-            const governoratesOrdersCosts = governoratesOrders.map((order) => {
-                const clientNet = (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0);
-                return {
-                    id: order.id,
-                    deliveryCost: data.costs.governoratesDeliveryCost || 0,
-                    clientNet: clientNet
-                };
-            });
-
             // Update governorates orders costs
-            for (const orderCost of governoratesOrdersCosts) {
+            for (const order of governoratesOrders) {
                 await prisma.order.update({
                     where: {
-                        id: orderCost.id
+                        id: order.id
                     },
                     data: {
-                        deliveryCost: orderCost.deliveryCost,
-                        clientNet: orderCost.clientNet
+                        deliveryCost: data.costs.governoratesDeliveryCost || 0,
+                        clientNet: (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0)
                     }
                 });
             }
@@ -1123,34 +1098,20 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true,
-                    deliveryCost: true,
-                    deliveryAgentNet: true,
-                    companyNet: true
+                    paidAmount: true
                 }
             });
 
-            // Calculate orders costs
-            const ordersCosts = orders.map((order) => {
-                const companyNet = (order.paidAmount || 0) - (data.costs.deliveryAgentDeliveryCost || 0);
-                return {
-                    id: order.id,
-                    deliveryCost: data.costs.deliveryAgentDeliveryCost || 0,
-                    deliveryAgentNet: data.costs.deliveryAgentDeliveryCost || 0,
-                    companyNet: companyNet
-                };
-            });
-
-            // Update governorates orders costs
-            for (const orderCost of ordersCosts) {
+            // Update orders costs
+            for (const order of orders) {
                 await prisma.order.update({
                     where: {
-                        id: orderCost.id
+                        id: order.id
                     },
                     data: {
-                        deliveryCost: orderCost.deliveryCost,
-                        deliveryAgentNet: orderCost.deliveryAgentNet,
-                        companyNet: orderCost.companyNet
+                        deliveryCost: data.costs.deliveryAgentDeliveryCost || 0,
+                        deliveryAgentNet: data.costs.deliveryAgentDeliveryCost || 0,
+                        companyNet: (order.paidAmount || 0) - (data.costs.deliveryAgentDeliveryCost || 0)
                     }
                 });
             }

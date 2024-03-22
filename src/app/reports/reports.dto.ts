@@ -22,11 +22,13 @@ export const ReportCreateSchema = z
         }),
         z.object({
             type: z.literal(ReportType.GOVERNORATE),
-            governorate: z.nativeEnum(Governorate)
+            governorate: z.nativeEnum(Governorate),
+            deliveryAgentDeliveryCost: z.coerce.number().optional()
         }),
         z.object({
             type: z.literal(ReportType.BRANCH),
-            branchID: z.coerce.number()
+            branchID: z.coerce.number(),
+            deliveryAgentDeliveryCost: z.coerce.number().optional()
         }),
         z.object({
             type: z.literal(ReportType.CLIENT),

@@ -68,7 +68,11 @@ export class ReportsService {
             orders = await ordersRepository.getOrdersByIDs({ ordersIDs });
         }
 
-        if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+        if (
+            data.reportData.type === ReportType.DELIVERY_AGENT ||
+            data.reportData.type === ReportType.GOVERNORATE ||
+            data.reportData.type === ReportType.BRANCH
+        ) {
             await ordersRepository.updateOrdersCosts({
                 ordersIDs,
                 costs: {
