@@ -58,13 +58,13 @@ export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
     z
         .object({
-            type: z.literal(
-                ReportType.COMPANY ||
-                    ReportType.CLIENT ||
-                    ReportType.DELIVERY_AGENT ||
-                    ReportType.GOVERNORATE ||
-                    ReportType.BRANCH
-            )
+            type: z.enum([
+                ReportType.COMPANY,
+                ReportType.CLIENT,
+                ReportType.DELIVERY_AGENT,
+                ReportType.GOVERNORATE,
+                ReportType.BRANCH
+            ])
         })
         .merge(
             OrdersFiltersSchema.extend({
@@ -84,7 +84,7 @@ export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
         ),
     z
         .object({
-            type: z.literal(ReportType.REPOSITORY)
+            type: z.enum([ReportType.REPOSITORY])
         })
         .merge(
             OrdersFiltersSchema.extend({
