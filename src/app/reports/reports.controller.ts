@@ -37,7 +37,8 @@ export class ReportController {
             deliveryAgentReport: req.query.delivery_agent_report,
             governorateReport: req.query.governorate_report,
             companyReport: req.query.company_report,
-            minified: false
+            minified: false,
+            confirmed: req.query.confirmed
         });
 
         const pdf = await reportsService.createReport({
