@@ -55,129 +55,163 @@ export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 
 // remove ordersFilters and make it flat
 
-export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
-    z
-        .object({
-            type: z.literal(ReportType.COMPANY)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                companyID: z.coerce.number()
+export const ReportCreateOrdersFiltersSchema = z
+    .discriminatedUnion("type", [
+        z
+            .object({
+                type: z.literal(ReportType.COMPANY)
             })
-        ),
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.DELIVERED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    companyID: z.coerce.number()
+                })
+            ),
 
-    z
-        .object({
-            type: z.literal(ReportType.DELIVERY_AGENT)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                deliveryAgentID: z.coerce.number()
+        z
+            .object({
+                type: z.literal(ReportType.DELIVERY_AGENT)
             })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.GOVERNORATE)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                governorate: z.nativeEnum(Governorate)
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.DELIVERED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    deliveryAgentID: z.coerce.number()
+                })
+            ),
+        z
+            .object({
+                type: z.literal(ReportType.GOVERNORATE)
             })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.BRANCH)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                branchID: z.coerce.number()
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.DELIVERED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    governorate: z.nativeEnum(Governorate)
+                })
+            ),
+        z
+            .object({
+                type: z.literal(ReportType.BRANCH)
             })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.CLIENT)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                storeID: z.coerce.number()
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.DELIVERED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    branchID: z.coerce.number()
+                })
+            ),
+        z
+            .object({
+                type: z.literal(ReportType.CLIENT)
             })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.REPOSITORY)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.RETURNED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                repositoryID: z.coerce.number()
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.DELIVERED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    storeID: z.coerce.number()
+                })
+            ),
+        z
+            .object({
+                type: z.literal(ReportType.REPOSITORY)
             })
-        )
-]);
+            .merge(
+                OrdersFiltersSchema.extend({
+                    statuses: z.preprocess(
+                        (val) => {
+                            if (typeof val === "string") {
+                                return val.split(",");
+                            }
+                            return val;
+                        },
+                        z.array(
+                            z.enum([
+                                OrderStatus.RETURNED,
+                                OrderStatus.PARTIALLY_RETURNED,
+                                OrderStatus.REPLACED
+                            ])
+                        )
+                    ),
+                    repositoryID: z.coerce.number()
+                })
+            )
+    ])
+    .and(
+        z.object({
+            confirmed: z.preprocess((val) => {
+                if (val === "true") return true;
+                if (val === "false") return false;
+                return val;
+            }, z.boolean())
+        })
+    );
 
 export type ReportCreateOrdersFiltersType = z.infer<typeof ReportCreateOrdersFiltersSchema>;
 
