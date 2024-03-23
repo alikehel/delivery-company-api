@@ -4,12 +4,13 @@ import { loggedInUserType } from "../../types/user";
 import { CompanyModel } from "../companies/company.model";
 import { EmployeeModel } from "../employees/employee.model";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { OrderTimelineType, OrdersFiltersType } from "../orders/orders.dto";
+import { OrderTimelineType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
 import { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
 import { generateReportsReport } from "./helpers/generateReportsReport";
 import {
+    ReportCreateOrdersFiltersType,
     ReportCreateType,
     ReportUpdateType,
     ReportsFiltersType,
@@ -27,7 +28,7 @@ export class ReportsService {
     async createReport(data: {
         loggedInUser: loggedInUserType;
         reportData: ReportCreateType;
-        ordersFilters: OrdersFiltersType;
+        ordersFilters: ReportCreateOrdersFiltersType;
     }) {
         let orders: ReturnType<typeof orderReform>[];
         let ordersIDs: number[] = [];

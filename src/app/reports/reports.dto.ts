@@ -1,7 +1,8 @@
 // // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { Governorate, ReportStatus, ReportType } from "@prisma/client";
+import { Governorate, OrderStatus, ReportStatus, ReportType } from "@prisma/client";
 import { z } from "zod";
+import { OrdersFiltersSchema } from "../orders/orders.dto";
 
 export const ReportCreateBaseSchema = z.object({
     ordersIDs: z.array(z.coerce.number()).min(1).or(z.literal("*"))
@@ -49,6 +50,136 @@ export type ReportCreateType = z.infer<typeof ReportCreateSchema>;
 export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 
 // export const ReportCreateMock = generateMock(ReportCreateSchema);
+
+/* --------------------------------------------------------------- */
+
+// remove ordersFilters and make it flat
+
+export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
+    z
+        .object({
+            type: z.literal(ReportType.COMPANY)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                companyID: z.coerce.number()
+            })
+        ),
+
+    z
+        .object({
+            type: z.literal(ReportType.DELIVERY_AGENT)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                deliveryAgentID: z.coerce.number()
+            })
+        ),
+    z
+        .object({
+            type: z.literal(ReportType.GOVERNORATE)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                governorate: z.nativeEnum(Governorate)
+            })
+        ),
+    z
+        .object({
+            type: z.literal(ReportType.BRANCH)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                branchID: z.coerce.number()
+            })
+        ),
+    z
+        .object({
+            type: z.literal(ReportType.CLIENT)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                storeID: z.coerce.number()
+            })
+        ),
+    z
+        .object({
+            type: z.literal(ReportType.REPOSITORY)
+        })
+        .merge(
+            OrdersFiltersSchema.extend({
+                statuses: z.preprocess(
+                    (val) => {
+                        if (typeof val === "string") {
+                            return val.split(",");
+                        }
+                        return val;
+                    },
+                    z.array(
+                        z.enum([OrderStatus.RETURNED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
+                    )
+                ),
+                repositoryID: z.coerce.number()
+            })
+        )
+]);
+
+export type ReportCreateOrdersFiltersType = z.infer<typeof ReportCreateOrdersFiltersSchema>;
 
 /* --------------------------------------------------------------- */
 

@@ -1,7 +1,7 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { OrdersFiltersSchema } from "../orders/orders.dto";
 import {
+    ReportCreateOrdersFiltersSchema,
     ReportCreateSchema,
     ReportUpdateSchema,
     ReportsFiltersSchema,
@@ -16,7 +16,8 @@ export class ReportController {
         const reportData = ReportCreateSchema.parse(req.body);
         const loggedInUser = res.locals.user as loggedInUserType;
 
-        const ordersFilters = OrdersFiltersSchema.parse({
+        const ordersFilters = ReportCreateOrdersFiltersSchema.parse({
+            type: reportData.type,
             clientID: req.query.client_id,
             deliveryAgentID: req.query.delivery_agent_id,
             companyID: req.query.company_id,

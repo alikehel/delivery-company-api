@@ -1,5 +1,6 @@
 import { Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
+import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
 import {
     OrderCreateType,
     OrderTimelineType,
@@ -623,7 +624,11 @@ export class OrdersRepository {
         return ordersCount;
     }
 
-    async getAllOrders(data: { skip: number; take: number; filters: OrdersFiltersType }) {
+    async getAllOrders(data: {
+        skip: number;
+        take: number;
+        filters: OrdersFiltersType | ReportCreateOrdersFiltersType;
+    }) {
         const where = {
             AND: [
                 // Search by receiptNumber, recipientName, recipientPhone, recipientAddress
