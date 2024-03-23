@@ -58,7 +58,13 @@ export const ReportCreateOpenAPISchema = generateSchema(ReportCreateSchema);
 export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
     z
         .object({
-            type: z.literal(ReportType.COMPANY)
+            type: z.literal(
+                ReportType.COMPANY ||
+                    ReportType.CLIENT ||
+                    ReportType.DELIVERY_AGENT ||
+                    ReportType.GOVERNORATE ||
+                    ReportType.BRANCH
+            )
         })
         .merge(
             OrdersFiltersSchema.extend({
@@ -74,87 +80,6 @@ export const ReportCreateOrdersFiltersSchema = z.discriminatedUnion("type", [
                     )
                 ),
                 companyID: z.coerce.number()
-            })
-        ),
-
-    z
-        .object({
-            type: z.literal(ReportType.DELIVERY_AGENT)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                deliveryAgentID: z.coerce.number()
-            })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.GOVERNORATE)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                governorate: z.nativeEnum(Governorate)
-            })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.BRANCH)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                branchID: z.coerce.number()
-            })
-        ),
-    z
-        .object({
-            type: z.literal(ReportType.CLIENT)
-        })
-        .merge(
-            OrdersFiltersSchema.extend({
-                statuses: z.preprocess(
-                    (val) => {
-                        if (typeof val === "string") {
-                            return val.split(",");
-                        }
-                        return val;
-                    },
-                    z.array(
-                        z.enum([OrderStatus.DELIVERED, OrderStatus.PARTIALLY_RETURNED, OrderStatus.REPLACED])
-                    )
-                ),
-                storeID: z.coerce.number()
             })
         ),
     z
