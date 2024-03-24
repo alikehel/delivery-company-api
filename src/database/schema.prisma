@@ -320,6 +320,7 @@ model Location {
   company                 Company                   @relation(fields: [companyId], references: [id])
   companyId               Int
   deliveryAgentsLocations DeliveryAgentsLocations[]
+  remote                  Boolean                   @default(false)
   // inquiryEmployeesLocations InquiryEmployeesLocations[]
 }
 

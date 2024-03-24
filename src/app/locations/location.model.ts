@@ -8,6 +8,7 @@ const locationSelect = {
     name: true,
     governorate: true,
     branch: true,
+    remote: true,
     deliveryAgentsLocations: {
         select: {
             deliveryAgent: {
@@ -52,7 +53,8 @@ const locationReform = (
                 phone: deliveryAgent.deliveryAgent.phone
             };
         }),
-        company: location.company
+        company: location.company,
+        remote: location.remote
     };
 };
 
@@ -62,6 +64,7 @@ export class LocationModel {
             data: {
                 name: data.name,
                 governorate: data.governorate,
+                remote: data.remote,
                 branch: {
                     connect: {
                         id: data.branchID
@@ -229,6 +232,7 @@ export class LocationModel {
             data: {
                 name: data.locationData.name,
                 governorate: data.locationData.governorate,
+                remote: data.locationData.remote,
                 branch: data.locationData.branchID
                     ? {
                           connect: {
