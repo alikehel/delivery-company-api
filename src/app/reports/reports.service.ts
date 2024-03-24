@@ -450,6 +450,18 @@ export class ReportsService {
                     }
                     return acc;
                 }, 0),
+                baghdadOrdersCount: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + (report.baghdadOrdersCount || 0);
+                    }
+                    return acc;
+                }, 0),
+                governoratesOrdersCount: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + (report.governoratesOrdersCount || 0);
+                    }
+                    return acc;
+                }, 0),
                 date: new Date(),
                 count: reports.length
             };

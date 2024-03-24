@@ -12,7 +12,7 @@ export const generateHTML = async (template: string, data: object) => {
             return phones.join("\n");
         });
         handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
-        handlebars.registerHelper("add", (v1, v2) => parseInt(v1) || 0 + parseInt(v2) || 0);
+        handlebars.registerHelper("add", (v1, v2) => (parseInt(v1) || 0) + (parseInt(v2) || 0));
         handlebars.registerHelper("currency", (value) => {
             return Number(value || 0).toLocaleString("en-GB");
         });

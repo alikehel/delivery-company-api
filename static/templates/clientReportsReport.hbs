@@ -11,19 +11,23 @@
 	<header>
 		<table>
 			<tr>
-				<td style="width: 33%;">الشركة: <span>{{reportsData.company.name}}</span></td>
-				<td style="width: 33%;" class="title">تقرير كشوفات عميل</td>
-				<td style="width: 33%;" rowspan="3"><img src="{{reportsData.company.logo}}" /></td>
+				<td style="width: 25%;">الشركة: <span>{{reportsData.company.name}}</span></td>
+				<td style="width: 25%;" class="title">تقرير كشوفات عميل</td>
+				<td style="width: 25%;">عدد الطلبيات: <span>{{add reportsData.baghdadOrdersCount
+						reportsData.governoratesOrdersCount}}</span></td>
+				<td style="width: 25%;" rowspan="3"><img src="{{reportsData.company.logo}}" /></td>
 			</tr>
 			<tr>
-				<td style="width: 33%;">صافي الشركة: <span>{{currency reportsData.companyNet}}</span></td>
-				<td style="width: 33%;">عدد الكشوفات: <span>{{reportsData.count}}</span></td>
-				<td style="width: 33%;"></td>
+				<td style="width: 25%;">صافي الشركة: <span>{{currency reportsData.companyNet}}</span></td>
+				<td style="width: 25%;">عدد الكشوفات: <span>{{reportsData.count}}</span></td>
+				<td style="width: 25%;">عدد طلبيات بغداد: <span>{{reportsData.baghdadOrdersCount}}</span></td>
+				<td style="width: 25%;"></td>
 			</tr>
 			<tr>
-				<td style="width: 33%;">صافي العميل: <span>{{currency reportsData.clientNet}}</span></td>
-				<td style="width: 33%;">التاريخ: <span>{{date reportsData.date}}</span></td>
-				<td style="width: 33%;"></td>
+				<td style="width: 25%;">صافي العميل: <span>{{currency reportsData.clientNet}}</span></td>
+				<td style="width: 25%;">التاريخ: <span>{{date reportsData.date}}</span></td>
+				<td style="width: 25%;">عدد طلبيات المحافظات: <span>{{reportsData.governoratesOrdersCount}}</span></td>
+				<td style="width: 25%;"></td>
 			</tr>
 		</table>
 	</header>
