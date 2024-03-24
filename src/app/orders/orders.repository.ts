@@ -174,6 +174,38 @@ export class OrdersRepository {
                 )?.cost || 0;
         }
 
+        // Add Additional costs
+
+        const companyAdditionalPrices = await prisma.company.findUnique({
+            where: {
+                id: data.companyID
+            },
+            select: {
+                additionalPriceForEvery500000IraqiDinar: true,
+                additionalPriceForEveryKilogram: true,
+                additionalPriceForRemoteAreas: true
+            }
+        });
+
+        const location = await prisma.location.findUnique({
+            where: {
+                id: data.orderData.locationID
+            },
+            select: {
+                remote: true
+            }
+        });
+
+        totalCost += companyAdditionalPrices?.additionalPriceForEvery500000IraqiDinar
+            ? companyAdditionalPrices?.additionalPriceForEvery500000IraqiDinar * Math.ceil(totalCost / 500000)
+            : 0;
+        totalCost += companyAdditionalPrices?.additionalPriceForEveryKilogram
+            ? weight * companyAdditionalPrices?.additionalPriceForEveryKilogram
+            : 0;
+        totalCost += location?.remote ? companyAdditionalPrices?.additionalPriceForRemoteAreas || 0 : 0;
+
+        // Create order
+
         const createdOrder = await prisma.order.create({
             data: {
                 totalCost: data.orderData.withProducts === false ? data.orderData.totalCost : totalCost,
