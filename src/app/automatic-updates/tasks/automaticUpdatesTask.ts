@@ -118,6 +118,7 @@ export const automaticUpdatesTask = async () => {
                         },
                         data: {
                             status: automaticUpdate.newOrderStatus,
+                            secondaryStatus: automaticUpdate.returnCondition,
                             timeline: timeline,
                             automaticUpdate: {
                                 connect: {
