@@ -1,5 +1,6 @@
 import { Governorate, OrderStatus, Prisma, PrismaClient } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
+import { loggedInUserType } from "../../types/user";
 import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
 import {
     OrderCreateType,
@@ -13,7 +14,12 @@ import { orderReform, orderSelect, statisticsReformed } from "./orders.responses
 const prisma = new PrismaClient();
 
 export class OrdersRepository {
-    async createOrder(data: { companyID: number; clientID: number; orderData: OrderCreateType }) {
+    async createOrder(data: {
+        companyID: number;
+        clientID: number;
+        loggedInUser: loggedInUserType;
+        orderData: OrderCreateType;
+    }) {
         let totalCost = 0;
         let quantity = 0;
         let weight = 0;
@@ -252,9 +258,27 @@ export class OrdersRepository {
                 },
                 company: {
                     connect: {
-                        id: data.companyID
+                        id: data.orderData.forwardedCompanyID
+                            ? data.orderData.forwardedCompanyID
+                            : data.companyID
                     }
                 },
+                forwarded: data.orderData.forwardedCompanyID ? true : undefined,
+                forwardedBy: data.orderData.forwardedCompanyID
+                    ? {
+                          connect: {
+                              id: data.loggedInUser.id
+                          }
+                      }
+                    : undefined,
+                forwardedAt: data.orderData.forwardedCompanyID ? new Date() : undefined,
+                forwardedFrom: data.orderData.forwardedCompanyID
+                    ? {
+                          connect: {
+                              id: data.companyID
+                          }
+                      }
+                    : undefined,
                 client: {
                     connect: {
                         id: data.clientID
@@ -648,6 +672,19 @@ export class OrdersRepository {
                         repository: {
                             id: data.filters.repositoryID
                         }
+                    },
+                    {
+                        forwarded: data.filters.forwarded
+                    },
+                    {
+                        forwardedBy: {
+                            id: data.filters.forwardedByID
+                        }
+                    },
+                    {
+                        forwardedFrom: {
+                            id: data.filters.forwardedFromID
+                        }
                     }
                 ]
             }
@@ -950,6 +987,19 @@ export class OrdersRepository {
                     repository: {
                         id: data.filters.repositoryID
                     }
+                },
+                {
+                    forwarded: data.filters.forwarded
+                },
+                {
+                    forwardedBy: {
+                        id: data.filters.forwardedByID
+                    }
+                },
+                {
+                    forwardedFrom: {
+                        id: data.filters.forwardedFromID
+                    }
                 }
             ]
         } satisfies Prisma.OrderWhereInput;
@@ -1155,7 +1205,7 @@ export class OrdersRepository {
         }
     }
 
-    async updateOrder(data: { orderID: number; orderData: OrderUpdateType }) {
+    async updateOrder(data: { orderID: number; orderData: OrderUpdateType; loggedInUser: loggedInUserType }) {
         // Calculate order costs
         let deliveryAgentCost = 0;
         let companyNet = 0;
@@ -1222,6 +1272,29 @@ export class OrdersRepository {
                 confirmed: data.orderData.confirmed,
                 details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
+                company: {
+                    connect: {
+                        id: data.orderData.forwardedCompanyID
+                            ? data.orderData.forwardedCompanyID
+                            : (data.loggedInUser.companyID as number)
+                    }
+                },
+                forwarded: data.orderData.forwardedCompanyID ? true : undefined,
+                forwardedBy: data.orderData.forwardedCompanyID
+                    ? {
+                          connect: {
+                              id: data.loggedInUser.id
+                          }
+                      }
+                    : undefined,
+                forwardedAt: data.orderData.forwardedCompanyID ? new Date() : undefined,
+                forwardedFrom: data.orderData.forwardedCompanyID
+                    ? {
+                          connect: {
+                              id: data.loggedInUser.companyID as number
+                          }
+                      }
+                    : undefined,
                 deliveryAgent: data.orderData.deliveryAgentID
                     ? {
                           connect: {

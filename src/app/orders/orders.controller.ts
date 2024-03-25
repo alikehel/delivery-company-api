@@ -73,7 +73,10 @@ export class OrdersController {
             notes: req.query.notes,
             deleted: req.query.deleted,
             orderID: req.query.order_id,
-            minified: req.query.minified
+            minified: req.query.minified,
+            forwarded: req.query.forwarded,
+            forwardedByID: req.query.forwarded_by_id,
+            forwardedFromID: req.query.forwarded_from_id
         });
 
         const { orders, ordersMetaData, page, pagesCount } = await ordersService.getAllOrders({

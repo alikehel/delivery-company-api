@@ -31,7 +31,8 @@ export const OrderCreateBaseSchema = z.object({
     repositoryID: z.coerce.number().optional(),
     branchID: z.coerce.number().optional(),
     clientID: z.coerce.number().optional(),
-    inquiryEmployeesIDs: z.array(z.coerce.number()).optional()
+    inquiryEmployeesIDs: z.array(z.coerce.number()).optional(),
+    forwardedCompanyID: z.coerce.number().optional()
 });
 
 export const OrderCreateSchema = z
@@ -79,10 +80,7 @@ export const OrderUpdateSchema = z
         deliveryDate: z.coerce.date(),
         recipientName: z.string(),
         recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)),
-        recipientPhone: z
-            .string()
-            .regex(/^07[3-9][0-9]{8}$/)
-            ,
+        recipientPhone: z.string().regex(/^07[3-9][0-9]{8}$/),
         recipientAddress: z.string(),
         notes: z.string(),
         details: z.string(),
@@ -90,7 +88,8 @@ export const OrderUpdateSchema = z
         branchID: z.coerce.number(),
         currentLocation: z.string(),
         clientID: z.coerce.number(),
-        inquiryEmployeesIDs: z.array(z.coerce.number())
+        inquiryEmployeesIDs: z.array(z.coerce.number()),
+        forwardedCompanyID: z.coerce.number().optional()
     })
     .partial();
 
@@ -226,6 +225,13 @@ export const OrdersFiltersSchema = z.object({
         if (val === "false") return false;
         return val;
     }, z.boolean().optional()),
+    forwarded: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    forwardedByID: z.coerce.number().optional(),
+    forwardedFromID: z.coerce.number().optional(),
     clientID: z.coerce.number().optional(),
     deliveryAgentID: z.coerce.number().optional(),
     companyID: z.coerce.number().optional(),

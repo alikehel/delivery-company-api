@@ -46,6 +46,7 @@ export class OrdersService {
                 const createdOrder = await ordersRepository.createOrder({
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
+                    loggedInUser: data.loggedInUser,
                     orderData: { ...order, confirmed }
                 });
                 if (!createdOrder) {
@@ -65,6 +66,7 @@ export class OrdersService {
         const createdOrder = await ordersRepository.createOrder({
             companyID: data.loggedInUser.companyID as number,
             clientID,
+            loggedInUser: data.loggedInUser,
             orderData: { ...data.orderOrOrdersData, confirmed }
         });
         return createdOrder;
@@ -216,6 +218,7 @@ export class OrdersService {
 
         const newOrder = await ordersRepository.updateOrder({
             orderID: data.params.orderID,
+            loggedInUser: data.loggedInUser,
             orderData: data.orderData
         });
 

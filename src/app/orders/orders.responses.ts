@@ -26,6 +26,27 @@ export const orderSelect = {
     createdAt: true,
     updatedAt: true,
     timeline: true,
+    forwarded: true,
+    forwardedAt: true,
+    forwardedBy: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true
+                }
+            }
+        }
+    },
+    forwardedFrom: {
+        select: {
+            id: true,
+            name: true,
+            logo: true,
+            registrationText: true
+        }
+    },
     client: {
         select: {
             user: {
@@ -207,6 +228,7 @@ export const orderReform = (
                   deliveryCost: order.deliveryAgent.deliveryCost
               }
             : undefined,
+        forwardedBy: order.forwardedBy?.user,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
         deletedAt: order.deletedAt?.toISOString(),

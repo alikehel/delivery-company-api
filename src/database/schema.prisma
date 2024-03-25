@@ -206,6 +206,8 @@ model Employee {
   // orderId     Int?
   ordersInquiryEmployees OrdersInquiryEmployees[]
 
+  forwardedOrders Order[] @relation("forwardedBy")
+
   // @@unique([companyId, phone])
 }
 
@@ -380,6 +382,7 @@ model Company {
   banners                                 Banner[]
   CompanyReport                           CompanyReport[]
   automaticUpdates                        AutomaticUpdate[]
+  forwardedOrders                         Order[]           @relation("forwardedFrom")
 }
 
 model Order {
@@ -441,6 +444,13 @@ model Order {
   companyId             Int
   repositoryId          Int?
   branchId              Int?
+
+  forwarded       Boolean   @default(false)
+  forwardedAt     DateTime?
+  forwardedBy     Employee? @relation("forwardedBy", fields: [forwardedById], references: [id])
+  forwardedById   Int?
+  forwardedFrom   Company?  @relation("forwardedFrom", fields: [forwardedFromId], references: [id])
+  forwardedFromId Int?
 
   deleted                Boolean                  @default(false)
   deletedAt              DateTime?
