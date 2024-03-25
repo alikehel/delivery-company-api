@@ -28,12 +28,11 @@ export const orderSelect = {
     timeline: true,
     client: {
         select: {
-            phone: true,
             user: {
                 select: {
                     id: true,
                     name: true,
-                    // phone: true
+                    phone: true
                 }
             }
         }
@@ -41,12 +40,11 @@ export const orderSelect = {
     deliveryAgent: {
         select: {
             deliveryCost: true,
-            phone: true,
             user: {
                 select: {
                     id: true,
                     name: true,
-                    // phone: true
+                    phone: true
                 }
             }
         }
@@ -63,12 +61,11 @@ export const orderSelect = {
         select: {
             inquiryEmployee: {
                 select: {
-                    phone: true,
                     user: {
                         select: {
                             id: true,
                             name: true,
-                            // phone: true,
+                            phone: true,
                             avatar: true
                         }
                     }
@@ -200,13 +197,13 @@ export const orderReform = (
         client: {
             id: order.client?.user.id,
             name: order.client?.user.name,
-            phone: order.client?.phone
+            phone: order.client?.user.phone
         },
         deliveryAgent: order.deliveryAgent
             ? {
                   id: order.deliveryAgent.user.id,
                   name: order.deliveryAgent.user.name,
-                  phone: order.deliveryAgent.phone,
+                  phone: order.deliveryAgent.user.phone,
                   deliveryCost: order.deliveryAgent.deliveryCost
               }
             : undefined,
@@ -248,7 +245,7 @@ export const orderReform = (
             return {
                 id: orderInquiryEmployee.inquiryEmployee.user.id,
                 name: orderInquiryEmployee.inquiryEmployee.user.name,
-                phone: orderInquiryEmployee.inquiryEmployee.phone,
+                phone: orderInquiryEmployee.inquiryEmployee.user.phone,
                 avatar: orderInquiryEmployee.inquiryEmployee.user.avatar
             };
         })

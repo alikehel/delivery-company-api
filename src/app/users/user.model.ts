@@ -8,9 +8,9 @@ const userSelect = {
     avatar: true,
     name: true,
     username: true,
+    phone: true,
     employee: {
         select: {
-            phone: true,
             role: true,
             company: {
                 select: {
@@ -24,7 +24,6 @@ const userSelect = {
     },
     client: {
         select: {
-            phone: true,
             role: true,
             company: {
                 select: {
@@ -57,7 +56,7 @@ const userSelectReform = (
         avatar: user.avatar || "",
         name: user.name,
         username: user.username,
-        phone: user.employee?.phone || user.client?.phone || "",
+        phone: user.phone,
         role: user.employee?.role || user.client?.role || user.admin?.role || "",
         company: user.employee?.company || user.client?.company || null
     };

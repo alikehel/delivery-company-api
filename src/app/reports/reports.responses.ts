@@ -37,12 +37,11 @@ export const reportSelect = {
                             name: true
                         }
                     },
-                    phone: true,
                     user: {
                         select: {
                             id: true,
-                            name: true
-                            // phone: true
+                            name: true,
+                            phone: true
                         }
                     }
                 }
@@ -188,7 +187,7 @@ export const reportReform = (
         clientReport: report.clientReport && {
             reportNumber: report.clientReport.id,
             clientReportOrders: report.clientReport.orders,
-            client: { ...report.clientReport.client.user, phone: report.clientReport.client.phone },
+            client: report.clientReport.client.user,
             store: report.clientReport.store,
             branch: report.clientReport.client.branch
         },

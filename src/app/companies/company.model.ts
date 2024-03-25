@@ -60,15 +60,14 @@ export class CompanyModel {
                 orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate,
                 employees: {
                     create: {
-                        user:{
+                        user: {
                             create: {
                                 username: data.companyManager.username,
                                 name: data.companyManager.name,
                                 password: data.companyManager.password,
-                                phone: data.companyManager.phone,
+                                phone: data.companyManager.phone
                             }
                         },
-                        phone: data.companyManager.phone,
                         role: "COMPANY_MANAGER"
                     }
                 }

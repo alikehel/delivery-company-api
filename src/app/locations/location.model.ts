@@ -13,12 +13,11 @@ const locationSelect = {
         select: {
             deliveryAgent: {
                 select: {
-                    phone: true,
                     user: {
                         select: {
                             id: true,
-                            name: true
-                            // phone: true
+                            name: true,
+                            phone: true
                         }
                     }
                 }
@@ -50,7 +49,7 @@ const locationReform = (
             return {
                 id: deliveryAgent.deliveryAgent.user.id,
                 name: deliveryAgent.deliveryAgent.user.name,
-                phone: deliveryAgent.deliveryAgent.phone
+                phone: deliveryAgent.deliveryAgent.user.phone
             };
         }),
         company: location.company,
