@@ -297,7 +297,7 @@ export class OrdersRepository {
                           })
                       }
                     : undefined,
-                confirmed: data.orderData.confirmed,
+                confirmed: data.orderData.forwardedCompanyID ? false : data.orderData.confirmed,
                 orderProducts:
                     data.orderData.withProducts === false
                         ? undefined
@@ -1269,7 +1269,7 @@ export class OrdersRepository {
                 currentLocation: data.orderData.currentLocation,
                 status: data.orderData.status,
                 secondaryStatus: data.orderData.secondaryStatus,
-                confirmed: data.orderData.confirmed,
+                confirmed: data.orderData.forwardedCompanyID ? false : data.orderData.confirmed,
                 details: data.orderData.details,
                 deliveryDate: data.orderData.deliveryDate,
                 company: {
