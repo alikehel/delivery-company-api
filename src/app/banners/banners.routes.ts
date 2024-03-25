@@ -41,7 +41,7 @@ router.route("/banners").get(
         AdminRole.ADMIN,
         AdminRole.ADMIN_ASSISTANT,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT,
+        EmployeeRole.CLIENT_ASSISTANT,
         // TODO: Remove later
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
@@ -71,7 +71,7 @@ router.route("/banners/:bannerID").get(
         AdminRole.ADMIN,
         AdminRole.ADMIN_ASSISTANT,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     getBanner
     /*

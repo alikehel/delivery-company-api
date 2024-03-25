@@ -119,7 +119,7 @@ const albarq1ClientAssistant = {
     name: "مساعد عميل",
     password: "password",
     phone: "07345678909",
-    role: ClientRole.CLIENT_ASSISTANT
+    role: EmployeeRole.CLIENT_ASSISTANT
 };
 
 export default {

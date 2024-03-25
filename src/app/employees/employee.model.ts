@@ -42,6 +42,12 @@ const employeeSelect = {
             orders: true
             // deliveryAgentsLocations: true
         }
+    },
+    managedStores: {
+        select: {
+            id: true,
+            name: true
+        }
     }
 } satisfies Prisma.EmployeeSelect;
 
@@ -72,7 +78,8 @@ const employeeReform = (
         deletedAt: employee.deletedAt?.toISOString(),
         ordersCount: employee._count.orders,
         createdAt: employee.user.createdAt.toISOString(),
-        updatedAt: employee.user.updatedAt.toISOString()
+        updatedAt: employee.user.updatedAt.toISOString(),
+        managedStores: employee.managedStores
         // deliveryAgentsLocationsCount: employee._count.deliveryAgentsLocations
     };
 };
@@ -115,6 +122,15 @@ export class EmployeeModel {
                           connect: {
                               id: data.repositoryID
                           }
+                      }
+                    : undefined,
+                managedStores: data.storesIDs
+                    ? {
+                          connect: data.storesIDs.map((storeID) => {
+                              return {
+                                  id: storeID
+                              };
+                          })
                       }
                     : undefined
             },
@@ -332,6 +348,15 @@ export class EmployeeModel {
                           connect: {
                               id: data.employeeData.repositoryID
                           }
+                      }
+                    : undefined,
+                managedStores: data.employeeData.storesIDs
+                    ? {
+                          connect: data.employeeData.storesIDs.map((storeID) => {
+                              return {
+                                  id: storeID
+                              };
+                          })
                       }
                     : undefined
             },

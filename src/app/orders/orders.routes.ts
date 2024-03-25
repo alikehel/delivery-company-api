@@ -17,7 +17,7 @@ router.route("/orders").post(
             EmployeeRole.DATA_ENTRY,
             EmployeeRole.ACCOUNTANT,
             ClientRole.CLIENT,
-            ClientRole.CLIENT_ASSISTANT
+            EmployeeRole.CLIENT_ASSISTANT
         ],
         [Permission.ADD_ORDER]
     ),
@@ -195,7 +195,7 @@ router.route("/orders/statistics").get(
         AdminRole.ADMIN_ASSISTANT,
         EmployeeRole.COMPANY_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT,
+        EmployeeRole.CLIENT_ASSISTANT,
         // TODO: Remove later
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
@@ -412,7 +412,7 @@ router.route("/orders/:orderID/deactivate").patch(
             AdminRole.ADMIN,
             AdminRole.ADMIN_ASSISTANT,
             ClientRole.CLIENT,
-            ClientRole.CLIENT_ASSISTANT
+            EmployeeRole.CLIENT_ASSISTANT
         ],
         [Permission.DELETE_ORDER]
     ),

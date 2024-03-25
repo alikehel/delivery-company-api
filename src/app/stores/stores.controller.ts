@@ -1,4 +1,4 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, EmployeeRole } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
@@ -35,12 +35,21 @@ export const getAllStores = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const clientID = req.query.client_id ? +req.query.client_id : undefined;
+
+    let clientAssistantID = req.query.client_assistant_id ? +req.query.client_assistant_id : undefined;
+    if (loggedInUser.role === EmployeeRole.CLIENT_ASSISTANT) {
+        clientAssistantID = loggedInUser.id;
+    }
+
     const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const deleted = (req.query.deleted as string) || "false";
 
     const storesCount = await storeModel.getStoresCount({
         deleted: deleted,
+        clientID,
+        clientAssistantID,
         companyID: companyID
     });
     let size = req.query.size ? +req.query.size : 10;
@@ -74,6 +83,8 @@ export const getAllStores = catchAsync(async (req, res) => {
 
     const stores = await storeModel.getAllStores(skip, take, {
         deleted: deleted,
+        clientID,
+        clientAssistantID,
         companyID: companyID,
         minified: minified
     });

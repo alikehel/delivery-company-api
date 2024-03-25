@@ -18,6 +18,16 @@ const storeSelect = {
             }
         }
     },
+    clientAssistant: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
     company: {
         select: {
             id: true,
@@ -53,6 +63,12 @@ const storeSelectReform = (
                   name: store.client.user.name
               }
             : undefined,
+        clientAssistant: store.clientAssistant
+            ? {
+                  id: store.clientAssistant.user.id,
+                  name: store.clientAssistant.user.name
+              }
+            : undefined,
         company: store.company,
         deleted: store.deleted,
         deletedBy: store.deleted && store.deletedBy,
@@ -76,7 +92,14 @@ export class StoreModel {
                     connect: {
                         id: data.clientID
                     }
-                }
+                },
+                clientAssistant: data.clientAssistantID
+                    ? {
+                          connect: {
+                              id: data.clientAssistantID
+                          }
+                      }
+                    : undefined
             },
             select: storeSelect
         });
@@ -85,11 +108,24 @@ export class StoreModel {
 
     async getStoresCount(filters: {
         deleted?: string;
+        clientID?: number;
+        clientAssistantID?: number;
         companyID?: number;
     }) {
         const storesCount = await prisma.store.count({
             where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+                AND: [
+                    { deleted: filters.deleted === "true" },
+                    { company: { id: filters.companyID } },
+                    {
+                        client: filters.clientID ? { id: filters.clientID } : undefined
+                    },
+                    {
+                        clientAssistant: filters.clientAssistantID
+                            ? { id: filters.clientAssistantID }
+                            : undefined
+                    }
+                ]
             }
         });
         return storesCount;
@@ -98,10 +134,25 @@ export class StoreModel {
     async getAllStores(
         skip: number,
         take: number,
-        filters: { deleted?: string; companyID?: number; minified?: boolean }
+        filters: {
+            deleted?: string;
+            clientID?: number;
+            clientAssistantID?: number;
+            companyID?: number;
+            minified?: boolean;
+        }
     ) {
         const where = {
-            AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+            AND: [
+                { deleted: filters.deleted === "true" },
+                { company: { id: filters.companyID } },
+                {
+                    client: filters.clientID ? { id: filters.clientID } : undefined
+                },
+                {
+                    clientAssistant: filters.clientAssistantID ? { id: filters.clientAssistantID } : undefined
+                }
+            ]
         };
 
         if (filters.minified === true) {
@@ -153,6 +204,13 @@ export class StoreModel {
                     ? {
                           connect: {
                               id: data.storeData.clientID
+                          }
+                      }
+                    : undefined,
+                clientAssistant: data.storeData.clientAssistantID
+                    ? {
+                          connect: {
+                              id: data.storeData.clientAssistantID
                           }
                       }
                     : undefined

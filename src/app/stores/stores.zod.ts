@@ -5,6 +5,7 @@ import { z } from "zod";
 export const StoreCreateSchema = z.object({
     name: z.string().min(3),
     clientID: z.coerce.number(),
+    clientAssistantID: z.coerce.number().optional(),
     notes: z.string().optional(),
     logo: z.string().optional()
 });

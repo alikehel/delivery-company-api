@@ -24,11 +24,11 @@ enum EmployeeRole {
   DATA_ENTRY
   REPOSITORIY_EMPLOYEE
   INQUIRY_EMPLOYEE
+  CLIENT_ASSISTANT
 }
 
 enum ClientRole {
   CLIENT
-  CLIENT_ASSISTANT
 }
 
 enum Permission {
@@ -186,6 +186,8 @@ model Employee {
   orders  Order[]
   clients Client[]
 
+  managedStores Store[]
+
   user User @relation(fields: [id], references: [id])
 
   repository Repository? @relation(fields: [repositoryId], references: [id])
@@ -221,7 +223,7 @@ model Client {
   repositoryId Int?
   // userId       Int     @unique
 
-  role ClientRole
+  role ClientRole @default(CLIENT)
 
   orders Order[]
   stores Store[]
@@ -269,6 +271,9 @@ model Store {
   deletedBy   User?     @relation("deletedBy", fields: [deletedById], references: [id])
   deletedById Int?
   products    Product[]
+
+  clientAssistant   Employee? @relation(fields: [clientAssistantId], references: [id])
+  clientAssistantId Int?
 }
 
 model Branch {
