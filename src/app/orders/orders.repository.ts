@@ -478,7 +478,7 @@ export class OrdersRepository {
                     // Filter by companyID
                     {
                         company: {
-                            id: data.filters.companyID
+                            id: data.filters.forwardedFromID ? undefined : data.filters.companyID
                         }
                     },
                     // Filter by orderID
@@ -790,7 +790,7 @@ export class OrdersRepository {
                 // Filter by companyID
                 {
                     company: {
-                        id: data.filters.companyID
+                        id: data.filters.forwardedFromID ? undefined : data.filters.companyID
                     }
                 },
                 {
