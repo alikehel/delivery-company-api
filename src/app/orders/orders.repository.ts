@@ -193,22 +193,25 @@ export class OrdersRepository {
             }
         });
 
-        const location = await prisma.location.findUnique({
-            where: {
-                id: data.orderData.locationID
-            },
-            select: {
-                remote: true
-            }
-        });
-
         totalCost += companyAdditionalPrices?.additionalPriceForEvery500000IraqiDinar
             ? companyAdditionalPrices?.additionalPriceForEvery500000IraqiDinar * Math.ceil(totalCost / 500000)
             : 0;
         totalCost += companyAdditionalPrices?.additionalPriceForEveryKilogram
             ? weight * companyAdditionalPrices?.additionalPriceForEveryKilogram
             : 0;
-        totalCost += location?.remote ? companyAdditionalPrices?.additionalPriceForRemoteAreas || 0 : 0;
+
+        if (data.orderData.locationID) {
+            const location = await prisma.location.findUnique({
+                where: {
+                    id: data.orderData.locationID
+                },
+                select: {
+                    remote: true
+                }
+            });
+
+            totalCost += location?.remote ? companyAdditionalPrices?.additionalPriceForRemoteAreas || 0 : 0;
+        }
 
         // Create order
 
