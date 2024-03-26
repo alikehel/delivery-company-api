@@ -1,7 +1,6 @@
 import { Governorate, OrderStatus, Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
-import { calculatePagesCount, calculateSkip } from "../../lib/pagination";
 import { loggedInUserType } from "../../types/user";
 import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
 import {
@@ -697,26 +696,35 @@ export class OrdersRepository {
         } satisfies Prisma.OrderWhereInput;
 
         if (data.filters.minified === true) {
-            const orders = await prisma.order.findMany({
-                skip: calculateSkip(data.filters.page, data.filters.size),
-                take: data.filters.size,
-                where: where,
-                select: {
-                    id: true
+            const paginatedOrders = await prisma.order.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true
+                    }
+                },
+                {
+                    page: data.filters.page,
+                    size: data.filters.size
                 }
-            });
-            return { orders: orders };
+            );
+            return { orders: paginatedOrders.data, pagesCount: paginatedOrders.pagesCount };
         }
 
-        const orders = await prisma.order.findMany({
-            skip: calculateSkip(data.filters.page, data.filters.size),
-            take: data.filters.size,
-            where: where,
-            orderBy: {
-                [data.filters.sort.split(":")[0]]: data.filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+        const paginatedOrders = await prisma.order.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    [data.filters.sort.split(":")[0]]:
+                        data.filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+                },
+                select: orderSelect
             },
-            select: orderSelect
-        });
+            {
+                page: data.filters.page,
+                size: data.filters.size
+            }
+        );
 
         const ordersMetaDataAggregate = await prisma.order.aggregate({
             where: where,
@@ -741,7 +749,7 @@ export class OrdersRepository {
             }
         });
 
-        const ordersReformed = orders.map(orderReform);
+        const ordersReformed = paginatedOrders.data.map(orderReform);
 
         const ordersMetaDataGroupByStatusReformed = (
             Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
@@ -770,7 +778,7 @@ export class OrdersRepository {
         return {
             orders: ordersReformed,
             ordersMetaData: ordersMetaDataReformed,
-            pagesCount: calculatePagesCount(ordersMetaDataAggregate._count.id, data.filters.size)
+            pagesCount: paginatedOrders.pagesCount
         };
     }
 
