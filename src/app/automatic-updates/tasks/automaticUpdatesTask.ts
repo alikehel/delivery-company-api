@@ -1,10 +1,9 @@
-import { OrderStatus, PrismaClient } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
+import { prisma } from "../../../database/db";
 import { localizeOrderStatus } from "../../../lib/localize";
 import { Logger } from "../../../lib/logger";
 import { sendNotification } from "../../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../../orders/orders.dto";
-
-const prisma = new PrismaClient();
 
 export const automaticUpdatesTask = async () => {
     try {

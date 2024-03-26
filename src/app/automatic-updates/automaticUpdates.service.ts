@@ -1,4 +1,5 @@
-import { AdminRole, PrismaClient } from "@prisma/client";
+import { AdminRole } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import {
@@ -7,8 +8,6 @@ import {
     AutomaticUpdatesFiltersType
 } from "./automaticUpdates.dto";
 import { automaticUpdateSelect } from "./automaticUpdates.responses";
-
-const prisma = new PrismaClient();
 
 export class AutomaticUpdatesService {
     async createAutomaticUpdate(data: {

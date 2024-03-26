@@ -1,7 +1,6 @@
-import { EmployeeRole, Permission, Prisma, PrismaClient } from "@prisma/client";
+import { EmployeeRole, Permission, Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
-
-const prisma = new PrismaClient();
 
 const employeeSelect = {
     salary: true,

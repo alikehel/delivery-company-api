@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 // import { UserCreateType, UserUpdateType } from "./users.zod";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../database/db";
 
 const userSelect = {
     id: true,

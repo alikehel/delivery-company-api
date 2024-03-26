@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { CompanyCreateType, CompanyUpdateType } from "./companies.zod";
-
-const prisma = new PrismaClient();
 
 const companySelect = {
     id: true,

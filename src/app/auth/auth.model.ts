@@ -1,7 +1,6 @@
-import { AdminRole, ClientRole, EmployeeRole, Prisma, PrismaClient } from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole, Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { UserSigninType } from "./auth.zod";
-
-const prisma = new PrismaClient();
 
 const userSelect = {
     id: true,

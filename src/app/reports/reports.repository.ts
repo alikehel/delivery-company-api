@@ -1,10 +1,9 @@
-import { PrismaClient, ReportType } from "@prisma/client";
+import { ReportType } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { ReportCreateType, ReportUpdateType, ReportsFiltersType } from "./reports.dto";
 import { reportReform, reportSelect } from "./reports.responses";
-
-const prisma = new PrismaClient();
 
 export class ReportsRepository {
     async createReport(data: {

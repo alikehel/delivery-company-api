@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { BannerCreateType, BannerUpdateType } from "./banners.zod";
-
-const prisma = new PrismaClient();
 
 const bannerSelect = {
     id: true,
