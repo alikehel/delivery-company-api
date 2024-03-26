@@ -22,6 +22,8 @@ export class ReportController {
             deliveryAgentID: req.query.delivery_agent_id,
             companyID: req.query.company_id,
             sort: "receiptNumber:asc",
+            page: req.query.page,
+            size: req.query.size,
             startDate: req.query.start_date,
             endDate: req.query.end_date,
             governorate: req.query.governorate,
