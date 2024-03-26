@@ -35,8 +35,6 @@ export class ReportsService {
         if (data.reportData.ordersIDs === "*") {
             orders = (
                 await ordersRepository.getAllOrders({
-                    take: 2000,
-                    skip: 0,
                     filters: data.ordersFilters
                 })
             ).orders as ReturnType<typeof orderReform>[];
