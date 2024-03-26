@@ -33,7 +33,7 @@ export const prisma = new PrismaClient()
                     data: Prisma.Result<Model, Args, "findMany">;
                     dataCount: number;
                     pagesCount: number;
-                    currentPage: number;
+                    currentPage?: number;
                 }> {
                     const data = (await prisma.$transaction([
                         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -49,8 +49,8 @@ export const prisma = new PrismaClient()
                     return {
                         data: data[0],
                         dataCount: data[1],
-                        pagesCount: calculatePagesCount(data[1], pagination.size),
-                        currentPage: pagination.page
+                        // currentPage: pagination.page,
+                        pagesCount: calculatePagesCount(data[1], pagination.size)
                     };
                 }
             }

@@ -137,18 +137,16 @@ export class LocationModel {
         return locationsCount;
     }
 
-    async getAllLocations(
-        skip: number,
-        take: number,
-        filters: {
-            search?: string;
-            branchID?: number;
-            governorate?: Governorate;
-            deliveryAgentID?: number;
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
+    async getAllLocations(filters: {
+        page: number;
+        size: number;
+        search?: string;
+        branchID?: number;
+        governorate?: Governorate;
+        deliveryAgentID?: number;
+        companyID?: number;
+        minified?: boolean;
+    }) {
         const where = {
             AND: [
                 {
@@ -184,29 +182,43 @@ export class LocationModel {
         };
 
         if (filters.minified === true) {
-            const locations = await prisma.location.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    name: true
+            const paginatedLocations = await prisma.location.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return locations;
+            );
+            return {
+                locations: paginatedLocations.data,
+                pagesCount: paginatedLocations.pagesCount
+            };
         }
 
-        const locations = await prisma.location.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                id: "desc"
+        const paginatedLocations = await prisma.location.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: locationSelect
             },
-            select: locationSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return locations.map(locationReform);
+        return {
+            locations: paginatedLocations.data.map(locationReform),
+            pagesCount: paginatedLocations.pagesCount
+        };
     }
 
     async getLocation(data: { locationID: number }) {

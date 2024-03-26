@@ -1,5 +1,4 @@
 import { AdminRole, Governorate } from "@prisma/client";
-import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { LocationModel } from "./location.model";
@@ -39,43 +38,18 @@ export const getAllLocations = catchAsync(async (req, res) => {
 
     const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
-    const locationsCount = await locationModel.getLocationsCount({
-        search: search,
-        branchID: branchID,
-        governorate: governorate,
-        deliveryAgentID: deliveryAgentID,
-        companyID: companyID
-    });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
         size = 10;
     }
-    const pagesCount = Math.ceil(locationsCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
-    }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const locations = await locationModel.getAllLocations(skip, take, {
+    const { locations, pagesCount } = await locationModel.getAllLocations({
+        page: page,
+        size: size,
         search: search,
         branchID: branchID,
         governorate: governorate,
