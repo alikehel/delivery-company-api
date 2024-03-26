@@ -88,103 +88,23 @@ export class OrdersService {
         //     Object.keys(AdminRole).includes(data.loggedInUser.role) && data.filters.companyID
         //         ? data.filters.companyID
         //         : data.loggedInUser.companyID || undefined;\
-
         const companyID = data.filters.companyID
             ? data.filters.companyID
             : data.loggedInUser.companyID || undefined;
 
-        // Pagination
-        const ordersCount = await ordersRepository.getOrdersCount({ filters: data.filters });
         let size = data.filters.size;
         if (size > 50 && data.filters.minified !== true) {
             size = 10;
         }
-        const pagesCount = Math.ceil(ordersCount / size);
 
-        // TODO: Fix this hard coded code
-        if (pagesCount === 0) {
-            return {
-                page: 1,
-                pagesCount: 1,
-                orders: [],
-                ordersMetaData: {
-                    count: 0,
-                    totalCost: 0,
-                    paidAmount: 0,
-                    clientNet: 0,
-                    deliveryAgentNet: 0,
-                    companyNet: 0,
-                    deliveryCost: 0,
-                    countByStatus: [
-                        {
-                            status: "REGISTERED",
-                            count: 0
-                        },
-                        {
-                            status: "READY_TO_SEND",
-                            count: 0
-                        },
-                        {
-                            status: "WITH_DELIVERY_AGENT",
-                            count: 0
-                        },
-                        {
-                            status: "DELIVERED",
-                            count: 0
-                        },
-                        {
-                            status: "REPLACED",
-                            count: 0
-                        },
-                        {
-                            status: "PARTIALLY_RETURNED",
-                            count: 0
-                        },
-                        {
-                            status: "RETURNED",
-                            count: 0
-                        },
-                        {
-                            status: "POSTPONED",
-                            count: 0
-                        },
-                        {
-                            status: "CHANGE_ADDRESS",
-                            count: 0
-                        },
-                        {
-                            status: "RESEND",
-                            count: 0
-                        },
-                        {
-                            status: "WITH_RECEIVING_AGENT",
-                            count: 0
-                        },
-                        {
-                            status: "PROCESSING",
-                            count: 0
-                        }
-                    ]
-                }
-            };
-        }
-
-        if (data.filters.page > pagesCount) {
-            throw new AppError("Page number out of range", 400);
-        }
-        const take = data.filters.page * size;
-        const skip = (data.filters.page - 1) * size;
-
-        const { orders, ordersMetaData } = await ordersRepository.getAllOrders({
-            skip,
-            take,
-            filters: { ...data.filters, clientID, deliveryAgentID, companyID }
+        const { orders, ordersMetaData, pagesCount } = await ordersRepository.getAllOrders({
+            filters: { ...data.filters, clientID, deliveryAgentID, companyID, size }
         });
 
         return {
             page: data.filters.page,
-            pagesCount,
-            orders,
+            pagesCount: pagesCount,
+            orders: orders,
             ordersMetaData: ordersMetaData
         };
     };
@@ -496,9 +416,7 @@ export class OrdersService {
         if (data.ordersData.ordersIDs === "*") {
             orders = (
                 await ordersRepository.getAllOrders({
-                    take: 2000,
-                    skip: 0,
-                    filters: { ...data.ordersFilters }
+                    filters: { ...data.ordersFilters, size: 5000 }
                 })
             ).orders as ReturnType<typeof orderReform>[];
 
