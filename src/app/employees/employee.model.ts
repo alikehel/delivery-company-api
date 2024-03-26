@@ -352,7 +352,7 @@ export class EmployeeModel {
                     : undefined,
                 managedStores: data.employeeData.storesIDs
                     ? {
-                          connect: data.employeeData.storesIDs.map((storeID) => {
+                          set: data.employeeData.storesIDs.map((storeID) => {
                               return {
                                   id: storeID
                               };
