@@ -66,7 +66,7 @@ export class SizeModel {
                     size: filters.size
                 }
             );
-            return { sizes: paginatedSizes, pagesCount: paginatedSizes.pagesCount };
+            return { sizes: paginatedSizes.data, pagesCount: paginatedSizes.pagesCount };
         }
 
         const paginatedSizes = await prisma.size.findManyPaginated(
@@ -83,7 +83,7 @@ export class SizeModel {
             }
         );
 
-        return { sizes: paginatedSizes, pagesCount: paginatedSizes.pagesCount };
+        return { sizes: paginatedSizes.data, pagesCount: paginatedSizes.pagesCount };
     }
 
     async getSize(data: { sizeID: number }) {

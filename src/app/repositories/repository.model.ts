@@ -71,7 +71,7 @@ export class RepositoryModel {
                     size: filters.size
                 }
             );
-            return { repositories: paginatedRepositories, pagesCount: paginatedRepositories.pagesCount };
+            return { repositories: paginatedRepositories.data, pagesCount: paginatedRepositories.pagesCount };
         }
 
         const paginatedRepositories = await prisma.repository.findManyPaginated(
@@ -88,7 +88,7 @@ export class RepositoryModel {
             }
         );
 
-        return { repositories: paginatedRepositories, pagesCount: paginatedRepositories.pagesCount };
+        return { repositories: paginatedRepositories.data, pagesCount: paginatedRepositories.pagesCount };
     }
 
     async getRepository(data: { repositoryID: number }) {

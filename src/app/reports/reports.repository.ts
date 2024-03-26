@@ -289,7 +289,7 @@ export class ReportsRepository {
                 }
             );
             return {
-                reports: { reports: paginatedReports, pagesCount: paginatedReports.pagesCount }
+                reports: { reports: paginatedReports.data, pagesCount: paginatedReports.pagesCount }
             };
         }
 
