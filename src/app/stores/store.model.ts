@@ -141,7 +141,7 @@ export class StoreModel {
                     size: filters.size
                 }
             );
-            return { stores: paginatedStores, pagesCount: paginatedStores.pagesCount };
+            return { stores: paginatedStores.data, pagesCount: paginatedStores.pagesCount };
         }
 
         const paginatedStores = await prisma.store.findManyPaginated(
