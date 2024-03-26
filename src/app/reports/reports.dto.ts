@@ -78,7 +78,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    companyID: z.coerce.number()
+                    companyID: z.coerce.number(),
+                    companyReport: z.string()
                 })
             ),
 
@@ -103,7 +104,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    deliveryAgentID: z.coerce.number()
+                    deliveryAgentID: z.coerce.number(),
+                    deliveryAgentReport: z.string()
                 })
             ),
         z
@@ -127,7 +129,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    governorate: z.nativeEnum(Governorate)
+                    governorate: z.nativeEnum(Governorate),
+                    governorateReport: z.string()
                 })
             ),
         z
@@ -151,7 +154,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    branchID: z.coerce.number()
+                    branchID: z.coerce.number(),
+                    branchReport: z.string()
                 })
             ),
         z
@@ -175,7 +179,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    storeID: z.coerce.number()
+                    storeID: z.coerce.number(),
+                    clientReport: z.string()
                 })
             ),
         z
@@ -199,7 +204,8 @@ export const ReportCreateOrdersFiltersSchema = z
                             ])
                         )
                     ),
-                    repositoryID: z.coerce.number()
+                    repositoryID: z.coerce.number(),
+                    repositoryReport: z.string()
                 })
             )
     ])
