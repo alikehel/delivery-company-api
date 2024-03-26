@@ -1,6 +1,5 @@
 import { AdminRole } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import {
     AutomaticUpdateCreateType,
@@ -49,11 +48,6 @@ export class AutomaticUpdatesService {
             companyID = data.loggedInUser.companyID;
         }
 
-        // let size: number;
-        // if (data.filters.size > 50 && data.filters.minified !== true) {
-        //     size = 10;
-        // }
-
         const where = {
             company: {
                 id: companyID
@@ -68,74 +62,82 @@ export class AutomaticUpdatesService {
             newOrderStatus: data.filters.newOrderStatus
         };
 
-        const automaticUpdatesCount = await prisma.automaticUpdate.count({
-            where: where
-        });
-        const pagesCount = Math.ceil(automaticUpdatesCount / data.filters.size);
+        // const automaticUpdatesCount = await prisma.automaticUpdate.count({
+        //     where: where
+        // });
+        // const pagesCount = Math.ceil(automaticUpdatesCount / data.filters.size);
 
-        if (pagesCount === 0) {
-            return {
-                automaticUpdates: [],
-                automaticUpdatesMetaData: {
-                    page: 1,
-                    pagesCount: 1
-                }
-            };
-        }
+        // if (pagesCount === 0) {
+        //     return {
+        //         automaticUpdates: [],
+        //         automaticUpdatesMetaData: {
+        //             page: 1,
+        //             pagesCount: 1
+        //         }
+        //     };
+        // }
 
-        if (data.filters.page > pagesCount) {
-            throw new AppError("Page number out of range", 400);
-        }
-        const take = data.filters.page * data.filters.size;
-        const skip = (data.filters.page - 1) * data.filters.size;
+        // if (data.filters.page > pagesCount) {
+        //     throw new AppError("Page number out of range", 400);
+        // }
+        // const take = data.filters.page * data.filters.size;
+        // const skip = (data.filters.page - 1) * data.filters.size;
 
         if (data.filters.minified === true) {
-            const automaticUpdates = await prisma.automaticUpdate.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    orderStatus: true,
-                    governorate: true,
-                    branch: {
-                        select: {
-                            id: true,
-                            name: true
+            const paginatedAutomaticUpdates = await prisma.automaticUpdate.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        orderStatus: true,
+                        governorate: true,
+                        branch: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
                         }
                     }
+                },
+                {
+                    page: data.filters.page,
+                    size: data.filters.size
                 }
-            });
+            );
             return {
-                automaticUpdates: automaticUpdates,
+                automaticUpdates: paginatedAutomaticUpdates.data,
                 automaticUpdatesMetaData: {
                     page: data.filters.page,
-                    pagesCount: pagesCount
+                    pagesCount: paginatedAutomaticUpdates.pagesCount
                 }
             };
         }
 
-        const automaticUpdates = await prisma.automaticUpdate.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: [
-                { orderStatus: "asc" },
-                { governorate: "asc" },
-                {
-                    branch: {
-                        name: "asc"
+        const paginatedAutomaticUpdates = await prisma.automaticUpdate.findManyPaginated(
+            {
+                where: where,
+                orderBy: [
+                    { orderStatus: "asc" },
+                    { governorate: "asc" },
+                    {
+                        branch: {
+                            name: "asc"
+                        }
                     }
-                }
-            ],
-            select: automaticUpdateSelect
-        });
+                ],
+                select: automaticUpdateSelect
+            },
+            {
+                page: data.filters.page,
+                size: data.filters.size
+            }
+        );
 
         return {
-            automaticUpdates: automaticUpdates,
+            automaticUpdates: paginatedAutomaticUpdates.data,
             automaticUpdatesMetaData: {
                 page: data.filters.page,
-                pagesCount: pagesCount
+                pagesCount: paginatedAutomaticUpdates.pagesCount
             }
         };
     }
