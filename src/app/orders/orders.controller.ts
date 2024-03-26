@@ -47,6 +47,8 @@ export class OrdersController {
             automaticUpdateID: req.query.automatic_update_id,
             search: req.query.search,
             sort: req.query.sort,
+            page: req.query.page,
+            size: req.query.size,
             confirmed: req.query.confirmed,
             startDate: req.query.start_date,
             endDate: req.query.end_date,
