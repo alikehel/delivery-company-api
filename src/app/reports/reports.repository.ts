@@ -141,143 +141,9 @@ export class ReportsRepository {
         throw new AppError("Invalid report type", 400);
     }
 
-    async getReportsCount(data: { filters: ReportsFiltersType }) {
-        const reportsCount = await prisma.report.count({
-            where: {
-                AND: [
-                    {
-                        OR: [
-                            {
-                                deliveryAgentReport: data.filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: data.filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                clientReport: data.filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: data.filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                repositoryReport: data.filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: data.filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                branchReport: data.filters.branch
-                                    ? {
-                                          orders: {
-                                              some: {
-                                                  branch: {
-                                                      id: data.filters.branch
-                                                  }
-                                              }
-                                          }
-                                      }
-                                    : undefined
-                            }
-                        ]
-                    },
-                    {
-                        createdAt: {
-                            gte: data.filters.startDate
-                        }
-                    },
-                    {
-                        createdAt: {
-                            lte: data.filters.endDate
-                        }
-                    },
-                    {
-                        clientReport: {
-                            clientId: data.filters.clientID
-                        }
-                    },
-                    {
-                        clientReport: {
-                            storeId: data.filters.storeID
-                        }
-                    },
-                    {
-                        repositoryReport: {
-                            repositoryId: data.filters.repositoryID
-                        }
-                    },
-                    {
-                        branchReport: {
-                            branchId: data.filters.branchID
-                        }
-                    },
-                    {
-                        deliveryAgentReport: {
-                            deliveryAgentId: data.filters.deliveryAgentID
-                        }
-                    },
-                    {
-                        governorateReport: {
-                            governorate: data.filters.governorate
-                        }
-                    },
-                    {
-                        // TODO: fix this: Report type filter vs company filter
-                        companyReport: data.filters.companyID
-                            ? {
-                                  companyId: data.filters.companyID
-                              }
-                            : undefined
-                    },
-                    {
-                        status: data.filters.status
-                    },
-                    {
-                        type: data.filters.type
-                    },
-                    {
-                        type: { in: data.filters.types }
-                    },
-                    {
-                        deleted: data.filters.deleted
-                    },
-                    {
-                        company: {
-                            id: data.filters.company
-                        }
-                    },
-                    {
-                        createdBy: {
-                            id: data.filters.createdByID
-                        }
-                    }
-                ]
-            }
-        });
-        return reportsCount;
-    }
-
-    async getAllReports(data: { skip: number; take: number; filters: ReportsFiltersType }) {
+    async getAllReportsPaginated(data: {
+        filters: ReportsFiltersType;
+    }) {
         const where = {
             AND: [
                 {
@@ -410,28 +276,39 @@ export class ReportsRepository {
         };
 
         if (data.filters.minified === true) {
-            const reports = await prisma.report.findMany({
-                skip: data.skip,
-                take: data.take,
-                where: where,
-                select: {
-                    id: true
+            const paginatedReports = await prisma.report.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true
+                    }
+                },
+                {
+                    page: data.filters.page,
+                    size: data.filters.size
                 }
-            });
+            );
             return {
-                reports: reports
+                reports: { reports: paginatedReports, pagesCount: paginatedReports.pagesCount }
             };
         }
 
-        const reports = await prisma.report.findMany({
-            skip: data.skip,
-            take: data.take,
-            where: where,
-            orderBy: {
-                [data.filters.sort.split(":")[0]]: data.filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+        const paginatedReports = await prisma.report.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    [data.filters.sort.split(":")[0]]:
+                        data.filters.sort.split(":")[1] === "desc" ? "desc" : "asc"
+                },
+                select: reportSelect
             },
-            select: reportSelect
-        });
+            {
+                page: data.filters.page,
+                size: data.filters.size
+            }
+        );
+
+        const reportsReformed = paginatedReports.data.map((report) => reportReform(report));
 
         const reportsMetaData = await prisma.report.aggregate({
             where: where,
@@ -450,8 +327,6 @@ export class ReportsRepository {
             }
         });
 
-        const reportsReformed = reports.map((report) => reportReform(report));
-
         const reportsMetaDataReformed = {
             reportsCount: reportsMetaData._count.id,
             totalCost: reportsMetaData._sum.totalCost,
@@ -466,7 +341,8 @@ export class ReportsRepository {
 
         return {
             reports: reportsReformed,
-            reportsMetaData: reportsMetaDataReformed
+            reportsMetaData: reportsMetaDataReformed,
+            pagesCount: paginatedReports.pagesCount
         };
 
         // return reports.map((report) => reportReform(report));

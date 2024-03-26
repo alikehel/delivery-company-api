@@ -76,40 +76,41 @@ export class CompanyModel {
         return createdCompany;
     }
 
-    async getCompaniesCount() {
-        const companiesCount = await prisma.company.count();
-        return companiesCount;
-    }
-
-    async getAllCompanies(
-        skip: number,
-        take: number,
-        filters: {
-            minified?: boolean;
-        }
-    ) {
+    async getAllCompaniesPaginated(filters: {
+        page: number;
+        size: number;
+        minified?: boolean;
+    }) {
         if (filters.minified === true) {
-            const companies = await prisma.company.findMany({
-                skip: skip,
-                take: take,
-                select: {
-                    id: true,
-                    name: true
+            const paginatedCompanies = await prisma.company.findManyPaginated(
+                {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return companies;
+            );
+            return { companies: paginatedCompanies.data, pagesCount: paginatedCompanies.pagesCount };
         }
 
-        const companies = await prisma.company.findMany({
-            skip: skip,
-            take: take,
-            orderBy: {
-                name: "asc"
+        const paginatedCompanies = await prisma.company.findManyPaginated(
+            {
+                orderBy: {
+                    name: "asc"
+                },
+                select: companySelect
             },
-            select: companySelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return companies;
+        return { companies: paginatedCompanies.data, pagesCount: paginatedCompanies.pagesCount };
     }
 
     async getCompany(data: { companyID: number }) {

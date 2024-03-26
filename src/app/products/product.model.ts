@@ -153,38 +153,13 @@ export class ProductModel {
         return createdProduct;
     }
 
-    async getProductsCount(filters: {
+    async getAllProductsPaginated(filters: {
+        page: number;
+        size: number;
         storeID?: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const productsCount = await prisma.product.count({
-            where: {
-                AND: [
-                    {
-                        store: {
-                            id: filters.storeID
-                        }
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            }
-        });
-        return productsCount;
-    }
-
-    async getAllProducts(
-        skip: number,
-        take: number,
-        filters: {
-            storeID?: number;
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
         const where = {
             AND: [
                 {
@@ -201,53 +176,61 @@ export class ProductModel {
         };
 
         if (filters.minified === true) {
-            const products = await prisma.product.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    title: true,
-                    price: true,
-                    stock: true,
-                    productColors: {
-                        select: {
-                            quantity: true,
-                            color: {
-                                select: {
-                                    id: true,
-                                    title: true
+            const paginatedProducts = await prisma.product.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true,
+                        price: true,
+                        stock: true,
+                        productColors: {
+                            select: {
+                                quantity: true,
+                                color: {
+                                    select: {
+                                        id: true,
+                                        title: true
+                                    }
                                 }
                             }
-                        }
-                    },
-                    productSizes: {
-                        select: {
-                            quantity: true,
-                            size: {
-                                select: {
-                                    id: true,
-                                    title: true
+                        },
+                        productSizes: {
+                            select: {
+                                quantity: true,
+                                size: {
+                                    select: {
+                                        id: true,
+                                        title: true
+                                    }
                                 }
                             }
                         }
                     }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return products;
+            );
+            return { products: paginatedProducts.data, pagesCount: paginatedProducts.pagesCount };
         }
 
-        const products = await prisma.product.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                id: "desc"
+        const paginatedProducts = await prisma.product.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: productSelect
             },
-            select: productSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return products;
+        return { products: paginatedProducts.data, pagesCount: paginatedProducts.pagesCount };
     }
 
     async getProduct(data: { productID: number }) {

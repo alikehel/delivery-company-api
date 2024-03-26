@@ -83,49 +83,18 @@ export const getAllEmployees = catchAsync(async (req, res) => {
 
     const deleted = (req.query.deleted as string) || "false";
 
-    const employeesCount = await employeeModel.getEmployeesCount({
-        roles: roles,
-        role: role,
-        locationID: locationID,
-        branchID: branchID,
-        deleted: deleted,
-        ordersStartDate: ordersStartDate,
-        ordersEndDate: ordersEndDate,
-        companyID: companyID,
-        permissions: permissions
-    });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
         size = 10;
     }
-    const pagesCount = Math.ceil(employeesCount / size);
-
-    if (pagesCount === 0) {
-        // console.log(roles);
-
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
-    }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const employees = await employeeModel.getAllEmployees(skip, take, {
+    const { employees, pagesCount } = await employeeModel.getAllEmployeesPaginated({
+        page: page,
+        size: size,
         roles: roles,
         role: role,
         locationID: locationID,

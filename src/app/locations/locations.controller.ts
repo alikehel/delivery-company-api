@@ -47,7 +47,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
         page = +req.query.page;
     }
 
-    const { locations, pagesCount } = await locationModel.getAllLocations({
+    const { locations, pagesCount } = await locationModel.getAllLocationsPaginated({
         page: page,
         size: size,
         search: search,

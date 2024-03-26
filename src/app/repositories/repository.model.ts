@@ -45,27 +45,12 @@ export class RepositoryModel {
         return createdRepository;
     }
 
-    async getRepositoriesCount(filters: {
+    async getAllRepositoriesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const repositoriesCount = await prisma.repository.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return repositoriesCount;
-    }
-
-    async getAllRepositories(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
         const where = {
             company: {
                 id: filters.companyID
@@ -73,29 +58,37 @@ export class RepositoryModel {
         };
 
         if (filters.minified === true) {
-            const repositories = await prisma.repository.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    name: true
+            const paginatedRepositories = await prisma.repository.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return repositories;
+            );
+            return { repositories: paginatedRepositories, pagesCount: paginatedRepositories.pagesCount };
         }
 
-        const repositories = await prisma.repository.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                name: "asc"
+        const paginatedRepositories = await prisma.repository.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    name: "asc"
+                },
+                select: repositorySelect
             },
-            select: repositorySelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return repositories;
+        return { repositories: paginatedRepositories, pagesCount: paginatedRepositories.pagesCount };
     }
 
     async getRepository(data: { repositoryID: number }) {

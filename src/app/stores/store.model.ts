@@ -105,42 +105,15 @@ export class StoreModel {
         return storeSelectReform(createdStore);
     }
 
-    async getStoresCount(filters: {
+    async getAllStoresPaginated(filters: {
+        page: number;
+        size: number;
         deleted?: string;
         clientID?: number;
         clientAssistantID?: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const storesCount = await prisma.store.count({
-            where: {
-                AND: [
-                    { deleted: filters.deleted === "true" },
-                    { company: { id: filters.companyID } },
-                    {
-                        client: filters.clientID ? { id: filters.clientID } : undefined
-                    },
-                    {
-                        clientAssistant: filters.clientAssistantID
-                            ? { id: filters.clientAssistantID }
-                            : undefined
-                    }
-                ]
-            }
-        });
-        return storesCount;
-    }
-
-    async getAllStores(
-        skip: number,
-        take: number,
-        filters: {
-            deleted?: string;
-            clientID?: number;
-            clientAssistantID?: number;
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
         const where = {
             AND: [
                 { deleted: filters.deleted === "true" },
@@ -155,29 +128,40 @@ export class StoreModel {
         };
 
         if (filters.minified === true) {
-            const stores = await prisma.store.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    name: true
+            const paginatedStores = await prisma.store.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return stores;
+            );
+            return { stores: paginatedStores, pagesCount: paginatedStores.pagesCount };
         }
 
-        const stores = await prisma.store.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                id: "desc"
+        const paginatedStores = await prisma.store.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: storeSelect
             },
-            select: storeSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return stores.map(storeSelectReform);
+        return {
+            stores: paginatedStores.data.map(storeSelectReform),
+            pagesCount: paginatedStores.pagesCount
+        };
     }
 
     async getStore(data: { storeID: number }) {

@@ -34,8 +34,8 @@ export class ReportsService {
         let ordersIDs: number[] = [];
         if (data.reportData.ordersIDs === "*") {
             orders = (
-                await ordersRepository.getAllOrders({
-                    filters: data.ordersFilters
+                await ordersRepository.getAllOrdersPaginated({
+                    filters: { ...data.ordersFilters, size: 5000 }
                 })
             ).orders as ReturnType<typeof orderReform>[];
 
@@ -316,39 +316,17 @@ export class ReportsService {
             deliveryAgentID = undefined;
         }
 
-        const reportsCount = await reportsRepository.getReportsCount({
-            filters: { ...data.filters, company, branch, clientID, deliveryAgentID }
-        });
         let size = data.filters.size ? +data.filters.size : 10;
         if (size > 50 && data.filters.minified !== true) {
             size = 10;
         }
-        const pagesCount = Math.ceil(reportsCount / size);
-
-        if (pagesCount === 0) {
-            // res.status(200).json({
-            //     status: "success",
-            //     page: 1,
-            //     pagesCount: 1,
-            //     data: []
-            // });
-            return { pagesCount };
-        }
-
         let page = 1;
         if (data.filters.page && !Number.isNaN(+data.filters.page) && +data.filters.page > 0) {
             page = +data.filters.page;
         }
-        if (page > pagesCount) {
-            throw new AppError("Page number out of range", 400);
-        }
-        const take = page * size;
-        const skip = (page - 1) * size;
 
-        const { reports, reportsMetaData } = await reportsRepository.getAllReports({
-            skip,
-            take,
-            filters: { ...data.filters, company, branch, clientID, deliveryAgentID }
+        const { reports, reportsMetaData, pagesCount } = await reportsRepository.getAllReportsPaginated({
+            filters: { ...data.filters, company, branch, clientID, deliveryAgentID, size }
         });
 
         return { page, pagesCount, reports, reportsMetaData };
@@ -412,10 +390,8 @@ export class ReportsService {
         let reportsIDs: number[] = [];
         if (data.reportsData.reportsIDs === "*") {
             reports = (
-                await reportsRepository.getAllReports({
-                    take: 2000,
-                    skip: 0,
-                    filters: { ...data.reportsFilters, type: data.reportsData.type }
+                await reportsRepository.getAllReportsPaginated({
+                    filters: { ...data.reportsFilters, type: data.reportsData.type, size: 5000 }
                 })
             ).reports as ReturnType<typeof reportReform>[];
 

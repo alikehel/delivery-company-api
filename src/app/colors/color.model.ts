@@ -42,27 +42,12 @@ export class ColorModel {
         return createdColor;
     }
 
-    async getColorsCount(filters: {
+    async getAllColorsPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const colorsCount = await prisma.color.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return colorsCount;
-    }
-
-    async getAllColors(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
         const where = {
             company: {
                 id: filters.companyID
@@ -70,29 +55,43 @@ export class ColorModel {
         };
 
         if (filters.minified === true) {
-            const colors = await prisma.color.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    title: true
+            const paginatedColors = await prisma.color.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return colors;
+            );
+            return {
+                colors: paginatedColors.data,
+                pagesCount: paginatedColors.pagesCount
+            };
         }
 
-        const colors = await prisma.color.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                id: "desc"
+        const paginatedColors = await prisma.color.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: colorSelect
             },
-            select: colorSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return colors;
+        return {
+            colors: paginatedColors.data,
+            pagesCount: paginatedColors.pagesCount
+        };
     }
 
     async getColor(data: { colorID: number }) {

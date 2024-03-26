@@ -48,40 +48,18 @@ export const getAllProducts = catchAsync(async (req, res) => {
 
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    const productsCount = await productModel.getProductsCount({
-        companyID: companyID,
-        storeID: storeID
-    });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
         size = 10;
     }
-    const pagesCount = Math.ceil(productsCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
-    }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const products = await productModel.getAllProducts(skip, take, {
+    const { products, pagesCount } = await productModel.getAllProductsPaginated({
+        page: page,
+        size: size,
         storeID: storeID,
         companyID: companyID,
         minified: minified

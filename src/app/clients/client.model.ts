@@ -144,9 +144,12 @@ export class ClientModel {
         return clientReform(createdClient);
     }
 
-    async getClientsCount(filters: {
+    async getAllClientsPaginated(filters: {
+        page: number;
+        size: number;
         deleted?: string;
         companyID?: number;
+        minified?: boolean;
         storeID?: number;
     }) {
         const where = {
@@ -157,59 +160,54 @@ export class ClientModel {
                 { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
             ]
         };
-        const clientsCount = await prisma.client.count({
-            where: where
-        });
-        return clientsCount;
-    }
-
-    async getAllClients(
-        skip: number,
-        take: number,
-        filters: { deleted?: string; companyID?: number; minified?: boolean; storeID?: number }
-    ) {
-        const where = {
-            AND: [
-                { deleted: filters.deleted === "true" },
-                { company: { id: filters.companyID } },
-                // TODO
-                { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
-            ]
-        };
 
         if (filters.minified === true) {
-            const clients = await prisma.client.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    user: {
-                        select: {
-                            name: true
+            const paginatedClients = await prisma.client.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        user: {
+                            select: {
+                                name: true
+                            }
                         }
                     }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return clients.map((client) => {
-                return {
-                    id: client.id,
-                    name: client.user.name
-                };
-            });
+            );
+            return {
+                clients: paginatedClients.data.map((client) => {
+                    return {
+                        id: client.id,
+                        name: client.user.name
+                    };
+                }),
+                pagesCount: paginatedClients.pagesCount
+            };
         }
 
-        const clients = await prisma.client.findMany({
-            skip: skip,
-            take: take,
-            orderBy: {
-                id: "desc"
+        const paginatedClients = await prisma.client.findManyPaginated(
+            {
+                orderBy: {
+                    id: "desc"
+                },
+                where: where,
+                select: clientSelect
             },
-            where: where,
-            select: clientSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return clients.map(clientReform);
+        return {
+            clients: paginatedClients.data.map(clientReform),
+            pagesCount: paginatedClients.pagesCount
+        };
     }
 
     async getClient(data: { clientID: number }) {

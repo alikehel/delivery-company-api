@@ -1,5 +1,4 @@
 import { AdminRole } from "@prisma/client";
-import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { SizeModel } from "./size.model";
@@ -31,39 +30,18 @@ export const getAllSizes = catchAsync(async (req, res) => {
 
     const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
-    const sizesCount = await sizeModel.getSizesCount({
-        companyID: companyID
-    });
     let size = req.query.size ? +req.query.size : 10;
     if (size > 50 && minified !== true) {
         size = 10;
     }
-    const pagesCount = Math.ceil(sizesCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
-    }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const sizes = await sizeModel.getAllSizes(skip, take, {
+    const { sizes, pagesCount } = await sizeModel.getAllSizesPaginated({
+        page: page,
+        size: size,
         companyID: companyID,
         minified: minified
     });

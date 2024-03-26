@@ -47,7 +47,9 @@ export class BranchModel {
         return createdBranch;
     }
 
-    async getBranchesCount(filters: {
+    async getAllBranchesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
         governorate?: Governorate;
         locationID?: number;
@@ -67,60 +69,38 @@ export class BranchModel {
                 : undefined
         };
 
-        const branchesCount = await prisma.branch.count({
-            where: where
-        });
-        return branchesCount;
-    }
-
-    async getAllBranches(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-            governorate?: Governorate;
-            locationID?: number;
-            minified?: boolean;
-        }
-    ) {
-        const where = {
-            company: {
-                id: filters.companyID
-            },
-            governorate: filters.governorate,
-            locations: filters.locationID
-                ? {
-                      some: {
-                          id: filters.locationID
-                      }
-                  }
-                : undefined
-        };
-
         if (filters.minified === true) {
-            const branches = await prisma.branch.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    name: true
+            const paginatedBranches = await prisma.branch.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return branches;
+            );
+            return { branches: paginatedBranches.data, pagesCount: paginatedBranches.pagesCount };
         }
 
-        const branches = await prisma.branch.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                name: "asc"
+        const paginatedBranches = await prisma.branch.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    name: "asc"
+                },
+                select: branchSelect
             },
-            select: branchSelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return branches;
+        return { branches: paginatedBranches.data, pagesCount: paginatedBranches.pagesCount };
     }
 
     async getBranch(data: { branchID: number }) {

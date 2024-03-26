@@ -97,7 +97,7 @@ export class OrdersService {
             size = 10;
         }
 
-        const { orders, ordersMetaData, pagesCount } = await ordersRepository.getAllOrders({
+        const { orders, ordersMetaData, pagesCount } = await ordersRepository.getAllOrdersPaginated({
             filters: { ...data.filters, clientID, deliveryAgentID, companyID, size }
         });
 
@@ -415,7 +415,7 @@ export class OrdersService {
         let ordersIDs: number[] = [];
         if (data.ordersData.ordersIDs === "*") {
             orders = (
-                await ordersRepository.getAllOrders({
+                await ordersRepository.getAllOrdersPaginated({
                     filters: { ...data.ordersFilters, size: 5000 }
                 })
             ).orders as ReturnType<typeof orderReform>[];

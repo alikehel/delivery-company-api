@@ -40,27 +40,12 @@ export class CategoryModel {
         return createdCategory;
     }
 
-    async getCategoriesCount(filters: {
+    async getAllCategoriesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const categoriesCount = await prisma.category.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return categoriesCount;
-    }
-
-    async getAllCategories(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-            minified?: boolean;
-        }
-    ) {
         const where = {
             company: {
                 id: filters.companyID
@@ -68,29 +53,37 @@ export class CategoryModel {
         };
 
         if (filters.minified === true) {
-            const categories = await prisma.category.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    title: true
+            const paginatedCategories = await prisma.category.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
-            });
-            return categories;
+            );
+            return { categories: paginatedCategories.data, pagesCount: paginatedCategories.pagesCount };
         }
 
-        const categories = await prisma.category.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                title: "asc"
+        const paginatedCategories = await prisma.category.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    title: "asc"
+                },
+                select: categorySelect
             },
-            select: categorySelect
-        });
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
 
-        return categories;
+        return { categories: paginatedCategories.data, pagesCount: paginatedCategories.pagesCount };
     }
 
     async getCategory(data: { categoryID: number }) {

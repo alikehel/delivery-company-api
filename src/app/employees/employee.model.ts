@@ -138,7 +138,9 @@ export class EmployeeModel {
         return employeeReform(createdEmployee);
     }
 
-    async getEmployeesCount(filters: {
+    async getAllEmployeesPaginated(filters: {
+        page: number;
+        size: number;
         roles?: EmployeeRole[];
         role?: EmployeeRole;
         branchID?: number;
@@ -147,68 +149,9 @@ export class EmployeeModel {
         ordersStartDate?: Date;
         ordersEndDate?: Date;
         companyID?: number;
+        minified?: boolean;
         permissions?: Permission[];
     }) {
-        const employeesCount = await prisma.employee.count({
-            where: {
-                AND: [
-                    {
-                        permissions: filters.permissions
-                            ? {
-                                  hasEvery: filters.permissions
-                              }
-                            : undefined
-                    },
-                    { role: { in: filters.roles } },
-                    { role: filters.role },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        deliveryAgentsLocations: filters.locationID
-                            ? filters.roles?.find((role) => {
-                                  return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
-                              })
-                                ? {
-                                      some: {
-                                          location: {
-                                              id: filters.locationID
-                                          }
-                                      }
-                                  }
-                                : undefined
-                            : undefined
-                    },
-                    { deleted: filters.deleted === "true" },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            }
-        });
-        return employeesCount;
-    }
-
-    async getAllEmployees(
-        skip: number,
-        take: number,
-        filters: {
-            roles?: EmployeeRole[];
-            role?: EmployeeRole;
-            branchID?: number;
-            locationID?: number;
-            deleted?: string;
-            ordersStartDate?: Date;
-            ordersEndDate?: Date;
-            companyID?: number;
-            minified?: boolean;
-            permissions?: Permission[];
-        }
-    ) {
         const where = {
             AND: [
                 { permissions: filters.permissions ? { hasEvery: filters.permissions } : undefined },
@@ -244,55 +187,69 @@ export class EmployeeModel {
         };
 
         if (filters.minified === true) {
-            const employees = await prisma.employee.findMany({
-                skip: skip,
-                take: take,
-                where: where,
-                select: {
-                    id: true,
-                    user: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
-            });
-            return employees.map((employee) => {
-                return {
-                    id: employee.id,
-                    name: employee.user.name
-                };
-            });
-        }
-
-        const employees = await prisma.employee.findMany({
-            skip: skip,
-            take: take,
-            where: where,
-            orderBy: {
-                id: "desc"
-            },
-            select: {
-                ...employeeSelect,
-                _count: {
+            const employees = await prisma.employee.findManyPaginated(
+                {
+                    where: where,
                     select: {
-                        orders: {
-                            where: {
-                                createdAt: {
-                                    gte: filters.ordersStartDate,
-                                    lte: filters.ordersEndDate
-                                },
-                                confirmed: true,
-                                deleted: false
+                        id: true,
+                        user: {
+                            select: {
+                                name: true
                             }
                         }
-                        // deliveryAgentsLocations: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return {
+                employees: employees.data.map((employee) => {
+                    return {
+                        id: employee.id,
+                        name: employee.user.name
+                    };
+                }),
+                pagesCount: employees.pagesCount
+            };
+        }
+
+        const employees = await prisma.employee.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: {
+                    ...employeeSelect,
+                    _count: {
+                        select: {
+                            orders: {
+                                where: {
+                                    createdAt: {
+                                        gte: filters.ordersStartDate,
+                                        lte: filters.ordersEndDate
+                                    },
+                                    confirmed: true,
+                                    deleted: false
+                                }
+                            }
+                            // deliveryAgentsLocations: true
+                        }
                     }
                 }
+            },
+            {
+                page: filters.page,
+                size: filters.size
             }
-        });
+        );
 
-        return employees.map(employeeReform);
+        return {
+            employees: employees.data.map(employeeReform),
+            pagesCount: employees.pagesCount
+        };
     }
 
     async getEmployee(data: { employeeID: number }) {

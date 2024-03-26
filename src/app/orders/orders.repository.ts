@@ -386,7 +386,7 @@ export class OrdersRepository {
         return orderReform(createdOrder);
     }
 
-    async getAllOrders(data: {
+    async getAllOrdersPaginated(data: {
         filters: OrdersFiltersType | ReportCreateOrdersFiltersType;
     }) {
         const where = {
