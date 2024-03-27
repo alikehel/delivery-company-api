@@ -20,7 +20,7 @@ export const createLocation = catchAsync(async (req, res) => {
 
 export const getAllLocations = catchAsync(async (req, res) => {
     // Filters
-    const loggedInUser = res.locals.user as loggedInUserType;
+    // const loggedInUser = res.locals.user as loggedInUserType;
     // let companyID: number | undefined;
     // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
     //     companyID = req.query.company_id ? +req.query.company_id : undefined;
