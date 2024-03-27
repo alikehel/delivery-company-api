@@ -409,6 +409,80 @@ export class EmployeeModel {
         };
     }
 
+    async getInquiryEmployeeStuff(data: { employeeID: number }) {
+        const employee = await prisma.employee.findUnique({
+            where: {
+                id: data.employeeID
+            },
+            select: {
+                // id: true,
+                // user: {
+                //     select: {
+                //         name: true
+                //     }
+                // }
+                inquiryBranches: {
+                    select: {
+                        branch: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                inquiryLocations: {
+                    select: {
+                        location: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                inquiryCompanies: {
+                    select: {
+                        company: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                inquiryStores: {
+                    select: {
+                        store: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                inquiryGovernorates: true,
+                inquiryStatuses: true
+            }
+        });
+        return {
+            inquiryBranches: employee?.inquiryBranches.map((branch) => {
+                return branch.branch.id;
+            }),
+            inquiryLocations: employee?.inquiryLocations.map((location) => {
+                return location.location.id;
+            }),
+            inquiryCompanies: employee?.inquiryCompanies.map((company) => {
+                return company.company.id;
+            }),
+            inquiryStores: employee?.inquiryStores.map((store) => {
+                return store.store.id;
+            }),
+            inquiryGovernorates: employee?.inquiryGovernorates,
+            inquiryStatuses: employee?.inquiryStatuses
+        };
+    }
+
     async getEmployee(data: { employeeID: number }) {
         const employee = await prisma.employee.findUnique({
             where: {

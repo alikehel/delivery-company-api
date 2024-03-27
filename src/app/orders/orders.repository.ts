@@ -481,7 +481,10 @@ export class OrdersRepository {
                 // Filter by companyID
                 {
                     company: {
-                        id: data.filters.forwardedFromID ? undefined : data.filters.companyID
+                        id:
+                            data.filters.forwardedFromID || data.filters.inquiryCompaniesIDs
+                                ? undefined
+                                : data.filters.companyID
                     }
                 },
                 {
@@ -691,6 +694,49 @@ export class OrdersRepository {
                     forwardedFrom: {
                         id: data.filters.forwardedFromID
                     }
+                },
+                // inquiry filters
+                {
+                    OR: [
+                        {
+                            status: {
+                                in: data.filters.inquiryStatuses
+                            }
+                        },
+                        {
+                            governorate: {
+                                in: data.filters.inquiryGovernorates
+                            }
+                        },
+                        {
+                            branch: {
+                                id: {
+                                    in: data.filters.inquiryBranchesIDs
+                                }
+                            }
+                        },
+                        {
+                            store: {
+                                id: {
+                                    in: data.filters.inquiryStoresIDs
+                                }
+                            }
+                        },
+                        {
+                            company: {
+                                id: {
+                                    in: data.filters.inquiryCompaniesIDs
+                                }
+                            }
+                        },
+                        {
+                            location: {
+                                id: {
+                                    in: data.filters.inquiryLocationsIDs
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         } satisfies Prisma.OrderWhereInput;
