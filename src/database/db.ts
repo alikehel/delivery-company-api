@@ -144,7 +144,7 @@ export const prisma = new PrismaClient()
                         const time = end - start;
                         Logger.info(
                             util.inspect(
-                                { model, operation, time, args },
+                                { model, operation, time },
                                 { showHidden: false, depth: null, colors: true }
                             )
                             // { model, operation, args, time }
