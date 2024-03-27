@@ -29,12 +29,27 @@ const format = winston.format.combine(
     winston.format.errors({ stack: true }),
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
     winston.format.colorize({ all: true }),
-    winston.format.printf(
-        (info) =>
-            `${info.timestamp} ${info.level}: ${info.message}${
-                info.stack ? `\n------------------------------\n${info.stack}` : ""
-            }\n------------------------------------------------------------`
-    )
+    winston.format.printf((info) => {
+        let message = "";
+        if (info.message.includes("Request->")) {
+            message += `${"∧".repeat(100)}\n`;
+        }
+        message += `${info.timestamp} ${info.level}: ${info.message}`;
+        if (info.stack) {
+            message += `\n------------------------------\n${info.stack}`;
+        }
+        if (info.message.includes("Response->")) {
+            message += `\n${"∨".repeat(100)}`;
+        } else {
+            message += "\n------------------------------------------------------------";
+        }
+        return message;
+        // return `${info.level === "http" ? "^^^^^^^^^^^^^^^^^" : ""}${info.timestamp} ${info.level}: ${
+        //     info.message
+        // }${
+        //     info.stack ? `\n------------------------------\n${info.stack}` : ""
+        // }\n------------------------------------------------------------`;
+    })
 );
 
 const transports = [
