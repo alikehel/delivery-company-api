@@ -15,11 +15,23 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
             // handling duplicate key errors
 
             if (errTarget && Array.isArray(errTarget)) {
+                if (errTarget.includes("phone")) {
+                    return new AppError("رقم الهاتف موجود مسبقاً", 400);
+                }
+                if (errTarget.includes("username")) {
+                    return new AppError("رقم الهاتف موجود مسبقاً", 400);
+                }
                 const errTargetString = errTarget.join(", ");
                 return new AppError(`القيمة في حقول (${errTargetString}) موجودة مسبقاً`, 400);
             }
 
             if (errTarget && typeof errTarget === "string") {
+                if (errTarget === "phone") {
+                    return new AppError("رقم الهاتف موجود مسبقاً", 400);
+                }
+                if (errTarget === "username") {
+                    return new AppError("رقم الهاتف موجود مسبقاً", 400);
+                }
                 return new AppError(`القيمة في حقل (${errTarget}) موجودة مسبقاً`, 400);
             }
 
