@@ -1,4 +1,4 @@
-import { AdminRole, Governorate } from "@prisma/client";
+import { Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { LocationModel } from "./location.model";
@@ -21,12 +21,12 @@ export const createLocation = catchAsync(async (req, res) => {
 export const getAllLocations = catchAsync(async (req, res) => {
     // Filters
     const loggedInUser = res.locals.user as loggedInUserType;
-    let companyID: number | undefined;
-    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        companyID = req.query.company_id ? +req.query.company_id : undefined;
-    } else if (loggedInUser.companyID) {
-        companyID = loggedInUser.companyID;
-    }
+    // let companyID: number | undefined;
+    // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+    //     companyID = req.query.company_id ? +req.query.company_id : undefined;
+    // } else if (loggedInUser.companyID) {
+    //     companyID = loggedInUser.companyID;
+    // }
 
     const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
@@ -54,7 +54,7 @@ export const getAllLocations = catchAsync(async (req, res) => {
         branchID: branchID,
         governorate: governorate,
         deliveryAgentID: deliveryAgentID,
-        companyID: companyID,
+        // companyID: companyID,
         minified: minified
     });
 

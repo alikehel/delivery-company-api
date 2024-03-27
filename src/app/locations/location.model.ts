@@ -127,12 +127,12 @@ export class LocationModel {
                               }
                           }
                         : undefined
-                },
-                {
-                    company: {
-                        id: filters.companyID
-                    }
                 }
+                // {
+                //     company: {
+                //         id: filters.companyID
+                //     }
+                // }
             ]
         };
 
