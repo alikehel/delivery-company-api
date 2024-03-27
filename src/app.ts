@@ -47,8 +47,13 @@ app.use(morganMiddlewareImmediate);
 morganBody(app, {
     stream: {
         // @ts-expect-error Fix later
-        write: (message) => Logger.http(message.replace(/\n$/, ""))
-    }
+        write: (message) => Logger.info(message.replace(/\n$/, ""))
+    },
+    maxBodyLength: 200,
+    immediateReqLog: true,
+    // theme: "lightened",
+    noColors: true,
+    prettify: false
 });
 app.use(morganMiddleware);
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.

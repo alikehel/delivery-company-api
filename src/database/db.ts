@@ -1,5 +1,82 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import * as util from "node:util";
+import { Logger } from "../lib/logger";
 import { calculatePagesCount, calculateSkip } from "../lib/pagination";
+
+// const prismaX = new PrismaClient({
+//     log: [
+//         {
+//             emit: "event",
+//             level: "query"
+//         },
+//         {
+//             emit: "event",
+//             level: "error"
+//         },
+//         {
+//             emit: "event",
+//             level: "info"
+//         },
+//         {
+//             emit: "event",
+//             level: "warn"
+//         }
+//     ]
+// });
+
+// prismaX.$use(async (params, next) => {
+//     const before = Date.now();
+//     const result = await next(params);
+//     const after = Date.now();
+//     Logger.info(`Query took ${after - before}ms`);
+//     return result;
+// });
+
+// prismaX.$on("query", (e) => {
+//     Logger.info(
+//         util.inspect(
+//             {
+//                 Query: e.query,
+//                 Params: e.params,
+//                 Duration: e.duration
+//             },
+//             { showHidden: false, depth: null, colors: true }
+//         )
+//     );
+// });
+
+// prismaX.$on("error", (e) => {
+//     Logger.error(
+//         util.inspect(
+//             {
+//                 Error: e.message
+//             },
+//             { showHidden: false, depth: null, colors: true }
+//         )
+//     );
+// });
+
+// prismaX.$on("info", (e) => {
+//     Logger.info(
+//         util.inspect(
+//             {
+//                 Info: e.message
+//             },
+//             { showHidden: false, depth: null, colors: true }
+//         )
+//     );
+// });
+
+// prismaX.$on("warn", (e) => {
+//     Logger.warn(
+//         util.inspect(
+//             {
+//                 Warning: e.message
+//             },
+//             { showHidden: false, depth: null, colors: true }
+//         )
+//     );
+// });
 
 export const prisma = new PrismaClient()
     .$extends({
@@ -52,6 +129,36 @@ export const prisma = new PrismaClient()
                         // currentPage: pagination.page,
                         pagesCount: calculatePagesCount(data[1], pagination.size)
                     };
+                }
+            }
+        }
+    })
+    .$extends({
+        query: {
+            $allModels: {
+                async $allOperations({ operation, model, args, query }) {
+                    try {
+                        const start = performance.now();
+                        const result = await query(args);
+                        const end = performance.now();
+                        const time = end - start;
+                        Logger.info(
+                            util.inspect(
+                                { model, operation, time },
+                                { showHidden: false, depth: null, colors: true }
+                            )
+                            // { model, operation, args, time }
+                        );
+                        return result;
+                    } catch (error) {
+                        Logger.error(
+                            util.inspect(
+                                { model, operation },
+                                { showHidden: false, depth: null, colors: true }
+                            )
+                        );
+                        throw error;
+                    }
                 }
             }
         }
