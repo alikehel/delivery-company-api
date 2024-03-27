@@ -47,7 +47,77 @@ const employeeSelect = {
             id: true,
             name: true
         }
-    }
+    },
+    inquiryBranches: {
+        select: {
+            branch: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
+    inquiryLocations: {
+        select: {
+            location: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
+    inquiryCompanies: {
+        select: {
+            company: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
+    inquiryStores: {
+        select: {
+            store: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
+    // inquiryDeliveryAgents: {
+    //     select: {
+    //         deliveryAgent: {
+    //             select: {
+    //                 user: {
+    //                     select: {
+    //                         id: true,
+    //                         name: true
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
+    // inquiryEmployees: {
+    //     select: {
+    //         inquiryEmployee: {
+    //             select: {
+    //                 user: {
+    //                     select: {
+    //                         id: true,
+    //                         name: true
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
+    inquiryGovernorates: true,
+    inquiryStatuses: true
 } satisfies Prisma.EmployeeSelect;
 
 const employeeReform = (
@@ -78,7 +148,27 @@ const employeeReform = (
         ordersCount: employee._count.orders,
         createdAt: employee.user.createdAt.toISOString(),
         updatedAt: employee.user.updatedAt.toISOString(),
-        managedStores: employee.managedStores
+        managedStores: employee.managedStores,
+        inquiryBranches: employee.inquiryBranches.map((branch) => {
+            return branch.branch;
+        }),
+        inquiryLocations: employee.inquiryLocations.map((location) => {
+            return location.location;
+        }),
+        inquiryCompanies: employee.inquiryCompanies.map((company) => {
+            return company.company;
+        }),
+        inquiryStores: employee.inquiryStores.map((store) => {
+            return store.store;
+        }),
+        // inquiryDeliveryAgents: employee.inquiryDeliveryAgents.map((deliveryAgent) => {
+        //     return deliveryAgent.deliveryAgent.user;
+        // }),
+        // inquiryEmployees: employee.inquiryEmployees.map((inquiryEmployee) => {
+        //     return inquiryEmployee.inquiryEmployee.user;
+        // }),
+        inquiryGovernorates: employee.inquiryGovernorates,
+        inquiryStatuses: employee.inquiryStatuses
         // deliveryAgentsLocationsCount: employee._count.deliveryAgentsLocations
     };
 };
@@ -130,6 +220,73 @@ export class EmployeeModel {
                                   id: storeID
                               };
                           })
+                      }
+                    : undefined,
+                inquiryStores: data.inquiryStoresIDs
+                    ? {
+                          create: data.inquiryStoresIDs.map((storeID) => {
+                              return {
+                                  store: {
+                                      connect: {
+                                          id: storeID
+                                      }
+                                  }
+                              };
+                          })
+                      }
+                    : undefined,
+                inquiryLocations: data.inquiryLocationsIDs
+                    ? {
+                          createMany: {
+                              data: data.inquiryLocationsIDs.map((locationID) => {
+                                  return {
+                                      locationId: locationID
+                                  };
+                              })
+                          }
+                      }
+                    : undefined,
+                inquiryBranches: data.inquiryBranchesIDs
+                    ? {
+                          createMany: {
+                              data: data.inquiryBranchesIDs.map((branchID) => {
+                                  return {
+                                      branchId: branchID
+                                  };
+                              })
+                          }
+                      }
+                    : undefined,
+                inquiryCompanies: data.inquiryCompaniesIDs
+                    ? {
+                          createMany: {
+                              data: data.inquiryCompaniesIDs.map((companyID) => {
+                                  return {
+                                      companyId: companyID
+                                  };
+                              })
+                          }
+                      }
+                    : undefined,
+                // inquiryDeliveryAgents: data.inquiryDeliveryAgentsIDs
+                //     ? {
+                //           createMany: {
+                //               data: data.inquiryDeliveryAgentsIDs.map((deliveryAgentID) => {
+                //                   return {
+                //                       deliveryAgentId: deliveryAgentID
+                //                   };
+                //               })
+                //           }
+                //       }
+                //     : undefined,
+                inquiryGovernorates: data.inquiryGovernorates
+                    ? {
+                          set: data.inquiryGovernorates
+                      }
+                    : undefined,
+                inquiryStatuses: data.inquiryStatuses
+                    ? {
+                          set: data.inquiryStatuses
                       }
                     : undefined
             },
@@ -313,6 +470,88 @@ export class EmployeeModel {
                                   id: storeID
                               };
                           })
+                      }
+                    : undefined,
+                inquiryStores: data.employeeData.inquiryStoresIDs
+                    ? {
+                          deleteMany: {
+                              inquiryEmployeeId: data.employeeID
+                          },
+                          create: data.employeeData.inquiryStoresIDs.map((storeID) => {
+                              return {
+                                  store: {
+                                      connect: {
+                                          id: storeID
+                                      }
+                                  }
+                              };
+                          })
+                      }
+                    : undefined,
+                inquiryBranches: data.employeeData.inquiryBranchesIDs
+                    ? {
+                          deleteMany: {
+                              inquiryEmployeeId: data.employeeID
+                          },
+                          createMany: {
+                              data: data.employeeData.inquiryBranchesIDs.map((branchID) => {
+                                  return {
+                                      branchId: branchID
+                                  };
+                              })
+                          }
+                      }
+                    : undefined,
+                inquiryCompanies: data.employeeData.inquiryCompaniesIDs
+                    ? {
+                          deleteMany: {
+                              inquiryEmployeeId: data.employeeID
+                          },
+                          createMany: {
+                              data: data.employeeData.inquiryCompaniesIDs.map((companyID) => {
+                                  return {
+                                      companyId: companyID
+                                  };
+                              })
+                          }
+                      }
+                    : undefined,
+                // inquiryDeliveryAgents: data.employeeData.inquiryDeliveryAgentsIDs
+                //     ? {
+                //           deleteMany: {
+                //               inquiryEmployeeId: data.employeeID
+                //           },
+                //           createMany: {
+                //               data: data.employeeData.inquiryDeliveryAgentsIDs.map((deliveryAgentID) => {
+                //                   return {
+                //                       deliveryAgentId: deliveryAgentID
+                //                   };
+                //               })
+                //           }
+                //       }
+                //     : undefined,
+                inquiryGovernorates: data.employeeData.inquiryGovernorates
+                    ? {
+                          set: data.employeeData.inquiryGovernorates
+                      }
+                    : undefined,
+                inquiryStatuses: data.employeeData.inquiryStatuses
+                    ? {
+                          set: data.employeeData.inquiryStatuses
+                      }
+                    : undefined,
+                inquiryLocations: data.employeeData.inquiryLocationsIDs
+                    ? {
+                          deleteMany: {
+                              inquiryEmployeeId: data.employeeID
+                          },
+                          createMany: {
+                              data: data.employeeData.inquiryLocationsIDs.map((locationID) => {
+                                  return {
+                                      locationId: locationID
+                                  };
+                              })
+                          }
                       }
                     : undefined
             },

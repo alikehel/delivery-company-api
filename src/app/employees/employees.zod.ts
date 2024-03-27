@@ -1,6 +1,6 @@
 // // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { EmployeeRole, Permission } from "@prisma/client";
+import { EmployeeRole, Governorate, OrderStatus, Permission } from "@prisma/client";
 import { z } from "zod";
 
 export const EmployeeCreateSchema = z.object({
@@ -27,7 +27,14 @@ export const EmployeeCreateSchema = z.object({
     fcm: z.string().optional(),
     avatar: z.string().optional(),
     companyID: z.coerce.number().optional(),
-    deliveryCost: z.coerce.number().optional()
+    deliveryCost: z.coerce.number().optional(),
+    inquiryBranchesIDs: z.array(z.coerce.number()).optional(),
+    inquiryLocationsIDs: z.array(z.coerce.number()).optional(),
+    inquiryStoresIDs: z.array(z.coerce.number()).optional(),
+    inquiryCompaniesIDs: z.array(z.coerce.number()).optional(),
+    inquiryDeliveryAgentsIDs: z.array(z.coerce.number()).optional(),
+    inquiryGovernorates: z.array(z.nativeEnum(Governorate)).optional(),
+    inquiryStatuses: z.array(z.nativeEnum(OrderStatus)).optional()
 });
 
 export type EmployeeCreateType = z.infer<typeof EmployeeCreateSchema>;
