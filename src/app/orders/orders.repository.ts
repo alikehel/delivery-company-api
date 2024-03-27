@@ -481,10 +481,16 @@ export class OrdersRepository {
                 // Filter by companyID
                 {
                     company: {
-                        id:
-                            data.filters.forwardedFromID || data.filters.inquiryCompaniesIDs
-                                ? undefined
-                                : data.filters.companyID
+                        id: data.filters.forwardedFromID
+                            ? undefined
+                            : data.filters.inquiryCompaniesIDs
+                              ? {
+                                      in: [
+                                          ...data.filters.inquiryCompaniesIDs,
+                                          data.filters.companyID as number
+                                      ]
+                                  }
+                              : data.filters.companyID
                     }
                 },
                 {
