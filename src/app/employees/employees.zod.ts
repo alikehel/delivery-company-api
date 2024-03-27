@@ -28,13 +28,34 @@ export const EmployeeCreateSchema = z.object({
     avatar: z.string().optional(),
     companyID: z.coerce.number().optional(),
     deliveryCost: z.coerce.number().optional(),
-    inquiryBranchesIDs: z.array(z.coerce.number()).optional(),
-    inquiryLocationsIDs: z.array(z.coerce.number()).optional(),
-    inquiryStoresIDs: z.array(z.coerce.number()).optional(),
-    inquiryCompaniesIDs: z.array(z.coerce.number()).optional(),
-    inquiryDeliveryAgentsIDs: z.array(z.coerce.number()).optional(),
-    inquiryGovernorates: z.array(z.nativeEnum(Governorate)).optional(),
-    inquiryStatuses: z.array(z.nativeEnum(OrderStatus)).optional()
+    inquiryBranchesIDs: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.coerce.number()).optional()),
+    inquiryLocationsIDs: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.coerce.number()).optional()),
+    inquiryStoresIDs: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.coerce.number()).optional()),
+    inquiryCompaniesIDs: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.coerce.number()).optional()),
+    inquiryDeliveryAgentsIDs: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.coerce.number()).optional()),
+    inquiryGovernorates: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.nativeEnum(Governorate)).optional()),
+    inquiryStatuses: z.preprocess((val) => {
+        if (typeof val === "string") return JSON.parse(val);
+        return val;
+    }, z.array(z.nativeEnum(OrderStatus)).optional())
 });
 
 export type EmployeeCreateType = z.infer<typeof EmployeeCreateSchema>;
