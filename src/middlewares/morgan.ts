@@ -22,7 +22,7 @@ const stream: StreamOptions = {
 // Build the morgan middleware
 
 export const morganMiddlewareImmediate = morgan(
-    'Request-> ":method :url" | :user-agent | :remote-addr | :remote-user ]',
+    '----->>> Request [ ":method :url" | :user-agent | :remote-addr | :remote-user ]',
     {
         stream,
         immediate: true
@@ -30,9 +30,7 @@ export const morganMiddlewareImmediate = morgan(
 );
 
 export const morganMiddleware = morgan(
-    'Response-> ":method :url" | :user-agent | :remote-addr | :remote-user | :status | :res[content-length] | :response-time ms ]',
+    '<<<----- Response [ ":method :url" | :user-agent | :remote-addr | :remote-user | :status | :res[content-length] | :response-time ms ]',
     // ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
     { stream }
 );
-
-// the opposite of ^^^^ is vvvvv

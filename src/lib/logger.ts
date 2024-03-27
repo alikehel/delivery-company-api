@@ -31,18 +31,20 @@ const format = winston.format.combine(
     winston.format.colorize({ all: true }),
     winston.format.printf((info) => {
         let message = "";
-        if (info.message.includes("Request->")) {
-            message += `${"∧".repeat(100)}\n`;
-        }
+        // if (info.message.includes("Request->")) {
+        //     message += `${"∧".repeat(100)}\n`;
+        // }
         message += `${info.timestamp} ${info.level}: ${info.message}`;
         if (info.stack) {
-            message += `\n------------------------------\n${info.stack}`;
+            message += `\n\n------------------------------\n\n${info.stack}`;
         }
-        if (info.message.includes("Response->")) {
-            message += `\n${"∨".repeat(100)}`;
-        } else {
-            message += "\n------------------------------------------------------------";
-        }
+        // if (info.message.includes("Response->")) {
+        //     message += `\n${"∨".repeat(100)}`;
+        // } else {
+        //     message += "\n------------------------------------------------------------";
+        // }
+        message +=
+            "\n\n------------------------------------------------------------------------------------------\n";
         return message;
         // return `${info.level === "http" ? "^^^^^^^^^^^^^^^^^" : ""}${info.timestamp} ${info.level}: ${
         //     info.message
