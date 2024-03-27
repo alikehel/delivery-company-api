@@ -1349,11 +1349,17 @@ export class OrdersRepository {
                 BRANCH_MANAGER
                 INQUIRY_EMPLOYEE
         */
-        const orderChatMembers = await prisma.order.findUnique({
+        const order = await prisma.order.findUnique({
             where: {
                 id: data.orderID
             },
             select: {
+                status: true,
+                governorate: true,
+                branchId: true,
+                storeId: true,
+                companyId: true,
+                locationId: true,
                 client: {
                     select: {
                         role: true,
@@ -1391,7 +1397,8 @@ export class OrdersRepository {
                                         phone: true,
                                         avatar: true
                                     }
-                                }
+                                },
+                                role: true
                             }
                         }
                     }
@@ -1399,33 +1406,102 @@ export class OrdersRepository {
             }
         });
 
+        const InquiryEmployees = await prisma.employee.findMany({
+            where: {
+                AND: [
+                    { role: "INQUIRY_EMPLOYEE" },
+                    {
+                        OR: [
+                            {
+                                inquiryBranches: order?.branchId
+                                    ? {
+                                          some: {
+                                              branchId: order.branchId
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                inquiryStores: order?.storeId
+                                    ? {
+                                          some: {
+                                              storeId: order.storeId
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                inquiryCompanies: order?.companyId
+                                    ? {
+                                          some: {
+                                              companyId: order.companyId
+                                          }
+                                      }
+                                    : undefined
+                            },
+                            {
+                                inquiryLocations: order?.locationId
+                                    ? {
+                                          some: {
+                                              locationId: order.locationId
+                                          }
+                                      }
+                                    : undefined
+                            }
+                        ]
+                    }
+                ]
+            },
+            select: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true,
+                        avatar: true
+                    }
+                },
+                role: true
+            }
+        });
+
         // array of chat members with no nulls
 
-        if (!orderChatMembers) {
+        if (!order) {
             throw new AppError("الطلب غير موجود", 404);
         }
 
         const chatMembers = [
-            orderChatMembers?.client && {
-                id: orderChatMembers?.client?.user?.id,
-                name: orderChatMembers?.client?.user?.name,
-                phone: orderChatMembers?.client?.user?.phone,
-                avatar: orderChatMembers?.client?.user?.avatar,
-                role: orderChatMembers?.client?.role
+            order?.client && {
+                id: order?.client?.user?.id,
+                name: order?.client?.user?.name,
+                phone: order?.client?.user?.phone,
+                avatar: order?.client?.user?.avatar,
+                role: order?.client?.role
             },
-            orderChatMembers?.deliveryAgent && {
-                id: orderChatMembers?.deliveryAgent?.user?.id,
-                name: orderChatMembers?.deliveryAgent?.user?.name,
-                phone: orderChatMembers?.deliveryAgent?.user?.phone,
-                avatar: orderChatMembers?.deliveryAgent?.user?.avatar,
-                role: orderChatMembers?.deliveryAgent?.role
+            order?.deliveryAgent && {
+                id: order?.deliveryAgent?.user?.id,
+                name: order?.deliveryAgent?.user?.name,
+                phone: order?.deliveryAgent?.user?.phone,
+                avatar: order?.deliveryAgent?.user?.avatar,
+                role: order?.deliveryAgent?.role
             },
-            ...(orderChatMembers?.ordersInquiryEmployees?.map((orderInquiryEmployee) => {
+            ...(order?.ordersInquiryEmployees?.map((orderInquiryEmployee) => {
                 return {
                     id: orderInquiryEmployee.inquiryEmployee.user?.id ?? null,
                     name: orderInquiryEmployee.inquiryEmployee.user?.name ?? null,
                     phone: orderInquiryEmployee.inquiryEmployee?.user?.phone ?? null,
-                    avatar: orderInquiryEmployee.inquiryEmployee.user?.avatar ?? null
+                    avatar: orderInquiryEmployee.inquiryEmployee.user?.avatar ?? null,
+                    role: orderInquiryEmployee.inquiryEmployee.role
+                };
+            }) ?? []),
+            ...(InquiryEmployees?.map((inquiryEmployee) => {
+                return {
+                    id: inquiryEmployee.user?.id ?? null,
+                    name: inquiryEmployee.user?.name ?? null,
+                    phone: inquiryEmployee.user?.phone ?? null,
+                    avatar: inquiryEmployee.user?.avatar ?? null,
+                    role: inquiryEmployee.role
                 };
             }) ?? [])
         ].filter((chatMember) => {
