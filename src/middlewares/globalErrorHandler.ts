@@ -10,9 +10,6 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
     const errTarget = errMeta?.target;
     // const errCause = errMeta?.cause;
 
-    console.log(err);
-
-
     switch (err.code) {
         case "P2002": {
             // handling duplicate key errors
