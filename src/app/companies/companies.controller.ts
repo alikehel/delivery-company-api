@@ -1,12 +1,14 @@
 import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { catchAsync } from "../../lib/catchAsync";
+import { loggedInUserType } from "../../types/user";
 import { CompanyCreateSchema, CompanyUpdateSchema } from "./companies.zod";
 import { CompanyModel } from "./company.model";
 
 const companyModel = new CompanyModel();
 
 export const createCompany = catchAsync(async (req, res) => {
+    const loggedInUser = res.locals.user as loggedInUserType;
     const companyData = CompanyCreateSchema.parse(req.body);
     const logo = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
@@ -15,11 +17,14 @@ export const createCompany = catchAsync(async (req, res) => {
     const hashedPassword = bcrypt.hashSync(companyData.companyManager.password + (env.SECRET as string), 12);
 
     const createdCompany = await companyModel.createCompany({
-        companyData: { ...companyData.companyData, logo },
-        companyManager: {
-            ...companyData.companyManager,
-            password: hashedPassword,
-            avatar: logo
+        loggedInUser: loggedInUser,
+        companyData: {
+            companyData: { ...companyData.companyData, logo },
+            companyManager: {
+                ...companyData.companyManager,
+                password: hashedPassword,
+                avatar: logo
+            }
         }
     });
 

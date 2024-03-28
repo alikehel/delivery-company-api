@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
+import { loggedInUserType } from "../../types/user";
 import { CompanyCreateType, CompanyUpdateType } from "./companies.zod";
 
 const companySelect = {
@@ -40,31 +41,36 @@ const companySelect = {
 // };
 
 export class CompanyModel {
-    async createCompany(data: CompanyCreateType) {
+    async createCompany(data: { loggedInUser: loggedInUserType; companyData: CompanyCreateType }) {
         const createdCompany = await prisma.company.create({
             data: {
-                name: data.companyData.name,
-                phone: data.companyData.phone,
-                website: data.companyData.website,
-                logo: data.companyData.logo,
-                color: data.companyData.color,
-                registrationText: data.companyData.registrationText,
-                governoratePrice: data.companyData.governoratePrice,
-                deliveryAgentFee: data.companyData.deliveryAgentFee,
-                baghdadPrice: data.companyData.baghdadPrice,
+                name: data.companyData.companyData.name,
+                phone: data.companyData.companyData.phone,
+                website: data.companyData.companyData.website,
+                logo: data.companyData.companyData.logo,
+                color: data.companyData.companyData.color,
+                registrationText: data.companyData.companyData.registrationText,
+                governoratePrice: data.companyData.companyData.governoratePrice,
+                deliveryAgentFee: data.companyData.companyData.deliveryAgentFee,
+                baghdadPrice: data.companyData.companyData.baghdadPrice,
                 additionalPriceForEvery500000IraqiDinar:
-                    data.companyData.additionalPriceForEvery500000IraqiDinar,
-                additionalPriceForEveryKilogram: data.companyData.additionalPriceForEveryKilogram,
-                additionalPriceForRemoteAreas: data.companyData.additionalPriceForRemoteAreas,
-                orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate,
+                    data.companyData.companyData.additionalPriceForEvery500000IraqiDinar,
+                additionalPriceForEveryKilogram: data.companyData.companyData.additionalPriceForEveryKilogram,
+                additionalPriceForRemoteAreas: data.companyData.companyData.additionalPriceForRemoteAreas,
+                orderStatusAutomaticUpdate: data.companyData.companyData.orderStatusAutomaticUpdate,
                 employees: {
                     create: {
                         user: {
                             create: {
-                                username: data.companyManager.username,
-                                name: data.companyManager.name,
-                                password: data.companyManager.password,
-                                phone: data.companyManager.phone
+                                username: data.companyData.companyManager.username,
+                                name: data.companyData.companyManager.name,
+                                password: data.companyData.companyManager.password,
+                                phone: data.companyData.companyManager.phone
+                            }
+                        },
+                        createdBy: {
+                            connect: {
+                                id: data.loggedInUser.id
                             }
                         },
                         role: "COMPANY_MANAGER"
