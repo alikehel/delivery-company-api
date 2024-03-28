@@ -10,6 +10,9 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
     const errTarget = errMeta?.target;
     // const errCause = errMeta?.cause;
 
+    console.log(err);
+
+
     switch (err.code) {
         case "P2002": {
             // handling duplicate key errors
@@ -65,23 +68,23 @@ const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
 
         //     return new AppError("الرجاء التأكد من صحة القيمة المدخلة", 400);
         // }
-        case "P2003": {
-            // handling invalid data errors
+        // case "P2003": {
+        //     // handling invalid data errors
 
-            if (errTarget && Array.isArray(errTarget)) {
-                const errTargetString = errTarget.join(", ");
-                return new AppError(
-                    `الرجاء التأكد من صحة البيانات المدخلة في حقول (${errTargetString})`,
-                    400
-                );
-            }
+        //     if (errTarget && Array.isArray(errTarget)) {
+        //         const errTargetString = errTarget.join(", ");
+        //         return new AppError(
+        //             `الرجاء التأكد من صحة البيانات المدخلة في حقول (${errTargetString})`,
+        //             400
+        //         );
+        //     }
 
-            if (errTarget && typeof errTarget === "string") {
-                return new AppError(`الرجاء التأكد من صحة البيانات المدخلة في حقل (${errTarget})`, 400);
-            }
+        //     if (errTarget && typeof errTarget === "string") {
+        //         return new AppError(`الرجاء التأكد من صحة البيانات المدخلة في حقل (${errTarget})`, 400);
+        //     }
 
-            return new AppError("الرجاء التأكد من صحة البيانات المدخلة", 400);
-        }
+        //     return new AppError("الرجاء التأكد من صحة البيانات المدخلة", 400);
+        // }
         default: {
             // handling all other errors
 
