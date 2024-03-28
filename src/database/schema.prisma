@@ -211,8 +211,8 @@ model InquiryEmployeesDeliveryAgents {
   inquiryEmployeeId Int
   deliveryAgentId   Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  inquiryEmployee   Employee @relation("inquiryEmployees", fields: [inquiryEmployeeId], references: [id])
-  deliveryAgent     Employee @relation("inquiryDeliveryAgents", fields: [deliveryAgentId], references: [id])
+  inquiryEmployee   Employee @relation("inquiryEmployees", fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
+  deliveryAgent     Employee @relation("inquiryDeliveryAgents", fields: [deliveryAgentId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   @@id([inquiryEmployeeId, deliveryAgentId])
@@ -289,8 +289,8 @@ model InquiryEmployeesStores {
   inquiryEmployeeId Int
   storeId           Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
-  store             Store    @relation(fields: [storeId], references: [id])
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
+  store             Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   @@id([inquiryEmployeeId, storeId])
@@ -328,8 +328,8 @@ model InquiryEmployeesBranches {
   inquiryEmployeeId Int
   branchId          Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
-  branch            Branch   @relation(fields: [branchId], references: [id])
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
+  branch            Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   @@id([inquiryEmployeeId, branchId])
@@ -388,8 +388,8 @@ model InquiryEmployeesLocations {
   inquiryEmployeeId Int
   locationId        Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
-  location          Location @relation(fields: [locationId], references: [id])
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
+  location          Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   @@id([inquiryEmployeeId, locationId])
@@ -400,8 +400,8 @@ model DeliveryAgentsLocations {
   deliveryAgentId Int
   locationId      Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id])
-  location        Location @relation(fields: [locationId], references: [id])
+  deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
+  location        Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   // --- IDENTIFICATION --------------------------------------------------------------------- //
@@ -458,8 +458,8 @@ model InquiryEmployeesCompanies {
   inquiryEmployeeId Int
   companyId         Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
-  company           Company  @relation(fields: [companyId], references: [id])
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
+  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   @@id([inquiryEmployeeId, companyId])
@@ -495,7 +495,7 @@ model Order {
   secondaryStatus        SecondaryStatus?
   confirmed              Boolean                  @default(false)
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  clientId               Int?
+  clientId               Int
   deliveryAgentId        Int?
   locationId             Int?
   storeId                Int
@@ -505,24 +505,24 @@ model Order {
   // --- RELATIONS --------------------------------------------------------------------------- //
   orderProducts          OrderProducts[]
   ordersInquiryEmployees OrdersInquiryEmployees[]
-  deliveryAgent          Employee?                @relation(fields: [deliveryAgentId], references: [id])
-  location               Location?                @relation(fields: [locationId], references: [id])
-  client                 Client?                  @relation(fields: [clientId], references: [id])
+  deliveryAgent          Employee?                @relation(fields: [deliveryAgentId], references: [id], onDelete: SetNull)
+  location               Location?                @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  client                 Client                   @relation(fields: [clientId], references: [id])
   store                  Store                    @relation(fields: [storeId], references: [id])
-  repository             Repository?              @relation(fields: [repositoryId], references: [id])
-  branch                 Branch?                  @relation(fields: [branchId], references: [id])
-  automaticUpdate        AutomaticUpdate?         @relation(fields: [automaticUpdateId], references: [id])
+  repository             Repository?              @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
+  branch                 Branch?                  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  automaticUpdate        AutomaticUpdate?         @relation(fields: [automaticUpdateId], references: [id], onDelete: SetNull)
   // --- DELETED --------------------------------------------------------------------------- //
   deleted                Boolean                  @default(false)
   deletedAt              DateTime?
-  deletedBy              User?                    @relation("deletedBy", fields: [deletedById], references: [id])
+  deletedBy              User?                    @relation("deletedBy", fields: [deletedById], references: [id], onDelete: SetNull)
   deletedById            Int?
   // --- FORWARDED --------------------------------------------------------------------------- //
   forwarded              Boolean                  @default(false)
   forwardedAt            DateTime?
-  forwardedBy            Employee?                @relation("forwardedBy", fields: [forwardedById], references: [id])
+  forwardedBy            Employee?                @relation("forwardedBy", fields: [forwardedById], references: [id], onDelete: SetNull)
   forwardedById          Int?
-  forwardedFrom          Company?                 @relation("forwardedFrom", fields: [forwardedFromId], references: [id])
+  forwardedFrom          Company?                 @relation("forwardedFrom", fields: [forwardedFromId], references: [id], onDelete: SetNull)
   forwardedFromId        Int?
   // --- REPORTS --------------------------------------------------------------------------- //
   clientReport           ClientReport?            @relation(fields: [clientReportId], references: [id], onDelete: SetNull)
