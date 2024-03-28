@@ -82,6 +82,7 @@ export const orderSelect = {
         select: {
             inquiryEmployee: {
                 select: {
+                    role: true,
                     user: {
                         select: {
                             id: true,
@@ -268,7 +269,8 @@ export const orderReform = (
                 id: orderInquiryEmployee.inquiryEmployee.user.id,
                 name: orderInquiryEmployee.inquiryEmployee.user.name,
                 phone: orderInquiryEmployee.inquiryEmployee.user.phone,
-                avatar: orderInquiryEmployee.inquiryEmployee.user.avatar
+                avatar: orderInquiryEmployee.inquiryEmployee.user.avatar,
+                role: orderInquiryEmployee.inquiryEmployee.role
             };
         })
     };

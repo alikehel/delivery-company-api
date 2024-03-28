@@ -856,7 +856,80 @@ export class OrdersRepository {
             },
             select: orderSelect
         });
-        return orderReform(order);
+        const inquiryEmployees =
+            (
+                await prisma.employee.findMany({
+                    where: {
+                        AND: [
+                            { role: "INQUIRY_EMPLOYEE" },
+                            {
+                                OR: [
+                                    {
+                                        inquiryBranches: order?.branch?.id
+                                            ? {
+                                                  some: {
+                                                      branchId: order.branch.id
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryStores: order?.store.id
+                                            ? {
+                                                  some: {
+                                                      storeId: order.store.id
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryCompanies: order?.company.id
+                                            ? {
+                                                  some: {
+                                                      companyId: order.company.id
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryLocations: order?.location?.id
+                                            ? {
+                                                  some: {
+                                                      locationId: order.location.id
+                                                  }
+                                              }
+                                            : undefined
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                avatar: true
+                            }
+                        },
+                        role: true
+                    }
+                })
+            ).map((inquiryEmployee) => {
+                return {
+                    id: inquiryEmployee.user?.id ?? null,
+                    name: inquiryEmployee.user?.name ?? null,
+                    phone: inquiryEmployee.user?.phone ?? null,
+                    avatar: inquiryEmployee.user?.avatar ?? null,
+                    role: inquiryEmployee.role
+                };
+            }) ?? [];
+        const reformedOrder = orderReform(order);
+        return {
+            ...reformedOrder,
+            inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
+        };
     }
 
     async updateOrdersCosts(data: {
@@ -1406,7 +1479,7 @@ export class OrdersRepository {
             }
         });
 
-        const InquiryEmployees = await prisma.employee.findMany({
+        const inquiryEmployees = await prisma.employee.findMany({
             where: {
                 AND: [
                     { role: "INQUIRY_EMPLOYEE" },
@@ -1495,7 +1568,7 @@ export class OrdersRepository {
                     role: orderInquiryEmployee.inquiryEmployee.role
                 };
             }) ?? []),
-            ...(InquiryEmployees?.map((inquiryEmployee) => {
+            ...(inquiryEmployees?.map((inquiryEmployee) => {
                 return {
                     id: inquiryEmployee.user?.id ?? null,
                     name: inquiryEmployee.user?.name ?? null,
