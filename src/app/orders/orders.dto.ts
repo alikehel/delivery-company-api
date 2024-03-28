@@ -348,7 +348,14 @@ export const OrdersStatisticsFiltersSchema = z.object({
         if (val === "true") return true;
         if (val === "false") return false;
         return val;
-    }, z.boolean().optional())
+    }, z.boolean().optional()),
+    inquiryBranchesIDs: z.array(z.coerce.number()).optional(),
+    inquiryLocationsIDs: z.array(z.coerce.number()).optional(),
+    inquiryStoresIDs: z.array(z.coerce.number()).optional(),
+    inquiryCompaniesIDs: z.array(z.coerce.number()).optional(),
+    inquiryDeliveryAgentsIDs: z.array(z.coerce.number()).optional(),
+    inquiryGovernorates: z.array(z.nativeEnum(Governorate)).optional(),
+    inquiryStatuses: z.array(z.nativeEnum(OrderStatus)).optional()
 });
 
 export type OrdersStatisticsFiltersType = z.infer<typeof OrdersStatisticsFiltersSchema>;

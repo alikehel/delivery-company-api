@@ -497,8 +497,54 @@ export class OrdersService {
         filters: OrdersStatisticsFiltersType;
         loggedInUser: loggedInUserType;
     }) => {
+        const clientID =
+            data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT"
+                ? data.loggedInUser.id
+                : data.filters.clientID;
+        const deliveryAgentID =
+            data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT
+                ? data.loggedInUser.id
+                : data.filters.deliveryAgentID;
+        // const companyID =
+        //     Object.keys(AdminRole).includes(data.loggedInUser.role) && data.filters.companyID
+        //         ? data.filters.companyID
+        //         : data.loggedInUser.companyID || undefined;\
+        const companyID = data.filters.companyID
+            ? data.filters.companyID
+            : data.loggedInUser.companyID || undefined;
+
+        // Inquiry Employee Filters
+        let inquiryStatuses: OrderStatus[] | undefined = undefined;
+        let inquiryGovernorates: Governorate[] | undefined = undefined;
+        let inquiryLocationsIDs: number[] | undefined = undefined;
+        let inquiryBranchesIDs: number[] | undefined = undefined;
+        let inquiryStoresIDs: number[] | undefined = undefined;
+        let inquiryCompaniesIDs: number[] | undefined = undefined;
+        if (data.loggedInUser.role === "INQUIRY_EMPLOYEE") {
+            const inquiryEmployeeStuff = await employeeModel.getInquiryEmployeeStuff({
+                employeeID: data.loggedInUser.id
+            });
+            inquiryStatuses = inquiryEmployeeStuff?.inquiryStatuses;
+            inquiryGovernorates = inquiryEmployeeStuff?.inquiryGovernorates;
+            inquiryLocationsIDs = inquiryEmployeeStuff?.inquiryLocations;
+            inquiryBranchesIDs = inquiryEmployeeStuff?.inquiryBranches;
+            inquiryStoresIDs = inquiryEmployeeStuff?.inquiryStores;
+            inquiryCompaniesIDs = inquiryEmployeeStuff?.inquiryCompanies;
+        }
+
         const statistics = await ordersRepository.getOrdersStatistics({
-            filters: data.filters
+            filters: {
+                ...data.filters,
+                clientID,
+                deliveryAgentID,
+                companyID,
+                inquiryStatuses,
+                inquiryGovernorates,
+                inquiryLocationsIDs,
+                inquiryBranchesIDs,
+                inquiryStoresIDs,
+                inquiryCompaniesIDs
+            }
         });
 
         return statistics;
