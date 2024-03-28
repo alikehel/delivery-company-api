@@ -368,9 +368,9 @@ model Location {
   // inquiryEmployeeId       Int?
   inquiryEmployees        InquiryEmployeesLocations[]
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  branchId                Int
+  branchId                Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
-  branch                  Branch                      @relation(fields: [branchId], references: [id])
+  branch                  Branch?                     @relation(fields: [branchId], references: [id], onDelete: SetNull)
   orders                  Order[]
   deliveryAgentsLocations DeliveryAgentsLocations[]
   // --- TENANT --------------------------------------------------------------------- //
