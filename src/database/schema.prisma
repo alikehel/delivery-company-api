@@ -301,8 +301,6 @@ model Branch {
   id               Int                        @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   name             String                     @unique
-  email            String                     @default("")
-  phone            String                     @default("")
   governorate      Governorate?
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //

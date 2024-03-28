@@ -5,8 +5,6 @@ import { BranchCreateType, BranchUpdateType } from "./branches.zod";
 const branchSelect = {
     id: true,
     name: true,
-    email: true,
-    phone: true,
     governorate: true,
     company: {
         select: {
@@ -33,8 +31,6 @@ export class BranchModel {
         const createdBranch = await prisma.branch.create({
             data: {
                 name: data.name,
-                email: data.email,
-                phone: data.phone,
                 governorate: data.governorate,
                 company: {
                     connect: {
@@ -123,8 +119,6 @@ export class BranchModel {
             },
             data: {
                 name: data.branchData.name,
-                email: data.branchData.email,
-                phone: data.branchData.phone,
                 governorate: data.branchData.governorate
             },
             select: branchSelect
