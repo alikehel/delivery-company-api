@@ -1,5 +1,5 @@
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
-import apicache from "apicache";
+// import apicache from "apicache";
 import { Router } from "express";
 import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
@@ -15,7 +15,7 @@ import {
 } from "./locations.controller";
 
 const router = Router();
-const cache = apicache.middleware;
+// const cache = apicache.middleware;
 
 router.route("/locations").post(
     isLoggedIn,
@@ -28,10 +28,10 @@ router.route("/locations").post(
         ],
         [Permission.ADD_LOCATION]
     ),
-    (_req, _res, next) => {
-        apicache.clear("locations");
-        next();
-    },
+    // (_req, _res, next) => {
+    //     apicache.clear("locations");
+    //     next();
+    // },
     createLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -54,12 +54,12 @@ router.route("/locations").post(
 router.route("/public/locations").get(
     // isLoggedIn,
     // isAutherized([Role.ADMIN]),
-    cache("1 hour"),
-    (req, _res, next) => {
-        // @ts-expect-error
-        req.apicacheGroup = "locations";
-        next();
-    },
+    // cache("1 hour"),
+    // (req, _res, next) => {
+    //     // @ts-expect-error
+    //     req.apicacheGroup = "locations";
+    //     next();
+    // },
     publicGetAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -79,12 +79,12 @@ router.route("/locations").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    cache("1 hour"),
-    (req, _res, next) => {
-        // @ts-expect-error
-        req.apicacheGroup = "locations";
-        next();
-    },
+    // cache("1 hour"),
+    // (req, _res, next) => {
+    //     // @ts-expect-error
+    //     req.apicacheGroup = "locations";
+    //     next();
+    // },
     getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
@@ -113,12 +113,12 @@ router.route("/locations/:locationID").get(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    cache("1 hour"),
-    (req, _res, next) => {
-        // @ts-expect-error
-        req.apicacheGroup = "locations";
-        next();
-    },
+    // cache("1 hour"),
+    // (req, _res, next) => {
+    //     // @ts-expect-error
+    //     req.apicacheGroup = "locations";
+    //     next();
+    // },
     getLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -135,10 +135,10 @@ router.route("/locations/:locationID").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    (_req, _res, next) => {
-        apicache.clear("locations");
-        next();
-    },
+    // (_req, _res, next) => {
+    //     apicache.clear("locations");
+    //     next();
+    // },
     updateLocation
     /*
         #swagger.tags = ['Locations Routes']
@@ -167,10 +167,10 @@ router.route("/locations/:locationID").delete(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    (_req, _res, next) => {
-        apicache.clear("locations");
-        next();
-    },
+    // (_req, _res, next) => {
+    //     apicache.clear("locations");
+    //     next();
+    // },
     deleteLocation
     /*
         #swagger.tags = ['Locations Routes']
