@@ -133,10 +133,10 @@ model User {
   username         String         @unique
   phone            String         @unique
   // --- DETAILS --------------------------------------------------------------------------- //
-  avatar           String?        @default("https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png")
+  avatar           String         @default("https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png")
   name             String
   password         String
-  fcm              String?
+  fcm              String         @default("")
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
   admin            Admin?
@@ -164,8 +164,8 @@ model Employee {
   id                      Int                              @id
   // --- DETAILS --------------------------------------------------------------------------- //
   permissions             Permission[]
-  salary                  Float?                           @default(0) // TODO: remove this field
-  deliveryCost            Float?                           @default(0)
+  salary                  Float                            @default(0) // TODO: remove this field
+  deliveryCost            Float                            @default(0)
   role                    EmployeeRole
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   branchId                Int?
@@ -220,7 +220,7 @@ model Client {
   id                        Int            @id
   // --- DETAILS --------------------------------------------------------------------------- //
   role                      ClientRole     @default(CLIENT)
-  token                     String?
+  token                     String         @default("")
   governoratesDeliveryCosts Json           @default("[]")
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   deletedById               Int?
@@ -251,8 +251,8 @@ model Store {
   id                Int                      @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   name              String                   @unique
-  logo              String?                  @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
-  notes             String?
+  logo              String                   @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
+  notes             String                   @default("")
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   clientAssistantId Int?
   clientId          Int
@@ -297,8 +297,8 @@ model Branch {
   id               Int                        @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   name             String                     @unique
-  email            String?
-  phone            String?
+  email            String                     @default("")
+  phone            String                     @default("")
   governorate      Governorate?
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -359,7 +359,7 @@ model Location {
   id                      Int                         @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   name                    String
-  governorate             Governorate?
+  governorate             Governorate
   remote                  Boolean                     @default(false)
   // --- INQUIRY EMPLOYEE --------------------------------------------------------------------- //
   // inquiryEmployee         Employee?                 @relation("inquiryLocations", fields: [inquiryEmployeeId], references: [id])
@@ -375,6 +375,10 @@ model Location {
   company                 Company                     @relation(fields: [companyId], references: [id])
   companyId               Int
   // --- OTHER --------------------------------------------------------------------- //
+  createdAt               DateTime                    @default(now())
+  updatedAt               DateTime                    @updatedAt
+
+  // @@unique([name, governorate])
 }
 
 model InquiryEmployeesLocations {
@@ -408,11 +412,11 @@ model Company {
   // --- DETAILS --------------------------------------------------------------------------- //
   name                                    String                      @unique
   treasury                                Float                       @default(0)
-  phone                                   String?
-  website                                 String?
-  logo                                    String?                     @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
+  phone                                   String                      @default("")
+  website                                 String                      @default("")
+  logo                                    String                      @default("https://w7.pngwing.com/pngs/307/22/png-transparent-computer-icons-business-company-corporation-company-angle-company-text.png")
   color                                   String                      @default("FF0000")
-  registrationText                        String?
+  registrationText                        String                      @default("")
   orderStatusAutomaticUpdate              Boolean                     @default(false)
   // --- INQUIRY EMPLOYEE --------------------------------------------------------------------- //
   // inquiryEmployee                         Employee?         @relation("inquiryCompanies", fields: [inquiryEmployeeId], references: [id])
@@ -466,24 +470,24 @@ model Order {
   // --- DETAILS --------------------------------------------------------------------------- //
   quantity               Int                      @default(0)
   weight                 Float                    @default(0)
-  recipientName          String
+  recipientName          String                   @default("غير معرف")
   recipientPhones        String[]
   recipientAddress       String
-  details                String?
-  notes                  String?
+  details                String                   @default("")
+  notes                  String                   @default("")
   deliveryType           DeliveryType             @default(NORMAL)
   governorate            Governorate
   timeline               Json                     @default("[]")
-  currentLocation        String?
+  currentLocation        String                   @default("")
   deliveryDate           DateTime?
   // --- COSTS ----------------------------------------------------------------------------- //
   totalCost              Float                    @default(0)
-  paidAmount             Float?                   @default(0)
-  deliveryCost           Float?                   @default(0)
-  clientNet              Float?                   @default(0)
-  deliveryAgentNet       Float?                   @default(0) // TODO: remove this field
-  companyNet             Float?                   @default(0)
-  discount               Float?                   @default(0)
+  paidAmount             Float                    @default(0)
+  deliveryCost           Float                    @default(0)
+  clientNet              Float                    @default(0)
+  deliveryAgentNet       Float                    @default(0) // TODO: remove this field
+  companyNet             Float                    @default(0)
+  discount               Float                    @default(0)
   // --- STATUS --------------------------------------------------------------------------- //
   status                 OrderStatus              @default(REGISTERED)
   secondaryStatus        SecondaryStatus?
@@ -557,8 +561,8 @@ model Report {
   id                      Int                  @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   type                    ReportType
-  baghdadOrdersCount      Int?                 @default(0)
-  governoratesOrdersCount Int?                 @default(0)
+  baghdadOrdersCount      Int                  @default(0)
+  governoratesOrdersCount Int                  @default(0)
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   employeeId              Int
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -679,7 +683,7 @@ model Product {
   // --- DETAILS --------------------------------------------------------------------------- //
   title         String
   price         Float
-  image         String?         @default("https://w7.pngwing.com/pngs/436/721/png-transparent-package-delivery-box-freight-transport-computer-icons-shipping-miscellaneous-angle-freight-transport.png")
+  image         String          @default("https://w7.pngwing.com/pngs/436/721/png-transparent-package-delivery-box-freight-transport-computer-icons-shipping-miscellaneous-angle-freight-transport.png")
   stock         Int             @default(0)
   weight        Float           @default(0)
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
@@ -806,7 +810,7 @@ model Notification {
   id        Int      @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   title     String
-  content   String
+  content   String   @default("")
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   userId    Int
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -822,9 +826,9 @@ model Banner {
   id        Int      @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   title     String
-  content   String?
-  image     String?  @default("https://w7.pngwing.com/pngs/819/548/png-transparent-photo-image-landscape-icon-images.png")
-  url       String?
+  content   String   @default("")
+  image     String   @default("https://w7.pngwing.com/pngs/819/548/png-transparent-photo-image-landscape-icon-images.png")
+  url       String   @default("")
   // --- TENANT --------------------------------------------------------------------- //
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
