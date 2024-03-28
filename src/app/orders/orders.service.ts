@@ -580,6 +580,14 @@ export class OrdersService {
         };
         loggedInUser: loggedInUserType;
     }) => {
+        if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
+            const order = await ordersRepository.getOrderStatus({
+                orderID: data.params.orderID
+            });
+            if (order?.status !== OrderStatus.REGISTERED) {
+                throw new AppError("لا يمكن حذف الطلب", 403);
+            }
+        }
         await ordersRepository.deactivateOrder({
             orderID: data.params.orderID,
             deletedByID: data.loggedInUser.id

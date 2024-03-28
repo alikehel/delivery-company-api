@@ -1642,4 +1642,16 @@ export class OrdersRepository {
         });
         return store?.clientId;
     }
+
+    async getOrderStatus(data: { orderID: number }) {
+        const order = await prisma.order.findUnique({
+            where: {
+                id: data.orderID
+            },
+            select: {
+                status: true
+            }
+        });
+        return order;
+    }
 }
