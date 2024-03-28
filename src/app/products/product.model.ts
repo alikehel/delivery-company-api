@@ -159,6 +159,7 @@ export class ProductModel {
         storeID?: number;
         companyID?: number;
         minified?: boolean;
+        clientID?: number;
     }) {
         const where = {
             AND: [
@@ -171,9 +172,14 @@ export class ProductModel {
                     company: {
                         id: filters.companyID
                     }
+                },
+                {
+                    client: {
+                        id: filters.clientID
+                    }
                 }
             ]
-        };
+        } satisfies Prisma.ProductWhereInput;
 
         if (filters.minified === true) {
             const paginatedProducts = await prisma.product.findManyPaginated(

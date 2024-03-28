@@ -1,4 +1,4 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, ClientRole } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
@@ -44,6 +44,13 @@ export const getAllProducts = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    let clientID: number | undefined;
+    if (loggedInUser.role === ClientRole.CLIENT) {
+        clientID = loggedInUser.id;
+    } else if (req.query.client_id) {
+        clientID = +req.query.client_id;
+    }
+
     const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
     const storeID = req.query.store_id ? +req.query.store_id : undefined;
@@ -62,7 +69,8 @@ export const getAllProducts = catchAsync(async (req, res) => {
         size: size,
         storeID: storeID,
         companyID: companyID,
-        minified: minified
+        minified: minified,
+        clientID: clientID
     });
 
     res.status(200).json({
