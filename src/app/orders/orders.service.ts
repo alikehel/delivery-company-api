@@ -389,7 +389,6 @@ export class OrdersService {
             // Update delivery date
             if (
                 data.orderData.deliveryDate &&
-                // @ts-expect-error Fix later
                 oldOrderData.deliveryDate?.toString() !==
                     // @ts-expect-error Fix later
                     newOrder.deliveryDate.toString()
