@@ -221,14 +221,12 @@ export const orderReform = (
             name: order.client?.user.name,
             phone: order.client?.user.phone
         },
-        deliveryAgent: order.deliveryAgent
-            ? {
-                  id: order.deliveryAgent.user.id,
-                  name: order.deliveryAgent.user.name,
-                  phone: order.deliveryAgent.user.phone,
-                  deliveryCost: order.deliveryAgent.deliveryCost
-              }
-            : undefined,
+        deliveryAgent: order.deliveryAgent && {
+            id: order.deliveryAgent.user.id,
+            name: order.deliveryAgent.user.name,
+            phone: order.deliveryAgent.user.phone,
+            deliveryCost: order.deliveryAgent.deliveryCost
+        },
         forwardedBy: order.forwardedBy?.user,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
