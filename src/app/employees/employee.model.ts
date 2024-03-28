@@ -1,5 +1,6 @@
 import { EmployeeRole, Permission, Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
+import { loggedInUserType } from "../../types/user";
 import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
 
 const employeeSelect = {
@@ -88,6 +89,12 @@ const employeeSelect = {
             }
         }
     },
+    createdBy: {
+        select: {
+            id: true,
+            name: true
+        }
+    },
     // inquiryDeliveryAgents: {
     //     select: {
     //         deliveryAgent: {
@@ -168,13 +175,14 @@ const employeeReform = (
         //     return inquiryEmployee.inquiryEmployee.user;
         // }),
         inquiryGovernorates: employee.inquiryGovernorates,
-        inquiryStatuses: employee.inquiryStatuses
+        inquiryStatuses: employee.inquiryStatuses,
+        createdBy: employee.createdBy
         // deliveryAgentsLocationsCount: employee._count.deliveryAgentsLocations
     };
 };
 
 export class EmployeeModel {
-    async createEmployee(companyID: number, data: EmployeeCreateType) {
+    async createEmployee(companyID: number, loggedInUser: loggedInUserType, data: EmployeeCreateType) {
         const createdEmployee = await prisma.employee.create({
             data: {
                 user: {
@@ -288,7 +296,12 @@ export class EmployeeModel {
                     ? {
                           set: data.inquiryStatuses
                       }
-                    : undefined
+                    : undefined,
+                createdBy: {
+                    connect: {
+                        id: loggedInUser.id
+                    }
+                }
             },
             select: employeeSelect
         });

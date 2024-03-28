@@ -148,6 +148,8 @@ model User {
   deletedClients   Client[]       @relation("deletedBy")
   deletedStores    Store[]        @relation("deletedBy")
   deletedEmployees Employee[]     @relation("deletedBy")
+  createdEmployees Employee[]     @relation("createdBy")
+  createdClients   Client[]       @relation("createdBy")
   // --- OTHER --------------------------------------------------------------------- //
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
@@ -170,9 +172,9 @@ model Employee {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   branchId                Int?
   repositoryId            Int?
+  createdById             Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
   orders                  Order[]
-  clients                 Client[]
   managedStores           Store[]
   reports                 Report[]
   deliveryAgentReports    DeliveryAgentReport[]
@@ -182,6 +184,7 @@ model Employee {
   user                    User                             @relation(fields: [id], references: [id])
   repository              Repository?                      @relation(fields: [repositoryId], references: [id])
   branch                  Branch?                          @relation(fields: [branchId], references: [id])
+  createdBy               User?                            @relation("createdBy", fields: [createdById], references: [id])
   // -- INQUIRY EMPLOYEE --------------------------------------------------------------------- //
   inquiryBranches         InquiryEmployeesBranches[]
   inquiryLocations        InquiryEmployeesLocations[]
@@ -224,7 +227,7 @@ model Client {
   governoratesDeliveryCosts Json           @default("[]")
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   deletedById               Int?
-  employeeId                Int
+  createdById               Int?
   repositoryId              Int?
   branchId                  Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -232,7 +235,8 @@ model Client {
   products                  Product[]
   orders                    Order[]
   stores                    Store[]
-  createdBy                 Employee       @relation(fields: [employeeId], references: [id])
+  // createdBy                 Employee       @relation(fields: [employeeId], references: [id])
+  createdBy                 User?          @relation("createdBy", fields: [createdById], references: [id])
   user                      User           @relation(fields: [id], references: [id])
   repository                Repository?    @relation(fields: [repositoryId], references: [id])
   branch                    Branch?        @relation(fields: [branchId], references: [id])

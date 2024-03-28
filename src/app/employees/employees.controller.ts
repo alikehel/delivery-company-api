@@ -39,7 +39,7 @@ export const createEmployee = catchAsync(async (req, res) => {
 
     const hashedPassword = bcrypt.hashSync(employeeData.password + (env.SECRET as string), 12);
 
-    const createdEmployee = await employeeModel.createEmployee(companyID, {
+    const createdEmployee = await employeeModel.createEmployee(companyID, loggedInUser, {
         ...employeeData,
         password: hashedPassword,
         avatar: avatar

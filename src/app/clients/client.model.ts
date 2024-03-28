@@ -17,12 +17,7 @@ const clientSelect = {
     createdBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     },
     repository: {
@@ -75,12 +70,7 @@ const clientReform = (
         repository: client.repository,
         branch: client.branch,
         governoratesDeliveryCosts: client.governoratesDeliveryCosts,
-        createdBy: client.createdBy
-            ? {
-                  id: client.createdBy.id,
-                  name: client.createdBy.user.name
-              }
-            : null,
+        createdBy: client.createdBy,
         deleted: client.deleted,
         deletedBy: client.deleted && client.deletedBy,
         deletedAt: client.deletedAt?.toISOString()
