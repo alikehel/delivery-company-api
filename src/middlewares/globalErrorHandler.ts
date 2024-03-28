@@ -6,6 +6,8 @@ import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
 
 const handlePrismaError = (err: Prisma.PrismaClientKnownRequestError) => {
+    Logger.error(err.meta);
+
     const errMeta = err.meta;
     const errTarget = errMeta?.target;
     // const errCause = errMeta?.cause;
