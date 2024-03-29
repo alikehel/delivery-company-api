@@ -550,8 +550,8 @@ model OrdersInquiryEmployees {
   inquiryEmployeeId Int
   orderId           Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  order             Order    @relation(fields: [orderId], references: [id])
-  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id])
+  order             Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  inquiryEmployee   Employee @relation(fields: [inquiryEmployeeId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
 
   // --- IDENTIFICATION --------------------------------------------------------------------- //
@@ -784,7 +784,7 @@ model ProductColors {
   productId Int
   colorId   Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   color     Color   @relation(fields: [colorId], references: [id])
   // --- OTHER --------------------------------------------------------------------- //
 
@@ -799,7 +799,7 @@ model ProductSizes {
   productId Int
   sizeId    Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   size      Size    @relation(fields: [sizeId], references: [id])
   // --- OTHER --------------------------------------------------------------------- //
 
