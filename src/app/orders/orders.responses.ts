@@ -217,9 +217,9 @@ export const orderReform = (
         ...order,
         // TODO
         client: {
-            id: order.client?.user.id,
-            name: order.client?.user.name,
-            phone: order.client?.user.phone
+            id: order.client.user.id,
+            name: order.client.user.name,
+            phone: order.client.user.phone
         },
         deliveryAgent: order.deliveryAgent && {
             id: order.deliveryAgent.user.id,

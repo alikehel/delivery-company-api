@@ -778,6 +778,94 @@ export class OrdersRepository {
             }
         );
 
+        // const ordersReformed = paginatedOrders.data.map(orderReform);
+
+        //TODO: MUST BE DELETED AND ONLY USED IN GET ONE ORDER
+        const ordersReformed: Array<ReturnType<typeof orderReform>> = [];
+        for (const order of paginatedOrders.data) {
+            const inquiryEmployees =
+                (
+                    await prisma.employee.findMany({
+                        where: {
+                            AND: [
+                                { role: "INQUIRY_EMPLOYEE" },
+                                {
+                                    OR: [
+                                        {
+                                            inquiryBranches: order?.branch?.id
+                                                ? {
+                                                      some: {
+                                                          branchId: order.branch.id
+                                                      }
+                                                  }
+                                                : undefined
+                                        },
+                                        {
+                                            inquiryStores: order?.store.id
+                                                ? {
+                                                      some: {
+                                                          storeId: order.store.id
+                                                      }
+                                                  }
+                                                : undefined
+                                        },
+                                        {
+                                            inquiryCompanies: order?.company.id
+                                                ? {
+                                                      some: {
+                                                          companyId: order.company.id
+                                                      }
+                                                  }
+                                                : undefined
+                                        },
+                                        {
+                                            inquiryLocations: order?.location?.id
+                                                ? {
+                                                      some: {
+                                                          locationId: order.location.id
+                                                      }
+                                                  }
+                                                : undefined
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        select: {
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    phone: true,
+                                    avatar: true
+                                }
+                            },
+                            role: true
+                        }
+                    })
+                ).map((inquiryEmployee) => {
+                    return {
+                        id: inquiryEmployee.user?.id ?? null,
+                        name: inquiryEmployee.user?.name ?? null,
+                        phone: inquiryEmployee.user?.phone ?? null,
+                        avatar: inquiryEmployee.user?.avatar ?? null,
+                        role: inquiryEmployee.role
+                    };
+                }) ?? [];
+
+            // @ts-expect-error Fix later
+            ordersReformed.push({
+                ...orderReform(order),
+                inquiryEmployees: [...(orderReform(order)?.inquiryEmployees || []), ...inquiryEmployees]
+            });
+        }
+
+        // const reformedOrder = orderReform(order);
+        // return {
+        //     ...reformedOrder,
+        //     inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
+        // };
+
         const ordersMetaDataAggregate = await prisma.order.aggregate({
             where: where,
             _count: {
@@ -800,8 +888,6 @@ export class OrdersRepository {
                 status: true
             }
         });
-
-        const ordersReformed = paginatedOrders.data.map(orderReform);
 
         const ordersMetaDataGroupByStatusReformed = (
             Object.keys(OrderStatus) as Array<keyof typeof OrderStatus>
