@@ -1317,7 +1317,7 @@ export class OrdersRepository {
                     company: {
                         id: data.filters.inquiryCompaniesIDs
                             ? {
-                                  in: [...data.filters.inquiryCompaniesIDs, data.filters.companyID as number]
+                                  in: [...data.filters.inquiryCompaniesIDs]
                               }
                             : data.filters.companyID
                     }
@@ -1406,44 +1406,56 @@ export class OrdersRepository {
                 },
                 // inquiry filters
                 {
-                    OR: [
+                    AND: [
                         {
-                            status: {
-                                in: data.filters.inquiryStatuses
-                            }
+                            status: data.filters.inquiryStatuses
+                                ? {
+                                      in: data.filters.inquiryStatuses
+                                  }
+                                : undefined
                         },
                         {
-                            governorate: {
-                                in: data.filters.inquiryGovernorates
-                            }
+                            governorate: data.filters.inquiryGovernorates
+                                ? {
+                                      in: data.filters.inquiryGovernorates
+                                  }
+                                : undefined
                         },
                         {
-                            branch: {
-                                id: {
-                                    in: data.filters.inquiryBranchesIDs
-                                }
-                            }
+                            branch: data.filters.inquiryBranchesIDs
+                                ? {
+                                      id: {
+                                          in: data.filters.inquiryBranchesIDs
+                                      }
+                                  }
+                                : undefined
                         },
                         {
-                            store: {
-                                id: {
-                                    in: data.filters.inquiryStoresIDs
-                                }
-                            }
+                            store: data.filters.inquiryStoresIDs
+                                ? {
+                                      id: {
+                                          in: data.filters.inquiryStoresIDs
+                                      }
+                                  }
+                                : undefined
                         },
                         {
-                            company: {
-                                id: {
-                                    in: data.filters.inquiryCompaniesIDs
-                                }
-                            }
+                            company: data.filters.inquiryCompaniesIDs
+                                ? {
+                                      id: {
+                                          in: data.filters.inquiryCompaniesIDs
+                                      }
+                                  }
+                                : undefined
                         },
                         {
-                            location: {
-                                id: {
-                                    in: data.filters.inquiryLocationsIDs
-                                }
-                            }
+                            location: data.filters.inquiryLocationsIDs
+                                ? {
+                                      id: {
+                                          in: data.filters.inquiryLocationsIDs
+                                      }
+                                  }
+                                : undefined
                         }
                     ]
                 }

@@ -105,12 +105,33 @@ export class OrdersService {
             const inquiryEmployeeStuff = await employeeModel.getInquiryEmployeeStuff({
                 employeeID: data.loggedInUser.id
             });
-            inquiryStatuses = inquiryEmployeeStuff?.inquiryStatuses;
-            inquiryGovernorates = inquiryEmployeeStuff?.inquiryGovernorates;
-            inquiryLocationsIDs = inquiryEmployeeStuff?.inquiryLocations;
-            inquiryBranchesIDs = inquiryEmployeeStuff?.inquiryBranches;
-            inquiryStoresIDs = inquiryEmployeeStuff?.inquiryStores;
-            inquiryCompaniesIDs = inquiryEmployeeStuff?.inquiryCompanies;
+            if (inquiryEmployeeStuff) {
+                inquiryStatuses =
+                    inquiryEmployeeStuff.inquiryStatuses && inquiryEmployeeStuff.inquiryStatuses.length > 0
+                        ? inquiryEmployeeStuff.inquiryStatuses
+                        : undefined;
+                inquiryGovernorates =
+                    inquiryEmployeeStuff.inquiryGovernorates &&
+                    inquiryEmployeeStuff.inquiryGovernorates.length > 0
+                        ? inquiryEmployeeStuff.inquiryGovernorates
+                        : undefined;
+                inquiryLocationsIDs =
+                    inquiryEmployeeStuff.inquiryLocations && inquiryEmployeeStuff.inquiryLocations.length > 0
+                        ? inquiryEmployeeStuff.inquiryLocations
+                        : undefined;
+                inquiryBranchesIDs =
+                    inquiryEmployeeStuff.inquiryBranches && inquiryEmployeeStuff.inquiryBranches.length > 0
+                        ? inquiryEmployeeStuff.inquiryBranches
+                        : undefined;
+                inquiryStoresIDs =
+                    inquiryEmployeeStuff.inquiryStores && inquiryEmployeeStuff.inquiryStores.length > 0
+                        ? inquiryEmployeeStuff.inquiryStores
+                        : undefined;
+                inquiryCompaniesIDs =
+                    inquiryEmployeeStuff.inquiryCompanies && inquiryEmployeeStuff.inquiryCompanies.length > 0
+                        ? inquiryEmployeeStuff.inquiryCompanies
+                        : undefined;
+            }
         }
 
         let size = data.filters.size;
@@ -524,12 +545,33 @@ export class OrdersService {
             const inquiryEmployeeStuff = await employeeModel.getInquiryEmployeeStuff({
                 employeeID: data.loggedInUser.id
             });
-            inquiryStatuses = inquiryEmployeeStuff?.inquiryStatuses;
-            inquiryGovernorates = inquiryEmployeeStuff?.inquiryGovernorates;
-            inquiryLocationsIDs = inquiryEmployeeStuff?.inquiryLocations;
-            inquiryBranchesIDs = inquiryEmployeeStuff?.inquiryBranches;
-            inquiryStoresIDs = inquiryEmployeeStuff?.inquiryStores;
-            inquiryCompaniesIDs = inquiryEmployeeStuff?.inquiryCompanies;
+            if (inquiryEmployeeStuff) {
+                inquiryStatuses =
+                    inquiryEmployeeStuff.inquiryStatuses && inquiryEmployeeStuff.inquiryStatuses.length > 0
+                        ? inquiryEmployeeStuff.inquiryStatuses
+                        : undefined;
+                inquiryGovernorates =
+                    inquiryEmployeeStuff.inquiryGovernorates &&
+                    inquiryEmployeeStuff.inquiryGovernorates.length > 0
+                        ? inquiryEmployeeStuff.inquiryGovernorates
+                        : undefined;
+                inquiryLocationsIDs =
+                    inquiryEmployeeStuff.inquiryLocations && inquiryEmployeeStuff.inquiryLocations.length > 0
+                        ? inquiryEmployeeStuff.inquiryLocations
+                        : undefined;
+                inquiryBranchesIDs =
+                    inquiryEmployeeStuff.inquiryBranches && inquiryEmployeeStuff.inquiryBranches.length > 0
+                        ? inquiryEmployeeStuff.inquiryBranches
+                        : undefined;
+                inquiryStoresIDs =
+                    inquiryEmployeeStuff.inquiryStores && inquiryEmployeeStuff.inquiryStores.length > 0
+                        ? inquiryEmployeeStuff.inquiryStores
+                        : undefined;
+                inquiryCompaniesIDs =
+                    inquiryEmployeeStuff.inquiryCompanies && inquiryEmployeeStuff.inquiryCompanies.length > 0
+                        ? inquiryEmployeeStuff.inquiryCompanies
+                        : undefined;
+            }
         }
 
         const statistics = await ordersRepository.getOrdersStatistics({
