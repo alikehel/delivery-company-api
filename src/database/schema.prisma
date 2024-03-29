@@ -370,7 +370,7 @@ model Location {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   branchId                Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  branch                  Branch                     @relation(fields: [branchId], references: [id])
+  branch                  Branch                      @relation(fields: [branchId], references: [id])
   orders                  Order[]
   deliveryAgentsLocations DeliveryAgentsLocations[]
   // --- TENANT --------------------------------------------------------------------- //
@@ -733,7 +733,7 @@ model OrderProducts {
   sizeId    Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
   product   Product @relation(fields: [productId], references: [id])
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   color     Color?  @relation(fields: [colorId], references: [id])
   size      Size?   @relation(fields: [sizeId], references: [id])
   // --- OTHER --------------------------------------------------------------------- //
