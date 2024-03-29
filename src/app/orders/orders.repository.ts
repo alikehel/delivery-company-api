@@ -486,8 +486,8 @@ export class OrdersRepository {
                             : data.filters.inquiryCompaniesIDs
                               ? {
                                       in: [
-                                          ...data.filters.inquiryCompaniesIDs,
-                                          data.filters.companyID as number
+                                          ...data.filters.inquiryCompaniesIDs
+                                          //   data.filters.companyID as number
                                       ]
                                   }
                               : data.filters.companyID
@@ -703,7 +703,7 @@ export class OrdersRepository {
                 },
                 // inquiry filters
                 {
-                    OR: [
+                    AND: [
                         {
                             status: {
                                 in: data.filters.inquiryStatuses
