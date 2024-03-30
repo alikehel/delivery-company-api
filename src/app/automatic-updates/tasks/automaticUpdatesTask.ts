@@ -7,9 +7,9 @@ import { OrderTimelineType } from "../../orders/orders.dto";
 
 export const automaticUpdatesTask = async () => {
     try {
-        const currentDate = new Date();
-        const currentHour = new Date().getHours();
-        const currentMinute = new Date().getMinutes();
+        const currentDate = new Date(new Date().toLocaleString("en", { timeZone: "Asia/Baghdad" }));
+        const currentHour = currentDate.getHours();
+        const currentMinute = currentDate.getMinutes();
         const currentTime =
             currentMinute >= 0 && currentMinute < 30
                 ? currentHour
