@@ -7,9 +7,9 @@ import { OrderTimelineType } from "../../orders/orders.dto";
 
 export const automaticUpdatesTask = async () => {
     try {
-        const currentDate = new Date(new Date().toLocaleString("en", { timeZone: "Asia/Baghdad" }));
-        const currentHour = currentDate.getHours();
-        const currentMinute = currentDate.getMinutes();
+        const currentDate = new Date();
+        const currentHour = currentDate.getUTCHours();
+        const currentMinute = currentDate.getUTCMinutes();
         const currentTime =
             currentMinute >= 0 && currentMinute < 30
                 ? currentHour
@@ -31,7 +31,8 @@ export const automaticUpdatesTask = async () => {
                         id: company.id
                     },
                     updateAt: {
-                        equals: currentTime
+                        // Add 3 hours to the current time to get local baghdad time
+                        equals: currentTime + 3
                     },
                     enabled: true
                 },
