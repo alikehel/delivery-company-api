@@ -7,16 +7,17 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import { createBanner, deleteBanner, getAllBanners, getBanner, updateBanner } from "./banners.controller";
+import { BannersController } from "./banners.controller";
 
 const router = Router();
+const bannersController = new BannersController();
 
 router.route("/banners").post(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER]),
     upload.single("image"),
     // upload.none(),
-    createBanner
+    bannersController.createBanner
     /*
         #swagger.tags = ['Banners Routes']
 
@@ -46,7 +47,7 @@ router.route("/banners").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllBanners
+    bannersController.getAllBanners
     /*
         #swagger.tags = ['Banners Routes']
 
@@ -73,7 +74,7 @@ router.route("/banners/:bannerID").get(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    getBanner
+    bannersController.getBanner
     /*
         #swagger.tags = ['Banners Routes']
     */
@@ -84,7 +85,7 @@ router.route("/banners/:bannerID").patch(
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     upload.single("image"),
     // upload.none(),
-    updateBanner
+    bannersController.updateBanner
     /*
         #swagger.tags = ['Banners Routes']
 
@@ -105,7 +106,7 @@ router.route("/banners/:bannerID").patch(
 router.route("/banners/:bannerID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteBanner
+    bannersController.deleteBanner
     /*
         #swagger.tags = ['Banners Routes']
     */

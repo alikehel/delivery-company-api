@@ -1,35 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { BannerCreateType, BannerUpdateType } from "./banners.dto";
+import { bannerSelect } from "./banners.responses";
 
-const bannerSelect = {
-    id: true,
-    title: true,
-    content: true,
-    image: true,
-    url: true,
-    createdAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.BannerSelect;
-
-// const bannerReform = (banner: any) => {
-//     return {
-//         id: banner.id,
-//         title: banner.title,
-//         content: banner.content,
-//         image: banner.image,
-//         url: banner.url,
-//         createdAt: banner.createdAt,
-//         company: banner.company
-//     };
-// };
-
-export class BannerModel {
+export class BannersRepository {
     async createBanner(companyID: number, data: BannerCreateType) {
         const createdBanner = await prisma.banner.create({
             data: {
