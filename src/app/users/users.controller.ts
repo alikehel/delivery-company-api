@@ -1,6 +1,6 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { UserModel } from "./user.model";
+import { UserModel } from "./user.repository";
 
 const userModel = new UserModel();
 

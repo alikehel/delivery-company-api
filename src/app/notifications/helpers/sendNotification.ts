@@ -1,8 +1,8 @@
 import admin from "firebase-admin";
 import { env } from "../../../config";
 import { Logger } from "../../../lib/logger";
-import { NotificationModel } from "../notification.model";
-import { NotificationCreateType } from "../notifications.zod";
+import { NotificationModel } from "../notification.repository";
+import { NotificationCreateType } from "../notifications.dto";
 
 admin.initializeApp({
     credential: admin.credential.cert({

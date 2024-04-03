@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.zod";
+import { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.dto";
 
 const clientSelect = {
     user: {

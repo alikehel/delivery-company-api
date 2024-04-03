@@ -1,8 +1,8 @@
 import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { ColorModel } from "./color.model";
-import { ColorCreateSchema, ColorUpdateSchema } from "./colors.zod";
+import { ColorModel } from "./color.repository";
+import { ColorCreateSchema, ColorUpdateSchema } from "./colors.dto";
 
 const colorModel = new ColorModel();
 

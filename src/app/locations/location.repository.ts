@@ -1,6 +1,6 @@
 import { Governorate, Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { LocationCreateType, LocationUpdateType } from "./locations.zod";
+import { LocationCreateType, LocationUpdateType } from "./locations.dto";
 
 const locationSelect = {
     id: true,

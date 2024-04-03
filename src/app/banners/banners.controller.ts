@@ -1,8 +1,8 @@
 import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { BannerModel } from "./banner.model";
-import { BannerCreateSchema, BannerUpdateSchema } from "./banners.zod";
+import { BannerModel } from "./banner.repository";
+import { BannerCreateSchema, BannerUpdateSchema } from "./banners.dto";
 
 const bannerModel = new BannerModel();
 

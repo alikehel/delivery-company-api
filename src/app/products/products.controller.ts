@@ -3,8 +3,8 @@ import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { OrdersRepository } from "../orders/orders.repository";
-import { ProductModel } from "./product.model";
-import { ProductCreateSchema, ProductUpdateSchema } from "./products.zod";
+import { ProductModel } from "./product.repository";
+import { ProductCreateSchema, ProductUpdateSchema } from "./products.dto";
 
 const productModel = new ProductModel();
 const ordersRepository = new OrdersRepository();

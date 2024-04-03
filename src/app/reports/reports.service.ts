@@ -1,7 +1,7 @@
 import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
-import { CompanyModel } from "../companies/company.model";
+import { CompanyModel } from "../companies/company.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../orders/orders.dto";

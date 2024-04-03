@@ -1,8 +1,8 @@
 import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { RepositoryCreateSchema, RepositoryUpdateSchema } from "./repositories.zod";
-import { RepositoryModel } from "./repository.model";
+import { RepositoryCreateSchema, RepositoryUpdateSchema } from "./repositories.dto";
+import { RepositoryModel } from "./repository.repository";
 
 const repositoryModel = new RepositoryModel();
 

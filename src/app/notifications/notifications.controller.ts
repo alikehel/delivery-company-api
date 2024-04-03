@@ -1,6 +1,6 @@
 import { catchAsync } from "../../lib/catchAsync";
-import { NotificationModel } from "./notification.model";
-import { NotificationUpdateSchema } from "./notifications.zod";
+import { NotificationModel } from "./notification.repository";
+import { NotificationUpdateSchema } from "./notifications.dto";
 
 const notificationModel = new NotificationModel();
 

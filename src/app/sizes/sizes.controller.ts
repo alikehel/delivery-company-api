@@ -1,8 +1,8 @@
 import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { SizeModel } from "./size.model";
-import { SizeCreateSchema, SizeUpdateSchema } from "./sizes.zod";
+import { SizeModel } from "./size.repository";
+import { SizeCreateSchema, SizeUpdateSchema } from "./sizes.dto";
 
 const sizeModel = new SizeModel();
 

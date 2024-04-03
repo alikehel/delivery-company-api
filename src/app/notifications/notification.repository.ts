@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { NotificationCreateType, NotificationUpdateType } from "./notifications.zod";
+import { NotificationCreateType, NotificationUpdateType } from "./notifications.dto";
 
 const notificationSelect = {
     id: true,

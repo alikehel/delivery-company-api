@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { SizeCreateType, SizeUpdateType } from "./sizes.zod";
+import { SizeCreateType, SizeUpdateType } from "./sizes.dto";
 
 const sizeSelect = {
     id: true,

@@ -1,8 +1,8 @@
 import { AdminRole, Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { BranchModel } from "./branch.model";
-import { BranchCreateSchema, BranchUpdateSchema } from "./branches.zod";
+import { BranchModel } from "./branch.repository";
+import { BranchCreateSchema, BranchUpdateSchema } from "./branches.dto";
 
 const branchModel = new BranchModel();
 

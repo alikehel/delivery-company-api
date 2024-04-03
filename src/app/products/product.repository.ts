@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { ProductCreateType, ProductUpdateType } from "./products.zod";
+import { ProductCreateType, ProductUpdateType } from "./products.dto";
 
 const productSelect = {
     id: true,

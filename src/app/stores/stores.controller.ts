@@ -1,8 +1,8 @@
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { StoreModel } from "./store.model";
-import { StoreCreateSchema, StoreUpdateSchema } from "./stores.zod";
+import { StoreModel } from "./store.repository";
+import { StoreCreateSchema, StoreUpdateSchema } from "./stores.dto";
 
 const storeModel = new StoreModel();
 

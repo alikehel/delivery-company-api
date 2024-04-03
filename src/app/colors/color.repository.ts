@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { ColorCreateType, ColorUpdateType } from "./colors.zod";
+import { ColorCreateType, ColorUpdateType } from "./colors.dto";
 
 const colorSelect = {
     id: true,

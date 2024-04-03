@@ -2,8 +2,8 @@ import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { CompanyCreateSchema, CompanyUpdateSchema } from "./companies.zod";
-import { CompanyModel } from "./company.model";
+import { CompanyCreateSchema, CompanyUpdateSchema } from "./companies.dto";
+import { CompanyModel } from "./company.repository";
 
 const companyModel = new CompanyModel();
 

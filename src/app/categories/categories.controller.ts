@@ -1,8 +1,8 @@
 import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { CategoryCreateSchema, CategoryUpdateSchema } from "./categories.zod";
-import { CategoryModel } from "./category.model";
+import { CategoryCreateSchema, CategoryUpdateSchema } from "./categories.dto";
+import { CategoryModel } from "./category.repository";
 
 const categoryModel = new CategoryModel();
 

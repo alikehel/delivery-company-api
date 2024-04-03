@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.zod";
+import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.dto";
 
 const repositorySelect = {
     id: true,

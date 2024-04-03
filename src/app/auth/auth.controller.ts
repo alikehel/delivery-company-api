@@ -5,9 +5,9 @@ import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { UserModel } from "../users/user.model";
-import { AuthModel } from "./auth.model";
-import { UserSigninSchema } from "./auth.zod";
+import { UserModel } from "../users/user.repository";
+import { UserSigninSchema } from "./auth.dto";
+import { AuthModel } from "./auth.repository";
 
 const authModel = new AuthModel();
 const userModel = new UserModel();

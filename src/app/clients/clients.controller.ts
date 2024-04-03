@@ -6,8 +6,8 @@ import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { ClientModel } from "./client.model";
-import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
+import { ClientModel } from "./client.repository";
+import { ClientCreateSchema, ClientUpdateSchema } from "./clients.dto";
 
 const clientModel = new ClientModel();
 const employeesRepository = new EmployeesRepository();

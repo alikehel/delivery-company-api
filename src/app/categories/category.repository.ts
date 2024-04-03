@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { CategoryCreateType, CategoryUpdateType } from "./categories.zod";
+import { CategoryCreateType, CategoryUpdateType } from "./categories.dto";
 
 const categorySelect = {
     id: true,

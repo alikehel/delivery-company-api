@@ -1,8 +1,8 @@
 import { Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 // import { loggedInUserType } from "../../types/user";
-import { LocationModel } from "./location.model";
-import { LocationCreateSchema, LocationUpdateSchema } from "./locations.zod";
+import { LocationModel } from "./location.repository";
+import { LocationCreateSchema, LocationUpdateSchema } from "./locations.dto";
 
 const locationModel = new LocationModel();
 

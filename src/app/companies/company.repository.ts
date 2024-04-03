@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { loggedInUserType } from "../../types/user";
-import { CompanyCreateType, CompanyUpdateType } from "./companies.zod";
+import { CompanyCreateType, CompanyUpdateType } from "./companies.dto";
 
 const companySelect = {
     id: true,

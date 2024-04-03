@@ -1,6 +1,6 @@
 import { Governorate, Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { BranchCreateType, BranchUpdateType } from "./branches.zod";
+import { BranchCreateType, BranchUpdateType } from "./branches.dto";
 
 const branchSelect = {
     id: true,

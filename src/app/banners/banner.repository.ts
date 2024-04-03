@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { BannerCreateType, BannerUpdateType } from "./banners.zod";
+import { BannerCreateType, BannerUpdateType } from "./banners.dto";
 
 const bannerSelect = {
     id: true,
