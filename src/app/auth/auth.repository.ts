@@ -2,7 +2,7 @@ import { prisma } from "../../database/db";
 import { UserSigninType } from "./auth.dto";
 import { userReform, userSelect } from "./auth.responses";
 
-export class AuthModel {
+export class AuthRepository {
     async signin(user: UserSigninType) {
         const returnedUser = await prisma.user.findUnique({
             where: {

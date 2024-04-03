@@ -3,26 +3,26 @@ import * as util from "node:util";
 import { Logger } from "../lib/logger";
 import { calculatePagesCount, calculateSkip } from "../lib/pagination";
 
-// const prismaX = new PrismaClient({
-//     log: [
-//         {
-//             emit: "event",
-//             level: "query"
-//         },
-//         {
-//             emit: "event",
-//             level: "error"
-//         },
-//         {
-//             emit: "event",
-//             level: "info"
-//         },
-//         {
-//             emit: "event",
-//             level: "warn"
-//         }
-//     ]
-// });
+const prismaX = new PrismaClient({
+    log: [
+        {
+            emit: "event",
+            level: "query"
+        },
+        {
+            emit: "event",
+            level: "error"
+        },
+        {
+            emit: "event",
+            level: "info"
+        },
+        {
+            emit: "event",
+            level: "warn"
+        }
+    ]
+});
 
 // prismaX.$use(async (params, next) => {
 //     const before = Date.now();
@@ -32,18 +32,18 @@ import { calculatePagesCount, calculateSkip } from "../lib/pagination";
 //     return result;
 // });
 
-// prismaX.$on("query", (e) => {
-//     Logger.info(
-//         util.inspect(
-//             {
-//                 Query: e.query,
-//                 Params: e.params,
-//                 Duration: e.duration
-//             },
-//             { showHidden: false, depth: null, colors: true }
-//         )
-//     );
-// });
+prismaX.$on("query", (e) => {
+    Logger.info(
+        util.inspect(
+            {
+                Query: e.query,
+                Params: e.params,
+                Duration: e.duration
+            },
+            { showHidden: false, depth: null, colors: true }
+        )
+    );
+});
 
 // prismaX.$on("error", (e) => {
 //     Logger.error(
@@ -78,7 +78,7 @@ import { calculatePagesCount, calculateSkip } from "../lib/pagination";
 //     );
 // });
 
-export const prisma = new PrismaClient()
+export const prisma = prismaX
     .$extends({
         name: "findManyAndCount",
         model: {
@@ -144,7 +144,7 @@ export const prisma = new PrismaClient()
                         const time = end - start;
                         Logger.info(
                             util.inspect(
-                                { model, operation, time },
+                                { model, operation, time, args },
                                 { showHidden: false, depth: null, colors: true }
                             )
                             // { model, operation, args, time }
