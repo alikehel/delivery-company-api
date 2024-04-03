@@ -5,20 +5,15 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import {
-    createCategory,
-    deleteCategory,
-    getAllCategories,
-    getCategory,
-    updateCategory
-} from "./categories.controller";
+import { CategoriesController } from "./categories.controller";
 
 const router = Router();
+const categoriesController = new CategoriesController();
 
 router.route("/categories").post(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER]),
-    createCategory
+    categoriesController.createCategory
     /*
         #swagger.tags = ['Categories Routes']
 
@@ -46,7 +41,7 @@ router.route("/categories").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllCategories
+    categoriesController.getAllCategories
     /*
         #swagger.tags = ['Categories Routes']
 
@@ -67,7 +62,7 @@ router.route("/categories").get(
 router.route("/categories/:categoryID").get(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    getCategory
+    categoriesController.getCategory
     /*
         #swagger.tags = ['Categories Routes']
     */
@@ -76,7 +71,7 @@ router.route("/categories/:categoryID").get(
 router.route("/categories/:categoryID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    updateCategory
+    categoriesController.updateCategory
     /*
         #swagger.tags = ['Categories Routes']
 
@@ -97,7 +92,7 @@ router.route("/categories/:categoryID").patch(
 router.route("/categories/:categoryID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteCategory
+    categoriesController.deleteCategory
     /*
         #swagger.tags = ['Categories Routes']
     */

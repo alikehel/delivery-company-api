@@ -1,30 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { CategoryCreateType, CategoryUpdateType } from "./categories.dto";
+import { categorySelect } from "./categories.responses";
 
-const categorySelect = {
-    id: true,
-    title: true,
-    createdAt: true,
-    updatedAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.CategorySelect;
-
-// const categoryReform = (category: any) => {
-//     return {
-//         id: category.id,
-//         title: category.title,
-//         createdAt: category.createdAt,
-//         updatedAt: category.updatedAt
-//     };
-// };
-
-export class CategoryModel {
+export class CategoriesRepository {
     async createCategory(companyID: number, data: CategoryCreateType) {
         const createdCategory = await prisma.category.create({
             data: {
