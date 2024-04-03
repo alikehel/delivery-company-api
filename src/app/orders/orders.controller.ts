@@ -1,4 +1,3 @@
-import { AdminRole, EmployeeRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import {
@@ -193,18 +192,9 @@ export class OrdersController {
         const loggedInUser = res.locals.user as loggedInUserType;
 
         const filters = OrdersStatisticsFiltersSchema.parse({
-            clientID:
-                loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT"
-                    ? loggedInUser.id
-                    : req.query.client_id,
-            deliveryAgentID:
-                loggedInUser.role === EmployeeRole.DELIVERY_AGENT
-                    ? loggedInUser.id
-                    : req.query.delivery_agent_id,
-            companyID:
-                Object.keys(AdminRole).includes(loggedInUser.role) && req.query.company_id
-                    ? req.query.company_id
-                    : loggedInUser.companyID,
+            clientID: req.query.client_id,
+            deliveryAgentID: req.query.delivery_agent_id,
+            companyID: req.query.company_id,
             startDate: req.query.start_date,
             endDate: req.query.end_date,
             governorate: req.query.governorate,
