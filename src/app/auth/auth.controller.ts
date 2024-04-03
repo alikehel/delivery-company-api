@@ -5,12 +5,12 @@ import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { UserModel } from "../users/user.repository";
+import { UsersRepository } from "../users/users.repository";
 import { UserSigninSchema } from "./auth.dto";
 import { AuthRepository } from "./auth.repository";
 
 const authModel = new AuthRepository();
-const userModel = new UserModel();
+const usersRepository = new UsersRepository();
 
 export class AuthController {
     signin = catchAsync(async (req, res) => {
@@ -58,7 +58,7 @@ export class AuthController {
         });
 
         if (user.fcm) {
-            await userModel.updateUser({
+            await usersRepository.updateUser({
                 userID: returnedUser.id,
                 userData: { fcm: user.fcm }
             });

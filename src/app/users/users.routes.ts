@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import { getProfile } from "./users.controller";
+import { UsersController } from "./users.controller";
 
 const router = Router();
+const usersController = new UsersController();
 
 router.route("/profile").get(
     isLoggedIn,
-    getProfile
+    usersController.getProfile
     /*
         #swagger.tags = ['Users Routes']
     */
