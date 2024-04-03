@@ -1,105 +1,107 @@
 import { AdminRole, Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { BranchModel } from "./branch.repository";
 import { BranchCreateSchema, BranchUpdateSchema } from "./branches.dto";
+import { BranchesRepository } from "./branches.repository";
 
-const branchModel = new BranchModel();
+const branchesRepository = new BranchesRepository();
 
-export const createBranch = catchAsync(async (req, res) => {
-    const branchData = BranchCreateSchema.parse(req.body);
-    const companyID = +res.locals.user.companyID;
+export class BranchesController {
+    createBranch = catchAsync(async (req, res) => {
+        const branchData = BranchCreateSchema.parse(req.body);
+        const companyID = +res.locals.user.companyID;
 
-    const createdBranch = await branchModel.createBranch(companyID, branchData);
+        const createdBranch = await branchesRepository.createBranch(companyID, branchData);
 
-    res.status(200).json({
-        status: "success",
-        data: createdBranch
-    });
-});
-
-export const getAllBranches = catchAsync(async (req, res) => {
-    // Filters
-    const loggedInUser = res.locals.user as loggedInUserType;
-    let companyID: number | undefined;
-    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        companyID = req.query.company_id ? +req.query.company_id : undefined;
-    } else if (loggedInUser.companyID) {
-        companyID = loggedInUser.companyID;
-    }
-
-    const minified = req.query.minified ? req.query.minified === "true" : undefined;
-
-    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
-
-    const locationID = req.query.location_id ? +req.query.location_id : undefined;
-
-    // Pagination
-    let size = req.query.size ? +req.query.size : 10;
-    if (size > 50 && minified !== true) {
-        size = 10;
-    }
-    let page = 1;
-    if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
-        page = +req.query.page;
-    }
-
-    // Query
-    const { branches, pagesCount } = await branchModel.getAllBranchesPaginated({
-        page: page,
-        size: size,
-        companyID: companyID,
-        governorate: governorate,
-        locationID: locationID,
-        minified: minified
+        res.status(200).json({
+            status: "success",
+            data: createdBranch
+        });
     });
 
-    // Response
-    res.status(200).json({
-        status: "success",
-        page: page,
-        pagesCount: pagesCount,
-        data: branches
+    getAllBranches = catchAsync(async (req, res) => {
+        // Filters
+        const loggedInUser = res.locals.user as loggedInUserType;
+        let companyID: number | undefined;
+        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+            companyID = req.query.company_id ? +req.query.company_id : undefined;
+        } else if (loggedInUser.companyID) {
+            companyID = loggedInUser.companyID;
+        }
+
+        const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
+        const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
+
+        const locationID = req.query.location_id ? +req.query.location_id : undefined;
+
+        // Pagination
+        let size = req.query.size ? +req.query.size : 10;
+        if (size > 50 && minified !== true) {
+            size = 10;
+        }
+        let page = 1;
+        if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
+            page = +req.query.page;
+        }
+
+        // Query
+        const { branches, pagesCount } = await branchesRepository.getAllBranchesPaginated({
+            page: page,
+            size: size,
+            companyID: companyID,
+            governorate: governorate,
+            locationID: locationID,
+            minified: minified
+        });
+
+        // Response
+        res.status(200).json({
+            status: "success",
+            page: page,
+            pagesCount: pagesCount,
+            data: branches
+        });
     });
-});
 
-export const getBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params.branchID;
+    getBranch = catchAsync(async (req, res) => {
+        const branchID = +req.params.branchID;
 
-    const branch = await branchModel.getBranch({
-        branchID: branchID
+        const branch = await branchesRepository.getBranch({
+            branchID: branchID
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: branch
+        });
     });
 
-    res.status(200).json({
-        status: "success",
-        data: branch
-    });
-});
+    updateBranch = catchAsync(async (req, res) => {
+        const branchID = +req.params.branchID;
 
-export const updateBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params.branchID;
+        const branchData = BranchUpdateSchema.parse(req.body);
 
-    const branchData = BranchUpdateSchema.parse(req.body);
+        const branch = await branchesRepository.updateBranch({
+            branchID: branchID,
+            branchData: branchData
+        });
 
-    const branch = await branchModel.updateBranch({
-        branchID: branchID,
-        branchData: branchData
-    });
-
-    res.status(200).json({
-        status: "success",
-        data: branch
-    });
-});
-
-export const deleteBranch = catchAsync(async (req, res) => {
-    const branchID = +req.params.branchID;
-
-    await branchModel.deleteBranch({
-        branchID: branchID
+        res.status(200).json({
+            status: "success",
+            data: branch
+        });
     });
 
-    res.status(200).json({
-        status: "success"
+    deleteBranch = catchAsync(async (req, res) => {
+        const branchID = +req.params.branchID;
+
+        await branchesRepository.deleteBranch({
+            branchID: branchID
+        });
+
+        res.status(200).json({
+            status: "success"
+        });
     });
-});
+}
