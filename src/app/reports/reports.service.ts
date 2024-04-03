@@ -2,7 +2,7 @@ import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { CompanyModel } from "../companies/company.model";
-import { EmployeeModel } from "../employees/employee.model";
+import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../orders/orders.dto";
 import { OrdersRepository } from "../orders/orders.repository";
@@ -21,7 +21,7 @@ import { reportReform } from "./reports.responses";
 
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
-const employeeModel = new EmployeeModel();
+const employeesRepository = new EmployeesRepository();
 const companyModel = new CompanyModel();
 
 export class ReportsService {
@@ -290,7 +290,7 @@ export class ReportsService {
 
         let branch: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
-            const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
+            const employee = await employeesRepository.getEmployee({ employeeID: data.loggedInUser.id });
             branch = employee?.branch?.id;
         } else if (data.filters.branch) {
             branch = +data.filters.branch;

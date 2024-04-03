@@ -1,5 +1,5 @@
 import swaggerAutogen from "swagger-autogen";
-import { EmployeeCreateOpenAPISchema, EmployeeUpdateOpenAPISchema } from "../app/employees/employees.zod";
+import { EmployeeCreateOpenAPISchema, EmployeeUpdateOpenAPISchema } from "../app/employees/employees.dto";
 
 import { UserSigninOpenAPISchema } from "./../app/auth/auth.zod";
 

@@ -5,7 +5,7 @@ import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 // import { generateReceipts } from "./helpers/generateReceipts";
-import { EmployeeModel } from "../employees/employee.model";
+import { EmployeesRepository } from "../employees/employees.repository";
 import { generateOrdersReport } from "./helpers/generateOrdersReport";
 import { generateReceipts } from "./helpers/generateReceipts";
 import {
@@ -23,7 +23,7 @@ import { OrdersRepository } from "./orders.repository";
 import { orderReform } from "./orders.responses";
 
 const ordersRepository = new OrdersRepository();
-const employeeModel = new EmployeeModel();
+const employeesRepository = new EmployeesRepository();
 
 export class OrdersService {
     createOrder = async (data: {
@@ -102,7 +102,7 @@ export class OrdersService {
         let inquiryStoresIDs: number[] | undefined = undefined;
         let inquiryCompaniesIDs: number[] | undefined = undefined;
         if (data.loggedInUser.role === "INQUIRY_EMPLOYEE") {
-            const inquiryEmployeeStuff = await employeeModel.getInquiryEmployeeStuff({
+            const inquiryEmployeeStuff = await employeesRepository.getInquiryEmployeeStuff({
                 employeeID: data.loggedInUser.id
             });
             if (inquiryEmployeeStuff) {
@@ -542,7 +542,7 @@ export class OrdersService {
         let inquiryStoresIDs: number[] | undefined = undefined;
         let inquiryCompaniesIDs: number[] | undefined = undefined;
         if (data.loggedInUser.role === "INQUIRY_EMPLOYEE") {
-            const inquiryEmployeeStuff = await employeeModel.getInquiryEmployeeStuff({
+            const inquiryEmployeeStuff = await employeesRepository.getInquiryEmployeeStuff({
                 employeeID: data.loggedInUser.id
             });
             if (inquiryEmployeeStuff) {

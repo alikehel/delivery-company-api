@@ -83,6 +83,8 @@ export const EmployeeCreateOpenAPISchema = generateSchema(EmployeeCreateSchema);
 
 // export const EmployeeCreateMock = generateMock(EmployeeCreateSchema);
 
+/* --------------------------------------------------------------- */
+
 export const EmployeeUpdateSchema = EmployeeCreateSchema.partial();
 
 export type EmployeeUpdateType = z.infer<typeof EmployeeUpdateSchema>;
@@ -90,3 +92,50 @@ export type EmployeeUpdateType = z.infer<typeof EmployeeUpdateSchema>;
 export const EmployeeUpdateOpenAPISchema = generateSchema(EmployeeUpdateSchema);
 
 // export const EmployeeUpdateMock = generateMock(EmployeeUpdateSchema);
+
+/* --------------------------------------------------------------- */
+
+export const EmployeesFiltersSchema = z
+    .object({
+        companyID: z.coerce.number().optional(),
+        page: z.coerce.number().optional().default(1),
+        size: z.coerce.number().optional().default(10),
+        ordersStartDate: z.coerce.date().optional(),
+        ordersEndDate: z.coerce.date().optional(),
+        roles: z.preprocess((val) => {
+            if (typeof val === "string") {
+                return val.split(",");
+            }
+            return val;
+        }, z.array(z.nativeEnum(EmployeeRole)).optional()),
+        permissions: z.preprocess((val) => {
+            if (typeof val === "string") {
+                return val.split(",");
+            }
+            return val;
+        }, z.array(z.nativeEnum(Permission)).optional()),
+        role: z.nativeEnum(EmployeeRole).optional(),
+        branchID: z.coerce.number().optional(),
+        locationID: z.coerce.number().optional(),
+        deleted: z.preprocess((val) => {
+            if (val === "true") return true;
+            if (val === "false") return false;
+            return false;
+        }, z.boolean().default(false)),
+        minified: z.preprocess((val) => {
+            if (val === "true") return true;
+            if (val === "false") return false;
+            return val;
+        }, z.boolean().optional())
+    })
+    .transform((data) => {
+        if (data.size > 50 && data.minified !== true) {
+            return {
+                ...data,
+                size: 10
+            };
+        }
+        return data;
+    });
+
+export type EmployeesFiltersType = z.infer<typeof EmployeesFiltersSchema>;

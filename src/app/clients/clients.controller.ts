@@ -4,13 +4,13 @@ import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { EmployeeModel } from "../employees/employee.model";
+import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
 
 const clientModel = new ClientModel();
-const employeeModel = new EmployeeModel();
+const employeesRepository = new EmployeesRepository();
 
 export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
@@ -138,7 +138,7 @@ export const updateClient = catchAsync(async (req, res) => {
     // Send notification to the company manager if the client name is updated
     if (clientData.name && oldClient?.name !== updatedClient?.name) {
         // get the company manager id
-        const companyManager = await employeeModel.getCompanyManager({
+        const companyManager = await employeesRepository.getCompanyManager({
             companyID: updatedClient?.company.id as number
         });
 

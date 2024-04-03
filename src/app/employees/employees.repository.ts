@@ -1,238 +1,65 @@
-import { EmployeeRole, Permission, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { loggedInUserType } from "../../types/user";
-import { EmployeeCreateType, EmployeeUpdateType } from "./employees.zod";
+import { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
+import { employeeReform, employeeSelect } from "./employees.responses";
 
-const employeeSelect = {
-    salary: true,
-    role: true,
-    permissions: true,
-    branch: true,
-    repository: true,
-    deliveryCost: true,
-    user: {
-        select: {
-            id: true,
-            name: true,
-            username: true,
-            phone: true,
-            avatar: true,
-            createdAt: true,
-            updatedAt: true
-        }
-    },
-    company: {
-        select: {
-            id: true,
-            name: true,
-            logo: true,
-            color: true
-        }
-    },
-    deleted: true,
-    deletedAt: true,
-    deletedBy: {
-        select: {
-            id: true,
-            name: true
-        }
-    },
-    _count: {
-        select: {
-            orders: true
-            // deliveryAgentsLocations: true
-        }
-    },
-    managedStores: {
-        select: {
-            id: true,
-            name: true
-        }
-    },
-    inquiryBranches: {
-        select: {
-            branch: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
-        }
-    },
-    inquiryLocations: {
-        select: {
-            location: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
-        }
-    },
-    inquiryCompanies: {
-        select: {
-            company: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
-        }
-    },
-    inquiryStores: {
-        select: {
-            store: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
-        }
-    },
-    createdBy: {
-        select: {
-            id: true,
-            name: true
-        }
-    },
-    // inquiryDeliveryAgents: {
-    //     select: {
-    //         deliveryAgent: {
-    //             select: {
-    //                 user: {
-    //                     select: {
-    //                         id: true,
-    //                         name: true
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
-    // inquiryEmployees: {
-    //     select: {
-    //         inquiryEmployee: {
-    //             select: {
-    //                 user: {
-    //                     select: {
-    //                         id: true,
-    //                         name: true
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
-    inquiryGovernorates: true,
-    inquiryStatuses: true
-} satisfies Prisma.EmployeeSelect;
-
-const employeeReform = (
-    employee: Prisma.EmployeeGetPayload<{
-        select: typeof employeeSelect;
-    }> | null
-) => {
-    if (!employee) {
-        return null;
-    }
-    return {
-        // TODO
-        id: employee.user.id,
-        name: employee.user.name,
-        username: employee.user.username,
-        phone: employee.user.phone,
-        avatar: employee.user.avatar,
-        salary: employee.salary,
-        role: employee.role,
-        permissions: employee.permissions,
-        deliveryCost: employee.deliveryCost,
-        branch: employee.branch,
-        repository: employee.repository,
-        company: employee.company,
-        deleted: employee.deleted,
-        deletedBy: employee.deleted && employee.deletedBy,
-        deletedAt: employee.deletedAt?.toISOString(),
-        ordersCount: employee._count.orders,
-        createdAt: employee.user.createdAt.toISOString(),
-        updatedAt: employee.user.updatedAt.toISOString(),
-        managedStores: employee.managedStores,
-        inquiryBranches: employee.inquiryBranches.map((branch) => {
-            return branch.branch;
-        }),
-        inquiryLocations: employee.inquiryLocations.map((location) => {
-            return location.location;
-        }),
-        inquiryCompanies: employee.inquiryCompanies.map((company) => {
-            return company.company;
-        }),
-        inquiryStores: employee.inquiryStores.map((store) => {
-            return store.store;
-        }),
-        // inquiryDeliveryAgents: employee.inquiryDeliveryAgents.map((deliveryAgent) => {
-        //     return deliveryAgent.deliveryAgent.user;
-        // }),
-        // inquiryEmployees: employee.inquiryEmployees.map((inquiryEmployee) => {
-        //     return inquiryEmployee.inquiryEmployee.user;
-        // }),
-        inquiryGovernorates: employee.inquiryGovernorates,
-        inquiryStatuses: employee.inquiryStatuses,
-        createdBy: employee.createdBy
-        // deliveryAgentsLocationsCount: employee._count.deliveryAgentsLocations
-    };
-};
-
-export class EmployeeModel {
-    async createEmployee(companyID: number, loggedInUser: loggedInUserType, data: EmployeeCreateType) {
+export class EmployeesRepository {
+    async createEmployee(data: {
+        companyID: number;
+        loggedInUser: loggedInUserType;
+        employeeData: EmployeeCreateType;
+    }) {
         const createdEmployee = await prisma.employee.create({
             data: {
                 user: {
                     create: {
-                        name: data.name,
-                        username: data.username,
-                        password: data.password,
-                        phone: data.phone,
-                        fcm: data.fcm,
-                        avatar: data.avatar
+                        name: data.employeeData.name,
+                        username: data.employeeData.username,
+                        password: data.employeeData.password,
+                        phone: data.employeeData.phone,
+                        fcm: data.employeeData.fcm,
+                        avatar: data.employeeData.avatar
                     }
                 },
-                salary: data.salary,
-                role: data.role,
+                salary: data.employeeData.salary,
+                role: data.employeeData.role,
                 company: {
                     connect: {
-                        id: companyID
+                        id: data.companyID
                     }
                 },
-                permissions: data.permissions
+                permissions: data.employeeData.permissions
                     ? {
-                          set: data.permissions
+                          set: data.employeeData.permissions
                       }
                     : undefined,
-                branch: data.branchID
+                branch: data.employeeData.branchID
                     ? {
                           connect: {
-                              id: data.branchID
+                              id: data.employeeData.branchID
                           }
                       }
                     : undefined,
-                repository: data.repositoryID
+                repository: data.employeeData.repositoryID
                     ? {
                           connect: {
-                              id: data.repositoryID
+                              id: data.employeeData.repositoryID
                           }
                       }
                     : undefined,
-                managedStores: data.storesIDs
+                managedStores: data.employeeData.storesIDs
                     ? {
-                          connect: data.storesIDs.map((storeID) => {
+                          connect: data.employeeData.storesIDs.map((storeID) => {
                               return {
                                   id: storeID
                               };
                           })
                       }
                     : undefined,
-                inquiryStores: data.inquiryStoresIDs
+                inquiryStores: data.employeeData.inquiryStoresIDs
                     ? {
-                          create: data.inquiryStoresIDs.map((storeID) => {
+                          create: data.employeeData.inquiryStoresIDs.map((storeID) => {
                               return {
                                   store: {
                                       connect: {
@@ -243,10 +70,10 @@ export class EmployeeModel {
                           })
                       }
                     : undefined,
-                inquiryLocations: data.inquiryLocationsIDs
+                inquiryLocations: data.employeeData.inquiryLocationsIDs
                     ? {
                           createMany: {
-                              data: data.inquiryLocationsIDs.map((locationID) => {
+                              data: data.employeeData.inquiryLocationsIDs.map((locationID) => {
                                   return {
                                       locationId: locationID
                                   };
@@ -254,10 +81,10 @@ export class EmployeeModel {
                           }
                       }
                     : undefined,
-                inquiryBranches: data.inquiryBranchesIDs
+                inquiryBranches: data.employeeData.inquiryBranchesIDs
                     ? {
                           createMany: {
-                              data: data.inquiryBranchesIDs.map((branchID) => {
+                              data: data.employeeData.inquiryBranchesIDs.map((branchID) => {
                                   return {
                                       branchId: branchID
                                   };
@@ -265,10 +92,10 @@ export class EmployeeModel {
                           }
                       }
                     : undefined,
-                inquiryCompanies: data.inquiryCompaniesIDs
+                inquiryCompanies: data.employeeData.inquiryCompaniesIDs
                     ? {
                           createMany: {
-                              data: data.inquiryCompaniesIDs.map((companyID) => {
+                              data: data.employeeData.inquiryCompaniesIDs.map((companyID) => {
                                   return {
                                       companyId: companyID
                                   };
@@ -276,10 +103,10 @@ export class EmployeeModel {
                           }
                       }
                     : undefined,
-                // inquiryDeliveryAgents: data.inquiryDeliveryAgentsIDs
+                // inquiryDeliveryAgents: data.employeeData.inquiryDeliveryAgentsIDs
                 //     ? {
                 //           createMany: {
-                //               data: data.inquiryDeliveryAgentsIDs.map((deliveryAgentID) => {
+                //               data: data.employeeData.inquiryDeliveryAgentsIDs.map((deliveryAgentID) => {
                 //                   return {
                 //                       deliveryAgentId: deliveryAgentID
                 //                   };
@@ -287,19 +114,19 @@ export class EmployeeModel {
                 //           }
                 //       }
                 //     : undefined,
-                inquiryGovernorates: data.inquiryGovernorates
+                inquiryGovernorates: data.employeeData.inquiryGovernorates
                     ? {
-                          set: data.inquiryGovernorates
+                          set: data.employeeData.inquiryGovernorates
                       }
                     : undefined,
-                inquiryStatuses: data.inquiryStatuses
+                inquiryStatuses: data.employeeData.inquiryStatuses
                     ? {
-                          set: data.inquiryStatuses
+                          set: data.employeeData.inquiryStatuses
                       }
                     : undefined,
                 createdBy: {
                     connect: {
-                        id: loggedInUser.id
+                        id: data.loggedInUser.id
                     }
                 }
             },
@@ -308,55 +135,44 @@ export class EmployeeModel {
         return employeeReform(createdEmployee);
     }
 
-    async getAllEmployeesPaginated(filters: {
-        page: number;
-        size: number;
-        roles?: EmployeeRole[];
-        role?: EmployeeRole;
-        branchID?: number;
-        locationID?: number;
-        deleted?: string;
-        ordersStartDate?: Date;
-        ordersEndDate?: Date;
-        companyID?: number;
-        minified?: boolean;
-        permissions?: Permission[];
-    }) {
+    async getAllEmployeesPaginated(data: { filters: EmployeesFiltersType }) {
         const where = {
             AND: [
-                { permissions: filters.permissions ? { hasEvery: filters.permissions } : undefined },
-                { role: { in: filters.roles } },
-                { role: filters.role },
+                {
+                    permissions: data.filters.permissions ? { hasEvery: data.filters.permissions } : undefined
+                },
+                { role: { in: data.filters.roles } },
+                { role: data.filters.role },
                 {
                     branch: {
-                        id: filters.branchID
+                        id: data.filters.branchID
                     }
                 },
                 {
-                    deliveryAgentsLocations: filters.locationID
-                        ? filters.roles?.find((role) => {
+                    deliveryAgentsLocations: data.filters.locationID
+                        ? data.filters.roles?.find((role) => {
                               return role === "DELIVERY_AGENT" || role === "RECEIVING_AGENT";
                           })
                             ? {
                                   some: {
                                       location: {
-                                          id: filters.locationID
+                                          id: data.filters.locationID
                                       }
                                   }
                               }
                             : undefined
                         : undefined
                 },
-                { deleted: filters.deleted === "true" },
+                { deleted: data.filters.deleted },
                 {
                     company: {
-                        id: filters.companyID
+                        id: data.filters.companyID
                     }
                 }
             ]
-        };
+        } satisfies Prisma.EmployeeWhereInput;
 
-        if (filters.minified === true) {
+        if (data.filters.minified === true) {
             const employees = await prisma.employee.findManyPaginated(
                 {
                     where: where,
@@ -370,8 +186,8 @@ export class EmployeeModel {
                     }
                 },
                 {
-                    page: filters.page,
-                    size: filters.size
+                    page: data.filters.page,
+                    size: data.filters.size
                 }
             );
             return {
@@ -398,8 +214,8 @@ export class EmployeeModel {
                             orders: {
                                 where: {
                                     createdAt: {
-                                        gte: filters.ordersStartDate,
-                                        lte: filters.ordersEndDate
+                                        gte: data.filters.ordersStartDate,
+                                        lte: data.filters.ordersEndDate
                                     },
                                     confirmed: true,
                                     deleted: false
@@ -411,8 +227,8 @@ export class EmployeeModel {
                 }
             },
             {
-                page: filters.page,
-                size: filters.size
+                page: data.filters.page,
+                size: data.filters.size
             }
         );
 
