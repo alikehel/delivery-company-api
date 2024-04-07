@@ -1,31 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { ColorCreateType, ColorUpdateType } from "./colors.dto";
+import { colorSelect } from "./colors.responses";
 
-const colorSelect = {
-    id: true,
-    title: true,
-    code: true,
-    createdAt: true,
-    updatedAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.ColorSelect;
-
-// const colorReform = (color: any) => {
-//     return {
-//         id: color.id,
-//         title: color.title,
-//         createdAt: color.createdAt,
-//         updatedAt: color.updatedAt
-//     };
-// };
-
-export class ColorModel {
+export class ColorsRepository {
     async createColor(companyID: number, data: ColorCreateType) {
         const createdColor = await prisma.color.create({
             data: {

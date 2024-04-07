@@ -2,14 +2,6 @@
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
-// model Color {
-//   id        String    @id @default(uuid())
-//   title     String
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   Product   Product[]
-// }
-
 export const ColorCreateSchema = z.object({
     title: z.string(),
     code: z.string()
