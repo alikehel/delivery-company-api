@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { ClientRole, Governorate } from "@prisma/client";
 import { z } from "zod";
@@ -37,7 +37,7 @@ export type ClientCreateType = z.infer<typeof ClientCreateSchema>;
 
 export const ClientCreateOpenAPISchema = generateSchema(ClientCreateSchema);
 
-export const ClientCreateMock = generateMock(ClientCreateSchema);
+// export const ClientCreateMock = generateMock(ClientCreateSchema);
 
 export const ClientCreateSchemaWithUserID = ClientCreateSchema.extend({
     userID: z.coerce.number()
@@ -51,4 +51,4 @@ export type ClientUpdateType = z.infer<typeof ClientUpdateSchema>;
 
 export const ClientUpdateOpenAPISchema = generateSchema(ClientUpdateSchema);
 
-export const ClientUpdateMock = generateMock(ClientUpdateSchema);
+// export const ClientUpdateMock = generateMock(ClientUpdateSchema);

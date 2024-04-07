@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { NotificationCreateType, NotificationUpdateType } from "./notifications.zod";
-
-const prisma = new PrismaClient();
 
 const notificationSelect = {
     id: true,
@@ -61,46 +60,36 @@ export class NotificationModel {
         return notificationReform(createdNotification);
     }
 
-    async getNotificationsCount(userID: number, seen: boolean) {
-        const notificationsCount = await prisma.notification.count({
-            where: {
-                seen:
-                    seen === true
-                        ? undefined
-                        : {
-                              equals: false
-                          },
-                user: {
-                    id: userID
-                }
+    async getAllNotificationsPaginated(userID: number, page: number, size: number, seen: boolean) {
+        const paginatedNotifications = await prisma.notification.findManyPaginated(
+            {
+                // if seen true gett all notifications seen and unseen
+                // if seen false get only unseen notifications
+                where: {
+                    seen:
+                        seen === true
+                            ? undefined
+                            : {
+                                  equals: false
+                              },
+                    user: {
+                        id: userID
+                    }
+                },
+                orderBy: {
+                    id: "desc"
+                },
+                select: notificationSelect
+            },
+            {
+                page: page,
+                size: size
             }
-        });
-        return notificationsCount;
-    }
-
-    async getAllNotifications(userID: number, skip: number, take: number, seen: boolean) {
-        const notifications = await prisma.notification.findMany({
-            // if seen true gett all notifications seen and unseen
-            // if seen false get only unseen notifications
-            where: {
-                seen:
-                    seen === true
-                        ? undefined
-                        : {
-                              equals: false
-                          },
-                user: {
-                    id: userID
-                }
-            },
-            skip: skip,
-            take: take,
-            orderBy: {
-                createdAt: "desc"
-            },
-            select: notificationSelect
-        });
-        return notifications.map(notificationReform);
+        );
+        return {
+            notifications: paginatedNotifications.data.map(notificationReform),
+            pagesCount: paginatedNotifications.pagesCount
+        };
     }
 
     async updateNotification(data: {

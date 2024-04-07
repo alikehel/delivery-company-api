@@ -1,9 +1,10 @@
-import { AdminRole, EmployeeRole } from "@prisma/client";
+import { AdminRole, EmployeeRole, Permission } from "@prisma/client";
 import * as bcrypt from "bcrypt";
-import { SECRET } from "../../config/config";
+import { env } from "../../config";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { EmployeeModel } from "./employee.model";
 import { EmployeeCreateSchema, EmployeeUpdateSchema } from "./employees.zod";
 
@@ -25,9 +26,9 @@ export const createEmployee = catchAsync(async (req, res) => {
 
     if (
         employeeData.role !== EmployeeRole.DELIVERY_AGENT &&
-        (loggedInUser.role !== EmployeeRole.COMPANY_MANAGER ||
-            loggedInUser.role !== AdminRole.ADMIN ||
-            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT)
+        loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+        loggedInUser.role !== AdminRole.ADMIN &&
+        loggedInUser.role !== AdminRole.ADMIN_ASSISTANT
     ) {
         throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
     }
@@ -36,9 +37,9 @@ export const createEmployee = catchAsync(async (req, res) => {
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
-    const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(employeeData.password + (env.SECRET as string), 12);
 
-    const createdEmployee = await employeeModel.createEmployee(companyID, {
+    const createdEmployee = await employeeModel.createEmployee(companyID, loggedInUser, {
         ...employeeData,
         password: hashedPassword,
         avatar: avatar
@@ -59,7 +60,12 @@ export const getAllEmployees = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
+
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
     const roles = req.query.roles?.toString().toUpperCase().split(",") as EmployeeRole[];
+
+    const permissions = req.query.permissions?.toString().toUpperCase().split(",") as Permission[];
 
     const role = req.query.role?.toString().toUpperCase() as EmployeeRole;
 
@@ -77,45 +83,18 @@ export const getAllEmployees = catchAsync(async (req, res) => {
 
     const deleted = (req.query.deleted as string) || "false";
 
-    const employeesCount = await employeeModel.getEmployeesCount({
-        roles: roles,
-        role: role,
-        locationID: locationID,
-        branchID: branchID,
-        deleted: deleted,
-        ordersStartDate: ordersStartDate,
-        ordersEndDate: ordersEndDate,
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(employeesCount / size);
-
-    if (pagesCount === 0) {
-        // console.log(roles);
-
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const employees = await employeeModel.getAllEmployees(skip, take, {
+    const { employees, pagesCount } = await employeeModel.getAllEmployeesPaginated({
+        page: page,
+        size: size,
         roles: roles,
         role: role,
         locationID: locationID,
@@ -123,7 +102,9 @@ export const getAllEmployees = catchAsync(async (req, res) => {
         deleted: deleted,
         ordersStartDate: ordersStartDate,
         ordersEndDate: ordersEndDate,
-        companyID: companyID
+        companyID: companyID,
+        minified: minified,
+        permissions: permissions
     });
 
     res.status(200).json({
@@ -150,7 +131,10 @@ export const getEmployee = catchAsync(async (req, res) => {
 export const updateEmployee = catchAsync(async (req, res) => {
     const employeeData = EmployeeUpdateSchema.parse(req.body);
     const employeeID = +req.params.employeeID;
-    const companyID = +res.locals.user.companyID;
+
+    const oldEmployee = await employeeModel.getEmployee({
+        employeeID: employeeID
+    });
 
     if (req.file) {
         employeeData.avatar = req.file
@@ -159,15 +143,33 @@ export const updateEmployee = catchAsync(async (req, res) => {
     }
 
     if (employeeData.password) {
-        const hashedPassword = bcrypt.hashSync(employeeData.password + (SECRET as string), 12);
+        const hashedPassword = bcrypt.hashSync(employeeData.password + (env.SECRET as string), 12);
         employeeData.password = hashedPassword;
     }
 
     const updatedEmployee = await employeeModel.updateEmployee({
         employeeID: employeeID,
-        companyID: companyID,
+        // companyID: companyID,
         employeeData
     });
+
+    // Send notification to the company manager if the delviery agent name is updated
+    if (
+        employeeData.name &&
+        (updatedEmployee?.role === "DELIVERY_AGENT" || updatedEmployee?.role === "RECEIVING_AGENT") &&
+        oldEmployee?.name !== updatedEmployee?.name
+    ) {
+        // get the company manager id
+        const companyManager = await employeeModel.getCompanyManager({
+            companyID: updatedEmployee.company.id
+        });
+
+        await sendNotification({
+            userID: companyManager?.id as number,
+            title: "تغيير اسم مندوب",
+            content: `تم تغيير اسم المندوب ${oldEmployee?.name} إلى ${updatedEmployee?.name}`
+        });
+    }
 
     res.status(200).json({
         status: "success",

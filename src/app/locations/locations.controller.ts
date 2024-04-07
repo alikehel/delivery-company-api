@@ -1,7 +1,6 @@
-import { AdminRole, Governorate } from "@prisma/client";
-import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { Governorate } from "@prisma/client";
+import { catchAsync } from "../../lib/catchAsync";
+// import { loggedInUserType } from "../../types/user";
 import { LocationModel } from "./location.model";
 import { LocationCreateSchema, LocationUpdateSchema } from "./locations.zod";
 
@@ -21,13 +20,16 @@ export const createLocation = catchAsync(async (req, res) => {
 
 export const getAllLocations = catchAsync(async (req, res) => {
     // Filters
-    const loggedInUser = res.locals.user as loggedInUserType;
-    let companyID: number | undefined;
-    if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        companyID = req.query.company_id ? +req.query.company_id : undefined;
-    } else if (loggedInUser.companyID) {
-        companyID = loggedInUser.companyID;
-    }
+    // const loggedInUser = res.locals.user as loggedInUserType;
+    // let companyID: number | undefined;
+    // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+    //     companyID = req.query.company_id ? +req.query.company_id : undefined;
+    // } else if (loggedInUser.companyID) {
+    //     companyID = loggedInUser.companyID;
+    // }
+
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
     const search = req.query.search as string;
 
     const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
@@ -36,45 +38,24 @@ export const getAllLocations = catchAsync(async (req, res) => {
 
     const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
-    const locationsCount = await locationModel.getLocationsCount({
-        search: search,
-        branchID: branchID,
-        governorate: governorate,
-        deliveryAgentID: deliveryAgentID,
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(locationsCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const locations = await locationModel.getAllLocations(skip, take, {
+    const { locations, pagesCount } = await locationModel.getAllLocationsPaginated({
+        page: page,
+        size: size,
         search: search,
         branchID: branchID,
         governorate: governorate,
         deliveryAgentID: deliveryAgentID,
-        companyID: companyID
+        // companyID: companyID,
+        minified: minified
     });
 
     res.status(200).json({
@@ -126,7 +107,7 @@ export const deleteLocation = catchAsync(async (req, res) => {
     });
 });
 
-export const publicGetAllLocations = catchAsync(async (req, res) => {
+export const publicGetAllLocations = catchAsync(async (_req, res) => {
     const locations = await locationModel.publicGetAllLocations();
 
     res.status(200).json(locations);

@@ -3,8 +3,8 @@ import { Router } from "express";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { ReportController } from "./reports.controller";
 
 const router = Router();
@@ -146,6 +146,15 @@ router.route("/reports/:reportID/pdf").get(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
     reportController.getReportPDF
+    /*
+        #swagger.tags = ['Reports Routes']
+    */
+);
+
+router.route("/reports/pdf").post(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    reportController.getReportsReportPDF
     /*
         #swagger.tags = ['Reports Routes']
     */

@@ -1,0 +1,4 @@
+{
+	"conventionalCommits.scopes": ["admins", "auth", "automatic-updates", "banners", "branches", "categories", "clients", "colors", "companies", "employees", "locations", "notifications", "orders", "products", "reports", "repositories", "sizes", "stores", "users", "database", "salaries", "config"],
+	"typescript.tsdk": "./node_modules/typescript/lib"
+}

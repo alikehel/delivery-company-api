@@ -1,4 +1,4 @@
-import { apiReference } from "@scalar/express-api-reference";
+// import { apiReference } from "@scalar/express-api-reference";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -6,37 +6,38 @@ import express from "express";
 import helmet from "helmet";
 // import { Role } from "@prisma/client";
 import morganBody from "morgan-body";
-import shrinkRay from "shrink-ray-current";
-import { SwaggerTheme } from "swagger-themes";
+// import shrinkRay from "shrink-ray-current";
+// import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
-import globalErrorcontroller from "./error/error.controller";
-import Logger from "./lib/logger";
 // import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
-import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan.middleware";
+import compression from "compression";
+import { AppError } from "./lib/AppError";
+import { Logger } from "./lib/logger";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
+import { morganMiddleware, morganMiddlewareImmediate } from "./middlewares/morgan";
 import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
-import AppError from "./utils/AppError.util";
 
 const app = express();
 
 // Swagger
 
-const swaggerTheme = new SwaggerTheme("v3");
+// const swaggerTheme = new SwaggerTheme("v3");
 const swaggerOptionsV1 = {
-    explorer: true,
-    customCss: swaggerTheme.getBuffer("dark")
+    explorer: true
+    // customCss: swaggerTheme.getBuffer("dark"),
 };
 
 app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptionsV1));
 
-app.use(
-    "/api-docs-scalar",
-    apiReference({
-        spec: {
-            content: swaggerDocument
-        }
-    })
-);
+// app.use(
+//     "/api-docs-scalar",
+//     apiReference({
+//         spec: {
+//             content: swaggerDocument
+//         }
+//     })
+// );
 
 // Middlewares
 
@@ -46,41 +47,47 @@ app.use(morganMiddlewareImmediate);
 morganBody(app, {
     stream: {
         // @ts-expect-error Fix later
-        write: (message) => Logger.http(message.replace(/\n$/, ""))
-    }
+        write: (message) => Logger.info(message.replace(/\n$/, ""))
+    },
+    maxBodyLength: 200,
+    immediateReqLog: true,
+    // theme: "lightened",
+    noColors: true,
+    prettify: false
 });
 app.use(morganMiddleware);
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 app.use(helmet()); // Set security HTTP headers
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
-// app.use(
-//     compression({
-//         filter: (req, res) => {
-//             if (req.headers["x-no-compression"]) {
-//                 return false;
-//             }
-//             return compression.filter(req, res);
-//         },
-//         threshold: 0
-//     })
-// );
 app.use(
-    shrinkRay({
-        brotli: {
-            quality: 11
-        },
-        zlib: {
-            level: 9
-        },
+    compression({
         filter: (req, res) => {
             if (req.headers["x-no-compression"]) {
                 return false;
             }
-            return shrinkRay.filter(req, res);
-        }
+            return compression.filter(req, res);
+        },
+        threshold: 0
     })
 );
+// app.use(
+//     shrinkRay({
+//         brotli: {
+//             quality: 11
+//         },
+//         zlib: {
+//             level: 9
+//         },
+//         useZopfliForGzip: false,
+//         filter: (req, res) => {
+//             if (req.headers["x-no-compression"]) {
+//                 return false;
+//             }
+//             return shrinkRay.filter(req, res);
+//         }
+//     })
+// );
 
 // Function to serve all static files
 app.use("/uploads", express.static("uploads"));
@@ -144,7 +151,7 @@ app.all("*", (req, _res, next) => {
 
 // Global Error Handler
 
-app.use(globalErrorcontroller);
+app.use(globalErrorHandler);
 
 // Export App
 

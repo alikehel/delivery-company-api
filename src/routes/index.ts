@@ -1,9 +1,6 @@
 import { Router } from "express";
-
-import catchAsync from "../utils/catchAsync.util";
-
 import authRoutes from "../app/auth/auth.routes";
-import automaticUpdatesRoutes from "../app/automaticUpdates/automaticUpdates.routes";
+import automaticUpdatesRoutes from "../app/automatic-updates/automaticUpdates.routes";
 import bannersRoutes from "../app/banners/banners.routes";
 import branchesRoutes from "../app/branches/branches.routes";
 import categoriesRoutes from "../app/categories/categories.routes";
@@ -19,8 +16,9 @@ import reportsRoutes from "../app/reports/reports.routes";
 import repositoriesRoutes from "../app/repositories/repositories.routes";
 import sizesRoutes from "../app/sizes/sizes.routes";
 import storesRoutes from "../app/stores/stores.routes";
-import { upload } from "../middlewares/upload.middleware";
-// import { upload } from "../middlewares/upload.middleware";
+import usersRoutes from "../app/users/users.routes";
+import { catchAsync } from "../lib/catchAsync";
+import { upload } from "../middlewares/upload";
 
 const router = Router();
 
@@ -41,6 +39,7 @@ router.use("/", storesRoutes);
 router.use("/", bannersRoutes);
 router.use("/", reportsRoutes);
 router.use("/", automaticUpdatesRoutes);
+router.use("/", usersRoutes);
 
 /*******************************************************************************
  * TEST ROUTES

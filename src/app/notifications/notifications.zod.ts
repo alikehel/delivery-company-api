@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -25,4 +25,4 @@ export type NotificationUpdateType = z.infer<typeof NotificationUpdateSchema>;
 
 export const NotificationUpdateOpenAPISchema = generateSchema(NotificationUpdateSchema);
 
-export const NotificationUpdateMock = generateMock(NotificationUpdateSchema);
+// export const NotificationUpdateMock = generateMock(NotificationUpdateSchema);

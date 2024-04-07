@@ -1,7 +1,6 @@
 import { AdminRole } from "@prisma/client";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { CategoryCreateSchema, CategoryUpdateSchema } from "./categories.zod";
 import { CategoryModel } from "./category.model";
 
@@ -29,37 +28,22 @@ export const getAllCategories = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
-    const categoriesCount = await categoryModel.getCategoriesCount({
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(categoriesCount / size);
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const categories = await categoryModel.getAllCategories(skip, take, {
-        companyID: companyID
+    const { categories, pagesCount } = await categoryModel.getAllCategoriesPaginated({
+        page: page,
+        size: size,
+        companyID: companyID,
+        minified: minified
     });
 
     res.status(200).json({

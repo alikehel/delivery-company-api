@@ -1,25 +1,65 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 // import { UserCreateType, UserUpdateType } from "./users.zod";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../database/db";
 
 const userSelect = {
     id: true,
     avatar: true,
     name: true,
     username: true,
-    phone: true
+    phone: true,
+    employee: {
+        select: {
+            role: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    color: true
+                }
+            }
+        }
+    },
+    client: {
+        select: {
+            role: true,
+            company: {
+                select: {
+                    id: true,
+                    name: true,
+                    logo: true,
+                    color: true
+                }
+            }
+        }
+    },
+    admin: {
+        select: {
+            // phone: true,
+            role: true
+        }
+    }
 } satisfies Prisma.UserSelect;
 
-// const userSelectReform = (user: any) => {
-//     return {
-//         id: user.id,
-//         avatar: user.avatar,
-//         name: user.name,
-//         username: user.username,
-//         phone: user.phone
-//     };
-// };
+const userSelectReform = (
+    user: Prisma.UserGetPayload<{
+        select: typeof userSelect;
+    }> | null
+) => {
+    if (!user) {
+        throw new Error("لم يتم العثور على المستخدم");
+    }
+    return {
+        id: user.id,
+        avatar: user.avatar || "",
+        name: user.name,
+        username: user.username,
+        phone: user.phone,
+        role: user.employee?.role || user.client?.role || user.admin?.role || "",
+        company: user.employee?.company || user.client?.company || null
+    };
+};
 
 export class UserModel {
     // async createUser(data: UserCreateType) {
@@ -103,15 +143,9 @@ export class UserModel {
             where: {
                 id: data.userID
             },
-            select: {
-                id: true,
-                avatar: true,
-                name: true,
-                username: true,
-                phone: true
-            }
+            select: userSelect
         });
-        return user;
+        return userSelectReform(user);
     }
 
     async updateUser(data: { userID: number; userData: { fcm: string } }) {
@@ -124,7 +158,7 @@ export class UserModel {
             },
             select: userSelect
         });
-        return user;
+        return userSelectReform(user);
     }
 
     // async deleteUser(data: { userID: number }) {

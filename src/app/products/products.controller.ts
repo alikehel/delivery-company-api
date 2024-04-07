@@ -1,21 +1,29 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, ClientRole } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { OrdersRepository } from "../orders/orders.repository";
 import { ProductModel } from "./product.model";
 import { ProductCreateSchema, ProductUpdateSchema } from "./products.zod";
 
 const productModel = new ProductModel();
+const ordersRepository = new OrdersRepository();
 
 export const createProduct = catchAsync(async (req, res) => {
     const productData = ProductCreateSchema.parse(req.body);
-    const loggedInUserID = +res.locals.user.id;
+    // const loggedInUserID = +res.locals.user.id;
     const companyID = +res.locals.user.companyID;
     const image = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
-    const createdProduct = await productModel.createProduct(companyID, loggedInUserID, {
+    // Get the clientID
+    const clientID = await ordersRepository.getClientIDByStoreID({ storeID: productData.storeID });
+    if (!clientID) {
+        throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+    }
+
+    const createdProduct = await productModel.createProduct(companyID, clientID, {
         ...productData,
         image
     });
@@ -35,41 +43,34 @@ export const getAllProducts = catchAsync(async (req, res) => {
     } else if (loggedInUser.companyID) {
         companyID = loggedInUser.companyID;
     }
-    const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    const productsCount = await productModel.getProductsCount({
-        companyID: companyID,
-        storeID: storeID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(productsCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let clientID: number | undefined;
+    if (loggedInUser.role === ClientRole.CLIENT) {
+        clientID = loggedInUser.id;
+    } else if (req.query.client_id) {
+        clientID = +req.query.client_id;
     }
 
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
+
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
+    }
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const products = await productModel.getAllProducts(skip, take, {
+    const { products, pagesCount } = await productModel.getAllProductsPaginated({
+        page: page,
+        size: size,
         storeID: storeID,
-        companyID: companyID
+        companyID: companyID,
+        minified: minified,
+        clientID: clientID
     });
 
     res.status(200).json({

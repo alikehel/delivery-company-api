@@ -1,7 +1,6 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, Governorate } from "@prisma/client";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { BranchModel } from "./branch.model";
 import { BranchCreateSchema, BranchUpdateSchema } from "./branches.zod";
 
@@ -29,37 +28,30 @@ export const getAllBranches = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
+    const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
+
+    const locationID = req.query.location_id ? +req.query.location_id : undefined;
+
     // Pagination
-    const branchesCount = await branchModel.getBranchesCount({
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(branchesCount / size);
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
     }
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
     // Query
-    const branches = await branchModel.getAllBranches(skip, take, {
-        companyID: companyID
+    const { branches, pagesCount } = await branchModel.getAllBranchesPaginated({
+        page: page,
+        size: size,
+        companyID: companyID,
+        governorate: governorate,
+        locationID: locationID,
+        minified: minified
     });
 
     // Response

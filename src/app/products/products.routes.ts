@@ -2,11 +2,11 @@ import { Router } from "express";
 
 // import { upload } from "../../middlewares/upload.middleware";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import { upload } from "../../middlewares/upload.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
+import { upload } from "../../middlewares/upload";
 import {
     createProduct,
     deleteProduct,
@@ -23,7 +23,7 @@ router.route("/products").post(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     upload.single("image"),
     // upload.none(),
@@ -53,7 +53,7 @@ router.route("/products").get(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT,
+        EmployeeRole.CLIENT_ASSISTANT,
         //TODO: Remove later
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
@@ -84,7 +84,7 @@ router.route("/products/:productID").get(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     getProduct
     /*
@@ -100,7 +100,7 @@ router.route("/products/:productID").patch(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     upload.single("image"),
     // upload.none(),
@@ -130,7 +130,7 @@ router.route("/products/:productID").delete(
         EmployeeRole.COMPANY_MANAGER,
         EmployeeRole.DATA_ENTRY,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     deleteProduct
     /*

@@ -1,13 +1,13 @@
-import { Governorate, Prisma, PrismaClient } from "@prisma/client";
+import { Governorate, Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { LocationCreateType, LocationUpdateType } from "./locations.zod";
-
-const prisma = new PrismaClient();
 
 const locationSelect = {
     id: true,
     name: true,
     governorate: true,
     branch: true,
+    remote: true,
     deliveryAgentsLocations: {
         select: {
             deliveryAgent: {
@@ -51,7 +51,8 @@ const locationReform = (
                 phone: deliveryAgent.deliveryAgent.user.phone
             };
         }),
-        company: location.company
+        company: location.company,
+        remote: location.remote
     };
 };
 
@@ -61,6 +62,7 @@ export class LocationModel {
             data: {
                 name: data.name,
                 governorate: data.governorate,
+                remote: data.remote,
                 branch: {
                     connect: {
                         id: data.branchID
@@ -90,101 +92,88 @@ export class LocationModel {
         return locationReform(createdLocation);
     }
 
-    async getLocationsCount(filters: {
+    async getAllLocationsPaginated(filters: {
+        page: number;
+        size: number;
         search?: string;
         branchID?: number;
         governorate?: Governorate;
         deliveryAgentID?: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const locationsCount = await prisma.location.count({
-            where: {
-                AND: [
-                    {
-                        name: {
-                            contains: filters.search
-                        }
-                    },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        governorate: filters.governorate
-                    },
-                    {
-                        deliveryAgentsLocations: filters.deliveryAgentID
-                            ? {
-                                  some: {
-                                      deliveryAgent: {
-                                          id: filters.deliveryAgentID
-                                      }
+        const where = {
+            AND: [
+                {
+                    name: {
+                        contains: filters.search
+                    }
+                },
+                {
+                    branch: {
+                        id: filters.branchID
+                    }
+                },
+                {
+                    governorate: filters.governorate
+                },
+                {
+                    deliveryAgentsLocations: filters.deliveryAgentID
+                        ? {
+                              some: {
+                                  deliveryAgent: {
+                                      id: filters.deliveryAgentID
                                   }
                               }
-                            : undefined
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
-                    }
-                ]
-            }
-        });
-        return locationsCount;
-    }
+                          }
+                        : undefined
+                }
+                // {
+                //     company: {
+                //         id: filters.companyID
+                //     }
+                // }
+            ]
+        };
 
-    async getAllLocations(
-        skip: number,
-        take: number,
-        filters: {
-            search?: string;
-            branchID?: number;
-            governorate?: Governorate;
-            deliveryAgentID?: number;
-            companyID?: number;
-        }
-    ) {
-        const locations = await prisma.location.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                AND: [
-                    {
-                        name: {
-                            contains: filters.search
-                        }
-                    },
-                    {
-                        branch: {
-                            id: filters.branchID
-                        }
-                    },
-                    {
-                        governorate: filters.governorate
-                    },
-                    {
-                        deliveryAgentsLocations: filters.deliveryAgentID
-                            ? {
-                                  some: {
-                                      deliveryAgent: {
-                                          id: filters.deliveryAgentID
-                                      }
-                                  }
-                              }
-                            : undefined
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
+        if (filters.minified === true) {
+            const paginatedLocations = await prisma.location.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
                     }
-                ]
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return {
+                locations: paginatedLocations.data,
+                pagesCount: paginatedLocations.pagesCount
+            };
+        }
+
+        const paginatedLocations = await prisma.location.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: locationSelect
             },
-            select: locationSelect
-        });
-        return locations.map(locationReform);
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return {
+            locations: paginatedLocations.data.map(locationReform),
+            pagesCount: paginatedLocations.pagesCount
+        };
     }
 
     async getLocation(data: { locationID: number }) {
@@ -208,6 +197,7 @@ export class LocationModel {
             data: {
                 name: data.locationData.name,
                 governorate: data.locationData.governorate,
+                remote: data.locationData.remote,
                 branch: data.locationData.branchID
                     ? {
                           connect: {
@@ -217,6 +207,9 @@ export class LocationModel {
                     : undefined,
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
+                          deleteMany: {
+                              locationId: data.locationID
+                          },
                           create: data.locationData.deliveryAgentsIDs?.map((id) => {
                               return {
                                   deliveryAgent: {

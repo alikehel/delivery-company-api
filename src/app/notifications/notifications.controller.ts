@@ -1,5 +1,4 @@
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { catchAsync } from "../../lib/catchAsync";
 import { NotificationModel } from "./notification.model";
 import { NotificationUpdateSchema } from "./notifications.zod";
 
@@ -12,34 +11,21 @@ export const getAllNotifications = catchAsync(async (req, res) => {
         seen = true;
     }
 
-    const notificationsCount = await notificationModel.getNotificationsCount(userID, seen);
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(notificationsCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50) {
+        size = 10;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const notifications = await notificationModel.getAllNotifications(userID, skip, take, seen);
+    const { notifications, pagesCount } = await notificationModel.getAllNotificationsPaginated(
+        userID,
+        page,
+        size,
+        seen
+    );
 
     res.status(200).json({
         status: "success",

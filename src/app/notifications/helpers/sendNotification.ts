@@ -1,20 +1,20 @@
 import admin from "firebase-admin";
-
-import Logger from "../../../lib/logger";
+import { env } from "../../../config";
+import { Logger } from "../../../lib/logger";
 import { NotificationModel } from "../notification.model";
 import { NotificationCreateType } from "../notifications.zod";
 
 admin.initializeApp({
     credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+        projectId: env.FIREBASE_PROJECT_ID,
+        privateKey: env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+        clientEmail: env.FIREBASE_CLIENT_EMAIL
     })
 });
 
 const notificationModel = new NotificationModel();
 
-const sendNotification = async (data: NotificationCreateType) => {
+export const sendNotification = async (data: NotificationCreateType) => {
     const createdNotification = await notificationModel.createNotification(data);
 
     const user = createdNotification?.user;
@@ -31,17 +31,17 @@ const sendNotification = async (data: NotificationCreateType) => {
         token: user.fcm
     };
 
-    await admin.messaging().subscribeToTopic([user.fcm], "all");
+    // await admin.messaging().subscribeToTopic([user.fcm], "all");
 
-    await admin
-        .messaging()
-        .send(message)
-        .then((response) => {
-            Logger.info("Successfully sent message to tobic 'all':", response);
-        })
-        .catch((error) => {
-            Logger.error("Error sending message to tobic 'all':", error);
-        });
+    // await admin
+    //     .messaging()
+    //     .send(message)
+    //     .then((response) => {
+    //         Logger.info("Successfully sent message to tobic 'all':", response);
+    //     })
+    //     .catch((error) => {
+    //         Logger.error("Error sending message to tobic 'all':", error);
+    //     });
 
     await admin
         .messaging()
@@ -53,5 +53,3 @@ const sendNotification = async (data: NotificationCreateType) => {
             Logger.error("Error sending message to token:", error);
         });
 };
-
-export default sendNotification;

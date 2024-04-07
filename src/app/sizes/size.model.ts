@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { SizeCreateType, SizeUpdateType } from "./sizes.zod";
-
-const prisma = new PrismaClient();
 
 const sizeSelect = {
     id: true,
@@ -41,37 +40,50 @@ export class SizeModel {
         return createdSize;
     }
 
-    async getSizesCount(filters: {
+    async getAllSizesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const sizesCount = await prisma.size.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
+        const where = {
+            company: {
+                id: filters.companyID
             }
-        });
-        return sizesCount;
-    }
+        };
 
-    async getAllSizes(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-        }
-    ) {
-        const sizes = await prisma.size.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                company: {
-                    id: filters.companyID
+        if (filters.minified === true) {
+            const paginatedSizes = await prisma.size.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
+            );
+            return { sizes: paginatedSizes.data, pagesCount: paginatedSizes.pagesCount };
+        }
+
+        const paginatedSizes = await prisma.size.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    title: "asc"
+                },
+                select: sizeSelect
             },
-            select: sizeSelect
-        });
-        return sizes;
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return { sizes: paginatedSizes.data, pagesCount: paginatedSizes.pagesCount };
     }
 
     async getSize(data: { sizeID: number }) {

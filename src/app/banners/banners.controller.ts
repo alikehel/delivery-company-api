@@ -1,7 +1,6 @@
 import { AdminRole } from "@prisma/client";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { BannerModel } from "./banner.model";
 import { BannerCreateSchema, BannerUpdateSchema } from "./banners.zod";
 
@@ -36,35 +35,19 @@ export const getAllBanners = catchAsync(async (req, res) => {
     }
 
     // Pagination
-    const bannersCount = await bannerModel.getBannersCount({
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(bannersCount / size);
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50) {
+        size = 10;
     }
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
     // Query
-    const banners = await bannerModel.getAllBanners(skip, take, {
+    const { banners, pagesCount } = await bannerModel.getAllBannersPaginated({
+        page: page,
+        size: size,
         companyID: companyID
     });
 

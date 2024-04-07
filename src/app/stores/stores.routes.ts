@@ -2,11 +2,11 @@ import { Router } from "express";
 
 // import { upload } from "../../middlewares/upload.middleware";
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import { upload } from "../../middlewares/upload.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
+import { upload } from "../../middlewares/upload";
 import {
     createStore,
     deactivateStore,
@@ -28,7 +28,7 @@ router.route("/stores").post(
             EmployeeRole.DATA_ENTRY,
             EmployeeRole.BRANCH_MANAGER,
             ClientRole.CLIENT,
-            ClientRole.CLIENT_ASSISTANT
+            EmployeeRole.CLIENT_ASSISTANT
         ],
         [Permission.ADD_STORE]
     ),
@@ -62,7 +62,7 @@ router.route("/stores").get(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT,
+        EmployeeRole.CLIENT_ASSISTANT,
         //TODO: Remove later
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
@@ -95,7 +95,7 @@ router.route("/stores/:storeID").get(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     getStore
     /*
@@ -113,7 +113,7 @@ router.route("/stores/:storeID").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     upload.single("logo"),
     // upload.none(),
@@ -154,7 +154,7 @@ router.route("/stores/:storeID/deactivate").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     deactivateStore
     /*

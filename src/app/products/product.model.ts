@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { ProductCreateType, ProductUpdateType } from "./products.zod";
-
-const prisma = new PrismaClient();
 
 const productSelect = {
     id: true,
@@ -72,7 +71,7 @@ const productSelect = {
 // };
 
 export class ProductModel {
-    async createProduct(companyID: number, loggedInUserID: number, data: ProductCreateType) {
+    async createProduct(companyID: number, clientID: number, data: ProductCreateType) {
         const createdProduct = await prisma.product.create({
             data: {
                 title: data.title,
@@ -86,7 +85,7 @@ export class ProductModel {
                 },
                 client: {
                     connect: {
-                        id: loggedInUserID
+                        id: clientID
                     }
                 },
                 category: {
@@ -154,57 +153,90 @@ export class ProductModel {
         return createdProduct;
     }
 
-    async getProductsCount(filters: {
+    async getAllProductsPaginated(filters: {
+        page: number;
+        size: number;
         storeID?: number;
         companyID?: number;
+        minified?: boolean;
+        clientID?: number;
     }) {
-        const productsCount = await prisma.product.count({
-            where: {
-                AND: [
-                    {
-                        store: {
-                            id: filters.storeID
-                        }
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
-                        }
+        const where = {
+            AND: [
+                {
+                    store: {
+                        id: filters.storeID
                     }
-                ]
-            }
-        });
-        return productsCount;
-    }
+                },
+                {
+                    company: {
+                        id: filters.companyID
+                    }
+                },
+                {
+                    client: {
+                        id: filters.clientID
+                    }
+                }
+            ]
+        } satisfies Prisma.ProductWhereInput;
 
-    async getAllProducts(
-        skip: number,
-        take: number,
-        filters: {
-            storeID?: number;
-            companyID?: number;
-        }
-    ) {
-        const products = await prisma.product.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                AND: [
-                    {
-                        store: {
-                            id: filters.storeID
-                        }
-                    },
-                    {
-                        company: {
-                            id: filters.companyID
+        if (filters.minified === true) {
+            const paginatedProducts = await prisma.product.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true,
+                        price: true,
+                        stock: true,
+                        productColors: {
+                            select: {
+                                quantity: true,
+                                color: {
+                                    select: {
+                                        id: true,
+                                        title: true
+                                    }
+                                }
+                            }
+                        },
+                        productSizes: {
+                            select: {
+                                quantity: true,
+                                size: {
+                                    select: {
+                                        id: true,
+                                        title: true
+                                    }
+                                }
+                            }
                         }
                     }
-                ]
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return { products: paginatedProducts.data, pagesCount: paginatedProducts.pagesCount };
+        }
+
+        const paginatedProducts = await prisma.product.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: productSelect
             },
-            select: productSelect
-        });
-        return products;
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return { products: paginatedProducts.data, pagesCount: paginatedProducts.pagesCount };
     }
 
     async getProduct(data: { productID: number }) {

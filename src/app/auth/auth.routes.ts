@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { signin } from "./auth.controller";
 
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
 
 const router = Router();
 
@@ -35,7 +35,7 @@ router.route("/auth/signin").post(
 
 router.route("/auth/validate-token").post(
     isLoggedIn,
-    (req, res) => {
+    (_req, res) => {
         res.status(200).json({
             status: "valid"
         });

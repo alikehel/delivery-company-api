@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { CategoryCreateType, CategoryUpdateType } from "./categories.zod";
-
-const prisma = new PrismaClient();
 
 const categorySelect = {
     id: true,
@@ -41,37 +40,50 @@ export class CategoryModel {
         return createdCategory;
     }
 
-    async getCategoriesCount(filters: {
+    async getAllCategoriesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const categoriesCount = await prisma.category.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
+        const where = {
+            company: {
+                id: filters.companyID
             }
-        });
-        return categoriesCount;
-    }
+        };
 
-    async getAllCategories(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-        }
-    ) {
-        const categories = await prisma.category.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                company: {
-                    id: filters.companyID
+        if (filters.minified === true) {
+            const paginatedCategories = await prisma.category.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
+            );
+            return { categories: paginatedCategories.data, pagesCount: paginatedCategories.pagesCount };
+        }
+
+        const paginatedCategories = await prisma.category.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    title: "asc"
+                },
+                select: categorySelect
             },
-            select: categorySelect
-        });
-        return categories;
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return { categories: paginatedCategories.data, pagesCount: paginatedCategories.pagesCount };
     }
 
     async getCategory(data: { categoryID: number }) {

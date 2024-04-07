@@ -1,13 +1,10 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Governorate, Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { BranchCreateType, BranchUpdateType } from "./branches.zod";
-
-const prisma = new PrismaClient();
 
 const branchSelect = {
     id: true,
     name: true,
-    email: true,
-    phone: true,
     governorate: true,
     company: {
         select: {
@@ -34,8 +31,6 @@ export class BranchModel {
         const createdBranch = await prisma.branch.create({
             data: {
                 name: data.name,
-                email: data.email,
-                phone: data.phone,
                 governorate: data.governorate,
                 company: {
                     connect: {
@@ -48,37 +43,60 @@ export class BranchModel {
         return createdBranch;
     }
 
-    async getBranchesCount(filters: {
+    async getAllBranchesPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        governorate?: Governorate;
+        locationID?: number;
+        minified?: boolean;
     }) {
-        const branchesCount = await prisma.branch.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return branchesCount;
-    }
-
-    async getAllBranches(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-        }
-    ) {
-        const branches = await prisma.branch.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
+        const where = {
+            company: {
+                id: filters.companyID
             },
-            select: branchSelect
-        });
-        return branches;
+            governorate: filters.governorate,
+            locations: filters.locationID
+                ? {
+                      some: {
+                          id: filters.locationID
+                      }
+                  }
+                : undefined
+        };
+
+        if (filters.minified === true) {
+            const paginatedBranches = await prisma.branch.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return { branches: paginatedBranches.data, pagesCount: paginatedBranches.pagesCount };
+        }
+
+        const paginatedBranches = await prisma.branch.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    name: "asc"
+                },
+                select: branchSelect
+            },
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return { branches: paginatedBranches.data, pagesCount: paginatedBranches.pagesCount };
     }
 
     async getBranch(data: { branchID: number }) {
@@ -101,8 +119,6 @@ export class BranchModel {
             },
             data: {
                 name: data.branchData.name,
-                email: data.branchData.email,
-                phone: data.branchData.phone,
                 governorate: data.branchData.governorate
             },
             select: branchSelect

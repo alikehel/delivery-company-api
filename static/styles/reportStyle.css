@@ -1,0 +1,141 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Amiri", serif;
+}
+
+body {
+    color: #000;
+    background: #ffffff;
+    font-size: 16px;
+    /* direction: rtl; */
+    text-align: center;
+}
+
+header {
+    /* font-size: 2.4em;
+	line-height: 1.4em;
+    font-weight: normal; */
+    text-align: center;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    margin-bottom: 20px;
+    padding-block: 20px;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+header table td span {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+header table {
+    width: 100%;
+}
+
+header table td {
+    width: 25%;
+    word-break: break-all;
+}
+
+/* header table tr,
+			header table td {
+				border: 1px solid #000;
+			} */
+
+header img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+/* header small {
+				font-size: 0.45em;
+				line-height: 1.5em;
+				float: left;
+			}
+
+			header small:last-child {
+				float: right;
+			} */
+
+main table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    page-break-after: auto;
+    /* margin-bottom: 30px; */
+}
+
+main table th,
+main table td {
+    padding: 10px;
+    /* Increased padding */
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+}
+
+main table th {
+    /* border-bottom: 1px solid #000; */
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+main table tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+main table td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+main table thead {
+    display: table-header-group;
+}
+
+main table tr:nth-child(2n-1) td {
+    background: #eeeeee;
+}
+
+main table tr {
+    border-block: 1px solid #000;
+}
+
+footer {
+    margin-top: 20px;
+    justify-content: end;
+    text-align: right;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding-block: 20px;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.light {
+    color: #ccc;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.watermark {
+    opacity: 0.05;
+    white-space: nowrap;
+    /* z-index: -1; */
+    font-size: 160px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.title {
+    text-decoration: underline;
+}

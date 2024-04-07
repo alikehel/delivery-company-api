@@ -2,11 +2,11 @@ import { Router } from "express";
 
 // import { upload } from "../../middlewares/upload.middleware";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
-import { isAutherized } from "../../middlewares/isAutherized.middleware";
+import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
-import { isLoggedIn } from "../../middlewares/isLoggedIn.middleware";
-import { upload } from "../../middlewares/upload.middleware";
+import { isLoggedIn } from "../../middlewares/isLoggedIn";
+import { upload } from "../../middlewares/upload";
 import { createBanner, deleteBanner, getAllBanners, getBanner, updateBanner } from "./banners.controller";
 
 const router = Router();
@@ -41,7 +41,7 @@ router.route("/banners").get(
         AdminRole.ADMIN,
         AdminRole.ADMIN_ASSISTANT,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT,
+        EmployeeRole.CLIENT_ASSISTANT,
         // TODO: Remove later
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
@@ -71,7 +71,7 @@ router.route("/banners/:bannerID").get(
         AdminRole.ADMIN,
         AdminRole.ADMIN_ASSISTANT,
         ClientRole.CLIENT,
-        ClientRole.CLIENT_ASSISTANT
+        EmployeeRole.CLIENT_ASSISTANT
     ]),
     getBanner
     /*

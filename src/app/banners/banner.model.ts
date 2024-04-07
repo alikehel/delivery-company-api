@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { BannerCreateType, BannerUpdateType } from "./banners.zod";
-
-const prisma = new PrismaClient();
 
 const bannerSelect = {
     id: true,
@@ -49,37 +48,29 @@ export class BannerModel {
         return createdBanner;
     }
 
-    async getBannersCount(filters: {
+    async getAllBannersPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
     }) {
-        const bannersCount = await prisma.banner.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return bannersCount;
-    }
-
-    async getAllBanners(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-        }
-    ) {
-        const banners = await prisma.banner.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                company: {
-                    id: filters.companyID
-                }
+        const paginatedBanners = await prisma.banner.findManyPaginated(
+            {
+                where: {
+                    company: {
+                        id: filters.companyID
+                    }
+                },
+                orderBy: {
+                    id: "desc"
+                },
+                select: bannerSelect
             },
-            select: bannerSelect
-        });
-        return banners;
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+        return { banners: paginatedBanners.data, pagesCount: paginatedBanners.pagesCount };
     }
 
     async getBanner(data: { bannerID: number }) {

@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { ColorCreateType, ColorUpdateType } from "./colors.zod";
-
-const prisma = new PrismaClient();
 
 const colorSelect = {
     id: true,
@@ -43,37 +42,56 @@ export class ColorModel {
         return createdColor;
     }
 
-    async getColorsCount(filters: {
+    async getAllColorsPaginated(filters: {
+        page: number;
+        size: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const colorsCount = await prisma.color.count({
-            where: {
-                company: {
-                    id: filters.companyID
-                }
+        const where = {
+            company: {
+                id: filters.companyID
             }
-        });
-        return colorsCount;
-    }
+        };
 
-    async getAllColors(
-        skip: number,
-        take: number,
-        filters: {
-            companyID?: number;
-        }
-    ) {
-        const colors = await prisma.color.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                company: {
-                    id: filters.companyID
+        if (filters.minified === true) {
+            const paginatedColors = await prisma.color.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        title: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
                 }
+            );
+            return {
+                colors: paginatedColors.data,
+                pagesCount: paginatedColors.pagesCount
+            };
+        }
+
+        const paginatedColors = await prisma.color.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: colorSelect
             },
-            select: colorSelect
-        });
-        return colors;
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return {
+            colors: paginatedColors.data,
+            pagesCount: paginatedColors.pagesCount
+        };
     }
 
     async getColor(data: { colorID: number }) {

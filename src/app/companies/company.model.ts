@@ -1,7 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
+import { loggedInUserType } from "../../types/user";
 import { CompanyCreateType, CompanyUpdateType } from "./companies.zod";
-
-const prisma = new PrismaClient();
 
 const companySelect = {
     id: true,
@@ -17,7 +17,8 @@ const companySelect = {
     additionalPriceForEvery500000IraqiDinar: true,
     additionalPriceForEveryKilogram: true,
     additionalPriceForRemoteAreas: true,
-    orderStatusAutomaticUpdate: true
+    orderStatusAutomaticUpdate: true,
+    treasury: true
 } satisfies Prisma.CompanySelect;
 
 // const companyReform = (company: any) => {
@@ -40,40 +41,82 @@ const companySelect = {
 // };
 
 export class CompanyModel {
-    async createCompany(data: CompanyCreateType) {
+    async createCompany(data: { loggedInUser: loggedInUserType; companyData: CompanyCreateType }) {
         const createdCompany = await prisma.company.create({
             data: {
-                name: data.name,
-                phone: data.phone,
-                website: data.website,
-                logo: data.logo,
-                color: data.color,
-                registrationText: data.registrationText,
-                governoratePrice: data.governoratePrice,
-                deliveryAgentFee: data.deliveryAgentFee,
-                baghdadPrice: data.baghdadPrice,
-                additionalPriceForEvery500000IraqiDinar: data.additionalPriceForEvery500000IraqiDinar,
-                additionalPriceForEveryKilogram: data.additionalPriceForEveryKilogram,
-                additionalPriceForRemoteAreas: data.additionalPriceForRemoteAreas,
-                orderStatusAutomaticUpdate: data.orderStatusAutomaticUpdate
+                name: data.companyData.companyData.name,
+                phone: data.companyData.companyData.phone,
+                website: data.companyData.companyData.website,
+                logo: data.companyData.companyData.logo,
+                color: data.companyData.companyData.color,
+                registrationText: data.companyData.companyData.registrationText,
+                governoratePrice: data.companyData.companyData.governoratePrice,
+                deliveryAgentFee: data.companyData.companyData.deliveryAgentFee,
+                baghdadPrice: data.companyData.companyData.baghdadPrice,
+                additionalPriceForEvery500000IraqiDinar:
+                    data.companyData.companyData.additionalPriceForEvery500000IraqiDinar,
+                additionalPriceForEveryKilogram: data.companyData.companyData.additionalPriceForEveryKilogram,
+                additionalPriceForRemoteAreas: data.companyData.companyData.additionalPriceForRemoteAreas,
+                orderStatusAutomaticUpdate: data.companyData.companyData.orderStatusAutomaticUpdate,
+                employees: {
+                    create: {
+                        user: {
+                            create: {
+                                username: data.companyData.companyManager.username,
+                                name: data.companyData.companyManager.name,
+                                password: data.companyData.companyManager.password,
+                                phone: data.companyData.companyManager.phone
+                            }
+                        },
+                        createdBy: {
+                            connect: {
+                                id: data.loggedInUser.id
+                            }
+                        },
+                        role: "COMPANY_MANAGER"
+                    }
+                }
             },
             select: companySelect
         });
         return createdCompany;
     }
 
-    async getCompaniesCount() {
-        const companiesCount = await prisma.company.count();
-        return companiesCount;
-    }
+    async getAllCompaniesPaginated(filters: {
+        page: number;
+        size: number;
+        minified?: boolean;
+    }) {
+        if (filters.minified === true) {
+            const paginatedCompanies = await prisma.company.findManyPaginated(
+                {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return { companies: paginatedCompanies.data, pagesCount: paginatedCompanies.pagesCount };
+        }
 
-    async getAllCompanies(skip: number, take: number) {
-        const companies = await prisma.company.findMany({
-            skip: skip,
-            take: take,
-            select: companySelect
-        });
-        return companies;
+        const paginatedCompanies = await prisma.company.findManyPaginated(
+            {
+                orderBy: {
+                    name: "asc"
+                },
+                select: companySelect
+            },
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return { companies: paginatedCompanies.data, pagesCount: paginatedCompanies.pagesCount };
     }
 
     async getCompany(data: { companyID: number }) {
@@ -113,6 +156,31 @@ export class CompanyModel {
             select: companySelect
         });
         return company;
+    }
+
+    // add or substract money from company treasury
+    async updateCompanyTreasury(data: {
+        companyID: number;
+        treasury: {
+            amount?: number;
+            type?: "increment" | "decrement";
+        };
+    }) {
+        await prisma.company.update({
+            where: {
+                id: data.companyID
+            },
+            data: {
+                treasury:
+                    data.treasury.type === "increment"
+                        ? {
+                              increment: data.treasury.amount
+                          }
+                        : {
+                              decrement: data.treasury.amount
+                          }
+            }
+        });
     }
 
     async deleteCompany(data: { companyID: number }) {

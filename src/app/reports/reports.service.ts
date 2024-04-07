@@ -1,35 +1,85 @@
-import { AdminRole, EmployeeRole, Governorate, Order, ReportStatus, ReportType } from "@prisma/client";
-import { Request } from "express";
+import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
+import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
+import { CompanyModel } from "../companies/company.model";
 import { EmployeeModel } from "../employees/employee.model";
-import sendNotification from "../notifications/helpers/sendNotification";
-import { OrderModel } from "../orders/order.model";
-import { OrderTimelineType } from "../orders/orders.zod";
-import { generateReport } from "./helpers/generateReportTemp";
-import { ReportModel } from "./report.model";
-import { ReportCreateType } from "./reports.zod";
+import { sendNotification } from "../notifications/helpers/sendNotification";
+import { OrderTimelineType } from "../orders/orders.dto";
+import { OrdersRepository } from "../orders/orders.repository";
+import { orderReform } from "../orders/orders.responses";
+import { generateReport } from "./helpers/generateReport";
+import { generateReportsReport } from "./helpers/generateReportsReport";
+import {
+    ReportCreateOrdersFiltersType,
+    ReportCreateType,
+    ReportUpdateType,
+    ReportsFiltersType,
+    ReportsReportPDFCreateType
+} from "./reports.dto";
+import { ReportsRepository } from "./reports.repository";
+import { reportReform } from "./reports.responses";
 
-const reportModel = new ReportModel();
-const orderModel = new OrderModel();
+const reportsRepository = new ReportsRepository();
+const ordersRepository = new OrdersRepository();
 const employeeModel = new EmployeeModel();
+const companyModel = new CompanyModel();
 
-export class ReportService {
-    async createReport(
-        companyID: number,
-        data: {
-            loggedInUser: {
-                id: number;
-                name: string;
-                role: string;
-            };
-            reportData: ReportCreateType;
+export class ReportsService {
+    async createReport(data: {
+        loggedInUser: loggedInUserType;
+        reportData: ReportCreateType;
+        ordersFilters: ReportCreateOrdersFiltersType;
+    }) {
+        let orders: ReturnType<typeof orderReform>[];
+        let ordersIDs: number[] = [];
+        if (data.reportData.ordersIDs === "*") {
+            orders = (
+                await ordersRepository.getAllOrdersPaginated({
+                    filters: { ...data.ordersFilters, size: 5000 }
+                })
+            ).orders as ReturnType<typeof orderReform>[];
+
+            for (const order of orders) {
+                if (order) {
+                    ordersIDs.push(order.id);
+                }
+            }
+        } else {
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs: data.reportData.ordersIDs });
+            ordersIDs = data.reportData.ordersIDs;
         }
-    ) {
-        const orders = await orderModel.getOrdersByIDs(data.reportData);
+        //  orders = await ordersRepository.getOrdersByIDs(data.reportData);
 
-        if (!orders) {
+        if (!orders || orders.length === 0) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
+        }
+
+        // Change orders costs reportData contains new costs
+        if (data.reportData.type === ReportType.CLIENT || data.reportData.type === ReportType.COMPANY) {
+            await ordersRepository.updateOrdersCosts({
+                ordersIDs,
+                costs: {
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost
+                }
+            });
+
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs });
+        }
+
+        if (
+            data.reportData.type === ReportType.DELIVERY_AGENT ||
+            data.reportData.type === ReportType.GOVERNORATE ||
+            data.reportData.type === ReportType.BRANCH
+        ) {
+            await ordersRepository.updateOrdersCosts({
+                ordersIDs,
+                costs: {
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost
+                }
+            });
+
+            orders = await ordersRepository.getOrdersByIDs({ ordersIDs });
         }
 
         const reportMetaData = {
@@ -53,10 +103,7 @@ export class ReportService {
             // @ts-expect-error Fix later
             reportMetaData.clientNet += +order.clientNet;
             // @ts-expect-error Fix later
-            reportMetaData.deliveryAgentNet += order.deliveryAgent
-                ? // @ts-expect-error Fix later
-                  +order.deliveryAgent.deliveryCost
-                : 0;
+            reportMetaData.deliveryAgentNet += order.deliveryAgentNet;
             // @ts-expect-error Fix later
             reportMetaData.companyNet += +order.companyNet;
             // @ts-expect-error Fix later
@@ -71,8 +118,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.clientReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.id}`,
                         400
                     );
                 }
@@ -91,8 +137,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.repositoryReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.id}`,
                         400
                     );
                 }
@@ -101,8 +146,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.branchReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.id}`,
                         400
                     );
                 }
@@ -111,8 +155,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.governorateReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.id}`,
                         400
                     );
                 }
@@ -121,8 +164,7 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.deliveryAgentReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.id}`,
                         400
                     );
                 }
@@ -131,26 +173,51 @@ export class ReportService {
             for (const order of orders) {
                 if (order?.companyReport) {
                     throw new AppError(
-                        // @ts-expect-error Fix later
-                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.reportNumber}`,
+                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.id}`,
                         400
                     );
                 }
             }
         }
 
-        const report = await reportModel.createReport(
-            companyID,
-            data.loggedInUser.id,
-            data.reportData,
-            reportMetaData
-        );
+        const report = await reportsRepository.createReport({
+            loggedInUser: data.loggedInUser,
+            reportData: { ...data.reportData, ordersIDs },
+            reportMetaData: reportMetaData
+        });
 
         if (!report) {
             throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
         }
 
-        const reportData = await reportModel.getReport({
+        // Update company treasury
+        if (
+            data.reportData.type === ReportType.GOVERNORATE ||
+            data.reportData.type === ReportType.BRANCH ||
+            data.reportData.type === ReportType.DELIVERY_AGENT ||
+            data.reportData.type === ReportType.COMPANY
+        ) {
+            await companyModel.updateCompanyTreasury({
+                companyID: data.loggedInUser.companyID as number,
+                treasury: {
+                    amount: reportMetaData.companyNet || 0,
+                    type: "increment"
+                }
+            });
+        } else if (
+            data.reportData.type === ReportType.CLIENT ||
+            data.reportData.type === ReportType.REPOSITORY
+        ) {
+            await companyModel.updateCompanyTreasury({
+                companyID: data.loggedInUser.companyID as number,
+                treasury: {
+                    amount: reportMetaData.clientNet || 0,
+                    type: "decrement"
+                }
+            });
+        }
+
+        const reportData = await reportsRepository.getReport({
             reportID: report.id
         });
 
@@ -176,7 +243,7 @@ export class ReportService {
         for (const order of orders) {
             // @ts-expect-error Fix later
             const oldTimeline: OrderTimelineType = order?.timeline;
-            await orderModel.updateOrderTimeline({
+            await ordersRepository.updateOrderTimeline({
                 // @ts-expect-error Fix later
                 orderID: order.id,
                 timeline: [
@@ -202,7 +269,7 @@ export class ReportService {
         // TODO
         const pdf = await generateReport(data.reportData.type, reportData, orders);
         // const pdf = await generateReport(
-        //     await orderModel.getAllOrders(0, 100, {
+        //     await ordersRepository.getAllOrders(0, 100, {
         //         sort: "receiptNumber:desc"
         //     })
         // );
@@ -211,33 +278,22 @@ export class ReportService {
     }
 
     async getAllReports(data: {
-        queryString: Request["query"];
         loggedInUser: loggedInUserType;
+        filters: ReportsFiltersType;
     }) {
-        // Filters
         let company: number | undefined;
         if (Object.keys(AdminRole).includes(data.loggedInUser.role)) {
-            company = data.queryString.company ? +data.queryString.company : undefined;
+            company = data.filters.company ? +data.filters.company : undefined;
         } else if (data.loggedInUser.companyID) {
             company = data.loggedInUser.companyID;
         }
-
-        const sort = (data.queryString.sort as string) || "id:asc";
-
-        const startDate = data.queryString.start_date
-            ? new Date(data.queryString.start_date as string)
-            : undefined;
-        const endDate = data.queryString.end_date ? new Date(data.queryString.end_date as string) : undefined;
-
-        const status = data.queryString.status?.toString().toUpperCase() as ReportStatus | undefined;
-        const type = data.queryString.type?.toString().toUpperCase() as ReportType | undefined;
 
         let branch: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
             const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
             branch = employee?.branch?.id;
-        } else if (data.queryString.branch) {
-            branch = +data.queryString.branch;
+        } else if (data.filters.branch) {
+            branch = +data.filters.branch;
         } else {
             branch = undefined;
         }
@@ -245,96 +301,48 @@ export class ReportService {
         let clientID: number | undefined;
         if (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT") {
             clientID = +data.loggedInUser.id;
-        } else if (data.queryString.client_id) {
-            clientID = +data.queryString.client_id;
+        } else if (data.filters.clientID) {
+            clientID = +data.filters.clientID;
         } else {
             clientID = undefined;
         }
-        const companyID = data.queryString.company_id ? +data.queryString.company_id : undefined;
-        const storeID = data.queryString.store_id ? +data.queryString.store_id : undefined;
-        const repositoryID = data.queryString.repository_id ? +data.queryString.repository_id : undefined;
-        const branchID = data.queryString.branch_id ? +data.queryString.branch_id : undefined;
 
         let deliveryAgentID: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.DELIVERY_AGENT) {
             deliveryAgentID = +data.loggedInUser.id;
-        } else if (data.queryString.delivery_agent_id) {
-            deliveryAgentID = +data.queryString.delivery_agent_id;
+        } else if (data.filters.deliveryAgentID) {
+            deliveryAgentID = +data.filters.deliveryAgentID;
         } else {
             deliveryAgentID = undefined;
         }
 
-        const governorate = data.queryString.governorate?.toString().toUpperCase() as Governorate | undefined;
-
-        const deleted = data.queryString.deleted?.toString() || "false";
-
-        const reportsCount = await reportModel.getReportsCount({
-            sort: sort,
-            startDate: startDate,
-            endDate: endDate,
-            status: status,
-            type: type,
-            branchID: branchID,
-            branch: branch,
-            clientID: clientID,
-            storeID: storeID,
-            repositoryID: repositoryID,
-            deliveryAgentID: deliveryAgentID,
-            governorate: governorate,
-            companyID: companyID,
-            // TODO: fix this
-            company: company,
-            deleted: deleted
-        });
-        const size = data.queryString.size ? +data.queryString.size : 10;
-        const pagesCount = Math.ceil(reportsCount / size);
-
-        if (pagesCount === 0) {
-            // res.status(200).json({
-            //     status: "success",
-            //     page: 1,
-            //     pagesCount: 1,
-            //     data: []
-            // });
-            return { pagesCount };
+        let size = data.filters.size ? +data.filters.size : 10;
+        if (size > 50 && data.filters.minified !== true) {
+            size = 10;
         }
-
         let page = 1;
-        if (data.queryString.page && !Number.isNaN(+data.queryString.page) && +data.queryString.page > 0) {
-            page = +data.queryString.page;
+        if (data.filters.page && !Number.isNaN(+data.filters.page) && +data.filters.page > 0) {
+            page = +data.filters.page;
         }
-        if (page > pagesCount) {
-            throw new AppError("Page number out of range", 400);
-        }
-        const take = page * size;
-        const skip = (page - 1) * size;
-        // if (Number.isNaN(offset)) {
-        //     skip = 0;
-        // }
 
-        const reports = await reportModel.getAllReports(skip, take, {
-            sort: sort,
-            startDate: startDate,
-            endDate: endDate,
-            status: status,
-            type: type,
-            branchID: branchID,
-            branch: branch,
-            clientID: clientID,
-            storeID: storeID,
-            repositoryID: repositoryID,
-            deliveryAgentID: deliveryAgentID,
-            governorate: governorate,
-            companyID: companyID,
-            deleted: deleted
+        const { reports, reportsMetaData, pagesCount } = await reportsRepository.getAllReportsPaginated({
+            filters: { ...data.filters, company, branch, clientID, deliveryAgentID, size }
         });
 
-        return { page, pagesCount, reports };
+        return { page, pagesCount, reports, reportsMetaData };
     }
 
-    async getReportPDF(data: { reportID: number }) {
-        const reportData = await reportModel.getReport({
-            reportID: data.reportID
+    async getReport(data: { params: { reportID: number } }) {
+        const report = await reportsRepository.getReport({
+            reportID: data.params.reportID
+        });
+
+        return report;
+    }
+
+    async getReportPDF(data: { params: { reportID: number } }) {
+        const reportData = await reportsRepository.getReport({
+            reportID: data.params.reportID
         });
 
         // TODO: fix this
@@ -361,7 +369,7 @@ export class ReportService {
 
         const ordersIDs = orders.map((order) => order.id);
 
-        const ordersData = await orderModel.getOrdersByIDs({
+        const ordersData = await ordersRepository.getOrdersByIDs({
             ordersIDs: ordersIDs
         });
 
@@ -374,78 +382,146 @@ export class ReportService {
         return pdf;
     }
 
-    // updateReport = catchAsync(async (req, res) => {
-    //     const reportID = +req.params["reportID"];
-    //    const loggedInUser: loggedInUserType = res.locals.user;
+    async getReportsReportPDF(data: {
+        reportsData: ReportsReportPDFCreateType;
+        reportsFilters: ReportsFiltersType;
+    }) {
+        let reports: ReturnType<typeof reportReform>[];
+        let reportsIDs: number[] = [];
+        if (data.reportsData.reportsIDs === "*") {
+            reports = (
+                await reportsRepository.getAllReportsPaginated({
+                    filters: { ...data.reportsFilters, type: data.reportsData.type, size: 5000 }
+                })
+            ).reports as ReturnType<typeof reportReform>[];
 
-    //     const reportData = ReportUpdateSchema.parse(req.body);
+            for (const report of reports) {
+                if (report) {
+                    reportsIDs.push(report.id);
+                }
+            }
+        } else {
+            reports = await reportsRepository.getReportsByIDs({ reportsIDs: data.reportsData.reportsIDs });
+            reportsIDs = data.reportsData.reportsIDs;
+        }
 
-    //     if (
-    //         reportData.confirmed === false &&
-    //         loggedInUser.role !== "ADMIN"
-    //     ) {
-    //         throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
-    //     }
+        if (!reports || reports.length === 0) {
+            throw new AppError("لا يوجد كشوفات لعمل التقرير", 400);
+        }
 
-    //     const report = await reportModel.updateReport({
-    //         reportID: reportID,
-    //         reportData: reportData
-    //     });
+        if (data.reportsData.type === "CLIENT") {
+            const reportsData = {
+                company: reports[0]?.company,
+                companyNet: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + report.companyNet;
+                    }
+                    return acc;
+                }, 0),
+                clientNet: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + report.clientNet;
+                    }
+                    return acc;
+                }, 0),
+                baghdadOrdersCount: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + (report.baghdadOrdersCount || 0);
+                    }
+                    return acc;
+                }, 0),
+                governoratesOrdersCount: reports.reduce((acc, report) => {
+                    if (report) {
+                        return acc + (report.governoratesOrdersCount || 0);
+                    }
+                    return acc;
+                }, 0),
+                date: new Date(),
+                count: reports.length
+            };
+            const pdf = await generateReportsReport(data.reportsData.type, reportsData, reports);
+            return pdf;
+        }
 
-    //     res.status(200).json({
-    //         status: "success",
-    //         data: report
-    //     });
-    // });
+        throw new AppError("لا يمكن عمل تقرير لهذا النوع من التقارير", 400);
+    }
 
     async updateReport(data: {
-        reportID: number;
-        loggedInUser: {
-            id: number;
-            name: string;
-            role: string;
-        };
-        reportData: {
-            status: ReportStatus;
-            confirmed?: boolean;
-        };
+        params: { reportID: number };
+        loggedInUser: loggedInUserType;
+        reportData: ReportUpdateType;
     }) {
-        const reportID = data.reportID;
-        const loggedInUser = data.loggedInUser;
-
-        const reportData = data.reportData;
-
         if (
-            reportData.confirmed === false &&
-            (loggedInUser.role === "CLIENT" || loggedInUser.role === "CLIENT_ASSISTANT")
+            data.reportData.confirmed === false &&
+            (data.loggedInUser.role === "CLIENT" || data.loggedInUser.role === "CLIENT_ASSISTANT")
         ) {
             throw new AppError("لا يمكنك إلغاء تأكيد التقرير", 400);
         }
 
-        const report = await reportModel.updateReport({
-            reportID: reportID,
-            reportData: reportData
+        const report = await reportsRepository.updateReport({
+            reportID: data.params.reportID,
+            reportData: data.reportData
         });
 
         return report;
     }
 
-    async deleteReport(reportID: number) {
-        await reportModel.deleteReport({
-            reportID: reportID
+    async deleteReport(data: { params: { reportID: number } }) {
+        await reportsRepository.deleteReport({
+            reportID: data.params.reportID
         });
     }
 
-    async deactivateReport(reportID: number, loggedInUserID: number) {
-        await reportModel.deactivateReport({
-            reportID: reportID,
-            deletedByID: loggedInUserID
+    async deactivateReport(data: { params: { reportID: number }; loggedInUser: loggedInUserType }) {
+        const report = await reportsRepository.deactivateReport({
+            reportID: data.params.reportID,
+            deletedByID: data.loggedInUser.id
         });
+
+        const orders =
+            report.type === ReportType.CLIENT
+                ? report.clientReport?.orders
+                : report.type === ReportType.REPOSITORY
+                  ? report.repositoryReport?.orders
+                  : report.type === ReportType.BRANCH
+                      ? report.branchReport?.orders
+                      : report.type === ReportType.GOVERNORATE
+                          ? report.governorateReport?.orders
+                          : report.type === ReportType.DELIVERY_AGENT
+                              ? report.deliveryAgentReport?.orders
+                              : report.type === ReportType.COMPANY
+                                  ? report.companyReport?.orders
+                                  : [];
+
+        if (orders) {
+            for (const order of orders) {
+                // @ts-expect-error Fix later
+                const oldTimeline: OrderTimelineType = order?.timeline;
+                await ordersRepository.updateOrderTimeline({
+                    orderID: order.id,
+                    timeline: [
+                        // @ts-expect-error Fix later
+                        ...oldTimeline,
+                        {
+                            type: "REPORT_DELETE",
+                            reportType: report.type,
+                            date: new Date(),
+                            by: {
+                                id: data.loggedInUser.id,
+                                name: data.loggedInUser.name,
+                                // @ts-expect-error Fix later
+                                role: data.loggedInUser.role
+                            }
+                        }
+                    ]
+                });
+            }
+        }
     }
 
-    async reactivateReport(reportID: number) {
-        await reportModel.reactivateReport({
-            reportID: reportID
+    async reactivateReport(data: { params: { reportID: number } }) {
+        await reportsRepository.reactivateReport({
+            reportID: data.params.reportID
         });
     }
 }

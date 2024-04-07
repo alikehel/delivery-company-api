@@ -1,13 +1,16 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
-import { SECRET } from "../../config/config";
+import { env } from "../../config";
+import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
+import { EmployeeModel } from "../employees/employee.model";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { ClientModel } from "./client.model";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.zod";
 
 const clientModel = new ClientModel();
+const employeeModel = new EmployeeModel();
 
 export const createClient = catchAsync(async (req, res) => {
     const clientData = ClientCreateSchema.parse(req.body);
@@ -29,7 +32,7 @@ export const createClient = catchAsync(async (req, res) => {
     }
 
     // hash the password
-    const hashedPassword = bcrypt.hashSync(password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(password + (env.SECRET as string), 12);
 
     const createdClient = await clientModel.createClient(companyID, {
         ...rest,
@@ -55,39 +58,26 @@ export const getAllClients = catchAsync(async (req, res) => {
     }
     const deleted = (req.query.deleted as string) || "false";
 
-    const clientsCount = await clientModel.getClientsCount({
-        companyID: companyID,
-        deleted: deleted
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(clientsCount / size);
+    const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
     }
-
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const clients = await clientModel.getAllClients(skip, take, {
+    const { clients, pagesCount } = await clientModel.getAllClientsPaginated({
+        page: page,
+        size: size,
         deleted: deleted,
-        companyID: companyID
+        companyID: companyID,
+        minified: minified,
+        storeID: storeID
     });
 
     res.status(200).json({
@@ -100,6 +90,13 @@ export const getAllClients = catchAsync(async (req, res) => {
 
 export const getClient = catchAsync(async (req, res) => {
     const clientID = +req.params.clientID;
+    const loggedInUser = res.locals.user as loggedInUserType;
+
+    if (loggedInUser.role === ClientRole.CLIENT || loggedInUser.role === EmployeeRole.CLIENT_ASSISTANT) {
+        if (clientID !== loggedInUser.id) {
+            throw new AppError("غير مصرح لك الاطلاع علي بيانات عميل اخر", 403);
+        }
+    }
 
     const client = await clientModel.getClient({
         clientID: clientID
@@ -114,25 +111,43 @@ export const getClient = catchAsync(async (req, res) => {
 export const updateClient = catchAsync(async (req, res) => {
     const clientData = ClientUpdateSchema.parse(req.body);
     const clientID = +req.params.clientID;
-    const companyID = +res.locals.user.companyID;
+    // const companyID = +res.locals.user.companyID;
     const avatar = req.file
         ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
         : undefined;
 
+    const oldClient = await clientModel.getClient({
+        clientID: clientID
+    });
+
     const { password, ...rest } = clientData;
 
     // hash the password
-    const hashedPassword = bcrypt.hashSync(password + (SECRET as string), 12);
+    const hashedPassword = bcrypt.hashSync(password + (env.SECRET as string), 12);
 
     const updatedClient = await clientModel.updateClient({
         clientID: clientID,
-        companyID: companyID,
+        // companyID: companyID,
         clientData: {
             ...rest,
             password: hashedPassword,
             avatar
         }
     });
+
+    // Send notification to the company manager if the client name is updated
+    if (clientData.name && oldClient?.name !== updatedClient?.name) {
+        // get the company manager id
+        const companyManager = await employeeModel.getCompanyManager({
+            companyID: updatedClient?.company.id as number
+        });
+
+        await sendNotification({
+            userID: companyManager?.id as number,
+            title: "تغيير اسم عميل",
+            content: `تم تغيير اسم العميل ${oldClient?.name} إلى ${updatedClient?.name}`
+        });
+    }
 
     res.status(200).json({
         status: "success",

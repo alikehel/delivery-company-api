@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -13,7 +13,7 @@ export type BannerCreateType = z.infer<typeof BannerCreateSchema>;
 
 export const BannerCreateOpenAPISchema = generateSchema(BannerCreateSchema);
 
-export const BannerCreateMock = generateMock(BannerCreateSchema);
+// export const BannerCreateMock = generateMock(BannerCreateSchema);
 
 export const BannerUpdateSchema = BannerCreateSchema.partial();
 
@@ -21,4 +21,4 @@ export type BannerUpdateType = z.infer<typeof BannerUpdateSchema>;
 
 export const BannerUpdateOpenAPISchema = generateSchema(BannerUpdateSchema);
 
-export const BannerUpdateMock = generateMock(BannerUpdateSchema);
+// export const BannerUpdateMock = generateMock(BannerUpdateSchema);

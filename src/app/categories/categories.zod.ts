@@ -1,4 +1,4 @@
-import { generateMock } from "@anatine/zod-mock";
+// // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
@@ -18,7 +18,7 @@ export type CategoryCreateType = z.infer<typeof CategoryCreateSchema>;
 
 export const CategoryCreateOpenAPISchema = generateSchema(CategoryCreateSchema);
 
-export const CategoryCreateMock = generateMock(CategoryCreateSchema);
+// export const CategoryCreateMock = generateMock(CategoryCreateSchema);
 
 export const CategoryUpdateSchema = CategoryCreateSchema.partial();
 
@@ -26,4 +26,4 @@ export type CategoryUpdateType = z.infer<typeof CategoryUpdateSchema>;
 
 export const CategoryUpdateOpenAPISchema = generateSchema(CategoryUpdateSchema);
 
-export const CategoryUpdateMock = generateMock(CategoryUpdateSchema);
+// export const CategoryUpdateMock = generateMock(CategoryUpdateSchema);

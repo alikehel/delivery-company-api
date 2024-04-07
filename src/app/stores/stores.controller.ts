@@ -1,7 +1,6 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
+import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import AppError from "../../utils/AppError.util";
-import catchAsync from "../../utils/catchAsync.util";
 import { StoreModel } from "./store.model";
 import { StoreCreateSchema, StoreUpdateSchema } from "./stores.zod";
 
@@ -35,41 +34,39 @@ export const getAllStores = catchAsync(async (req, res) => {
         companyID = loggedInUser.companyID;
     }
 
-    const deleted = (req.query.deleted as string) || "false";
-
-    const storesCount = await storeModel.getStoresCount({
-        deleted: deleted,
-        companyID: companyID
-    });
-    const size = req.query.size ? +req.query.size : 10;
-    const pagesCount = Math.ceil(storesCount / size);
-
-    if (pagesCount === 0) {
-        res.status(200).json({
-            status: "success",
-            page: 1,
-            pagesCount: 1,
-            data: []
-        });
-        return;
+    let clientID: number | undefined;
+    if (loggedInUser.role === ClientRole.CLIENT) {
+        clientID = loggedInUser.id;
+    } else if (req.query.client_id) {
+        clientID = +req.query.client_id;
     }
 
+    let clientAssistantID = req.query.client_assistant_id ? +req.query.client_assistant_id : undefined;
+    if (loggedInUser.role === EmployeeRole.CLIENT_ASSISTANT) {
+        clientAssistantID = loggedInUser.id;
+    }
+
+    const minified = req.query.minified ? req.query.minified === "true" : undefined;
+
+    const deleted = (req.query.deleted as string) || "false";
+
+    let size = req.query.size ? +req.query.size : 10;
+    if (size > 50 && minified !== true) {
+        size = 10;
+    }
     let page = 1;
     if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
         page = +req.query.page;
     }
-    if (page > pagesCount) {
-        throw new AppError("Page number out of range", 400);
-    }
-    const take = page * size;
-    const skip = (page - 1) * size;
-    // if (Number.isNaN(offset)) {
-    //     skip = 0;
-    // }
 
-    const stores = await storeModel.getAllStores(skip, take, {
+    const { stores, pagesCount } = await storeModel.getAllStoresPaginated({
+        page: page,
+        size: size,
         deleted: deleted,
-        companyID: companyID
+        clientID,
+        clientAssistantID,
+        companyID: companyID,
+        minified: minified
     });
 
     res.status(200).json({

@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { StoreCreateType, StoreUpdateType } from "./stores.zod";
-
-const prisma = new PrismaClient();
 
 const storeSelect = {
     id: true,
@@ -9,6 +8,16 @@ const storeSelect = {
     notes: true,
     logo: true,
     client: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    },
+    clientAssistant: {
         select: {
             user: {
                 select: {
@@ -53,6 +62,12 @@ const storeSelectReform = (
                   name: store.client.user.name
               }
             : undefined,
+        clientAssistant: store.clientAssistant
+            ? {
+                  id: store.clientAssistant.user.id,
+                  name: store.clientAssistant.user.name
+              }
+            : undefined,
         company: store.company,
         deleted: store.deleted,
         deletedBy: store.deleted && store.deletedBy,
@@ -76,35 +91,77 @@ export class StoreModel {
                     connect: {
                         id: data.clientID
                     }
-                }
+                },
+                clientAssistant: data.clientAssistantID
+                    ? {
+                          connect: {
+                              id: data.clientAssistantID
+                          }
+                      }
+                    : undefined
             },
             select: storeSelect
         });
         return storeSelectReform(createdStore);
     }
 
-    async getStoresCount(filters: {
+    async getAllStoresPaginated(filters: {
+        page: number;
+        size: number;
         deleted?: string;
+        clientID?: number;
+        clientAssistantID?: number;
         companyID?: number;
+        minified?: boolean;
     }) {
-        const storesCount = await prisma.store.count({
-            where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
-            }
-        });
-        return storesCount;
-    }
+        const where = {
+            AND: [
+                { deleted: filters.deleted === "true" },
+                { company: { id: filters.companyID } },
+                {
+                    client: filters.clientID ? { id: filters.clientID } : undefined
+                },
+                {
+                    clientAssistant: filters.clientAssistantID ? { id: filters.clientAssistantID } : undefined
+                }
+            ]
+        };
 
-    async getAllStores(skip: number, take: number, filters: { deleted?: string; companyID?: number }) {
-        const stores = await prisma.store.findMany({
-            skip: skip,
-            take: take,
-            where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+        if (filters.minified === true) {
+            const paginatedStores = await prisma.store.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return { stores: paginatedStores.data, pagesCount: paginatedStores.pagesCount };
+        }
+
+        const paginatedStores = await prisma.store.findManyPaginated(
+            {
+                where: where,
+                orderBy: {
+                    id: "desc"
+                },
+                select: storeSelect
             },
-            select: storeSelect
-        });
-        return stores.map(storeSelectReform);
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return {
+            stores: paginatedStores.data.map(storeSelectReform),
+            pagesCount: paginatedStores.pagesCount
+        };
     }
 
     async getStore(data: { storeID: number }) {
@@ -130,6 +187,13 @@ export class StoreModel {
                     ? {
                           connect: {
                               id: data.storeData.clientID
+                          }
+                      }
+                    : undefined,
+                clientAssistant: data.storeData.clientAssistantID
+                    ? {
+                          connect: {
+                              id: data.storeData.clientAssistantID
                           }
                       }
                     : undefined

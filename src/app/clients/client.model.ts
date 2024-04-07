@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../../database/db";
 import { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.zod";
-
-const prisma = new PrismaClient();
 
 const clientSelect = {
     user: {
@@ -18,12 +17,7 @@ const clientSelect = {
     createdBy: {
         select: {
             id: true,
-            user: {
-                select: {
-                    id: true,
-                    name: true
-                }
-            }
+            name: true
         }
     },
     repository: {
@@ -76,12 +70,7 @@ const clientReform = (
         repository: client.repository,
         branch: client.branch,
         governoratesDeliveryCosts: client.governoratesDeliveryCosts,
-        createdBy: client.createdBy
-            ? {
-                  id: client.createdBy.id,
-                  name: client.createdBy.user.name
-              }
-            : null,
+        createdBy: client.createdBy,
         deleted: client.deleted,
         deletedBy: client.deleted && client.deletedBy,
         deletedAt: client.deletedAt?.toISOString()
@@ -145,34 +134,70 @@ export class ClientModel {
         return clientReform(createdClient);
     }
 
-    async getClientsCount(filters: {
+    async getAllClientsPaginated(filters: {
+        page: number;
+        size: number;
         deleted?: string;
         companyID?: number;
+        minified?: boolean;
+        storeID?: number;
     }) {
-        const clientsCount = await prisma.client.count({
-            where: {
-                deleted: filters.deleted === "true",
-                company: {
-                    id: filters.companyID
-                }
-            }
-        });
-        return clientsCount;
-    }
+        const where = {
+            AND: [
+                { deleted: filters.deleted === "true" },
+                { company: { id: filters.companyID } },
+                // TODO
+                { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
+            ]
+        };
 
-    async getAllClients(skip: number, take: number, filters: { deleted?: string; companyID?: number }) {
-        const clients = await prisma.client.findMany({
-            skip: skip,
-            take: take,
-            // orderBy: {
-            //     name: "desc"
-            // },
-            where: {
-                AND: [{ deleted: filters.deleted === "true" }, { company: { id: filters.companyID } }]
+        if (filters.minified === true) {
+            const paginatedClients = await prisma.client.findManyPaginated(
+                {
+                    where: where,
+                    select: {
+                        id: true,
+                        user: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                },
+                {
+                    page: filters.page,
+                    size: filters.size
+                }
+            );
+            return {
+                clients: paginatedClients.data.map((client) => {
+                    return {
+                        id: client.id,
+                        name: client.user.name
+                    };
+                }),
+                pagesCount: paginatedClients.pagesCount
+            };
+        }
+
+        const paginatedClients = await prisma.client.findManyPaginated(
+            {
+                orderBy: {
+                    id: "desc"
+                },
+                where: where,
+                select: clientSelect
             },
-            select: clientSelect
-        });
-        return clients.map(clientReform);
+            {
+                page: filters.page,
+                size: filters.size
+            }
+        );
+
+        return {
+            clients: paginatedClients.data.map(clientReform),
+            pagesCount: paginatedClients.pagesCount
+        };
     }
 
     async getClient(data: { clientID: number }) {
@@ -187,7 +212,7 @@ export class ClientModel {
 
     async updateClient(data: {
         clientID: number;
-        companyID: number;
+        // companyID: number;
         clientData: ClientUpdateType;
     }) {
         const client = await prisma.client.update({
@@ -200,18 +225,18 @@ export class ClientModel {
                         name: data.clientData.name,
                         username: data.clientData.username,
                         password: data.clientData.password,
-                        phone: data.clientData.phone,
+                        // phone: data.clientData.phone,
                         fcm: data.clientData.fcm,
                         avatar: data.clientData.avatar
                     }
                 },
-                company: data.companyID
-                    ? {
-                          connect: {
-                              id: data.companyID
-                          }
-                      }
-                    : undefined,
+                // company: data.clientData.companyID
+                //     ? {
+                //           connect: {
+                //               id: data.clientData.companyID
+                //           }
+                //       }
+                //     : undefined,
                 role: data.clientData.role,
                 token: data.clientData.token,
                 branch: data.clientData.branchID
