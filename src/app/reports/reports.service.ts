@@ -1,7 +1,7 @@
 import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
-import { CompanyModel } from "../companies/company.repository";
+import { CompaniesRepository } from "../companies/companies.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { OrderTimelineType } from "../orders/orders.dto";
@@ -22,7 +22,7 @@ import { reportReform } from "./reports.responses";
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
-const companyModel = new CompanyModel();
+const companiesRepository = new CompaniesRepository();
 
 export class ReportsService {
     async createReport(data: {
@@ -197,7 +197,7 @@ export class ReportsService {
             data.reportData.type === ReportType.DELIVERY_AGENT ||
             data.reportData.type === ReportType.COMPANY
         ) {
-            await companyModel.updateCompanyTreasury({
+            await companiesRepository.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
                     amount: reportMetaData.companyNet || 0,
@@ -208,7 +208,7 @@ export class ReportsService {
             data.reportData.type === ReportType.CLIENT ||
             data.reportData.type === ReportType.REPOSITORY
         ) {
-            await companyModel.updateCompanyTreasury({
+            await companiesRepository.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
                     amount: reportMetaData.clientNet || 0,
