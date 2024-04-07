@@ -2,14 +2,6 @@
 import { generateSchema } from "@anatine/zod-openapi";
 import { z } from "zod";
 
-// model Size {
-//   id        String    @id @default(uuid())
-//   title     String
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   Product   Product[]
-// }
-
 export const SizeCreateSchema = z.object({
     title: z.string()
 });

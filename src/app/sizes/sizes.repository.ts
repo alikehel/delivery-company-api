@@ -1,30 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { SizeCreateType, SizeUpdateType } from "./sizes.dto";
+import { sizeSelect } from "./sizes.responses";
 
-const sizeSelect = {
-    id: true,
-    title: true,
-    createdAt: true,
-    updatedAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.SizeSelect;
-
-// const sizeSelectReform = (size: Prisma.SizeGetPayload<typeof sizeSelect>) => {
-//     return {
-//         id: size.id,
-//         title: size.title,
-//         createdAt: size.createdAt,
-//         updatedAt: size.updatedAt
-//     };
-// };
-
-export class SizeModel {
+export class SizesRepository {
     async createSize(companyID: number, data: SizeCreateType) {
         const createdSize = await prisma.size.create({
             data: {
