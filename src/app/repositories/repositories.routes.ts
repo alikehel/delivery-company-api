@@ -5,15 +5,10 @@ import { Router } from "express";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import {
-    createRepository,
-    deleteRepository,
-    getAllRepositories,
-    getRepository,
-    updateRepository
-} from "./repositories.controller";
+import { RepositoriesController } from "./repositories.controller";
 
 const router = Router();
+const repositoriesController = new RepositoriesController();
 
 router.route("/repositories").post(
     isLoggedIn,
@@ -23,7 +18,7 @@ router.route("/repositories").post(
         EmployeeRole.BRANCH_MANAGER,
         EmployeeRole.ACCOUNTANT
     ]),
-    createRepository
+    repositoriesController.createRepository
     /*
         #swagger.tags = ['Repositories Routes']
 
@@ -54,7 +49,7 @@ router.route("/repositories").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllRepositories
+    repositoriesController.getAllRepositories
     /*
         #swagger.tags = ['Repositories Routes']
 
@@ -82,7 +77,7 @@ router.route("/repositories/:repositoryID").get(
         EmployeeRole.BRANCH_MANAGER,
         EmployeeRole.ACCOUNTANT
     ]),
-    getRepository
+    repositoriesController.getRepository
     /*
         #swagger.tags = ['Repositories Routes']
     */
@@ -98,7 +93,7 @@ router.route("/repositories/:repositoryID").patch(
         EmployeeRole.BRANCH_MANAGER,
         EmployeeRole.ACCOUNTANT
     ]),
-    updateRepository
+    repositoriesController.updateRepository
     /*
         #swagger.tags = ['Repositories Routes']
 
@@ -126,7 +121,7 @@ router.route("/repositories/:repositoryID").delete(
         EmployeeRole.BRANCH_MANAGER,
         EmployeeRole.ACCOUNTANT
     ]),
-    deleteRepository
+    repositoriesController.deleteRepository
     /*
         #swagger.tags = ['Repositories Routes']
     */

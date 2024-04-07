@@ -1,30 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.dto";
+import { repositorySelect } from "./repositories.responses";
 
-const repositorySelect = {
-    id: true,
-    name: true,
-    branch: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.RepositorySelect;
-
-// const repositorySelectReform = (
-//     repository: Prisma.RepositoryGetPayload<typeof repositorySelect>
-// ) => {
-//     return {
-//         id: repository.id,
-//         name: repository.name,
-//         branch: repository.branch
-//     };
-// };
-
-export class RepositoryModel {
+export class RepositoriesRepository {
     async createRepository(companyID: number, data: RepositoryCreateType) {
         const createdRepository = await prisma.repository.create({
             data: {
