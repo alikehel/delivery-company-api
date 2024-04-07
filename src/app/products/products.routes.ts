@@ -7,15 +7,10 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import {
-    createProduct,
-    deleteProduct,
-    getAllProducts,
-    getProduct,
-    updateProduct
-} from "./products.controller";
+import { ProductsController } from "./products.controller";
 
 const router = Router();
+const productsController = new ProductsController();
 
 router.route("/products").post(
     isLoggedIn,
@@ -27,7 +22,7 @@ router.route("/products").post(
     ]),
     upload.single("image"),
     // upload.none(),
-    createProduct
+    productsController.createProduct
     /*
         #swagger.tags = ['Products Routes']
 
@@ -58,7 +53,7 @@ router.route("/products").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllProducts
+    productsController.getAllProducts
     /*
         #swagger.tags = ['Products Routes']
 
@@ -86,7 +81,7 @@ router.route("/products/:productID").get(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    getProduct
+    productsController.getProduct
     /*
         #swagger.tags = ['Products Routes']
     */
@@ -104,7 +99,7 @@ router.route("/products/:productID").patch(
     ]),
     upload.single("image"),
     // upload.none(),
-    updateProduct
+    productsController.updateProduct
     /*
         #swagger.tags = ['Products Routes']
 
@@ -132,7 +127,7 @@ router.route("/products/:productID").delete(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    deleteProduct
+    productsController.deleteProduct
     /*
         #swagger.tags = ['Products Routes']
     */
