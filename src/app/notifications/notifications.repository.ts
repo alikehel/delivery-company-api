@@ -1,43 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { NotificationCreateType, NotificationUpdateType } from "./notifications.dto";
+import { notificationReform, notificationSelect } from "./notifications.responses";
 
-const notificationSelect = {
-    id: true,
-    title: true,
-    content: true,
-    seen: true,
-    createdAt: true,
-    user: {
-        select: {
-            id: true,
-            fcm: true
-        }
-    }
-} satisfies Prisma.NotificationSelect;
-
-const notificationReform = (
-    notification: Prisma.NotificationGetPayload<{
-        select: typeof notificationSelect;
-    }>
-) => {
-    if (!notification) {
-        return null;
-    }
-    return {
-        id: notification.id,
-        title: notification.title,
-        content: notification.content,
-        seen: notification.seen,
-        createdAt: notification.createdAt,
-        user: {
-            id: notification.user.id,
-            fcm: notification.user.fcm
-        }
-    };
-};
-
-export class NotificationModel {
+export class NotificationsRepository {
     async createNotification(data: NotificationCreateType) {
         const createdNotification = await prisma.notification.create({
             data: {
