@@ -1,62 +1,9 @@
-import { Governorate, Prisma } from "@prisma/client";
+import { Governorate } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { LocationCreateType, LocationUpdateType } from "./locations.dto";
+import { locationReform, locationSelect } from "./locations.responses";
 
-const locationSelect = {
-    id: true,
-    name: true,
-    governorate: true,
-    branch: true,
-    remote: true,
-    deliveryAgentsLocations: {
-        select: {
-            deliveryAgent: {
-                select: {
-                    user: {
-                        select: {
-                            id: true,
-                            name: true,
-                            phone: true
-                        }
-                    }
-                }
-            }
-        }
-    },
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
-} satisfies Prisma.LocationSelect;
-
-const locationReform = (
-    location: Prisma.LocationGetPayload<{
-        select: typeof locationSelect;
-    }> | null
-) => {
-    if (!location) {
-        return null;
-    }
-    return {
-        id: location.id,
-        name: location.name,
-        governorate: location.governorate,
-        branch: location.branch,
-        deliveryAgents: location.deliveryAgentsLocations.map((deliveryAgent) => {
-            return {
-                id: deliveryAgent.deliveryAgent.user.id,
-                name: deliveryAgent.deliveryAgent.user.name,
-                phone: deliveryAgent.deliveryAgent.user.phone
-            };
-        }),
-        company: location.company,
-        remote: location.remote
-    };
-};
-
-export class LocationModel {
+export class LocationsRepository {
     async createLocation(companyID: number, data: LocationCreateType) {
         const createdLocation = await prisma.location.create({
             data: {

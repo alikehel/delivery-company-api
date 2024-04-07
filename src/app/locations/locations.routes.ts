@@ -5,16 +5,10 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { Role } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import {
-    createLocation,
-    deleteLocation,
-    getAllLocations,
-    getLocation,
-    publicGetAllLocations,
-    updateLocation
-} from "./locations.controller";
+import { LocationsController } from "./locations.controller";
 
 const router = Router();
+const locationsController = new LocationsController();
 // const cache = apicache.middleware;
 
 router.route("/locations").post(
@@ -32,7 +26,7 @@ router.route("/locations").post(
     //     apicache.clear("locations");
     //     next();
     // },
-    createLocation
+    locationsController.createLocation
     /*
         #swagger.tags = ['Locations Routes']
 
@@ -60,7 +54,7 @@ router.route("/public/locations").get(
     //     req.apicacheGroup = "locations";
     //     next();
     // },
-    publicGetAllLocations
+    locationsController.publicGetAllLocations
     /*
         #swagger.tags = ['Locations Routes']
     */
@@ -85,7 +79,7 @@ router.route("/locations").get(
     //     req.apicacheGroup = "locations";
     //     next();
     // },
-    getAllLocations
+    locationsController.getAllLocations
     /*
         #swagger.tags = ['Locations Routes']
 
@@ -119,7 +113,7 @@ router.route("/locations/:locationID").get(
     //     req.apicacheGroup = "locations";
     //     next();
     // },
-    getLocation
+    locationsController.getLocation
     /*
         #swagger.tags = ['Locations Routes']
     */
@@ -139,7 +133,7 @@ router.route("/locations/:locationID").patch(
     //     apicache.clear("locations");
     //     next();
     // },
-    updateLocation
+    locationsController.updateLocation
     /*
         #swagger.tags = ['Locations Routes']
 
@@ -171,7 +165,7 @@ router.route("/locations/:locationID").delete(
     //     apicache.clear("locations");
     //     next();
     // },
-    deleteLocation
+    locationsController.deleteLocation
     /*
         #swagger.tags = ['Locations Routes']
     */
