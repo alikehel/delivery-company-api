@@ -332,6 +332,15 @@ router.route("/orders/:orderID/chat-members").get(
     */
 );
 
+router.route("/orders/:orderID/inquiry-employees").get(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    ordersController.getOrderInquiryEmployees
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
 router.route("/orders/:orderID/chat").post(
     isLoggedIn,
     isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),

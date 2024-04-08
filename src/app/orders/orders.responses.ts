@@ -78,23 +78,23 @@ export const orderSelect = {
             size: true
         }
     },
-    ordersInquiryEmployees: {
-        select: {
-            inquiryEmployee: {
-                select: {
-                    role: true,
-                    user: {
-                        select: {
-                            id: true,
-                            name: true,
-                            phone: true,
-                            avatar: true
-                        }
-                    }
-                }
-            }
-        }
-    },
+    // ordersInquiryEmployees: {
+    //     select: {
+    //         inquiryEmployee: {
+    //             select: {
+    //                 role: true,
+    //                 user: {
+    //                     select: {
+    //                         id: true,
+    //                         name: true,
+    //                         phone: true,
+    //                         avatar: true
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
     governorate: true,
     location: {
         select: {
@@ -213,7 +213,7 @@ export const orderReform = (
     if (!order) {
         return null;
     }
-    const { ordersInquiryEmployees, ...orderReformed } = {
+    const orderReformed = {
         ...order,
         // TODO
         client: {
@@ -261,16 +261,16 @@ export const orderReform = (
             id: order.companyReport?.id,
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
-        },
-        inquiryEmployees: order.ordersInquiryEmployees.map((orderInquiryEmployee) => {
-            return {
-                id: orderInquiryEmployee.inquiryEmployee.user.id,
-                name: orderInquiryEmployee.inquiryEmployee.user.name,
-                phone: orderInquiryEmployee.inquiryEmployee.user.phone,
-                avatar: orderInquiryEmployee.inquiryEmployee.user.avatar,
-                role: orderInquiryEmployee.inquiryEmployee.role
-            };
-        })
+        }
+        // inquiryEmployees: order.ordersInquiryEmployees.map((orderInquiryEmployee) => {
+        //     return {
+        //         id: orderInquiryEmployee.inquiryEmployee.user.id,
+        //         name: orderInquiryEmployee.inquiryEmployee.user.name,
+        //         phone: orderInquiryEmployee.inquiryEmployee.user.phone,
+        //         avatar: orderInquiryEmployee.inquiryEmployee.user.avatar,
+        //         role: orderInquiryEmployee.inquiryEmployee.role
+        //     };
+        // })
     };
     return orderReformed;
 };

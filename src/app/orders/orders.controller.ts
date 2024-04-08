@@ -251,6 +251,21 @@ export class OrdersController {
         });
     });
 
+    getOrderInquiryEmployees = catchAsync(async (req, res) => {
+        const params = {
+            orderID: +req.params.orderID
+        };
+
+        const orderInquiryEmployees = await ordersService.getOrderInquiryEmployees({
+            params: params
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: orderInquiryEmployees
+        });
+    });
+
     deactivateOrder = catchAsync(async (req, res) => {
         const params = {
             orderID: +req.params.orderID

@@ -410,7 +410,7 @@ export class OrdersService {
             // Update delivery date
             if (
                 data.orderData.deliveryDate &&
-                oldOrderData.deliveryDate?.toString() !==
+                oldOrderData?.deliveryDate?.toString() !==
                     // @ts-expect-error Fix later
                     newOrder.deliveryDate.toString()
             ) {
@@ -460,10 +460,10 @@ export class OrdersService {
         return pdf;
     };
 
-    async getOrdersReportPDF(data: {
+    getOrdersReportPDF = async (data: {
         ordersData: OrdersReportPDFCreateType;
         ordersFilters: OrdersFiltersType;
-    }) {
+    }) => {
         let orders: ReturnType<typeof orderReform>[];
         let ordersIDs: number[] = [];
         if (data.ordersData.ordersIDs === "*") {
@@ -512,7 +512,7 @@ export class OrdersService {
 
         const pdf = await generateOrdersReport(data.ordersData.type, ordersData, orders);
         return pdf;
-    }
+    };
 
     getOrdersStatistics = async (data: {
         filters: OrdersStatisticsFiltersType;
@@ -614,6 +614,18 @@ export class OrdersService {
         });
 
         return orderChatMembers;
+    };
+
+    getOrderInquiryEmployees = async (data: {
+        params: {
+            orderID: number;
+        };
+    }) => {
+        const orderInquiryEmployees = await ordersRepository.getOrderInquiryEmployees({
+            orderID: data.params.orderID
+        });
+
+        return orderInquiryEmployees;
     };
 
     deactivateOrder = async (data: {

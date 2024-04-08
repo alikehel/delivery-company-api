@@ -790,87 +790,87 @@ export class OrdersRepository {
             }
         );
 
-        // const ordersReformed = paginatedOrders.data.map(orderReform);
+        const ordersReformed = paginatedOrders.data.map(orderReform);
 
         //TODO: MUST BE DELETED AND ONLY USED IN GET ONE ORDER
-        const ordersReformed: Array<ReturnType<typeof orderReform>> = [];
-        for (const order of paginatedOrders.data) {
-            const inquiryEmployees =
-                (
-                    await prisma.employee.findMany({
-                        where: {
-                            AND: [
-                                { role: "INQUIRY_EMPLOYEE" },
-                                {
-                                    OR: [
-                                        {
-                                            inquiryBranches: order?.branch?.id
-                                                ? {
-                                                      some: {
-                                                          branchId: order.branch.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryStores: order?.store.id
-                                                ? {
-                                                      some: {
-                                                          storeId: order.store.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryCompanies: order?.company.id
-                                                ? {
-                                                      some: {
-                                                          companyId: order.company.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryLocations: order?.location?.id
-                                                ? {
-                                                      some: {
-                                                          locationId: order.location.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        select: {
-                            user: {
-                                select: {
-                                    id: true,
-                                    name: true,
-                                    phone: true,
-                                    avatar: true
-                                }
-                            },
-                            role: true
-                        }
-                    })
-                ).map((inquiryEmployee) => {
-                    return {
-                        id: inquiryEmployee.user?.id ?? null,
-                        name: inquiryEmployee.user?.name ?? null,
-                        phone: inquiryEmployee.user?.phone ?? null,
-                        avatar: inquiryEmployee.user?.avatar ?? null,
-                        role: inquiryEmployee.role
-                    };
-                }) ?? [];
+        // const ordersReformed: Array<ReturnType<typeof orderReform>> = [];
+        // for (const order of paginatedOrders.data) {
+        //     const inquiryEmployees =
+        //         (
+        //             await prisma.employee.findMany({
+        //                 where: {
+        //                     AND: [
+        //                         { role: "INQUIRY_EMPLOYEE" },
+        //                         {
+        //                             OR: [
+        //                                 {
+        //                                     inquiryBranches: order?.branch?.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   branchId: order.branch.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryStores: order?.store.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   storeId: order.store.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryCompanies: order?.company.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   companyId: order.company.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryLocations: order?.location?.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   locationId: order.location.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 }
+        //                             ]
+        //                         }
+        //                     ]
+        //                 },
+        //                 select: {
+        //                     user: {
+        //                         select: {
+        //                             id: true,
+        //                             name: true,
+        //                             phone: true,
+        //                             avatar: true
+        //                         }
+        //                     },
+        //                     role: true
+        //                 }
+        //             })
+        //         ).map((inquiryEmployee) => {
+        //             return {
+        //                 id: inquiryEmployee.user?.id ?? null,
+        //                 name: inquiryEmployee.user?.name ?? null,
+        //                 phone: inquiryEmployee.user?.phone ?? null,
+        //                 avatar: inquiryEmployee.user?.avatar ?? null,
+        //                 role: inquiryEmployee.role
+        //             };
+        //         }) ?? [];
 
-            // @ts-expect-error Fix later
-            ordersReformed.push({
-                ...orderReform(order),
-                inquiryEmployees: [...(orderReform(order)?.inquiryEmployees || []), ...inquiryEmployees]
-            });
-        }
+        //     // @ts-expect-error Fix later
+        //     ordersReformed.push({
+        //         ...orderReform(order),
+        //         inquiryEmployees: [...(orderReform(order)?.inquiryEmployees || []), ...inquiryEmployees]
+        //     });
+        // }
 
         // const reformedOrder = orderReform(order);
         // return {
@@ -954,80 +954,81 @@ export class OrdersRepository {
             },
             select: orderSelect
         });
-        const inquiryEmployees =
-            (
-                await prisma.employee.findMany({
-                    where: {
-                        AND: [
-                            { role: "INQUIRY_EMPLOYEE" },
-                            {
-                                OR: [
-                                    {
-                                        inquiryBranches: order?.branch?.id
-                                            ? {
-                                                  some: {
-                                                      branchId: order.branch.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryStores: order?.store.id
-                                            ? {
-                                                  some: {
-                                                      storeId: order.store.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryCompanies: order?.company.id
-                                            ? {
-                                                  some: {
-                                                      companyId: order.company.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryLocations: order?.location?.id
-                                            ? {
-                                                  some: {
-                                                      locationId: order.location.id
-                                                  }
-                                              }
-                                            : undefined
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    select: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true,
-                                phone: true,
-                                avatar: true
-                            }
-                        },
-                        role: true
-                    }
-                })
-            ).map((inquiryEmployee) => {
-                return {
-                    id: inquiryEmployee.user?.id ?? null,
-                    name: inquiryEmployee.user?.name ?? null,
-                    phone: inquiryEmployee.user?.phone ?? null,
-                    avatar: inquiryEmployee.user?.avatar ?? null,
-                    role: inquiryEmployee.role
-                };
-            }) ?? [];
+        // const inquiryEmployees =
+        //     (
+        //         await prisma.employee.findMany({
+        //             where: {
+        //                 AND: [
+        //                     { role: "INQUIRY_EMPLOYEE" },
+        //                     {
+        //                         OR: [
+        //                             {
+        //                                 inquiryBranches: order?.branch?.id
+        //                                     ? {
+        //                                           some: {
+        //                                               branchId: order.branch.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryStores: order?.store.id
+        //                                     ? {
+        //                                           some: {
+        //                                               storeId: order.store.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryCompanies: order?.company.id
+        //                                     ? {
+        //                                           some: {
+        //                                               companyId: order.company.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryLocations: order?.location?.id
+        //                                     ? {
+        //                                           some: {
+        //                                               locationId: order.location.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             }
+        //                         ]
+        //                     }
+        //                 ]
+        //             },
+        //             select: {
+        //                 user: {
+        //                     select: {
+        //                         id: true,
+        //                         name: true,
+        //                         phone: true,
+        //                         avatar: true
+        //                     }
+        //                 },
+        //                 role: true
+        //             }
+        //         })
+        //     ).map((inquiryEmployee) => {
+        //         return {
+        //             id: inquiryEmployee.user?.id ?? null,
+        //             name: inquiryEmployee.user?.name ?? null,
+        //             phone: inquiryEmployee.user?.phone ?? null,
+        //             avatar: inquiryEmployee.user?.avatar ?? null,
+        //             role: inquiryEmployee.role
+        //         };
+        //     }) ?? [];
         const reformedOrder = orderReform(order);
-        return {
-            ...reformedOrder,
-            inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
-        };
+        return reformedOrder;
+        // return {
+        //     ...reformedOrder,
+        //     inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
+        // };
     }
 
     async updateOrdersCosts(data: {
@@ -1739,6 +1740,103 @@ export class OrdersRepository {
         });
 
         return chatMembers;
+    }
+
+    async getOrderInquiryEmployees(data: { orderID: number }) {
+        const order = await prisma.order.findUnique({
+            where: {
+                id: data.orderID
+            },
+            select: {
+                branchId: true,
+                storeId: true,
+                companyId: true,
+                locationId: true,
+                status: true,
+                governorate: true
+            }
+        });
+
+        const inquiryEmployees =
+            (
+                await prisma.employee.findMany({
+                    where: {
+                        AND: [
+                            { role: "INQUIRY_EMPLOYEE" },
+                            {
+                                OR: [
+                                    {
+                                        inquiryBranches: order?.branchId
+                                            ? {
+                                                  some: {
+                                                      branchId: order.branchId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryStores: order?.storeId
+                                            ? {
+                                                  some: {
+                                                      storeId: order.storeId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryCompanies: order?.companyId
+                                            ? {
+                                                  some: {
+                                                      companyId: order.companyId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryLocations: order?.locationId
+                                            ? {
+                                                  some: {
+                                                      locationId: order.locationId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    // TODO
+                                    {
+                                        inquiryGovernorates: order?.governorate
+                                            ? { has: order.governorate }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryStatuses: order?.status ? { has: order.status } : undefined
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                avatar: true
+                            }
+                        },
+                        role: true
+                    }
+                })
+            ).map((inquiryEmployee) => {
+                return {
+                    id: inquiryEmployee.user?.id ?? null,
+                    name: inquiryEmployee.user?.name ?? null,
+                    phone: inquiryEmployee.user?.phone ?? null,
+                    avatar: inquiryEmployee.user?.avatar ?? null,
+                    role: inquiryEmployee.role
+                };
+            }) ?? [];
+
+        return inquiryEmployees;
     }
 
     async getClientIDByStoreID(data: { storeID: number }) {
