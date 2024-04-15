@@ -142,7 +142,7 @@ export class OrdersService {
         }
 
         let size = data.filters.size;
-        if (size > 50 && data.filters.minified !== true) {
+        if (size > 500 && data.filters.minified !== true) {
             size = 10;
         }
 
