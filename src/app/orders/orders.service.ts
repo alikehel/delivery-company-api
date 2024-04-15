@@ -37,6 +37,13 @@ export class OrdersService {
             confirmed = true;
         }
 
+        let status: OrderStatus;
+        if (data.loggedInUser.role !== "CLIENT") {
+            status = OrderStatus.WITH_DELIVERY_AGENT;
+        } else {
+            status = OrderStatus.REGISTERED;
+        }
+
         if (Array.isArray(data.orderOrOrdersData)) {
             const createdOrders: Order[] = [];
             for (const order of data.orderOrOrdersData) {
@@ -49,7 +56,7 @@ export class OrdersService {
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
                     loggedInUser: data.loggedInUser,
-                    orderData: { ...order, confirmed }
+                    orderData: { ...order, confirmed, status }
                 });
                 if (!createdOrder) {
                     throw new AppError("Failed to create order", 500);
@@ -69,7 +76,7 @@ export class OrdersService {
             companyID: data.loggedInUser.companyID as number,
             clientID,
             loggedInUser: data.loggedInUser,
-            orderData: { ...data.orderOrOrdersData, confirmed }
+            orderData: { ...data.orderOrOrdersData, confirmed, status }
         });
         return createdOrder;
     };

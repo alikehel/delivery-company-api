@@ -300,6 +300,7 @@ export class OrdersRepository {
                       }
                     : undefined,
                 confirmed: data.orderData.forwardedCompanyID ? false : data.orderData.confirmed,
+                status: data.orderData.status,
                 orderProducts:
                     data.orderData.withProducts === false
                         ? undefined
