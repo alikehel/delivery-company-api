@@ -129,7 +129,7 @@ export const EmployeesFiltersSchema = z
         }, z.boolean().optional())
     })
     .transform((data) => {
-        if (data.size > 50 && data.minified !== true) {
+        if (data.size > 500 && data.minified !== true) {
             return {
                 ...data,
                 size: 10

@@ -40,7 +40,7 @@ export class LocationsController {
         const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
         let size = req.query.size ? +req.query.size : 10;
-        if (size > 50 && minified !== true) {
+        if (size > 500 && minified !== true) {
             size = 10;
         }
         let page = 1;

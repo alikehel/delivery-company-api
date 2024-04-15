@@ -13,7 +13,7 @@ export class NotificationsController {
         }
 
         let size = req.query.size ? +req.query.size : 10;
-        if (size > 50) {
+        if (size > 500) {
             size = 10;
         }
         let page = 1;

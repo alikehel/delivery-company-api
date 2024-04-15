@@ -3,8 +3,8 @@ import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { OrdersRepository } from "../orders/orders.repository";
-import { ProductsRepository } from "./products.repository";
 import { ProductCreateSchema, ProductUpdateSchema } from "./products.dto";
+import { ProductsRepository } from "./products.repository";
 
 const productsRepository = new ProductsRepository();
 const ordersRepository = new OrdersRepository();
@@ -57,7 +57,7 @@ export class ProductsController {
         const storeID = req.query.store_id ? +req.query.store_id : undefined;
 
         let size = req.query.size ? +req.query.size : 10;
-        if (size > 50 && minified !== true) {
+        if (size > 500 && minified !== true) {
             size = 10;
         }
         let page = 1;

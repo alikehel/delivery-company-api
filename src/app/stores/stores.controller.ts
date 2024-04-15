@@ -52,7 +52,7 @@ export class StoresController {
         const deleted = (req.query.deleted as string) || "false";
 
         let size = req.query.size ? +req.query.size : 10;
-        if (size > 50 && minified !== true) {
+        if (size > 500 && minified !== true) {
             size = 10;
         }
         let page = 1;
