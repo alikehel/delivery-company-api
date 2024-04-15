@@ -25,7 +25,7 @@ export const orderSelect = {
     currentLocation: true,
     createdAt: true,
     updatedAt: true,
-    // timeline: true,
+    timeline: true,
     forwarded: true,
     forwardedAt: true,
     forwardedBy: {
