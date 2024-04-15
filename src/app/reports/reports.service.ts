@@ -317,7 +317,7 @@ export class ReportsService {
         }
 
         let size = data.filters.size ? +data.filters.size : 10;
-        if (size > 50 && data.filters.minified !== true) {
+        if (size > 500 && data.filters.minified !== true) {
             size = 10;
         }
         let page = 1;
