@@ -205,7 +205,7 @@ export class EmployeesRepository {
             {
                 where: where,
                 orderBy: {
-                    id: "desc"
+                    id: "asc"
                 },
                 select: {
                     ...employeeSelect,
