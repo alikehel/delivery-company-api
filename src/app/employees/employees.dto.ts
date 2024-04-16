@@ -115,6 +115,8 @@ export const EmployeesFiltersSchema = z
             return val;
         }, z.array(z.nativeEnum(Permission)).optional()),
         role: z.nativeEnum(EmployeeRole).optional(),
+        name: z.string().optional(),
+        phone: z.string().optional(),
         branchID: z.coerce.number().optional(),
         locationID: z.coerce.number().optional(),
         deleted: z.preprocess((val) => {

@@ -141,6 +141,8 @@ export class EmployeesRepository {
                 {
                     permissions: data.filters.permissions ? { hasEvery: data.filters.permissions } : undefined
                 },
+                { user: data.filters.name ? { name: { contains: data.filters.name } } : undefined },
+                { user: data.filters.phone ? { phone: { contains: data.filters.phone } } : undefined },
                 { role: { in: data.filters.roles } },
                 { role: data.filters.role },
                 {

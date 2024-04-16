@@ -32,6 +32,8 @@ export class EmployeesController {
             roles: req.query.roles,
             permissions: req.query.permissions,
             role: req.query.role,
+            name: req.query.name,
+            phone: req.query.phone,
             location_id: req.query.location_id,
             branch_id: req.query.branch_id,
             orders_start_date: req.query.orders_start_date,
