@@ -621,57 +621,141 @@ export class OrdersRepository {
                 },
                 // Filter by clientReport
                 {
-                    clientReport:
-                        data.filters.clientReport === "true"
-                            ? { isNot: null }
-                            : data.filters.clientReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.clientReport === "true"
+                                    ? [
+                                          { clientReport: { isNot: null } },
+                                          { clientReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.clientReport === "false"
+                                    ? [
+                                          { clientReport: { is: null } },
+                                          { clientReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by repositoryReport
                 {
-                    repositoryReport:
-                        data.filters.repositoryReport === "true"
-                            ? { isNot: null }
-                            : data.filters.repositoryReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.repositoryReport === "true"
+                                    ? [
+                                          { repositoryReport: { isNot: null } },
+                                          { repositoryReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.repositoryReport === "false"
+                                    ? [
+                                          { repositoryReport: { is: null } },
+                                          { repositoryReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by branchReport
                 {
-                    branchReport:
-                        data.filters.branchReport === "true"
-                            ? { isNot: null }
-                            : data.filters.branchReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.branchReport === "true"
+                                    ? [
+                                          { branchReport: { isNot: null } },
+                                          { branchReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.branchReport === "false"
+                                    ? [
+                                          { branchReport: { is: null } },
+                                          { branchReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by deliveryAgentReport
                 {
-                    deliveryAgentReport:
-                        data.filters.deliveryAgentReport === "true"
-                            ? { isNot: null }
-                            : data.filters.deliveryAgentReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.deliveryAgentReport === "true"
+                                    ? [
+                                          { deliveryAgentReport: { isNot: null } },
+                                          { deliveryAgentReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.deliveryAgentReport === "false"
+                                    ? [
+                                          { deliveryAgentReport: { is: null } },
+                                          { deliveryAgentReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by governorateReport
                 {
-                    governorateReport:
-                        data.filters.governorateReport === "true"
-                            ? { isNot: null }
-                            : data.filters.governorateReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.governorateReport === "true"
+                                    ? [
+                                          { governorateReport: { isNot: null } },
+                                          { governorateReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.governorateReport === "false"
+                                    ? [
+                                          { governorateReport: { is: null } },
+                                          { governorateReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by companyReport
                 {
-                    companyReport:
-                        data.filters.companyReport === "true"
-                            ? { isNot: null }
-                            : data.filters.companyReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.companyReport === "true"
+                                    ? [
+                                          { companyReport: { isNot: null } },
+                                          { companyReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.companyReport === "false"
+                                    ? [
+                                          { companyReport: { is: null } },
+                                          { companyReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by automaticUpdateID
                 {
