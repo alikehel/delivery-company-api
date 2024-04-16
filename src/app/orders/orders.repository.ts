@@ -16,6 +16,7 @@ export class OrdersRepository {
     async createOrder(data: {
         companyID: number;
         clientID: number;
+        deliveryAgentID?: number;
         loggedInUser: loggedInUserType;
         orderData: OrderCreateType;
     }) {
@@ -299,6 +300,7 @@ export class OrdersRepository {
                     : undefined,
                 confirmed: data.orderData.forwardedCompanyID ? false : data.orderData.confirmed,
                 status: data.orderData.status,
+                deliveryAgent: data.deliveryAgentID ? { connect: { id: data.deliveryAgentID } } : undefined,
                 orderProducts:
                     data.orderData.withProducts === false
                         ? undefined
@@ -1838,6 +1840,7 @@ export class OrdersRepository {
         return inquiryEmployees;
     }
 
+    // TODO: Move to client repository
     async getClientIDByStoreID(data: { storeID: number }) {
         const store = await prisma.store.findUnique({
             where: {
@@ -1848,6 +1851,24 @@ export class OrdersRepository {
             }
         });
         return store?.clientId;
+    }
+
+    // TODO: Move to Employees repository
+    async getDeliveryAgentIDByLocationID(data: { locationID: number }) {
+        const deliveryAgent = await prisma.employee.findFirst({
+            where: {
+                role: "DELIVERY_AGENT",
+                deliveryAgentsLocations: {
+                    some: {
+                        locationId: data.locationID
+                    }
+                }
+            },
+            select: {
+                id: true
+            }
+        });
+        return deliveryAgent?.id;
     }
 
     async getOrderStatus(data: { orderID: number }) {

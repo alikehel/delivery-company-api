@@ -47,14 +47,17 @@ export class OrdersService {
         if (Array.isArray(data.orderOrOrdersData)) {
             const createdOrders: Order[] = [];
             for (const order of data.orderOrOrdersData) {
-                const storeID = order.storeID;
-                const clientID = await ordersRepository.getClientIDByStoreID({ storeID });
+                const clientID = await ordersRepository.getClientIDByStoreID({ storeID: order.storeID });
                 if (!clientID) {
                     throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
                 }
+                const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+                    locationID: order.locationID
+                });
                 const createdOrder = await ordersRepository.createOrder({
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
+                    deliveryAgentID,
                     loggedInUser: data.loggedInUser,
                     orderData: { ...order, confirmed, status }
                 });
@@ -67,14 +70,19 @@ export class OrdersService {
             return createdOrders;
         }
 
-        const storeID = data.orderOrOrdersData.storeID;
-        const clientID = await ordersRepository.getClientIDByStoreID({ storeID });
+        const clientID = await ordersRepository.getClientIDByStoreID({
+            storeID: data.orderOrOrdersData.storeID
+        });
         if (!clientID) {
             throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
         }
+        const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+            locationID: data.orderOrOrdersData.locationID
+        });
         const createdOrder = await ordersRepository.createOrder({
             companyID: data.loggedInUser.companyID as number,
             clientID,
+            deliveryAgentID,
             loggedInUser: data.loggedInUser,
             orderData: { ...data.orderOrOrdersData, confirmed, status }
         });
