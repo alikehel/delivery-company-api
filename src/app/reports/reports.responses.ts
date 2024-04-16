@@ -227,7 +227,8 @@ export const reportReform = (
             reportNumber: report.companyReport.id,
             companyReportOrders: report.companyReport.orders,
             company: report.companyReport.company,
-            baghdadDeliveryCost: report.companyReport.baghdadDeliveryCost
+            baghdadDeliveryCost: report.companyReport.baghdadDeliveryCost,
+            governoratesDeliveryCost: report.companyReport.governoratesDeliveryCost
         },
         company: report.company,
         deleted: report.deleted,
