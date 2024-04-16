@@ -67,6 +67,8 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost,
                     report: report
                 }
             });
@@ -95,6 +97,7 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -109,6 +112,7 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -119,6 +123,7 @@ export class ReportsRepository {
                 data: {
                     governorate: data.reportData.governorate,
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -133,6 +138,8 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost,
                     report: report
                 }
             });

@@ -59,7 +59,9 @@ export const reportSelect = {
                     clientReportId: true,
                     timeline: true
                 }
-            }
+            },
+            baghdadDeliveryCost: true,
+            governoratesDeliveryCost: true
         }
     },
     repositoryReport: {
@@ -97,7 +99,8 @@ export const reportSelect = {
                     branchReportId: true,
                     timeline: true
                 }
-            }
+            },
+            deliveryAgentDeliveryCost: true
         }
     },
     governorateReport: {
@@ -111,7 +114,8 @@ export const reportSelect = {
                     governorateReportId: true,
                     timeline: true
                 }
-            }
+            },
+            deliveryAgentDeliveryCost: true
         }
     },
     deliveryAgentReport: {
@@ -134,7 +138,8 @@ export const reportSelect = {
                     deliveryAgentReportId: true,
                     timeline: true
                 }
-            }
+            },
+            deliveryAgentDeliveryCost: true
         }
     },
     companyReport: {
@@ -153,7 +158,9 @@ export const reportSelect = {
                     companyReportId: true,
                     timeline: true
                 }
-            }
+            },
+            baghdadDeliveryCost: true,
+            governoratesDeliveryCost: true
         }
     },
     company: {
@@ -189,7 +196,9 @@ export const reportReform = (
             clientReportOrders: report.clientReport.orders,
             client: report.clientReport.client.user,
             store: report.clientReport.store,
-            branch: report.clientReport.client.branch
+            branch: report.clientReport.client.branch,
+            baghdadDeliveryCost: report.clientReport.baghdadDeliveryCost,
+            governoratesDeliveryCost: report.clientReport.governoratesDeliveryCost
         },
         repositoryReport: report.repositoryReport && {
             reportNumber: report.repositoryReport.id,
@@ -199,22 +208,26 @@ export const reportReform = (
         branchReport: report.branchReport && {
             reportNumber: report.branchReport.id,
             branchReportOrders: report.branchReport.orders,
-            branch: report.branchReport.branch
+            branch: report.branchReport.branch,
+            deliveryAgentDeliveryCost: report.branchReport.deliveryAgentDeliveryCost
         },
         governorateReport: report.governorateReport && {
             reportNumber: report.governorateReport.id,
             governorateReportOrders: report.governorateReport.orders,
-            governorate: report.governorateReport.governorate
+            governorate: report.governorateReport.governorate,
+            deliveryAgentDeliveryCost: report.governorateReport.deliveryAgentDeliveryCost
         },
         deliveryAgentReport: report.deliveryAgentReport && {
             reportNumber: report.deliveryAgentReport.id,
             deliveryAgentReportOrders: report.deliveryAgentReport.orders,
-            deliveryAgent: report.deliveryAgentReport.deliveryAgent.user
+            deliveryAgent: report.deliveryAgentReport.deliveryAgent.user,
+            deliveryAgentDeliveryCost: report.deliveryAgentReport.deliveryAgentDeliveryCost
         },
         companyReport: report.companyReport && {
             reportNumber: report.companyReport.id,
             companyReportOrders: report.companyReport.orders,
-            company: report.companyReport.company
+            company: report.companyReport.company,
+            baghdadDeliveryCost: report.companyReport.baghdadDeliveryCost
         },
         company: report.company,
         deleted: report.deleted,
