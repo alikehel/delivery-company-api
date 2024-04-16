@@ -246,13 +246,11 @@ export class OrdersRepository {
                           }
                       }
                     : undefined,
-                location: data.orderData.locationID
-                    ? {
-                          connect: {
-                              id: data.orderData.locationID
-                          }
-                      }
-                    : undefined,
+                location: {
+                    connect: {
+                        id: data.orderData.locationID
+                    }
+                },
                 store: {
                     connect: {
                         id: data.orderData.storeID
