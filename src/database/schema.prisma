@@ -497,7 +497,7 @@ model Order {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   clientId               Int
   deliveryAgentId        Int?
-  locationId             Int?
+  locationId             Int
   storeId                Int
   repositoryId           Int?
   branchId               Int?
@@ -506,7 +506,7 @@ model Order {
   orderProducts          OrderProducts[]
   ordersInquiryEmployees OrdersInquiryEmployees[]
   deliveryAgent          Employee?                @relation(fields: [deliveryAgentId], references: [id], onDelete: SetNull)
-  location               Location?                @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  location               Location                 @relation(fields: [locationId], references: [id])
   client                 Client                   @relation(fields: [clientId], references: [id])
   store                  Store                    @relation(fields: [storeId], references: [id])
   repository             Repository?              @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
