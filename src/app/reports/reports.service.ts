@@ -63,16 +63,6 @@ export class ReportsService {
                         400
                     );
                 }
-                // TODO
-                // if (
-                //     data.reportData.type === ReportType.CLIENT &&
-                //     order.clientId !== data.reportData.clientID
-                // ) {
-                //     throw new AppError(
-                //         `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
-                //         400
-                //     );
-                // }
             }
         } else if (data.reportData.type === ReportType.REPOSITORY) {
             for (const order of orders) {
@@ -181,9 +171,18 @@ export class ReportsService {
             }
         }
 
+        // Get client id from store id if report type is client
+        let clientID: number | undefined;
+        if (data.reportData.type === ReportType.CLIENT) {
+            clientID = await ordersRepository.getClientIDByStoreID({ storeID: data.reportData.storeID });
+        }
+
         const report = await reportsRepository.createReport({
             loggedInUser: data.loggedInUser,
-            reportData: { ...data.reportData, ordersIDs },
+            reportData:
+                data.reportData.type === ReportType.CLIENT
+                    ? { ...data.reportData, ordersIDs, clientID }
+                    : { ...data.reportData, ordersIDs },
             reportMetaData: reportMetaData
         });
 
