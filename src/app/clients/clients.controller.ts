@@ -4,6 +4,7 @@ import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { BranchesRepository } from "../branches/branches.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.dto";
@@ -11,6 +12,7 @@ import { ClientsRepository } from "./clients.repository";
 
 const clientsRepository = new ClientsRepository();
 const employeesRepository = new EmployeesRepository();
+const branchesRepository = new BranchesRepository();
 
 export class ClientsController {
     createClient = catchAsync(async (req, res) => {
@@ -57,6 +59,23 @@ export class ClientsController {
         } else if (loggedInUser.companyID) {
             companyID = loggedInUser.companyID;
         }
+
+        // Show only clients of the same branch as the branch manager
+        let branchID: number | undefined = req.query.branch_id ? +req.query.branch_id : undefined;
+        if (loggedInUser.role === "BRANCH_MANAGER") {
+            const branch = await branchesRepository.getBranchManagerBranch({
+                branchManagerID: loggedInUser.id
+            });
+            if (!branch) {
+                throw new AppError("انت غير مرتبط بفرع", 500);
+            }
+            // TODO: Every branch should have a governorate
+            if (!branch.governorate) {
+                throw new AppError("الفرع الذي تعمل به غير مرتبط بمحافظة", 500);
+            }
+            branchID = branch.id;
+        }
+
         const deleted = (req.query.deleted as string) || "false";
 
         const storeID = req.query.store_id ? +req.query.store_id : undefined;
@@ -78,7 +97,8 @@ export class ClientsController {
             deleted: deleted,
             companyID: companyID,
             minified: minified,
-            storeID: storeID
+            storeID: storeID,
+            branchID: branchID
         });
 
         res.status(200).json({

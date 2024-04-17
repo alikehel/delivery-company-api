@@ -66,11 +66,13 @@ export class ClientsRepository {
         companyID?: number;
         minified?: boolean;
         storeID?: number;
+        branchID?: number;
     }) {
         const where = {
             AND: [
                 { deleted: filters.deleted === "true" },
                 { company: { id: filters.companyID } },
+                { branch: filters.branchID ? { id: filters.branchID } : undefined },
                 // TODO
                 { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
             ]
