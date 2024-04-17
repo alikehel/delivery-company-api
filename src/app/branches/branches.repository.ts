@@ -111,4 +111,21 @@ export class BranchesRepository {
         });
         return true;
     }
+
+    async getBranchManagerBranch(data: { branchManagerID: number }) {
+        const branch = await prisma.branch.findFirst({
+            where: {
+                employees: {
+                    some: {
+                        id: data.branchManagerID
+                    }
+                }
+            },
+            select: {
+                id: true,
+                governorate: true
+            }
+        });
+        return branch;
+    }
 }

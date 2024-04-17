@@ -5,6 +5,7 @@ import { Logger } from "../../lib/logger";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 // import { generateReceipts } from "./helpers/generateReceipts";
+import { BranchesRepository } from "../branches/branches.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { generateOrdersReport } from "./helpers/generateOrdersReport";
 import { generateReceipts } from "./helpers/generateReceipts";
@@ -24,6 +25,7 @@ import { orderReform } from "./orders.responses";
 
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
+const branchesRepository = new BranchesRepository();
 
 export class OrdersService {
     createOrder = async (data: {
@@ -108,6 +110,21 @@ export class OrdersService {
         const companyID = data.filters.companyID
             ? data.filters.companyID
             : data.loggedInUser.companyID || undefined;
+        // Show only orders of the same governorate as the branch to the branch manager
+        let governorate: Governorate | undefined = data.filters.governorate;
+        if (data.loggedInUser.role === "BRANCH_MANAGER") {
+            const branch = await branchesRepository.getBranchManagerBranch({
+                branchManagerID: data.loggedInUser.id
+            });
+            if (!branch) {
+                throw new AppError("انت غير مرتبط بفرع", 500);
+            }
+            // TODO: Every branch should have a governorate
+            if (!branch.governorate) {
+                throw new AppError("الفرع الذي تعمل به غير مرتبط بمحافظة", 500);
+            }
+            governorate = branch.governorate;
+        }
 
         // Inquiry Employee Filters
         let inquiryStatuses: OrderStatus[] | undefined = undefined;
@@ -160,6 +177,7 @@ export class OrdersService {
                 clientID,
                 deliveryAgentID,
                 companyID,
+                governorate,
                 size,
                 inquiryStatuses,
                 inquiryGovernorates,

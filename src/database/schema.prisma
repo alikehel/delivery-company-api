@@ -301,6 +301,7 @@ model Branch {
   id               Int                        @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
   name             String                     @unique
+  // TODO: Governorate should be mandatory
   governorate      Governorate?
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
