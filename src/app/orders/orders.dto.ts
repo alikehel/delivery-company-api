@@ -77,7 +77,7 @@ export const OrderUpdateSchema = z
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
         secondaryStatus: z.nativeEnum(SecondaryStatus),
-        deliveryAgentID: z.coerce.number(),
+        deliveryAgentID: z.coerce.number().or(z.literal(null)).optional(),
         deliveryDate: z.coerce.date(),
         recipientName: z.string(),
         recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)),

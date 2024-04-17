@@ -1305,13 +1305,19 @@ export class OrdersRepository {
                           }
                       }
                     : undefined,
-                deliveryAgent: data.orderData.deliveryAgentID
-                    ? {
-                          connect: {
-                              id: data.orderData.deliveryAgentID
+                deliveryAgent:
+                    // unlink delivery agent if null
+                    data.orderData.deliveryAgentID === null
+                        ? {
+                              disconnect: true
                           }
-                      }
-                    : undefined,
+                        : data.orderData.deliveryAgentID !== undefined
+                          ? {
+                                  connect: {
+                                      id: data.orderData.deliveryAgentID
+                                  }
+                              }
+                          : undefined,
                 repository: data.orderData.repositoryID
                     ? {
                           connect: {

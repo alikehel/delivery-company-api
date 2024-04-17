@@ -252,6 +252,34 @@ export class OrdersService {
             data.orderData.paidAmount = oldOrderData?.totalCost;
         }
 
+        // if secondary status is changed to in_reposiroty, unlink the delivery agent
+        if (
+            oldOrderData?.secondaryStatus !== data.orderData.secondaryStatus &&
+            data.orderData.secondaryStatus === "IN_REPOSITORY"
+        ) {
+            data.orderData.deliveryAgentID = null;
+        }
+        // if secondary status is changed to with_delivery_agent, link the delivery agent
+        // or if old order secondary status is in repository and new status is resend, link the delivery agent
+        if (
+            (oldOrderData?.secondaryStatus !== data.orderData.secondaryStatus &&
+                data.orderData.secondaryStatus === "WITH_AGENT") ||
+            (oldOrderData?.status !== data.orderData.status &&
+                data.orderData.status === "RESEND" &&
+                oldOrderData?.secondaryStatus === "IN_REPOSITORY")
+        ) {
+            if (!oldOrderData?.location) {
+                throw new AppError(`لا يوجد منطقة مرتبطة بالطلب ${oldOrderData?.id}`, 400);
+            }
+            const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+                locationID: oldOrderData?.location.id
+            });
+            if (!deliveryAgentID) {
+                throw new AppError(`لا يوجد مندوب توصيل مرتبط بمنطقة (${oldOrderData?.location.name})`, 400);
+            }
+            data.orderData.deliveryAgentID = deliveryAgentID;
+        }
+
         const newOrder = await ordersRepository.updateOrder({
             orderID: data.params.orderID,
             loggedInUser: data.loggedInUser,
