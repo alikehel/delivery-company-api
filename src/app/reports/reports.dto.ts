@@ -74,7 +74,9 @@ export const ReportCreateOrdersFiltersSchema = z
                             z.enum([
                                 OrderStatus.DELIVERED,
                                 OrderStatus.PARTIALLY_RETURNED,
-                                OrderStatus.REPLACED
+                                OrderStatus.REPLACED,
+                                // For company return report
+                                OrderStatus.RETURNED
                             ])
                         )
                     ),
@@ -175,7 +177,9 @@ export const ReportCreateOrdersFiltersSchema = z
                             z.enum([
                                 OrderStatus.DELIVERED,
                                 OrderStatus.PARTIALLY_RETURNED,
-                                OrderStatus.REPLACED
+                                OrderStatus.REPLACED,
+                                // For company return report
+                                OrderStatus.RETURNED
                             ])
                         )
                     ),
