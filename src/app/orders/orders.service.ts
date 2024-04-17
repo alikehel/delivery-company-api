@@ -241,6 +241,17 @@ export class OrdersService {
             }
         }
 
+        // update order paid amount if new status is delivered or partially returned or replaced
+        if (
+            oldOrderData?.status !== data.orderData.status &&
+            !data.orderData.paidAmount &&
+            (data.orderData.status === OrderStatus.DELIVERED ||
+                data.orderData.status === OrderStatus.PARTIALLY_RETURNED ||
+                data.orderData.status === OrderStatus.REPLACED)
+        ) {
+            data.orderData.paidAmount = oldOrderData?.totalCost;
+        }
+
         const newOrder = await ordersRepository.updateOrder({
             orderID: data.params.orderID,
             loggedInUser: data.loggedInUser,
