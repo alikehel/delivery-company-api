@@ -11,26 +11,23 @@
 	<header>
 		<table>
 			<tr>
-				<td style="width: 20%">رقم الكشف: <span>{{reportData.id}}</span></td>
-				<td style="width: 20%">مبلغ الوصل: <span>{{currency reportData.totalCost}}</span></td>
-				<td style="width: 20%" class="title">كشف مندوب</td>
-				<td style="width: 20%">عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
+				<td style="width: 25%">رقم الكشف: <span>{{reportData.id}}</span></td>
+				<td style="width: 25%" class="title">كشف مندوب</td>
+				<td style="width: 25%">عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
 						reportData.governoratesOrdersCount}}</span></td>
-				<td style="width: 20%" rowspan="3"><img src="{{reportData.company.logo}}" /></td>
+				<td style="width: 25%" rowspan="3"><img src="{{reportData.company.logo}}" /></td>
 			</tr>
 			<tr>
-				<td style="width: 20%">التاريخ: <span>{{date reportData.createdAt}}</span></td>
-				<td style="width: 20%">المبلغ المستلم: <span>{{currency reportData.paidAmount}}</span></td>
-				<td style="width: 20%">المندوب: <span>{{reportData.deliveryAgentReport.deliveryAgent.name}}</span></td>
-				<td style="width: 20%">عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
-				<td style="width: 20%"></td>
+				<td style="width: 25%">التاريخ: <span>{{date reportData.createdAt}}</span></td>
+				<td style="width: 25%">المندوب: <span>{{reportData.deliveryAgentReport.deliveryAgent.name}}</span></td>
+				<td style="width: 25%">عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
+				<td style="width: 25%"></td>
 			</tr>
 			<tr>
-				<td style="width: 20%">صافي الشركة: <span>{{currency reportData.companyNet}}</span></td>
-				<td style="width: 20%">صافي المندوب: <span>{{currency reportData.deliveryAgentNet}}</span></td>
-				<td style="width: 20%"></td>
-				<td style="width: 20%">عدد طلبيات المحافظات: <span>{{reportData.governoratesOrdersCount}}</span></td>
-				<td style="width: 20%"></td>
+				<td style="width: 25%">صافي الشركة: <span>{{currency reportData.companyNet}}</span></td>
+				<td style="width: 25%"></td>
+				<td style="width: 25%">عدد طلبيات المحافظات: <span>{{reportData.governoratesOrdersCount}}</span></td>
+				<td style="width: 25%"></td>
 			</tr>
 		</table>
 	</header>
@@ -70,6 +67,13 @@
 				</tr>
 				{{/each}}
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">اجمالي مبلغ الوصل: {{currency reportData.totalCost}}</td>
+					<td colspan="3">اجمالي المبلغ المستلم: {{currency reportData.paidAmount}}</td>
+					<td colspan="4">اجمالي صافي المندوب: {{currency reportData.deliveryAgentNet}}</td>
+				</tr>
+			</tfoot>
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>

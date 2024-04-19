@@ -78,10 +78,12 @@ main table td {
     /* Center horizontally */
 }
 
-main table th {
+main table th,
+main table tfoot td {
     /* border-bottom: 1px solid #000; */
     font-weight: bolder;
     font-size: 18px;
+    background: #e1e1e1;
 }
 
 main table tr {
@@ -98,8 +100,24 @@ main table thead {
     display: table-header-group;
 }
 
-main table tr:nth-child(2n-1) td {
-    background: #eeeeee;
+main table tbody tr:nth-child(2n-1) td {
+    background: #f1f1f1;
+}
+
+/* tbody:before {
+    line-height: 0.2em;
+    content: "\200C";
+    display: block;
+}
+
+tbody:after {
+    line-height: 0.2em;
+    content: "\200C";
+    display: block;
+} */
+
+main table tfoot {
+    display: table-footer-group;
 }
 
 main table tr {
