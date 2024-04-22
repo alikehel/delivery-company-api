@@ -89,6 +89,7 @@ main table tfoot td {
 main table tr {
     page-break-inside: avoid;
     page-break-after: auto;
+    border-block: 1px solid #000;
 }
 
 main table td {
@@ -118,10 +119,6 @@ tbody:after {
 
 main table tfoot {
     display: table-footer-group;
-}
-
-main table tr {
-    border-block: 1px solid #000;
 }
 
 footer {
