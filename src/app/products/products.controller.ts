@@ -2,12 +2,12 @@ import { AdminRole, ClientRole } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { OrdersRepository } from "../orders/orders.repository";
+import { ClientsRepository } from "../clients/clients.repository";
 import { ProductCreateSchema, ProductUpdateSchema } from "./products.dto";
 import { ProductsRepository } from "./products.repository";
 
 const productsRepository = new ProductsRepository();
-const ordersRepository = new OrdersRepository();
+const clientsRepository = new ClientsRepository();
 
 export class ProductsController {
     createProduct = catchAsync(async (req, res) => {
@@ -19,7 +19,7 @@ export class ProductsController {
             : undefined;
 
         // Get the clientID
-        const clientID = await ordersRepository.getClientIDByStoreID({ storeID: productData.storeID });
+        const clientID = await clientsRepository.getClientIDByStoreID({ storeID: productData.storeID });
         if (!clientID) {
             throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
         }

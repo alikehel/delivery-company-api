@@ -529,4 +529,22 @@ export class EmployeesRepository {
             name: companyManager?.user.name
         };
     }
+
+    // TODO: Move to Employees repository
+    async getDeliveryAgentIDByLocationID(data: { locationID: number }) {
+        const deliveryAgent = await prisma.employee.findFirst({
+            where: {
+                role: "DELIVERY_AGENT",
+                deliveryAgentsLocations: {
+                    some: {
+                        locationId: data.locationID
+                    }
+                }
+            },
+            select: {
+                id: true
+            }
+        });
+        return deliveryAgent?.id;
+    }
 }

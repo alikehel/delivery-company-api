@@ -1930,37 +1930,6 @@ export class OrdersRepository {
         return inquiryEmployees;
     }
 
-    // TODO: Move to client repository
-    async getClientIDByStoreID(data: { storeID: number }) {
-        const store = await prisma.store.findUnique({
-            where: {
-                id: data.storeID
-            },
-            select: {
-                clientId: true
-            }
-        });
-        return store?.clientId;
-    }
-
-    // TODO: Move to Employees repository
-    async getDeliveryAgentIDByLocationID(data: { locationID: number }) {
-        const deliveryAgent = await prisma.employee.findFirst({
-            where: {
-                role: "DELIVERY_AGENT",
-                deliveryAgentsLocations: {
-                    some: {
-                        locationId: data.locationID
-                    }
-                }
-            },
-            select: {
-                id: true
-            }
-        });
-        return deliveryAgent?.id;
-    }
-
     async getOrderStatus(data: { orderID: number }) {
         const order = await prisma.order.findUnique({
             where: {

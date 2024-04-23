@@ -22,9 +22,11 @@ import {
 } from "./orders.dto";
 import { OrdersRepository } from "./orders.repository";
 import { orderReform } from "./orders.responses";
+import { ClientsRepository } from "../clients/clients.repository";
 
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
+const clientsRepository = new ClientsRepository();
 const branchesRepository = new BranchesRepository();
 
 export class OrdersService {
@@ -49,11 +51,11 @@ export class OrdersService {
         if (Array.isArray(data.orderOrOrdersData)) {
             const createdOrders: Order[] = [];
             for (const order of data.orderOrOrdersData) {
-                const clientID = await ordersRepository.getClientIDByStoreID({ storeID: order.storeID });
+                const clientID = await clientsRepository.getClientIDByStoreID({ storeID: order.storeID });
                 if (!clientID) {
                     throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
                 }
-                const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+                const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
                     locationID: order.locationID
                 });
                 const createdOrder = await ordersRepository.createOrder({
@@ -72,13 +74,13 @@ export class OrdersService {
             return createdOrders;
         }
 
-        const clientID = await ordersRepository.getClientIDByStoreID({
+        const clientID = await clientsRepository.getClientIDByStoreID({
             storeID: data.orderOrOrdersData.storeID
         });
         if (!clientID) {
             throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
         }
-        const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+        const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
             locationID: data.orderOrOrdersData.locationID
         });
         const createdOrder = await ordersRepository.createOrder({
@@ -285,7 +287,7 @@ export class OrdersService {
                 if (!oldOrderData?.location) {
                     throw new AppError(`لا يوجد منطقة مرتبطة بالطلب ${oldOrderData?.id}`, 400);
                 }
-                const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+                const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
                     locationID: oldOrderData?.location.id
                 });
                 if (!deliveryAgentID) {

@@ -1,6 +1,7 @@
 import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
+import { ClientsRepository } from "../clients/clients.repository";
 import { CompaniesRepository } from "../companies/companies.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
@@ -22,6 +23,7 @@ import { reportReform } from "./reports.responses";
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
+const clientsRepository = new ClientsRepository();
 const companiesRepository = new CompaniesRepository();
 
 export class ReportsService {
@@ -174,7 +176,7 @@ export class ReportsService {
         // Get client id from store id if report type is client
         let clientID: number | undefined;
         if (data.reportData.type === ReportType.CLIENT) {
-            clientID = await ordersRepository.getClientIDByStoreID({ storeID: data.reportData.storeID });
+            clientID = await clientsRepository.getClientIDByStoreID({ storeID: data.reportData.storeID });
         }
 
         const report = await reportsRepository.createReport({
