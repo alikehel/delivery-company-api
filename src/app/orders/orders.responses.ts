@@ -70,6 +70,7 @@ export const orderSelect = {
             }
         }
     },
+    oldDeliveryAgentId: true,
     orderProducts: {
         select: {
             quantity: true,

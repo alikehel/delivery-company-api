@@ -498,6 +498,7 @@ model Order {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   clientId               Int
   deliveryAgentId        Int?
+  oldDeliveryAgentId     Int? // For when relinking the order to the old delivery agent
   locationId             Int
   storeId                Int
   repositoryId           Int?

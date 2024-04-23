@@ -268,6 +268,7 @@ export class OrdersService {
             data.orderData.secondaryStatus === "IN_REPOSITORY"
         ) {
             data.orderData.deliveryAgentID = null;
+            data.orderData.oldDeliveryAgentId = oldOrderData?.deliveryAgent?.id;
         }
         // if secondary status is changed to with_delivery_agent, link the delivery agent
         // or if old order secondary status is in repository and new status is resend, link the delivery agent
@@ -278,16 +279,23 @@ export class OrdersService {
                 data.orderData.status === "RESEND" &&
                 oldOrderData?.secondaryStatus === "IN_REPOSITORY")
         ) {
-            if (!oldOrderData?.location) {
-                throw new AppError(`لا يوجد منطقة مرتبطة بالطلب ${oldOrderData?.id}`, 400);
+            if (oldOrderData?.oldDeliveryAgentId) {
+                data.orderData.deliveryAgentID = oldOrderData?.oldDeliveryAgentId;
+            } else {
+                if (!oldOrderData?.location) {
+                    throw new AppError(`لا يوجد منطقة مرتبطة بالطلب ${oldOrderData?.id}`, 400);
+                }
+                const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
+                    locationID: oldOrderData?.location.id
+                });
+                if (!deliveryAgentID) {
+                    throw new AppError(
+                        `لا يوجد مندوب توصيل مرتبط بمنطقة (${oldOrderData?.location.name})`,
+                        400
+                    );
+                }
+                data.orderData.deliveryAgentID = deliveryAgentID;
             }
-            const deliveryAgentID = await ordersRepository.getDeliveryAgentIDByLocationID({
-                locationID: oldOrderData?.location.id
-            });
-            if (!deliveryAgentID) {
-                throw new AppError(`لا يوجد مندوب توصيل مرتبط بمنطقة (${oldOrderData?.location.name})`, 400);
-            }
-            data.orderData.deliveryAgentID = deliveryAgentID;
         }
 
         const newOrder = await ordersRepository.updateOrder({
