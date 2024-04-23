@@ -125,6 +125,15 @@ export class OrdersService {
             }
             governorate = branch.governorate;
         }
+        // show orders/statistics without client reports to the client unless he searches for them
+        let clientReport = data.filters.clientReport;
+        if (
+            data.loggedInUser.role === "CLIENT" &&
+            data.filters.clientReport !== "true" &&
+            data.filters.search === undefined
+        ) {
+            clientReport = "false";
+        }
 
         // Inquiry Employee Filters
         let inquiryStatuses: OrderStatus[] | undefined = undefined;
@@ -178,6 +187,7 @@ export class OrdersService {
                 deliveryAgentID,
                 companyID,
                 governorate,
+                clientReport,
                 size,
                 inquiryStatuses,
                 inquiryGovernorates,
@@ -664,12 +674,19 @@ export class OrdersService {
             }
         }
 
+        // show orders/statistics without client reports to the client unless he searches for them
+        let clientReport = data.filters.clientReport;
+        if (data.loggedInUser.role === "CLIENT" && data.filters.clientReport !== true) {
+            clientReport = false;
+        }
+
         const statistics = await ordersRepository.getOrdersStatistics({
             filters: {
                 ...data.filters,
                 clientID,
                 deliveryAgentID,
                 companyID,
+                clientReport,
                 inquiryStatuses,
                 inquiryGovernorates,
                 inquiryLocationsIDs,
