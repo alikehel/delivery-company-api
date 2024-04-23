@@ -6,6 +6,7 @@ import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 // import { generateReceipts } from "./helpers/generateReceipts";
 import { BranchesRepository } from "../branches/branches.repository";
+import { ClientsRepository } from "../clients/clients.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { generateOrdersReport } from "./helpers/generateOrdersReport";
 import { generateReceipts } from "./helpers/generateReceipts";
@@ -22,7 +23,6 @@ import {
 } from "./orders.dto";
 import { OrdersRepository } from "./orders.repository";
 import { orderReform } from "./orders.responses";
-import { ClientsRepository } from "../clients/clients.repository";
 
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
@@ -149,6 +149,35 @@ export class OrdersService {
                 employeeID: data.loggedInUser.id
             });
             if (inquiryEmployeeStuff) {
+                // if all filters are empty, that means he shouldnt see any orders
+                if (
+                    inquiryEmployeeStuff.inquiryBranches?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryLocations?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryCompanies?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryStores?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryGovernorates?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryStatuses?.length === 0
+                ) {
+                    // TODO: Improve this
+                    return {
+                        page: data.filters.page,
+                        pagesCount: 0,
+                        orders: [],
+                        ordersMetaData: {
+                            totalCost: 0,
+                            totalPaidAmount: 0,
+                            totalUnpaidAmount: 0,
+                            totalOrdersCount: 0,
+                            totalDeliveredOrdersCount: 0,
+                            totalReturnedOrdersCount: 0,
+                            totalReplacedOrdersCount: 0,
+                            totalUnDeliveredOrdersCount: 0,
+                            totalUnReturnedOrdersCount: 0,
+                            totalUnReplacedOrdersCount: 0
+                        }
+                    };
+                }
+
                 inquiryStatuses =
                     inquiryEmployeeStuff.inquiryStatuses && inquiryEmployeeStuff.inquiryStatuses.length > 0
                         ? inquiryEmployeeStuff.inquiryStatuses
@@ -656,6 +685,186 @@ export class OrdersService {
                 employeeID: data.loggedInUser.id
             });
             if (inquiryEmployeeStuff) {
+                // if all filters are empty, that means he shouldnt see any orders
+                if (
+                    inquiryEmployeeStuff.inquiryBranches?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryLocations?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryCompanies?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryStores?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryGovernorates?.length === 0 &&
+                    inquiryEmployeeStuff.inquiryStatuses?.length === 0
+                ) {
+                    // TODO: Improve this
+                    return {
+                        ordersStatisticsByStatus: [
+                            {
+                                status: "WITH_DELIVERY_AGENT",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "POSTPONED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "RESEND",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "PROCESSING",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "DELIVERED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "PARTIALLY_RETURNED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "REPLACED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "CHANGE_ADDRESS",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "RETURNED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "REGISTERED",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "WITH_RECEIVING_AGENT",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                status: "READY_TO_SEND",
+                                totalCost: 0,
+                                count: 0
+                            }
+                        ],
+                        ordersStatisticsByGovernorate: [
+                            {
+                                governorate: "AL_ANBAR",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "BABIL",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "BAGHDAD",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "BASRA",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "DHI_QAR",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "AL_QADISIYYAH",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "DIYALA",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "DUHOK",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "ERBIL",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "KARBALA",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "KIRKUK",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "MAYSAN",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "MUTHANNA",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "NAJAF",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "NINAWA",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "SALAH_AL_DIN",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "SULAYMANIYAH",
+                                totalCost: 0,
+                                count: 0
+                            },
+                            {
+                                governorate: "WASIT",
+                                totalCost: 0,
+                                count: 0
+                            }
+                        ],
+                        allOrdersStatistics: {
+                            totalCost: 0,
+                            count: 0
+                        },
+                        allOrdersStatisticsWithoutClientReport: {
+                            totalCost: 0,
+                            count: 0
+                        },
+                        todayOrdersStatistics: {
+                            totalCost: 0,
+                            count: 0
+                        }
+                    };
+                }
+
                 inquiryStatuses =
                     inquiryEmployeeStuff.inquiryStatuses && inquiryEmployeeStuff.inquiryStatuses.length > 0
                         ? inquiryEmployeeStuff.inquiryStatuses
