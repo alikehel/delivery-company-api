@@ -1,4 +1,4 @@
-import { Governorate, OrderStatus, Prisma } from "@prisma/client";
+import { Governorate, OrderStatus, Prisma, SecondaryStatus } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
@@ -1971,5 +1971,22 @@ export class OrdersRepository {
             }
         });
         return order;
+    }
+
+    async updateOrdersSecondaryStatus(data: {
+        ordersIDs: number[];
+        secondaryStatus: SecondaryStatus;
+    }) {
+        const updatedOrders = await prisma.order.updateMany({
+            where: {
+                id: {
+                    in: data.ordersIDs
+                }
+            },
+            data: {
+                secondaryStatus: data.secondaryStatus
+            }
+        });
+        return updatedOrders;
     }
 }
