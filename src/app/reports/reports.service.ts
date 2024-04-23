@@ -337,6 +337,10 @@ export class ReportsService {
             reportID: data.params.reportID
         });
 
+        if (report?.deleted) {
+            throw new AppError("الكشف المطلوب موجود بسلة المحذوفات", 404);
+        }
+
         return report;
     }
 
@@ -344,6 +348,10 @@ export class ReportsService {
         const reportData = await reportsRepository.getReport({
             reportID: data.params.reportID
         });
+
+        if (reportData?.deleted) {
+            throw new AppError("الكشف المطلوب موجود بسلة المحذوفات", 404);
+        }
 
         // TODO: fix this
         // @ts-expect-error Fix later
