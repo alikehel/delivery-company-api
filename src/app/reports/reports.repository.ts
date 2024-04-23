@@ -408,9 +408,10 @@ export class ReportsRepository {
         const deletedReport = await prisma.report.delete({
             where: {
                 id: data.reportID
-            }
+            },
+            select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 
     async deactivateReport(data: { reportID: number; deletedByID: number }) {
@@ -429,7 +430,7 @@ export class ReportsRepository {
             },
             select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 
     async reactivateReport(data: { reportID: number }) {
@@ -439,8 +440,9 @@ export class ReportsRepository {
             },
             data: {
                 deleted: false
-            }
+            },
+            select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 }

@@ -487,18 +487,18 @@ export class ReportsService {
         });
 
         const orders =
-            report.type === ReportType.CLIENT
-                ? report.clientReport?.orders
-                : report.type === ReportType.REPOSITORY
-                  ? report.repositoryReport?.orders
-                  : report.type === ReportType.BRANCH
-                      ? report.branchReport?.orders
-                      : report.type === ReportType.GOVERNORATE
-                          ? report.governorateReport?.orders
-                          : report.type === ReportType.DELIVERY_AGENT
-                              ? report.deliveryAgentReport?.orders
-                              : report.type === ReportType.COMPANY
-                                  ? report.companyReport?.orders
+            report?.type === ReportType.CLIENT
+                ? report.clientReport?.clientReportOrders
+                : report?.type === ReportType.REPOSITORY
+                  ? report?.repositoryReport?.repositoryReportOrders
+                  : report?.type === ReportType.BRANCH
+                      ? report?.branchReport?.branchReportOrders
+                      : report?.type === ReportType.GOVERNORATE
+                          ? report?.governorateReport?.governorateReportOrders
+                          : report?.type === ReportType.DELIVERY_AGENT
+                              ? report?.deliveryAgentReport?.deliveryAgentReportOrders
+                              : report?.type === ReportType.COMPANY
+                                  ? report?.companyReport?.companyReportOrders
                                   : [];
 
         if (orders) {
@@ -512,7 +512,7 @@ export class ReportsService {
                         ...oldTimeline,
                         {
                             type: "REPORT_DELETE",
-                            reportType: report.type,
+                            reportType: report?.type,
                             date: new Date(),
                             by: {
                                 id: data.loggedInUser.id,
@@ -525,11 +525,47 @@ export class ReportsService {
                 });
             }
         }
+
+        // Send notification to client if report type is client report
+        if (report?.type === ReportType.CLIENT) {
+            await sendNotification({
+                title: "تم حذف كشف",
+                content: `تم حذف الكشف برقم ${report.id}`,
+                userID: report.clientReport?.client.id as number
+            });
+        }
+
+        // Send notification to delivery agent if report type is delivery agent report
+        if (report?.type === ReportType.DELIVERY_AGENT) {
+            await sendNotification({
+                title: "تم حذف كشف",
+                content: `تم حذف الكشف برقم ${report.id}`,
+                userID: report.deliveryAgentReport?.deliveryAgent.id as number
+            });
+        }
     }
 
     async reactivateReport(data: { params: { reportID: number } }) {
-        await reportsRepository.reactivateReport({
+        const report = await reportsRepository.reactivateReport({
             reportID: data.params.reportID
         });
+
+        // Send notification to client if report type is client report
+        if (report?.type === ReportType.CLIENT) {
+            await sendNotification({
+                title: "تم استعادة كشف",
+                content: `تم استعادة الكشف برقم ${report.id}`,
+                userID: report.clientReport?.client.id as number
+            });
+        }
+
+        // Send notification to delivery agent if report type is delivery agent report
+        if (report?.type === ReportType.DELIVERY_AGENT) {
+            await sendNotification({
+                title: "تم استعادة كشف",
+                content: `تم استعادة الكشف برقم ${report.id}`,
+                userID: report.deliveryAgentReport?.deliveryAgent.id as number
+            });
+        }
     }
 }
