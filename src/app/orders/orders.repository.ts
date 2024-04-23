@@ -1728,64 +1728,7 @@ export class OrdersRepository {
             }
         });
 
-        const inquiryEmployees = await prisma.employee.findMany({
-            where: {
-                AND: [
-                    { role: "INQUIRY_EMPLOYEE" },
-                    {
-                        OR: [
-                            {
-                                inquiryBranches: order?.branchId
-                                    ? {
-                                          some: {
-                                              branchId: order.branchId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryStores: order?.storeId
-                                    ? {
-                                          some: {
-                                              storeId: order.storeId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryCompanies: order?.companyId
-                                    ? {
-                                          some: {
-                                              companyId: order.companyId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryLocations: order?.locationId
-                                    ? {
-                                          some: {
-                                              locationId: order.locationId
-                                          }
-                                      }
-                                    : undefined
-                            }
-                        ]
-                    }
-                ]
-            },
-            select: {
-                user: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true,
-                        avatar: true
-                    }
-                },
-                role: true
-            }
-        });
+        const inquiryEmployees = await this.getOrderInquiryEmployees({ orderID: data.orderID });
 
         // array of chat members with no nulls
 
@@ -1817,15 +1760,7 @@ export class OrdersRepository {
                     role: orderInquiryEmployee.inquiryEmployee.role
                 };
             }) ?? []),
-            ...(inquiryEmployees?.map((inquiryEmployee) => {
-                return {
-                    id: inquiryEmployee.user?.id ?? null,
-                    name: inquiryEmployee.user?.name ?? null,
-                    phone: inquiryEmployee.user?.phone ?? null,
-                    avatar: inquiryEmployee.user?.avatar ?? null,
-                    role: inquiryEmployee.role
-                };
-            }) ?? [])
+            ...(inquiryEmployees ?? [])
         ].filter((chatMember) => {
             return chatMember !== null;
         });
