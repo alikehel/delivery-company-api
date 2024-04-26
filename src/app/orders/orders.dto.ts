@@ -267,6 +267,12 @@ export const OrdersFiltersSchema = z.object({
     productID: z.coerce.number().optional(),
     locationID: z.coerce.number().optional(),
     receiptNumber: z.coerce.number().optional(),
+    receiptNumbers: z.preprocess((val) => {
+        if (typeof val === "string") {
+            return val.split(",");
+        }
+        return val;
+    }, z.array(z.coerce.number()).optional()),
     recipientName: z.string().optional(),
     recipientPhone: z.string().optional(),
     recipientAddress: z.string().optional(),

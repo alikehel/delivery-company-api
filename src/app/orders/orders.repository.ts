@@ -583,6 +583,11 @@ export class OrdersRepository {
                 {
                     receiptNumber: data.filters.receiptNumber
                 },
+                {
+                    receiptNumber: data.filters.receiptNumbers
+                        ? { in: data.filters.receiptNumbers }
+                        : undefined
+                },
                 // Filter by recipientName
                 {
                     recipientName: data.filters.recipientName
