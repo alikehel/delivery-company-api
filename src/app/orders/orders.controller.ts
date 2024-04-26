@@ -62,6 +62,7 @@ export class OrdersController {
             productID: req.query.product_id,
             locationID: req.query.location_id,
             receiptNumber: req.query.receipt_number,
+            receiptNumbers: req.query.receipt_numbers,
             recipientName: req.query.recipient_name,
             recipientPhone: req.query.recipient_phone,
             recipientAddress: req.query.recipient_address,
