@@ -1268,7 +1268,9 @@ export class OrdersRepository {
             },
             data: {
                 quantity: data.orderData.quantity,
+                totalCost: data.orderData.totalCost,
                 paidAmount: data.orderData.paidAmount,
+                receiptNumber: data.orderData.receiptNumber,
                 clientNet: clientNet,
                 deliveryAgentNet: deliveryAgentCost,
                 companyNet: companyNet,

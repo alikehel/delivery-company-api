@@ -71,6 +71,7 @@ export const OrderCreateOpenAPISchema = generateSchema(OrderCreateSchema);
 export const OrderUpdateSchema = z
     .object({
         quantity: z.number(),
+        totalCost: z.number(),
         paidAmount: z.number(),
         receiptNumber: z.number(),
         confirmed: z.boolean(),
