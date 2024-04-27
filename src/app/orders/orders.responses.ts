@@ -26,6 +26,19 @@ export const orderSelect = {
     createdAt: true,
     updatedAt: true,
     timeline: true,
+    processed: true,
+    processedAt: true,
+    processedBy: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true
+                }
+            }
+        }
+    },
     forwarded: true,
     forwardedAt: true,
     forwardedBy: {
@@ -79,23 +92,6 @@ export const orderSelect = {
             size: true
         }
     },
-    // ordersInquiryEmployees: {
-    //     select: {
-    //         inquiryEmployee: {
-    //             select: {
-    //                 role: true,
-    //                 user: {
-    //                     select: {
-    //                         id: true,
-    //                         name: true,
-    //                         phone: true,
-    //                         avatar: true
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
     governorate: true,
     location: {
         select: {
@@ -228,6 +224,7 @@ export const orderReform = (
             phone: order.deliveryAgent.user.phone,
             deliveryCost: order.deliveryAgent.deliveryCost
         },
+        processedBy: order.processedBy?.user,
         forwardedBy: order.forwardedBy?.user,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
@@ -263,15 +260,6 @@ export const orderReform = (
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
         }
-        // inquiryEmployees: order.ordersInquiryEmployees.map((orderInquiryEmployee) => {
-        //     return {
-        //         id: orderInquiryEmployee.inquiryEmployee.user.id,
-        //         name: orderInquiryEmployee.inquiryEmployee.user.name,
-        //         phone: orderInquiryEmployee.inquiryEmployee.user.phone,
-        //         avatar: orderInquiryEmployee.inquiryEmployee.user.avatar,
-        //         role: orderInquiryEmployee.inquiryEmployee.role
-        //     };
-        // })
     };
     return orderReformed;
 };

@@ -74,6 +74,7 @@ export const OrderUpdateSchema = z
         totalCost: z.number(),
         paidAmount: z.number(),
         receiptNumber: z.number(),
+        processed: z.boolean(),
         confirmed: z.boolean(),
         discount: z.number(),
         status: z.nativeEnum(OrderStatus),
@@ -229,6 +230,11 @@ export const OrdersFiltersSchema = z.object({
         return val;
     }, z.boolean().optional()),
     forwarded: z.preprocess((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+        return val;
+    }, z.boolean().optional()),
+    processed: z.preprocess((val) => {
         if (val === "true") return true;
         if (val === "false") return false;
         return val;

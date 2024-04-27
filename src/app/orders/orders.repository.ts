@@ -1312,6 +1312,9 @@ export class OrdersRepository {
                           }
                       }
                     : undefined,
+                processed: data.orderData.processed,
+                processedAt: data.orderData.processed ? new Date() : undefined,
+                processedBy: data.orderData.processed ? { connect: { id: data.loggedInUser.id } } : undefined,
                 deliveryAgent:
                     // unlink delivery agent if null
                     data.orderData.deliveryAgentID === null
