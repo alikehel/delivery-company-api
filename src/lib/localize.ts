@@ -166,6 +166,8 @@ export const localizeGovernorate = (text: Governorate): string => {
             return "الانبار";
         case "BABIL":
             return "بابل";
+        case "BABIL_COMPANIES":
+            return "بابل (شركات)";
         case "BAGHDAD":
             return "بغداد";
         case "BASRA":

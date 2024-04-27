@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Governorate" ADD VALUE 'BABIL_COMPANIES';
