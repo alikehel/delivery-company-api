@@ -782,6 +782,9 @@ export class OrdersRepository {
                     forwarded: data.filters.forwarded
                 },
                 {
+                    processed: data.filters.processed
+                },
+                {
                     forwardedBy: {
                         id: data.filters.forwardedByID
                     }
