@@ -1,11 +1,14 @@
 import * as bcrypt from "bcrypt";
 import { env } from "../../config";
+import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
+import { EmployeesRepository } from "../employees/employees.repository";
 import { CompanyCreateSchema, CompanyUpdateSchema } from "./companies.dto";
 import { CompaniesRepository } from "./companies.repository";
 
 const companiesRepository = new CompaniesRepository();
+const employeesRepository = new EmployeesRepository();
 
 export class CompaniesController {
     createCompany = catchAsync(async (req, res) => {
@@ -83,8 +86,22 @@ export class CompaniesController {
         const logo = req.file
             ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
             : undefined;
-
         const companyData = CompanyUpdateSchema.parse(req.body);
+
+        const companyManagerID = (
+            await employeesRepository.getCompanyManager({
+                companyID: +companyID
+            })
+        ).id;
+        if (!companyManagerID) {
+            throw new AppError("لا يوجد مدير لهذه الشركة", 404);
+        }
+        companyData.companyManagerID = companyManagerID;
+
+        if (companyData.password) {
+            const hashedPassword = bcrypt.hashSync(companyData.password + (env.SECRET as string), 12);
+            companyData.password = hashedPassword;
+        }
 
         const company = await companiesRepository.updateCompany({
             companyID: +companyID,

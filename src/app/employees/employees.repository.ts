@@ -515,6 +515,9 @@ export class EmployeesRepository {
                     id: data.companyID
                 }
             },
+            orderBy: {
+                id: "asc"
+            },
             select: {
                 user: {
                     select: {

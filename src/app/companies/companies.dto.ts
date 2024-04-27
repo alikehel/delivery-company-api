@@ -60,6 +60,7 @@ export const CompanyCreateOpenAPISchema = generateSchema(CompanyCreateSchema);
 
 export const CompanyUpdateSchema = z
     .object({
+        companyManagerID: z.number().optional(),
         name: z.string().min(3),
         phone: z.string().regex(/^07[3-9][0-9]{8}$/),
         website: z.string().url().optional(),
@@ -72,7 +73,8 @@ export const CompanyUpdateSchema = z
         additionalPriceForEvery500000IraqiDinar: z.coerce.number().min(0),
         additionalPriceForEveryKilogram: z.coerce.number().min(0),
         additionalPriceForRemoteAreas: z.coerce.number().min(0),
-        orderStatusAutomaticUpdate: z.coerce.boolean().optional()
+        orderStatusAutomaticUpdate: z.coerce.boolean().optional(),
+        password: z.string().min(6).optional(),
     })
     .partial();
 

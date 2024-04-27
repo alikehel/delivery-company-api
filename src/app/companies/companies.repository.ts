@@ -114,7 +114,24 @@ export class CompaniesRepository {
                     data.companyData.additionalPriceForEvery500000IraqiDinar,
                 additionalPriceForEveryKilogram: data.companyData.additionalPriceForEveryKilogram,
                 additionalPriceForRemoteAreas: data.companyData.additionalPriceForRemoteAreas,
-                orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate
+                orderStatusAutomaticUpdate: data.companyData.orderStatusAutomaticUpdate,
+                employees: {
+                    update: {
+                        where: {
+                            id: data.companyData.companyManagerID
+                        },
+                        data: {
+                            user: {
+                                update: {
+                                    username: data.companyData.phone,
+                                    phone: data.companyData.phone,
+                                    password: data.companyData.password,
+                                    avatar: data.companyData.logo
+                                }
+                            }
+                        }
+                    }
+                }
             },
             select: companySelect
         });
