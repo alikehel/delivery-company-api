@@ -338,6 +338,17 @@ export class OrdersService {
             }
         }
 
+        // If the order is being forwarded to the company, change branch to the branch connected to the order location
+        if (data.orderData.forwardedCompanyID) {
+            const branch = await branchesRepository.getBranchByLocation({
+                locationID: oldOrderData?.location.id as number
+            });
+            if (!branch) {
+                throw new AppError("لا يوجد فرع مرتبط بالموقع", 500);
+            }
+            data.orderData.branchID = branch.id;
+        }
+
         const newOrder = await ordersRepository.updateOrder({
             orderID: data.params.orderID,
             loggedInUser: data.loggedInUser,

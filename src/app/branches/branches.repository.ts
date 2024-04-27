@@ -128,4 +128,18 @@ export class BranchesRepository {
         });
         return branch;
     }
+
+    async getBranchByLocation(data: { locationID: number }) {
+        const branch = await prisma.branch.findFirst({
+            where: {
+                locations: {
+                    some: {
+                        id: data.locationID
+                    }
+                }
+            },
+            select: branchSelect
+        });
+        return branch;
+    }
 }
