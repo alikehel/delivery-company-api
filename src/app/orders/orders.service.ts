@@ -293,6 +293,15 @@ export class OrdersService {
             data.orderData.paidAmount = oldOrderData?.totalCost;
         }
 
+        // update order total amount and paid amount if new status is returned
+        if (
+            oldOrderData?.status !== data.orderData.status &&
+            data.orderData.status === OrderStatus.RETURNED
+        ) {
+            data.orderData.totalCost = 0;
+            data.orderData.paidAmount = 0;
+        }
+
         // if secondary status is changed to in_reposiroty, unlink the delivery agent
         if (
             oldOrderData?.secondaryStatus !== data.orderData.secondaryStatus &&
