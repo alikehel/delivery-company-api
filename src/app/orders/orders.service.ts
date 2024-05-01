@@ -13,7 +13,8 @@ import { generateReceipts } from "./helpers/generateReceipts";
 import {
     OrderChatNotificationCreateType,
     OrderCreateType,
-    OrderTimelineType,
+    OrderTimelineFiltersType,
+    // OrderTimelineType,
     OrderUpdateType,
     OrdersFiltersType,
     OrdersReceiptsCreateType,
@@ -264,6 +265,10 @@ export class OrdersService {
             orderID: data.params.orderID
         });
 
+        if (!oldOrderData) {
+            throw new AppError("الطلب غير موجود", 404);
+        }
+
         // Cant change order status if it's included in a report
         if (
             oldOrderData?.status !== data.orderData.status &&
@@ -355,43 +360,35 @@ export class OrdersService {
             orderData: data.orderData
         });
 
+        if (!newOrder) {
+            throw new AppError("فشل تحديث الطلب", 500);
+        }
+
         // TODO: Move this to a separate function and call it in the controller after the response
         // Update Order Timeline
         try {
-            // @ts-expect-error Fix later
-            const timeline: OrderTimelineType = oldOrderData?.timeline;
-
             // Update status
-            // @ts-expect-error Fix later
             if (data.orderData.status && oldOrderData.status !== newOrder.status) {
                 // send notification to client
                 await sendNotification({
-                    // @ts-expect-error Fix later
                     userID: newOrder.client.id,
                     title: "تم تغيير حالة الطلب",
-                    content: `تم تغيير حالة الطلب رقم ${
-                        // @ts-expect-error Fix later
-                        newOrder.id
-                        // @ts-expect-error Fix later
-                    } إلى ${localizeOrderStatus(newOrder.status)} ${
-                        // @ts-expect-error Fix later
-                        newOrder.notes ? `(${newOrder.notes})` : ""
-                    }`
+                    content: `تم تغيير حالة الطلب رقم ${newOrder.id} إلى ${localizeOrderStatus(
+                        newOrder.status
+                    )} ${newOrder.notes ? `(${newOrder.notes})` : ""}`
                 });
 
-                timeline.push({
-                    type: "STATUS_CHANGE",
-                    // @ts-expect-error Fix later
-                    old: oldOrderData?.status,
-                    // @ts-expect-error Fix later
-                    new: newOrder?.status,
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "STATUS_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: { value: oldOrderData.status },
+                        new: { value: newOrder.status },
+                        by: { id: data.loggedInUser.id, name: data.loggedInUser.name },
+                        message: `تم تغيير حالة الطلب من ${localizeOrderStatus(
+                            oldOrderData.status
+                        )} إلى ${localizeOrderStatus(newOrder.status)}`
                     }
                 });
             }
@@ -399,169 +396,163 @@ export class OrdersService {
             // Update delivery agent
             if (
                 data.orderData.deliveryAgentID &&
-                // @ts-expect-error Fix later
-                oldOrderData.deliveryAgent?.id !== newOrder.deliveryAgent.id
+                oldOrderData.deliveryAgent?.id !== newOrder.deliveryAgent?.id
             ) {
-                timeline.push({
-                    type: "DELIVERY_AGENT_CHANGE",
-                    old: {
-                        // @ts-expect-error Fix later
-                        id: oldOrderData.deliveryAgent?.id,
-                        // @ts-expect-error Fix later
-                        name: oldOrderData.deliveryAgent?.name
-                    },
-                    new: {
-                        // @ts-expect-error Fix later
-                        id: newOrder.deliveryAgent.id,
-                        // @ts-expect-error Fix later
-                        name: newOrder.deliveryAgent.name
-                    },
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "DELIVERY_AGENT_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: oldOrderData.deliveryAgent && {
+                            id: oldOrderData.deliveryAgent.id,
+                            name: oldOrderData.deliveryAgent.name
+                        },
+                        new: newOrder.deliveryAgent && {
+                            id: newOrder.deliveryAgent.id,
+                            name: newOrder.deliveryAgent.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message:
+                            oldOrderData.deliveryAgent && newOrder.deliveryAgent
+                                ? `تم تغيير مندوب التوصيل من ${oldOrderData.deliveryAgent.name} إلى ${newOrder.deliveryAgent.name}`
+                                : oldOrderData.deliveryAgent && !newOrder.deliveryAgent
+                                  ? `تم إلغاء مندوب التوصيل ${oldOrderData.deliveryAgent.name}`
+                                  : !oldOrderData.deliveryAgent && newOrder.deliveryAgent
+                                      ? `تم تعيين مندوب التوصيل ${newOrder.deliveryAgent.name}`
+                                      : ""
                     }
                 });
             }
 
             // Update CLIENT
-            if (
-                data.orderData.clientID &&
-                // @ts-expect-error Fix later
-                oldOrderData.client?.id !== newOrder.client.id
-            ) {
-                timeline.push({
-                    type: "CLIENT_CHANGE",
-                    old: {
-                        // @ts-expect-error Fix later
-                        id: oldOrderData?.client?.id,
-                        // @ts-expect-error Fix later
-                        name: oldOrderData?.client?.name
-                    },
-                    new: {
-                        // @ts-expect-error Fix later
-                        id: newOrder?.client.id,
-                        // @ts-expect-error Fix later
-                        name: newOrder?.client.name
-                    },
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+            if (data.orderData.clientID && oldOrderData.client?.id !== newOrder.client.id) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "CLIENT_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: {
+                            id: oldOrderData.client.id,
+                            name: oldOrderData.client.name
+                        },
+                        new: {
+                            id: newOrder.client.id,
+                            name: newOrder.client.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم تغيير العميل من ${oldOrderData.client?.name} إلى ${newOrder.client.name}`
                     }
                 });
             }
 
             // Update Repository
-            if (
-                data.orderData.repositoryID &&
-                // @ts-expect-error Fix later
-                oldOrderData?.repository?.id !== newOrder.repository.id
-            ) {
-                timeline.push({
-                    type: "REPOSITORY_CHANGE",
-                    old: {
-                        // @ts-expect-error Fix later
-                        id: oldOrderData?.repository?.id,
-                        // @ts-expect-error Fix later
-                        name: oldOrderData?.repository?.name
-                    },
-                    new: {
-                        // @ts-expect-error Fix later
-                        id: newOrder?.repository.id,
-                        // @ts-expect-error Fix later
-                        name: newOrder?.repository.name
-                    },
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+            if (data.orderData.repositoryID && oldOrderData?.repository?.id !== newOrder.repository?.id) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "REPOSITORY_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: oldOrderData.repository && {
+                            id: oldOrderData.repository.id,
+                            name: oldOrderData.repository.name
+                        },
+                        new: newOrder.repository && {
+                            id: newOrder.repository.id,
+                            name: newOrder.repository.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message:
+                            oldOrderData.repository && newOrder.repository
+                                ? `تم تغيير المخزن من ${oldOrderData.repository.name} إلى ${newOrder.repository.name}`
+                                : oldOrderData.repository && !newOrder.repository
+                                  ? `تم إلغاء المخزن ${oldOrderData.repository.name}`
+                                  : !oldOrderData.repository && newOrder.repository
+                                      ? `تم تعيين المخزن ${newOrder.repository.name}`
+                                      : ""
                     }
                 });
             }
 
             // Update Branch
-            if (
-                data.orderData.branchID &&
-                // @ts-expect-error Fix later
-                oldOrderData?.branch?.id !== newOrder.branch.id
-            ) {
-                timeline.push({
-                    type: "BRANCH_CHANGE",
-                    old: {
-                        // @ts-expect-error Fix later
-                        id: oldOrderData?.branch?.id,
-                        // @ts-expect-error Fix later
-                        name: oldOrderData?.branch?.name
-                    },
-                    new: {
-                        // @ts-expect-error Fix later
-                        id: newOrder?.branch.id,
-                        // @ts-expect-error Fix later
-                        name: newOrder?.branch.name
-                    },
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+            if (data.orderData.branchID && oldOrderData?.branch?.id !== newOrder.branch?.id) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "BRANCH_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: oldOrderData.branch && {
+                            id: oldOrderData.branch.id,
+                            name: oldOrderData.branch.name
+                        },
+                        new: newOrder.branch && {
+                            id: newOrder.branch.id,
+                            name: newOrder.branch.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message:
+                            oldOrderData.branch && newOrder.branch
+                                ? `تم تغيير الفرع من ${oldOrderData.branch.name} إلى ${newOrder.branch.name}`
+                                : oldOrderData.branch && !newOrder.branch
+                                  ? `تم إلغاء الفرع ${oldOrderData.branch.name}`
+                                  : !oldOrderData.branch && newOrder.branch
+                                      ? `تم تعيين الفرع ${newOrder.branch.name}`
+                                      : ""
                     }
                 });
             }
 
             // // Update current location
-            if (
-                data.orderData.currentLocation &&
-                // @ts-expect-error Fix later
-                oldOrderData.currentLocation !== newOrder.currentLocation
-            ) {
-                timeline.push({
-                    type: "CURRENT_LOCATION_CHANGE",
-                    // @ts-expect-error Fix later
-                    old: oldOrderData?.currentLocation,
-                    // @ts-expect-error Fix later
-                    new: newOrder?.currentLocation,
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+            if (data.orderData.currentLocation && oldOrderData.currentLocation !== newOrder.currentLocation) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "CURRENT_LOCATION_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: {
+                            value: oldOrderData.currentLocation
+                        },
+                        new: {
+                            value: newOrder.currentLocation
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم تغيير الموقع الحالي من ${oldOrderData.currentLocation} إلى ${newOrder.currentLocation}`
                     }
                 });
             }
 
             // Update paid amount
-            if (
-                data.orderData.paidAmount &&
-                // @ts-expect-error Fix later
-                +oldOrderData.paidAmount !== +newOrder.paidAmount
-            ) {
-                timeline.push({
-                    type: "PAID_AMOUNT_CHANGE",
-                    // @ts-expect-error Fix later
-                    old: oldOrderData?.paidAmount,
-                    // @ts-expect-error Fix later
-                    new: newOrder?.paidAmount,
-                    // @ts-expect-error Fix later
-                    date: newOrder?.updatedAt,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+            if (data.orderData.paidAmount && +oldOrderData.paidAmount !== +newOrder.paidAmount) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "PAID_AMOUNT_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: {
+                            value: oldOrderData.paidAmount
+                        },
+                        new: {
+                            value: newOrder.paidAmount
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم تغيير المبلغ المدفوع من ${oldOrderData.paidAmount} إلى ${newOrder.paidAmount}`
                     }
                 });
             }
@@ -569,29 +560,23 @@ export class OrdersService {
             // Update delivery date
             if (
                 data.orderData.deliveryDate &&
-                oldOrderData?.deliveryDate?.toString() !==
-                    // @ts-expect-error Fix later
-                    newOrder.deliveryDate.toString()
+                oldOrderData?.deliveryDate?.toString() !== newOrder.deliveryDate?.toString()
             ) {
-                timeline.push({
-                    type: "ORDER_DELIVERY",
-                    // TODO
-                    // date: newOrder?.updatedAt,
-                    // @ts-expect-error Fix later
-                    date: newOrder?.deliveryDate,
-                    by: {
-                        id: data.loggedInUser.id,
-                        name: data.loggedInUser.name,
-                        // @ts-expect-error Fix later
-                        role: data.loggedInUser.role
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "ORDER_DELIVERY",
+                        date: newOrder.updatedAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: "تم توصيل الطلب"
                     }
                 });
             }
-
-            await ordersRepository.updateOrderTimeline({
-                orderID: data.params.orderID,
-                timeline: timeline
-            });
         } catch (error) {
             Logger.error(error);
         }
@@ -942,12 +927,13 @@ export class OrdersService {
         params: {
             orderID: number;
         };
+        filters: OrderTimelineFiltersType;
     }) => {
         const orderTimeline = await ordersRepository.getOrderTimeline({
-            orderID: data.params.orderID
+            params: data.params,
+            filters: data.filters
         });
-
-        return orderTimeline?.timeline as string;
+        return orderTimeline;
     };
 
     getOrderChatMembers = async (data: {

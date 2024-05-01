@@ -5,12 +5,19 @@ import { loggedInUserType } from "../../types/user";
 import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
 import {
     OrderCreateType,
-    OrderTimelineType,
+    OrderTimelineFiltersType,
+    OrderTimelinePieceType,
     OrderUpdateType,
     OrdersFiltersType,
     OrdersStatisticsFiltersType
 } from "./orders.dto";
-import { orderReform, orderSelect, statisticsReformed } from "./orders.responses";
+import {
+    orderReform,
+    orderSelect,
+    orderTimelineReform,
+    orderTimelineSelect,
+    statisticsReformed
+} from "./orders.responses";
 
 export class OrdersRepository {
     async createOrder(data: {
@@ -1645,34 +1652,53 @@ export class OrdersRepository {
         });
     }
 
-    async getOrderTimeline(data: { orderID: number }) {
-        const orderTimeline = await prisma.order.findUnique({
+    async getOrderTimeline(data: { params: { orderID: number }; filters: OrderTimelineFiltersType }) {
+        const orderTimeline = await prisma.orderTimeline.findMany({
             where: {
-                id: data.orderID
+                orderId: data.params.orderID,
+                type: data.filters.types ? { in: data.filters.types } : data.filters.type
             },
-            select: {
-                timeline: true
-            }
+            select: orderTimelineSelect
         });
-        return orderTimeline;
+        return orderTimeline.map(orderTimelineReform);
     }
 
     async updateOrderTimeline(data: {
         orderID: number;
-        timeline: OrderTimelineType;
+        data: OrderTimelinePieceType;
+        // {
+        //     type: OrderTimelineType;
+        //     by: {
+        //         id: number;
+        //         name: string;
+        //     };
+        //     old: {
+        //         id: number;
+        //         value: string;
+        //     } | null;
+        //     new: {
+        //         id: number;
+        //         value: string;
+        //     } | null;
+        //     message: string;
+        //     date: Date;
+        // };
     }) {
-        const updatedOrderTimeline = await prisma.order.update({
-            where: {
-                id: data.orderID
-            },
+        await prisma.orderTimeline.create({
             data: {
-                timeline: data.timeline
-            },
-            select: {
-                timeline: true
+                order: {
+                    connect: {
+                        id: data.orderID
+                    }
+                },
+                type: data.data.type,
+                by: JSON.stringify(data.data.by),
+                old: JSON.stringify(data.data.old),
+                new: JSON.stringify(data.data.new),
+                message: data.data.message,
+                createdAt: data.data.date
             }
         });
-        return updatedOrderTimeline;
     }
 
     async getOrderChatMembers(data: { orderID: number }) {

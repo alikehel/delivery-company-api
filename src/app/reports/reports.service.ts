@@ -5,7 +5,8 @@ import { ClientsRepository } from "../clients/clients.repository";
 import { CompaniesRepository } from "../companies/companies.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../orders/orders.dto";
+// import { OrderTimelineType } from "../orders/orders.dto";
+import { localizeReportType } from "../../lib/localize";
 import { OrdersRepository } from "../orders/orders.repository";
 import { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
@@ -231,6 +232,10 @@ export class ReportsService {
             reportID: report.id
         });
 
+        if (!reportData) {
+            throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
+        }
+
         // Send notification to client if report type is client report
         if (data.reportData.type === ReportType.CLIENT) {
             await sendNotification({
@@ -251,28 +256,25 @@ export class ReportsService {
 
         // update orders timeline
         for (const order of orders) {
-            // @ts-expect-error Fix later
-            const oldTimeline: OrderTimelineType = order?.timeline;
+            if (!order) {
+                continue;
+            }
             await ordersRepository.updateOrderTimeline({
-                // @ts-expect-error Fix later
                 orderID: order.id,
-                timeline: [
-                    // @ts-expect-error Fix later
-                    ...oldTimeline,
-                    {
-                        type: "REPORT_CREATE",
-                        reportType: data.reportData.type,
-                        reportID: report.id,
-                        // @ts-expect-error Fix later
-                        date: reportData.createdAt,
-                        by: {
-                            id: data.loggedInUser.id,
-                            name: data.loggedInUser.name,
-                            // @ts-expect-error Fix later
-                            role: data.loggedInUser.role
-                        }
-                    }
-                ]
+                data: {
+                    type: "REPORT_CREATE",
+                    date: reportData?.createdAt,
+                    old: null,
+                    new: {
+                        id: reportData?.id,
+                        type: reportData?.type as ReportType
+                    },
+                    by: {
+                        id: data.loggedInUser.id,
+                        name: data.loggedInUser.name
+                    },
+                    message: `تم انشاء كشف ${localizeReportType(reportData?.type)} برقم ${reportData?.id}`
+                }
             });
         }
 
@@ -513,25 +515,24 @@ export class ReportsService {
 
         if (orders) {
             for (const order of orders) {
-                // @ts-expect-error Fix later
-                const oldTimeline: OrderTimelineType = order?.timeline;
                 await ordersRepository.updateOrderTimeline({
                     orderID: order.id,
-                    timeline: [
-                        // @ts-expect-error Fix later
-                        ...oldTimeline,
-                        {
-                            type: "REPORT_DELETE",
-                            reportType: report?.type,
-                            date: new Date(),
-                            by: {
-                                id: data.loggedInUser.id,
-                                name: data.loggedInUser.name,
-                                // @ts-expect-error Fix later
-                                role: data.loggedInUser.role
-                            }
-                        }
-                    ]
+                    data: {
+                        type: "REPORT_DELETE",
+                        date: report?.updatedAt || new Date(),
+                        old: {
+                            id: data.params.reportID,
+                            type: report?.type as ReportType
+                        },
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم حذف كشف ${localizeReportType(report?.type as ReportType)} برقم ${
+                            data.params.reportID
+                        }`
+                    }
                 });
             }
         }

@@ -128,6 +128,25 @@ enum ReportType {
   CLIENT
 }
 
+enum OrderTimelineType {
+  // ID & NAME
+  DELIVERY_AGENT_CHANGE
+  CLIENT_CHANGE
+  REPOSITORY_CHANGE
+  BRANCH_CHANGE
+  // VALUE (INT)
+  PAID_AMOUNT_CHANGE
+  // VALUE (STRING)
+  STATUS_CHANGE
+  CURRENT_LOCATION_CHANGE
+  // ID & TYPE
+  REPORT_CREATE
+  REPORT_DELETE
+  // OTHER
+  ORDER_DELIVERY
+  OTHER
+}
+
 model User {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
   id               Int            @id @default(autoincrement())
@@ -484,7 +503,7 @@ model Order {
   notes                  String                   @default("")
   deliveryType           DeliveryType             @default(NORMAL)
   governorate            Governorate
-  timeline               Json                     @default("[]")
+  timeline               OrderTimeline[]
   currentLocation        String                   @default("")
   deliveryDate           DateTime?
   // --- COSTS ----------------------------------------------------------------------------- //
@@ -554,6 +573,23 @@ model Order {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
+}
+
+model OrderTimeline {
+  // --- IDENTIFICATION --------------------------------------------------------------------- //
+  id        Int               @id @default(autoincrement())
+  // --- DETAILS --------------------------------------------------------------------------- //
+  type      OrderTimelineType
+  old       Json?
+  new       Json?
+  message   String
+  by        Json
+  // --- FOREIGN KEYS --------------------------------------------------------------------------- //
+  orderId   Int
+  // --- RELATIONS --------------------------------------------------------------------------- //
+  order     Order             @relation(fields: [orderId], references: [id])
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt DateTime          @default(now())
 }
 
 model OrdersInquiryEmployees {

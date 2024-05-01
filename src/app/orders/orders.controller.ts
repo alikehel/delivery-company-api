@@ -4,6 +4,7 @@ import {
     OrderChatNotificationCreateSchema,
     OrderCreateSchema,
     OrderCreateType,
+    OrderTimelineFiltersSchema,
     OrderUpdateSchema,
     OrdersFiltersSchema,
     OrdersReceiptsCreateSchema,
@@ -228,8 +229,14 @@ export class OrdersController {
             orderID: +req.params.orderID
         };
 
+        const filters = OrderTimelineFiltersSchema.parse({
+            type: req.query.type,
+            types: req.query.types
+        });
+
         const orderTimeline = await ordersService.getOrderTimeline({
-            params: params
+            params: params,
+            filters: filters
         });
 
         res.status(200).json({

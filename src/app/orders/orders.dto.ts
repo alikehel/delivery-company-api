@@ -1,12 +1,10 @@
 // // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
 import {
-    AdminRole,
-    ClientRole,
     DeliveryType,
-    EmployeeRole,
     Governorate,
     OrderStatus,
+    OrderTimelineType,
     ReportType,
     SecondaryStatus
 } from "@prisma/client";
@@ -119,92 +117,113 @@ export const OrdersReceiptsCreateOpenAPISchema = generateSchema(OrdersReceiptsCr
 
 export const OrderTimelinePieceBaseSchema = z.object({
     date: z.date(),
+    message: z.string(),
     by: z.object({
         id: z.coerce.number(),
-        name: z.string(),
-        role: z.nativeEnum(EmployeeRole || AdminRole || ClientRole)
+        name: z.string()
+        // role: z.nativeEnum(EmployeeRole || AdminRole || ClientRole).
     })
 });
 
 export const OrderTimelinePieceSchema = z
     .discriminatedUnion("type", [
         z.object({
-            type: z.literal("STATUS_CHANGE"),
-            old: z.nativeEnum(OrderStatus),
-            new: z.nativeEnum(OrderStatus)
+            type: z.enum([OrderTimelineType.STATUS_CHANGE]),
+            old: z
+                .object({
+                    value: z.nativeEnum(OrderStatus)
+                })
+                .or(z.literal(null)),
+            new: z
+                .object({
+                    value: z.nativeEnum(OrderStatus)
+                })
+                .or(z.literal(null))
         }),
         z.object({
-            type: z.literal("DELIVERY_AGENT_CHANGE"),
-            old: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            }),
-            new: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            })
+            type: z.enum([OrderTimelineType.CURRENT_LOCATION_CHANGE]),
+            old: z
+                .object({
+                    value: z.string()
+                })
+                .or(z.literal(null)),
+            new: z
+                .object({
+                    value: z.string()
+                })
+                .or(z.literal(null))
         }),
         z.object({
-            type: z.literal("CLIENT_CHANGE"),
-            old: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            }),
-            new: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            })
+            type: z.enum([
+                OrderTimelineType.DELIVERY_AGENT_CHANGE,
+                OrderTimelineType.CLIENT_CHANGE,
+                OrderTimelineType.REPOSITORY_CHANGE,
+                OrderTimelineType.BRANCH_CHANGE
+            ]),
+            old: z
+                .object({
+                    id: z.coerce.number(),
+                    name: z.string()
+                })
+                .or(z.literal(null)),
+            new: z
+                .object({
+                    id: z.coerce.number(),
+                    name: z.string()
+                })
+                .or(z.literal(null))
         }),
         z.object({
-            type: z.literal("REPOSITORY_CHANGE"),
-            old: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            }),
-            new: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            })
+            type: z.enum([OrderTimelineType.PAID_AMOUNT_CHANGE]),
+            old: z
+                .object({
+                    value: z.coerce.number()
+                })
+                .or(z.literal(null)),
+            new: z
+                .object({
+                    value: z.coerce.number()
+                })
+                .or(z.literal(null))
         }),
         z.object({
-            type: z.literal("BRANCH_CHANGE"),
-            old: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            }),
-            new: z.object({
-                id: z.coerce.number(),
-                name: z.string()
-            })
+            type: z.enum([OrderTimelineType.REPORT_DELETE, OrderTimelineType.REPORT_CREATE]),
+            old: z
+                .object({
+                    id: z.coerce.number(),
+                    type: z.nativeEnum(ReportType)
+                })
+                .or(z.literal(null)),
+            new: z
+                .object({
+                    id: z.coerce.number(),
+                    type: z.nativeEnum(ReportType)
+                })
+                .or(z.literal(null))
         }),
         z.object({
-            type: z.literal("CURRENT_LOCATION_CHANGE"),
-            old: z.string(),
-            new: z.string()
-        }),
-        z.object({
-            type: z.literal("ORDER_DELIVERY")
-        }),
-        z.object({
-            type: z.literal("REPORT_CREATE"),
-            reportType: z.nativeEnum(ReportType),
-            reportID: z.coerce.number()
-        }),
-        z.object({
-            type: z.literal("REPORT_DELETE"),
-            reportType: z.nativeEnum(ReportType)
-        }),
-        z.object({
-            type: z.literal("PAID_AMOUNT_CHANGE"),
-            old: z.coerce.number(),
-            new: z.coerce.number()
+            type: z.enum([OrderTimelineType.ORDER_DELIVERY, OrderTimelineType.OTHER]),
+            old: z.literal(null),
+            new: z.literal(null)
         })
     ])
     .and(OrderTimelinePieceBaseSchema);
 
-export const OrderTimelineSchema = z.array(OrderTimelinePieceSchema);
+export type OrderTimelinePieceType = z.infer<typeof OrderTimelinePieceSchema>;
 
-export type OrderTimelineType = z.infer<typeof OrderTimelineSchema>;
+/* --------------------------------------------------------------- */
+
+export const OrderTimelineFiltersSchema = z.object({
+    type: z.nativeEnum(OrderTimelineType).optional(),
+    types: z.preprocess((val) => {
+        if (typeof val === "string") {
+            return val.split(",");
+        }
+        return val;
+    }, z.array(z.nativeEnum(OrderTimelineType)).optional())
+});
+
+export type OrderTimelineFiltersType = z.infer<typeof OrderTimelineFiltersSchema>;
 
 /* --------------------------------------------------------------- */
 

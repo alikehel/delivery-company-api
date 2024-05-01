@@ -25,7 +25,7 @@ export const orderSelect = {
     currentLocation: true,
     createdAt: true,
     updatedAt: true,
-    timeline: true,
+    // timeline: true,
     processed: true,
     processedAt: true,
     processedBy: {
@@ -377,4 +377,30 @@ export const statisticsReformed = (statistics: {
     };
 
     return statisticsReformed;
+};
+
+export const orderTimelineSelect = {
+    id: true,
+    type: true,
+    old: true,
+    new: true,
+    createdAt: true,
+    by: true,
+    message: true
+} satisfies Prisma.OrderTimelineSelect;
+
+export const orderTimelineReform = (
+    timeline: Prisma.OrderTimelineGetPayload<{
+        select: typeof orderTimelineSelect;
+    }>
+) => {
+    return {
+        id: timeline.id,
+        type: timeline.type,
+        date: timeline.createdAt,
+        message: timeline.message,
+        old: timeline.old && JSON.parse(timeline.old as string),
+        new: timeline.new && JSON.parse(timeline.new as string),
+        by: timeline.by && JSON.parse(timeline.by as string)
+    };
 };

@@ -56,8 +56,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    clientReportId: true,
-                    timeline: true
+                    clientReportId: true
                 }
             },
             baghdadDeliveryCost: true,
@@ -77,8 +76,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    repositoryReportId: true,
-                    timeline: true
+                    repositoryReportId: true
                 }
             }
         }
@@ -96,8 +94,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    branchReportId: true,
-                    timeline: true
+                    branchReportId: true
                 }
             },
             deliveryAgentDeliveryCost: true
@@ -111,8 +108,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    governorateReportId: true,
-                    timeline: true
+                    governorateReportId: true
                 }
             },
             deliveryAgentDeliveryCost: true
@@ -135,8 +131,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    deliveryAgentReportId: true,
-                    timeline: true
+                    deliveryAgentReportId: true
                 }
             },
             deliveryAgentDeliveryCost: true
@@ -155,8 +150,7 @@ export const reportSelect = {
                 select: {
                     id: true,
                     receiptNumber: true,
-                    companyReportId: true,
-                    timeline: true
+                    companyReportId: true
                 }
             },
             baghdadDeliveryCost: true,
