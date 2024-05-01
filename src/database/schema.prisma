@@ -157,6 +157,7 @@ model User {
   name             String
   password         String
   fcm              String         @default("")
+  refreshTokens    String[]
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
   admin            Admin?

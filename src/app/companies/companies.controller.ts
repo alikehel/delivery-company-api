@@ -19,7 +19,7 @@ export class CompaniesController {
             : undefined;
 
         const hashedPassword = bcrypt.hashSync(
-            companyData.companyManager.password + (env.SECRET as string),
+            companyData.companyManager.password + (env.PASSWORD_SALT as string),
             12
         );
 
@@ -99,7 +99,7 @@ export class CompaniesController {
         companyData.companyManagerID = companyManagerID;
 
         if (companyData.password) {
-            const hashedPassword = bcrypt.hashSync(companyData.password + (env.SECRET as string), 12);
+            const hashedPassword = bcrypt.hashSync(companyData.password + (env.PASSWORD_SALT as string), 12);
             companyData.password = hashedPassword;
         }
 

@@ -6,7 +6,7 @@ import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { UsersRepository } from "../users/users.repository";
-import { UserSigninSchema } from "./auth.dto";
+import { RefreshTokenSchema, UserSigninSchema } from "./auth.dto";
 import { AuthRepository } from "./auth.repository";
 
 const authModel = new AuthRepository();
@@ -23,7 +23,7 @@ export class AuthController {
         }
 
         const isValidPassword = bcrypt.compareSync(
-            user.password + (env.SECRET as string),
+            user.password + (env.PASSWORD_SALT as string),
             returnedUser.password
         );
 
@@ -41,9 +41,23 @@ export class AuthController {
                 companyID: returnedUser.companyID,
                 companyName: returnedUser.companyName
             } as loggedInUserType,
-            env.JWT_SECRET as string,
-            { expiresIn: env.JWT_EXPIRES_IN }
+            env.ACCESS_TOKEN_SECRET as string,
+            { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }
         );
+
+        const refreshToken = jwt.sign(
+            {
+                id: returnedUser?.id
+            },
+            env.REFRESH_TOKEN_SECRET as string,
+            { expiresIn: env.REFRESH_TOKEN_EXPIRES_IN }
+        );
+
+        await usersRepository.updateUser({
+            userID: returnedUser.id,
+            userData: { refreshToken }
+        });
+
         res.cookie("jwt", token, {
             httpOnly: true,
             secure: true
@@ -53,8 +67,8 @@ export class AuthController {
 
         res.status(201).json({
             status: "success",
-            // data: { returnedUser },
-            token: token
+            token: token,
+            refreshToken: refreshToken
         });
 
         if (user.fcm) {
@@ -68,6 +82,92 @@ export class AuthController {
             userID: returnedUser.id,
             title: "تم تسجيل الدخول",
             content: ""
+        });
+
+        // Clear invalid refresh tokens
+        const refreshTokens = await usersRepository.getUserRefreshTokens(returnedUser.id);
+        if (refreshTokens) {
+            const validRefreshTokens = refreshTokens.filter((token) => {
+                try {
+                    jwt.verify(token, env.REFRESH_TOKEN_SECRET as string);
+                    return true;
+                } catch (err) {
+                    return false;
+                }
+            });
+            await usersRepository.updateUser({
+                userID: returnedUser.id,
+                userData: { refreshTokens: validRefreshTokens }
+            });
+        }
+    });
+
+    refreshToken = catchAsync(async (req, res) => {
+        try {
+            const refreshToken = RefreshTokenSchema.parse(req.body).refreshToken;
+
+            // 1) Check if token is valid
+            const decoded = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET as string) as {
+                id: number;
+            };
+
+            // 2) Check if refresh token is in the database
+            const refreshTokens = await usersRepository.getUserRefreshTokens(decoded.id);
+            if (!refreshTokens || !refreshTokens.includes(refreshToken)) {
+                throw new AppError("الرجاء تسجيل الدخول", 401);
+            }
+
+            // 3) Create new access token
+            const user = await usersRepository.getUser({ userID: decoded.id });
+
+            if (!user) {
+                throw new AppError("الرجاء تسجيل الدخول", 401);
+            }
+
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    name: user.name,
+                    username: user.username,
+                    role: user.role,
+                    permissions: user.permissions,
+                    companyID: user.company?.id,
+                    companyName: user.company?.name
+                } as loggedInUserType,
+                env.ACCESS_TOKEN_SECRET as string,
+                { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }
+            );
+
+            res.cookie("jwt", token, {
+                httpOnly: true,
+                secure: true
+                // expires: JWT_EXPIRES_IN
+            });
+            res.setHeader("Authorization", `Bearer ${token}`);
+
+            res.status(201).json({
+                status: "success",
+                token: token
+            });
+        } catch (err) {
+            throw new AppError("الرجاء تسجيل الدخول", 401);
+        }
+    });
+
+    signout = catchAsync(async (_req, res) => {
+        const user = res.locals.user as loggedInUserType;
+        await authModel.signoutUser(user.id);
+        res.clearCookie("jwt");
+        res.status(200).json({
+            status: "success"
+        });
+    });
+
+    signoutUser = catchAsync(async (req, res) => {
+        const userID = +req.params.userID;
+        await authModel.signoutUser(userID);
+        res.status(200).json({
+            status: "success"
         });
     });
 }

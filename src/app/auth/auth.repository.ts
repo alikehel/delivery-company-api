@@ -12,4 +12,17 @@ export class AuthRepository {
         });
         return userReform(returnedUser);
     }
+
+    async signoutUser(userID: number) {
+        await prisma.user.update({
+            where: {
+                id: userID
+            },
+            data: {
+                refreshTokens: {
+                    set: []
+                }
+            }
+        });
+    }
 }

@@ -32,7 +32,10 @@ export class EmployeesService {
             throw new AppError("ليس مصرح لك القيام بهذا الفعل", 403);
         }
 
-        const hashedPassword = bcrypt.hashSync(data.employeeData.password + (env.SECRET as string), 12);
+        const hashedPassword = bcrypt.hashSync(
+            data.employeeData.password + (env.PASSWORD_SALT as string),
+            12
+        );
 
         const createdEmployee = await employeesRepository.createEmployee({
             companyID,
@@ -87,7 +90,10 @@ export class EmployeesService {
         });
 
         if (data.employeeData.password) {
-            const hashedPassword = bcrypt.hashSync(data.employeeData.password + (env.SECRET as string), 12);
+            const hashedPassword = bcrypt.hashSync(
+                data.employeeData.password + (env.PASSWORD_SALT as string),
+                12
+            );
             data.employeeData.password = hashedPassword;
         }
 

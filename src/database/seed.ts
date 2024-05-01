@@ -40,7 +40,7 @@
 //         update: {
 //             name: users.admin.name,
 //             phone: users.admin.phone,
-//             password: bcrypt.hashSync(users.admin.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.admin.password + (env.PASSWORD_SALT as string), 12),
 //             admin: {
 //                 update: {
 //                     role: users.admin.role
@@ -51,7 +51,7 @@
 //             name: users.admin.name,
 //             username: users.admin.username,
 //             phone: users.admin.phone,
-//             password: bcrypt.hashSync(users.admin.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.admin.password + (env.PASSWORD_SALT as string), 12),
 //             admin: {
 //                 create: {
 //                     role: users.admin.role
@@ -66,7 +66,7 @@
 //         },
 //         update: {
 //             name: users.adminAssistant.name,
-//             password: bcrypt.hashSync(users.adminAssistant.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.adminAssistant.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.adminAssistant.phone,
 //             admin: {
 //                 update: {
@@ -78,7 +78,7 @@
 //             name: users.adminAssistant.name,
 //             username: users.adminAssistant.username,
 //             phone: users.adminAssistant.phone,
-//             password: bcrypt.hashSync(users.adminAssistant.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.adminAssistant.password + (env.PASSWORD_SALT as string), 12),
 //             admin: {
 //                 create: {
 //                     role: users.adminAssistant.role
@@ -93,7 +93,7 @@
 //         },
 //         update: {
 //             name: users.albarq1CompanyManager.name,
-//             password: bcrypt.hashSync(users.albarq1CompanyManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1CompanyManager.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1CompanyManager.phone,
 //             employee: {
 //                 update: {
@@ -106,7 +106,7 @@
 //             name: users.albarq1CompanyManager.name,
 //             username: users.albarq1CompanyManager.username,
 //             phone: users.albarq1CompanyManager.phone,
-//             password: bcrypt.hashSync(users.albarq1CompanyManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1CompanyManager.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1CompanyManager.salary,
@@ -127,7 +127,7 @@
 //         },
 //         update: {
 //             name: users.albarq1AccountManager.name,
-//             password: bcrypt.hashSync(users.albarq1AccountManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1AccountManager.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1AccountManager.phone,
 //             employee: {
 //                 update: {
@@ -140,7 +140,7 @@
 //             name: users.albarq1AccountManager.name,
 //             username: users.albarq1AccountManager.username,
 //             phone: users.albarq1AccountManager.phone,
-//             password: bcrypt.hashSync(users.albarq1AccountManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1AccountManager.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1AccountManager.salary,
@@ -161,7 +161,7 @@
 //         },
 //         update: {
 //             name: users.albarq1Accountant.name,
-//             password: bcrypt.hashSync(users.albarq1Accountant.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1Accountant.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1Accountant.phone,
 //             employee: {
 //                 update: {
@@ -174,7 +174,7 @@
 //             name: users.albarq1Accountant.name,
 //             username: users.albarq1Accountant.username,
 //             phone: users.albarq1Accountant.phone,
-//             password: bcrypt.hashSync(users.albarq1Accountant.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1Accountant.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1Accountant.salary,
@@ -195,7 +195,7 @@
 //         },
 //         update: {
 //             name: users.albarq1DeliveryAgent.name,
-//             password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1DeliveryAgent.phone,
 //             employee: {
 //                 update: {
@@ -208,7 +208,7 @@
 //             name: users.albarq1DeliveryAgent.name,
 //             username: users.albarq1DeliveryAgent.username,
 //             phone: users.albarq1DeliveryAgent.phone,
-//             password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1DeliveryAgent.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1DeliveryAgent.salary,
@@ -229,7 +229,7 @@
 //         },
 //         update: {
 //             name: users.albarq1ReceivingAgent.name,
-//             password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1ReceivingAgent.phone,
 //             employee: {
 //                 update: {
@@ -242,7 +242,7 @@
 //             name: users.albarq1ReceivingAgent.name,
 //             username: users.albarq1ReceivingAgent.username,
 //             phone: users.albarq1ReceivingAgent.phone,
-//             password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1ReceivingAgent.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1ReceivingAgent.salary,
@@ -263,7 +263,7 @@
 //         },
 //         update: {
 //             name: users.albarq1BranchManager.name,
-//             password: bcrypt.hashSync(users.albarq1BranchManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1BranchManager.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1BranchManager.phone,
 //             employee: {
 //                 update: {
@@ -276,7 +276,7 @@
 //             name: users.albarq1BranchManager.name,
 //             username: users.albarq1BranchManager.username,
 //             phone: users.albarq1BranchManager.phone,
-//             password: bcrypt.hashSync(users.albarq1BranchManager.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1BranchManager.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1BranchManager.salary,
@@ -297,7 +297,7 @@
 //         },
 //         update: {
 //             name: users.albarq1EmergencyEmployee.name,
-//             password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1EmergencyEmployee.phone,
 //             employee: {
 //                 update: {
@@ -310,7 +310,7 @@
 //             name: users.albarq1EmergencyEmployee.name,
 //             username: users.albarq1EmergencyEmployee.username,
 //             phone: users.albarq1EmergencyEmployee.phone,
-//             password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1EmergencyEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1EmergencyEmployee.salary,
@@ -331,7 +331,7 @@
 //         },
 //         update: {
 //             name: users.albarq1DataEntry.name,
-//             password: bcrypt.hashSync(users.albarq1DataEntry.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1DataEntry.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1DataEntry.phone,
 //             employee: {
 //                 update: {
@@ -344,7 +344,7 @@
 //             name: users.albarq1DataEntry.name,
 //             username: users.albarq1DataEntry.username,
 //             phone: users.albarq1DataEntry.phone,
-//             password: bcrypt.hashSync(users.albarq1DataEntry.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1DataEntry.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1DataEntry.salary,
@@ -365,7 +365,7 @@
 //         },
 //         update: {
 //             name: users.albarq1RepositoryEmployee.name,
-//             password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1RepositoryEmployee.phone,
 //             employee: {
 //                 update: {
@@ -378,7 +378,7 @@
 //             name: users.albarq1RepositoryEmployee.name,
 //             username: users.albarq1RepositoryEmployee.username,
 //             phone: users.albarq1RepositoryEmployee.phone,
-//             password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1RepositoryEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1RepositoryEmployee.salary,
@@ -399,7 +399,7 @@
 //         },
 //         update: {
 //             name: users.albarq1InquiryEmployee.name,
-//             password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1InquiryEmployee.phone,
 //             employee: {
 //                 update: {
@@ -412,7 +412,7 @@
 //             name: users.albarq1InquiryEmployee.name,
 //             username: users.albarq1InquiryEmployee.username,
 //             phone: users.albarq1InquiryEmployee.phone,
-//             password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1InquiryEmployee.password + (env.PASSWORD_SALT as string), 12),
 //             employee: {
 //                 create: {
 //                     salary: users.albarq1InquiryEmployee.salary,
@@ -433,14 +433,14 @@
 //         },
 //         update: {
 //             name: users.albarq1Client.name,
-//             password: bcrypt.hashSync(users.albarq1Client.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1Client.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1Client.phone
 //         },
 //         create: {
 //             name: users.albarq1Client.name,
 //             username: users.albarq1Client.username,
 //             phone: users.albarq1Client.phone,
-//             password: bcrypt.hashSync(users.albarq1Client.password + (env.SECRET as string), 12)
+//             password: bcrypt.hashSync(users.albarq1Client.password + (env.PASSWORD_SALT as string), 12)
 //         }
 //     });
 
@@ -477,14 +477,14 @@
 //         },
 //         update: {
 //             name: users.albarq1ClientAssistant.name,
-//             password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (env.SECRET as string), 12),
+//             password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (env.PASSWORD_SALT as string), 12),
 //             phone: users.albarq1ClientAssistant.phone
 //         },
 //         create: {
 //             name: users.albarq1ClientAssistant.name,
 //             username: users.albarq1ClientAssistant.username,
 //             phone: users.albarq1ClientAssistant.phone,
-//             password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (env.SECRET as string), 12)
+//             password: bcrypt.hashSync(users.albarq1ClientAssistant.password + (env.PASSWORD_SALT as string), 12)
 //         }
 //     });
 
@@ -529,7 +529,7 @@
 //     //                 name: "Super Admin",
 //     //                 username: "superadmin",
 //     //                 password: bcrypt.hashSync(
-//     //                     "superadmin" + (env.SECRET as string),
+//     //                     "superadmin" + (env.PASSWORD_SALT as string),
 //     //                     12
 //     //                 ),
 //     //                 phone: "01000000000"
@@ -544,7 +544,7 @@
 //     //                 name: "Super Admin",
 //     //                 username: "superadmin",
 //     //                 password: bcrypt.hashSync(
-//     //                     "superadmin" + (env.SECRET as string),
+//     //                     "superadmin" + (env.PASSWORD_SALT as string),
 //     //                     12
 //     //                 ),
 //     //                 phone: "01000000000"

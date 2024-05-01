@@ -9,6 +9,7 @@ export const userSelect = {
     employee: {
         select: {
             role: true,
+            permissions: true,
             company: {
                 select: {
                     id: true,
@@ -55,6 +56,7 @@ export const userSelectReform = (
         username: user.username,
         phone: user.phone,
         role: user.employee?.role || user.client?.role || user.admin?.role || "",
-        company: user.employee?.company || user.client?.company || null
+        company: user.employee?.company || user.client?.company || null,
+        permissions: user.employee?.permissions || []
     };
 };
