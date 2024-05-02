@@ -1,9 +1,9 @@
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import {
     OrderChatNotificationCreateSchema,
     OrderCreateSchema,
-    OrderCreateType,
+    type OrderCreateType,
     OrderTimelineFiltersSchema,
     OrderUpdateSchema,
     OrdersFiltersSchema,

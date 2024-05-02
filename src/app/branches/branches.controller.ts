@@ -1,6 +1,6 @@
-import { AdminRole, Governorate } from "@prisma/client";
+import { AdminRole, type Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { BranchCreateSchema, BranchUpdateSchema } from "./branches.dto";
 import { BranchesRepository } from "./branches.repository";
 

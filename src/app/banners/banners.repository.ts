@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { BannerCreateType, BannerUpdateType } from "./banners.dto";
+import type { BannerCreateType, BannerUpdateType } from "./banners.dto";
 import { bannerSelect } from "./banners.responses";
 
 export class BannersRepository {

@@ -1,9 +1,9 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { AppError } from "../../..//lib/AppError";
 import { generateHTML } from "../../..//lib/generateHTML";
 import { generatePDF } from "../../..//lib/generatePDF";
-import { orderReform } from "../../../app/orders/orders.responses";
+import type { orderReform } from "../../../app/orders/orders.responses";
 import { Logger } from "../../../lib/logger";
 
 export const generateReceipts = async (orders: ReturnType<typeof orderReform>[]) => {

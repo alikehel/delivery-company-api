@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import * as util from "node:util";
+import { type Prisma, PrismaClient } from "@prisma/client";
 import { Logger } from "../lib/logger";
 import { calculatePagesCount, calculateSkip } from "../lib/pagination";
 

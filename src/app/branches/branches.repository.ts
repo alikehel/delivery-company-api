@@ -1,6 +1,6 @@
-import { Governorate } from "@prisma/client";
+import type { Governorate } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { BranchCreateType, BranchUpdateType } from "./branches.dto";
+import type { BranchCreateType, BranchUpdateType } from "./branches.dto";
 import { branchSelect } from "./branches.responses";
 
 export class BranchesRepository {

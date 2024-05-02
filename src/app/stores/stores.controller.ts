@@ -1,6 +1,6 @@
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { StoreCreateSchema, StoreUpdateSchema } from "./stores.dto";
 import { StoresRepository } from "./stores.repository";
 

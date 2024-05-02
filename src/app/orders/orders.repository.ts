@@ -1,9 +1,9 @@
-import { Governorate, OrderStatus, Prisma, SecondaryStatus } from "@prisma/client";
+import { Governorate, OrderStatus, type Prisma, type SecondaryStatus } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
-import { loggedInUserType } from "../../types/user";
-import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
-import {
+import type { loggedInUserType } from "../../types/user";
+import type { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
+import type {
     OrderCreateType,
     OrderTimelineFiltersType,
     OrderTimelinePieceType,
@@ -317,17 +317,17 @@ export class OrdersRepository {
                                       quantity: product.quantity,
                                       size: product.sizeID
                                           ? {
-                                                  connect: {
-                                                      id: product.sizeID
-                                                  }
-                                              }
+                                                connect: {
+                                                    id: product.sizeID
+                                                }
+                                            }
                                           : undefined,
                                       color: product.colorID
                                           ? {
-                                                  connect: {
-                                                      id: product.colorID
-                                                  }
-                                              }
+                                                connect: {
+                                                    id: product.colorID
+                                                }
+                                            }
                                           : undefined,
                                       product: {
                                           connect: {
@@ -493,11 +493,11 @@ export class OrdersRepository {
                             ? undefined
                             : data.filters.inquiryCompaniesIDs
                               ? {
-                                      in: [
-                                          ...data.filters.inquiryCompaniesIDs
-                                          //   data.filters.companyID as number
-                                      ]
-                                  }
+                                    in: [
+                                        ...data.filters.inquiryCompaniesIDs
+                                        //   data.filters.companyID as number
+                                    ]
+                                }
                               : data.filters.companyID
                     }
                 },
@@ -1333,10 +1333,10 @@ export class OrdersRepository {
                           }
                         : data.orderData.deliveryAgentID !== undefined
                           ? {
-                                  connect: {
-                                      id: data.orderData.deliveryAgentID
-                                  }
-                              }
+                                connect: {
+                                    id: data.orderData.deliveryAgentID
+                                }
+                            }
                           : undefined,
                 repository: data.orderData.repositoryID
                     ? {

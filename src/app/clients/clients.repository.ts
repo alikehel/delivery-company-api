@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.dto";
+import type { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.dto";
 import { clientReform, clientSelect } from "./clients.responses";
 
 export class ClientsRepository {

@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { RepositoryCreateType, RepositoryUpdateType } from "./repositories.dto";
+import type { RepositoryCreateType, RepositoryUpdateType } from "./repositories.dto";
 import { repositorySelect } from "./repositories.responses";
 
 export class RepositoriesRepository {

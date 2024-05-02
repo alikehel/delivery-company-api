@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { NotificationCreateType, NotificationUpdateType } from "./notifications.dto";
+import type { NotificationCreateType, NotificationUpdateType } from "./notifications.dto";
 import { notificationReform, notificationSelect } from "./notifications.responses";
 
 export class NotificationsRepository {

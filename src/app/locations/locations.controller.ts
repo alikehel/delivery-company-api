@@ -1,4 +1,4 @@
-import { Governorate } from "@prisma/client";
+import type { Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 // import { loggedInUserType } from "../../types/user";
 import { LocationCreateSchema, LocationUpdateSchema } from "./locations.dto";

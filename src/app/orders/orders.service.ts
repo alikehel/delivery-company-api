@@ -1,16 +1,16 @@
-import { EmployeeRole, Governorate, Order, OrderStatus } from "@prisma/client";
+import { EmployeeRole, type Governorate, type Order, OrderStatus } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
-import { loggedInUserType } from "../../types/user";
-import { sendNotification } from "../notifications/helpers/sendNotification";
+import type { loggedInUserType } from "../../types/user";
 // import { generateReceipts } from "./helpers/generateReceipts";
 import { BranchesRepository } from "../branches/branches.repository";
 import { ClientsRepository } from "../clients/clients.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
+import { sendNotification } from "../notifications/helpers/sendNotification";
 import { generateOrdersReport } from "./helpers/generateOrdersReport";
 import { generateReceipts } from "./helpers/generateReceipts";
-import {
+import type {
     OrderChatNotificationCreateType,
     OrderCreateType,
     OrderTimelineFiltersType,
@@ -23,7 +23,7 @@ import {
     OrdersStatisticsFiltersType
 } from "./orders.dto";
 import { OrdersRepository } from "./orders.repository";
-import { orderReform } from "./orders.responses";
+import type { orderReform } from "./orders.responses";
 
 const ordersRepository = new OrdersRepository();
 const employeesRepository = new EmployeesRepository();
@@ -421,8 +421,8 @@ export class OrdersService {
                                 : oldOrderData.deliveryAgent && !newOrder.deliveryAgent
                                   ? `تم إلغاء مندوب التوصيل ${oldOrderData.deliveryAgent.name}`
                                   : !oldOrderData.deliveryAgent && newOrder.deliveryAgent
-                                      ? `تم تعيين مندوب التوصيل ${newOrder.deliveryAgent.name}`
-                                      : ""
+                                    ? `تم تعيين مندوب التوصيل ${newOrder.deliveryAgent.name}`
+                                    : ""
                     }
                 });
             }
@@ -476,8 +476,8 @@ export class OrdersService {
                                 : oldOrderData.repository && !newOrder.repository
                                   ? `تم إلغاء المخزن ${oldOrderData.repository.name}`
                                   : !oldOrderData.repository && newOrder.repository
-                                      ? `تم تعيين المخزن ${newOrder.repository.name}`
-                                      : ""
+                                    ? `تم تعيين المخزن ${newOrder.repository.name}`
+                                    : ""
                     }
                 });
             }
@@ -507,8 +507,8 @@ export class OrdersService {
                                 : oldOrderData.branch && !newOrder.branch
                                   ? `تم إلغاء الفرع ${oldOrderData.branch.name}`
                                   : !oldOrderData.branch && newOrder.branch
-                                      ? `تم تعيين الفرع ${newOrder.branch.name}`
-                                      : ""
+                                    ? `تم تعيين الفرع ${newOrder.branch.name}`
+                                    : ""
                     }
                 });
             }

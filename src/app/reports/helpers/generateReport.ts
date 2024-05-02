@@ -1,12 +1,12 @@
-import { ReportType } from "@prisma/client";
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
+import type { ReportType } from "@prisma/client";
 import { AppError } from "../../..//lib/AppError";
 import { generateHTML } from "../../..//lib/generateHTML";
 import { generatePDF } from "../../..//lib/generatePDF";
-import { orderReform } from "../../../app/orders/orders.responses";
+import type { orderReform } from "../../../app/orders/orders.responses";
 import { Logger } from "../../../lib/logger";
-import { reportReform } from "../reports.responses";
+import type { reportReform } from "../reports.responses";
 
 export const generateReport = async (
     reportType: ReportType,

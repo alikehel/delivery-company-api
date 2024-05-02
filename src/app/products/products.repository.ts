@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { ProductCreateType, ProductUpdateType } from "./products.dto";
+import type { ProductCreateType, ProductUpdateType } from "./products.dto";
 import { productSelect } from "./products.responses";
 
 export class ProductsRepository {

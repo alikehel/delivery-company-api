@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { StoreCreateType, StoreUpdateType } from "./stores.dto";
+import type { StoreCreateType, StoreUpdateType } from "./stores.dto";
 import { storeSelect, storeSelectReform } from "./stores.responses";
 
 export class StoresRepository {

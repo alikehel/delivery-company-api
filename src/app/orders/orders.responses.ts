@@ -1,4 +1,4 @@
-import { Governorate, OrderStatus, Prisma } from "@prisma/client";
+import { Governorate, OrderStatus, type Prisma } from "@prisma/client";
 
 export const orderSelect = {
     id: true,

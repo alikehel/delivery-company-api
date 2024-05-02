@@ -1,10 +1,10 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { AppError } from "../../../lib/AppError";
 import { generateHTML } from "../../../lib/generateHTML";
 import { generatePDF } from "../../../lib/generatePDF";
 import { Logger } from "../../../lib/logger";
-import { orderReform } from "../orders.responses";
+import type { orderReform } from "../orders.responses";
 
 export const generateOrdersReport = async (
     type: "DELIVERY_AGENT_MANIFEST" | "GENERAL",

@@ -2,9 +2,9 @@ import { AdminRole, EmployeeRole } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
+import type { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
 import { EmployeesRepository } from "./employees.repository";
 
 const employeesRepository = new EmployeesRepository();

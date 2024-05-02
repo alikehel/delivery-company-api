@@ -1,7 +1,7 @@
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { loggedInUserType } from "../../types/user";
-import { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
+import type { loggedInUserType } from "../../types/user";
+import type { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
 import { employeeReform, employeeSelect } from "./employees.responses";
 
 export class EmployeesRepository {

@@ -1,7 +1,7 @@
 import { AdminRole, ClientRole } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { ClientsRepository } from "../clients/clients.repository";
 import { ProductCreateSchema, ProductUpdateSchema } from "./products.dto";
 import { ProductsRepository } from "./products.repository";

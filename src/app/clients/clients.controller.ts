@@ -3,7 +3,7 @@ import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { BranchesRepository } from "../branches/branches.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";

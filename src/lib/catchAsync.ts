@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export const catchAsync = (
     // eslint-disable-next-line no-unused-vars

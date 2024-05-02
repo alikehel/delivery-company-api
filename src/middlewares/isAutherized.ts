@@ -1,7 +1,7 @@
-import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
+import type { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../lib/AppError";
-import { loggedInUserType } from "../types/user";
+import type { loggedInUserType } from "../types/user";
 
 export const isAutherized = (
     allowedRoles: (AdminRole | EmployeeRole | ClientRole)[],

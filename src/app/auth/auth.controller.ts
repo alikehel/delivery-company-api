@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { UsersRepository } from "../users/users.repository";
 import { RefreshTokenSchema, UserSigninSchema } from "./auth.dto";

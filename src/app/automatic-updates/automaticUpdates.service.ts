@@ -1,7 +1,7 @@
 import { AdminRole } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { loggedInUserType } from "../../types/user";
-import {
+import type { loggedInUserType } from "../../types/user";
+import type {
     AutomaticUpdateCreateType,
     AutomaticUpdateUpdateType,
     AutomaticUpdatesFiltersType

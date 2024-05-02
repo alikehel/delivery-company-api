@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../config";
 import { AppError } from "../lib/AppError";
-import { loggedInUserType } from "../types/user";
+import type { loggedInUserType } from "../types/user";
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     try {

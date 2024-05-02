@@ -1,4 +1,4 @@
-import { AdminRole, ClientRole, EmployeeRole, Prisma } from "@prisma/client";
+import type { AdminRole, ClientRole, EmployeeRole, Prisma } from "@prisma/client";
 
 export const userSelect = {
     id: true,

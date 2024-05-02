@@ -1,6 +1,6 @@
 import { prisma } from "../../database/db";
-import { loggedInUserType } from "../../types/user";
-import { CompanyCreateType, CompanyUpdateType } from "./companies.dto";
+import type { loggedInUserType } from "../../types/user";
+import type { CompanyCreateType, CompanyUpdateType } from "./companies.dto";
 import { companySelect } from "./companies.responses";
 
 export class CompaniesRepository {

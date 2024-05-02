@@ -1,5 +1,7 @@
 // import { apiReference } from "@scalar/express-api-reference";
 import bodyParser from "body-parser";
+// import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
+import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -9,8 +11,6 @@ import morganBody from "morgan-body";
 // import shrinkRay from "shrink-ray-current";
 // import { SwaggerTheme } from "swagger-themes";
 import swaggerUi from "swagger-ui-express";
-// import { isLoggedIn } from "./middlewares/isLoggedIn.middleware";
-import compression from "compression";
 import { AppError } from "./lib/AppError";
 import { Logger } from "./lib/logger";
 import globalErrorHandler from "./middlewares/globalErrorHandler";

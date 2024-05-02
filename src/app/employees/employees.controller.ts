@@ -1,5 +1,5 @@
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { EmployeeCreateSchema, EmployeeUpdateSchema, EmployeesFiltersSchema } from "./employees.dto";
 import { EmployeesService } from "./employees.service";
 

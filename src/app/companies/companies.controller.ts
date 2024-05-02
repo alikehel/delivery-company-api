@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { CompanyCreateSchema, CompanyUpdateSchema } from "./companies.dto";
 import { CompaniesRepository } from "./companies.repository";

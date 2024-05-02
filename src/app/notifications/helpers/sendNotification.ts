@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 import { env } from "../../../config";
 import { Logger } from "../../../lib/logger";
-import { NotificationCreateType } from "../notifications.dto";
+import type { NotificationCreateType } from "../notifications.dto";
 import { NotificationsRepository } from "../notifications.repository";
 
 admin.initializeApp({

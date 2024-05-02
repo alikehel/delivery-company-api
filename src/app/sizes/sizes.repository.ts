@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { SizeCreateType, SizeUpdateType } from "./sizes.dto";
+import type { SizeCreateType, SizeUpdateType } from "./sizes.dto";
 import { sizeSelect } from "./sizes.responses";
 
 export class SizesRepository {

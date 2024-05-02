@@ -1,17 +1,17 @@
-import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
+import { AdminRole, EmployeeRole, type Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
-import { loggedInUserType } from "../../types/user";
+// import { OrderTimelineType } from "../orders/orders.dto";
+import { localizeReportType } from "../../lib/localize";
+import type { loggedInUserType } from "../../types/user";
 import { ClientsRepository } from "../clients/clients.repository";
 import { CompaniesRepository } from "../companies/companies.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-// import { OrderTimelineType } from "../orders/orders.dto";
-import { localizeReportType } from "../../lib/localize";
 import { OrdersRepository } from "../orders/orders.repository";
-import { orderReform } from "../orders/orders.responses";
+import type { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
 import { generateReportsReport } from "./helpers/generateReportsReport";
-import {
+import type {
     ReportCreateOrdersFiltersType,
     ReportCreateType,
     ReportUpdateType,
@@ -19,7 +19,7 @@ import {
     ReportsReportPDFCreateType
 } from "./reports.dto";
 import { ReportsRepository } from "./reports.repository";
-import { reportReform } from "./reports.responses";
+import type { reportReform } from "./reports.responses";
 
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
@@ -372,20 +372,20 @@ export class ReportsService {
               reportData?.repositoryReport.repositoryReportOrders
             : reportData?.branchReport
               ? // @tts-expect-error: Unreachable code error
-                  reportData?.branchReport.branchReportOrders
+                reportData?.branchReport.branchReportOrders
               : reportData?.clientReport
+                ? // @tts-expect-error: Unreachable code error
+                  reportData?.clientReport.clientReportOrders
+                : reportData?.deliveryAgentReport
                   ? // @tts-expect-error: Unreachable code error
-                      reportData?.clientReport.clientReportOrders
-                  : reportData?.deliveryAgentReport
+                    reportData?.deliveryAgentReport.deliveryAgentReportOrders
+                  : reportData?.governorateReport
+                    ? // @tts-expect-error: Unreachable code error
+                      reportData?.governorateReport.governorateReportOrders
+                    : reportData?.companyReport
                       ? // @tts-expect-error: Unreachable code error
-                          reportData?.deliveryAgentReport.deliveryAgentReportOrders
-                      : reportData?.governorateReport
-                          ? // @tts-expect-error: Unreachable code error
-                              reportData?.governorateReport.governorateReportOrders
-                          : reportData?.companyReport
-                              ? // @tts-expect-error: Unreachable code error
-                                  reportData?.companyReport.companyReportOrders
-                              : [];
+                        reportData?.companyReport.companyReportOrders
+                      : [];
 
         const ordersIDs = orders.map((order) => order.id);
 
@@ -504,14 +504,14 @@ export class ReportsService {
                 : report?.type === ReportType.REPOSITORY
                   ? report?.repositoryReport?.repositoryReportOrders
                   : report?.type === ReportType.BRANCH
-                      ? report?.branchReport?.branchReportOrders
-                      : report?.type === ReportType.GOVERNORATE
-                          ? report?.governorateReport?.governorateReportOrders
-                          : report?.type === ReportType.DELIVERY_AGENT
-                              ? report?.deliveryAgentReport?.deliveryAgentReportOrders
-                              : report?.type === ReportType.COMPANY
-                                  ? report?.companyReport?.companyReportOrders
-                                  : [];
+                    ? report?.branchReport?.branchReportOrders
+                    : report?.type === ReportType.GOVERNORATE
+                      ? report?.governorateReport?.governorateReportOrders
+                      : report?.type === ReportType.DELIVERY_AGENT
+                        ? report?.deliveryAgentReport?.deliveryAgentReportOrders
+                        : report?.type === ReportType.COMPANY
+                          ? report?.companyReport?.companyReportOrders
+                          : [];
 
         if (orders) {
             for (const order of orders) {

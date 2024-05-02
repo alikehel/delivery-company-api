@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { ColorCreateType, ColorUpdateType } from "./colors.dto";
+import type { ColorCreateType, ColorUpdateType } from "./colors.dto";
 import { colorSelect } from "./colors.responses";
 
 export class ColorsRepository {

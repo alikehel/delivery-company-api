@@ -1,6 +1,6 @@
-import { Governorate } from "@prisma/client";
+import type { Governorate } from "@prisma/client";
 import { prisma } from "../../database/db";
-import { LocationCreateType, LocationUpdateType } from "./locations.dto";
+import type { LocationCreateType, LocationUpdateType } from "./locations.dto";
 import { locationReform, locationSelect } from "./locations.responses";
 
 export class LocationsRepository {

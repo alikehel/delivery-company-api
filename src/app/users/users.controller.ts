@@ -1,5 +1,5 @@
 import { catchAsync } from "../../lib/catchAsync";
-import { loggedInUserType } from "../../types/user";
+import type { loggedInUserType } from "../../types/user";
 import { UsersRepository } from "./users.repository";
 
 const usersRepository = new UsersRepository();

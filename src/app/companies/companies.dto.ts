@@ -74,7 +74,7 @@ export const CompanyUpdateSchema = z
         additionalPriceForEveryKilogram: z.coerce.number().min(0),
         additionalPriceForRemoteAreas: z.coerce.number().min(0),
         orderStatusAutomaticUpdate: z.coerce.boolean().optional(),
-        password: z.string().min(6).optional(),
+        password: z.string().min(6).optional()
     })
     .partial();
 

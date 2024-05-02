@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { UserSigninType } from "./auth.dto";
+import type { UserSigninType } from "./auth.dto";
 import { userReform, userSelect } from "./auth.responses";
 
 export class AuthRepository {

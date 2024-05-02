@@ -1,5 +1,5 @@
 import { prisma } from "../../database/db";
-import { CategoryCreateType, CategoryUpdateType } from "./categories.dto";
+import type { CategoryCreateType, CategoryUpdateType } from "./categories.dto";
 import { categorySelect } from "./categories.responses";
 
 export class CategoriesRepository {

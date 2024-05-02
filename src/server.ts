@@ -6,7 +6,9 @@ import { Logger } from "./lib/logger";
 const address = `http://localhost:${env.PORT}`;
 
 const server = app.listen(env.PORT, () => {
-    console.info("------------------------------------------------------------------------------------------\n");
+    console.info(
+        "------------------------------------------------------------------------------------------\n"
+    );
     Logger.debug(`Starting APP On -> ${address}`);
     automaticUpdatesCronJob.start();
 });

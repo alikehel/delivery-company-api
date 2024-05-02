@@ -1,7 +1,7 @@
-import { Router } from "express";
 // import { ClientRole } from "@prisma/client";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { AdminRole, ClientRole, EmployeeRole, Permission } from "@prisma/client";
+import { Router } from "express";
 import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { OrdersController } from "./orders.controller";
