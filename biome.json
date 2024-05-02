@@ -17,18 +17,21 @@
         "rules": {
             "recommended": true,
             "style": {
-                "useCollapsedElseIf": "warn"
+                "useCollapsedElseIf": "warn",
+                "useForOf": "error"
             },
             "suspicious": {
-                "noConsoleLog": "warn"
+                "noConsoleLog": "warn",
+                "useAwait": "error"
             },
-            "nursery": {
-                "useAwait": "error",
+            "complexity": {
+                "noUselessTernary": "error"
+            },
+            "correctness": {
                 "noInvalidUseBeforeDeclaration": "error",
-                "noUnusedImports": "error",
-                "noUselessTernary": "error",
-                "useForOf": "error"
-            }
+                "noUnusedImports": "error"
+            },
+            "nursery": {}
         }
     },
     "javascript": {
