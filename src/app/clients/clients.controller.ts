@@ -19,9 +19,12 @@ export class ClientsController {
         const clientData = ClientCreateSchema.parse(req.body);
         let companyID = +res.locals.user.companyID;
         const { password, ...rest } = clientData;
-        const avatar = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let avatar: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            avatar = file.location;
+        }
 
         const currentUser = res.locals.user;
 
@@ -133,9 +136,12 @@ export class ClientsController {
         const clientData = ClientUpdateSchema.parse(req.body);
         const clientID = +req.params.clientID;
         // const companyID = +res.locals.user.companyID;
-        const avatar = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let avatar: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            avatar = file.location;
+        }
 
         const oldClient = await clientsRepository.getClient({
             clientID: clientID

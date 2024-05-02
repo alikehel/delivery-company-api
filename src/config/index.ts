@@ -14,7 +14,12 @@ const schema = z.object({
     DATABASE_URL: z.string().min(1).url(),
     FIREBASE_PROJECT_ID: z.string().min(1),
     FIREBASE_CLIENT_EMAIL: z.string().min(1),
-    FIREBASE_PRIVATE_KEY: z.string().min(1)
+    FIREBASE_PRIVATE_KEY: z.string().min(1),
+    DO_SPACES_BUCKET_NAME: z.string().min(1),
+    DO_SPACES_REGION: z.string().min(1),
+    DO_SPACES_ENDPOINT: z.string().min(1),
+    DO_SPACES_KEY: z.string().min(1),
+    DO_SPACES_SECRET: z.string().min(1)
 });
 
 export const env = schema.parse(process.env);

@@ -14,9 +14,12 @@ export class ProductsController {
         const productData = ProductCreateSchema.parse(req.body);
         // const loggedInUserID = +res.locals.user.id;
         const companyID = +res.locals.user.companyID;
-        const image = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let image: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            image = file.location;
+        }
 
         // Get the clientID
         const clientID = await clientsRepository.getClientIDByStoreID({ storeID: productData.storeID });
@@ -101,9 +104,12 @@ export class ProductsController {
         const companyID = +res.locals.user.companyID;
 
         const productData = ProductUpdateSchema.parse(req.body);
-        const image = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let image: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            image = file.location;
+        }
 
         const product = await productsRepository.updateProduct({
             productID: productID,

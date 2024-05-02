@@ -10,9 +10,12 @@ export class BannersController {
     createBanner = catchAsync(async (req, res) => {
         const bannerData = BannerCreateSchema.parse(req.body);
         const companyID = +res.locals.user.companyID;
-        const image = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let image: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            image = file.location;
+        }
 
         const createdBanner = await bannersRepository.createBanner(companyID, {
             ...bannerData,
@@ -78,9 +81,12 @@ export class BannersController {
         const bannerID = +req.params.bannerID;
 
         const bannerData = BannerUpdateSchema.parse(req.body);
-        const image = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let image: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            image = file.location;
+        }
 
         const banner = await bannersRepository.updateBanner({
             bannerID: bannerID,

@@ -10,9 +10,12 @@ export class StoresController {
     createStore = catchAsync(async (req, res) => {
         const storeData = StoreCreateSchema.parse(req.body);
         const companyID = +res.locals.user.companyID;
-        const logo = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let logo: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            logo = file.location;
+        }
 
         const createdStore = await storesRepository.createStore(companyID, {
             ...storeData,
@@ -93,9 +96,12 @@ export class StoresController {
 
     updateStore = catchAsync(async (req, res) => {
         const storeID = +req.params.storeID;
-        const logo = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let logo: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            logo = file.location;
+        }
 
         const storeData = StoreUpdateSchema.parse(req.body);
 

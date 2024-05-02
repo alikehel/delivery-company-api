@@ -14,9 +14,12 @@ export class CompaniesController {
     createCompany = catchAsync(async (req, res) => {
         const loggedInUser = res.locals.user as loggedInUserType;
         const companyData = CompanyCreateSchema.parse(req.body);
-        const logo = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let logo: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            logo = file.location;
+        }
 
         const hashedPassword = bcrypt.hashSync(
             companyData.companyManager.password + (env.PASSWORD_SALT as string),
@@ -83,10 +86,13 @@ export class CompaniesController {
 
     updateCompany = catchAsync(async (req, res) => {
         const companyID = +req.params.companyID;
-        const logo = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
         const companyData = CompanyUpdateSchema.parse(req.body);
+
+        let logo: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            logo = file.location;
+        }
 
         const companyManagerID = (
             await employeesRepository.getCompanyManager({

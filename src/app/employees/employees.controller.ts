@@ -9,9 +9,12 @@ export class EmployeesController {
     createEmployee = catchAsync(async (req, res) => {
         const employeeData = EmployeeCreateSchema.parse(req.body);
         const loggedInUser = res.locals.user;
-        const avatar = req.file
-            ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-            : undefined;
+
+        let avatar: string | undefined;
+        if (req.file) {
+            const file = req.file as Express.MulterS3.File;
+            avatar = file.location;
+        }
 
         const createdEmployee = await employeesService.createEmployee({
             loggedInUser,
@@ -76,9 +79,8 @@ export class EmployeesController {
         };
 
         if (req.file) {
-            employeeData.avatar = req.file
-                ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(/\\/g, "/")}`
-                : undefined;
+            const file = req.file as Express.MulterS3.File;
+            employeeData.avatar = file.location;
         }
 
         const updatedEmployee = await employeesService.updateEmployee({
