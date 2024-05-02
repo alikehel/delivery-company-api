@@ -7,17 +7,10 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import {
-    createClient,
-    deactivateClient,
-    deleteClient,
-    getAllClients,
-    getClient,
-    reactivateClient,
-    updateClient
-} from "./clients.controller";
+import { ClientsController } from "./clients.controller";
 
 const router = Router();
+const clientsController = new ClientsController();
 
 router.route("/clients").post(
     isLoggedIn,
@@ -34,7 +27,7 @@ router.route("/clients").post(
     ),
     upload.single("avatar"),
     // upload.none(),
-    createClient
+    clientsController.createClient
     /*
         #swagger.tags = ['Clients Routes']
 
@@ -65,7 +58,7 @@ router.route("/clients").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllClients
+    clientsController.getAllClients
     /*
         #swagger.tags = ['Clients Routes']
 
@@ -95,7 +88,7 @@ router.route("/clients/:clientID").get(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    getClient
+    clientsController.getClient
     /*
         #swagger.tags = ['Clients Routes']
     */
@@ -114,7 +107,7 @@ router.route("/clients/:clientID").patch(
     ]),
     upload.single("avatar"),
     // upload.none(),
-    updateClient
+    clientsController.updateClient
     /*
         #swagger.tags = ['Clients Routes']
 
@@ -135,7 +128,7 @@ router.route("/clients/:clientID").patch(
 router.route("/clients/:clientID").delete(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
-    deleteClient
+    clientsController.deleteClient
     /*
         #swagger.tags = ['Clients Routes']
     */
@@ -151,7 +144,7 @@ router.route("/clients/:clientID/deactivate").patch(
         EmployeeRole.DATA_ENTRY,
         EmployeeRole.BRANCH_MANAGER
     ]),
-    deactivateClient
+    clientsController.deactivateClient
     /*
         #swagger.tags = ['Clients Routes']
     */
@@ -160,7 +153,7 @@ router.route("/clients/:clientID/deactivate").patch(
 router.route("/clients/:clientID/reactivate").patch(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
-    reactivateClient
+    clientsController.reactivateClient
     /*
         #swagger.tags = ['Clients Routes']
     */

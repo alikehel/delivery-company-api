@@ -33,7 +33,7 @@ export const ReportCreateSchema = z
         }),
         z.object({
             type: z.literal(ReportType.CLIENT),
-            clientID: z.coerce.number(),
+            clientID: z.coerce.number().optional(),
             storeID: z.coerce.number(),
             baghdadDeliveryCost: z.coerce.number().optional(),
             governoratesDeliveryCost: z.coerce.number().optional()
@@ -74,12 +74,14 @@ export const ReportCreateOrdersFiltersSchema = z
                             z.enum([
                                 OrderStatus.DELIVERED,
                                 OrderStatus.PARTIALLY_RETURNED,
-                                OrderStatus.REPLACED
+                                OrderStatus.REPLACED,
+                                // For company return report
+                                OrderStatus.RETURNED
                             ])
                         )
                     ),
                     companyID: z.coerce.number(),
-                    companyReport: z.string()
+                    companyReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             ),
 
@@ -105,7 +107,7 @@ export const ReportCreateOrdersFiltersSchema = z
                         )
                     ),
                     deliveryAgentID: z.coerce.number(),
-                    deliveryAgentReport: z.string()
+                    deliveryAgentReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             ),
         z
@@ -130,7 +132,7 @@ export const ReportCreateOrdersFiltersSchema = z
                         )
                     ),
                     governorate: z.nativeEnum(Governorate),
-                    governorateReport: z.string()
+                    governorateReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             ),
         z
@@ -155,7 +157,7 @@ export const ReportCreateOrdersFiltersSchema = z
                         )
                     ),
                     branchID: z.coerce.number(),
-                    branchReport: z.string()
+                    branchReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             ),
         z
@@ -175,12 +177,14 @@ export const ReportCreateOrdersFiltersSchema = z
                             z.enum([
                                 OrderStatus.DELIVERED,
                                 OrderStatus.PARTIALLY_RETURNED,
-                                OrderStatus.REPLACED
+                                OrderStatus.REPLACED,
+                                // For company return report
+                                OrderStatus.RETURNED
                             ])
                         )
                     ),
                     storeID: z.coerce.number(),
-                    clientReport: z.string()
+                    clientReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             ),
         z
@@ -205,7 +209,7 @@ export const ReportCreateOrdersFiltersSchema = z
                         )
                     ),
                     repositoryID: z.coerce.number(),
-                    repositoryReport: z.string()
+                    repositoryReport: z.string().optional() // Should be mandatory if ordersIDs is "*"
                 })
             )
     ])

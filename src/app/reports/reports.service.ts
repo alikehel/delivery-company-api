@@ -1,10 +1,12 @@
 import { AdminRole, EmployeeRole, Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
-import { CompanyModel } from "../companies/company.model";
-import { EmployeeModel } from "../employees/employee.model";
+import { ClientsRepository } from "../clients/clients.repository";
+import { CompaniesRepository } from "../companies/companies.repository";
+import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../orders/orders.dto";
+// import { OrderTimelineType } from "../orders/orders.dto";
+import { localizeReportType } from "../../lib/localize";
 import { OrdersRepository } from "../orders/orders.repository";
 import { orderReform } from "../orders/orders.responses";
 import { generateReport } from "./helpers/generateReport";
@@ -21,8 +23,9 @@ import { reportReform } from "./reports.responses";
 
 const reportsRepository = new ReportsRepository();
 const ordersRepository = new OrdersRepository();
-const employeeModel = new EmployeeModel();
-const companyModel = new CompanyModel();
+const employeesRepository = new EmployeesRepository();
+const clientsRepository = new ClientsRepository();
+const companiesRepository = new CompaniesRepository();
 
 export class ReportsService {
     async createReport(data: {
@@ -52,6 +55,63 @@ export class ReportsService {
 
         if (!orders || orders.length === 0) {
             throw new AppError("لا يوجد طلبات لعمل الكشف", 400);
+        }
+
+        // Check if orders are not in another report
+        if (data.reportData.type === ReportType.CLIENT) {
+            for (const order of orders) {
+                if (order?.clientReport && order?.clientReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.id}`,
+                        400
+                    );
+                }
+            }
+        } else if (data.reportData.type === ReportType.REPOSITORY) {
+            for (const order of orders) {
+                if (order?.repositoryReport && order?.repositoryReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.id}`,
+                        400
+                    );
+                }
+            }
+        } else if (data.reportData.type === ReportType.BRANCH) {
+            for (const order of orders) {
+                if (order?.branchReport && order?.branchReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.id}`,
+                        400
+                    );
+                }
+            }
+        } else if (data.reportData.type === ReportType.GOVERNORATE) {
+            for (const order of orders) {
+                if (order?.governorateReport && order?.governorateReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.id}`,
+                        400
+                    );
+                }
+            }
+        } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
+            for (const order of orders) {
+                if (order?.deliveryAgentReport && order?.deliveryAgentReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.id}`,
+                        400
+                    );
+                }
+            }
+        } else if (data.reportData.type === ReportType.COMPANY) {
+            for (const order of orders) {
+                if (order?.companyReport && order?.companyReport.deleted !== true) {
+                    throw new AppError(
+                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.id}`,
+                        400
+                    );
+                }
+            }
         }
 
         // Change orders costs reportData contains new costs
@@ -114,80 +174,31 @@ export class ReportsService {
             }
         }
 
+        // Get client id from store id if report type is client
+        let clientID: number | undefined;
         if (data.reportData.type === ReportType.CLIENT) {
-            for (const order of orders) {
-                if (order?.clientReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف عملاء اخر رقمه ${order.clientReport.id}`,
-                        400
-                    );
-                }
-                // TODO
-                // if (
-                //     data.reportData.type === ReportType.CLIENT &&
-                //     order.clientId !== data.reportData.clientID
-                // ) {
-                //     throw new AppError(
-                //         `الطلب ${order.receiptNumber} ليس مرتبط بالعميل ${data.reportData.clientID}`,
-                //         400
-                //     );
-                // }
-            }
-        } else if (data.reportData.type === ReportType.REPOSITORY) {
-            for (const order of orders) {
-                if (order?.repositoryReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف مخازن اخر رقمه ${order.repositoryReport.id}`,
-                        400
-                    );
-                }
-            }
-        } else if (data.reportData.type === ReportType.BRANCH) {
-            for (const order of orders) {
-                if (order?.branchReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف فروع اخر رقمه ${order.branchReport.id}`,
-                        400
-                    );
-                }
-            }
-        } else if (data.reportData.type === ReportType.GOVERNORATE) {
-            for (const order of orders) {
-                if (order?.governorateReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف محافظة اخر رقمه ${order.governorateReport.id}`,
-                        400
-                    );
-                }
-            }
-        } else if (data.reportData.type === ReportType.DELIVERY_AGENT) {
-            for (const order of orders) {
-                if (order?.deliveryAgentReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف مندوبين اخر رقمه ${order.deliveryAgentReport.id}`,
-                        400
-                    );
-                }
-            }
-        } else if (data.reportData.type === ReportType.COMPANY) {
-            for (const order of orders) {
-                if (order?.companyReport) {
-                    throw new AppError(
-                        `الطلب ${order.receiptNumber} يوجد في كشف شركة اخر رقمه ${order.companyReport.id}`,
-                        400
-                    );
-                }
-            }
+            clientID = await clientsRepository.getClientIDByStoreID({ storeID: data.reportData.storeID });
         }
 
         const report = await reportsRepository.createReport({
             loggedInUser: data.loggedInUser,
-            reportData: { ...data.reportData, ordersIDs },
+            reportData:
+                data.reportData.type === ReportType.CLIENT
+                    ? { ...data.reportData, ordersIDs, clientID }
+                    : { ...data.reportData, ordersIDs },
             reportMetaData: reportMetaData
         });
 
         if (!report) {
             throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
+        }
+
+        // if client report, make secondary status WITH_CLIENT
+        if (data.reportData.type === ReportType.CLIENT) {
+            await ordersRepository.updateOrdersSecondaryStatus({
+                ordersIDs,
+                secondaryStatus: "WITH_CLIENT"
+            });
         }
 
         // Update company treasury
@@ -197,7 +208,7 @@ export class ReportsService {
             data.reportData.type === ReportType.DELIVERY_AGENT ||
             data.reportData.type === ReportType.COMPANY
         ) {
-            await companyModel.updateCompanyTreasury({
+            await companiesRepository.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
                     amount: reportMetaData.companyNet || 0,
@@ -208,7 +219,7 @@ export class ReportsService {
             data.reportData.type === ReportType.CLIENT ||
             data.reportData.type === ReportType.REPOSITORY
         ) {
-            await companyModel.updateCompanyTreasury({
+            await companiesRepository.updateCompanyTreasury({
                 companyID: data.loggedInUser.companyID as number,
                 treasury: {
                     amount: reportMetaData.clientNet || 0,
@@ -220,6 +231,10 @@ export class ReportsService {
         const reportData = await reportsRepository.getReport({
             reportID: report.id
         });
+
+        if (!reportData) {
+            throw new AppError("حدث خطأ اثناء عمل الكشف", 500);
+        }
 
         // Send notification to client if report type is client report
         if (data.reportData.type === ReportType.CLIENT) {
@@ -241,28 +256,25 @@ export class ReportsService {
 
         // update orders timeline
         for (const order of orders) {
-            // @ts-expect-error Fix later
-            const oldTimeline: OrderTimelineType = order?.timeline;
+            if (!order) {
+                continue;
+            }
             await ordersRepository.updateOrderTimeline({
-                // @ts-expect-error Fix later
                 orderID: order.id,
-                timeline: [
-                    // @ts-expect-error Fix later
-                    ...oldTimeline,
-                    {
-                        type: "REPORT_CREATE",
-                        reportType: data.reportData.type,
-                        reportID: report.id,
-                        // @ts-expect-error Fix later
-                        date: reportData.createdAt,
-                        by: {
-                            id: data.loggedInUser.id,
-                            name: data.loggedInUser.name,
-                            // @ts-expect-error Fix later
-                            role: data.loggedInUser.role
-                        }
-                    }
-                ]
+                data: {
+                    type: "REPORT_CREATE",
+                    date: reportData?.createdAt,
+                    old: null,
+                    new: {
+                        id: reportData?.id,
+                        type: reportData?.type as ReportType
+                    },
+                    by: {
+                        id: data.loggedInUser.id,
+                        name: data.loggedInUser.name
+                    },
+                    message: `تم انشاء كشف ${localizeReportType(reportData?.type)} برقم ${reportData?.id}`
+                }
             });
         }
 
@@ -290,7 +302,7 @@ export class ReportsService {
 
         let branch: number | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
-            const employee = await employeeModel.getEmployee({ employeeID: data.loggedInUser.id });
+            const employee = await employeesRepository.getEmployee({ employeeID: data.loggedInUser.id });
             branch = employee?.branch?.id;
         } else if (data.filters.branch) {
             branch = +data.filters.branch;
@@ -317,7 +329,7 @@ export class ReportsService {
         }
 
         let size = data.filters.size ? +data.filters.size : 10;
-        if (size > 50 && data.filters.minified !== true) {
+        if (size > 500 && data.filters.minified !== true) {
             size = 10;
         }
         let page = 1;
@@ -337,6 +349,10 @@ export class ReportsService {
             reportID: data.params.reportID
         });
 
+        if (report?.deleted) {
+            throw new AppError("الكشف المطلوب موجود بسلة المحذوفات", 404);
+        }
+
         return report;
     }
 
@@ -344,6 +360,10 @@ export class ReportsService {
         const reportData = await reportsRepository.getReport({
             reportID: data.params.reportID
         });
+
+        if (reportData?.deleted) {
+            throw new AppError("الكشف المطلوب موجود بسلة المحذوفات", 404);
+        }
 
         // TODO: fix this
         // @ts-expect-error Fix later
@@ -479,49 +499,84 @@ export class ReportsService {
         });
 
         const orders =
-            report.type === ReportType.CLIENT
-                ? report.clientReport?.orders
-                : report.type === ReportType.REPOSITORY
-                  ? report.repositoryReport?.orders
-                  : report.type === ReportType.BRANCH
-                      ? report.branchReport?.orders
-                      : report.type === ReportType.GOVERNORATE
-                          ? report.governorateReport?.orders
-                          : report.type === ReportType.DELIVERY_AGENT
-                              ? report.deliveryAgentReport?.orders
-                              : report.type === ReportType.COMPANY
-                                  ? report.companyReport?.orders
+            report?.type === ReportType.CLIENT
+                ? report.clientReport?.clientReportOrders
+                : report?.type === ReportType.REPOSITORY
+                  ? report?.repositoryReport?.repositoryReportOrders
+                  : report?.type === ReportType.BRANCH
+                      ? report?.branchReport?.branchReportOrders
+                      : report?.type === ReportType.GOVERNORATE
+                          ? report?.governorateReport?.governorateReportOrders
+                          : report?.type === ReportType.DELIVERY_AGENT
+                              ? report?.deliveryAgentReport?.deliveryAgentReportOrders
+                              : report?.type === ReportType.COMPANY
+                                  ? report?.companyReport?.companyReportOrders
                                   : [];
 
         if (orders) {
             for (const order of orders) {
-                // @ts-expect-error Fix later
-                const oldTimeline: OrderTimelineType = order?.timeline;
                 await ordersRepository.updateOrderTimeline({
                     orderID: order.id,
-                    timeline: [
-                        // @ts-expect-error Fix later
-                        ...oldTimeline,
-                        {
-                            type: "REPORT_DELETE",
-                            reportType: report.type,
-                            date: new Date(),
-                            by: {
-                                id: data.loggedInUser.id,
-                                name: data.loggedInUser.name,
-                                // @ts-expect-error Fix later
-                                role: data.loggedInUser.role
-                            }
-                        }
-                    ]
+                    data: {
+                        type: "REPORT_DELETE",
+                        date: report?.updatedAt || new Date(),
+                        old: {
+                            id: data.params.reportID,
+                            type: report?.type as ReportType
+                        },
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم حذف كشف ${localizeReportType(report?.type as ReportType)} برقم ${
+                            data.params.reportID
+                        }`
+                    }
                 });
             }
+        }
+
+        // Send notification to client if report type is client report
+        if (report?.type === ReportType.CLIENT) {
+            await sendNotification({
+                title: "تم حذف كشف",
+                content: `تم حذف الكشف برقم ${report.id}`,
+                userID: report.clientReport?.client.id as number
+            });
+        }
+
+        // Send notification to delivery agent if report type is delivery agent report
+        if (report?.type === ReportType.DELIVERY_AGENT) {
+            await sendNotification({
+                title: "تم حذف كشف",
+                content: `تم حذف الكشف برقم ${report.id}`,
+                userID: report.deliveryAgentReport?.deliveryAgent.id as number
+            });
         }
     }
 
     async reactivateReport(data: { params: { reportID: number } }) {
-        await reportsRepository.reactivateReport({
+        const report = await reportsRepository.reactivateReport({
             reportID: data.params.reportID
         });
+
+        // Send notification to client if report type is client report
+        if (report?.type === ReportType.CLIENT) {
+            await sendNotification({
+                title: "تم استعادة كشف",
+                content: `تم استعادة الكشف برقم ${report.id}`,
+                userID: report.clientReport?.client.id as number
+            });
+        }
+
+        // Send notification to delivery agent if report type is delivery agent report
+        if (report?.type === ReportType.DELIVERY_AGENT) {
+            await sendNotification({
+                title: "تم استعادة كشف",
+                content: `تم استعادة الكشف برقم ${report.id}`,
+                userID: report.deliveryAgentReport?.deliveryAgent.id as number
+            });
+        }
     }
 }

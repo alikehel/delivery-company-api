@@ -1,13 +1,15 @@
 import { Router } from "express";
 
-import { signin } from "./auth.controller";
+import { AuthController } from "./auth.controller";
 
+import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 
 const router = Router();
+const authController = new AuthController();
 
 router.route("/auth/signin").post(
-    signin
+    authController.signin
     /*
         #swagger.tags = ['Auth Routes']
 
@@ -70,6 +72,30 @@ router.route("/auth/validate-token").post(
             },
             description: 'Please Log In!'
         }
+    */
+);
+
+router.route("/auth/refresh-token").post(
+    authController.refreshToken
+    /*
+        #swagger.tags = ['Auth Routes']
+    */
+);
+
+router.route("/auth/signout").post(
+    isLoggedIn,
+    authController.signout
+    /*
+        #swagger.tags = ['Auth Routes']
+    */
+);
+
+router.route("/auth/signout/:userID").post(
+    isLoggedIn,
+    isAutherized(["ADMIN", "ADMIN_ASSISTANT", "COMPANY_MANAGER"]),
+    authController.signoutUser
+    /*
+        #swagger.tags = ['Auth Routes']
     */
 );
 

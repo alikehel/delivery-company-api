@@ -25,7 +25,20 @@ export const orderSelect = {
     currentLocation: true,
     createdAt: true,
     updatedAt: true,
-    timeline: true,
+    // timeline: true,
+    processed: true,
+    processedAt: true,
+    processedBy: {
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true
+                }
+            }
+        }
+    },
     forwarded: true,
     forwardedAt: true,
     forwardedBy: {
@@ -70,29 +83,13 @@ export const orderSelect = {
             }
         }
     },
+    oldDeliveryAgentId: true,
     orderProducts: {
         select: {
             quantity: true,
             product: true,
             color: true,
             size: true
-        }
-    },
-    ordersInquiryEmployees: {
-        select: {
-            inquiryEmployee: {
-                select: {
-                    role: true,
-                    user: {
-                        select: {
-                            id: true,
-                            name: true,
-                            phone: true,
-                            avatar: true
-                        }
-                    }
-                }
-            }
         }
     },
     governorate: true,
@@ -213,7 +210,7 @@ export const orderReform = (
     if (!order) {
         return null;
     }
-    const { ordersInquiryEmployees, ...orderReformed } = {
+    const orderReformed = {
         ...order,
         // TODO
         client: {
@@ -227,6 +224,7 @@ export const orderReform = (
             phone: order.deliveryAgent.user.phone,
             deliveryCost: order.deliveryAgent.deliveryCost
         },
+        processedBy: order.processedBy?.user,
         forwardedBy: order.forwardedBy?.user,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,
@@ -261,16 +259,7 @@ export const orderReform = (
             id: order.companyReport?.id,
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
-        },
-        inquiryEmployees: order.ordersInquiryEmployees.map((orderInquiryEmployee) => {
-            return {
-                id: orderInquiryEmployee.inquiryEmployee.user.id,
-                name: orderInquiryEmployee.inquiryEmployee.user.name,
-                phone: orderInquiryEmployee.inquiryEmployee.user.phone,
-                avatar: orderInquiryEmployee.inquiryEmployee.user.avatar,
-                role: orderInquiryEmployee.inquiryEmployee.role
-            };
-        })
+        }
     };
     return orderReformed;
 };
@@ -388,4 +377,30 @@ export const statisticsReformed = (statistics: {
     };
 
     return statisticsReformed;
+};
+
+export const orderTimelineSelect = {
+    id: true,
+    type: true,
+    old: true,
+    new: true,
+    createdAt: true,
+    by: true,
+    message: true
+} satisfies Prisma.OrderTimelineSelect;
+
+export const orderTimelineReform = (
+    timeline: Prisma.OrderTimelineGetPayload<{
+        select: typeof orderTimelineSelect;
+    }>
+) => {
+    return {
+        id: timeline.id,
+        type: timeline.type,
+        date: timeline.createdAt,
+        message: timeline.message,
+        old: timeline.old && JSON.parse(timeline.old as string),
+        new: timeline.new && JSON.parse(timeline.new as string),
+        by: timeline.by && JSON.parse(timeline.by as string)
+    };
 };

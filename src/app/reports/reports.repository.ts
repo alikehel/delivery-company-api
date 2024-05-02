@@ -67,6 +67,8 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost,
                     report: report
                 }
             });
@@ -95,6 +97,7 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -109,6 +112,7 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -119,6 +123,7 @@ export class ReportsRepository {
                 data: {
                     governorate: data.reportData.governorate,
                     orders: orders,
+                    deliveryAgentDeliveryCost: data.reportData.deliveryAgentDeliveryCost,
                     report: report
                 }
             });
@@ -133,6 +138,8 @@ export class ReportsRepository {
                         }
                     },
                     orders: orders,
+                    baghdadDeliveryCost: data.reportData.baghdadDeliveryCost,
+                    governoratesDeliveryCost: data.reportData.governoratesDeliveryCost,
                     report: report
                 }
             });
@@ -401,9 +408,10 @@ export class ReportsRepository {
         const deletedReport = await prisma.report.delete({
             where: {
                 id: data.reportID
-            }
+            },
+            select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 
     async deactivateReport(data: { reportID: number; deletedByID: number }) {
@@ -422,7 +430,7 @@ export class ReportsRepository {
             },
             select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 
     async reactivateReport(data: { reportID: number }) {
@@ -432,8 +440,9 @@ export class ReportsRepository {
             },
             data: {
                 deleted: false
-            }
+            },
+            select: reportSelect
         });
-        return deletedReport;
+        return reportReform(deletedReport);
     }
 }

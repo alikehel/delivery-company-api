@@ -11,23 +11,23 @@
 	<header>
 		<table>
 			<tr>
-				<td>رقم الكشف: <span>{{reportData.id}}</span></td>
-				<td class="title">كشف مندوب</td>
-				<td>عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
+				<td style="width: 25%">رقم الكشف: <span>{{reportData.id}}</span></td>
+				<td style="width: 25%" class="title">كشف مندوب</td>
+				<td style="width: 25%">عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
 						reportData.governoratesOrdersCount}}</span></td>
-				<td rowspan="3"><img src="{{reportData.company.logo}}" /></td>
+				<td style="width: 25%" rowspan="3"><img src="{{reportData.company.logo}}" /></td>
 			</tr>
 			<tr>
-				<td>التاريخ: <span>{{date reportData.createdAt}}</span></td>
-				<td>المندوب: <span>{{reportData.deliveryAgentReport.deliveryAgent.name}}</span></td>
-				<td>عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
-				<td></td>
+				<td style="width: 25%">التاريخ: <span>{{date reportData.createdAt}}</span></td>
+				<td style="width: 25%">المندوب: <span>{{reportData.deliveryAgentReport.deliveryAgent.name}}</span></td>
+				<td style="width: 25%">عدد طلبيات بغداد: <span>{{reportData.baghdadOrdersCount}}</span></td>
+				<td style="width: 25%"></td>
 			</tr>
 			<tr>
-				<td>صافي الشركة: <span>{{currency reportData.companyNet}}</span></td>
-				<td>صافي المندوب: <span>{{currency reportData.deliveryAgentNet}}</span></td>
-				<td>عدد طلبيات المحافظات: <span>{{reportData.governoratesOrdersCount}}</span></td>
-				<td></td>
+				<td style="width: 25%">صافي الشركة: <span>{{currency reportData.companyNet}}</span></td>
+				<td style="width: 25%"></td>
+				<td style="width: 25%">عدد طلبيات المحافظات: <span>{{reportData.governoratesOrdersCount}}</span></td>
+				<td style="width: 25%"></td>
 			</tr>
 		</table>
 	</header>
@@ -59,7 +59,7 @@
 					<td></td>
 					{{/if}}
 					<td>{{mapPhones recipientPhones}}</td>
-					<td>{{recipientAddress}}</td>
+					<td>{{localizeGovernorate governorate}} - {{location.name}} - {{recipientAddress}}</td>
 					<td>{{currency totalCost}}</td>
 					<td>{{currency paidAmount}}</td>
 					<td>{{currency deliveryAgentNet}}</td>
@@ -67,6 +67,15 @@
 				</tr>
 				{{/each}}
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6">المجموع</td>
+					<td>اجمالي مبلغ الوصل: {{currency reportData.totalCost}}</td>
+					<td>اجمالي المبلغ المستلم: {{currency reportData.paidAmount}}</td>
+					<td>اجمالي صافي المندوب: {{currency reportData.deliveryAgentNet}}</td>
+					<td></td>
+				</tr>
+			</tfoot>
 		</table>
 	</main>
 	<footer>التوقيع: <span class="light">______________________________________________</span></footer>

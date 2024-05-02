@@ -64,6 +64,7 @@ enum Permission {
 enum Governorate {
   AL_ANBAR
   BABIL
+  BABIL_COMPANIES
   BAGHDAD
   BASRA
   DHI_QAR
@@ -127,6 +128,25 @@ enum ReportType {
   CLIENT
 }
 
+enum OrderTimelineType {
+  // ID & NAME
+  DELIVERY_AGENT_CHANGE
+  CLIENT_CHANGE
+  REPOSITORY_CHANGE
+  BRANCH_CHANGE
+  // VALUE (INT)
+  PAID_AMOUNT_CHANGE
+  // VALUE (STRING)
+  STATUS_CHANGE
+  CURRENT_LOCATION_CHANGE
+  // ID & TYPE
+  REPORT_CREATE
+  REPORT_DELETE
+  // OTHER
+  ORDER_DELIVERY
+  OTHER
+}
+
 model User {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
   id               Int            @id @default(autoincrement())
@@ -137,6 +157,7 @@ model User {
   name             String
   password         String
   fcm              String         @default("")
+  refreshTokens    String[]
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
   admin            Admin?
@@ -181,6 +202,7 @@ model Employee {
   deliveryAgentsLocations DeliveryAgentsLocations[]
   ordersInquiryEmployees  OrdersInquiryEmployees[]
   forwardedOrders         Order[]                          @relation("forwardedBy")
+  processedOrders         Order[]                          @relation("processedBy")
   user                    User                             @relation(fields: [id], references: [id])
   repository              Repository?                      @relation(fields: [repositoryId], references: [id])
   branch                  Branch?                          @relation(fields: [branchId], references: [id])
@@ -300,7 +322,8 @@ model Branch {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
   id               Int                        @id @default(autoincrement())
   // --- DETAILS --------------------------------------------------------------------------- //
-  name             String                     @unique
+  name             String
+  // TODO: Governorate should be mandatory
   governorate      Governorate?
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -321,6 +344,8 @@ model Branch {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt        DateTime                   @default(now())
   updatedAt        DateTime                   @updatedAt
+
+  @@unique([name, companyId])
 }
 
 model InquiryEmployeesBranches {
@@ -479,7 +504,7 @@ model Order {
   notes                  String                   @default("")
   deliveryType           DeliveryType             @default(NORMAL)
   governorate            Governorate
-  timeline               Json                     @default("[]")
+  timeline               OrderTimeline[]
   currentLocation        String                   @default("")
   deliveryDate           DateTime?
   // --- COSTS ----------------------------------------------------------------------------- //
@@ -497,7 +522,8 @@ model Order {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   clientId               Int
   deliveryAgentId        Int?
-  locationId             Int?
+  oldDeliveryAgentId     Int? // For when relinking the order to the old delivery agent
+  locationId             Int
   storeId                Int
   repositoryId           Int?
   branchId               Int?
@@ -506,7 +532,7 @@ model Order {
   orderProducts          OrderProducts[]
   ordersInquiryEmployees OrdersInquiryEmployees[]
   deliveryAgent          Employee?                @relation(fields: [deliveryAgentId], references: [id], onDelete: SetNull)
-  location               Location?                @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  location               Location                 @relation(fields: [locationId], references: [id])
   client                 Client                   @relation(fields: [clientId], references: [id])
   store                  Store                    @relation(fields: [storeId], references: [id])
   repository             Repository?              @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
@@ -517,6 +543,11 @@ model Order {
   deletedAt              DateTime?
   deletedBy              User?                    @relation("deletedBy", fields: [deletedById], references: [id], onDelete: SetNull)
   deletedById            Int?
+  // --- PROCESSING  --------------------------------------------------------------------------- //
+  processed              Boolean                  @default(false)
+  processedAt            DateTime?
+  processedBy            Employee?                @relation("processedBy", fields: [processedById], references: [id], onDelete: SetNull)
+  processedById          Int?
   // --- FORWARDED --------------------------------------------------------------------------- //
   forwarded              Boolean                  @default(false)
   forwardedAt            DateTime?
@@ -543,6 +574,23 @@ model Order {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
+}
+
+model OrderTimeline {
+  // --- IDENTIFICATION --------------------------------------------------------------------- //
+  id        Int               @id @default(autoincrement())
+  // --- DETAILS --------------------------------------------------------------------------- //
+  type      OrderTimelineType
+  old       Json?
+  new       Json?
+  message   String
+  by        Json
+  // --- FOREIGN KEYS --------------------------------------------------------------------------- //
+  orderId   Int
+  // --- RELATIONS --------------------------------------------------------------------------- //
+  order     Order             @relation(fields: [orderId], references: [id])
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt DateTime          @default(now())
 }
 
 model OrdersInquiryEmployees {
@@ -600,83 +648,82 @@ model Report {
 
 model CompanyReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id        Int     @id
+  id                       Int     @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  companyId Int
+  companyId                Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  report    Report  @relation(fields: [id], references: [id], onDelete: Cascade)
-  orders    Order[]
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  report                   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders                   Order[]
+  company                  Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
+  baghdadDeliveryCost      Float   @default(0)
+  governoratesDeliveryCost Float   @default(0)
 }
 
 model ClientReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id       Int     @id
+  id                       Int     @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  clientId Int
-  storeId  Int?
+  clientId                 Int
+  storeId                  Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
-  client   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  report   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
-  store    Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  orders   Order[]
+  client                   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  report                   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  store                    Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  orders                   Order[]
   // --- OTHER --------------------------------------------------------------------- //
+  baghdadDeliveryCost      Float   @default(0)
+  governoratesDeliveryCost Float   @default(0)
 }
 
 model RepositoryReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  // --- DETAILS --------------------------------------------------------------------------- //
-  // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  // --- RELATIONS --------------------------------------------------------------------------- //
-  // --- TENANT --------------------------------------------------------------------- //
-  // --- OTHER --------------------------------------------------------------------- //
   id           Int        @id
-  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   repositoryId Int
+  // --- RELATIONS --------------------------------------------------------------------------- //
   report       Report     @relation(fields: [id], references: [id], onDelete: Cascade)
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
   orders       Order[]
+  // --- OTHER --------------------------------------------------------------------- //
 }
 
 model BranchReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  // --- DETAILS --------------------------------------------------------------------------- //
+  id                        Int     @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
+  branchId                  Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  // --- TENANT --------------------------------------------------------------------- //
+  branch                    Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  report                    Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
-  id       Int     @id
-  branch   Branch  @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  branchId Int
-  report   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
-  orders   Order[]
+  deliveryAgentDeliveryCost Float   @default(0)
 }
 
 model DeliveryAgentReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  // --- DETAILS --------------------------------------------------------------------------- //
+  id                        Int      @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
+  deliveryAgentId           Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  // --- TENANT --------------------------------------------------------------------- //
+  deliveryAgent             Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
+  report                    Report   @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
-  id              Int      @id
-  deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
-  deliveryAgentId Int
-  report          Report   @relation(fields: [id], references: [id], onDelete: Cascade)
-  orders          Order[]
+  deliveryAgentDeliveryCost Float    @default(0)
 }
 
 model GovernorateReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  // --- DETAILS --------------------------------------------------------------------------- //
+  id                        Int         @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
-  // --- TENANT --------------------------------------------------------------------- //
+  governorate               Governorate
+  report                    Report      @relation(fields: [id], references: [id], onDelete: Cascade)
+  orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
-  id          Int         @id
-  governorate Governorate
-  report      Report      @relation(fields: [id], references: [id], onDelete: Cascade)
-  orders      Order[]
+  deliveryAgentDeliveryCost Float       @default(0)
 }
 
 model Product {

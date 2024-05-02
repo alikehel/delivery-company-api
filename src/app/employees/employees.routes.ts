@@ -7,17 +7,10 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import {
-    createEmployee,
-    deactivateEmployee,
-    deleteEmployee,
-    getAllEmployees,
-    getEmployee,
-    reactivateEmployee,
-    updateEmployee
-} from "./employees.controller";
+import { EmployeesController } from "./employees.controller";
 
 const router = Router();
+const employeesController = new EmployeesController();
 
 router.route("/employees").post(
     isLoggedIn,
@@ -32,7 +25,7 @@ router.route("/employees").post(
     ),
     upload.single("avatar"),
     // upload.none(),
-    createEmployee
+    employeesController.createEmployee
     /*
         #swagger.tags = ['Employees Routes']
 
@@ -60,7 +53,7 @@ router.route("/employees").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllEmployees
+    employeesController.getAllEmployees
     /*
         #swagger.tags = ['Employees Routes']
 
@@ -94,7 +87,7 @@ router.route("/employees/:employeeID").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getEmployee
+    employeesController.getEmployee
     /*
         #swagger.tags = ['Employees Routes']
     */
@@ -105,7 +98,7 @@ router.route("/employees/:employeeID").patch(
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     upload.single("avatar"),
     // upload.none(),
-    updateEmployee
+    employeesController.updateEmployee
     /*
         #swagger.tags = ['Employees Routes']
 
@@ -126,7 +119,7 @@ router.route("/employees/:employeeID").patch(
 router.route("/employees/:employeeID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteEmployee
+    employeesController.deleteEmployee
     /*
         #swagger.tags = ['Employees Routes']
     */
@@ -135,7 +128,7 @@ router.route("/employees/:employeeID").delete(
 router.route("/employees/:employeeID/deactivate").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deactivateEmployee
+    employeesController.deactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']
     */
@@ -145,7 +138,7 @@ router.route("/employees/:employeeID/reactivate").patch(
     isLoggedIn,
     //TODO: Maybe add All Employee Roles for profile update
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    reactivateEmployee
+    employeesController.reactivateEmployee
     /*
         #swagger.tags = ['Employees Routes']
     */

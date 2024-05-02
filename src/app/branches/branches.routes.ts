@@ -5,14 +5,15 @@ import { Router } from "express";
 import { AdminRole, ClientRole, EmployeeRole } from "@prisma/client";
 import { isAutherized } from "../../middlewares/isAutherized";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
-import { createBranch, deleteBranch, getAllBranches, getBranch, updateBranch } from "./branches.controller";
+import { BranchesController } from "./branches.controller";
 
 const router = Router();
+const branchesController = new BranchesController();
 
 router.route("/branches").post(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER]),
-    createBranch
+    branchesController.createBranch
     /*
         #swagger.tags = ['Branches Routes']
 
@@ -40,7 +41,7 @@ router.route("/branches").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllBranches
+    branchesController.getAllBranches
     /*
         #swagger.tags = ['Branches Routes']
 
@@ -61,7 +62,7 @@ router.route("/branches").get(
 router.route("/branches/:branchID").get(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    getBranch
+    branchesController.getBranch
     /*
         #swagger.tags = ['Branches Routes']
     */
@@ -70,7 +71,7 @@ router.route("/branches/:branchID").get(
 router.route("/branches/:branchID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    updateBranch
+    branchesController.updateBranch
     /*
         #swagger.tags = ['Branches Routes']
 
@@ -91,7 +92,7 @@ router.route("/branches/:branchID").patch(
 router.route("/branches/:branchID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteBranch
+    branchesController.deleteBranch
     /*
         #swagger.tags = ['Branches Routes']
     */

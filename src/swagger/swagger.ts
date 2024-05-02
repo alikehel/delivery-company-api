@@ -1,20 +1,20 @@
 import swaggerAutogen from "swagger-autogen";
-import { EmployeeCreateOpenAPISchema, EmployeeUpdateOpenAPISchema } from "../app/employees/employees.zod";
+import { EmployeeCreateOpenAPISchema, EmployeeUpdateOpenAPISchema } from "../app/employees/employees.dto";
 
-import { UserSigninOpenAPISchema } from "./../app/auth/auth.zod";
+import { UserSigninOpenAPISchema } from "../app/auth/auth.dto";
 
 import {
     RepositoryCreateOpenAPISchema,
     RepositoryUpdateOpenAPISchema
-} from "./../app/repositories/repositories.zod";
+} from "../app/repositories/repositories.dto";
 
-import { LocationCreateOpenAPISchema, LocationUpdateOpenAPISchema } from "./../app/locations/locations.zod";
+import { LocationCreateOpenAPISchema, LocationUpdateOpenAPISchema } from "../app/locations/locations.dto";
 
-import { ClientCreateOpenAPISchema, ClientUpdateOpenAPISchema } from "./../app/clients/clients.zod";
+import { ClientCreateOpenAPISchema, ClientUpdateOpenAPISchema } from "../app/clients/clients.dto";
 
-import { BranchCreateOpenAPISchema, BranchUpdateOpenAPISchema } from "./../app/branches/branches.zod";
+import { BranchCreateOpenAPISchema, BranchUpdateOpenAPISchema } from "../app/branches/branches.dto";
 
-import { CompanyCreateOpenAPISchema, CompanyUpdateOpenAPISchema } from "../app/companies/companies.zod";
+import { CompanyCreateOpenAPISchema, CompanyUpdateOpenAPISchema } from "../app/companies/companies.dto";
 
 import {
     OrderCreateOpenAPISchema,
@@ -22,19 +22,19 @@ import {
     OrdersReceiptsCreateOpenAPISchema
 } from "../app/orders/orders.dto";
 
-import { ProductCreateOpenAPISchema, ProductUpdateOpenAPISchema } from "./../app/products/products.zod";
+import { ProductCreateOpenAPISchema, ProductUpdateOpenAPISchema } from "../app/products/products.dto";
 
-import { NotificationUpdateOpenAPISchema } from "./../app/notifications/notifications.zod";
+import { NotificationUpdateOpenAPISchema } from "../app/notifications/notifications.dto";
 
-import { CategoryCreateOpenAPISchema, CategoryUpdateOpenAPISchema } from "./../app/categories/categories.zod";
+import { CategoryCreateOpenAPISchema, CategoryUpdateOpenAPISchema } from "../app/categories/categories.dto";
 
-import { ColorCreateOpenAPISchema, ColorUpdateOpenAPISchema } from "./../app/colors/colors.zod";
+import { ColorCreateOpenAPISchema, ColorUpdateOpenAPISchema } from "../app/colors/colors.dto";
 
-import { SizeCreateOpenAPISchema, SizeUpdateOpenAPISchema } from "./../app/sizes/sizes.zod";
+import { SizeCreateOpenAPISchema, SizeUpdateOpenAPISchema } from "../app/sizes/sizes.dto";
 
-import { StoreCreateOpenAPISchema, StoreUpdateOpenAPISchema } from "./../app/stores/stores.zod";
+import { StoreCreateOpenAPISchema, StoreUpdateOpenAPISchema } from "../app/stores/stores.dto";
 
-import { BannerCreateOpenAPISchema, BannerUpdateOpenAPISchema } from "./../app/banners/banners.zod";
+import { BannerCreateOpenAPISchema, BannerUpdateOpenAPISchema } from "../app/banners/banners.dto";
 
 import { ReportCreateOpenAPISchema, ReportUpdateOpenAPISchema } from "../app/reports/reports.dto";
 

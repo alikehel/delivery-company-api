@@ -4,6 +4,7 @@ import {
     OrderChatNotificationCreateSchema,
     OrderCreateSchema,
     OrderCreateType,
+    OrderTimelineFiltersSchema,
     OrderUpdateSchema,
     OrdersFiltersSchema,
     OrdersReceiptsCreateSchema,
@@ -62,6 +63,7 @@ export class OrdersController {
             productID: req.query.product_id,
             locationID: req.query.location_id,
             receiptNumber: req.query.receipt_number,
+            receiptNumbers: req.query.receipt_numbers,
             recipientName: req.query.recipient_name,
             recipientPhone: req.query.recipient_phone,
             recipientAddress: req.query.recipient_address,
@@ -77,7 +79,8 @@ export class OrdersController {
             minified: req.query.minified,
             forwarded: req.query.forwarded,
             forwardedByID: req.query.forwarded_by_id,
-            forwardedFromID: req.query.forwarded_from_id
+            forwardedFromID: req.query.forwarded_from_id,
+            processed: req.query.processed
         });
 
         const { orders, ordersMetaData, page, pagesCount } = await ordersService.getAllOrders({
@@ -226,8 +229,14 @@ export class OrdersController {
             orderID: +req.params.orderID
         };
 
+        const filters = OrderTimelineFiltersSchema.parse({
+            type: req.query.type,
+            types: req.query.types
+        });
+
         const orderTimeline = await ordersService.getOrderTimeline({
-            params: params
+            params: params,
+            filters: filters
         });
 
         res.status(200).json({
@@ -248,6 +257,21 @@ export class OrdersController {
         res.status(200).json({
             status: "success",
             data: orderChatMembers
+        });
+    });
+
+    getOrderInquiryEmployees = catchAsync(async (req, res) => {
+        const params = {
+            orderID: +req.params.orderID
+        };
+
+        const orderInquiryEmployees = await ordersService.getOrderInquiryEmployees({
+            params: params
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: orderInquiryEmployees
         });
     });
 

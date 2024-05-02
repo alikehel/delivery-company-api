@@ -28,8 +28,8 @@ export const generateHTML = async (template: string, data: object) => {
         handlebars.registerHelper("localizeOrderStatus", (status) => {
             return localizeOrderStatus(status);
         });
-        handlebars.registerHelper("localizeGovernorate", (status) => {
-            return localizeGovernorate(status);
+        handlebars.registerHelper("localizeGovernorate", (governorate) => {
+            return localizeGovernorate(governorate);
         });
 
         const compiledTemplate = handlebars.compile(template, { strict: true });

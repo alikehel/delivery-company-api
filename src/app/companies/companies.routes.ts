@@ -7,22 +7,17 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import {
-    createCompany,
-    deleteCompany,
-    getAllCompanies,
-    getCompany,
-    updateCompany
-} from "./companies.controller";
+import { CompaniesController } from "./companies.controller";
 
 const router = Router();
+const companiesController = new CompaniesController();
 
 router.route("/companies").post(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     upload.single("logo"),
     // upload.none(),
-    createCompany
+    companiesController.createCompany
     /*
         #swagger.tags = ['Companies Routes']
 
@@ -50,7 +45,7 @@ router.route("/companies").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllCompanies
+    companiesController.getAllCompanies
     /*
         #swagger.tags = ['Companies Routes']
 
@@ -71,7 +66,7 @@ router.route("/companies").get(
 router.route("/companies/:companyID").get(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    getCompany
+    companiesController.getCompany
     /*
         #swagger.tags = ['Companies Routes']
     */
@@ -82,7 +77,7 @@ router.route("/companies/:companyID").patch(
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
     upload.single("logo"),
     // upload.none(),
-    updateCompany
+    companiesController.updateCompany
     /*
         #swagger.tags = ['Companies Routes']
 
@@ -103,7 +98,7 @@ router.route("/companies/:companyID").patch(
 router.route("/companies/:companyID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    deleteCompany
+    companiesController.deleteCompany
     /*
         #swagger.tags = ['Companies Routes']
     */

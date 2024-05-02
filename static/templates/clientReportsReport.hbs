@@ -45,6 +45,8 @@
 					<th>صافي الشركة</th>
 					<th>طلبيات بغداد</th>
 					<th>طلبيات المحافظات</th>
+					<th>اجور بغداد</th>
+					<th>اجور المحافظات</th>
 					<th>التاريخ</th>
 				</tr>
 			</thead>
@@ -61,6 +63,8 @@
 					<td>{{currency companyNet}}</td>
 					<td>{{baghdadOrdersCount}}</td>
 					<td>{{governoratesOrdersCount}}</td>
+					<td>{{currency clientReport.baghdadDeliveryCost}}</td>
+					<td>{{currency clientReport.governoratesDeliveryCost}}</td>
 					<td>{{date createdAt}}</td>
 				</tr>
 				{{/each}}

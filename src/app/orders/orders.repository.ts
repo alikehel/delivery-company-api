@@ -1,21 +1,29 @@
-import { Governorate, OrderStatus, Prisma } from "@prisma/client";
+import { Governorate, OrderStatus, Prisma, SecondaryStatus } from "@prisma/client";
 import { prisma } from "../../database/db";
 import { AppError } from "../../lib/AppError";
 import { loggedInUserType } from "../../types/user";
 import { ReportCreateOrdersFiltersType } from "../reports/reports.dto";
 import {
     OrderCreateType,
-    OrderTimelineType,
+    OrderTimelineFiltersType,
+    OrderTimelinePieceType,
     OrderUpdateType,
     OrdersFiltersType,
     OrdersStatisticsFiltersType
 } from "./orders.dto";
-import { orderReform, orderSelect, statisticsReformed } from "./orders.responses";
+import {
+    orderReform,
+    orderSelect,
+    orderTimelineReform,
+    orderTimelineSelect,
+    statisticsReformed
+} from "./orders.responses";
 
 export class OrdersRepository {
     async createOrder(data: {
         companyID: number;
         clientID: number;
+        deliveryAgentID?: number;
         loggedInUser: loggedInUserType;
         orderData: OrderCreateType;
     }) {
@@ -246,13 +254,11 @@ export class OrdersRepository {
                           }
                       }
                     : undefined,
-                location: data.orderData.locationID
-                    ? {
-                          connect: {
-                              id: data.orderData.locationID
-                          }
-                      }
-                    : undefined,
+                location: {
+                    connect: {
+                        id: data.orderData.locationID
+                    }
+                },
                 store: {
                     connect: {
                         id: data.orderData.storeID
@@ -300,6 +306,8 @@ export class OrdersRepository {
                       }
                     : undefined,
                 confirmed: data.orderData.forwardedCompanyID ? false : data.orderData.confirmed,
+                status: data.orderData.status,
+                deliveryAgent: data.deliveryAgentID ? { connect: { id: data.deliveryAgentID } } : undefined,
                 orderProducts:
                     data.orderData.withProducts === false
                         ? undefined
@@ -582,6 +590,11 @@ export class OrdersRepository {
                 {
                     receiptNumber: data.filters.receiptNumber
                 },
+                {
+                    receiptNumber: data.filters.receiptNumbers
+                        ? { in: data.filters.receiptNumbers }
+                        : undefined
+                },
                 // Filter by recipientName
                 {
                     recipientName: data.filters.recipientName
@@ -620,57 +633,141 @@ export class OrdersRepository {
                 },
                 // Filter by clientReport
                 {
-                    clientReport:
-                        data.filters.clientReport === "true"
-                            ? { isNot: null }
-                            : data.filters.clientReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.clientReport === "true"
+                                    ? [
+                                          { clientReport: { isNot: null } },
+                                          { clientReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.clientReport === "false"
+                                    ? [
+                                          { clientReport: { is: null } },
+                                          { clientReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by repositoryReport
                 {
-                    repositoryReport:
-                        data.filters.repositoryReport === "true"
-                            ? { isNot: null }
-                            : data.filters.repositoryReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.repositoryReport === "true"
+                                    ? [
+                                          { repositoryReport: { isNot: null } },
+                                          { repositoryReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.repositoryReport === "false"
+                                    ? [
+                                          { repositoryReport: { is: null } },
+                                          { repositoryReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by branchReport
                 {
-                    branchReport:
-                        data.filters.branchReport === "true"
-                            ? { isNot: null }
-                            : data.filters.branchReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.branchReport === "true"
+                                    ? [
+                                          { branchReport: { isNot: null } },
+                                          { branchReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.branchReport === "false"
+                                    ? [
+                                          { branchReport: { is: null } },
+                                          { branchReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by deliveryAgentReport
                 {
-                    deliveryAgentReport:
-                        data.filters.deliveryAgentReport === "true"
-                            ? { isNot: null }
-                            : data.filters.deliveryAgentReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.deliveryAgentReport === "true"
+                                    ? [
+                                          { deliveryAgentReport: { isNot: null } },
+                                          { deliveryAgentReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.deliveryAgentReport === "false"
+                                    ? [
+                                          { deliveryAgentReport: { is: null } },
+                                          { deliveryAgentReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by governorateReport
                 {
-                    governorateReport:
-                        data.filters.governorateReport === "true"
-                            ? { isNot: null }
-                            : data.filters.governorateReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.governorateReport === "true"
+                                    ? [
+                                          { governorateReport: { isNot: null } },
+                                          { governorateReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.governorateReport === "false"
+                                    ? [
+                                          { governorateReport: { is: null } },
+                                          { governorateReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by companyReport
                 {
-                    companyReport:
-                        data.filters.companyReport === "true"
-                            ? { isNot: null }
-                            : data.filters.companyReport === "false"
-                              ? { is: null }
-                              : undefined
+                    AND: [
+                        {
+                            AND:
+                                data.filters.companyReport === "true"
+                                    ? [
+                                          { companyReport: { isNot: null } },
+                                          { companyReport: { report: { deleted: false } } }
+                                      ]
+                                    : undefined
+                        },
+                        {
+                            OR:
+                                data.filters.companyReport === "false"
+                                    ? [
+                                          { companyReport: { is: null } },
+                                          { companyReport: { report: { deleted: true } } }
+                                      ]
+                                    : undefined
+                        }
+                    ]
                 },
                 // Filter by automaticUpdateID
                 {
@@ -690,6 +787,9 @@ export class OrdersRepository {
                 },
                 {
                     forwarded: data.filters.forwarded
+                },
+                {
+                    processed: data.filters.processed
                 },
                 {
                     forwardedBy: {
@@ -790,87 +890,87 @@ export class OrdersRepository {
             }
         );
 
-        // const ordersReformed = paginatedOrders.data.map(orderReform);
+        const ordersReformed = paginatedOrders.data.map(orderReform);
 
         //TODO: MUST BE DELETED AND ONLY USED IN GET ONE ORDER
-        const ordersReformed: Array<ReturnType<typeof orderReform>> = [];
-        for (const order of paginatedOrders.data) {
-            const inquiryEmployees =
-                (
-                    await prisma.employee.findMany({
-                        where: {
-                            AND: [
-                                { role: "INQUIRY_EMPLOYEE" },
-                                {
-                                    OR: [
-                                        {
-                                            inquiryBranches: order?.branch?.id
-                                                ? {
-                                                      some: {
-                                                          branchId: order.branch.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryStores: order?.store.id
-                                                ? {
-                                                      some: {
-                                                          storeId: order.store.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryCompanies: order?.company.id
-                                                ? {
-                                                      some: {
-                                                          companyId: order.company.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        },
-                                        {
-                                            inquiryLocations: order?.location?.id
-                                                ? {
-                                                      some: {
-                                                          locationId: order.location.id
-                                                      }
-                                                  }
-                                                : undefined
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        select: {
-                            user: {
-                                select: {
-                                    id: true,
-                                    name: true,
-                                    phone: true,
-                                    avatar: true
-                                }
-                            },
-                            role: true
-                        }
-                    })
-                ).map((inquiryEmployee) => {
-                    return {
-                        id: inquiryEmployee.user?.id ?? null,
-                        name: inquiryEmployee.user?.name ?? null,
-                        phone: inquiryEmployee.user?.phone ?? null,
-                        avatar: inquiryEmployee.user?.avatar ?? null,
-                        role: inquiryEmployee.role
-                    };
-                }) ?? [];
+        // const ordersReformed: Array<ReturnType<typeof orderReform>> = [];
+        // for (const order of paginatedOrders.data) {
+        //     const inquiryEmployees =
+        //         (
+        //             await prisma.employee.findMany({
+        //                 where: {
+        //                     AND: [
+        //                         { role: "INQUIRY_EMPLOYEE" },
+        //                         {
+        //                             OR: [
+        //                                 {
+        //                                     inquiryBranches: order?.branch?.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   branchId: order.branch.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryStores: order?.store.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   storeId: order.store.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryCompanies: order?.company.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   companyId: order.company.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 },
+        //                                 {
+        //                                     inquiryLocations: order?.location?.id
+        //                                         ? {
+        //                                               some: {
+        //                                                   locationId: order.location.id
+        //                                               }
+        //                                           }
+        //                                         : undefined
+        //                                 }
+        //                             ]
+        //                         }
+        //                     ]
+        //                 },
+        //                 select: {
+        //                     user: {
+        //                         select: {
+        //                             id: true,
+        //                             name: true,
+        //                             phone: true,
+        //                             avatar: true
+        //                         }
+        //                     },
+        //                     role: true
+        //                 }
+        //             })
+        //         ).map((inquiryEmployee) => {
+        //             return {
+        //                 id: inquiryEmployee.user?.id ?? null,
+        //                 name: inquiryEmployee.user?.name ?? null,
+        //                 phone: inquiryEmployee.user?.phone ?? null,
+        //                 avatar: inquiryEmployee.user?.avatar ?? null,
+        //                 role: inquiryEmployee.role
+        //             };
+        //         }) ?? [];
 
-            // @ts-expect-error Fix later
-            ordersReformed.push({
-                ...orderReform(order),
-                inquiryEmployees: [...(orderReform(order)?.inquiryEmployees || []), ...inquiryEmployees]
-            });
-        }
+        //     // @ts-expect-error Fix later
+        //     ordersReformed.push({
+        //         ...orderReform(order),
+        //         inquiryEmployees: [...(orderReform(order)?.inquiryEmployees || []), ...inquiryEmployees]
+        //     });
+        // }
 
         // const reformedOrder = orderReform(order);
         // return {
@@ -954,80 +1054,81 @@ export class OrdersRepository {
             },
             select: orderSelect
         });
-        const inquiryEmployees =
-            (
-                await prisma.employee.findMany({
-                    where: {
-                        AND: [
-                            { role: "INQUIRY_EMPLOYEE" },
-                            {
-                                OR: [
-                                    {
-                                        inquiryBranches: order?.branch?.id
-                                            ? {
-                                                  some: {
-                                                      branchId: order.branch.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryStores: order?.store.id
-                                            ? {
-                                                  some: {
-                                                      storeId: order.store.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryCompanies: order?.company.id
-                                            ? {
-                                                  some: {
-                                                      companyId: order.company.id
-                                                  }
-                                              }
-                                            : undefined
-                                    },
-                                    {
-                                        inquiryLocations: order?.location?.id
-                                            ? {
-                                                  some: {
-                                                      locationId: order.location.id
-                                                  }
-                                              }
-                                            : undefined
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    select: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true,
-                                phone: true,
-                                avatar: true
-                            }
-                        },
-                        role: true
-                    }
-                })
-            ).map((inquiryEmployee) => {
-                return {
-                    id: inquiryEmployee.user?.id ?? null,
-                    name: inquiryEmployee.user?.name ?? null,
-                    phone: inquiryEmployee.user?.phone ?? null,
-                    avatar: inquiryEmployee.user?.avatar ?? null,
-                    role: inquiryEmployee.role
-                };
-            }) ?? [];
+        // const inquiryEmployees =
+        //     (
+        //         await prisma.employee.findMany({
+        //             where: {
+        //                 AND: [
+        //                     { role: "INQUIRY_EMPLOYEE" },
+        //                     {
+        //                         OR: [
+        //                             {
+        //                                 inquiryBranches: order?.branch?.id
+        //                                     ? {
+        //                                           some: {
+        //                                               branchId: order.branch.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryStores: order?.store.id
+        //                                     ? {
+        //                                           some: {
+        //                                               storeId: order.store.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryCompanies: order?.company.id
+        //                                     ? {
+        //                                           some: {
+        //                                               companyId: order.company.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             },
+        //                             {
+        //                                 inquiryLocations: order?.location?.id
+        //                                     ? {
+        //                                           some: {
+        //                                               locationId: order.location.id
+        //                                           }
+        //                                       }
+        //                                     : undefined
+        //                             }
+        //                         ]
+        //                     }
+        //                 ]
+        //             },
+        //             select: {
+        //                 user: {
+        //                     select: {
+        //                         id: true,
+        //                         name: true,
+        //                         phone: true,
+        //                         avatar: true
+        //                     }
+        //                 },
+        //                 role: true
+        //             }
+        //         })
+        //     ).map((inquiryEmployee) => {
+        //         return {
+        //             id: inquiryEmployee.user?.id ?? null,
+        //             name: inquiryEmployee.user?.name ?? null,
+        //             phone: inquiryEmployee.user?.phone ?? null,
+        //             avatar: inquiryEmployee.user?.avatar ?? null,
+        //             role: inquiryEmployee.role
+        //         };
+        //     }) ?? [];
         const reformedOrder = orderReform(order);
-        return {
-            ...reformedOrder,
-            inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
-        };
+        return reformedOrder;
+        // return {
+        //     ...reformedOrder,
+        //     inquiryEmployees: [...(reformedOrder?.inquiryEmployees || []), ...inquiryEmployees]
+        // };
     }
 
     async updateOrdersCosts(data: {
@@ -1177,7 +1278,9 @@ export class OrdersRepository {
             },
             data: {
                 quantity: data.orderData.quantity,
+                totalCost: data.orderData.totalCost,
                 paidAmount: data.orderData.paidAmount,
+                receiptNumber: data.orderData.receiptNumber,
                 clientNet: clientNet,
                 deliveryAgentNet: deliveryAgentCost,
                 companyNet: companyNet,
@@ -1219,13 +1322,22 @@ export class OrdersRepository {
                           }
                       }
                     : undefined,
-                deliveryAgent: data.orderData.deliveryAgentID
-                    ? {
-                          connect: {
-                              id: data.orderData.deliveryAgentID
+                processed: data.orderData.processed,
+                processedAt: data.orderData.processed ? new Date() : undefined,
+                processedBy: data.orderData.processed ? { connect: { id: data.loggedInUser.id } } : undefined,
+                deliveryAgent:
+                    // unlink delivery agent if null
+                    data.orderData.deliveryAgentID === null
+                        ? {
+                              disconnect: true
                           }
-                      }
-                    : undefined,
+                        : data.orderData.deliveryAgentID !== undefined
+                          ? {
+                                  connect: {
+                                      id: data.orderData.deliveryAgentID
+                                  }
+                              }
+                          : undefined,
                 repository: data.orderData.repositoryID
                     ? {
                           connect: {
@@ -1540,34 +1652,53 @@ export class OrdersRepository {
         });
     }
 
-    async getOrderTimeline(data: { orderID: number }) {
-        const orderTimeline = await prisma.order.findUnique({
+    async getOrderTimeline(data: { params: { orderID: number }; filters: OrderTimelineFiltersType }) {
+        const orderTimeline = await prisma.orderTimeline.findMany({
             where: {
-                id: data.orderID
+                orderId: data.params.orderID,
+                type: data.filters.types ? { in: data.filters.types } : data.filters.type
             },
-            select: {
-                timeline: true
-            }
+            select: orderTimelineSelect
         });
-        return orderTimeline;
+        return orderTimeline.map(orderTimelineReform);
     }
 
     async updateOrderTimeline(data: {
         orderID: number;
-        timeline: OrderTimelineType;
+        data: OrderTimelinePieceType;
+        // {
+        //     type: OrderTimelineType;
+        //     by: {
+        //         id: number;
+        //         name: string;
+        //     };
+        //     old: {
+        //         id: number;
+        //         value: string;
+        //     } | null;
+        //     new: {
+        //         id: number;
+        //         value: string;
+        //     } | null;
+        //     message: string;
+        //     date: Date;
+        // };
     }) {
-        const updatedOrderTimeline = await prisma.order.update({
-            where: {
-                id: data.orderID
-            },
+        await prisma.orderTimeline.create({
             data: {
-                timeline: data.timeline
-            },
-            select: {
-                timeline: true
+                order: {
+                    connect: {
+                        id: data.orderID
+                    }
+                },
+                type: data.data.type,
+                by: JSON.stringify(data.data.by),
+                old: JSON.stringify(data.data.old),
+                new: JSON.stringify(data.data.new),
+                message: data.data.message,
+                createdAt: data.data.date
             }
         });
-        return updatedOrderTimeline;
     }
 
     async getOrderChatMembers(data: { orderID: number }) {
@@ -1636,64 +1767,7 @@ export class OrdersRepository {
             }
         });
 
-        const inquiryEmployees = await prisma.employee.findMany({
-            where: {
-                AND: [
-                    { role: "INQUIRY_EMPLOYEE" },
-                    {
-                        OR: [
-                            {
-                                inquiryBranches: order?.branchId
-                                    ? {
-                                          some: {
-                                              branchId: order.branchId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryStores: order?.storeId
-                                    ? {
-                                          some: {
-                                              storeId: order.storeId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryCompanies: order?.companyId
-                                    ? {
-                                          some: {
-                                              companyId: order.companyId
-                                          }
-                                      }
-                                    : undefined
-                            },
-                            {
-                                inquiryLocations: order?.locationId
-                                    ? {
-                                          some: {
-                                              locationId: order.locationId
-                                          }
-                                      }
-                                    : undefined
-                            }
-                        ]
-                    }
-                ]
-            },
-            select: {
-                user: {
-                    select: {
-                        id: true,
-                        name: true,
-                        phone: true,
-                        avatar: true
-                    }
-                },
-                role: true
-            }
-        });
+        const inquiryEmployees = await this.getOrderInquiryEmployees({ orderID: data.orderID });
 
         // array of chat members with no nulls
 
@@ -1725,15 +1799,7 @@ export class OrdersRepository {
                     role: orderInquiryEmployee.inquiryEmployee.role
                 };
             }) ?? []),
-            ...(inquiryEmployees?.map((inquiryEmployee) => {
-                return {
-                    id: inquiryEmployee.user?.id ?? null,
-                    name: inquiryEmployee.user?.name ?? null,
-                    phone: inquiryEmployee.user?.phone ?? null,
-                    avatar: inquiryEmployee.user?.avatar ?? null,
-                    role: inquiryEmployee.role
-                };
-            }) ?? [])
+            ...(inquiryEmployees ?? [])
         ].filter((chatMember) => {
             return chatMember !== null;
         });
@@ -1741,16 +1807,101 @@ export class OrdersRepository {
         return chatMembers;
     }
 
-    async getClientIDByStoreID(data: { storeID: number }) {
-        const store = await prisma.store.findUnique({
+    async getOrderInquiryEmployees(data: { orderID: number }) {
+        const order = await prisma.order.findUnique({
             where: {
-                id: data.storeID
+                id: data.orderID
             },
             select: {
-                clientId: true
+                branchId: true,
+                storeId: true,
+                companyId: true,
+                locationId: true,
+                status: true,
+                governorate: true
             }
         });
-        return store?.clientId;
+
+        const inquiryEmployees =
+            (
+                await prisma.employee.findMany({
+                    where: {
+                        AND: [
+                            { role: "INQUIRY_EMPLOYEE" },
+                            {
+                                OR: [
+                                    {
+                                        inquiryBranches: order?.branchId
+                                            ? {
+                                                  some: {
+                                                      branchId: order.branchId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryStores: order?.storeId
+                                            ? {
+                                                  some: {
+                                                      storeId: order.storeId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryCompanies: order?.companyId
+                                            ? {
+                                                  some: {
+                                                      companyId: order.companyId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryLocations: order?.locationId
+                                            ? {
+                                                  some: {
+                                                      locationId: order.locationId
+                                                  }
+                                              }
+                                            : undefined
+                                    },
+                                    // TODO
+                                    {
+                                        inquiryGovernorates: order?.governorate
+                                            ? { has: order.governorate }
+                                            : undefined
+                                    },
+                                    {
+                                        inquiryStatuses: order?.status ? { has: order.status } : undefined
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    select: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                avatar: true
+                            }
+                        },
+                        role: true
+                    }
+                })
+            ).map((inquiryEmployee) => {
+                return {
+                    id: inquiryEmployee.user?.id ?? null,
+                    name: inquiryEmployee.user?.name ?? null,
+                    phone: inquiryEmployee.user?.phone ?? null,
+                    avatar: inquiryEmployee.user?.avatar ?? null,
+                    role: inquiryEmployee.role
+                };
+            }) ?? [];
+
+        return inquiryEmployees;
     }
 
     async getOrderStatus(data: { orderID: number }) {
@@ -1763,5 +1914,22 @@ export class OrdersRepository {
             }
         });
         return order;
+    }
+
+    async updateOrdersSecondaryStatus(data: {
+        ordersIDs: number[];
+        secondaryStatus: SecondaryStatus;
+    }) {
+        const updatedOrders = await prisma.order.updateMany({
+            where: {
+                id: {
+                    in: data.ordersIDs
+                }
+            },
+            data: {
+                secondaryStatus: data.secondaryStatus
+            }
+        });
+        return updatedOrders;
     }
 }

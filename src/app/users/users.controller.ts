@@ -1,18 +1,20 @@
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
-import { UserModel } from "./user.model";
+import { UsersRepository } from "./users.repository";
 
-const userModel = new UserModel();
+const usersRepository = new UsersRepository();
 
-export const getProfile = catchAsync(async (_req, res) => {
-    const loggedInUser = res.locals.user as loggedInUserType;
+export class UsersController {
+    getProfile = catchAsync(async (_req, res) => {
+        const loggedInUser = res.locals.user as loggedInUserType;
 
-    const profile = await userModel.getUser({
-        userID: loggedInUser.id
+        const profile = await usersRepository.getUser({
+            userID: loggedInUser.id
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: profile
+        });
     });
-
-    res.status(200).json({
-        status: "success",
-        data: profile
-    });
-});
+}

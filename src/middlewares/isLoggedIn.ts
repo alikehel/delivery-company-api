@@ -19,7 +19,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         // IS TOKEN VALID
         const { id, name, username, role, permissions, companyID, companyName } = jwt.verify(
             token,
-            env.JWT_SECRET as string
+            env.ACCESS_TOKEN_SECRET as string
         ) as loggedInUserType;
 
         // TODO: Check if user still exists
@@ -40,8 +40,6 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
         // GRANT ACCESS
         return next();
     } catch (err) {
-        res.status(401).json({
-            status: "جلسة تسجيل الدخول منتهية"
-        });
+        return next(new AppError("الرجاء تسجيل الدخول", 401));
     }
 };

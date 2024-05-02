@@ -1,8 +1,8 @@
 import admin from "firebase-admin";
 import { env } from "../../../config";
 import { Logger } from "../../../lib/logger";
-import { NotificationModel } from "../notification.model";
-import { NotificationCreateType } from "../notifications.zod";
+import { NotificationCreateType } from "../notifications.dto";
+import { NotificationsRepository } from "../notifications.repository";
 
 admin.initializeApp({
     credential: admin.credential.cert({
@@ -12,10 +12,10 @@ admin.initializeApp({
     })
 });
 
-const notificationModel = new NotificationModel();
+const notificationsRepository = new NotificationsRepository();
 
 export const sendNotification = async (data: NotificationCreateType) => {
-    const createdNotification = await notificationModel.createNotification(data);
+    const createdNotification = await notificationsRepository.createNotification(data);
 
     const user = createdNotification?.user;
 

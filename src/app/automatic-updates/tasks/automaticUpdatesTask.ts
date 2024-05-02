@@ -1,9 +1,11 @@
-import { OrderStatus } from "@prisma/client";
 import { prisma } from "../../../database/db";
 import { localizeOrderStatus } from "../../../lib/localize";
 import { Logger } from "../../../lib/logger";
 import { sendNotification } from "../../notifications/helpers/sendNotification";
-import { OrderTimelineType } from "../../orders/orders.dto";
+import { OrdersRepository } from "../../orders/orders.repository";
+// import { OrderTimelineType } from "../../orders/orders.dto";
+
+const ordersRepository = new OrdersRepository();
 
 export const automaticUpdatesTask = async () => {
     try {
@@ -68,7 +70,6 @@ export const automaticUpdatesTask = async () => {
                     select: {
                         id: true,
                         status: true,
-                        timeline: true,
                         updatedAt: true,
                         createdAt: true,
                         client: {
@@ -96,22 +97,6 @@ export const automaticUpdatesTask = async () => {
                         continue;
                     }
 
-                    const timeline: OrderTimelineType = [
-                        // @ts-expect-error Fix later
-                        ...order.timeline,
-                        {
-                            type: "STATUS_CHANGE",
-                            old: order.status,
-                            new: OrderStatus.DELIVERED,
-                            date: new Date(),
-                            by: {
-                                id: 0,
-                                name: "التحديث التلقائي",
-                                role: "SYSTEM"
-                            }
-                        }
-                    ] satisfies OrderTimelineType;
-
                     await prisma.order.update({
                         where: {
                             id: order.id
@@ -119,12 +104,32 @@ export const automaticUpdatesTask = async () => {
                         data: {
                             status: automaticUpdate.newOrderStatus,
                             secondaryStatus: automaticUpdate.returnCondition,
-                            timeline: timeline,
                             automaticUpdate: {
                                 connect: {
                                     id: automaticUpdate.id
                                 }
                             }
+                        }
+                    });
+
+                    await ordersRepository.updateOrderTimeline({
+                        orderID: order.id,
+                        data: {
+                            type: "STATUS_CHANGE",
+                            date: order.updatedAt,
+                            old: {
+                                value: order.status
+                            },
+                            new: {
+                                value: automaticUpdate.newOrderStatus
+                            },
+                            by: {
+                                id: 0,
+                                name: "التحديث التلقائي"
+                            },
+                            message: `تم تغيير حالة الطلب من ${localizeOrderStatus(
+                                order.status
+                            )} إلى ${localizeOrderStatus(automaticUpdate.newOrderStatus)}`
                         }
                     });
 

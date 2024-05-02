@@ -7,17 +7,10 @@ import { isAutherized } from "../../middlewares/isAutherized";
 // import { isAutherized } from "../../middlewares/isAutherized.middleware";
 import { isLoggedIn } from "../../middlewares/isLoggedIn";
 import { upload } from "../../middlewares/upload";
-import {
-    createStore,
-    deactivateStore,
-    deleteStore,
-    getAllStores,
-    getStore,
-    reactivateStore,
-    updateStore
-} from "./stores.controller";
+import { StoresController } from "./stores.controller";
 
 const router = Router();
+const storesController = new StoresController();
 
 router.route("/stores").post(
     isLoggedIn,
@@ -34,7 +27,7 @@ router.route("/stores").post(
     ),
     upload.single("logo"),
     // upload.none(),
-    createStore
+    storesController.createStore
     /*
         #swagger.tags = ['Stores Routes']
 
@@ -67,7 +60,7 @@ router.route("/stores").get(
         ...Object.values(EmployeeRole),
         ...Object.values(ClientRole)
     ]),
-    getAllStores
+    storesController.getAllStores
     /*
         #swagger.tags = ['Stores Routes']
 
@@ -97,7 +90,7 @@ router.route("/stores/:storeID").get(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    getStore
+    storesController.getStore
     /*
         #swagger.tags = ['Stores Routes']
     */
@@ -117,7 +110,7 @@ router.route("/stores/:storeID").patch(
     ]),
     upload.single("logo"),
     // upload.none(),
-    updateStore
+    storesController.updateStore
     /*
         #swagger.tags = ['Stores Routes']
 
@@ -138,7 +131,7 @@ router.route("/stores/:storeID").patch(
 router.route("/stores/:storeID").delete(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
-    deleteStore
+    storesController.deleteStore
     /*
         #swagger.tags = ['Stores Routes']
     */
@@ -156,7 +149,7 @@ router.route("/stores/:storeID/deactivate").patch(
         ClientRole.CLIENT,
         EmployeeRole.CLIENT_ASSISTANT
     ]),
-    deactivateStore
+    storesController.deactivateStore
     /*
         #swagger.tags = ['Stores Routes']
     */
@@ -165,7 +158,7 @@ router.route("/stores/:storeID/deactivate").patch(
 router.route("/stores/:storeID/reactivate").patch(
     isLoggedIn,
     isAutherized([AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT, EmployeeRole.COMPANY_MANAGER]),
-    reactivateStore
+    storesController.reactivateStore
     /*
         #swagger.tags = ['Stores Routes']
     */

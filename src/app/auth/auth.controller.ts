@@ -5,64 +5,169 @@ import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import { loggedInUserType } from "../../types/user";
 import { sendNotification } from "../notifications/helpers/sendNotification";
-import { UserModel } from "../users/user.model";
-import { AuthModel } from "./auth.model";
-import { UserSigninSchema } from "./auth.zod";
+import { UsersRepository } from "../users/users.repository";
+import { RefreshTokenSchema, UserSigninSchema } from "./auth.dto";
+import { AuthRepository } from "./auth.repository";
 
-const authModel = new AuthModel();
-const userModel = new UserModel();
+const authModel = new AuthRepository();
+const usersRepository = new UsersRepository();
 
-export const signin = catchAsync(async (req, res) => {
-    const user = UserSigninSchema.parse(req.body);
+export class AuthController {
+    signin = catchAsync(async (req, res) => {
+        const user = UserSigninSchema.parse(req.body);
 
-    const returnedUser = await authModel.signin(user);
+        const returnedUser = await authModel.signin(user);
 
-    if (!returnedUser) {
-        throw new AppError("User not found", 400);
-    }
+        if (!returnedUser) {
+            throw new AppError("User not found", 400);
+        }
 
-    const isValidPassword = bcrypt.compareSync(user.password + (env.SECRET as string), returnedUser.password);
+        const isValidPassword = bcrypt.compareSync(
+            user.password + (env.PASSWORD_SALT as string),
+            returnedUser.password
+        );
 
-    if (!isValidPassword) {
-        throw new AppError("كلمة المرور غير صحيحة", 400);
-    }
+        if (!isValidPassword) {
+            throw new AppError("كلمة المرور غير صحيحة", 400);
+        }
 
-    const token = jwt.sign(
-        {
-            id: returnedUser?.id,
-            name: returnedUser.name,
-            username: user.username,
-            role: returnedUser.role,
-            permissions: returnedUser.permissions,
-            companyID: returnedUser.companyID,
-            companyName: returnedUser.companyName
-        } as loggedInUserType,
-        env.JWT_SECRET as string,
-        { expiresIn: env.JWT_EXPIRES_IN }
-    );
-    res.cookie("jwt", token, {
-        httpOnly: true,
-        secure: true
-        // expires: JWT_EXPIRES_IN
-    });
-    res.setHeader("Authorization", `Bearer ${token}`);
+        const token = jwt.sign(
+            {
+                id: returnedUser?.id,
+                name: returnedUser.name,
+                username: user.username,
+                role: returnedUser.role,
+                permissions: returnedUser.permissions,
+                companyID: returnedUser.companyID,
+                companyName: returnedUser.companyName
+            } as loggedInUserType,
+            env.ACCESS_TOKEN_SECRET as string,
+            { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }
+        );
 
-    res.status(201).json({
-        status: "success",
-        // data: { returnedUser },
-        token: token
-    });
+        const refreshToken = jwt.sign(
+            {
+                id: returnedUser?.id
+            },
+            env.REFRESH_TOKEN_SECRET as string,
+            { expiresIn: env.REFRESH_TOKEN_EXPIRES_IN }
+        );
 
-    if (user.fcm) {
-        await userModel.updateUser({
+        await usersRepository.updateUser({
             userID: returnedUser.id,
-            userData: { fcm: user.fcm }
+            userData: { refreshToken }
         });
-    }
 
-    await sendNotification({
-        userID: returnedUser.id,
-        title: "تم تسجيل الدخول",
-        content: ""
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true
+            // expires: JWT_EXPIRES_IN
+        });
+        res.setHeader("Authorization", `Bearer ${token}`);
+
+        res.status(201).json({
+            status: "success",
+            token: token,
+            refreshToken: refreshToken
+        });
+
+        if (user.fcm) {
+            await usersRepository.updateUser({
+                userID: returnedUser.id,
+                userData: { fcm: user.fcm }
+            });
+        }
+
+        await sendNotification({
+            userID: returnedUser.id,
+            title: "تم تسجيل الدخول",
+            content: ""
+        });
+
+        // Clear invalid refresh tokens
+        const refreshTokens = await usersRepository.getUserRefreshTokens(returnedUser.id);
+        if (refreshTokens) {
+            const validRefreshTokens = refreshTokens.filter((token) => {
+                try {
+                    jwt.verify(token, env.REFRESH_TOKEN_SECRET as string);
+                    return true;
+                } catch (err) {
+                    return false;
+                }
+            });
+            await usersRepository.updateUser({
+                userID: returnedUser.id,
+                userData: { refreshTokens: validRefreshTokens }
+            });
+        }
     });
-});
+
+    refreshToken = catchAsync(async (req, res) => {
+        try {
+            const refreshToken = RefreshTokenSchema.parse(req.body).refreshToken;
+
+            // 1) Check if token is valid
+            const decoded = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET as string) as {
+                id: number;
+            };
+
+            // 2) Check if refresh token is in the database
+            const refreshTokens = await usersRepository.getUserRefreshTokens(decoded.id);
+            if (!refreshTokens || !refreshTokens.includes(refreshToken)) {
+                throw new AppError("الرجاء تسجيل الدخول", 401);
+            }
+
+            // 3) Create new access token
+            const user = await usersRepository.getUser({ userID: decoded.id });
+
+            if (!user) {
+                throw new AppError("الرجاء تسجيل الدخول", 401);
+            }
+
+            const token = jwt.sign(
+                {
+                    id: user.id,
+                    name: user.name,
+                    username: user.username,
+                    role: user.role,
+                    permissions: user.permissions,
+                    companyID: user.company?.id,
+                    companyName: user.company?.name
+                } as loggedInUserType,
+                env.ACCESS_TOKEN_SECRET as string,
+                { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }
+            );
+
+            res.cookie("jwt", token, {
+                httpOnly: true,
+                secure: true
+                // expires: JWT_EXPIRES_IN
+            });
+            res.setHeader("Authorization", `Bearer ${token}`);
+
+            res.status(201).json({
+                status: "success",
+                token: token
+            });
+        } catch (err) {
+            throw new AppError("الرجاء تسجيل الدخول", 401);
+        }
+    });
+
+    signout = catchAsync(async (_req, res) => {
+        const user = res.locals.user as loggedInUserType;
+        await authModel.signoutUser(user.id);
+        res.clearCookie("jwt");
+        res.status(200).json({
+            status: "success"
+        });
+    });
+
+    signoutUser = catchAsync(async (req, res) => {
+        const userID = +req.params.userID;
+        await authModel.signoutUser(userID);
+        res.status(200).json({
+            status: "success"
+        });
+    });
+}
