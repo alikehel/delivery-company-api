@@ -49,7 +49,7 @@ router.use("/", usersRoutes);
 router.route("/test").post(
     // upload.single("avatar"),
     upload.none(),
-    // biome-ignore lint/nursery/useAwait: <explanation>
+    // biome-ignore lint/suspicious/useAwait: <explanation>
     catchAsync(async (req, res) => {
         //  req.file?.destination + "/" + req.file?.filename;
         const imagePath = `/${req.file?.path.replace(/\\/g, "/")}`;
