@@ -383,7 +383,11 @@ router.route("/orders/:orderID").patch(
             Permission.CHANGE_ORDER_DELIVERY_AGENT,
             Permission.CHANGE_ORDER_STATUS,
             Permission.CHANGE_ORDER_TOTAL_AMOUNT,
-            Permission.LOCK_ORDER_STATUS
+            Permission.LOCK_ORDER_STATUS,
+            Permission.CHANGE_ORDER_DATA,
+            Permission.CHANGE_ORDER_PAID_AMOUNT,
+            Permission.CHANGE_ORDER_RECEIPT_NUMBER,
+            Permission.CHANGE_ORDER_RECEPIENT_NUMBER
         ]
     ),
     ordersController.updateOrder
