@@ -277,6 +277,16 @@ export class OrdersService {
             throw new AppError("الطلب غير موجود", 404);
         }
 
+        // Cant process order unless INQUIRY_EMPLOYEE or EMERGENCY_EMPLOYEE
+        if (
+            data.orderData.processed !== undefined &&
+            oldOrderData?.processed !== data.orderData.processed &&
+            data.loggedInUser.role !== "INQUIRY_EMPLOYEE" &&
+            data.loggedInUser.role !== "EMERGENCY_EMPLOYEE"
+        ) {
+            throw new AppError("لا يمكنك معالجة الطلب", 403);
+        }
+
         // Cant change order status if it's included in a report
         if (
             oldOrderData?.status !== data.orderData.status &&
