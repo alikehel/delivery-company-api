@@ -11,7 +11,8 @@
 		"resolveJsonModule": true, // Allow importing JSON files
 		"moduleDetection": "force", // Force the module system to be used
 		"isolatedModules": true, // Ensure that each file is transpiled in its own scope
-
+		// This needs type to be module in package.json
+		// "verbatimModuleSyntax": true, // Forces to use import type and export type
 		/* Strictness */
 		"strict": true, // Enable all strict type-checking options
 		"noImplicitAny": true, // Raise error on expressions and declarations with an implied 'any' type
@@ -34,6 +35,7 @@
 		"rootDir": "./src", // Specify the root directory of input files
 		"outDir": "./build", // Redirect output structure to the directory
 		"sourceMap": true, // Create source map files for emitted JavaScript files
+		// "allowImportingTsExtensions": true, // Allow importing of TypeScript files
 
 		/* If your code doesn't run in the DOM: */
 		"lib": ["es2022"], // Specify library files to be included in the compilation
