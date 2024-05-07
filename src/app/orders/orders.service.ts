@@ -1,4 +1,4 @@
-import { EmployeeRole, type Governorate, type Order, OrderStatus } from "@prisma/client";
+import { EmployeeRole, OrderStatus, type Governorate, type Order } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
@@ -257,6 +257,14 @@ export class OrdersService {
         loggedInUser: loggedInUserType;
         orderData: OrderUpdateType;
     }) => {
+        // Cant change order data unless you have the permission
+        if (
+            data.loggedInUser.role !== "COMPANY_MANAGER" &&
+            data.loggedInUser.permissions?.includes("CHANGE_ORDER_DATA") !== true
+        ) {
+            throw new AppError("ليس لديك صلاحية تعديل الطلب", 403);
+        }
+
         if (data.orderData.confirmed && data.loggedInUser.role !== "COMPANY_MANAGER") {
             throw new AppError("ليس لديك صلاحية تأكيد الطلب", 403);
         }
