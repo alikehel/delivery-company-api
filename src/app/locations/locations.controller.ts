@@ -1,6 +1,8 @@
 import type { Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 // import { loggedInUserType } from "../../types/user";
+import { AppError } from "../../lib/AppError";
+import type { loggedInUserType } from "../../types/user";
 import { LocationCreateSchema, LocationUpdateSchema } from "./locations.dto";
 import { LocationsRepository } from "./locations.repository";
 
@@ -10,6 +12,13 @@ export class LocationsController {
     createLocation = catchAsync(async (req, res) => {
         const locationData = LocationCreateSchema.parse(req.body);
         const companyID = +res.locals.user.companyID;
+        const loggedInUser = res.locals.user as loggedInUserType;
+
+        // TODO: maybe make this a middleware
+        // only main company can employees can create locations
+        if (!loggedInUser.mainCompany) {
+            throw new AppError("فقط الشركة الرئيسية يمكنها إضافة مناطق جديدة", 403);
+        }
 
         const createdLocation = await locationsRepository.createLocation(companyID, locationData);
 

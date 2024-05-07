@@ -39,7 +39,8 @@ export class AuthController {
                 role: returnedUser.role,
                 permissions: returnedUser.permissions,
                 companyID: returnedUser.companyID,
-                companyName: returnedUser.companyName
+                companyName: returnedUser.companyName,
+                mainCompany: returnedUser.mainCompany
             } as loggedInUserType,
             env.ACCESS_TOKEN_SECRET as string,
             { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }
@@ -118,7 +119,7 @@ export class AuthController {
             }
 
             // 3) Create new access token
-            const user = await usersRepository.getUser({ userID: decoded.id });
+            const user = await authModel.getUserByID(decoded.id);
 
             if (!user) {
                 throw new AppError("الرجاء تسجيل الدخول", 401);
@@ -131,8 +132,9 @@ export class AuthController {
                     username: user.username,
                     role: user.role,
                     permissions: user.permissions,
-                    companyID: user.company?.id,
-                    companyName: user.company?.name
+                    companyID: user.companyID,
+                    companyName: user.companyName,
+                    mainCompany: user.mainCompany
                 } as loggedInUserType,
                 env.ACCESS_TOKEN_SECRET as string,
                 { expiresIn: env.ACCESS_TOKEN_EXPIRES_IN }

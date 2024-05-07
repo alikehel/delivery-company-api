@@ -13,6 +13,16 @@ export class AuthRepository {
         return userReform(returnedUser);
     }
 
+    async getUserByID(userID: number) {
+        const returnedUser = await prisma.user.findUnique({
+            where: {
+                id: userID
+            },
+            select: userSelect
+        });
+        return userReform(returnedUser);
+    }
+
     async signoutUser(userID: number) {
         await prisma.user.update({
             where: {

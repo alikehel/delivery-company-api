@@ -14,12 +14,14 @@ export type AdminUserType = {
     role: AdminRole;
     companyID: null;
     companyName: null;
+    mainCompany: null;
 };
 
 export type NonAdminUserType = {
     role: EmployeeRole | ClientRole;
     companyID: number;
     companyName: string;
+    mainCompany: boolean;
 };
 
 export type loggedInUserType = {

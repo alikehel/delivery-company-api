@@ -18,7 +18,8 @@ export const userSelect = {
                 select: {
                     id: true,
                     name: true,
-                    logo: true
+                    logo: true,
+                    mainCompany: true
                 }
             }
         }
@@ -30,7 +31,8 @@ export const userSelect = {
                 select: {
                     id: true,
                     name: true,
-                    logo: true
+                    logo: true,
+                    mainCompany: true
                 }
             }
         }
@@ -52,6 +54,7 @@ export const userReform = (
         name: user.name,
         companyID: user.employee?.company.id || user.client?.company.id || null,
         companyName: user.employee?.company.name || user.client?.company.name || null,
+        mainCompany: user.employee?.company.mainCompany ?? user.client?.company.mainCompany ?? null,
         role: (user.admin?.role || user.employee?.role || user.client?.role) as
             | AdminRole
             | EmployeeRole

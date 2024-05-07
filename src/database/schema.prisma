@@ -449,6 +449,7 @@ model Company {
   color                                   String                      @default("FF0000")
   registrationText                        String                      @default("")
   orderStatusAutomaticUpdate              Boolean                     @default(false)
+  mainCompany                             Boolean                     @default(false)
   // --- INQUIRY EMPLOYEE --------------------------------------------------------------------- //
   // inquiryEmployee                         Employee?         @relation("inquiryCompanies", fields: [inquiryEmployeeId], references: [id])
   // inquiryEmployeeId                       Int?
