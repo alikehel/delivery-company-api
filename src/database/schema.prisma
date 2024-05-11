@@ -178,6 +178,9 @@ model User {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+
+  @@index([name])
+  @@index([phone])
 }
 
 model Admin {
@@ -230,6 +233,11 @@ model Employee {
   deletedById             Int?
   deletedBy               User?                            @relation("deletedBy", fields: [deletedById], references: [id])
   // --- OTHER --------------------------------------------------------------------- //
+
+  @@index([companyId])
+  @@index([role])
+  @@index([permissions])
+  @@index([branchId])
 }
 
 model InquiryEmployeesDeliveryAgents {
@@ -274,6 +282,8 @@ model Client {
   deletedBy                 User?          @relation("deletedBy", fields: [deletedById], references: [id])
   deletedAt                 DateTime?
   // --- OTHER --------------------------------------------------------------------- //
+
+  @@index([companyId])
 }
 
 model Store {
@@ -308,6 +318,9 @@ model Store {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt         DateTime                 @default(now())
   updatedAt         DateTime                 @updatedAt
+
+  @@index([companyId])
+  @@index([clientId])
 }
 
 model InquiryEmployeesStores {
@@ -579,6 +592,32 @@ model Order {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
+
+  // @@index([automaticUpdateId])
+  // @@index([deleted, deletedById])
+  // @@index([processed, processedById])
+  // @@index([forwarded, forwardedById])
+  // @@index([forwarded, forwardedFromId])
+  // @@index([clientReportId])
+  // @@index([repositoryReportId])
+  // @@index([branchReportId])
+  // @@index([deliveryAgentReportId])
+  // @@index([governorateReportId])
+  // @@index([companyReportId])
+  @@index([receiptNumber])
+  // @@index([recipientName])
+  // @@index([recipientAddress])
+  // @@index([recipientPhones])
+  @@index([status])
+  @@index([secondaryStatus])
+  @@index([clientId])
+  @@index([deliveryAgentId])
+  @@index([governorate])
+  // @@index([locationId])
+  @@index([storeId])
+  // @@index([repositoryId])
+  @@index([branchId])
+  @@index([companyId])
 }
 
 model OrderTimeline {
@@ -649,6 +688,10 @@ model Report {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt               DateTime             @default(now())
   updatedAt               DateTime             @updatedAt
+
+  @@index([type])
+  @@index([employeeId])
+  @@index([companyId])
 }
 
 model CompanyReport {
@@ -663,6 +706,8 @@ model CompanyReport {
   // --- OTHER --------------------------------------------------------------------- //
   baghdadDeliveryCost      Float   @default(0)
   governoratesDeliveryCost Float   @default(0)
+
+  @@index([companyId])
 }
 
 model ClientReport {
@@ -679,6 +724,9 @@ model ClientReport {
   // --- OTHER --------------------------------------------------------------------- //
   baghdadDeliveryCost      Float   @default(0)
   governoratesDeliveryCost Float   @default(0)
+
+  @@index([clientId])
+  @@index([storeId])
 }
 
 model RepositoryReport {
@@ -691,6 +739,8 @@ model RepositoryReport {
   repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
   orders       Order[]
   // --- OTHER --------------------------------------------------------------------- //
+
+  @@index([repositoryId])
 }
 
 model BranchReport {
@@ -704,6 +754,8 @@ model BranchReport {
   orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
   deliveryAgentDeliveryCost Float   @default(0)
+
+  @@index([branchId])
 }
 
 model DeliveryAgentReport {
@@ -717,6 +769,8 @@ model DeliveryAgentReport {
   orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
   deliveryAgentDeliveryCost Float    @default(0)
+
+  @@index([deliveryAgentId])
 }
 
 model GovernorateReport {
@@ -729,6 +783,8 @@ model GovernorateReport {
   orders                    Order[]
   // --- OTHER --------------------------------------------------------------------- //
   deliveryAgentDeliveryCost Float       @default(0)
+
+  @@index([governorate])
 }
 
 model Product {
@@ -757,6 +813,11 @@ model Product {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
+
+  @@index([companyId])
+  @@index([clientId])
+  @@index([categoryId])
+  @@index([storeId])
 }
 
 model Category {
@@ -873,6 +934,8 @@ model Notification {
   seen      Boolean  @default(false)
   // --- OTHER --------------------------------------------------------------------- //
   createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model Banner {
