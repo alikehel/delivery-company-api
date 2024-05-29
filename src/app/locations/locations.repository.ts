@@ -27,7 +27,7 @@ export class LocationsRepository {
                               };
                           })
                       }
-                    : undefined,
+                    : undefined
                 // company: {
                 //     connect: {
                 //         id: companyID
