@@ -1,6 +1,6 @@
-import { AdminRole } from "@prisma/client";
+// import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
-import type { loggedInUserType } from "../../types/user";
+// import type { loggedInUserType } from "../../types/user";
 import { SizeCreateSchema, SizeUpdateSchema } from "./sizes.dto";
 import { SizesRepository } from "./sizes.repository";
 
@@ -9,9 +9,9 @@ const sizesRepository = new SizesRepository();
 export class SizesController {
     createSize = catchAsync(async (req, res) => {
         const sizeData = SizeCreateSchema.parse(req.body);
-        const companyID = +res.locals.user.companyID;
+        // const companyID = +res.locals.user.companyID;
 
-        const createdSize = await sizesRepository.createSize(companyID, sizeData);
+        const createdSize = await sizesRepository.createSize(sizeData);
 
         res.status(200).json({
             status: "success",
@@ -21,13 +21,13 @@ export class SizesController {
 
     getAllSizes = catchAsync(async (req, res) => {
         // Filters
-        const loggedInUser = res.locals.user as loggedInUserType;
-        let companyID: number | undefined;
-        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-            companyID = req.query.company_id ? +req.query.company_id : undefined;
-        } else if (loggedInUser.companyID) {
-            companyID = loggedInUser.companyID;
-        }
+        // const loggedInUser = res.locals.user as loggedInUserType;
+        // let companyID: number | undefined;
+        // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        //     companyID = req.query.company_id ? +req.query.company_id : undefined;
+        // } else if (loggedInUser.companyID) {
+        //     companyID = loggedInUser.companyID;
+        // }
 
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
@@ -43,7 +43,7 @@ export class SizesController {
         const { sizes, pagesCount } = await sizesRepository.getAllSizesPaginated({
             page: page,
             size: size,
-            companyID: companyID,
+            // companyID: companyID,
             minified: minified
         });
 

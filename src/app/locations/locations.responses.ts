@@ -4,7 +4,7 @@ export const locationSelect = {
     id: true,
     name: true,
     governorate: true,
-    branch: true,
+    // branch: true,
     remote: true,
     deliveryAgentsLocations: {
         select: {
@@ -21,12 +21,12 @@ export const locationSelect = {
             }
         }
     },
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
+    // company: {
+    //     select: {
+    //         id: true,
+    //         name: true
+    //     }
+    // }
 } satisfies Prisma.LocationSelect;
 
 export const locationReform = (
@@ -41,7 +41,7 @@ export const locationReform = (
         id: location.id,
         name: location.name,
         governorate: location.governorate,
-        branch: location.branch,
+        // branch: location.branch,
         deliveryAgents: location.deliveryAgentsLocations.map((deliveryAgent) => {
             return {
                 id: deliveryAgent.deliveryAgent.user.id,
@@ -49,7 +49,7 @@ export const locationReform = (
                 phone: deliveryAgent.deliveryAgent.user.phone
             };
         }),
-        company: location.company,
+        // company: location.company,
         remote: location.remote
     };
 };

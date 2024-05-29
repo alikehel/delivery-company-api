@@ -1,6 +1,5 @@
-import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
-import type { loggedInUserType } from "../../types/user";
+// import type { loggedInUserType } from "../../types/user";
 import { CategoryCreateSchema, CategoryUpdateSchema } from "./categories.dto";
 import { CategoriesRepository } from "./categories.repository";
 
@@ -9,9 +8,9 @@ const categoriesRepository = new CategoriesRepository();
 export class CategoriesController {
     createCategory = catchAsync(async (req, res) => {
         const categoryData = CategoryCreateSchema.parse(req.body);
-        const companyID = +res.locals.user.companyID;
+        // const companyID = +res.locals.user.companyID;
 
-        const createdCategory = await categoriesRepository.createCategory(companyID, categoryData);
+        const createdCategory = await categoriesRepository.createCategory(categoryData);
 
         res.status(200).json({
             status: "success",
@@ -21,13 +20,13 @@ export class CategoriesController {
 
     getAllCategories = catchAsync(async (req, res) => {
         // Filters
-        const loggedInUser = res.locals.user as loggedInUserType;
-        let companyID: number | undefined;
-        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-            companyID = req.query.company_id ? +req.query.company_id : undefined;
-        } else if (loggedInUser.companyID) {
-            companyID = loggedInUser.companyID;
-        }
+        // const loggedInUser = res.locals.user as loggedInUserType;
+        // let companyID: number | undefined;
+        // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        //     companyID = req.query.company_id ? +req.query.company_id : undefined;
+        // } else if (loggedInUser.companyID) {
+        //     companyID = loggedInUser.companyID;
+        // }
 
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
@@ -43,7 +42,7 @@ export class CategoriesController {
         const { categories, pagesCount } = await categoriesRepository.getAllCategoriesPaginated({
             page: page,
             size: size,
-            companyID: companyID,
+            // companyID: companyID,
             minified: minified
         });
 

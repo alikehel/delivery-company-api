@@ -11,7 +11,7 @@ const locationsRepository = new LocationsRepository();
 export class LocationsController {
     createLocation = catchAsync(async (req, res) => {
         const locationData = LocationCreateSchema.parse(req.body);
-        const companyID = +res.locals.user.companyID;
+        // const companyID = +res.locals.user.companyID;
         const loggedInUser = res.locals.user as loggedInUserType;
 
         // TODO: maybe make this a middleware
@@ -20,7 +20,7 @@ export class LocationsController {
             throw new AppError("فقط الشركة الرئيسية يمكنها إضافة مناطق جديدة", 403);
         }
 
-        const createdLocation = await locationsRepository.createLocation(companyID, locationData);
+        const createdLocation = await locationsRepository.createLocation(locationData);
 
         res.status(200).json({
             status: "success",
@@ -44,7 +44,7 @@ export class LocationsController {
 
         const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
-        const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+        // const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
 
         const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
@@ -61,7 +61,7 @@ export class LocationsController {
             page: page,
             size: size,
             search: search,
-            branchID: branchID,
+            // branchID: branchID,
             governorate: governorate,
             deliveryAgentID: deliveryAgentID,
             // companyID: companyID,

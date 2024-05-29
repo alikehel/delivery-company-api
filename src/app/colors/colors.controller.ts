@@ -1,6 +1,6 @@
-import { AdminRole } from "@prisma/client";
+// import { AdminRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
-import type { loggedInUserType } from "../../types/user";
+// import type { loggedInUserType } from "../../types/user";
 import { ColorCreateSchema, ColorUpdateSchema } from "./colors.dto";
 import { ColorsRepository } from "./colors.repository";
 
@@ -8,9 +8,9 @@ const colorsRepository = new ColorsRepository();
 export class ColorsController {
     createColor = catchAsync(async (req, res) => {
         const colorData = ColorCreateSchema.parse(req.body);
-        const companyID = +res.locals.user.companyID;
+        // const companyID = +res.locals.user.companyID;
 
-        const createdColor = await colorsRepository.createColor(companyID, colorData);
+        const createdColor = await colorsRepository.createColor(colorData);
 
         res.status(200).json({
             status: "success",
@@ -20,13 +20,13 @@ export class ColorsController {
 
     getAllColors = catchAsync(async (req, res) => {
         // Filters
-        const loggedInUser = res.locals.user as loggedInUserType;
-        let companyID: number | undefined;
-        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-            companyID = req.query.company_id ? +req.query.company_id : undefined;
-        } else if (loggedInUser.companyID) {
-            companyID = loggedInUser.companyID;
-        }
+        // const loggedInUser = res.locals.user as loggedInUserType;
+        // let companyID: number | undefined;
+        // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+        //     companyID = req.query.company_id ? +req.query.company_id : undefined;
+        // } else if (loggedInUser.companyID) {
+        //     companyID = loggedInUser.companyID;
+        // }
 
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
@@ -42,7 +42,7 @@ export class ColorsController {
         const { colors, pagesCount } = await colorsRepository.getAllColorsPaginated({
             page: page,
             size: size,
-            companyID: companyID,
+            // companyID: companyID,
             minified: minified
         });
 

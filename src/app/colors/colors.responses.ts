@@ -6,12 +6,12 @@ export const colorSelect = {
     code: true,
     createdAt: true,
     updatedAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
+    // company: {
+    //     select: {
+    //         id: true,
+    //         name: true
+    //     }
+    // }
 } satisfies Prisma.ColorSelect;
 
 // export const colorReform = (color: any) => {
