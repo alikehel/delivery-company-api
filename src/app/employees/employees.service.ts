@@ -3,11 +3,13 @@ import * as bcrypt from "bcrypt";
 import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import type { loggedInUserType } from "../../types/user";
+import { BranchesRepository } from "../branches/branches.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import type { EmployeeCreateType, EmployeeUpdateType, EmployeesFiltersType } from "./employees.dto";
 import { EmployeesRepository } from "./employees.repository";
 
 const employeesRepository = new EmployeesRepository();
+const branchesRepository = new BranchesRepository();
 
 export class EmployeesService {
     createEmployee = async (data: {
@@ -60,8 +62,19 @@ export class EmployeesService {
             companyID = data.loggedInUser.companyID;
         }
 
+        // Only show employees from the branch of the logged in branch manager
+        let branchID: number | undefined;
+        if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
+            const branch = await branchesRepository.getBranchManagerBranch({
+                branchManagerID: data.loggedInUser.id
+            });
+            branchID = branch?.id;
+        } else {
+            branchID = data.filters.branchID;
+        }
+
         const { employees, pagesCount } = await employeesRepository.getAllEmployeesPaginated({
-            filters: { ...data.filters, companyID }
+            filters: { ...data.filters, companyID, branchID }
         });
 
         return { employees, pagesCount };
