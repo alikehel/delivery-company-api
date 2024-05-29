@@ -3,15 +3,15 @@ import type { CategoryCreateType, CategoryUpdateType } from "./categories.dto";
 import { categorySelect } from "./categories.responses";
 
 export class CategoriesRepository {
-    async createCategory(companyID: number, data: CategoryCreateType) {
+    async createCategory(data: CategoryCreateType) {
         const createdCategory = await prisma.category.create({
             data: {
                 title: data.title,
-                company: {
-                    connect: {
-                        id: companyID
-                    }
-                }
+                // company: {
+                //     connect: {
+                //         id: companyID
+                //     }
+                // }
             },
             select: categorySelect
         });
@@ -25,9 +25,9 @@ export class CategoriesRepository {
         minified?: boolean;
     }) {
         const where = {
-            company: {
-                id: filters.companyID
-            }
+            // company: {
+            //     id: filters.companyID
+            // }
         };
 
         if (filters.minified === true) {

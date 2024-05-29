@@ -3,16 +3,16 @@ import type { ColorCreateType, ColorUpdateType } from "./colors.dto";
 import { colorSelect } from "./colors.responses";
 
 export class ColorsRepository {
-    async createColor(companyID: number, data: ColorCreateType) {
+    async createColor(data: ColorCreateType) {
         const createdColor = await prisma.color.create({
             data: {
                 title: data.title,
                 code: data.code,
-                company: {
-                    connect: {
-                        id: companyID
-                    }
-                }
+                // company: {
+                //     connect: {
+                //         id: companyID
+                //     }
+                // }
             },
             select: colorSelect
         });
@@ -26,9 +26,9 @@ export class ColorsRepository {
         minified?: boolean;
     }) {
         const where = {
-            company: {
-                id: filters.companyID
-            }
+            // company: {
+            //     id: filters.companyID
+            // }
         };
 
         if (filters.minified === true) {

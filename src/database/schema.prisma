@@ -410,14 +410,17 @@ model Location {
   // inquiryEmployeeId       Int?
   inquiryEmployees        InquiryEmployeesLocations[]
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  branchId                Int
+  // TODO: Remove
+  branchId                Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
-  branch                  Branch                      @relation(fields: [branchId], references: [id])
+  // TODO: Remove
+  branch                  Branch?                     @relation(fields: [branchId], references: [id])
   orders                  Order[]
   deliveryAgentsLocations DeliveryAgentsLocations[]
   // --- TENANT --------------------------------------------------------------------- //
-  company                 Company                     @relation(fields: [companyId], references: [id])
-  companyId               Int
+  // TODO: Remove
+  company                 Company?                    @relation(fields: [companyId], references: [id])
+  companyId               Int?
   // --- OTHER --------------------------------------------------------------------- //
   createdAt               DateTime                    @default(now())
   updatedAt               DateTime                    @updatedAt
@@ -484,9 +487,9 @@ model Company {
   orders                                  Order[]
   reports                                 Report[]
   products                                Product[]
-  categories                              Category[]
-  sizes                                   Size[]
-  colors                                  Color[]
+  // categories                              Category[]
+  // sizes                                   Size[]
+  // colors                                  Color[]
   banners                                 Banner[]
   CompanyReport                           CompanyReport[]
   automaticUpdates                        AutomaticUpdate[]
@@ -829,8 +832,8 @@ model Category {
   // --- RELATIONS --------------------------------------------------------------------------- //
   products  Product[]
   // --- TENANT --------------------------------------------------------------------- //
-  company   Company   @relation(fields: [companyId], references: [id])
-  companyId Int
+  // company   Company?  @relation(fields: [companyId], references: [id])
+  // companyId Int?
   // --- OTHER --------------------------------------------------------------------- //
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -865,8 +868,8 @@ model Size {
   productSizes  ProductSizes[]
   orderProducts OrderProducts[]
   // --- TENANT --------------------------------------------------------------------- //
-  company       Company         @relation(fields: [companyId], references: [id])
-  companyId     Int
+  // company       Company?        @relation(fields: [companyId], references: [id])
+  // companyId     Int?
   // --- OTHER --------------------------------------------------------------------- //
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -883,8 +886,8 @@ model Color {
   productColors ProductColors[]
   orderProducts OrderProducts[]
   // --- TENANT --------------------------------------------------------------------- //
-  company       Company         @relation(fields: [companyId], references: [id])
-  companyId     Int
+  // company       Company?        @relation(fields: [companyId], references: [id])
+  // companyId     Int?
   // --- OTHER --------------------------------------------------------------------- //
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt

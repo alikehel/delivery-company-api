@@ -5,12 +5,12 @@ export const categorySelect = {
     title: true,
     createdAt: true,
     updatedAt: true,
-    company: {
-        select: {
-            id: true,
-            name: true
-        }
-    }
+    // company: {
+    //     select: {
+    //         id: true,
+    //         name: true
+    //     }
+    // }
 } satisfies Prisma.CategorySelect;
 
 // const categoryReform = (category: any) => {

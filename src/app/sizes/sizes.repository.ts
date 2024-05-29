@@ -3,15 +3,15 @@ import type { SizeCreateType, SizeUpdateType } from "./sizes.dto";
 import { sizeSelect } from "./sizes.responses";
 
 export class SizesRepository {
-    async createSize(companyID: number, data: SizeCreateType) {
+    async createSize(data: SizeCreateType) {
         const createdSize = await prisma.size.create({
             data: {
                 title: data.title,
-                company: {
-                    connect: {
-                        id: companyID
-                    }
-                }
+                // company: {
+                //     connect: {
+                //         id: companyID
+                //     }
+                // }
             },
             select: sizeSelect
         });
@@ -25,9 +25,9 @@ export class SizesRepository {
         minified?: boolean;
     }) {
         const where = {
-            company: {
-                id: filters.companyID
-            }
+            // company: {
+            //     id: filters.companyID
+            // }
         };
 
         if (filters.minified === true) {

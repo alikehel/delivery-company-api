@@ -10079,11 +10079,15 @@
                 "ADD_ORDER",
                 "DELETE_ORDER",
                 "CONFIRM_ORDER",
+                "CHANGE_ORDER_DATA",
+                "LOCK_ORDER_STATUS",
                 "CHANGE_ORDER_STATUS",
                 "CHANGE_CLOSED_ORDER_STATUS",
                 "CHANGE_ORDER_TOTAL_AMOUNT",
-                "LOCK_ORDER_STATUS",
                 "CHANGE_ORDER_DELIVERY_AGENT",
+                "CHANGE_ORDER_PAID_AMOUNT",
+                "CHANGE_ORDER_RECEIPT_NUMBER",
+                "CHANGE_ORDER_RECEPIENT_NUMBER",
                 "CHANGE_ORDER_BRANCH",
                 "CHANGE_ORDER_CLIENT",
                 "CHANGE_ORDER_COMPANY",
@@ -10373,11 +10377,15 @@
                 "ADD_ORDER",
                 "DELETE_ORDER",
                 "CONFIRM_ORDER",
+                "CHANGE_ORDER_DATA",
+                "LOCK_ORDER_STATUS",
                 "CHANGE_ORDER_STATUS",
                 "CHANGE_CLOSED_ORDER_STATUS",
                 "CHANGE_ORDER_TOTAL_AMOUNT",
-                "LOCK_ORDER_STATUS",
                 "CHANGE_ORDER_DELIVERY_AGENT",
+                "CHANGE_ORDER_PAID_AMOUNT",
+                "CHANGE_ORDER_RECEIPT_NUMBER",
+                "CHANGE_ORDER_RECEPIENT_NUMBER",
                 "CHANGE_ORDER_BRANCH",
                 "CHANGE_ORDER_CLIENT",
                 "CHANGE_ORDER_COMPANY",
@@ -10578,11 +10586,6 @@
               "WASIT"
             ]
           },
-          "branchID": {
-            "type": [
-              "number"
-            ]
-          },
           "deliveryAgentsIDs": {
             "type": [
               "array"
@@ -10602,7 +10605,6 @@
         "required": [
           "name",
           "governorate",
-          "branchID",
           "deliveryAgentsIDs"
         ]
       },
@@ -10641,11 +10643,6 @@
               "SALAH_AL_DIN",
               "SULAYMANIYAH",
               "WASIT"
-            ]
-          },
-          "branchID": {
-            "type": [
-              "number"
             ]
           },
           "deliveryAgentsIDs": {
