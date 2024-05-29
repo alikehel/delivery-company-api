@@ -106,9 +106,9 @@ export class LocationsRepository {
         const paginatedLocations = await prisma.location.findManyPaginated(
             {
                 where: where,
-                orderBy: {
-                    id: "desc"
-                },
+                // orderBy: {
+                //     id: "desc"
+                // },
                 select: locationSelect
             },
             {
