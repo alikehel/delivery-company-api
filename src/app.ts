@@ -25,10 +25,17 @@ const app = express();
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    max: 5, // limit each IP to 100 requests per windowMs
+    message: (req: express.Request, res: express.Response) => {
+        Logger.warn(`Rate Limit Exceeded for IP: ${req.ip}`);
+        res.status(429).json({
+            status: "fail",
+            message: "Too many requests from this IP, please try again after 15 minutes."
+        });
+    },
+    standardHeaders: true,
+    legacyHeaders: false
 });
-
-//  apply to all requests
 app.use(limiter);
 
 // Swagger
