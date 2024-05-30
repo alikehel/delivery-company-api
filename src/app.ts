@@ -10,7 +10,7 @@ import helmet from "helmet";
 import morganBody from "morgan-body";
 // import shrinkRay from "shrink-ray-current";
 // import { SwaggerTheme } from "swagger-themes";
-import { rateLimit } from "express-rate-limit";
+// import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
 import { AppError } from "./lib/AppError";
 import { Logger } from "./lib/logger";
@@ -29,26 +29,23 @@ app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 
 // Rate Limiting
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // limit each IP to 100 requests per windowMs
-    skip: (req) => {
-        if (req.url === "/health" || req.url === "/api/v1/auth/validate-token") {
-            return true;
-        }
-        return false;
-    },
-    message: (req: express.Request, res: express.Response) => {
-        Logger.warn(`Rate Limit Exceeded for IP: ${req.ip}`);
-        res.status(429).json({
-            status: "fail",
-            message: "Too many requests from this IP, please try again after 15 minutes."
-        });
-    },
-    standardHeaders: true,
-    legacyHeaders: false
-});
-app.use(limiter);
+// const limiter = rateLimit({
+//     windowMs: 1 * 60 * 1000, // 1 minutes
+//     max: 1000, // limit each IP to 100 requests per windowMs
+//     skip: (req) => {
+//         if (req.url === "/health" || req.url === "/api/v1/auth/validate-token") {
+//             return true;
+//         }
+//         return false;
+//     },
+//     message: (req: express.Request, _res: express.Response, next: express.NextFunction) => {
+//         Logger.warn(`Rate Limit Exceeded for IP: ${req.ip}`);
+//         next(new AppError("Too many requests from this IP, please try again after 15 minutes.", 429));
+//     },
+//     standardHeaders: true,
+//     legacyHeaders: false
+// });
+// app.use(limiter);
 
 // Swagger
 
