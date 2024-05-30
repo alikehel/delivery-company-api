@@ -10,6 +10,7 @@ import helmet from "helmet";
 import morganBody from "morgan-body";
 // import shrinkRay from "shrink-ray-current";
 // import { SwaggerTheme } from "swagger-themes";
+import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
 import { AppError } from "./lib/AppError";
 import { Logger } from "./lib/logger";
@@ -19,6 +20,16 @@ import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
 
 const app = express();
+
+// Rate Limiting
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+
+//  apply to all requests
+app.use(limiter);
 
 // Swagger
 
