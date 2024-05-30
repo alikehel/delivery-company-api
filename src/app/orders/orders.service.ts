@@ -115,7 +115,8 @@ export class OrdersService {
             : data.loggedInUser.companyID || undefined;
         // Show only orders of the same governorate as the branch to the branch manager
         let governorate: Governorate | undefined = data.filters.governorate;
-        if (data.loggedInUser.role === "BRANCH_MANAGER") {
+        let branchID: number | undefined = data.filters.branchID;
+        if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
             const branch = await branchesRepository.getBranchManagerBranch({
                 branchManagerID: data.loggedInUser.id
             });
@@ -127,6 +128,7 @@ export class OrdersService {
                 throw new AppError("الفرع الذي تعمل به غير مرتبط بمحافظة", 500);
             }
             governorate = branch.governorate;
+            branchID = branch.id;
         }
         // show orders/statistics without client reports to the client unless he searches for them
         let clientReport = data.filters.clientReport;
@@ -219,6 +221,7 @@ export class OrdersService {
                 deliveryAgentID,
                 companyID,
                 governorate,
+                branchID,
                 clientReport,
                 size,
                 inquiryStatuses,
