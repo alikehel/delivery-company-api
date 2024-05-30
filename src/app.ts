@@ -21,6 +21,12 @@ import swaggerDocument from "./swagger/swagger-output.json";
 
 const app = express();
 
+// Middlewares
+
+app.use(helmet()); // Set security HTTP headers
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
+
 // Rate Limiting
 
 const limiter = rateLimit({
@@ -57,10 +63,9 @@ app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument
 //     })
 // );
 
-// Middlewares
-
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(bodyParser.urlencoded({ extended: true })); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 app.use(morganMiddlewareImmediate);
 morganBody(app, {
     stream: {
@@ -74,10 +79,6 @@ morganBody(app, {
     prettify: false
 });
 app.use(morganMiddleware);
-app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
-app.use(helmet()); // Set security HTTP headers
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(
     compression({
         filter: (req, res) => {
@@ -108,7 +109,7 @@ app.use(
 // );
 
 // Function to serve all static files
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 // app.use("/storage", express.static("storage"));
 app.use("/static", express.static("static"));
 app.use(
