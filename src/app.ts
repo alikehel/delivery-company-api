@@ -33,7 +33,7 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 5, // limit each IP to 100 requests per windowMs
     skip: (req) => {
-        if (req.url === "/health" || req.url === "/api/v1/validate-token") {
+        if (req.url === "/health" || req.url === "/api/v1/auth/validate-token") {
             return true;
         }
         return false;
