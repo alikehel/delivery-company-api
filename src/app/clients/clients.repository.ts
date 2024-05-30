@@ -188,12 +188,19 @@ export class ClientsRepository {
     }
 
     async deleteClient(data: { clientID: number }) {
-        const deletedClient = await prisma.client.delete({
-            where: {
-                id: data.clientID
-            }
-        });
-        return deletedClient;
+        await prisma.$transaction([
+            prisma.client.delete({
+                where: {
+                    id: data.clientID
+                }
+            }),
+            prisma.user.delete({
+                where: {
+                    id: data.clientID
+                }
+            })
+        ]);
+        return true;
     }
 
     async deactivateClient(data: { clientID: number; deletedByID: number }) {

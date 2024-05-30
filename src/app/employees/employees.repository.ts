@@ -466,12 +466,19 @@ export class EmployeesRepository {
     }
 
     async deleteEmployee(data: { employeeID: number }) {
-        const deletedEmployee = await prisma.employee.delete({
-            where: {
-                id: data.employeeID
-            }
-        });
-        return deletedEmployee;
+        await prisma.$transaction([
+            prisma.employee.delete({
+                where: {
+                    id: data.employeeID
+                }
+            }),
+            prisma.user.delete({
+                where: {
+                    id: data.employeeID
+                }
+            })
+        ]);
+        return true;
     }
 
     async deactivateEmployee(data: {

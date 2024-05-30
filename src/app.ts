@@ -10,6 +10,7 @@ import helmet from "helmet";
 import morganBody from "morgan-body";
 // import shrinkRay from "shrink-ray-current";
 // import { SwaggerTheme } from "swagger-themes";
+// import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
 import { AppError } from "./lib/AppError";
 import { Logger } from "./lib/logger";
@@ -19,6 +20,32 @@ import apiRouter from "./routes";
 import swaggerDocument from "./swagger/swagger-output.json";
 
 const app = express();
+
+// Middlewares
+
+app.use(helmet()); // Set security HTTP headers
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
+
+// Rate Limiting
+
+// const limiter = rateLimit({
+//     windowMs: 1 * 60 * 1000, // 1 minutes
+//     max: 1000, // limit each IP to 100 requests per windowMs
+//     skip: (req) => {
+//         if (req.url === "/health" || req.url === "/api/v1/auth/validate-token") {
+//             return true;
+//         }
+//         return false;
+//     },
+//     message: (req: express.Request, _res: express.Response, next: express.NextFunction) => {
+//         Logger.warn(`Rate Limit Exceeded for IP: ${req.ip}`);
+//         next(new AppError("Too many requests from this IP, please try again after 15 minutes.", 429));
+//     },
+//     standardHeaders: true,
+//     legacyHeaders: false
+// });
+// app.use(limiter);
 
 // Swagger
 
@@ -39,10 +66,9 @@ app.use("/api-docs-dark-theme", swaggerUi.serve, swaggerUi.setup(swaggerDocument
 //     })
 // );
 
-// Middlewares
-
 app.use(bodyParser.json()); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(bodyParser.urlencoded({ extended: true })); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 app.use(morganMiddlewareImmediate);
 morganBody(app, {
     stream: {
@@ -56,10 +82,6 @@ morganBody(app, {
     prettify: false
 });
 app.use(morganMiddleware);
-app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
-app.use(helmet()); // Set security HTTP headers
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(cors()); // Enable CORS - Cross Origin Resource Sharing
 app.use(
     compression({
         filter: (req, res) => {
@@ -90,7 +112,7 @@ app.use(
 // );
 
 // Function to serve all static files
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 // app.use("/storage", express.static("storage"));
 app.use("/static", express.static("static"));
 app.use(

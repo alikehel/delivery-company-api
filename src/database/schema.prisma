@@ -932,7 +932,7 @@ model Notification {
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   userId    Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // --- STATUS --------------------------------------------------------------------------- //
   seen      Boolean  @default(false)
   // --- OTHER --------------------------------------------------------------------- //
