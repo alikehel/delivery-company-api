@@ -9,7 +9,7 @@ export class CompaniesRepository {
             data: {
                 name: data.companyData.companyData.name,
                 phone: data.companyData.companyData.phone,
-                website: data.companyData.companyData.website,
+                // website: data.companyData.companyData.website,
                 logo: data.companyData.companyData.logo,
                 color: data.companyData.companyData.color,
                 registrationText: data.companyData.companyData.registrationText,
@@ -116,7 +116,7 @@ export class CompaniesRepository {
             data: {
                 name: data.companyData.name,
                 phone: data.companyData.phone,
-                website: data.companyData.website,
+                // website: data.companyData.website,
                 logo: data.companyData.logo,
                 color: data.companyData.color,
                 registrationText: data.companyData.registrationText,
