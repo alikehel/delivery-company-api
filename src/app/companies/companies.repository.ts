@@ -56,7 +56,15 @@ export class CompaniesRepository {
                     select: {
                         id: true,
                         name: true
-                    }
+                    },
+                    orderBy: [
+                        {
+                            mainCompany: "desc"
+                        },
+                        {
+                            name: "asc"
+                        }
+                    ]
                 },
                 {
                     page: filters.page,
@@ -68,9 +76,14 @@ export class CompaniesRepository {
 
         const paginatedCompanies = await prisma.company.findManyPaginated(
             {
-                orderBy: {
-                    name: "asc"
-                },
+                orderBy: [
+                    {
+                        mainCompany: "desc"
+                    },
+                    {
+                        name: "asc"
+                    }
+                ],
                 select: companySelect
             },
             {
