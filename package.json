@@ -13,8 +13,7 @@
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only --exit-child ./src/server.ts",
         "build": "yarn run prisma:generate && yarn run prisma:deploy && yarn run swagger:autogen && yarn run clean && tsc",
-        "tsc": "tsc --noEmit",        "tsc": "tsc --noEmit",
-
+        "tsc": "tsc --noEmit",
         "start": "node build/server.js",
         "clean": "rimraf build/",
         "docker:build": "docker build -t albarq-api .",
