@@ -86,21 +86,21 @@ export class AuthController {
         });
 
         // Clear invalid refresh tokens
-        const refreshTokens = await usersRepository.getUserRefreshTokens(returnedUser.id);
-        if (refreshTokens) {
-            const validRefreshTokens = refreshTokens.filter((token) => {
-                try {
-                    jwt.verify(token, env.REFRESH_TOKEN_SECRET as string);
-                    return true;
-                } catch (err) {
-                    return false;
-                }
-            });
-            await usersRepository.updateUser({
-                userID: returnedUser.id,
-                userData: { refreshTokens: validRefreshTokens }
-            });
-        }
+        // const refreshTokens = await usersRepository.getUserRefreshTokens(returnedUser.id);
+        // if (refreshTokens) {
+        //     const validRefreshTokens = refreshTokens.filter((token) => {
+        //         try {
+        //             jwt.verify(token, env.REFRESH_TOKEN_SECRET as string);
+        //             return true;
+        //         } catch (err) {
+        //             return false;
+        //         }
+        //     });
+        //     await usersRepository.updateUser({
+        //         userID: returnedUser.id,
+        //         userData: { refreshTokens: validRefreshTokens }
+        //     });
+        // }
     });
 
     refreshToken = catchAsync(async (req, res) => {
