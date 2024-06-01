@@ -17,7 +17,7 @@ export const CompanyCreateSchema = z.preprocess(
     z.object({
         companyData: z.object({
             name: z.string().min(3),
-            phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+            phone: z.string().min(6),
             // website: z.preprocess((data) => (data === "" ? undefined : data), z.string().url().optional()),
             logo: z.preprocess((_data) => {
                 return "";
@@ -42,7 +42,7 @@ export const CompanyCreateSchema = z.preprocess(
             username: z.string().min(3),
             name: z.string().min(3),
             password: z.string().min(6),
-            phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+            phone: z.string().min(6),
             avatar: z.preprocess((_data) => {
                 return "";
             }, z.string().optional())
@@ -62,7 +62,7 @@ export const CompanyUpdateSchema = z
     .object({
         companyManagerID: z.number().optional(),
         name: z.string().min(3),
-        phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+        phone: z.string().min(6),
         // website: z.preprocess((data) => (data === "" ? undefined : data), z.string().url().optional()),
         logo: z.string().optional(),
         color: z.string().toUpperCase().length(6).optional(),

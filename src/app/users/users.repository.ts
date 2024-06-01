@@ -23,10 +23,9 @@ export class UsersRepository {
             },
             data: {
                 fcm: data.userData.fcm,
+                // Only one session is allowed
                 refreshTokens: data.userData.refreshToken
-                    ? {
-                          push: data.userData.refreshToken
-                      }
+                    ? { set: [data.userData.refreshToken] }
                     : data.userData.refreshTokens
                       ? { set: data.userData.refreshTokens }
                       : undefined
