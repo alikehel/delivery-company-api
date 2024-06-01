@@ -7,7 +7,7 @@ export const EmployeeCreateSchema = z.object({
     username: z.string().min(3),
     name: z.string().min(3),
     password: z.string().min(6),
-    phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+    phone: z.string().min(6),
     salary: z.coerce.number().min(0).optional(),
     storesIDs: z
         .preprocess((val) => {

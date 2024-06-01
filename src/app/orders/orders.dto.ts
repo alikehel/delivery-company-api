@@ -15,11 +15,8 @@ export const OrderCreateBaseSchema = z.object({
     recipientName: z.string().optional().default("غير معرف"),
     confirmed: z.boolean().optional(),
     status: z.nativeEnum(OrderStatus).default(OrderStatus.REGISTERED),
-    recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)).optional(),
-    recipientPhone: z
-        .string()
-        .regex(/^07[3-9][0-9]{8}$/)
-        .optional(),
+    recipientPhones: z.array(z.string().min(6)).optional(),
+    recipientPhone: z.string().min(6).optional(),
     recipientAddress: z.string(),
     notes: z.string().optional(),
     details: z.string().optional(),
@@ -81,8 +78,8 @@ export const OrderUpdateSchema = z
         oldDeliveryAgentId: z.coerce.number().or(z.literal(null)).optional(),
         deliveryDate: z.coerce.date(),
         recipientName: z.string(),
-        recipientPhones: z.array(z.string().regex(/^07[3-9][0-9]{8}$/)),
-        recipientPhone: z.string().regex(/^07[3-9][0-9]{8}$/),
+        recipientPhones: z.array(z.string().min(6)),
+        recipientPhone: z.string().min(6),
         recipientAddress: z.string(),
         notes: z.string(),
         details: z.string(),

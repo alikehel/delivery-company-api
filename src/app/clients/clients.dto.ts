@@ -6,7 +6,7 @@ import { z } from "zod";
 export const ClientCreateSchema = z.object({
     name: z.string().min(3),
     username: z.string().min(3),
-    phone: z.string().regex(/^07[3-9][0-9]{8}$/),
+    phone: z.string().min(6),
     role: z.nativeEnum(ClientRole),
     token: z.string().optional(),
     password: z.string().min(6),
