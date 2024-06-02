@@ -44,7 +44,7 @@ export class LocationsController {
 
         const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
-        // const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+        const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
 
         const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 
@@ -61,7 +61,7 @@ export class LocationsController {
             page: page,
             size: size,
             search: search,
-            // branchID: branchID,
+            branchID: branchID,
             governorate: governorate,
             deliveryAgentID: deliveryAgentID,
             // companyID: companyID,
