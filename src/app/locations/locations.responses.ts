@@ -4,7 +4,7 @@ export const locationSelect = {
     id: true,
     name: true,
     governorate: true,
-    // branch: true,
+    branch: true,
     remote: true,
     deliveryAgentsLocations: {
         select: {
@@ -41,7 +41,7 @@ export const locationReform = (
         id: location.id,
         name: location.name,
         governorate: location.governorate,
-        // branch: location.branch,
+        branch: location.branch,
         deliveryAgents: location.deliveryAgentsLocations.map((deliveryAgent) => {
             return {
                 id: deliveryAgent.deliveryAgent.user.id,

@@ -6,7 +6,7 @@ import { z } from "zod";
 export const LocationCreateSchema = z.object({
     name: z.string().min(3),
     governorate: z.nativeEnum(Governorate),
-    // branchID: z.coerce.number(),
+    branchID: z.coerce.number(),
     deliveryAgentsIDs: z.array(z.number()),
     remote: z.boolean().optional()
 });

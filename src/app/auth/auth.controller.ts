@@ -19,7 +19,7 @@ export class AuthController {
         const returnedUser = await authModel.signin(user);
 
         if (!returnedUser) {
-            throw new AppError("User not found", 400);
+            throw new AppError("رقم الهاتف غير صحيح", 401);
         }
 
         const isValidPassword = bcrypt.compareSync(
@@ -28,7 +28,7 @@ export class AuthController {
         );
 
         if (!isValidPassword) {
-            throw new AppError("كلمة المرور غير صحيحة", 400);
+            throw new AppError("كلمة المرور غير صحيحة", 401);
         }
 
         const token = jwt.sign(

@@ -10,11 +10,11 @@ export class LocationsRepository {
                 name: data.name,
                 governorate: data.governorate,
                 remote: data.remote,
-                // branch: {
-                //     connect: {
-                //         id: data.branchID
-                //     }
-                // },
+                branch: {
+                    connect: {
+                        id: data.branchID
+                    }
+                },
                 deliveryAgentsLocations: data.deliveryAgentsIDs
                     ? {
                           create: data.deliveryAgentsIDs?.map((id) => {
@@ -43,7 +43,7 @@ export class LocationsRepository {
         page: number;
         size: number;
         search?: string;
-        // branchID?: number;
+        branchID?: number;
         governorate?: Governorate;
         deliveryAgentID?: number;
         // companyID?: number;
@@ -56,11 +56,11 @@ export class LocationsRepository {
                         contains: filters.search
                     }
                 },
-                // {
-                //     branch: {
-                //         id: filters.branchID
-                //     }
-                // },
+                {
+                    branch: {
+                        id: filters.branchID
+                    }
+                },
                 {
                     governorate: filters.governorate
                 },
@@ -145,13 +145,13 @@ export class LocationsRepository {
                 name: data.locationData.name,
                 governorate: data.locationData.governorate,
                 remote: data.locationData.remote,
-                // branch: data.locationData.branchID
-                //     ? {
-                //           connect: {
-                //               id: data.locationData.branchID
-                //           }
-                //       }
-                //     : undefined,
+                branch: data.locationData.branchID
+                    ? {
+                          connect: {
+                              id: data.locationData.branchID
+                          }
+                      }
+                    : undefined,
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
                           deleteMany: {

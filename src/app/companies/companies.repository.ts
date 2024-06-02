@@ -49,6 +49,7 @@ export class CompaniesRepository {
         page: number;
         size: number;
         minified?: boolean;
+        mainCompany?: boolean;
     }) {
         if (filters.minified === true) {
             const paginatedCompanies = await prisma.company.findManyPaginated(
@@ -56,6 +57,9 @@ export class CompaniesRepository {
                     select: {
                         id: true,
                         name: true
+                    },
+                    where: {
+                        mainCompany: filters.mainCompany
                     },
                     orderBy: [
                         {
@@ -84,7 +88,10 @@ export class CompaniesRepository {
                         name: "asc"
                     }
                 ],
-                select: companySelect
+                select: companySelect,
+                where: {
+                    mainCompany: filters.mainCompany
+                }
             },
             {
                 page: filters.page,
