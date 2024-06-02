@@ -47,6 +47,8 @@ export class CompaniesController {
     getAllCompanies = catchAsync(async (req, res) => {
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
+        const mainCompany = req.query.main_company ? req.query.main_company === "true" : undefined;
+
         let size = req.query.size ? +req.query.size : 10;
         if (size > 500 && minified !== true) {
             size = 10;
@@ -60,7 +62,8 @@ export class CompaniesController {
         const { companies, pagesCount } = await companiesRepository.getAllCompaniesPaginated({
             page: page,
             size: size,
-            minified: minified
+            minified: minified,
+            mainCompany: mainCompany
         });
 
         res.status(200).json({
