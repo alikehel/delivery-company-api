@@ -1,6 +1,6 @@
 // // import { generateMock } from "@anatine/zod-mock";
 import { generateSchema } from "@anatine/zod-openapi";
-import { Governorate, OrderStatus, ReportStatus, ReportType } from "@prisma/client";
+import { Governorate, OrderStatus, ReportStatus, ReportType, SecondaryReportType } from "@prisma/client";
 import { z } from "zod";
 import { OrdersFiltersSchema } from "../orders/orders.dto";
 
@@ -14,7 +14,8 @@ export const ReportCreateSchema = z
             type: z.literal(ReportType.COMPANY),
             companyID: z.coerce.number(),
             baghdadDeliveryCost: z.coerce.number().optional(),
-            governoratesDeliveryCost: z.coerce.number().optional()
+            governoratesDeliveryCost: z.coerce.number().optional(),
+            secondaryType: z.nativeEnum(SecondaryReportType).optional().default(SecondaryReportType.DELIVERED)
         }),
         z.object({
             type: z.literal(ReportType.DELIVERY_AGENT),
@@ -36,11 +37,13 @@ export const ReportCreateSchema = z
             clientID: z.coerce.number().optional(),
             storeID: z.coerce.number(),
             baghdadDeliveryCost: z.coerce.number().optional(),
-            governoratesDeliveryCost: z.coerce.number().optional()
+            governoratesDeliveryCost: z.coerce.number().optional(),
+            secondaryType: z.nativeEnum(SecondaryReportType).optional().default(SecondaryReportType.DELIVERED)
         }),
         z.object({
             type: z.literal(ReportType.REPOSITORY),
-            repositoryID: z.coerce.number()
+            repositoryID: z.coerce.number(),
+            secondaryType: z.nativeEnum(SecondaryReportType).optional().default(SecondaryReportType.DELIVERED)
         })
     ])
     .and(ReportCreateBaseSchema);
