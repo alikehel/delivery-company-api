@@ -55,6 +55,7 @@ export class ReportsRepository {
         if (data.reportData.type === ReportType.CLIENT) {
             const createdReport = await prisma.clientReport.create({
                 data: {
+                    secondaryType: data.reportData.secondaryType,
                     client: {
                         connect: {
                             id: data.reportData.clientID
@@ -77,6 +78,7 @@ export class ReportsRepository {
         if (data.reportData.type === ReportType.REPOSITORY) {
             const createdReport = await prisma.repositoryReport.create({
                 data: {
+                    secondaryType: data.reportData.secondaryType,
                     repository: {
                         connect: {
                             id: data.reportData.repositoryID
@@ -132,6 +134,7 @@ export class ReportsRepository {
         if (data.reportData.type === ReportType.COMPANY) {
             const createdReport = await prisma.companyReport.create({
                 data: {
+                    secondaryType: data.reportData.secondaryType,
                     company: {
                         connect: {
                             id: data.reportData.companyID

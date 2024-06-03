@@ -108,6 +108,7 @@ export const orderSelect = {
     clientReport: {
         select: {
             id: true,
+            secondaryType: true,
             clientId: true,
             storeId: true,
             report: {
@@ -120,6 +121,7 @@ export const orderSelect = {
     repositoryReport: {
         select: {
             id: true,
+            secondaryType: true,
             repositoryId: true,
             report: {
                 select: {
@@ -164,6 +166,7 @@ export const orderSelect = {
     companyReport: {
         select: {
             id: true,
+            secondaryType: true,
             companyId: true,
             report: {
                 select: {
@@ -231,12 +234,14 @@ export const orderReform = (
         deletedAt: order.deletedAt?.toISOString(),
         clientReport: order.clientReport && {
             id: order.clientReport?.id,
+            secondaryType: order.clientReport?.secondaryType,
             clientId: order.clientReport?.clientId,
             storeId: order.clientReport?.storeId,
             deleted: order.clientReport?.report.deleted
         },
         repositoryReport: order.repositoryReport && {
             id: order.repositoryReport?.id,
+            secondaryType: order.repositoryReport?.secondaryType,
             repositoryId: order.repositoryReport?.repositoryId,
             deleted: order.repositoryReport?.report.deleted
         },
@@ -257,6 +262,7 @@ export const orderReform = (
         },
         companyReport: order.companyReport && {
             id: order.companyReport?.id,
+            secondaryType: order.companyReport?.secondaryType,
             companyId: order.companyReport?.companyId,
             deleted: order.companyReport?.report.deleted
         }

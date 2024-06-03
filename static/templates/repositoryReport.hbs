@@ -12,7 +12,7 @@
 		<table>
 			<tr>
 				<td style="width: 25%">رقم الكشف: <span>{{reportData.id}}</span></td>
-				<td style="width: 25%" class="title">كشف مخزن</td>
+				<td style="width: 25%" class="title {{colorizeTitle reportData.repositoryReport.secondaryType}}">كشف مخزن</td>
 				<td style="width: 25%">عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
 						reportData.governoratesOrdersCount}}</span></td>
 				<td style="width: 25%" rowspan="3"><img src="{{reportData.company.logo}}" /></td>
@@ -34,7 +34,7 @@
 	<main>
 		<table>
 			<thead>
-				<tr>
+				<tr class="{{colorizeHeader reportData.repositoryReport.secondaryType}}">
 					<th>#</th>
 					<th>رقم الوصل</th>
 					<th>أنشئ في</th>
@@ -59,7 +59,7 @@
 					<td>{{currency paidAmount}}</td>
 					<td>{{currency deliveryCost}}</td>
 					<td>{{currency clientNet}}</td>
-					<td>{{localizeOrderStatus status}}</td>
+					<td class="{{colorizeRow2 ../reportData.repositoryReport.secondaryType status}}">{{localizeOrderStatus status}}</td>
 				</tr>
 				{{/each}}
 			</tbody>

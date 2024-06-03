@@ -1,3 +1,4 @@
+import { OrderStatus, SecondaryReportType } from "@prisma/client";
 import handlebars from "handlebars";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
@@ -15,6 +16,41 @@ export const generateHTML = async (template: string, data: object) => {
         handlebars.registerHelper("add", (v1, v2) => (Number.parseInt(v1) || 0) + (Number.parseInt(v2) || 0));
         handlebars.registerHelper("currency", (value) => {
             return Number(value || 0).toLocaleString("en-GB");
+        });
+        handlebars.registerHelper("colorizeRow", (status) => {
+            if (
+                status === OrderStatus.PARTIALLY_RETURNED ||
+                status === OrderStatus.REPLACED ||
+                status === OrderStatus.RETURNED
+            ) {
+                return "bg-red";
+            }
+            return "";
+        });
+        handlebars.registerHelper("colorizeRow2", (secondaryReportType, status) => {
+            if (secondaryReportType === SecondaryReportType.RETURNED) {
+                return "";
+            }
+            if (
+                status === OrderStatus.PARTIALLY_RETURNED ||
+                status === OrderStatus.REPLACED ||
+                status === OrderStatus.RETURNED
+            ) {
+                return "bg-red";
+            }
+            return "";
+        });
+        handlebars.registerHelper("colorizeHeader", (secondaryReportType) => {
+            if (secondaryReportType === SecondaryReportType.RETURNED) {
+                return "bg-red";
+            }
+            return "bg-green";
+        });
+        handlebars.registerHelper("colorizeTitle", (secondaryReportType) => {
+            if (secondaryReportType === SecondaryReportType.RETURNED) {
+                return "red";
+            }
+            return "green";
         });
         // handlebars.registerHelper("arabicNumber", (value) => {
         //     const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];

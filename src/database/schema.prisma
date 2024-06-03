@@ -132,6 +132,11 @@ enum ReportType {
   CLIENT
 }
 
+enum SecondaryReportType {
+  DELIVERED
+  RETURNED
+}
+
 enum OrderTimelineType {
   // ID & NAME
   DELIVERY_AGENT_CHANGE
@@ -704,34 +709,36 @@ model Report {
 
 model CompanyReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id                       Int     @id
+  id                       Int                 @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   companyId                Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  report                   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
+  report                   Report              @relation(fields: [id], references: [id], onDelete: Cascade)
   orders                   Order[]
-  company                  Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company                  Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
   // --- OTHER --------------------------------------------------------------------- //
-  baghdadDeliveryCost      Float   @default(0)
-  governoratesDeliveryCost Float   @default(0)
+  baghdadDeliveryCost      Float               @default(0)
+  governoratesDeliveryCost Float               @default(0)
+  secondaryType            SecondaryReportType @default(DELIVERED)
 
   @@index([companyId])
 }
 
 model ClientReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id                       Int     @id
+  id                       Int                 @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   clientId                 Int
   storeId                  Int?
   // --- RELATIONS --------------------------------------------------------------------------- //
-  client                   Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  report                   Report  @relation(fields: [id], references: [id], onDelete: Cascade)
-  store                    Store?  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  client                   Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  report                   Report              @relation(fields: [id], references: [id], onDelete: Cascade)
+  store                    Store?              @relation(fields: [storeId], references: [id], onDelete: Cascade)
   orders                   Order[]
   // --- OTHER --------------------------------------------------------------------- //
-  baghdadDeliveryCost      Float   @default(0)
-  governoratesDeliveryCost Float   @default(0)
+  baghdadDeliveryCost      Float               @default(0)
+  governoratesDeliveryCost Float               @default(0)
+  secondaryType            SecondaryReportType @default(DELIVERED)
 
   @@index([clientId])
   @@index([storeId])
@@ -739,14 +746,15 @@ model ClientReport {
 
 model RepositoryReport {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id           Int        @id
+  id            Int                 @id
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
-  repositoryId Int
+  repositoryId  Int
   // --- RELATIONS --------------------------------------------------------------------------- //
-  report       Report     @relation(fields: [id], references: [id], onDelete: Cascade)
-  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
-  orders       Order[]
+  report        Report              @relation(fields: [id], references: [id], onDelete: Cascade)
+  repository    Repository          @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  orders        Order[]
   // --- OTHER --------------------------------------------------------------------- //
+  secondaryType SecondaryReportType @default(DELIVERED)
 
   @@index([repositoryId])
 }

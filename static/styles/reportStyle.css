@@ -18,8 +18,9 @@ header {
 	line-height: 1.4em;
     font-weight: normal; */
     text-align: center;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
     margin-bottom: 20px;
     padding-block: 20px;
     font-weight: bolder;
@@ -76,6 +77,8 @@ main table td {
     /* Center vertically */
     justify-content: center;
     /* Center horizontally */
+
+    border: 1px solid #000;
 }
 
 main table th,
@@ -125,11 +128,13 @@ footer {
     margin-top: 20px;
     justify-content: end;
     text-align: right;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
     padding-block: 20px;
     font-weight: bolder;
     font-size: 18px;
+    padding-inline: 8px;
 }
 
 .light {
@@ -152,6 +157,39 @@ footer {
 }
 
 .title {
-    text-decoration: underline;
+    /* text-decoration: underline; */
     transform: scale(1.4);
+}
+
+.bg-green,
+.bg-green td,
+.bg-green th {
+    background-color: rgba(0, 165, 0, 0.8) !important;
+    color: #fff !important;
+}
+
+.bg-blue,
+.bg-blue td,
+.bg-blue th {
+    background-color: rgba(0, 0, 165, 0.8) !important;
+    color: #fff !important;
+}
+
+.bg-red,
+.bg-red th,
+.bg-red td {
+    background-color: rgba(165, 0, 0, 0.9) !important;
+    color: #fff !important;
+}
+
+.blue {
+    color: rgb(0, 0, 165);
+}
+
+.red {
+    color: rgb(165, 0, 0);
+}
+
+.green {
+    color: rgb(0, 165, 0);
 }

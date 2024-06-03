@@ -12,7 +12,7 @@
 		<table>
 			<tr>
 				<td style="width: 25%">رقم الكشف: <span>{{reportData.id}}</span></td>
-				<td style="width: 25%" class="title">كشف فرع</td>
+				<td style="width: 25%" class="title blue">كشف فرع</td>
 				<td style="width: 25%">عدد الطلبيات: <span>{{add reportData.baghdadOrdersCount
 						reportData.governoratesOrdersCount}}</span></td>
 				<td style="width: 25%" rowspan="3"><img src="{{reportData.company.logo}}" /></td>
@@ -34,7 +34,7 @@
 	<main>
 		<table>
 			<thead>
-				<tr>
+				<tr class="bg-blue">
 					<th>#</th>
 					<th>رقم الوصل</th>
 					<th>أنشئ في</th>
@@ -69,7 +69,7 @@
 					<td>{{currency totalCost}}</td>
 					<td>{{currency paidAmount}}</td>
 					<td>{{currency deliveryAgentNet}}</td>
-					<td>{{localizeOrderStatus status}}</td>
+					<td class="{{colorizeRow status}}">{{localizeOrderStatus status}}</td>
 				</tr>
 				{{/each}}
 			</tbody>

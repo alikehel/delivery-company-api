@@ -1,6 +1,6 @@
+import type { ReportType } from "@prisma/client";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { ReportType } from "@prisma/client";
 import { AppError } from "../../..//lib/AppError";
 import { generateHTML } from "../../..//lib/generateHTML";
 import { generatePDF } from "../../..//lib/generatePDF";

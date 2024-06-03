@@ -29,6 +29,7 @@ export const reportSelect = {
     clientReport: {
         select: {
             id: true,
+            secondaryType: true,
             client: {
                 select: {
                     branch: {
@@ -66,6 +67,7 @@ export const reportSelect = {
     repositoryReport: {
         select: {
             id: true,
+            secondaryType: true,
             repository: {
                 select: {
                     id: true,
@@ -140,6 +142,7 @@ export const reportSelect = {
     companyReport: {
         select: {
             id: true,
+            secondaryType: true,
             company: {
                 select: {
                     id: true,
@@ -192,12 +195,14 @@ export const reportReform = (
             store: report.clientReport.store,
             branch: report.clientReport.client.branch,
             baghdadDeliveryCost: report.clientReport.baghdadDeliveryCost,
-            governoratesDeliveryCost: report.clientReport.governoratesDeliveryCost
+            governoratesDeliveryCost: report.clientReport.governoratesDeliveryCost,
+            secondaryType: report.clientReport.secondaryType
         },
         repositoryReport: report.repositoryReport && {
             reportNumber: report.repositoryReport.id,
             repositoryReportOrders: report.repositoryReport.orders,
-            repository: report.repositoryReport.repository
+            repository: report.repositoryReport.repository,
+            secondaryType: report.repositoryReport.secondaryType
         },
         branchReport: report.branchReport && {
             reportNumber: report.branchReport.id,
@@ -222,7 +227,8 @@ export const reportReform = (
             companyReportOrders: report.companyReport.orders,
             company: report.companyReport.company,
             baghdadDeliveryCost: report.companyReport.baghdadDeliveryCost,
-            governoratesDeliveryCost: report.companyReport.governoratesDeliveryCost
+            governoratesDeliveryCost: report.companyReport.governoratesDeliveryCost,
+            secondaryType: report.companyReport.secondaryType
         },
         company: report.company,
         deleted: report.deleted,
