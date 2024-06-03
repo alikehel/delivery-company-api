@@ -1,10 +1,11 @@
-import type { Governorate } from "@prisma/client";
+import type { Governorate, Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
+import type { loggedInUserType } from "../../types/user";
 import type { LocationCreateType, LocationUpdateType } from "./locations.dto";
 import { locationReform, locationSelect } from "./locations.responses";
 
 export class LocationsRepository {
-    async createLocation(data: LocationCreateType) {
+    async createLocation(loggedInUser: loggedInUserType, data: LocationCreateType) {
         const createdLocation = await prisma.location.create({
             data: {
                 name: data.name,
@@ -22,6 +23,11 @@ export class LocationsRepository {
                                   deliveryAgent: {
                                       connect: {
                                           id: id
+                                      }
+                                  },
+                                  company: {
+                                      connect: {
+                                          id: loggedInUser.companyID as number
                                       }
                                   }
                               };
@@ -46,7 +52,7 @@ export class LocationsRepository {
         branchID?: number;
         governorate?: Governorate;
         deliveryAgentID?: number;
-        // companyID?: number;
+        companyID?: number;
         minified?: boolean;
     }) {
         const where = {
@@ -81,7 +87,7 @@ export class LocationsRepository {
                 //     }
                 // }
             ]
-        };
+        } satisfies Prisma.LocationWhereInput;
 
         if (filters.minified === true) {
             const paginatedLocations = await prisma.location.findManyPaginated(
@@ -109,7 +115,18 @@ export class LocationsRepository {
                 // orderBy: {
                 //     id: "desc"
                 // },
-                select: locationSelect
+                select: {
+                    ...locationSelect,
+                    // This makes sure that only delivery agents that belong to the loggedin user company are returned
+                    deliveryAgentsLocations: {
+                        select: locationSelect.deliveryAgentsLocations.select,
+                        where: {
+                            company: {
+                                id: filters.companyID
+                            }
+                        }
+                    }
+                }
             },
             {
                 page: filters.page,
@@ -134,6 +151,7 @@ export class LocationsRepository {
     }
 
     async updateLocation(data: {
+        loggedInUser: loggedInUserType;
         locationID: number;
         locationData: LocationUpdateType;
     }) {
@@ -155,13 +173,19 @@ export class LocationsRepository {
                 deliveryAgentsLocations: data.locationData.deliveryAgentsIDs
                     ? {
                           deleteMany: {
-                              locationId: data.locationID
+                              locationId: data.locationID,
+                              companyId: data.loggedInUser.companyID as number
                           },
                           create: data.locationData.deliveryAgentsIDs?.map((id) => {
                               return {
                                   deliveryAgent: {
                                       connect: {
                                           id: id
+                                      }
+                                  },
+                                  company: {
+                                      connect: {
+                                          id: data.loggedInUser.companyID as number
                                       }
                                   }
                               };

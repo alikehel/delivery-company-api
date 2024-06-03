@@ -447,6 +447,10 @@ model DeliveryAgentsLocations {
   // --- RELATIONS --------------------------------------------------------------------------- //
   deliveryAgent   Employee @relation(fields: [deliveryAgentId], references: [id], onDelete: Cascade)
   location        Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  // --- TENANT --------------------------------------------------------------------- //
+  // TODO: Make mandatory
+  company         Company? @relation(fields: [companyId], references: [id])
+  companyId       Int?
   // --- OTHER --------------------------------------------------------------------- //
 
   // --- IDENTIFICATION --------------------------------------------------------------------- //
@@ -497,6 +501,7 @@ model Company {
   // --- OTHER --------------------------------------------------------------------- //
   createdAt                               DateTime                    @default(now())
   updatedAt                               DateTime                    @updatedAt
+  DeliveryAgentsLocations                 DeliveryAgentsLocations[]
 }
 
 model InquiryEmployeesCompanies {

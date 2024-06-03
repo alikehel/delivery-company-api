@@ -1,4 +1,4 @@
-import type { Governorate } from "@prisma/client";
+import { AdminRole, type Governorate } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 // import { loggedInUserType } from "../../types/user";
 import { AppError } from "../../lib/AppError";
@@ -20,7 +20,7 @@ export class LocationsController {
             throw new AppError("فقط الشركة الرئيسية يمكنها إضافة مناطق جديدة", 403);
         }
 
-        const createdLocation = await locationsRepository.createLocation(locationData);
+        const createdLocation = await locationsRepository.createLocation(loggedInUser, locationData);
 
         res.status(200).json({
             status: "success",
@@ -30,13 +30,13 @@ export class LocationsController {
 
     getAllLocations = catchAsync(async (req, res) => {
         // Filters
-        // const loggedInUser = res.locals.user as loggedInUserType;
-        // let companyID: number | undefined;
-        // if (Object.keys(AdminRole).includes(loggedInUser.role)) {
-        //     companyID = req.query.company_id ? +req.query.company_id : undefined;
-        // } else if (loggedInUser.companyID) {
-        //     companyID = loggedInUser.companyID;
-        // }
+        const loggedInUser = res.locals.user as loggedInUserType;
+        let companyID: number | undefined;
+        if (Object.keys(AdminRole).includes(loggedInUser.role)) {
+            companyID = req.query.company_id ? +req.query.company_id : undefined;
+        } else if (loggedInUser.companyID) {
+            companyID = loggedInUser.companyID;
+        }
 
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
@@ -64,7 +64,7 @@ export class LocationsController {
             branchID: branchID,
             governorate: governorate,
             deliveryAgentID: deliveryAgentID,
-            // companyID: companyID,
+            companyID: companyID,
             minified: minified
         });
 
@@ -91,10 +91,12 @@ export class LocationsController {
 
     updateLocation = catchAsync(async (req, res) => {
         const locationID = +req.params.locationID;
+        const loggedInUser = res.locals.user as loggedInUserType;
 
         const locationData = LocationUpdateSchema.parse(req.body);
 
         const location = await locationsRepository.updateLocation({
+            loggedInUser: loggedInUser,
             locationID: locationID,
             locationData: locationData
         });

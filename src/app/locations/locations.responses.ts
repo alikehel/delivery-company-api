@@ -20,7 +20,7 @@ export const locationSelect = {
                 }
             }
         }
-    },
+    }
     // company: {
     //     select: {
     //         id: true,
