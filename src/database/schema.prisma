@@ -449,8 +449,8 @@ model DeliveryAgentsLocations {
   location        Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
   // --- TENANT --------------------------------------------------------------------- //
   // TODO: Make mandatory
-  company         Company? @relation(fields: [companyId], references: [id])
-  companyId       Int?
+  company         Company  @relation(fields: [companyId], references: [id])
+  companyId       Int
   // --- OTHER --------------------------------------------------------------------- //
 
   // --- IDENTIFICATION --------------------------------------------------------------------- //
