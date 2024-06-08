@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import type { ClientCreateTypeWithUserID, ClientUpdateType } from "./clients.dto";
 import { clientReform, clientSelect } from "./clients.responses";
@@ -67,16 +68,21 @@ export class ClientsRepository {
         minified?: boolean;
         storeID?: number;
         branchID?: number;
+        governorate?: string;
+        phone?: string;
+        name?: string;
     }) {
         const where = {
             AND: [
                 { deleted: filters.deleted === "true" },
                 { company: { id: filters.companyID } },
                 { branch: filters.branchID ? { id: filters.branchID } : undefined },
+                { user: { phone: filters.phone } },
+                { user: { name: { contains: filters.name } } },
                 // TODO
                 { stores: filters.storeID ? { some: { id: filters.storeID } } : undefined }
             ]
-        };
+        } as Prisma.ClientWhereInput;
 
         if (filters.minified === true) {
             const paginatedClients = await prisma.client.findManyPaginated(
