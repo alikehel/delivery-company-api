@@ -6,7 +6,7 @@ export class SizesRepository {
     async createSize(data: SizeCreateType) {
         const createdSize = await prisma.size.create({
             data: {
-                title: data.title,
+                title: data.title
                 // company: {
                 //     connect: {
                 //         id: companyID

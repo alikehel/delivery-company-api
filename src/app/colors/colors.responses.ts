@@ -5,7 +5,7 @@ export const colorSelect = {
     title: true,
     code: true,
     createdAt: true,
-    updatedAt: true,
+    updatedAt: true
     // company: {
     //     select: {
     //         id: true,

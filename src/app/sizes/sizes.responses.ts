@@ -4,7 +4,7 @@ export const sizeSelect = {
     id: true,
     title: true,
     createdAt: true,
-    updatedAt: true,
+    updatedAt: true
     // company: {
     //     select: {
     //         id: true,

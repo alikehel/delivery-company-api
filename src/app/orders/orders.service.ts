@@ -1,4 +1,4 @@
-import { EmployeeRole, OrderStatus, type Governorate, type Order } from "@prisma/client";
+import { EmployeeRole, type Governorate, type Order, OrderStatus } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";

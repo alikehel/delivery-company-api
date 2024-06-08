@@ -7,7 +7,7 @@ export class ColorsRepository {
         const createdColor = await prisma.color.create({
             data: {
                 title: data.title,
-                code: data.code,
+                code: data.code
                 // company: {
                 //     connect: {
                 //         id: companyID

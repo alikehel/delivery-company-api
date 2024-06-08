@@ -6,7 +6,7 @@ export class CategoriesRepository {
     async createCategory(data: CategoryCreateType) {
         const createdCategory = await prisma.category.create({
             data: {
-                title: data.title,
+                title: data.title
                 // company: {
                 //     connect: {
                 //         id: companyID

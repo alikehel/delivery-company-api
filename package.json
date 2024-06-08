@@ -29,8 +29,8 @@
         "prisma:generate": "yarn dlx prisma generate",
         "prisma:deploy": "yarn dlx prisma migrate deploy",
         "swagger:autogen": "ts-node-dev ./src/swagger/swagger.ts",
-        "biome:safe": "yarn dlx @biomejs/biome check --apply src",
-        "biome:unsafe": "yarn dlx @biomejs/biome check --apply-unsafe src"
+        "biome:safe": "yarn dlx @biomejs/biome check --write src",
+        "biome:unsafe": "yarn dlx @biomejs/biome check --write --unsafe src"
     },
     "prisma": {
         "seed": "ts-node-dev src/database/seed.ts",
