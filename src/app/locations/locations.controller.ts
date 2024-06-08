@@ -1,7 +1,7 @@
 import { AdminRole, type Governorate } from "@prisma/client";
-import { catchAsync } from "../../lib/catchAsync";
 // import { loggedInUserType } from "../../types/user";
 import { AppError } from "../../lib/AppError";
+import { catchAsync } from "../../lib/catchAsync";
 import type { loggedInUserType } from "../../types/user";
 import { LocationCreateSchema, LocationUpdateSchema } from "./locations.dto";
 import { LocationsRepository } from "./locations.repository";

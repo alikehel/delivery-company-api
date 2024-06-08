@@ -79,6 +79,10 @@ export class ClientsController {
             branchID = branch.id;
         }
 
+        const phone = req.query.phone as string | undefined;
+
+        const name = req.query.name as string | undefined;
+
         const deleted = (req.query.deleted as string) || "false";
 
         const storeID = req.query.store_id ? +req.query.store_id : undefined;
@@ -101,7 +105,9 @@ export class ClientsController {
             companyID: companyID,
             minified: minified,
             storeID: storeID,
-            branchID: branchID
+            branchID: branchID,
+            phone: phone,
+            name: name
         });
 
         res.status(200).json({
