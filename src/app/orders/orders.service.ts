@@ -1,4 +1,4 @@
-import { EmployeeRole, type Governorate, type Order, OrderStatus } from "@prisma/client";
+import { EmployeeRole, OrderStatus, type Governorate, type Order } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
@@ -59,12 +59,20 @@ export class OrdersService {
                 const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
                     locationID: order.locationID
                 });
+                let branchID = undefined;
+                const branch = await branchesRepository.getBranchByLocation({
+                    locationID: order.locationID
+                });
+                if (!branch) {
+                    throw new AppError("لا يوجد فرع مرتبط بالموقع", 500);
+                }
+                branchID = branch.id;
                 const createdOrder = await ordersRepository.createOrder({
                     companyID: data.loggedInUser.companyID as number,
                     clientID,
                     deliveryAgentID,
                     loggedInUser: data.loggedInUser,
-                    orderData: { ...order, confirmed, status }
+                    orderData: { ...order, confirmed, status, branchID }
                 });
                 if (!createdOrder) {
                     throw new AppError("Failed to create order", 500);
@@ -84,12 +92,20 @@ export class OrdersService {
         const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
             locationID: data.orderOrOrdersData.locationID
         });
+        let branchID = undefined;
+        const branch = await branchesRepository.getBranchByLocation({
+            locationID: data.orderOrOrdersData.locationID
+        });
+        if (!branch) {
+            throw new AppError("لا يوجد فرع مرتبط بالموقع", 500);
+        }
+        branchID = branch.id;
         const createdOrder = await ordersRepository.createOrder({
             companyID: data.loggedInUser.companyID as number,
             clientID,
             deliveryAgentID,
             loggedInUser: data.loggedInUser,
-            orderData: { ...data.orderOrOrdersData, confirmed, status }
+            orderData: { ...data.orderOrOrdersData, confirmed, status, branchID }
         });
         return createdOrder;
     };
