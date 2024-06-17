@@ -1,23 +1,28 @@
 import { OrderStatus, SecondaryReportType } from "@prisma/client";
 import handlebars from "handlebars";
+// @ts-expect-error
+import asyncHelpers from "handlebars-async-helpers";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
+import { generateQRCode } from "./generateQRCode";
 import { localizeGovernorate, localizeOrderStatus } from "./localize";
+
+const hb: typeof handlebars = asyncHelpers(handlebars);
 
 export const generateHTML = async (template: string, data: object) => {
     try {
-        handlebars.registerHelper("date", (date) => new Date(date).toLocaleDateString("en-GB"));
-        handlebars.registerHelper("mapPhones", (phones) => {
+        hb.registerHelper("date", (date) => new Date(date).toLocaleDateString("en-GB"));
+        hb.registerHelper("mapPhones", (phones) => {
             if (!phones) return "";
             if (typeof phones === "string") return phones;
             return phones.join("\n");
         });
-        handlebars.registerHelper("inc", (value) => Number.parseInt(value) + 1);
-        handlebars.registerHelper("add", (v1, v2) => (Number.parseInt(v1) || 0) + (Number.parseInt(v2) || 0));
-        handlebars.registerHelper("currency", (value) => {
+        hb.registerHelper("inc", (value) => Number.parseInt(value) + 1);
+        hb.registerHelper("add", (v1, v2) => (Number.parseInt(v1) || 0) + (Number.parseInt(v2) || 0));
+        hb.registerHelper("currency", (value) => {
             return Number(value || 0).toLocaleString("en-GB");
         });
-        handlebars.registerHelper("colorizeRow", (status) => {
+        hb.registerHelper("colorizeRow", (status) => {
             if (
                 status === OrderStatus.PARTIALLY_RETURNED ||
                 status === OrderStatus.REPLACED ||
@@ -27,7 +32,7 @@ export const generateHTML = async (template: string, data: object) => {
             }
             return "";
         });
-        handlebars.registerHelper("colorizeRow2", (secondaryReportType, status) => {
+        hb.registerHelper("colorizeRow2", (secondaryReportType, status) => {
             if (secondaryReportType === SecondaryReportType.RETURNED) {
                 return "";
             }
@@ -40,19 +45,26 @@ export const generateHTML = async (template: string, data: object) => {
             }
             return "";
         });
-        handlebars.registerHelper("colorizeHeader", (secondaryReportType) => {
+        hb.registerHelper("colorizeHeader", (secondaryReportType) => {
             if (secondaryReportType === SecondaryReportType.RETURNED) {
                 return "bg-red";
             }
             return "bg-green";
         });
-        handlebars.registerHelper("colorizeTitle", (secondaryReportType) => {
+        hb.registerHelper("colorizeTitle", (secondaryReportType) => {
             if (secondaryReportType === SecondaryReportType.RETURNED) {
                 return "red";
             }
             return "green";
         });
-        // handlebars.registerHelper("arabicNumber", (value) => {
+        hb.registerHelper("QRCode", (data) => {
+            return generateQRCode(
+                JSON.stringify({
+                    id: data.id
+                })
+            );
+        });
+        // hb.registerHelper("arabicNumber", (value) => {
         //     const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
         //     if (value === 0) {
         //         return "٠";
@@ -61,14 +73,14 @@ export const generateHTML = async (template: string, data: object) => {
         //     if (typeof value === "string") return value.replace(/[0-9]/g, (w) => arabicNumbers[+w]);
         //     return value.toString().replace(/[0-9]/g, (w: string) => arabicNumbers[+w]);
         // });
-        handlebars.registerHelper("localizeOrderStatus", (status) => {
+        hb.registerHelper("localizeOrderStatus", (status) => {
             return localizeOrderStatus(status);
         });
-        handlebars.registerHelper("localizeGovernorate", (governorate) => {
+        hb.registerHelper("localizeGovernorate", (governorate) => {
             return localizeGovernorate(governorate);
         });
 
-        const compiledTemplate = handlebars.compile(template, { strict: true });
+        const compiledTemplate = hb.compile(template, { strict: true });
         const html = compiledTemplate({
             ...data
         });
