@@ -20,8 +20,9 @@ header {
 	line-height: 1.4em;
     font-weight: normal; */
     text-align: center;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
     margin-bottom: 20px;
     padding-block: 20px;
     font-weight: bolder;
@@ -79,6 +80,8 @@ main table td {
     /* Center vertically */
     justify-content: center;
     /* Center horizontally */
+
+    border: 1px solid #000;
 }
 
 main table th {
@@ -120,8 +123,10 @@ footer {
 }
 
 footer section {
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
+    padding-inline: 8px;
     padding-block: 20px;
 }
 
