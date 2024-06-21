@@ -8,28 +8,37 @@
 body {
     color: #000;
     background: #ffffff;
-    font-size: 16px;
+    font-size: 20px;
     /* direction: rtl; */
     text-align: center;
+    height: 100vh;
 }
 
-
+.receipt-container {
+    break-after: page;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
 
 header {
     /* font-size: 2.4em;
 	line-height: 1.4em;
     font-weight: normal; */
     text-align: center;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
     margin-bottom: 20px;
     padding-block: 20px;
+    padding-inline: 20px;
     font-weight: bolder;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 header table td span {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: normal;
 }
 
@@ -42,14 +51,26 @@ header table td {
     word-break: break-all;
 }
 
+/* header table td > * {
+    width: 100%;
+    height: 100%;
+} */
+
 /* header table tr,
 			header table td {
 				border: 1px solid #000;
 			} */
 
 header img {
-    max-width: 100px;
-    max-height: 100px;
+    width: 150px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+header svg {
+    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 /* header small {
@@ -62,13 +83,21 @@ header img {
 				float: right;
 			} */
 
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* margin-bottom: 20px; */
+}
+
 main table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     page-break-after: auto;
     margin-bottom: 20px;
-    /* margin-bottom: 30px; */
+    flex: 1;
 }
 
 main table th,
@@ -79,12 +108,14 @@ main table td {
     /* Center vertically */
     justify-content: center;
     /* Center horizontally */
+
+    border: 1px solid #000;
 }
 
 main table th {
     /* border-bottom: 1px solid #000; */
     font-weight: bolder;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 main table tr {
@@ -110,19 +141,22 @@ main table tr {
 }
 
 footer {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     justify-content: end;
     text-align: right;
     font-weight: bolder;
-    font-size: 18px;
-    /* position: fixed;
+    font-size: 22px;
+    /* width: 100%;
+    position: fixed;
     bottom: 0; */
 }
 
 footer section {
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    padding-block: 20px;
+    /* border-top: 1px solid #000;
+    border-bottom: 1px solid #000; */
+    border: 1px solid #000;
+    padding-inline: 15px;
+    padding-block: 15px;
 }
 
 footer section:not(:last-child) {
@@ -150,8 +184,4 @@ footer section:not(:last-child) {
 
 .title {
     text-decoration: underline;
-}
-
-.receipt-container {
-    break-after: page;
 }

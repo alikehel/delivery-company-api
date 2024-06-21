@@ -1,6 +1,6 @@
-import * as util from "node:util";
-import { type Prisma, PrismaClient } from "@prisma/client";
-import { Logger } from "../lib/logger";
+// import * as util from "node:util";
+import { PrismaClient, type Prisma } from "@prisma/client";
+// import { Logger } from "../lib/logger";
 import { calculatePagesCount, calculateSkip } from "../lib/pagination";
 
 const prismaX = new PrismaClient({
@@ -32,18 +32,18 @@ const prismaX = new PrismaClient({
 //     return result;
 // });
 
-prismaX.$on("query", (e) => {
-    Logger.info(
-        util.inspect(
-            {
-                Query: e.query,
-                Params: e.params,
-                Duration: e.duration
-            },
-            { showHidden: false, depth: null, colors: true }
-        )
-    );
-});
+// prismaX.$on("query", (e) => {
+//     Logger.info(
+//         util.inspect(
+//             {
+//                 Query: e.query,
+//                 Params: e.params,
+//                 Duration: e.duration
+//             },
+//             { showHidden: false, depth: null, colors: true }
+//         )
+//     );
+// });
 
 // prismaX.$on("error", (e) => {
 //     Logger.error(
@@ -132,34 +132,34 @@ export const prisma = prismaX
                 }
             }
         }
-    })
-    .$extends({
-        query: {
-            $allModels: {
-                async $allOperations({ operation, model, args, query }) {
-                    try {
-                        const start = performance.now();
-                        const result = await query(args);
-                        const end = performance.now();
-                        const time = end - start;
-                        Logger.info(
-                            util.inspect(
-                                { model, operation, time, args },
-                                { showHidden: false, depth: null, colors: true }
-                            )
-                            // { model, operation, args, time }
-                        );
-                        return result;
-                    } catch (error) {
-                        Logger.error(
-                            util.inspect(
-                                { model, operation },
-                                { showHidden: false, depth: null, colors: true }
-                            )
-                        );
-                        throw error;
-                    }
-                }
-            }
-        }
     });
+// .$extends({
+//     query: {
+//         $allModels: {
+//             async $allOperations({ operation, model, args, query }) {
+//                 try {
+//                     const start = performance.now();
+//                     const result = await query(args);
+//                     const end = performance.now();
+//                     const time = end - start;
+//                     Logger.info(
+//                         util.inspect(
+//                             { model, operation, time, args },
+//                             { showHidden: false, depth: null, colors: true }
+//                         )
+//                         // { model, operation, args, time }
+//                     );
+//                     return result;
+//                 } catch (error) {
+//                     Logger.error(
+//                         util.inspect(
+//                             { model, operation },
+//                             { showHidden: false, depth: null, colors: true }
+//                         )
+//                     );
+//                     throw error;
+//                 }
+//             }
+//         }
+//     }
+// });
