@@ -87,7 +87,7 @@ export class OrdersService {
             storeID: data.orderOrOrdersData.storeID
         });
         if (!clientID) {
-            throw new AppError("حصل حطأ في ايجاد صاحب المتجر", 500);
+            throw new AppError("حصل خطأ في ايجاد صاحب المتجر", 500);
         }
         const deliveryAgentID = await employeesRepository.getDeliveryAgentIDByLocationID({
             locationID: data.orderOrOrdersData.locationID
