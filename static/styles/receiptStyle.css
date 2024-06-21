@@ -83,18 +83,26 @@ header svg {
 				float: right;
 			} */
 
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* margin-bottom: 20px; */
+}
+
 main table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     page-break-after: auto;
     margin-bottom: 20px;
-    /* margin-bottom: 30px; */
+    flex: 1;
 }
 
 main table th,
 main table td {
-    padding: 25px;
+    padding: 10px;
     /* Increased padding */
     align-items: center;
     /* Center vertically */
@@ -133,7 +141,7 @@ main table tr {
 }
 
 footer {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     justify-content: end;
     text-align: right;
     font-weight: bolder;
@@ -147,8 +155,8 @@ footer section {
     /* border-top: 1px solid #000;
     border-bottom: 1px solid #000; */
     border: 1px solid #000;
-    padding-inline: 20px;
-    padding-block: 20px;
+    padding-inline: 15px;
+    padding-block: 15px;
 }
 
 footer section:not(:last-child) {
