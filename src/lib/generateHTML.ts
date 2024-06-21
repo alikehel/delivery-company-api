@@ -4,6 +4,7 @@ import handlebars from "handlebars";
 import asyncHelpers from "handlebars-async-helpers";
 import { AppError } from "../lib/AppError";
 import { Logger } from "../lib/logger";
+import { generateBarCode } from "./generateBarCode";
 import { generateQRCode } from "./generateQRCode";
 import { localizeGovernorate, localizeOrderStatus } from "./localize";
 
@@ -63,6 +64,9 @@ export const generateHTML = async (template: string, data: object) => {
                     id: data.id
                 })
             );
+        });
+        hb.registerHelper("BarCode", (id) => {
+            return generateBarCode(id.toString());
         });
         // hb.registerHelper("arabicNumber", (value) => {
         //     const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];

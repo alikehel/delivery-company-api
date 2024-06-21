@@ -16,7 +16,10 @@
 				<tr>
 					<td><img src="{{company.logo}}" /></td>
 					<td></td>
-					<td></td>
+					<td>
+						{{!-- {{{}}} is used to escape the value of the variable and not to escape the html tags --}}
+						{{{BarCode id}}}
+					</td>
 					<td><img src="{{QRCode this}}" /></td>
 				</tr>
 			</table>

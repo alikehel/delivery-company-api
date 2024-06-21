@@ -2201,6 +2201,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/xmldom@npm:^0":
+  version: 0.1.34
+  resolution: "@types/xmldom@npm:0.1.34"
+  checksum: 10c0/9cd8428f2fbdedb3003d48841b62000fc218a15d9ce2129f47a768f0d0ec840b942a4dcec0ce567a35d314feb86bfc1f86bca23e180bf87f8dd52ef982f06e45
+  languageName: node
+  linkType: hard
+
 "@types/yauzl@npm:^2.9.1":
   version: 2.10.3
   resolution: "@types/yauzl@npm:2.10.3"
@@ -2321,6 +2328,7 @@ __metadata:
     "@types/node-cron": "npm:^3.0.11"
     "@types/qrcode": "npm:^1"
     "@types/swagger-ui-express": "npm:^4.1.6"
+    "@types/xmldom": "npm:^0"
     apicache: "npm:^1.6.3"
     bcrypt: "npm:^5.1.1"
     body-parser: "npm:^1.20.2"
@@ -2352,6 +2360,7 @@ __metadata:
     ts-node-dev: "npm:^2.0.0"
     typescript: "npm:^5.4.5"
     winston: "npm:^3.13.0"
+    xmldom: "npm:^0.6.0"
     yarn-upgrade-all: "npm:^0.7.2"
     zod: "npm:^3.23.8"
   languageName: unknown
@@ -6866,6 +6875,13 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10c0/55241ec93a66fdfc4bf4f8bc66c8eb038fda2c7a4ee8f6f157f2ca7dc7aa76aea0c0da0bf3adb2af390074a70a0e45456a2eaf80e581e630b75df10a64b0a990
+  languageName: node
+  linkType: hard
+
+"xmldom@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "xmldom@npm:0.6.0"
+  checksum: 10c0/93cbb4854f73f431a402e7942baa87a59e8445fd0b4ae6bf6af3a1007809e849da8ac70bbe1509242212bce5d19e30b55ea282cbd9d87281701d1bdc13b74623
   languageName: node
   linkType: hard
 
