@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import type { RepositoryCreateType, RepositoryUpdateType } from "./repositories.dto";
 import { repositorySelect } from "./repositories.responses";
@@ -27,13 +28,17 @@ export class RepositoriesRepository {
         page: number;
         size: number;
         companyID?: number;
+        branchID?: number;
         minified?: boolean;
     }) {
         const where = {
+            branch: {
+                id: filters.branchID
+            },
             company: {
                 id: filters.companyID
             }
-        };
+        } satisfies Prisma.RepositoryWhereInput;
 
         if (filters.minified === true) {
             const paginatedRepositories = await prisma.repository.findManyPaginated(

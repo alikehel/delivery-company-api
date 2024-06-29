@@ -1,10 +1,12 @@
-import { AdminRole } from "@prisma/client";
+import { AdminRole, EmployeeRole } from "@prisma/client";
 import { catchAsync } from "../../lib/catchAsync";
 import type { loggedInUserType } from "../../types/user";
+import { BranchesRepository } from "../branches/branches.repository";
 import { RepositoryCreateSchema, RepositoryUpdateSchema } from "./repositories.dto";
 import { RepositoriesRepository } from "./repositories.repository";
 
 const repositoriesRepository = new RepositoriesRepository();
+const branchesRepository = new BranchesRepository();
 
 export class RepositoriesController {
     createRepository = catchAsync(async (req, res) => {
@@ -31,6 +33,15 @@ export class RepositoriesController {
 
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
+        // Branch manager can only see repositories of his branch
+        let branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+        if (loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
+            const branch = await branchesRepository.getBranchManagerBranch({
+                branchManagerID: loggedInUser.id
+            });
+            branchID = branch?.id;
+        }
+
         let size = req.query.size ? +req.query.size : 10;
         if (size > 500 && minified !== true) {
             size = 10;
@@ -45,6 +56,7 @@ export class RepositoriesController {
             page: page,
             size: size,
             companyID: companyID,
+            branchID: branchID,
             minified: minified
         });
 
