@@ -1,12 +1,14 @@
-import { AdminRole, type Governorate } from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole, type Governorate } from "@prisma/client";
 // import { loggedInUserType } from "../../types/user";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import type { loggedInUserType } from "../../types/user";
 import { LocationCreateSchema, LocationUpdateSchema } from "./locations.dto";
 import { LocationsRepository } from "./locations.repository";
+import { EmployeesRepository } from "../employees/employees.repository";
 
 const locationsRepository = new LocationsRepository();
+const employeesRepository = new EmployeesRepository();
 
 export class LocationsController {
     createLocation = catchAsync(async (req, res) => {
@@ -38,13 +40,26 @@ export class LocationsController {
             companyID = loggedInUser.companyID;
         }
 
+        // Show only locations of the same branch as the logged in user
+        let branchID: number | undefined = req.query.branch_id ? +req.query.branch_id : undefined;
+        if (
+            loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+            loggedInUser.role !== AdminRole.ADMIN &&
+            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT &&
+            loggedInUser.role !== ClientRole.CLIENT &&
+            loggedInUser.role !== EmployeeRole.CLIENT_ASSISTANT
+        ) {
+            const employee = await employeesRepository.getEmployee({ employeeID: loggedInUser.id });
+            branchID = employee?.branch?.id;
+        }
+
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
         const search = req.query.search as string;
 
         const governorate = req.query.governorate?.toString().toUpperCase() as Governorate | undefined;
 
-        const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
+        // const branchID = req.query.branch_id ? +req.query.branch_id : undefined;
 
         const deliveryAgentID = req.query.delivery_agent_id ? +req.query.delivery_agent_id : undefined;
 

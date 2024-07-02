@@ -62,19 +62,21 @@ export class EmployeesService {
             companyID = data.loggedInUser.companyID;
         }
 
-        // Only show employees from the branch of the logged in branch manager
+        // Only show delivery agents from the branch of the logged in branch manager
         let branchID: number | undefined;
+        let role: EmployeeRole | undefined;
         if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
             const branch = await branchesRepository.getBranchManagerBranch({
                 branchManagerID: data.loggedInUser.id
             });
             branchID = branch?.id;
+            role = EmployeeRole.DELIVERY_AGENT;
         } else {
             branchID = data.filters.branchID;
         }
 
         const { employees, pagesCount } = await employeesRepository.getAllEmployeesPaginated({
-            filters: { ...data.filters, companyID, branchID }
+            filters: { ...data.filters, companyID, branchID, role }
         });
 
         return { employees, pagesCount };

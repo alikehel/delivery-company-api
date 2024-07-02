@@ -4,7 +4,7 @@ import { env } from "../../config";
 import { AppError } from "../../lib/AppError";
 import { catchAsync } from "../../lib/catchAsync";
 import type { loggedInUserType } from "../../types/user";
-import { BranchesRepository } from "../branches/branches.repository";
+// import { BranchesRepository } from "../branches/branches.repository";
 import { EmployeesRepository } from "../employees/employees.repository";
 import { sendNotification } from "../notifications/helpers/sendNotification";
 import { ClientCreateSchema, ClientUpdateSchema } from "./clients.dto";
@@ -12,7 +12,7 @@ import { ClientsRepository } from "./clients.repository";
 
 const clientsRepository = new ClientsRepository();
 const employeesRepository = new EmployeesRepository();
-const branchesRepository = new BranchesRepository();
+// const branchesRepository = new BranchesRepository();
 
 export class ClientsController {
     createClient = catchAsync(async (req, res) => {
@@ -63,20 +63,24 @@ export class ClientsController {
             companyID = loggedInUser.companyID;
         }
 
-        // Show only clients of the same branch as the branch manager
+        // Show only clients of the same branch as the logged in user
         let branchID: number | undefined = req.query.branch_id ? +req.query.branch_id : undefined;
-        if (loggedInUser.role === "BRANCH_MANAGER") {
-            const branch = await branchesRepository.getBranchManagerBranch({
-                branchManagerID: loggedInUser.id
-            });
-            if (!branch) {
-                throw new AppError("انت غير مرتبط بفرع", 500);
-            }
-            // TODO: Every branch should have a governorate
-            if (!branch.governorate) {
-                throw new AppError("الفرع الذي تعمل به غير مرتبط بمحافظة", 500);
-            }
-            branchID = branch.id;
+        if (
+            loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+            loggedInUser.role !== AdminRole.ADMIN &&
+            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT &&
+            loggedInUser.role !== ClientRole.CLIENT &&
+            loggedInUser.role !== EmployeeRole.CLIENT_ASSISTANT
+        ) {
+            const employee = await employeesRepository.getEmployee({ employeeID: loggedInUser.id });
+            branchID = employee?.branch?.id;
+            // if (!branch) {
+            //     throw new AppError("انت غير مرتبط بفرع", 500);
+            // }
+            // // TODO: Every branch should have a governorate
+            // if (!branch.governorate) {
+            //     throw new AppError("الفرع الذي تعمل به غير مرتبط بمحافظة", 500);
+            // }
         }
 
         const phone = req.query.phone as string | undefined;
