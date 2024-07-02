@@ -1,4 +1,11 @@
-import { EmployeeRole, OrderStatus, type Governorate, type Order } from "@prisma/client";
+import {
+    AdminRole,
+    ClientRole,
+    EmployeeRole,
+    OrderStatus,
+    type Governorate,
+    type Order
+} from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 import { localizeOrderStatus } from "../../lib/localize";
 import { Logger } from "../../lib/logger";
@@ -129,10 +136,19 @@ export class OrdersService {
         const companyID = data.filters.companyID
             ? data.filters.companyID
             : data.loggedInUser.companyID || undefined;
+
         // Show only orders of the same governorate as the branch to the branch manager
         let governorate: Governorate | undefined = data.filters.governorate;
         let branchID: number | undefined = data.filters.branchID;
-        if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
+        if (
+            data.loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+            data.loggedInUser.role !== AdminRole.ADMIN &&
+            data.loggedInUser.role !== AdminRole.ADMIN_ASSISTANT &&
+            data.loggedInUser.role !== ClientRole.CLIENT &&
+            data.loggedInUser.role !== EmployeeRole.CLIENT_ASSISTANT &&
+            data.loggedInUser.role !== EmployeeRole.ACCOUNTANT &&
+            data.loggedInUser.role !== EmployeeRole.ACCOUNT_MANAGER
+        ) {
             const branch = await branchesRepository.getBranchManagerBranch({
                 branchManagerID: data.loggedInUser.id
             });
@@ -146,6 +162,7 @@ export class OrdersService {
             governorate = branch.governorate;
             branchID = branch.id;
         }
+
         // show orders/statistics without client reports to the client unless he searches for them
         let clientReport = data.filters.clientReport;
         if (
