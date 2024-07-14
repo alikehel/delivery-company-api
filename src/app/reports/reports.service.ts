@@ -1,4 +1,4 @@
-import { AdminRole, EmployeeRole, type Order, ReportType } from "@prisma/client";
+import { AdminRole, ClientRole, EmployeeRole, type Order, ReportType } from "@prisma/client";
 import { AppError } from "../../lib/AppError";
 // import { OrderTimelineType } from "../orders/orders.dto";
 import { localizeReportType } from "../../lib/localize";
@@ -300,8 +300,18 @@ export class ReportsService {
             company = data.loggedInUser.companyID;
         }
 
+        // Only show reports of the same branch as the employee
         let branch: number | undefined;
-        if (data.loggedInUser.role === EmployeeRole.BRANCH_MANAGER) {
+        if (
+            (data.filters.type === ReportType.CLIENT ||
+                data.filters.type === ReportType.REPOSITORY ||
+                data.filters.type === ReportType.DELIVERY_AGENT) &&
+            data.loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+            data.loggedInUser.role !== AdminRole.ADMIN &&
+            data.loggedInUser.role !== AdminRole.ADMIN_ASSISTANT &&
+            data.loggedInUser.role !== ClientRole.CLIENT &&
+            data.loggedInUser.role !== EmployeeRole.CLIENT_ASSISTANT
+        ) {
             const employee = await employeesRepository.getEmployee({ employeeID: data.loggedInUser.id });
             branch = employee?.branch?.id;
         } else if (data.filters.branch) {

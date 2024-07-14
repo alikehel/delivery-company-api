@@ -1150,19 +1150,24 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true
+                    paidAmount: true,
+                    weight: true
                 }
             });
 
             // Update Baghdad orders costs
             for (const order of baghdadOrders) {
+                const weight = order.weight || 0;
+                const deliveryCost = data.costs.baghdadDeliveryCost || 0;
+                const weightedDeliveryCost = weight > 1 ? deliveryCost * weight : deliveryCost;
+                const clientNet = (order.paidAmount || 0) - weightedDeliveryCost;
                 await prisma.order.update({
                     where: {
                         id: order.id
                     },
                     data: {
-                        deliveryCost: data.costs.baghdadDeliveryCost || 0,
-                        clientNet: (order.paidAmount || 0) - (data.costs.baghdadDeliveryCost || 0)
+                        deliveryCost: weightedDeliveryCost,
+                        clientNet: clientNet
                     }
                 });
             }
@@ -1181,19 +1186,24 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true
+                    paidAmount: true,
+                    weight: true
                 }
             });
 
             // Update governorates orders costs
             for (const order of governoratesOrders) {
+                const weight = order.weight || 0;
+                const deliveryCost = data.costs.governoratesDeliveryCost || 0;
+                const weightedDeliveryCost = weight > 1 ? deliveryCost * weight : deliveryCost;
+                const clientNet = (order.paidAmount || 0) - weightedDeliveryCost;
                 await prisma.order.update({
                     where: {
                         id: order.id
                     },
                     data: {
-                        deliveryCost: data.costs.governoratesDeliveryCost || 0,
-                        clientNet: (order.paidAmount || 0) - (data.costs.governoratesDeliveryCost || 0)
+                        deliveryCost: weightedDeliveryCost,
+                        clientNet: clientNet
                     }
                 });
             }
@@ -1210,20 +1220,26 @@ export class OrdersRepository {
                 },
                 select: {
                     id: true,
-                    paidAmount: true
+                    paidAmount: true,
+                    weight: true
                 }
             });
 
             // Update orders costs
             for (const order of orders) {
+                const weight = order.weight || 0;
+                const deliveryCost = data.costs.deliveryAgentDeliveryCost || 0;
+                const weightedDeliveryCost = weight > 1 ? deliveryCost * weight : deliveryCost;
+                const deliveryAgentNet = weightedDeliveryCost;
+                const companyNet = (order.paidAmount || 0) - weightedDeliveryCost;
                 await prisma.order.update({
                     where: {
                         id: order.id
                     },
                     data: {
-                        deliveryCost: data.costs.deliveryAgentDeliveryCost || 0,
-                        deliveryAgentNet: data.costs.deliveryAgentDeliveryCost || 0,
-                        companyNet: (order.paidAmount || 0) - (data.costs.deliveryAgentDeliveryCost || 0)
+                        deliveryCost: weightedDeliveryCost,
+                        deliveryAgentNet: deliveryAgentNet,
+                        companyNet: companyNet
                     }
                 });
             }

@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "../../database/db";
 import type { StoreCreateType, StoreUpdateType } from "./stores.dto";
 import { storeSelect, storeSelectReform } from "./stores.responses";
@@ -40,6 +41,7 @@ export class StoresRepository {
         clientAssistantID?: number;
         companyID?: number;
         minified?: boolean;
+        branchID?: number;
     }) {
         const where = {
             AND: [
@@ -50,9 +52,12 @@ export class StoresRepository {
                 },
                 {
                     clientAssistant: filters.clientAssistantID ? { id: filters.clientAssistantID } : undefined
+                },
+                {
+                    client: filters.branchID ? { branch: { id: filters.branchID } } : undefined
                 }
             ]
-        };
+        } as Prisma.StoreWhereInput;
 
         if (filters.minified === true) {
             const paginatedStores = await prisma.store.findManyPaginated(

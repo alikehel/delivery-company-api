@@ -3,8 +3,10 @@ import { catchAsync } from "../../lib/catchAsync";
 import type { loggedInUserType } from "../../types/user";
 import { StoreCreateSchema, StoreUpdateSchema } from "./stores.dto";
 import { StoresRepository } from "./stores.repository";
+import { EmployeesRepository } from "../employees/employees.repository";
 
 const storesRepository = new StoresRepository();
+const employeesRepository = new EmployeesRepository();
 
 export class StoresController {
     createStore = catchAsync(async (req, res) => {
@@ -50,6 +52,19 @@ export class StoresController {
             clientAssistantID = loggedInUser.id;
         }
 
+        // Show only stores of the same branch as the logged in user
+        let branchID: number | undefined = req.query.branch_id ? +req.query.branch_id : undefined;
+        if (
+            loggedInUser.role !== EmployeeRole.COMPANY_MANAGER &&
+            loggedInUser.role !== AdminRole.ADMIN &&
+            loggedInUser.role !== AdminRole.ADMIN_ASSISTANT &&
+            loggedInUser.role !== ClientRole.CLIENT &&
+            loggedInUser.role !== EmployeeRole.CLIENT_ASSISTANT
+        ) {
+            const employee = await employeesRepository.getEmployee({ employeeID: loggedInUser.id });
+            branchID = employee?.branch?.id;
+        }
+
         const minified = req.query.minified ? req.query.minified === "true" : undefined;
 
         const deleted = (req.query.deleted as string) || "false";
@@ -70,7 +85,8 @@ export class StoresController {
             clientID,
             clientAssistantID,
             companyID: companyID,
-            minified: minified
+            minified: minified,
+            branchID: branchID
         });
 
         res.status(200).json({

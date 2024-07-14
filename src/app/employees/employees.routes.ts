@@ -23,7 +23,14 @@ router.route("/employees").post(
         ],
         [Permission.ADD_DELIVERY_AGENT]
     ),
-    upload.single("avatar"),
+    // upload.single("avatar"),
+    // upload.single("idCard"),
+    // upload.single("residencyCard"),
+    upload.fields([
+        { name: "avatar", maxCount: 1 },
+        { name: "idCard", maxCount: 1 },
+        { name: "residencyCard", maxCount: 1 }
+    ]),
     // upload.none(),
     employeesController.createEmployee
     /*
@@ -96,7 +103,14 @@ router.route("/employees/:employeeID").get(
 router.route("/employees/:employeeID").patch(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),
-    upload.single("avatar"),
+    // upload.single("avatar"),
+    // upload.single("idCard"),
+    // upload.single("residencyCard"),
+    upload.fields([
+        { name: "avatar", maxCount: 1 },
+        { name: "idCard", maxCount: 1 },
+        { name: "residencyCard", maxCount: 1 }
+    ]),
     // upload.none(),
     employeesController.updateEmployee
     /*
