@@ -10,15 +10,16 @@ export class EmployeesController {
         const employeeData = EmployeeCreateSchema.parse(req.body);
         const loggedInUser = res.locals.user;
 
-        let avatar: string | undefined;
-        if (req.file) {
-            const file = req.file as Express.MulterS3.File;
-            avatar = file.location;
+        if (req.files) {
+            const files = req.files as { [fieldname: string]: Express.MulterS3.File[] };
+            employeeData.avatar = files.avatar ? files.avatar[0].location : undefined;
+            employeeData.idCard = files.idCard ? files.idCard[0].location : undefined;
+            employeeData.residencyCard = files.residencyCard ? files.residencyCard[0].location : undefined;
         }
 
         const createdEmployee = await employeesService.createEmployee({
             loggedInUser,
-            employeeData: { ...employeeData, avatar }
+            employeeData: { ...employeeData }
         });
 
         res.status(200).json({
@@ -78,9 +79,11 @@ export class EmployeesController {
             employeeID: +req.params.employeeID
         };
 
-        if (req.file) {
-            const file = req.file as Express.MulterS3.File;
-            employeeData.avatar = file.location;
+        if (req.files) {
+            const files = req.files as { [fieldname: string]: Express.MulterS3.File[] };
+            employeeData.avatar = files.avatar ? files.avatar[0].location : undefined;
+            employeeData.idCard = files.idCard ? files.idCard[0].location : undefined;
+            employeeData.residencyCard = files.residencyCard ? files.residencyCard[0].location : undefined;
         }
 
         const updatedEmployee = await employeesService.updateEmployee({

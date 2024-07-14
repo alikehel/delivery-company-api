@@ -7,6 +7,8 @@ export const employeeSelect = {
     branch: true,
     repository: true,
     deliveryCost: true,
+    idCard: true,
+    residencyCard: true,
     user: {
         select: {
             id: true,
@@ -139,6 +141,8 @@ export const employeeReform = (
         username: employee.user.username,
         phone: employee.user.phone,
         avatar: employee.user.avatar,
+        idCard: employee.idCard,
+        residencyCard: employee.residencyCard,
         salary: employee.salary,
         role: employee.role,
         permissions: employee.permissions,

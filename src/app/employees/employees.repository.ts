@@ -22,6 +22,8 @@ export class EmployeesRepository {
                         avatar: data.employeeData.avatar
                     }
                 },
+                idCard: data.employeeData.idCard,
+                residencyCard: data.employeeData.residencyCard,
                 salary: data.employeeData.salary,
                 role: data.employeeData.role,
                 company: {
@@ -344,6 +346,8 @@ export class EmployeesRepository {
                         avatar: data.employeeData.avatar
                     }
                 },
+                idCard: data.employeeData.idCard,
+                residencyCard: data.employeeData.residencyCard,
                 salary: data.employeeData.salary,
                 role: data.employeeData.role,
                 // company: data.employeeData.companyID
