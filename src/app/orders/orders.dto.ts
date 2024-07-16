@@ -155,7 +155,8 @@ export const OrderTimelinePieceSchema = z
                 OrderTimelineType.DELIVERY_AGENT_CHANGE,
                 OrderTimelineType.CLIENT_CHANGE,
                 OrderTimelineType.REPOSITORY_CHANGE,
-                OrderTimelineType.BRANCH_CHANGE
+                OrderTimelineType.BRANCH_CHANGE,
+                OrderTimelineType.COMPANY_CHANGE
             ]),
             old: z
                 .object({
@@ -199,7 +200,12 @@ export const OrderTimelinePieceSchema = z
                 .or(z.literal(null))
         }),
         z.object({
-            type: z.enum([OrderTimelineType.ORDER_DELIVERY, OrderTimelineType.OTHER]),
+            type: z.enum([
+                OrderTimelineType.ORDER_DELIVERY,
+                OrderTimelineType.OTHER,
+                OrderTimelineType.ORDER_CREATION,
+                OrderTimelineType.ORDER_CONFIRMATION
+            ]),
             old: z.literal(null),
             new: z.literal(null)
         })

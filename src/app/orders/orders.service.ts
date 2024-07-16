@@ -86,6 +86,29 @@ export class OrdersService {
                 }
                 // @ts-expect-error Fix later
                 createdOrders.push(createdOrder);
+
+                // Update Order Timeline
+                try {
+                    // order created
+                    if (createdOrder) {
+                        await ordersRepository.updateOrderTimeline({
+                            orderID: createdOrder.id,
+                            data: {
+                                type: "ORDER_CREATION",
+                                date: createdOrder.createdAt,
+                                old: null,
+                                new: null,
+                                by: {
+                                    id: data.loggedInUser.id,
+                                    name: data.loggedInUser.name
+                                },
+                                message: `تم إنشاء الطلب من قبل ${data.loggedInUser.role === "CLIENT" ? "العميل" : "الموظف"} ${data.loggedInUser.name}`
+                            }
+                        });
+                    }
+                } catch (error) {
+                    Logger.error(error);
+                }
             }
             return createdOrders;
         }
@@ -114,6 +137,30 @@ export class OrdersService {
             loggedInUser: data.loggedInUser,
             orderData: { ...data.orderOrOrdersData, confirmed, status, branchID }
         });
+
+        // Update Order Timeline
+        try {
+            // order created
+            if (createdOrder) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: createdOrder.id,
+                    data: {
+                        type: "ORDER_CREATION",
+                        date: createdOrder.createdAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم إنشاء الطلب من قبل ${data.loggedInUser.role === "CLIENT" ? "العميل" : "الموظف"} ${data.loggedInUser.name}`
+                    }
+                });
+            }
+        } catch (error) {
+            Logger.error(error);
+        }
+
         return createdOrder;
     };
 
@@ -639,6 +686,48 @@ export class OrdersService {
                             name: data.loggedInUser.name
                         },
                         message: "تم توصيل الطلب"
+                    }
+                });
+            }
+
+            // Forward company
+            if (data.orderData.forwardedCompanyID && oldOrderData?.company?.id !== newOrder.company?.id) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "COMPANY_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: oldOrderData.company && {
+                            id: oldOrderData.company.id,
+                            name: oldOrderData.company.name
+                        },
+                        new: newOrder.company && {
+                            id: newOrder.company.id,
+                            name: newOrder.company.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم احالة الطلب من ${oldOrderData.company.name} إلى ${newOrder.company.name} بواسطة ${data.loggedInUser.name}`
+                    }
+                });
+            }
+
+            // Confirm order
+            if (data.orderData.confirmed && !oldOrderData.confirmed) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "ORDER_CONFIRMATION",
+                        date: newOrder.updatedAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم تأكيد الطلب من قبل ${data.loggedInUser.name}`
                     }
                 });
             }
