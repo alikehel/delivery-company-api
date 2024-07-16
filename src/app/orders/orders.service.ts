@@ -337,6 +337,7 @@ export class OrdersService {
         if (
             oldOrderData?.status !== data.orderData.status &&
             data.loggedInUser.role !== "COMPANY_MANAGER" &&
+            data.loggedInUser.role !== "BRANCH_MANAGER" &&
             data.loggedInUser.permissions?.includes("CHANGE_CLOSED_ORDER_STATUS") !== true
         ) {
             if (
