@@ -731,6 +731,24 @@ export class OrdersService {
                     }
                 });
             }
+
+            // Process order
+            if (data.orderData.processed && !oldOrderData.processed) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "ORDER_PROCESS",
+                        date: newOrder.updatedAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم معالجة الطلب من قبل ${data.loggedInUser.name}`
+                    }
+                });
+            }
         } catch (error) {
             Logger.error(error);
         }

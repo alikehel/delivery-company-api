@@ -204,7 +204,8 @@ export const OrderTimelinePieceSchema = z
                 OrderTimelineType.ORDER_DELIVERY,
                 OrderTimelineType.OTHER,
                 OrderTimelineType.ORDER_CREATION,
-                OrderTimelineType.ORDER_CONFIRMATION
+                OrderTimelineType.ORDER_CONFIRMATION,
+                OrderTimelineType.ORDER_PROCESS
             ]),
             old: z.literal(null),
             new: z.literal(null)
