@@ -36,7 +36,8 @@ export const orderSelect = {
                     name: true,
                     phone: true
                 }
-            }
+            },
+            role: true
         }
     },
     forwarded: true,
@@ -227,7 +228,10 @@ export const orderReform = (
             phone: order.deliveryAgent.user.phone,
             deliveryCost: order.deliveryAgent.deliveryCost
         },
-        processedBy: order.processedBy?.user,
+        processedBy: {
+            ...order.processedBy?.user,
+            role: order.processedBy?.role
+        },
         forwardedBy: order.forwardedBy?.user,
         deleted: order.deleted,
         deletedBy: order.deleted && order.deletedBy,

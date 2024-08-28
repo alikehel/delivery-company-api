@@ -745,7 +745,7 @@ export class OrdersService {
                             id: data.loggedInUser.id,
                             name: data.loggedInUser.name
                         },
-                        message: `تم معالجة الطلب من قبل ${data.loggedInUser.name}`
+                        message: `تم معالجة الطلب من قبل ${data.loggedInUser.role === "INQUIRY_EMPLOYEE" ? "موظف الدعم" : data.loggedInUser.role === "EMERGENCY_EMPLOYEE" ? "موظف المتابعة" : data.loggedInUser.name}`
                     }
                 });
             }
