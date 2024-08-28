@@ -80,7 +80,7 @@ export const localizeRole = (text: AdminRole | EmployeeRole | ClientRole): strin
         case "BRANCH_MANAGER":
             return "مدير فرع";
         case "EMERGENCY_EMPLOYEE":
-            return "موظف طوارئ";
+            return "موظف متابعة";
         case "DATA_ENTRY":
             return "مدخل بيانات";
         case "REPOSITORIY_EMPLOYEE":
