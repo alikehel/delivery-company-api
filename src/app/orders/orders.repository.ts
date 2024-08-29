@@ -1131,6 +1131,19 @@ export class OrdersRepository {
         // };
     }
 
+    async getOrderByReceiptNumber(data: { orderReceiptNumber: number }) {
+        const order = await prisma.order.findFirst({
+            where: {
+                receiptNumber: data.orderReceiptNumber
+            },
+            orderBy: {
+                id: "desc"
+            },
+            select: orderSelect
+        });
+        return orderReform(order);
+    }
+
     async updateOrdersCosts(data: {
         ordersIDs: number[];
         costs: {
@@ -1947,5 +1960,61 @@ export class OrdersRepository {
             }
         });
         return updatedOrders;
+    }
+
+    async removeOrderFromRepositoryReport(data: {
+        orderID: number;
+        repositoryReportID: number;
+        orderData: {
+            totalCost: number;
+            paidAmount: number;
+            deliveryCost: number;
+            clientNet: number;
+            deliveryAgentNet: number;
+            companyNet: number;
+            governorate: Governorate;
+        };
+    }) {
+        await prisma.$transaction([
+            prisma.order.update({
+                where: {
+                    id: data.orderID
+                },
+                data: {
+                    repositoryReportId: null
+                }
+            }),
+            prisma.report.update({
+                where: {
+                    id: data.repositoryReportID
+                },
+                data: {
+                    baghdadOrdersCount: {
+                        decrement: data.orderData.governorate === Governorate.BAGHDAD ? 1 : 0
+                    },
+                    governoratesOrdersCount: {
+                        decrement: data.orderData.governorate !== Governorate.BAGHDAD ? 1 : 0
+                    },
+                    totalCost: {
+                        decrement: data.orderData.totalCost
+                    },
+                    paidAmount: {
+                        decrement: data.orderData.paidAmount
+                    },
+                    deliveryCost: {
+                        decrement: data.orderData.deliveryCost
+                    },
+                    clientNet: {
+                        decrement: data.orderData.clientNet
+                    },
+                    deliveryAgentNet: {
+                        decrement: data.orderData.deliveryAgentNet
+                    },
+                    companyNet: {
+                        decrement: data.orderData.companyNet
+                    }
+                }
+            })
+        ]);
     }
 }

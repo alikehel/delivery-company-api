@@ -100,6 +100,19 @@ export const OrderUpdateOpenAPISchema = generateSchema(OrderUpdateSchema);
 
 /* --------------------------------------------------------------- */
 
+export const OrderRepositoryConfirmByReceiptNumberSchema = z.object({
+    repositoryID: z.coerce.number()
+});
+export type OrderRepositoryConfirmByReceiptNumberType = z.infer<
+    typeof OrderRepositoryConfirmByReceiptNumberSchema
+>;
+
+export const OrderRepositoryConfirmByReceiptNumberOpenAPISchema = generateSchema(
+    OrderRepositoryConfirmByReceiptNumberSchema
+);
+
+/* --------------------------------------------------------------- */
+
 export const OrdersReceiptsCreateSchema = z.object({
     ordersIDs: z.array(z.coerce.number()).min(1)
 });

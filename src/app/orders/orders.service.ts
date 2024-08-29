@@ -20,6 +20,7 @@ import { generateReceipts } from "./helpers/generateReceipts";
 import type {
     OrderChatNotificationCreateType,
     OrderCreateType,
+    OrderRepositoryConfirmByReceiptNumberType,
     OrderTimelineFiltersType,
     // OrderTimelineType,
     OrderUpdateType,
@@ -752,6 +753,70 @@ export class OrdersService {
         } catch (error) {
             Logger.error(error);
         }
+
+        return newOrder;
+    };
+
+    repositoryConfirmOrderByReceiptNumber = async (data: {
+        params: {
+            orderReceiptNumber: number;
+        };
+        loggedInUser: loggedInUserType;
+        orderData: OrderRepositoryConfirmByReceiptNumberType;
+    }) => {
+        const oldOrderData = await ordersRepository.getOrderByReceiptNumber({
+            orderReceiptNumber: data.params.orderReceiptNumber
+        });
+
+        if (!oldOrderData) {
+            throw new AppError("الطلب غير موجود", 404);
+        }
+
+        if (
+            oldOrderData.status !== OrderStatus.RETURNED &&
+            oldOrderData.status !== OrderStatus.REPLACED &&
+            oldOrderData.status !== OrderStatus.PARTIALLY_RETURNED
+        ) {
+            throw new AppError("لا يمكن تأكيد الطلب لأن حالته ليست راجع كلي او جزئي او استبدال", 400);
+        }
+
+        // Remove the order from the repository report
+        if (oldOrderData.repositoryReport) {
+            await ordersRepository.removeOrderFromRepositoryReport({
+                orderID: oldOrderData.id,
+                repositoryReportID: oldOrderData.repositoryReport.id,
+                orderData: {
+                    totalCost: oldOrderData.totalCost,
+                    paidAmount: oldOrderData.paidAmount,
+                    deliveryCost: oldOrderData.deliveryCost,
+                    clientNet: oldOrderData.clientNet,
+                    deliveryAgentNet: oldOrderData.deliveryAgentNet,
+                    companyNet: oldOrderData.companyNet,
+                    governorate: oldOrderData.governorate
+                }
+            });
+            // await reportsRepository.reEvaluateRepositoryReport({
+            //     repositoryReportID: oldOrderData.repositoryReport.id,
+            //     orderData: {
+            //         totalCost: oldOrderData.totalCost,
+            //         paidAmount: oldOrderData.paidAmount,
+            //         deliveryCost: oldOrderData.deliveryCost,
+            //         clientNet: oldOrderData.clientNet,
+            //         deliveryAgentNet: oldOrderData.deliveryAgentNet,
+            //         companyNet: oldOrderData.companyNet,
+            //         governorate: oldOrderData.governorate
+            //     }
+            // });
+        }
+
+        // Update the order repository
+        const newOrder = await this.updateOrder({
+            params: {
+                orderID: oldOrderData.id
+            },
+            loggedInUser: data.loggedInUser,
+            orderData: data.orderData
+        });
 
         return newOrder;
     };
