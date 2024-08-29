@@ -408,6 +408,16 @@ router.route("/orders/:orderID").patch(
     */
 );
 
+//  تأكيد مباشر برقم الوصل في صفحة ادخال رواجع المخزن
+router.route("/orders/repository-confirm-order-by-receipt-number/:orderReceiptNumber").patch(
+    isLoggedIn,
+    isAutherized([...Object.values(AdminRole), ...Object.values(EmployeeRole), ...Object.values(ClientRole)]),
+    ordersController.repositoryConfirmOrderByReceiptNumber
+    /*
+        #swagger.tags = ['Orders Routes']
+    */
+);
+
 router.route("/orders/:orderID").delete(
     isLoggedIn,
     isAutherized([EmployeeRole.COMPANY_MANAGER, AdminRole.ADMIN, AdminRole.ADMIN_ASSISTANT]),

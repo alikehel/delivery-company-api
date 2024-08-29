@@ -4,6 +4,7 @@ import {
     OrderChatNotificationCreateSchema,
     OrderCreateSchema,
     type OrderCreateType,
+    OrderRepositoryConfirmByReceiptNumberSchema,
     OrderTimelineFiltersSchema,
     OrderUpdateSchema,
     OrdersFiltersSchema,
@@ -122,6 +123,25 @@ export class OrdersController {
         const orderData = OrderUpdateSchema.parse(req.body);
 
         const order = await ordersService.updateOrder({
+            params: params,
+            orderData: orderData,
+            loggedInUser: loggedInUser
+        });
+
+        res.status(200).json({
+            status: "success",
+            data: order
+        });
+    });
+
+    repositoryConfirmOrderByReceiptNumber = catchAsync(async (req, res) => {
+        const params = {
+            orderReceiptNumber: +req.params.orderReceiptNumber
+        };
+        const loggedInUser = res.locals.user as loggedInUserType;
+        const orderData = OrderRepositoryConfirmByReceiptNumberSchema.parse(req.body);
+
+        const order = await ordersService.repositoryConfirmOrderByReceiptNumber({
             params: params,
             orderData: orderData,
             loggedInUser: loggedInUser

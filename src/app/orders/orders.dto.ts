@@ -100,6 +100,19 @@ export const OrderUpdateOpenAPISchema = generateSchema(OrderUpdateSchema);
 
 /* --------------------------------------------------------------- */
 
+export const OrderRepositoryConfirmByReceiptNumberSchema = z.object({
+    repositoryID: z.coerce.number()
+});
+export type OrderRepositoryConfirmByReceiptNumberType = z.infer<
+    typeof OrderRepositoryConfirmByReceiptNumberSchema
+>;
+
+export const OrderRepositoryConfirmByReceiptNumberOpenAPISchema = generateSchema(
+    OrderRepositoryConfirmByReceiptNumberSchema
+);
+
+/* --------------------------------------------------------------- */
+
 export const OrdersReceiptsCreateSchema = z.object({
     ordersIDs: z.array(z.coerce.number()).min(1)
 });
@@ -155,7 +168,8 @@ export const OrderTimelinePieceSchema = z
                 OrderTimelineType.DELIVERY_AGENT_CHANGE,
                 OrderTimelineType.CLIENT_CHANGE,
                 OrderTimelineType.REPOSITORY_CHANGE,
-                OrderTimelineType.BRANCH_CHANGE
+                OrderTimelineType.BRANCH_CHANGE,
+                OrderTimelineType.COMPANY_CHANGE
             ]),
             old: z
                 .object({
@@ -199,7 +213,13 @@ export const OrderTimelinePieceSchema = z
                 .or(z.literal(null))
         }),
         z.object({
-            type: z.enum([OrderTimelineType.ORDER_DELIVERY, OrderTimelineType.OTHER]),
+            type: z.enum([
+                OrderTimelineType.ORDER_DELIVERY,
+                OrderTimelineType.OTHER,
+                OrderTimelineType.ORDER_CREATION,
+                OrderTimelineType.ORDER_CONFIRMATION,
+                OrderTimelineType.ORDER_PROCESS
+            ]),
             old: z.literal(null),
             new: z.literal(null)
         })

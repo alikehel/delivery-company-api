@@ -20,6 +20,7 @@ import { generateReceipts } from "./helpers/generateReceipts";
 import type {
     OrderChatNotificationCreateType,
     OrderCreateType,
+    OrderRepositoryConfirmByReceiptNumberType,
     OrderTimelineFiltersType,
     // OrderTimelineType,
     OrderUpdateType,
@@ -86,6 +87,29 @@ export class OrdersService {
                 }
                 // @ts-expect-error Fix later
                 createdOrders.push(createdOrder);
+
+                // Update Order Timeline
+                try {
+                    // order created
+                    if (createdOrder) {
+                        await ordersRepository.updateOrderTimeline({
+                            orderID: createdOrder.id,
+                            data: {
+                                type: "ORDER_CREATION",
+                                date: createdOrder.createdAt,
+                                old: null,
+                                new: null,
+                                by: {
+                                    id: data.loggedInUser.id,
+                                    name: data.loggedInUser.name
+                                },
+                                message: `تم إنشاء الطلب من قبل ${data.loggedInUser.role === "CLIENT" ? "العميل" : "الموظف"} ${data.loggedInUser.name}`
+                            }
+                        });
+                    }
+                } catch (error) {
+                    Logger.error(error);
+                }
             }
             return createdOrders;
         }
@@ -114,6 +138,30 @@ export class OrdersService {
             loggedInUser: data.loggedInUser,
             orderData: { ...data.orderOrOrdersData, confirmed, status, branchID }
         });
+
+        // Update Order Timeline
+        try {
+            // order created
+            if (createdOrder) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: createdOrder.id,
+                    data: {
+                        type: "ORDER_CREATION",
+                        date: createdOrder.createdAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم إنشاء الطلب من قبل ${data.loggedInUser.role === "CLIENT" ? "العميل" : "الموظف"} ${data.loggedInUser.name}`
+                    }
+                });
+            }
+        } catch (error) {
+            Logger.error(error);
+        }
+
         return createdOrder;
     };
 
@@ -337,6 +385,7 @@ export class OrdersService {
         if (
             oldOrderData?.status !== data.orderData.status &&
             data.loggedInUser.role !== "COMPANY_MANAGER" &&
+            data.loggedInUser.role !== "BRANCH_MANAGER" &&
             data.loggedInUser.permissions?.includes("CHANGE_CLOSED_ORDER_STATUS") !== true
         ) {
             if (
@@ -641,9 +690,133 @@ export class OrdersService {
                     }
                 });
             }
+
+            // Forward company
+            if (data.orderData.forwardedCompanyID && oldOrderData?.company?.id !== newOrder.company?.id) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "COMPANY_CHANGE",
+                        date: newOrder.updatedAt,
+                        old: oldOrderData.company && {
+                            id: oldOrderData.company.id,
+                            name: oldOrderData.company.name
+                        },
+                        new: newOrder.company && {
+                            id: newOrder.company.id,
+                            name: newOrder.company.name
+                        },
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم احالة الطلب من ${oldOrderData.company.name} إلى ${newOrder.company.name} بواسطة ${data.loggedInUser.name}`
+                    }
+                });
+            }
+
+            // Confirm order
+            if (data.orderData.confirmed && !oldOrderData.confirmed) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "ORDER_CONFIRMATION",
+                        date: newOrder.updatedAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم تأكيد الطلب من قبل ${data.loggedInUser.name}`
+                    }
+                });
+            }
+
+            // Process order
+            if (data.orderData.processed && !oldOrderData.processed) {
+                await ordersRepository.updateOrderTimeline({
+                    orderID: data.params.orderID,
+                    data: {
+                        type: "ORDER_PROCESS",
+                        date: newOrder.updatedAt,
+                        old: null,
+                        new: null,
+                        by: {
+                            id: data.loggedInUser.id,
+                            name: data.loggedInUser.name
+                        },
+                        message: `تم معالجة الطلب من قبل ${data.loggedInUser.role === "INQUIRY_EMPLOYEE" ? "موظف الدعم" : data.loggedInUser.role === "EMERGENCY_EMPLOYEE" ? "موظف المتابعة" : data.loggedInUser.name}`
+                    }
+                });
+            }
         } catch (error) {
             Logger.error(error);
         }
+
+        return newOrder;
+    };
+
+    repositoryConfirmOrderByReceiptNumber = async (data: {
+        params: {
+            orderReceiptNumber: number;
+        };
+        loggedInUser: loggedInUserType;
+        orderData: OrderRepositoryConfirmByReceiptNumberType;
+    }) => {
+        const oldOrderData = await ordersRepository.getOrderByReceiptNumber({
+            orderReceiptNumber: data.params.orderReceiptNumber
+        });
+
+        if (!oldOrderData) {
+            throw new AppError("الطلب غير موجود", 404);
+        }
+
+        if (
+            oldOrderData.status !== OrderStatus.RETURNED &&
+            oldOrderData.status !== OrderStatus.REPLACED &&
+            oldOrderData.status !== OrderStatus.PARTIALLY_RETURNED
+        ) {
+            throw new AppError("لا يمكن تأكيد الطلب لأن حالته ليست راجع كلي او جزئي او استبدال", 400);
+        }
+
+        // Remove the order from the repository report
+        if (oldOrderData.repositoryReport) {
+            await ordersRepository.removeOrderFromRepositoryReport({
+                orderID: oldOrderData.id,
+                repositoryReportID: oldOrderData.repositoryReport.id,
+                orderData: {
+                    totalCost: oldOrderData.totalCost,
+                    paidAmount: oldOrderData.paidAmount,
+                    deliveryCost: oldOrderData.deliveryCost,
+                    clientNet: oldOrderData.clientNet,
+                    deliveryAgentNet: oldOrderData.deliveryAgentNet,
+                    companyNet: oldOrderData.companyNet,
+                    governorate: oldOrderData.governorate
+                }
+            });
+            // await reportsRepository.reEvaluateRepositoryReport({
+            //     repositoryReportID: oldOrderData.repositoryReport.id,
+            //     orderData: {
+            //         totalCost: oldOrderData.totalCost,
+            //         paidAmount: oldOrderData.paidAmount,
+            //         deliveryCost: oldOrderData.deliveryCost,
+            //         clientNet: oldOrderData.clientNet,
+            //         deliveryAgentNet: oldOrderData.deliveryAgentNet,
+            //         companyNet: oldOrderData.companyNet,
+            //         governorate: oldOrderData.governorate
+            //     }
+            // });
+        }
+
+        // Update the order repository
+        const newOrder = await this.updateOrder({
+            params: {
+                orderID: oldOrderData.id
+            },
+            loggedInUser: data.loggedInUser,
+            orderData: data.orderData
+        });
 
         return newOrder;
     };
