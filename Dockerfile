@@ -24,11 +24,10 @@ COPY yarn.lock ./
 # Copy yarnrc file
 COPY .yarnrc.yml ./
 
-# Yarn - Install corepack
-# RUN npm install -g corepack@0.24.1
-# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.4.1
-RUN yarn policies set-version $YARN_VERSION
-RUN corepack enable
+# Set up Corepack and Yarn
+RUN corepack enable && \
+    corepack prepare yarn@$YARN_VERSION --activate && \
+    yarn set version $YARN_VERSION
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
@@ -89,11 +88,10 @@ COPY --from=build /app/build ./build
 # Copy static files
 COPY static ./static
 
-# Yarn - Install corepack
-# RUN npm install -g corepack@0.24.1
-# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.4.1
-RUN yarn policies set-version $YARN_VERSION
-RUN corepack enable
+# Set up Corepack and Yarn
+RUN corepack enable && \
+    corepack prepare yarn@$YARN_VERSION --activate && \
+    yarn set version $YARN_VERSION
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
