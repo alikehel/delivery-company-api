@@ -4,11 +4,11 @@
 
 # Use the official Node.js 20 image as a base
 # FROM node:20.8.0 AS build
-FROM node:22.2.0-bookworm-slim AS build
+FROM node:22.8.0-bookworm-slim AS build
 
 # Environment variables
 ARG DATABASE_URL
-ENV YARN_VERSION 4.2.2
+ENV YARN_VERSION 4.4.1
 
 # Install necessary dependencies for Prisma
 RUN apt-get update -y && \
@@ -24,11 +24,10 @@ COPY yarn.lock ./
 # Copy yarnrc file
 COPY .yarnrc.yml ./
 
-# Yarn - Install corepack
-# RUN npm install -g corepack@0.24.1
-# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.2.2
-RUN yarn policies set-version $YARN_VERSION
-RUN corepack enable
+# Set up Corepack and Yarn
+RUN corepack enable && \
+    corepack prepare yarn@$YARN_VERSION --activate && \
+    yarn set version $YARN_VERSION
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
@@ -50,13 +49,13 @@ RUN yarn run build
 
 # Use the official Node.js 20 image as a base
 # FROM node:20.8.0
-FROM node:22.2.0-bookworm-slim AS production
+FROM node:22.8.0-bookworm-slim AS production
 
 # Set environment variables to optimize the container
 ENV NODE_ENV production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV PUPPETEER_EXECUTABLE_PATH "/usr/bin/google-chrome-stable"
-ENV YARN_VERSION 4.2.2
+ENV YARN_VERSION 4.4.1
 
 # Install necessary dependencies for Puppeteer's Chrome
 # These dependencies are required to run Puppeteer/Chrome in a headless environment
@@ -89,11 +88,10 @@ COPY --from=build /app/build ./build
 # Copy static files
 COPY static ./static
 
-# Yarn - Install corepack
-# RUN npm install -g corepack@0.24.1
-# RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.2.2
-RUN yarn policies set-version $YARN_VERSION
-RUN corepack enable
+# Set up Corepack and Yarn
+RUN corepack enable && \
+    corepack prepare yarn@$YARN_VERSION --activate && \
+    yarn set version $YARN_VERSION
 
 # Install dependencies, including 'puppeteer'
 RUN yarn install --check-cache
