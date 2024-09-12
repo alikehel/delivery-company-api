@@ -9,7 +9,7 @@
     "engines": {
         "node": "22.2.0"
     },
-    "packageManager": "yarn@4.2.2",
+    "packageManager": "yarn@4.4.1",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only --exit-child ./src/server.ts",
         "build": "yarn run prisma:generate && yarn run prisma:deploy && yarn run swagger:autogen && yarn run clean && tsc",
