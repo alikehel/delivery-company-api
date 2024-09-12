@@ -12,7 +12,7 @@
     "packageManager": "yarn@4.4.1",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only --exit-child ./src/server.ts",
-        "build": "yarn run prisma:generate && yarn run prisma:deploy && yarn run swagger:autogen && yarn run clean && tsc",
+        "build": "yarn run prisma:generate && yarn run prisma:deploy && yarn run swagger:autogen && yarn run clean && yarn dlx tsc",
         "esbuild": "yarn dlx esbuild src/server.ts --bundle --minify --platform=node --packages=external --outfile=build/server.js",
         "tsc": "tsc --noEmit",
         "start": "node build/server.js",
