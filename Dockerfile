@@ -4,7 +4,7 @@
 
 # Use the official Node.js 20 image as a base
 # FROM node:20.8.0 AS build
-FROM node:22.2.0-bookworm-slim AS build
+FROM node:22.8.0-bookworm-slim AS build
 
 # Environment variables
 ARG DATABASE_URL
@@ -50,7 +50,7 @@ RUN yarn run build
 
 # Use the official Node.js 20 image as a base
 # FROM node:20.8.0
-FROM node:22.2.0-bookworm-slim AS production
+FROM node:22.8.0-bookworm-slim AS production
 
 # Set environment variables to optimize the container
 ENV NODE_ENV production
