@@ -85,6 +85,15 @@ export class AuthController {
             content: ""
         });
 
+        // Update user login history
+        await usersRepository.logUserLogin(returnedUser.id, {
+            ip: user.ip,
+            device: user.device,
+            platform: user.platform,
+            browser: user.browser,
+            location: user.location
+        });
+
         // Clear invalid refresh tokens
         // const refreshTokens = await usersRepository.getUserRefreshTokens(returnedUser.id);
         // if (refreshTokens) {

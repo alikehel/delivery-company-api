@@ -160,16 +160,21 @@ enum OrderTimelineType {
   OTHER
 }
 
+// enum LoginType {
+//   LOGIN
+//   LOGOUT
+// }
+
 model User {
   // --- IDENTIFICATION --------------------------------------------------------------------- //
-  id               Int            @id @default(autoincrement())
-  username         String         @unique
-  phone            String         @unique
+  id               Int                 @id @default(autoincrement())
+  username         String              @unique
+  phone            String              @unique
   // --- DETAILS --------------------------------------------------------------------------- //
-  avatar           String         @default("https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png")
+  avatar           String              @default("https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png")
   name             String
   password         String
-  fcm              String         @default("")
+  fcm              String              @default("")
   refreshTokens    String[]
   // --- FOREIGN KEYS --------------------------------------------------------------------------- //
   // --- RELATIONS --------------------------------------------------------------------------- //
@@ -177,16 +182,17 @@ model User {
   employee         Employee?
   client           Client?
   notifications    Notification[]
-  deletedReports   Report[]       @relation("deletedBy")
-  deletedOrders    Order[]        @relation("deletedBy")
-  deletedClients   Client[]       @relation("deletedBy")
-  deletedStores    Store[]        @relation("deletedBy")
-  deletedEmployees Employee[]     @relation("deletedBy")
-  createdEmployees Employee[]     @relation("createdBy")
-  createdClients   Client[]       @relation("createdBy")
+  deletedReports   Report[]            @relation("deletedBy")
+  deletedOrders    Order[]             @relation("deletedBy")
+  deletedClients   Client[]            @relation("deletedBy")
+  deletedStores    Store[]             @relation("deletedBy")
+  deletedEmployees Employee[]          @relation("deletedBy")
+  createdEmployees Employee[]          @relation("createdBy")
+  createdClients   Client[]            @relation("createdBy")
+  loginHistory     UsersLoginHistory[]
   // --- OTHER --------------------------------------------------------------------- //
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
 
   @@index([name])
   @@index([phone])
@@ -1001,6 +1007,31 @@ model AutomaticUpdate {
   updatedAt       DateTime                        @updatedAt
 
   @@unique([orderStatus, governorate, branchId, companyId])
+}
+
+model UsersLoginHistory {
+  // --- IDENTIFICATION --------------------------------------------------------------------- //
+  id        Int      @id @default(autoincrement())
+  // --- DETAILS --------------------------------------------------------------------------- //
+  // loginTime    DateTime
+  // logoutTime   DateTime?
+  ip        String   @default("")
+  device    String   @default("")
+  platform  String   @default("")
+  browser   String   @default("")
+  location  String   @default("")
+  // type      LoginType
+  // --- STATUS --------------------------------------------------------------------------- //
+  // loginStatus  Boolean   @default(true)
+  // logoutStatus Boolean   @default(false)
+  // --- FOREIGN KEYS --------------------------------------------------------------------------- //
+  userId    Int
+  // --- RELATIONS --------------------------------------------------------------------------- //
+  user      User     @relation(fields: [userId], references: [id])
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 // --- IDENTIFICATION --------------------------------------------------------------------- //

@@ -23,6 +23,7 @@ const app = express();
 
 // Middlewares
 
+app.set("trust proxy", true); // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 app.use(helmet()); // Set security HTTP headers
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors()); // Enable CORS - Cross Origin Resource Sharing

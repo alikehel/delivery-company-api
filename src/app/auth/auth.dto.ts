@@ -5,7 +5,13 @@ import { z } from "zod";
 export const UserSigninSchema = z.object({
     username: z.string(),
     password: z.string(),
-    fcm: z.string().optional()
+    fcm: z.string().optional(),
+    ip: z.string().optional(),
+    location: z.string().optional(),
+    device: z.string().optional(),
+    platform: z.string().optional(),
+    browser: z.string().optional()
+    // type: z.nativeEnum(LoginType).optional()
 });
 
 export type UserSigninType = z.infer<typeof UserSigninSchema>;
