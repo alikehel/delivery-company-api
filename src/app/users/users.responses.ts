@@ -60,3 +60,64 @@ export const userSelectReform = (
         permissions: user.employee?.permissions || []
     };
 };
+
+export const userLoginHistorySelect = {
+    id: true,
+    ip: true,
+    device: true,
+    platform: true,
+    browser: true,
+    location: true,
+    createdAt: true,
+    user: {
+        select: {
+            id: true,
+            name: true,
+            username: true,
+            employee: {
+                select: {
+                    role: true
+                }
+            },
+            client: {
+                select: {
+                    role: true
+                }
+            },
+            admin: {
+                select: {
+                    role: true
+                }
+            }
+        }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
+} satisfies Prisma.UsersLoginHistorySelect;
+
+export const userLoginHistorySelectReform = (
+    loginHistory: Prisma.UsersLoginHistoryGetPayload<{
+        select: typeof userLoginHistorySelect;
+    }>
+) => {
+    return {
+        id: loginHistory.id,
+        ip: loginHistory.ip,
+        device: loginHistory.device,
+        platform: loginHistory.platform,
+        browser: loginHistory.browser,
+        location: loginHistory.location,
+        createdAt: loginHistory.createdAt,
+        user: {
+            id: loginHistory.user.id,
+            name: loginHistory.user.name,
+            username: loginHistory.user.username,
+            role: loginHistory.user.employee?.role || loginHistory.user.client?.role || loginHistory.user.admin?.role || "",
+            company: loginHistory.company
+        }
+    };
+};

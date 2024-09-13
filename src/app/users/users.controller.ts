@@ -17,4 +17,35 @@ export class UsersController {
             data: profile
         });
     });
+
+    getUsersLoginHistory = catchAsync(async (req, res) => {
+        const loggedInUser = res.locals.user as loggedInUserType;
+
+        const userID = req.query.user_id ? +req.query.user_id : undefined;
+
+        let size = req.query.size ? +req.query.size : 10;
+        if (size > 500) {
+            size = 10;
+        }
+        let page = 1;
+        if (req.query.page && !Number.isNaN(+req.query.page) && +req.query.page > 0) {
+            page = +req.query.page;
+        }
+
+        const { loginHistory, pagesCount } = await usersRepository.getUsersLoginHistoryPaginated({
+            loggedInUser: loggedInUser,
+            userID,
+            filters: {
+                page,
+                size
+            }
+        });
+
+        res.status(200).json({
+            status: "success",
+            page: page,
+            pagesCount: pagesCount,
+            data: loginHistory
+        });
+    });
 }
