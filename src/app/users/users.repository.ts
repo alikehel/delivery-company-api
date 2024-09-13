@@ -1,4 +1,5 @@
 import { prisma } from "../../database/db";
+import type { loggedInUserType } from "../../types/user";
 import type { UserSigninType } from "../auth/auth.dto";
 import { userLoginHistorySelect, userSelect, userSelectReform } from "./users.responses";
 
@@ -74,11 +75,16 @@ export class UsersRepository {
         });
     }
 
-    async getUsersLoginHistoryPaginated(data: { userID?: number; filters: { page: number; size: number } }) {
+    async getUsersLoginHistoryPaginated(data: {
+        loggedInUser: loggedInUserType;
+        userID?: number;
+        filters: { page: number; size: number };
+    }) {
         const loginHistory = await prisma.usersLoginHistory.findManyPaginated(
             {
                 where: {
-                    userId: data.userID
+                    userId: data.userID,
+                    companyId: data.loggedInUser.companyID || undefined
                 },
                 orderBy: {
                     createdAt: "desc"

@@ -19,6 +19,8 @@ export class UsersController {
     });
 
     getUsersLoginHistory = catchAsync(async (req, res) => {
+        const loggedInUser = res.locals.user as loggedInUserType;
+
         const userID = req.query.user_id ? +req.query.user_id : undefined;
 
         let size = req.query.size ? +req.query.size : 10;
@@ -31,6 +33,7 @@ export class UsersController {
         }
 
         const { loginHistory, pagesCount } = await usersRepository.getUsersLoginHistoryPaginated({
+            loggedInUser: loggedInUser,
             userID,
             filters: {
                 page,
