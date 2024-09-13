@@ -60,3 +60,26 @@ export const userSelectReform = (
         permissions: user.employee?.permissions || []
     };
 };
+
+export const userLoginHistorySelect = {
+    id: true,
+    ip: true,
+    device: true,
+    platform: true,
+    browser: true,
+    location: true,
+    createdAt: true,
+    user: {
+        select: {
+            id: true,
+            name: true,
+            username: true
+        }
+    },
+    company: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
+} satisfies Prisma.UsersLoginHistorySelect;

@@ -1,6 +1,6 @@
 import { prisma } from "../../database/db";
 import type { UserSigninType } from "../auth/auth.dto";
-import { userSelect, userSelectReform } from "./users.responses";
+import { userLoginHistorySelect, userSelect, userSelectReform } from "./users.responses";
 
 export class UsersRepository {
     async getUser(data: { userID: number }) {
@@ -47,12 +47,21 @@ export class UsersRepository {
         return user?.refreshTokens;
     }
 
-    async logUserLogin(userID: number, data: Omit<UserSigninType, "username" | "password" | "fcm">) {
+    async logUserLogin(
+        userID: number,
+        companyID: number,
+        data: Omit<UserSigninType, "username" | "password" | "fcm">
+    ) {
         await prisma.usersLoginHistory.create({
             data: {
                 user: {
                     connect: {
                         id: userID
+                    }
+                },
+                company: {
+                    connect: {
+                        id: companyID
                     }
                 },
                 ip: data.ip,
@@ -73,7 +82,8 @@ export class UsersRepository {
                 },
                 orderBy: {
                     createdAt: "desc"
-                }
+                },
+                select: userLoginHistorySelect
             },
             {
                 page: data.filters.page,

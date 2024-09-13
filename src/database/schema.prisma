@@ -519,6 +519,7 @@ model Company {
   createdAt                               DateTime                    @default(now())
   updatedAt                               DateTime                    @updatedAt
   DeliveryAgentsLocations                 DeliveryAgentsLocations[]
+  usersLoginHistory                       UsersLoginHistory[]
 }
 
 model InquiryEmployeesCompanies {
@@ -1028,10 +1029,14 @@ model UsersLoginHistory {
   userId    Int
   // --- RELATIONS --------------------------------------------------------------------------- //
   user      User     @relation(fields: [userId], references: [id])
+  // --- TENANT --------------------------------------------------------------------- //
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId Int
   // --- OTHER --------------------------------------------------------------------- //
   createdAt DateTime @default(now())
 
   @@index([userId])
+  @@index([companyId])
 }
 
 // --- IDENTIFICATION --------------------------------------------------------------------- //

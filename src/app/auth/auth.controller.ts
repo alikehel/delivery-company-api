@@ -86,7 +86,7 @@ export class AuthController {
         });
 
         // Update user login history
-        await usersRepository.logUserLogin(returnedUser.id, {
+        await usersRepository.logUserLogin(returnedUser.id, returnedUser.companyID || 0, {
             ip: user.ip,
             device: user.device,
             platform: user.platform,
