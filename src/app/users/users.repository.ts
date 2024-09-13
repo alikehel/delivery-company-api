@@ -1,7 +1,12 @@
 import { prisma } from "../../database/db";
 import type { loggedInUserType } from "../../types/user";
 import type { UserSigninType } from "../auth/auth.dto";
-import { userLoginHistorySelect, userSelect, userSelectReform } from "./users.responses";
+import {
+    userLoginHistorySelect,
+    userLoginHistorySelectReform,
+    userSelect,
+    userSelectReform
+} from "./users.responses";
 
 export class UsersRepository {
     async getUser(data: { userID: number }) {
@@ -97,7 +102,7 @@ export class UsersRepository {
             }
         );
         return {
-            loginHistory: loginHistory.data,
+            loginHistory: loginHistory.data.map(userLoginHistorySelectReform),
             pagesCount: loginHistory.pagesCount
         };
     }

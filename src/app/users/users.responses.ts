@@ -73,7 +73,22 @@ export const userLoginHistorySelect = {
         select: {
             id: true,
             name: true,
-            username: true
+            username: true,
+            employee: {
+                select: {
+                    role: true
+                }
+            },
+            client: {
+                select: {
+                    role: true
+                }
+            },
+            admin: {
+                select: {
+                    role: true
+                }
+            }
         }
     },
     company: {
@@ -83,3 +98,26 @@ export const userLoginHistorySelect = {
         }
     }
 } satisfies Prisma.UsersLoginHistorySelect;
+
+export const userLoginHistorySelectReform = (
+    loginHistory: Prisma.UsersLoginHistoryGetPayload<{
+        select: typeof userLoginHistorySelect;
+    }>
+) => {
+    return {
+        id: loginHistory.id,
+        ip: loginHistory.ip,
+        device: loginHistory.device,
+        platform: loginHistory.platform,
+        browser: loginHistory.browser,
+        location: loginHistory.location,
+        createdAt: loginHistory.createdAt,
+        user: {
+            id: loginHistory.user.id,
+            name: loginHistory.user.name,
+            username: loginHistory.user.username,
+            role: loginHistory.user.employee?.role || loginHistory.user.client?.role || loginHistory.user.admin?.role || "",
+            company: loginHistory.company
+        }
+    };
+};
