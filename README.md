@@ -44,7 +44,7 @@ cd delivery-company-api
 yarn
 ```
 
-3. Create a `.env` file with these values for your setup:
+3. Copy `.env.example` to `.env` and fill in the values for your setup:
 
 ```
 PORT=
