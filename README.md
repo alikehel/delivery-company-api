@@ -1,57 +1,50 @@
 # Al Barq API
 
+Backend I built for Al Barq, a courier and shipping company in Iraq, from October 2023 to September 2024. It replaced the company's earlier PHP system and served its React web dashboard and its mobile app.
+
 ## Features
 
-## Links
+-   REST API for companies, branches, warehouses, locations, clients, stores, employees and orders.
+-   PostgreSQL through Prisma (36 models), with JWT login and permissions per role, from company manager to delivery agent.
+-   Orders with 12 statuses and a timeline, plus rule-based automatic status updates per branch and governorate on an hourly cron job.
+-   Reports per company, client, branch, warehouse, delivery agent and governorate, rendered as PDFs with Puppeteer and Handlebars, and order receipts with barcodes and QR codes.
+-   Firebase push notifications, image uploads to S3-compatible storage, and Swagger docs generated from the routes.
 
 ## Technology Stack
 
-The backend API is built using the following technologies and modules:
-
--   Node.js - JavaScript runtime environment.
--   Express - Web application framework for Node.js.
--   TypeScript - Static typing for JavaScript.
--   PostgreSQL - Relational database.
--   Prisma - ORM for database access and modeling.
--   JWT - JSON Web Tokens for authentication.
--   Bcrypt - Password hashing.
--   Zod - Data validation.
--   CORS - Enable CORS for API access.
--   Helmet - Security middleware.
--   Swagger - API documentation.
--   ESLint - Linter.
--   Prettier - Code formatter.
+-   Node.js, Express and TypeScript
+-   PostgreSQL with Prisma
+-   Zod for validation, JWT and bcrypt for authentication, Helmet and CORS
+-   Swagger (swagger-autogen) for API docs
+-   Puppeteer and Handlebars for PDFs
+-   Firebase Admin for push notifications
+-   Biome for linting and formatting
+-   Docker for deployment
 
 ## Getting Started
-
-To set up the development environment for the backend API, follow these steps:
 
 ### Prerequisites
 
 -   [PostgreSQL](https://www.postgresql.org/)
 -   [Node.js](https://nodejs.org/en/)
+-   [Yarn](https://yarnpkg.com/)
 
 ### Installation Steps
 
-1. Clone the repository from GitHub to your local machine:
+1. Clone the repository:
 
 ```
-git clone https://github.com/alikehel/albarq-api-express.git
+git clone https://github.com/alikehel/delivery-company-api.git
+cd delivery-company-api
 ```
 
-2. Navigate into the project directory:
-
-```
-cd albarq-api-express
-```
-
-3. Install dependencies:
+2. Install dependencies:
 
 ```
 yarn
 ```
 
-4. Rename `.example.env` to `.env` and update the environment variables to match your local setup:
+3. Create a `.env` file with these values for your setup:
 
 ```
 PORT=
@@ -67,58 +60,19 @@ AWS_ACCESS_KEY_ID=""
 AWS_SECRET_ACCESS_KEY=""
 ```
 
-5. Run the Postgres database if not already running.
+4. Start PostgreSQL and create the database named in `DATABASE_URL`.
 
-6. Create the database specified in `.env` if it doesn't exist:
-
-```
-createdb albarq
-```
-
-7. Run database migrations if the project has them to setup schema.
-
-8. Start the Node.js application:
+5. Apply the migrations and generate the Prisma client:
 
 ```
-npm start
+yarn prisma:deploy
+yarn prisma:generate
 ```
 
-9. The API should now be running on `http://localhost:3000` or the port defined in code.
+6. Start the development server:
 
-10. Test API endpoints.
+```
+yarn dev
+```
 
-## Development Roadmap
-
-The project is currently under development, and the following tasks are being worked on:
-
--   [ ] Improve Error Handling
--   [ ] Improve Input Validation Messages
--   [ ] Improve the UI and the Landing Page
--   [ ] Improve the Database Design
--   [ ] Improve API Swagger Documentations
--   [ ] Improve API Security Best Practices
--   [ ] Implement Pricing System
--   [ ] Implement Jest Testing
--   [ ] Implement JWT Refresh Tokens
--   [ ] Implement CI/CD with CircleCI / GitHub Actions
--   [ ] Implement the Chat System
--   [ ] Implement API Logging for Better Debugging
--   [ ] Refactor to Cleaner Code
--   [ ] Integrate with AWS services
--   [ ] Move from Prisma to Drizzle-ORM for better performence and less abstractions
--   [ ] API versioning and Caching
--   [ ] Try artillery or k6 for load testing
-
-## Contributing
-
-### Non-substantive changes
-
-For any minor updates to the curriculum, such as fixing broken URLs, correcting spelling or syntax errors, and other non-substantive issues, we welcome you to submit a pull request. You can do this by following the guidelines in [pull request guide](https://www.freecodecamp.org/news/how-to-make-your-first-pull-request-on-github-3/).
-
-### Substantive changes
-
-If you have specific and substantial feedback or concerns about the content, we encourage you to open an issue. Please refer to [open an issue](https://help.github.com/articles/creating-an-issue/) for assistance.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+The API runs on `http://localhost:3000`, or on the port set in `PORT`.
